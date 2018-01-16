@@ -14,6 +14,7 @@
     "ext-iconv": "*",
     "doctrine/doctrine-bundle": "^1.8",
     "doctrine/orm": "^2.6",
+    "javiereguiluz/easyadmin-bundle": "^1.17",
     "sensio/framework-extra-bundle": "^5.1",
     "symfony/asset": "^4.0",
     "symfony/console": "^4.0",
