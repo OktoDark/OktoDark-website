@@ -1,7 +1,28 @@
 language: php
-sudo: required
+sudo: false
 
 matrix:
+  fast_finish: true
   include:
     - php: 7.1
       env: DB=mysqli
+  allow_failures:
+    - php: nightly
+
+before_install:
+  - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
+  - composer self-update
+
+install:
+  - composer install
+  - ./vendor/bin/simple-phpunit install
+
+script:
+  - ./vendor/bin/simple-phpunit
+  - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || ./vendor/bin/php-cs-fixer fix --diff --dry-run -v'
+  - ./bin/console lint:yaml config
+  - ./bin/console lint:twig templates
+  - ./bin/console lint:xliff translations
+  - ./bin/console security:check --end-point=http://security.sensiolabs.org/check_lock
+  - composer validate --strict
+  - ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
