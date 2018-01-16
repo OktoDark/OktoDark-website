@@ -30,6 +30,7 @@
     "twig/twig": "^2.4"
   },
   "require-dev": {
+    "easycorp/easy-deploy-bundle": "^1.0",
     "friendsofphp/php-cs-fixer": "^2.10",
     "symfony/dotenv": "^4.0",
     "symfony/phpunit-bridge": "^4.0",
