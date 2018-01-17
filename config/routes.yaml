@@ -1,3 +1,24 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+about:
+    path: /about
+    controller: App\Controller\AboutController::about
+
+blog:
+    path: /blog
+    controller: App\Controller\BlogController::blog
+
+careers:
+    path: /careers
+    controller: App\Controller\CareersController::careers
+
+contact:
+    path: /contact
+    controller: App\Controller\ContactController::contact
+
+games:
+    path: /games
+    controller: App\Controller\GamesController::games
+
+home:
+    path: /
+    controller: App\Controller\HomeController::home
+
