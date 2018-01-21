@@ -2307,24 +2307,24 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.63",
+            "version": "v1.0.65",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "c409fe47e94c3c3c255e94356718ff15417afb0e"
+                "reference": "6d98fe5f785e508dc6571f3a1c69d4a11103fee4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/c409fe47e94c3c3c255e94356718ff15417afb0e",
-                "reference": "c409fe47e94c3c3c255e94356718ff15417afb0e",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/6d98fe5f785e508dc6571f3a1c69d4a11103fee4",
+                "reference": "6d98fe5f785e508dc6571f3a1c69d4a11103fee4",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.1",
+                "composer-plugin-api": "^1.0",
                 "php": "^7.0"
             },
             "require-dev": {
-                "composer/composer": "^1.4",
+                "composer/composer": "^1.0.2",
                 "symfony/phpunit-bridge": "^3.2.8"
             },
             "type": "composer-plugin",
@@ -2349,7 +2349,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2018-01-17T19:45:47+00:00"
+            "time": "2018-01-20T08:19:00+00:00"
         },
         {
             "name": "symfony/form",
