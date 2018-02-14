@@ -1,4 +1,7 @@
 {
+    "art4/json-api-client": {
+        "version": "0.9.1"
+    },
     "composer/semver": {
         "version": "1.4.2"
     },
@@ -103,6 +106,9 @@
     },
     "pagerfanta/pagerfanta": {
         "version": "v1.0.5"
+    },
+    "patreon/patreon": {
+        "version": "0.3.0"
     },
     "php-cs-fixer/diff": {
         "version": "v1.2.0"
