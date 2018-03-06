@@ -16,7 +16,7 @@
     "doctrine/orm": "^2.6",
     "erusev/parsedown": "^1.6",
     "ezyang/htmlpurifier": "^4.9",
-    "javiereguiluz/easyadmin-bundle": "^1.17",
+    "easycorp/easyadmin-bundle": "^1.17",
     "patreon/patreon": "^0.3.0",
     "sensio/framework-extra-bundle": "^5.1",
     "symfony/asset": "^4.0",
