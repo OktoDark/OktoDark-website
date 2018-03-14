@@ -5,7 +5,7 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 17.01.2018 03:13
+ * File date of modification: 14.03.2018 23:43
  */
 
 namespace App\Controller;
@@ -16,8 +16,7 @@ class HomeController extends Controller
 {
     public function home()
     {
-        return $this->render("main/home.html.twig", array(
-
+        return $this->render(theme_site.'/home.html.twig', array(
         ));
     }
 }

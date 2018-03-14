@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+    <head>
+    {% block head %}
+<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>{% block title %}{% endblock %} {{ com_title }}</title>
+        {% block stylesheets %}
+<link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+        <link href="{{ asset('themes/'~theme_site~'/css/main.css') }}" rel="stylesheet" />{% endblock %}
+    {% endblock %}
+    </head>
+    <body>
+        <header id="header">
+            <div class="logo container">
+                <div><img src="" class="logos" alt=""/></div>
+            </div>
+        </header>
+        {% block navbar %}{% endblock %}
+        <div class="account">
+            Username: <input id="username" /> <input id="password"/> <button type="button">Login</button>
+        </div>
+        {% block body %}
+        <div id="main-wrapper">
+            <div id="main" class="container">
+            </div>
+        </div>
+    {% endblock %}
+{% include "default/footer.html.twig" %}

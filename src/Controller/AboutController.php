@@ -5,7 +5,7 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 17.01.2018 03:12
+ * File date of modification: 14.03.2018 23:43
  */
 
 namespace App\Controller;
@@ -16,7 +16,7 @@ class AboutController extends Controller
 {
     public function about()
     {
-        return $this->render("main/about.html.twig", array(
+        return $this->render(theme_site."/about.html.twig", array(
 
         ));
     }

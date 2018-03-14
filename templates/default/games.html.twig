@@ -1,0 +1,25 @@
+{% extends "default/base.html.twig" %}
+
+{% block title %}{{ 'menu.games'|trans }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block navbar %}
+    <nav id="nav">
+        <ul>
+            <li><a href="{{ path('home') }}">{{ 'menu.home'|trans }}</a></li>
+            <li><a href="{{ path('patron') }}">{{ 'menu.patron'|trans }}</a></li>
+            <li><a href="{{ path('blog') }}">{{ 'menu.blog'|trans }}</a></li>
+            <li><a href="{{ path('forum') }}">{{ 'menu.forum'|trans }}</a></li>
+            <li><a href="{{ path('games') }}">{{ 'menu.games'|trans }}</a></li>
+            <li><a href="{{ path('about') }}">{{ 'menu.about'|trans }}</a></li>
+            <li><a href="{{ path('careers') }}">{{ 'menu.careers'|trans }}</a></li>
+            <li><a href="{{ path('contact') }}">{{ 'menu.contact'|trans }}</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block body %}{% endblock %}
+
