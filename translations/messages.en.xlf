@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <!-- Menu -->
+            <trans-unit id="menu.games">
+                <source>menu.games</source>
+                <target>Games</target>
+            </trans-unit>
+
+            <trans-unit id="menu.home">
+                <source>menu.home</source>
+                <target>Home</target>
+            </trans-unit>
+
+            <trans-unit id="menu.about">
+                <source>menu.about</source>
+                <target>About</target>
+            </trans-unit>
+
+            <trans-unit id="menu.contact">
+                <source>menu.contact</source>
+                <target>Contact</target>
+            </trans-unit>
+
+            <trans-unit id="menu.careers">
+                <source>menu.careers</source>
+                <target>Careers</target>
+            </trans-unit>
+
+            <trans-unit id="menu.patron">
+                <source>menu.patron</source>
+                <target>Patron</target>
+            </trans-unit>
+
+            <trans-unit id="menu.blog">
+                <source>menu.blog</source>
+                <target>Blog</target>
+            </trans-unit>
+
+            <trans-unit id="menu.forum">
+                <source>menu.forum</source>
+                <target>Forum</target>
+            </trans-unit>
+
+            <!-- End Menu -->
+
+            <trans-unit id="language_selector">
+                <source>language.selector</source>
+                <target>Language</target>
+            </trans-unit>
+
+            <trans-unit id="copyright.text">
+                <source>copyright.text</source>
+                <target>Copyright</target>
+            </trans-unit>
+
+            <trans-unit id="copyright.content">
+                <source>copyright.content</source>
+                <target>All rights reserved.</target>
+            </trans-unit>
+
+            <trans-unit id="get.intouch">
+                <source>get.intouch</source>
+                <target>Get in touch</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
