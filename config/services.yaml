@@ -2,6 +2,9 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    # This parameter defines the codes of the locales (languages) enabled in the application
+    app_locales: en|ro
+    app.notifications.email_sender: anonymous@example.com
 
 services:
     # default configuration for services in *this* file
@@ -11,6 +14,10 @@ services:
         public: false       # Allows optimizing the container by removing unused services; this also means
                             # fetching services directly from the container via $container->get() won't work.
                             # The best practice is to be explicit about your dependencies anyway.
+        bind:
+            $locales: '%app_locales%'
+            # $defaultLocale: '%locale%'
+            # $emailSender: '%app.notifications.email_sender%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

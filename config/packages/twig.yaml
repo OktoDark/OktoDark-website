@@ -6,13 +6,6 @@ twig:
     globals:
         # Website name use eg: - or something else in front of name
         com_title:     - OktoDark
-        # Page name at title
-        about_title:   About
-        blog_title:    Blog
-        careers_title: Careers
-        contact_title: Contact
-        games_title:   Games
-        home_title:    Home
         # You can choose what theme to be for website:
         # default
         theme_site:    default

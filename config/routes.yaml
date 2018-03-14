@@ -1,24 +1,89 @@
-about:
-    path: /about
-    controller: App\Controller\AboutController::about
-
-blog:
-    path: /blog
-    controller: App\Controller\BlogController::blog
-
-careers:
-    path: /careers
-    controller: App\Controller\CareersController::careers
-
-contact:
-    path: /contact
-    controller: App\Controller\ContactController::contact
-
-games:
-    path: /games
-    controller: App\Controller\GamesController::games
+homepage:
+    path: /
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    # schemes:    [https]
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        template: default/home.html.twig
+        _locale: '%locale%'
 
 home:
-    path: /
-    controller: App\Controller\HomeController::home
+    path: /{_locale}/home
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    # schemes:    [https]
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        template: default/home.html.twig
+        _locale: '%locale%'
 
+games:
+    path: /{_locale}/games
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    # schemes:    [https]
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        template: default/games.html.twig
+        _locale: '%locale%'
+
+about:
+    path: /{_locale}/about
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    # schemes:    [https]
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        template: default/about.html.twig
+        _locale: '%locale%'
+
+patron:
+    path: /{_locale}/patron
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    # schemes:    [https]
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        template: default/patron.html.twig
+        _locale: '%locale%'
+
+contact:
+    path: /{_locale}/contact
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    # schemes:    [https]
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        template: default/contact.html.twig
+        _locale: '%locale%'
+
+careers:
+    path: /{_locale}/careers
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    # schemes:    [https]
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        template: default/careers.html.twig
+        _locale: '%locale%'
+
+forum:
+    path: /{_locale}/forum
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    # schemes:    [https]
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        template: default/about.html.twig
+        _locale: '%locale%'
+
+blog:
+    path: /{_locale}/blog
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    # schemes:    [https]
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        template: default/blog.html.twig
+        _locale: '%locale%'
