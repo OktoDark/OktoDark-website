@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class PatronController extends Controller
 {
-    public function patreon()
+    public function patron()
     {
         return $this->render(theme_site.'/patron.html.twig', array(
         ));

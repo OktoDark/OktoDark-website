@@ -1,6 +1,7 @@
 homepage:
     path: /
-    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    # controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    controller: App\Controller\HomeController:home
     # schemes:    [https]
     requirements:
         _locale: '%app_locales%'
@@ -10,7 +11,7 @@ homepage:
 
 home:
     path: /{_locale}/home
-    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    controller: App\Controller\HomeController:home
     # schemes:    [https]
     requirements:
         _locale: '%app_locales%'
@@ -20,7 +21,7 @@ home:
 
 games:
     path: /{_locale}/games
-    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    controller: App\Controller\GamesController::games
     # schemes:    [https]
     requirements:
         _locale: '%app_locales%'
@@ -30,7 +31,7 @@ games:
 
 about:
     path: /{_locale}/about
-    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    controller: App\Controller\AboutController::about
     # schemes:    [https]
     requirements:
         _locale: '%app_locales%'
@@ -40,7 +41,7 @@ about:
 
 patron:
     path: /{_locale}/patron
-    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    controller: App\Controller\PatronController::patron
     # schemes:    [https]
     requirements:
         _locale: '%app_locales%'
@@ -50,7 +51,7 @@ patron:
 
 contact:
     path: /{_locale}/contact
-    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    controller: App\Controller\ContactController::contact
     # schemes:    [https]
     requirements:
         _locale: '%app_locales%'
@@ -60,7 +61,7 @@ contact:
 
 careers:
     path: /{_locale}/careers
-    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    controller: App\Controller\CareersController::careers
     # schemes:    [https]
     requirements:
         _locale: '%app_locales%'
@@ -80,7 +81,7 @@ forum:
 
 blog:
     path: /{_locale}/blog
-    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    controller: App\Controller\BlogController::blog
     # schemes:    [https]
     requirements:
         _locale: '%app_locales%'
