@@ -35,4 +35,4 @@ Composer
 
 **Deploy**
 
-./bin/console deploy
+`./bin/console deploy`
