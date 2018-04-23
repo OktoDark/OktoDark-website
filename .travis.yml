@@ -19,10 +19,3 @@ install:
 
 script:
   - ./vendor/bin/simple-phpunit
-#  - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || ./vendor/bin/php-cs-fixer fix --diff --dry-run -v'
-#  - ./bin/console lint:yaml config
-#  - ./bin/console lint:twig templates
-#  - ./bin/console lint:xliff translations
-#  - ./bin/console security:check --end-point=http://security.sensiolabs.org/check_lock
-#  - composer validate --strict
-#  - ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
