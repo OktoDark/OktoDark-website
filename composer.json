@@ -22,6 +22,7 @@
     "symfony/asset": "^4.0",
     "symfony/console": "^4.0",
     "symfony/debug-bundle": "^4.0",
+    "symfony/dotenv": "^4.0",
     "symfony/flex": "^1.0",
     "symfony/form": "^4.0",
     "symfony/framework-bundle": "^4.0",
@@ -39,7 +40,6 @@
     "doctrine/doctrine-fixtures-bundle": "^3.0",
     "easycorp/easy-deploy-bundle": "^1.0",
     "friendsofphp/php-cs-fixer": "^2.10",
-    "symfony/dotenv": "^4.0",
     "symfony/phpunit-bridge": "^4.0",
     "symfony/web-server-bundle": "^4.0"
   },
