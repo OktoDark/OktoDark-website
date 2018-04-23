@@ -6,7 +6,6 @@ homepage:
     requirements:
         _locale: '%app_locales%'
     defaults:
-        template: default/home.html.twig
         _locale: '%locale%'
 
 home:
@@ -16,7 +15,6 @@ home:
     requirements:
         _locale: '%app_locales%'
     defaults:
-        template: default/home.html.twig
         _locale: '%locale%'
 
 games:
@@ -26,7 +24,6 @@ games:
     requirements:
         _locale: '%app_locales%'
     defaults:
-        template: default/games.html.twig
         _locale: '%locale%'
 
 about:
@@ -36,7 +33,6 @@ about:
     requirements:
         _locale: '%app_locales%'
     defaults:
-        template: default/about.html.twig
         _locale: '%locale%'
 
 patron:
@@ -46,7 +42,6 @@ patron:
     requirements:
         _locale: '%app_locales%'
     defaults:
-        template: default/patron.html.twig
         _locale: '%locale%'
 
 contact:
@@ -56,7 +51,6 @@ contact:
     requirements:
         _locale: '%app_locales%'
     defaults:
-        template: default/contact.html.twig
         _locale: '%locale%'
 
 careers:
@@ -66,7 +60,6 @@ careers:
     requirements:
         _locale: '%app_locales%'
     defaults:
-        template: default/careers.html.twig
         _locale: '%locale%'
 
 forum:
@@ -76,7 +69,6 @@ forum:
     requirements:
         _locale: '%app_locales%'
     defaults:
-        template: default/about.html.twig
         _locale: '%locale%'
 
 blog:
@@ -86,5 +78,4 @@ blog:
     requirements:
         _locale: '%app_locales%'
     defaults:
-        template: default/blog.html.twig
         _locale: '%locale%'

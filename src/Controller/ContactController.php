@@ -16,7 +16,7 @@ class ContactController extends Controller
 {
     public function contact()
     {
-        return $this->render("main/contact.html.twig", array(
+        return $this->render('@theme/contact.html.twig', array(
 
         ));
     }

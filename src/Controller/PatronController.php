@@ -17,7 +17,7 @@ class PatronController extends Controller
 {
     public function patron()
     {
-        return $this->render(theme_site.'/patron.html.twig', array(
+        return $this->render('@theme/patron.html.twig', array(
         ));
     }
 }

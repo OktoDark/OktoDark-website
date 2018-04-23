@@ -1,4 +1,4 @@
-{% extends "default/base.html.twig" %}
+{% extends "@theme/base.html.twig" %}
 
 {% block title %}{{ 'menu.home'|trans }}{% endblock %}
 
@@ -21,5 +21,11 @@
 </nav>
 {% endblock %}
 
-{% block body %}{% endblock %}
+{% block body %}
+
+    {% for n in news %}
+        <content>aa {{ n.title }}</content>
+    {% endfor %}
+
+{% endblock %}
 

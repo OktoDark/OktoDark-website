@@ -16,7 +16,7 @@ class GamesController extends Controller
 {
     public function games()
     {
-        return $this->render("main/games.html.twig", array(
+        return $this->render('@theme/games.html.twig', array(
 
         ));
     }

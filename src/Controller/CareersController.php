@@ -16,7 +16,7 @@ class CareersController extends Controller
 {
     public function careers()
     {
-        return $this->render("main/careers.html.twig", array(
+        return $this->render('@theme/careers.html.twig', array(
 
         ));
     }

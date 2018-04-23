@@ -16,7 +16,7 @@ class AboutController extends Controller
 {
     public function about()
     {
-        return $this->render(theme_site."/about.html.twig", array(
+        return $this->render('@theme/about.html.twig', array(
 
         ));
     }

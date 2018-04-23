@@ -10,13 +10,20 @@
 
 namespace App\Controller;
 
+use App\Entity\News;
+use App\Repository\NewsRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
 {
-    public function home()
+    public function home(NewsRepository $news): Response
     {
-        return $this->render(theme_site.'/home.html.twig', array(
-        ));
+        $latestNews = $news->showAllNews($news);
+
+        return $this->render('@theme/home.html.twig', array('news' => $latestNews));
     }
 }
