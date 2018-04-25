@@ -2784,3 +2784,28 @@ label {
     text-align: right;
     margin-right: 10px;
 }
+
+/* Gray Image for Covers */
+figure {
+    position: relative;
+    display: inline-block;
+    border-radius: 8px;
+    width: 100%;
+    background: #fff;
+    overflow: hidden;
+}
+figure:hover+span {
+    bottom: -36px;
+    opacity: 1;
+}
+
+.game_covers figure img {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+.game_covers figure:hover img {
+    -webkit-filter: grayscale(0);
+    filter: grayscale(0);
+}

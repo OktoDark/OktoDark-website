@@ -21,5 +21,38 @@
     </nav>
 {% endblock %}
 
-{% block body %}{% endblock %}
+{% block body %}
+    <div id="main-wrapper">
+        <div id="main" class="container">
+            <div class="row">
+                <div class="12u">
+                    <span class="content">
+
+                        <article class="box page-content">
+                            <header>
+                                <h2>{{ 'title.games'|trans }}</h2>
+                                <p>{{ 'about.gamesPage'|trans }}</p>
+                            </header>
+
+                            {% for g in games %}
+                            <a name="{{ g.our_game_short_title }}"></a>
+                            <section>
+                                <span class="game_covers">
+                                    <span class="image featured">
+                                        <a href="{{ g.our_game_url }}"><figure><img src="{{ g.our_game_urlcdn }}/images/covers/{{ g.our_game_cover }}.png" alt="{{ g.our_game_name }}"/></figure></a>
+                                    </span>
+                                </span>
+                            </section>
+                            {% endfor %}
+
+                        </article>
+
+                    </span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 

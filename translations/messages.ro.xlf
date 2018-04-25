@@ -45,6 +45,33 @@
 
             <!-- End Menu -->
 
+            <trans-unit id="title.games">
+                <source>title.games</source>
+                <target>Jocuri</target>
+            </trans-unit>
+
+            <trans-unit id="about.gamesPage">
+                <source>about.gamesPage</source>
+                <target>Pe aceasta pagina gasiti toate jocurile noastre care au fost lansate de la inceput.</target>
+            </trans-unit>
+
+            <trans-unit id="title.news">
+                <source>title.news</source>
+                <target>Stiri</target>
+            </trans-unit>
+
+            <trans-unit id="title.careers">
+                <source>title.careers</source>
+                <target>Cariere</target>
+            </trans-unit>
+
+            <trans-unit id="title.contact">
+                <source>title.contact</source>
+                <target>Contact</target>
+            </trans-unit>
+
+            <!-- Footer -->
+
             <trans-unit id="language_selector">
                 <source>language.selector</source>
                 <target>Limba</target>
@@ -64,6 +91,8 @@
                 <source>get.intouch</source>
                 <target>Intrați în legătură</target>
             </trans-unit>
+
+            <!-- End Footer -->
         </body>
     </file>
 </xliff>

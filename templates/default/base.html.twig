@@ -7,7 +7,8 @@
         <title>{% block title %}{% endblock %} {{ com_title }}</title>
         {% block stylesheets %}
 <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
-        <link href="{{ asset('themes/'~theme_site~'/css/main.css') }}" rel="stylesheet" />{% endblock %}
+        <link href="{{ asset('themes/'~theme_site~'/css/main.css') }}" rel="stylesheet" />
+        {% endblock %}
     {% endblock %}
     </head>
     <body>

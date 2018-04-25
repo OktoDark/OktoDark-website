@@ -11,13 +11,15 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Doctrine\DBAL\Driver\Connection;
+use Symfony\Component\HttpFoundation\Response;
 
 class GamesController extends Controller
 {
-    public function games()
+    public function games(Connection $connection): Response
     {
-        return $this->render('@theme/games.html.twig', array(
+        $AllGames = $connection->fetchAll('SELECT * FROM our_games');
 
-        ));
+        return $this->render('@theme/games.html.twig', ['games' => $AllGames]);
     }
 }
