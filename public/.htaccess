@@ -1,0 +1,22 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+
+#
+# Uncomment the statement below if URL rewriting doesn't work properly.
+#
+#RewriteBase /
+
+#
+# The following 3 lines will rewrite URLs passed through the front controller to not require index.php in the actual URL.
+# In other words, a controller is by default accessed at /index.php/my/controller, but can also be accessed at /my/controller
+#
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+#
+# If symbolic links are not already being followed, uncomment the line below.
+# http://anothersysadmin.wordpress.com/2008/06/10/mod_rewrite-forbidden-403-with-apache-228/
+#
+#Options +FollowSymLinks
+</IfModule>
