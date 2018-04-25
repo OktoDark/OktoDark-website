@@ -22,10 +22,29 @@
 {% endblock %}
 
 {% block body %}
-
-    {% for n in news %}
-        <content>aa {{ n.title }}</content>
-    {% endfor %}
-
+    <div id="main-wrapper">
+        <div id="main" class="container">
+            <div class="row">
+                <div class="12u">
+                    <div class="content">
+                        <article class="box page-content">
+                            <header>
+                                <h2>News</h2>
+                            </header>
+                            {% for n in news %}
+                            <section>
+                                <h3>{{ n.title }}</h3>
+                                <p>{{ n.content }}</p>
+                                <ul class="meta">
+                                    <li class="icon far fa-clock">{{ n.created_at }}</li>
+                                </ul>
+                            </section>
+                            {% endfor %}
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
