@@ -33,23 +33,21 @@
                                 <h2>{{ 'title.games'|trans }}</h2>
                                 <p>{{ 'about.gamesPage'|trans }}</p>
                             </header>
-
-                            {% for g in games %}
-                            <a name="{{ g.our_game_short_title }}"></a>
                             <section>
-                                <span class="game_covers">
-                                    <span class="image featured">
-                                        <a href="{{ g.our_game_url }}"><figure><img src="{{ g.our_game_urlcdn }}/images/covers/{{ g.our_game_cover }}.png" alt="{{ g.our_game_name }}"/></figure></a>
-                                    </span>
-                                </span>
+                                <div class="game_covers">
+                                    <ul class="grid">
+                                    {% for g in games %}
+                                        <li>
+                                            <a name="{{ g.our_game_short_title }}"></a>
+                                            <a href="{{ g.our_game_url }}"><img class="game_covers_image" src="{{ g.our_game_urlcdn }}/images/covers/{{ g.our_game_cover }}.png" alt="{{ g.our_game_name }}" /></a>
+                                        </li>
+                                    {% endfor %}
+                                    </ul>
+                                </div>
                             </section>
-                            {% endfor %}
-
                         </article>
 
                     </span>
-
-                    </div>
                 </div>
             </div>
         </div>

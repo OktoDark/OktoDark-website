@@ -2786,26 +2786,47 @@ label {
 }
 
 /* Gray Image for Covers */
-figure {
-    position: relative;
-    display: inline-block;
-    border-radius: 8px;
-    width: 100%;
-    background: #fff;
-    overflow: hidden;
-}
-figure:hover+span {
-    bottom: -36px;
-    opacity: 1;
+.game_covers {
+    width: 120%;
+    margin: auto;
 }
 
-.game_covers figure img {
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
-    -webkit-transition: .3s ease-in-out;
-    transition: .3s ease-in-out;
+.game_covers_image {
+    filter: grayscale(1);
+    -webkit-filter: grayscale(1);
+    border-radius: 15px;
 }
-.game_covers figure:hover img {
-    -webkit-filter: grayscale(0);
-    filter: grayscale(0);
+
+.grid{
+    display: flex;
+    flex-flow: row wrap;
+    list-style: none;
+    text-align: center;
 }
+.grid li{
+    box-sizing: border-box;
+    padding: 1rem;
+    min-width: 1%;
+    max-width: 420px;
+}
+.grid li img{
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    -webkit-backface-visibility: hidden; /* Chrome pixel fix */
+    -webkit-transform: translateZ(0) scale(1.0, 1.0);
+    width: 100%;
+    height: auto;
+}
+
+button:hover{
+    filter: opacity(.7);
+    -webkit-filter: opacity(.7);
+    text-shadow: -1px -1px 0px #000;
+}
+/* Remove effect on Hover */
+img:hover{
+    filter: none;
+    -webkit-filter: none;
+}
+
