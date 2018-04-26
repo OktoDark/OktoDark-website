@@ -20,7 +20,7 @@
                 {% endfor %}
             </div>
         </header>
-        {% block navbar %}{% endblock %}
+        {% include("@theme/navbar.html.twig") %}
         <div class="account">
             Username: <input id="username" /> <input id="password"/> <button type="button">Login</button>
         </div>
