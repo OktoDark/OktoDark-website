@@ -10,14 +10,19 @@
 
 namespace App\Controller;
 
+use Doctrine\DBAL\Connection;
 use Patreon\Patreon;
+use App\Entity\Settings;
+use App\Repository\SettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class PatronController extends Controller
 {
-    public function patron()
+    public function patron(Connection $connection): Response
     {
-        return $this->render('@theme/patron.html.twig', array(
-        ));
+        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+
+        return $this->render('@theme/patron.html.twig', ['settings' => $selectSettings]);
     }
 }

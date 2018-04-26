@@ -10,14 +10,18 @@
 
 namespace App\Controller;
 
+use Doctrine\DBAL\Connection;
+use App\Entity\Settings;
+use App\Repository\SettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class ContactController extends Controller
 {
-    public function contact()
+    public function contact(Connection $connection): Response
     {
-        return $this->render('@theme/contact.html.twig', array(
+        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
 
-        ));
+        return $this->render('@theme/contact.html.twig', ['settings' => $selectSettings]);
     }
 }

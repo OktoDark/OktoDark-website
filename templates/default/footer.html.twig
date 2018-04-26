@@ -34,13 +34,13 @@
                 </ul>
             </div>
         </footer>
-        <script src="{{ asset('themes/'~theme_site~'/js/jquery.min.js') }}"></script>
-        <script src="{{ asset('themes/'~theme_site~'/js/jquery.dropotron.min.js') }}"></script>
-        <script src="{{ asset('themes/'~theme_site~'/js/skel.min.js') }}"></script>
-        <script src="{{ asset('themes/'~theme_site~'/js/skel-viewport.min.js') }}"></script>
-        <script src="{{ asset('themes/'~theme_site~'/js/util.js') }}"></script>
-        <script src="{{ asset('themes/'~theme_site~'/js/main.js') }}"></script>
-        <!--[if lte IE 8]><script src="{{ asset('themes/'~theme_site~'/js/ie/respond.min.js') }}"></script><![endif]-->
-        <script src="{{ asset('themes/'~theme_site~'/js/jquery.scrollNav.min.js') }}"></script>
+        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/jquery.min.js"></script>
+        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/jquery.dropotron.min.js"></script>
+        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/skel.min.js"></script>
+        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/skel-viewport.min.js"></script>
+        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/util.js"></script>
+        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/main.js"></script>
+        <!--[if lte IE 8]><script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/ie/respond.min.js"></script><![endif]-->
+        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/jquery.scrollNav.min.js"></script>
     </body>
 </html>

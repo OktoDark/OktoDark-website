@@ -37,10 +37,12 @@
                                 <div class="game_covers">
                                     <ul class="grid">
                                     {% for g in games %}
+                                        {% for s in settings %}
                                         <li>
                                             <a name="{{ g.our_game_short_title }}"></a>
-                                            <a href="{{ g.our_game_url }}"><img class="game_covers_image" src="{{ g.our_game_urlcdn }}/images/covers/{{ g.our_game_cover }}.png" alt="{{ g.our_game_name }}" /></a>
+                                            <a href="{{ g.our_game_url }}"><img class="game_covers_image" src="{{ s.site_cdn }}/images/covers/{{ g.our_game_cover }}.png" alt="{{ g.our_game_name }}" /></a>
                                         </li>
+                                        {% endfor %}
                                     {% endfor %}
                                     </ul>
                                 </div>

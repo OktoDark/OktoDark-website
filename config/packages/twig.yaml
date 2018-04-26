@@ -1,7 +1,5 @@
 twig:
     globals:
-        # Website name use eg: - or something else in front of name
-        com_title:     - OktoDark
         # You can choose what theme to be for website:
         # default
         theme_site:    default

@@ -10,14 +10,17 @@
 
 namespace App\Controller;
 
+use Doctrine\DBAL\Connection;
+use App\Entity\Settings;
+use App\Repository\SettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class CareersController extends Controller
 {
-    public function careers()
+    public function careers(Connection $connection)
     {
-        return $this->render('@theme/careers.html.twig', array(
+        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
 
-        ));
+        return $this->render('@theme/careers.html.twig', ['settings' => $selectSettings]);
     }
 }

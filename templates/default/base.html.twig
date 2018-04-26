@@ -4,17 +4,20 @@
     {% block head %}
 <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>{% block title %}{% endblock %} {{ com_title }}</title>
+        <title>{% block title %}{% endblock %} - {% for s in settings %} {{ s.site_name }} {% endfor %}</title>
+        <link rel="shortcut icon" href="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/images/icons/favicon.ico" />
         {% block stylesheets %}
-<link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
-        <link href="{{ asset('themes/'~theme_site~'/css/main.css') }}" rel="stylesheet" />
+        <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+        <link href="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/css/main.css" rel="stylesheet" />
         {% endblock %}
     {% endblock %}
     </head>
     <body>
         <header id="header">
             <div class="logo container">
-                <div><img src="{{ asset('themes/'~theme_site~'/images/logo.png') }}" class="logos" alt=""/></div>
+                {% for s in settings %}
+                <div><img src="{{s.site_cdn}}/themes/default/images/{{s.logo_name}}.png" class="logos" alt=""/></div>
+                {% endfor %}
             </div>
         </header>
         {% block navbar %}{% endblock %}
