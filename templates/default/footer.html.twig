@@ -23,24 +23,30 @@
                 <div class="languages">
                     <i class="fas fa-globe"></i> {{ 'language.selector'|trans }}:
                     {% for locale in locales() %}
+
                         <a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }}</a>
+
                     {% endfor %}
+
                 </div>
             </div>
+        {% for s in settings %}
 
             <div id="copyright">
                 <ul class="menu">
-                    <li>{{ 'copyright.text'|trans }} &copy; 2016 - 2018 OktoDark. {{ 'copyright.content'|trans }}</li>
+                    <li>{{ 'copyright.text'|trans }} &copy; 2016 - 2018 {{s.site_name}}. {{ 'copyright.content'|trans }}</li>
                 </ul>
             </div>
         </footer>
-        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/jquery.min.js"></script>
-        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/jquery.dropotron.min.js"></script>
-        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/skel.min.js"></script>
-        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/skel-viewport.min.js"></script>
-        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/util.js"></script>
-        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/main.js"></script>
-        <!--[if lte IE 8]><script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/ie/respond.min.js"></script><![endif]-->
-        <script src="{% for s in settings %}{{s.site_cdn}}{% endfor %}/themes/default/js/jquery.scrollNav.min.js"></script>
+        <script src="{{s.site_cdn}}/themes/default/js/jquery.min.js"></script>
+        <script src="{{s.site_cdn}}/themes/default/js/jquery.dropotron.min.js"></script>
+        <script src="{{s.site_cdn}}/themes/default/js/skel.min.js"></script>
+        <script src="{{s.site_cdn}}/themes/default/js/skel-viewport.min.js"></script>
+        <script src="{{s.site_cdn}}/themes/default/js/util.js"></script>
+        <script src="{{s.site_cdn}}/themes/default/js/main.js"></script>
+        <!--[if lte IE 8]><script src="{{s.site_cdn}}/themes/default/js/ie/respond.min.js"></script><![endif]-->
+        <script src="{{s.site_cdn}}/themes/default/js/jquery.scrollNav.min.js"></script>
+        {% endfor %}
+
     </body>
 </html>

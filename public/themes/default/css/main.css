@@ -2797,19 +2797,19 @@ label {
     border-radius: 15px;
 }
 
-.grid{
+.grid {
     display: flex;
     flex-flow: row wrap;
     list-style: none;
     text-align: center;
 }
-.grid li{
+.grid li {
     box-sizing: border-box;
     padding: 1rem;
     min-width: 1%;
     max-width: 420px;
 }
-.grid li img{
+.grid li img {
     -webkit-transition: all .2s ease-in-out;
     -moz-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
@@ -2819,14 +2819,13 @@ label {
     height: auto;
 }
 
-button:hover{
+button:hover {
     filter: opacity(.7);
     -webkit-filter: opacity(.7);
     text-shadow: -1px -1px 0px #000;
 }
 /* Remove effect on Hover */
-img:hover{
+img:hover {
     filter: none;
     -webkit-filter: none;
 }
-
