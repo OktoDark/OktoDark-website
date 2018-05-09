@@ -2,11 +2,11 @@ twig:
     globals:
         # You can choose what theme to be for website:
         # default
-        theme_site:    default
+        theme_site:    grey
 
     debug:            '%kernel.debug%'
-    strict_variables: ~
+    strict_variables: '%kernel.debug%'
     paths:
-              '%kernel.project_dir%/templates/default': theme
+        '%kernel.project_dir%/templates/grey': theme
     auto_reload:      ~
 

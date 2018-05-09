@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OurGamesRepository")
+ * @ORM\Table(name="our_games")
  */
 class OurGames
 {
@@ -17,17 +18,26 @@ class OurGames
     private $id;
 
     /**
-     * @ORM\Column(type="text", length=100)
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="100")
      */
     private $ourGameName;
 
     /**
-     * @ORM\Column(type="text", length=100)
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="100")
      */
     private $ourGameURL;
 
     /**
-     * @ORM\Column(type="text", length=100)
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="100")
      */
     private $ourGameURLCDN;
 

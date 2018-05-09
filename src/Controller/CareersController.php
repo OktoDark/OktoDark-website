@@ -5,7 +5,7 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 17.01.2018 03:13
+ * File date of modification: 09.05.2018 12:20
  */
 
 namespace App\Controller;
@@ -20,7 +20,8 @@ class CareersController extends Controller
     public function careers(Connection $connection)
     {
         $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $showCareers = $connection->fetchAll('SELECT * FROM careers ORDER BY jobtitle ASC ');
 
-        return $this->render('@theme/careers.html.twig', ['settings' => $selectSettings]);
+        return $this->render('@theme/careers.html.twig', ['settings' => $selectSettings, 'careers' => $showCareers]);
     }
 }

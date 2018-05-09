@@ -1,20 +1,22 @@
 framework:
     secret: '%env(APP_SECRET)%'
     #default_locale: en
-    #csrf_protection: ~
-    #http_method_override: true
+    csrf_protection: { enabled: true }
+    http_method_override: true
+    trusted_hosts: ~
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
     session:
         handler_id: ~
 
-    #esi: ~
-    #fragments: ~
+    esi: { enabled: true }
+    fragments: { enabled: true }
     php_errors:
         log: true
 
     cache:
+        prefix_seed: oktodark
         # The app cache caches to the filesystem by default. Other options include:
 
         # Redis
@@ -23,3 +25,5 @@ framework:
 
         # APCu (not recommended with heavy random-write workloads as memory fragmentation can cause perf issues)
         #app: cache.adapter.apcu
+    ide: ~
+    validation: { enable_annotations: true }

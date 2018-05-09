@@ -1,0 +1,58 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'menu.home'|trans }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.blog'|trans }}</h2>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-default">
+        <div class="container">
+            <div class="row row-50">
+                <div class="col-lg-8 col-xl-9">
+                    {% for post in posts %}
+                    <div class="post-creative">
+                        <div class="post-body">
+                            <div class="post-classic-meta">
+                                <ul class="list list-inline">
+                                    <li><span class="icon icon-xs fl-outicons-clock169"></span> <span class="time">{{ post.publishedAt|localizeddate('long', 'medium', null, 'UTC') }}</span>
+                                    </li>
+                                    <li><span class="icon icon-xs fl-outicons-speech-balloon2"></span> {{ post.author.fullname }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <h5 class="post-title"><a href="{{ path('blog_post', {slug: post.slug}) }}">{{ post.title }}</a></h5>
+                            <p>{{ post.summary|md2html }}</p><a class="button button-gradient" href="{{ path('blog_post', {slug: post.slug}) }}">Read More</a>
+                        </div>
+                    </div>
+                    {% else %}
+                        <div class="well">{{ 'post.no_posts_found'|trans }}</div>
+                    {% endfor %}
+                    {% if posts.haveToPaginate %}
+                        {{ pagerfanta(posts, 'twitter_bootstrap3_translated', {routeName: 'blog_index_paginated'}) }}
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-12">
+                            <ul class="pagination">
+                                <li class="page-item page-item-control"><a class="page-link" href="#" aria-label="Previous"><span class="icon fa-chevron-left"></span></a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                <li class="page-item page-item-control"><a class="page-link" href="#" aria-label="Next"><span class="icon fa-chevron-right"></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

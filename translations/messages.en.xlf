@@ -2,97 +2,240 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
         <body>
-            <!-- Menu -->
-            <trans-unit id="menu.games">
-                <source>menu.games</source>
+            <!-- Navbar Zone -->
+            <trans-unit id="navbar.games">
+                <source>navbar.games</source>
                 <target>Games</target>
             </trans-unit>
-
-            <trans-unit id="menu.home">
-                <source>menu.home</source>
+            <trans-unit id="navbar.home">
+                <source>navbar.home</source>
                 <target>Home</target>
             </trans-unit>
-
-            <trans-unit id="menu.about">
-                <source>menu.about</source>
+            <trans-unit id="navbar.about">
+                <source>navbar.about</source>
                 <target>About</target>
             </trans-unit>
-
-            <trans-unit id="menu.contact">
-                <source>menu.contact</source>
+            <trans-unit id="navbar.contact">
+                <source>navbar.contact</source>
                 <target>Contact</target>
             </trans-unit>
-
-            <trans-unit id="menu.careers">
-                <source>menu.careers</source>
+            <trans-unit id="navbar.careers">
+                <source>navbar.careers</source>
                 <target>Careers</target>
             </trans-unit>
-
-            <trans-unit id="menu.patron">
-                <source>menu.patron</source>
+            <trans-unit id="navbar.patron">
+                <source>navbar.patron</source>
                 <target>Patron</target>
             </trans-unit>
-
-            <trans-unit id="menu.blog">
-                <source>menu.blog</source>
+            <trans-unit id="navbar.blog">
+                <source>navbar.blog</source>
                 <target>Blog</target>
             </trans-unit>
-
-            <trans-unit id="menu.forum">
-                <source>menu.forum</source>
+            <trans-unit id="navbar.forum">
+                <source>navbar.forum</source>
                 <target>Forum</target>
             </trans-unit>
-
-            <!-- End Menu -->
-
+            <trans-unit id="navbar.community">
+                <source>navbar.community</source>
+                <target>Community</target>
+            </trans-unit>
+            <trans-unit id="navbar.support_us">
+                <source>navbar.support_us</source>
+                <target>Support us</target>
+            </trans-unit>
+            <trans-unit id="navbar.be_patron">
+                <source>navbar.be_patron</source>
+                <target>Be Patron</target>
+            </trans-unit>
+            <trans-unit id="navbar.be_donator">
+                <source>navbar.be_donator</source>
+                <target>Be Donator</target>
+            </trans-unit>
+            <trans-unit id="navbar.only_members">
+                <source>navbar.only_members</source>
+                <target>Only Members</target>
+            </trans-unit>
+            <!-- End Navbar Zone -->
+            <!-- Title Pages Zone -->
+            <trans-unit id="title.home">
+                <source>title.home</source>
+                <target>Home</target>
+            </trans-unit>
+            <trans-unit id="title.about">
+                <source>title.about</source>
+                <target>About</target>
+            </trans-unit>
+            <trans-unit id="title.blog">
+                <source>title.blog</source>
+                <target>Blog</target>
+            </trans-unit>
+            <trans-unit id="title.be_patron">
+                <source>title.be_patron</source>
+                <target>Be Patron</target>
+            </trans-unit>
+            <trans-unit id="title.be_donator">
+                <source>title.be_donator</source>
+                <target>Be Donator</target>
+            </trans-unit>
             <trans-unit id="title.games">
                 <source>title.games</source>
                 <target>Games</target>
             </trans-unit>
-
-            <trans-unit id="about.gamesPage">
-                <source>about.gamesPage</source>
-                <target>On this page you can find the all our games released from the beginning.</target>
-            </trans-unit>
-
             <trans-unit id="title.news">
                 <source>title.news</source>
                 <target>News</target>
             </trans-unit>
-
             <trans-unit id="title.careers">
                 <source>title.careers</source>
                 <target>Careers</target>
             </trans-unit>
-
             <trans-unit id="title.contact">
                 <source>title.contact</source>
                 <target>Contact</target>
             </trans-unit>
+            <trans-unit id="title.our_team">
+                <source>title.our_team</source>
+                <target>Our Team</target>
+            </trans-unit>
+            <trans-unit id="title.member">
+                <source>title.member</source>
+                <target>Member</target>
+            </trans-unit>
+            <trans-unit id="title.faq">
+                <source>title.faq</source>
+                <target>FAQ</target>
+            </trans-unit>
+            <trans-unit id="title.privacy">
+                <source>title.privacy</source>
+                <target>Privacy Policy</target>
+            </trans-unit>
+            <trans-unit id="title.services">
+                <source>title.services</source>
+                <target>Services</target>
+            </trans-unit>
+            <!-- End Titles Pages -->
+            <!-- Contents -->
 
-            <!-- Footer -->
+            <trans-unit id="content.contact">
+                <source>content.contact</source>
+                <target>If you have questions about our products, problems or any else, we answering of your question in short time.</target>
+            </trans-unit>
 
+            <trans-unit id="content.gamesPage">
+                <source>content.gamesPage</source>
+                <target>On this page you can find the all our games released from the beginning.</target>
+            </trans-unit>
+
+            <!-- End Contents -->
+            <!-- Footer Zone -->
             <trans-unit id="language_selector">
                 <source>language.selector</source>
                 <target>Language</target>
             </trans-unit>
-
             <trans-unit id="copyright.text">
                 <source>copyright.text</source>
                 <target>Copyright</target>
             </trans-unit>
-
             <trans-unit id="copyright.content">
                 <source>copyright.content</source>
                 <target>All rights reserved.</target>
             </trans-unit>
-
             <trans-unit id="get.intouch">
                 <source>get.intouch</source>
                 <target>Get in touch</target>
             </trans-unit>
-
-            <!-- End Footer -->
+            <trans-unit id="privacy_policy.text">
+                <source>privacy_policy.text</source>
+                <target>Privacy Policy</target>
+            </trans-unit>
+            <trans-unit id="information.text">
+                <source>information.text</source>
+                <target>Information</target>
+            </trans-unit>
+            <!-- End Footer Zone -->
+            <!-- Misc Zone -->
+            <trans-unit id="old_browser.text">
+                <source>old_browser.text</source>
+                <target>You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today.</target>
+            </trans-unit>
+            <trans-unit id="loading.text">
+                <source>loading.text</source>
+                <target>Loading...</target>
+            </trans-unit>
+            <!-- End Misc Zone -->
+            <!-- Maintenance Zone -->
+            <trans-unit id="maintenance.text">
+                <source>maintenance.text</source>
+                <target>Maintenance</target>
+            </trans-unit>
+            <trans-unit id="maintenance_appear.text">
+                <source>maintenance_appear.text</source>
+                <target>We are currently working on. This page will appear in:</target>
+            </trans-unit>
+            <trans-unit id="maintenance_under.text">
+                <source>maintenance_under.text</source>
+                <target>Our website is under maintenance, we are working very hard to give you the best experience on our new web site.</target>
+            </trans-unit>
+            <!-- End Maintenance Zone -->
+            <!-- Blog Zone -->
+            <trans-unit id="action.sign_in">
+                <source>action.sign_in</source>
+                <target>Sign in</target>
+            </trans-unit>
+            <trans-unit id="post.to_publish_a_comment">
+                <source>post.to_publish_a_comment</source>
+                <target>to publish a comment</target>
+            </trans-unit>
+            <trans-unit id="title.add_comment">
+                <source>title.add_comment</source>
+                <target>Add a comment</target>
+            </trans-unit>
+            <trans-unit id="label.content">
+                <source>label.content</source>
+                <target>Content</target>
+            </trans-unit>
+            <trans-unit id="action.publish_comment">
+                <source>action.publish_comment</source>
+                <target>Publish comment</target>
+            </trans-unit>
+            <trans-unit id="menu.logout">
+                <source>menu.logout</source>
+                <target>Logout</target>
+            </trans-unit>
+            <trans-unit id="title.login">
+                <source>title.login</source>
+                <target>Secure Sign in</target>
+            </trans-unit>
+            <trans-unit id="label.username">
+                <source>label.username</source>
+                <target>Username</target>
+            </trans-unit>
+            <trans-unit id="label.password">
+                <source>label.password</source>
+                <target>Password</target>
+            </trans-unit>
+            <!-- E-mail Zone -->
+            <trans-unit id="email.name">
+                <source>email.name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="email.email">
+                <source>email.email</source>
+                <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="email.message">
+                <source>email.message</source>
+                <target>Message</target>
+            </trans-unit>
+            <trans-unit id="email.subject">
+                <source>email.subject</source>
+                <target>Subject</target>
+            </trans-unit>
+            <trans-unit id="email.submit">
+                <source>email.submit</source>
+                <target>Submit</target>
+            </trans-unit>
+            <!-- End E-mail Zone -->
         </body>
     </file>
 </xliff>

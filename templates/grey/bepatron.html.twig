@@ -1,0 +1,17 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.be_patron'|trans }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.be_patron'|trans }}</h2>
+        </div>
+    </section>
+
+{% endblock %}

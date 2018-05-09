@@ -1,0 +1,43 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.careers'|trans }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.careers'|trans }}</h2>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-default">
+        <div class="container">
+            <div class="text-decoration">
+                <div class="card-group-custom card-group-corporate" id="accordion1" role="tablist" aria-multiselectable="false">
+                    {% for c in careers %}
+                    <article class="card card-custom card-corporate">
+                        <div class="card-header" id="accordion1Heading2" role="tab">
+                            <div class="card-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion1" href="#accordion1Collapse2" aria-controls="accordion1Collapse2">
+                                    {{ c.jobtitle }}
+                                    <div class="card-arrow"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="collapse" id="accordion1Collapse2" role="tabpanel" aria-labelledby="accordion1Heading2">
+                            <div class="card-body">
+                                <p>{{ c.requiments }}</p>
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

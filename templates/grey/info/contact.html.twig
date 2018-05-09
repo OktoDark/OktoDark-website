@@ -1,0 +1,64 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.contact'|trans }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.contact'|trans }}</h2>
+        </div>
+    </section>
+
+    <section class="section section-md bg-default text-center">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-9 col-lg-7">
+                    <p>{{ 'content.contact'|trans }}</p>
+                    {{ form_start(form, {'attr' : { 'class' : 'rd-form rd-mailform' } }) }}
+                    <div class="row row-20 align-items-end">
+                        <div class="col-md-6">
+                            <div class="form-warp"> <!-- , {label_attr: {class: 'form-input'}})-->
+                                <label class="form-label form-label-outside" for="contact-name2">{{ 'email.name'|trans }}</label>
+                                <input class="form-input form-input-circle form-input-gray" id="contact-name2" name="form_name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-warp">
+                                <label class="form-label form-label-outside" for="contact-email2">{{ 'email.email'|trans }}</label>
+                                <input class="form-input form-input-circle form-input-gray" id="contact-email2" name="form_email">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-warp">
+                                <label class="form-label form-label-outside" for="contact-subject">{{ 'email.subject'|trans }}</label>
+                                <input class="form-input form-input-circle form-input-gray" id="contact-subject" name="form_subject">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-warp">
+                                <label class="form-label form-label-outside" for="contact2-message">{{ 'email.message'|trans }}</label>
+                                <textarea class="form-input form-input-circle form-input-gray" id="contact2-message" name="form_message"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-warp form-warp-recaptcha">
+                                <div class="g-recaptcha" data-sitekey=""></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="button button-block button-gradient button-circle" type="submit">{{ 'email.submit'|trans }}</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -2,97 +2,240 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" target-language="ro" datatype="plaintext" original="file.ext">
         <body>
-            <!-- Menu -->
-            <trans-unit id="menu.games">
-                <source>menu.games</source>
+            <!-- Navbar Zone -->
+            <trans-unit id="navbar.games">
+                <source>navbar.games</source>
                 <target>Jocuri</target>
             </trans-unit>
-
-            <trans-unit id="menu.home">
-                <source>menu.home</source>
+            <trans-unit id="navbar.home">
+                <source>navbar.home</source>
                 <target>Acasa</target>
             </trans-unit>
-
-            <trans-unit id="menu.about">
-                <source>menu.about</source>
+            <trans-unit id="navbar.about">
+                <source>navbar.about</source>
                 <target>Despre Noi</target>
             </trans-unit>
-
-            <trans-unit id="menu.contact">
-                <source>menu.contact</source>
+            <trans-unit id="navbar.contact">
+                <source>navbar.contact</source>
                 <target>Contact</target>
             </trans-unit>
-
-            <trans-unit id="menu.careers">
-                <source>menu.careers</source>
+            <trans-unit id="navbar.careers">
+                <source>navbar.careers</source>
                 <target>Cariere</target>
             </trans-unit>
-
-            <trans-unit id="menu.patron">
-                <source>menu.patron</source>
+            <trans-unit id="navbar.patron">
+                <source>navbar.patron</source>
                 <target>Patron</target>
             </trans-unit>
-
-            <trans-unit id="menu.blog">
-                <source>menu.blog</source>
+            <trans-unit id="navbar.blog">
+                <source>navbar.blog</source>
                 <target>Blog</target>
             </trans-unit>
-
-            <trans-unit id="menu.forum">
-                <source>menu.forum</source>
+            <trans-unit id="navbar.forum">
+                <source>navbar.forum</source>
                 <target>Forum</target>
             </trans-unit>
-
-            <!-- End Menu -->
-
+            <trans-unit id="navbar.community">
+                <source>navbar.community</source>
+                <target>Comunitate</target>
+            </trans-unit>
+            <trans-unit id="navbar.support_us">
+                <source>navbar.support_us</source>
+                <target>Sprijiniți-ne</target>
+            </trans-unit>
+            <trans-unit id="navbar.be_patron">
+                <source>navbar.be_patron</source>
+                <target>Fi Patron</target>
+            </trans-unit>
+            <trans-unit id="navbar.be_donator">
+                <source>navbar.be_donator</source>
+                <target>Fi Donator</target>
+            </trans-unit>
+            <trans-unit id="navbar.only_members">
+                <source>navbar.only_members</source>
+                <target>Numai Membri</target>
+            </trans-unit>
+            <!-- End Navbar Zone -->
+            <!-- Title Pages Zone -->
+            <trans-unit id="title.home">
+                <source>title.home</source>
+                <target>Acasa</target>
+            </trans-unit>
+            <trans-unit id="title.about">
+                <source>title.about</source>
+                <target>Despre Noi</target>
+            </trans-unit>
+            <trans-unit id="title.blog">
+                <source>title.blog</source>
+                <target>Blog</target>
+            </trans-unit>
+            <trans-unit id="title.be_patron">
+                <source>title.be_patron</source>
+                <target>Fi Patron</target>
+            </trans-unit>
+            <trans-unit id="title.be_donator">
+                <source>title.be_donator</source>
+                <target>Fi Donator</target>
+            </trans-unit>
             <trans-unit id="title.games">
                 <source>title.games</source>
                 <target>Jocuri</target>
             </trans-unit>
-
-            <trans-unit id="about.gamesPage">
-                <source>about.gamesPage</source>
-                <target>Pe aceasta pagina gasiti toate jocurile noastre care au fost lansate de la inceput.</target>
-            </trans-unit>
-
             <trans-unit id="title.news">
                 <source>title.news</source>
                 <target>Stiri</target>
             </trans-unit>
-
             <trans-unit id="title.careers">
                 <source>title.careers</source>
                 <target>Cariere</target>
             </trans-unit>
-
             <trans-unit id="title.contact">
                 <source>title.contact</source>
                 <target>Contact</target>
             </trans-unit>
+            <trans-unit id="title.our_team">
+                <source>title.our_team</source>
+                <target>Echipa Noastra</target>
+            </trans-unit>
+            <trans-unit id="title.member">
+                <source>title.member</source>
+                <target>Membru</target>
+            </trans-unit>
+            <trans-unit id="title.faq">
+                <source>title.faq</source>
+                <target>FAQ</target>
+            </trans-unit>
+            <trans-unit id="title.privacy">
+                <source>title.privacy</source>
+                <target>Politica de confidentialitate</target>
+            </trans-unit>
+            <trans-unit id="title.services">
+                <source>title.services</source>
+                <target>Servicii</target>
+            </trans-unit>
+            <!-- End Titles Pages -->
+            <!-- Contents -->
 
-            <!-- Footer -->
+            <trans-unit id="content.contact">
+                <source>content.contact</source>
+                <target>Daca ai intrebari privind produsele noastre sau orice alta problema, va vom raspunde in scurt timp.</target>
+            </trans-unit>
 
+            <trans-unit id="content.gamesPage">
+                <source>content.gamesPage</source>
+                <target>Pe aceasta pagina gasiti toate jocurile noastre care au fost lansate de la inceput.</target>
+            </trans-unit>
+
+            <!-- End Contents -->
+            <!-- Footer Zone -->
             <trans-unit id="language_selector">
                 <source>language.selector</source>
                 <target>Limba</target>
             </trans-unit>
-
             <trans-unit id="copyright.text">
                 <source>copyright.text</source>
                 <target>Copyright</target>
             </trans-unit>
-
             <trans-unit id="copyright.content">
                 <source>copyright.content</source>
                 <target>Toate drepturile rezervate.</target>
             </trans-unit>
-
             <trans-unit id="get.intouch">
                 <source>get.intouch</source>
                 <target>Intrați în legătură</target>
             </trans-unit>
-
-            <!-- End Footer -->
+            <trans-unit id="privacy_policy.text">
+                <source>privacy_policy.text</source>
+                <target>Politica de confidentialitate</target>
+            </trans-unit>
+            <trans-unit id="information.text">
+                <source>information.text</source>
+                <target>Informatii</target>
+            </trans-unit>
+            <!-- End Footer Zone -->
+            <!-- Misc Zone -->
+            <trans-unit id="old_browser.text">
+                <source>old_browser.text</source>
+                <target>Utilizați un browser învechit. Pentru o experiență de navigare mai rapidă și mai sigură, faceți upgrade gratuit astăzi.</target>
+            </trans-unit>
+            <trans-unit id="loading.text">
+                <source>loading.text</source>
+                <target>Se incarca...</target>
+            </trans-unit>
+            <!-- End Misc Zone -->
+            <!-- Maintenance -->
+            <trans-unit id="maintenance.text">
+                <source>maintenance.text</source>
+                <target>Mentenanta</target>
+            </trans-unit>
+            <trans-unit id="maintenance_appear.text">
+                <source>maintenance_appear.text</source>
+                <target>În prezent lucrăm. Această pagină va apărea în:</target>
+            </trans-unit>
+            <trans-unit id="maintenance_under.text">
+                <source>maintenance_under.text</source>
+                <target>Site-ul nostru este în întreținere, lucrăm foarte mult pentru a vă oferi cea mai bună experiență pe noul nostru site web.</target>
+            </trans-unit>
+            <!-- End Maintenance Zone -->
+            <!-- Blog Zone -->
+            <trans-unit id="action.sign_in">
+                <source>action.sign_in</source>
+                <target>Connecteaza-te</target>
+            </trans-unit>
+            <trans-unit id="post.to_publish_a_comment">
+                <source>post.to_publish_a_comment</source>
+                <target>pentru a publica un comentariu</target>
+            </trans-unit>
+            <trans-unit id="title.add_comment">
+                <source>title.add_comment</source>
+                <target>Adauga un comentariu</target>
+            </trans-unit>
+            <trans-unit id="label.content">
+                <source>label.content</source>
+                <target>Continut</target>
+            </trans-unit>
+            <trans-unit id="action.publish_comment">
+                <source>action.publish_comment</source>
+                <target>Publica un comentariu</target>
+            </trans-unit>
+            <trans-unit id="menu.logout">
+                <source>menu.logout</source>
+                <target>Deconecteaza-te</target>
+            </trans-unit>
+            <trans-unit id="title.login">
+                <source>title.login</source>
+                <target>Conectare securizata</target>
+            </trans-unit>
+            <trans-unit id="label.username">
+                <source>label.username</source>
+                <target>Nume utilizator</target>
+            </trans-unit>
+            <trans-unit id="label.password">
+                <source>label.password</source>
+                <target>Parola</target>
+            </trans-unit>
+            <!-- E-mail Zone -->
+            <trans-unit id="email.name">
+                <source>email.name</source>
+                <target>Nume</target>
+            </trans-unit>
+            <trans-unit id="email.email">
+                <source>email.email</source>
+                <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="email.message">
+                <source>email.message</source>
+                <target>Mesaj</target>
+            </trans-unit>
+            <trans-unit id="email.subject">
+                <source>email.subject</source>
+                <target>Subiect</target>
+            </trans-unit>
+            <trans-unit id="email.submit">
+                <source>email.submit</source>
+                <target>Trimite</target>
+            </trans-unit>
+            <!-- End E-mail Zone -->
         </body>
     </file>
 </xliff>

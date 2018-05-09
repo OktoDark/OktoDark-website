@@ -1,0 +1,41 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.games'|trans }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.games'|trans }}</h2>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-gray-100">
+        <div class="container">
+            <h5>{{ 'content.gamesPage'|trans }}</h5>
+            <div class="row">
+                <div class="col-12">
+                    <div class="text-decoration">
+                        <div class="row row-20 justify-content-lg-between">
+                            <div class="col-12">
+                                <h5>To be access at one game you must to click on banner.</h5>
+                            </div>
+                            {% for g in games %}
+                                {% for s in settings %}
+                            <div class="col-md-6 col-lg-5">
+                                <p><a href="{{ g.our_game_url }}"><img class="game_covers_image" src="{{ s.site_cdn }}/images/covers/{{ g.our_game_cover }}.png" alt="{{ g.our_game_name }}" /></a></p>
+                            </div>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

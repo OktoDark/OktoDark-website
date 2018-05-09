@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\NewsRepository")
+ * @ORM\Table(name="news")
  */
 class News
 {
@@ -18,17 +19,26 @@ class News
     private $id;
 
     /**
-     * @ORM\Column(type="text", length=100)
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="100")
      */
     private $title;
 
     /**
-     * @ORM\Column(type="text", length=30)
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="30")
      */
     private $author;
 
     /**
-     * @ORM\Column(type="text", length=5000)
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="5000")
      */
     private $content;
 

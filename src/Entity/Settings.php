@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SettingsRepository")
+ * @ORM\Table(name="settings")
  */
 class Settings
 {
@@ -17,17 +18,26 @@ class Settings
     private $id;
 
     /**
-     * @ORM\Column(type="text", length=10)
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="10")
      */
     private $siteName;
 
     /**
-     * @ORM\Column(type="text", length=50)
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="50")
      */
     private $siteCDN;
 
     /**
-     * @ORM\Column(type="text", length=10)
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="10")
      */
     private $logoName;
 

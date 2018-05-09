@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html class="boxed" lang="{{ app.request.locale }}" dir="ltr">
+    <head>
+    {% block head %}
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="format-detection" content="telephone=no">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta charset="utf-8">
+        <link rel="icon" href="themes/grey/images/favicon.ico" type="image/x-icon">
+        <!-- Stylesheets-->
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700%7CMontserrat:400,700,800">
+        <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.3.54/css/materialdesignicons.min.css">
+        <link rel="stylesheet" href="themes/grey/css/bootstrap.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+        <link rel="stylesheet" href="themes/grey/css/style.css" id="main-styles-link">
+        <!--[if lt IE 10]>
+        <script src="themes/grey/js/html5shiv.min.js"></script>
+        <![endif]-->
+    {% endblock %}
+    </head>
+<body>
+{% include("@theme/maintenance/loading.html.twig") %}
+
+    <div class="page">
+
+    {% block body %}{% endblock %}
+
+{% include("@theme/maintenance/footer.html.twig") %}

@@ -1,0 +1,31 @@
+{% extends "@theme/maintenance/base.html.twig" %}
+
+{% block title %}{{ 'maintenance.text'|trans }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page">
+        <section class="section text-center">
+            <div class="container">
+                <div class="one-page-section">
+                    <div class="one-page-header">
+                        <img src="themes/grey/images/logo.png" alt="" width="360" height="121"/>
+                    </div>
+                    <div class="one-page-body">
+                        <h5>{{ 'maintenance_appear.text'|trans }}</h5>
+                        <div class="countdown-wrap">
+                            <div class="DateCountdown" data-type="until" data-date="2018-06-05 00:00:00" data-format="wdhms" data-color="#0cc5b6" data-bg="rgba(255, 255, 255, .1)" data-width="0.02" data-size="175"></div>
+                        </div>
+                        <p class="text">{{ 'maintenance_under.text'|trans }}</p>
+                    </div>
+                    <div class="one-page-footer">
+                        <p class="rights"><span class="copyright-year"></span><span>&nbsp;</span><span>&copy;&nbsp;</span><span>OktoDark</span><span>.&nbsp;</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

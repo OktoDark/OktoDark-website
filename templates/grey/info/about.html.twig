@@ -1,0 +1,51 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.about'|trans }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block body %}
+
+        <section class="section section-page-title context-dark">
+            <div class="container">
+                <h2>{{ 'title.about'|trans }}</h2>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section bg-default section-lg">
+            <div class="container">
+                <div class="row row-100">
+                    <div class="col-12">
+                        <p>We are new Game Studio founded in 2015, but the whole OktoDark project was created in 2013.</p>
+                        <p>We are not a biggest game developer but we are searching for new talent to join our Team tgrow it into a world class game development company. </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End About Section -->
+
+        <!-- Team Section -->
+        <section class="section bg-default section-lg bg-gray-100">
+            <div class="container">
+                <h3 class="text-center">{{ 'title.our_team'|trans }}</h3>
+                <div class="row row-50">
+                    <div class="col-12">
+                        {% for t in team %}
+                        <div class="box-team">
+                            <figure class="team-img"><img src="{% for s in settings %}{{ s.site_cdn }}{% endfor %}/themes/grey/images/not_available.png" alt="" width="301" height="301" /></figure>
+                            <div class="box-team-caption">
+                                <h5 class="team-position">{{ t.position }}</h5>
+                                <h4 class="team-name">{{ t.name }}</h4>
+                                <p>{{ t.description }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+{% endblock %}

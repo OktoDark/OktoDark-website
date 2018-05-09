@@ -1,0 +1,90 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'navbar.blog'|trans }} - {{ post.title }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <section class="section section-lg bg-default">
+        <div class="container">
+            <div class="row row-50">
+                <div class="col-lg-8 col-xl-9">
+                    <div class="post-content">
+                        <h4 class="post-title">{{ post.title }}</h4>
+                        <div class="post-classic-meta">
+                            <ul class="list list-inline">
+                                <li><span class="icon icon-xs fl-outicons-clock169"></span> <span class="time">{{ post.publishedAt|localizeddate('long', 'medium', null, 'UTC') }}</span>
+                                </li>
+                                <li><span class="icon icon-xs fl-outicons-speech-balloon2"></span> {{ post.author.fullName }}
+                                </li>
+                            </ul>
+                        </div>
+                        {{ post.content|md2html }}
+                        <div class="share-block">
+                            <h5>Share This Post: </h5>
+                            <ul class="list-inline">
+                                <div class="fb-share-button" data-href="{{ path('blog_post', {slug: post.slug}) }}" data-layout="button_count"> </div>
+                                <li><a class="icon icon-sm fa-tumblr-square icon-circle icon-circle-primary icon-md-circle" href="#"></a></li>
+                                <li><a class="icon icon-sm fa-pinterest-p icon-circle icon-circle-primary icon-md-circle" href="#"></a></li>
+                                <li><a class="icon icon-sm fa-soundcloud icon-circle icon-circle-primary icon-md-circle" href="#"></a></li>
+                                <li><a class="icon icon-sm fa-vimeo-square icon-circle icon-circle-primary icon-md-circle" href="#"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Comment Block -->
+                    <div class="comment-block">
+                        <h4 class="text-uppercase">3 comments</h4>
+                        <!-- start cooment -->
+                        {% for comment in post.comments %}
+                        <a name="comment_{{ comment.id }}"></a>
+                        <div class="comment-block-item unit flex-column align-items-start flex-md-row">
+                            <div class="comment-img unit-left">
+                                <img src="images/comment-1-114x114.jpg" alt="" width="114" height="114"/>
+                            </div>
+                            <div class="unit-body comment-body">
+                                <div class="comment-header">
+                                    <div class="block-left">
+                                        <ul class="list-inline">
+                                            <li class="name">{{ comment.author.fullName }}</li>
+                                            <li><span class="icon icon-xs fl-outicons-heart373"></span><a href="#">Like</a></li>
+                                            <li><span class="icon icon-xs fl-outicons-speech-balloon2"></span><a href="#">Reply</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="block-right">
+                                        <p><span class="icon icon-xs fl-outicons-clock169"></span><span class="time">{{ comment.publishedAt|localizeddate('medium', 'short', null, 'UTC') }}</span></p>
+                                    </div>
+                                </div>
+                                <div class="comment-text">
+                                    {{ comment.content|md2html }}
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                            <div class="post-comment">
+                                <p>{{ 'post.no_comments'|trans }}</p>
+                            </div>
+                        {% endfor %}
+                        <!-- end -->
+                    </div>
+                    <!-- end comment block -->
+                    <!-- send comment -->
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {{ render(controller('App\\Controller\\BlogController:commentForm', {'id': post.id})) }}
+                    {% else %}
+                        <p>
+                            <a class="btn btn-success" href="{{ path('security_login', {'redirect_to': app.request.pathInfo}) }}">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i> {{ 'action.sign_in'|trans }}
+                            </a>
+                            {{ 'post.to_publish_a_comment'|trans }}
+                        </p>
+                    {% endif %}
+                    <!-- end com -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

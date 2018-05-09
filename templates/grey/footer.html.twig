@@ -1,0 +1,72 @@
+        <!-- Page Footer -->
+        <footer class="section">
+            <div class="footer-classic">
+                <div class="container">
+                    <div class="row row-50 justify-content-xl-between">
+                        <div class="col-lg-6 col-xl-5">
+                            <img src="{% for s in settings %}{{ s.site_cdn }}{% endfor %}/themes/grey/images/logo.png" alt="" width="437" height="59"/>
+                            <div class="footer-about-section">
+                                <p>Few words about us</p>
+                                <p>We are new Game Studio founded in 2015, but the whole OktoDark project was created in 2013.</p>
+                                <p>We are not a biggest game developer but we are searching for new talent to join our Team to grow it into a world class game development company. </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row row-50">
+                                <div class="col-sm-6">
+                                    <h4 class="footer-classic-title">{{ 'information.text'|trans }}</h4>
+                                    <ul class="list list-font-accent list-marked">
+                                        <li><a href="{{ path('faq') }}">{{ 'title.faq'|trans }}</a></li>
+                                        <li><a href="{{ path('services') }}">{{ 'title.services'|trans }}</a></li>
+                                        <li><a href="{{ path('contact') }}">{{ 'title.contact'|trans }}</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="footer-classic-title">{{ 'get.intouch'|trans }}</h4>
+                                    <ul class="list list-font-accent list-marked">
+                                        <li><i class="fab fa-facebook"></i> <a href="https://www.facebook.com/">Facebook</a></li>
+                                        <li><i class="fab fa-twitter"></i> <a href="https://www.twitter.com/">Twitter</a></li>
+                                        <li><i class="fab fa-google-plus"></i> <a href="https://www.google.com/">Google+</a></li>
+                                        <li><i class="fab fa-youtube"></i> <a href="https://www.youtube.com/">Youtube</a></li>
+                                        <li><i class="fab fa-discord"></i> <a href="https://www.discord.com/">Discord</a></li>
+                                        <li><i class="fab fa-twitch"></i> <a href="https://www.twitch.com/">Twitch</a></li>
+                                        <li><i class="fab fa-patreon"></i> <a href="https://www.patreon.com/">Patreon</a></li>
+                                        <li><i class="fab fa-github"></i> <a href="https://www.github.com/">Github</a></li>
+                                        <li><i class="fab fa-bitbucket"></i> <a href="https://www.bitbucket/">Bitbucket</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sub-footer-section">
+                <div class="container">
+                    <div class="footer-language_selector">
+                        <i class="fas fa-globe"></i> {{ 'language.selector'|trans }}:
+                        {% for locale in locales() %}
+                            <a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }}</a>
+                        {% endfor %}
+                    </div>
+                    <!-- Rights-->
+                    <p class="rights">
+                        <span class="copyright-year"></span>
+                        <span>&nbsp;</span>
+                        <span>&copy;&nbsp;</span>
+                        <span>{% for s in settings %}{{ s.site_name }}{% endfor %}</span>
+                        <span>.&nbsp;</span>
+                        <a href="{{ path('privacy-policy') }}">{{ 'privacy_policy.text'|trans }}</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <div class="snackbars" id="form-output-global"></div>
+    <!-- Javascript-->
+    {% for s in settings %}
+    <script src="{{s.site_cdn}}/themes/grey/js/core.min.js"></script>
+    <script src="{{s.site_cdn}}/themes/grey/js/script.js"></script>
+    {% endfor %}
+</body>
+</html>
