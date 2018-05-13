@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TeamRepository")
@@ -20,7 +21,7 @@ class Team
     /**
      * @var string
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string")
      * @Assert\Length(max="10")
      */
     private $position;
@@ -28,7 +29,7 @@ class Team
     /**
      * @var string
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string")
      * @Assert\Length(max="20")
      */
     private $name;
@@ -36,13 +37,15 @@ class Team
     /**
      * @var string
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string")
      * @Assert\Length(max="100")
      */
     private $description;
 
     /**
-     * @ORM\Column(type="text")
+     * @var string
+     *
+     * @ORM\Column(type="string")
      * @Assert\Length(max="10")
      */
     private $teamImage;

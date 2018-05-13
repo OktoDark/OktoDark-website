@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CareersRepository")
@@ -18,19 +19,25 @@ class Careers
     private $id;
 
     /**
-     * @ORM\Column(type="text")
+     * @var string
+     *
+     * @ORM\Column(type="string")
      * @Assert\Length(max="100")
      */
     private $jobtitle;
 
     /**
-     * @ORM\Column(type="text")
+     * @var string
+     *
+     * @ORM\Column(type="string")
      * @Assert\Length(max="1000")
      */
     private $requiments;
 
     /**
-     * @ORM\Column(type="text")
+     * @var string
+     *
+     * @ORM\Column(type="string")
      * @Assert\Length(max="3")
      */
     private $number;

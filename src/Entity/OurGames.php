@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OurGamesRepository")
@@ -42,6 +43,27 @@ class OurGames
     private $ourGameURLCDN;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="100")
+     */
+    private $ourGameCover;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="100")
+     */
+    private $ourGameShortTitle;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @return mixed
      */
     public function getOurGameURLCDN()
@@ -56,16 +78,6 @@ class OurGames
     {
         $this->ourGameURLCDN = $ourGameURLCDN;
     }
-
-    /**
-     * @ORM\Column(type="text", length=100)
-     */
-    private $ourGameCover;
-
-    /**
-     * @ORM\Column(type="text", length=100)
-     */
-    private $ourGameShortTitle;
 
     /**
      * @return mixed
@@ -129,10 +141,5 @@ class OurGames
     public function setOurGameShortTitle($ourGameShortTitle)
     {
         $this->ourGameShortTitle = $ourGameShortTitle;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 }
