@@ -1,6 +1,29 @@
-#easy_admin:
-#    entities:
-#        # List the entity class name you want to manage
-#        - App\Entity\Product
-#        - App\Entity\Category
-#        - App\Entity\User
+easy_admin:
+    entities:
+        News:
+            class: App\Entity\News
+            form:
+                fields:
+                    - title
+                    - author
+                    - { property: 'content', type: 'textarea' }
+                    - { property: 'created_at', type: 'datetime'}
+        Careers:
+            class: App\Entity\Careers
+            form:
+                fields:
+                    - jobtitle
+                    - { property: 'requiments', type: 'textarea'}
+                    - number
+        Settings:
+            class: App\Entity\Settings
+        Team:
+            class: App\Entity\Team
+        User:
+            class: App\Entity\User
+            form:
+                fields:
+                    - username
+                    - full_name
+                    - email
+                    - roles
