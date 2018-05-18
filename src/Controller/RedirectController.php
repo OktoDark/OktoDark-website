@@ -10,16 +10,14 @@
 
 namespace App\Controller;
 
-use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class RedirectController extends Controller
 {
-    public function forum(Request $request)
+    public function forum()
     {
-        $parameters = http_build_query($request->query->all());
-        return $this->redirect('https://forum.oktodark.com/?'.$parameters);
+        $response = new RedirectResponse('https://forum.oktodark.com');
+        $response->send();
     }
 }
