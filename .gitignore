@@ -26,10 +26,6 @@
 !bin/console
 !bin/symfony_requirements
 
-# Assets and user uploads
-/web/bundles/
-/web/uploads/
-
 # PHPUnit
 /app/phpunit.xml
 /phpunit.xml
@@ -42,7 +38,6 @@
 
 ###> symfony/framework-bundle ###
 .env
-/public/bundles/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
