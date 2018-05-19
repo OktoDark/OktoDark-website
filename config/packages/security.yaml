@@ -37,3 +37,4 @@ security:
 
     access_control:
         - { path: '^/{%app_locales%}/admin', roles: ROLE_ADMIN }
+        - { path: '^/admin', roles: ROLE_ADMIN }
