@@ -1,5 +1,34 @@
 easy_admin:
+    site_name: 'Admin Panel'
+
+    #####################
+    # Design
+    #####################
+    design:
+        menu:
+            - { entity: 'News', icon: 'newspaper' }
+            - { entity: 'Settings', icon: 'wrench' }
+            - { entity: 'Team', icon: 'user-friends' }
+            - { entity: 'User', icon: 'user' }
+            - { entity: 'Careers', icon: 'id-badge' }
+            - { entity: 'Post', icon: 'blog'}
+
+        assets:
+            js:
+                - '/bundles/ckeditor5-build-classic/ckeditor.js'
+                - '/bundles/ckeditor5-build-classic/custom.js'
+
+    #####################
+    # List actions
+    #####################
+    list:
+        actions:
+            - { name: 'edit', icon: 'pencil', label: '', title: 'Edit' }
+            - { name: 'delete', icon: 'eraser', label: '', title: 'Delete' }
     entities:
+        #####################
+        # News
+        #####################
         News:
             class: App\Entity\News
             form:
@@ -7,18 +36,35 @@ easy_admin:
                     - title
                     - author
                     - { property: 'content', type: 'textarea' }
-                    - { property: 'created_at', type: 'datetime'}
+                    - { property: 'created_at', type: 'datetime' }
+
+        #####################
+        # Careers
+        #####################
         Careers:
             class: App\Entity\Careers
             form:
                 fields:
                     - jobtitle
-                    - { property: 'requiments', type: 'textarea'}
+                    - { property: 'requiments', type: 'textarea' }
                     - number
+
+        #####################
+        # Settings
+        #####################
         Settings:
             class: App\Entity\Settings
+            disabled_actions: ['new', 'delete', 'search']
+
+        #####################
+        # Team
+        #####################
         Team:
             class: App\Entity\Team
+
+        #####################
+        # User
+        #####################
         User:
             class: App\Entity\User
             form:
@@ -26,4 +72,18 @@ easy_admin:
                     - username
                     - full_name
                     - email
-                    - roles
+                    - { property: 'password', type_options: { required: false } }
+                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
+
+        #####################
+        # Post
+        #####################
+        Post:
+            class: App\Entity\Post
+            form:
+                fields:
+                    - title
+                    - summary
+                    - { property: 'content', css_class: 'show-ckeditor', type: 'textarea' }
+                    - { property: 'published_at', type: 'datetime' }
+
