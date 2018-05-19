@@ -99,6 +99,15 @@ member:
     defaults:
         _locale: '%locale%'
 
+settings:
+    path: /{_locale}/settings
+    controller: App\Controller\MemberController::settings
+    # schemes:    [https]
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
+
 ##################################
 #
 # Informations Routes

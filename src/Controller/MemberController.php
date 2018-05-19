@@ -5,7 +5,7 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 09.05.2018 12:20
+ * File date of modification: 19.05.2018 20:39
  */
 
 namespace App\Controller;
@@ -21,5 +21,12 @@ class MemberController extends Controller
         $selectSettings = $connection->fetchAll('SELECT * FROM settings');
 
         return $this->render('@theme/member.html.twig', ['settings' => $selectSettings]);
+    }
+
+    public function settings(Connection $connection): Response
+    {
+        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+
+        return $this->render('@theme/settings.html.twig', ['settings' => $selectSettings]);
     }
 }

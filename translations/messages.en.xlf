@@ -55,6 +55,14 @@
                 <source>navbar.only_members</source>
                 <target>Only Members</target>
             </trans-unit>
+            <trans-unit id="navbar.user_settings">
+                <source>navbar.user_settings</source>
+                <target>Settings</target>
+            </trans-unit>
+            <trans-unit id="navbar.logout">
+                <source>navbar.logout</source>
+                <target>Logout</target>
+            </trans-unit>
             <!-- End Navbar Zone -->
             <!-- Title Pages Zone -->
             <trans-unit id="title.home">
@@ -197,10 +205,6 @@
             <trans-unit id="action.publish_comment">
                 <source>action.publish_comment</source>
                 <target>Publish comment</target>
-            </trans-unit>
-            <trans-unit id="menu.logout">
-                <source>menu.logout</source>
-                <target>Logout</target>
             </trans-unit>
             <trans-unit id="title.login">
                 <source>title.login</source>
