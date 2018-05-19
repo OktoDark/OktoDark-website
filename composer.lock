@@ -880,16 +880,16 @@
         },
         {
             "name": "doctrine/migrations",
-            "version": "v1.7.0",
+            "version": "v1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "bb942dfc9364d97662325678ef6ba0e8fc6ff4df"
+                "reference": "3e7656c5adfd9b7d0d8757aa1e9e8daf43a6f200"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/bb942dfc9364d97662325678ef6ba0e8fc6ff4df",
-                "reference": "bb942dfc9364d97662325678ef6ba0e8fc6ff4df",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/3e7656c5adfd9b7d0d8757aa1e9e8daf43a6f200",
+                "reference": "3e7656c5adfd9b7d0d8757aa1e9e8daf43a6f200",
                 "shasum": ""
             },
             "require": {
@@ -949,7 +949,7 @@
                 "database",
                 "migrations"
             ],
-            "time": "2018-05-05T22:46:31+00:00"
+            "time": "2018-05-09T21:04:56+00:00"
         },
         {
             "name": "doctrine/orm",
@@ -1561,16 +1561,16 @@
         },
         {
             "name": "patreon/patreon",
-            "version": "0.3.0",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Patreon/patreon-php.git",
-                "reference": "6dc0e8d0f74adab4a737e9bfebe348231b58129e"
+                "reference": "d4b277e660bd4ae998a8e2da4cf7c50551fa0fd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Patreon/patreon-php/zipball/6dc0e8d0f74adab4a737e9bfebe348231b58129e",
-                "reference": "6dc0e8d0f74adab4a737e9bfebe348231b58129e",
+                "url": "https://api.github.com/repos/Patreon/patreon-php/zipball/d4b277e660bd4ae998a8e2da4cf7c50551fa0fd1",
+                "reference": "d4b277e660bd4ae998a8e2da4cf7c50551fa0fd1",
                 "shasum": ""
             },
             "require": {
@@ -1594,7 +1594,7 @@
                 }
             ],
             "description": "Interact with the Patreon API via OAuth",
-            "time": "2018-01-31T17:29:31+00:00"
+            "time": "2018-05-18T20:57:28+00:00"
         },
         {
             "name": "psr/cache",
@@ -3305,16 +3305,16 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.4.4",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "eeb9027bbd3472f2d76455cc478b04bbb0eab932"
+                "reference": "bb0485a3b2eecc561eff735109316677e18fb1d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/eeb9027bbd3472f2d76455cc478b04bbb0eab932",
-                "reference": "eeb9027bbd3472f2d76455cc478b04bbb0eab932",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/bb0485a3b2eecc561eff735109316677e18fb1d1",
+                "reference": "bb0485a3b2eecc561eff735109316677e18fb1d1",
                 "shasum": ""
             },
             "require": {
@@ -3366,7 +3366,7 @@
                 "scaffold",
                 "scaffolding"
             ],
-            "time": "2018-05-02T13:20:32+00:00"
+            "time": "2018-05-17T19:26:29+00:00"
         },
         {
             "name": "symfony/options-resolver",
