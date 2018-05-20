@@ -11,11 +11,15 @@
 namespace App\Controller;
 
 use Doctrine\DBAL\Connection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-class SupportusController extends Controller
+class SupportusController extends AbstractController
 {
+    /**
+     * @Route("/bepatron", methods={"GET"}, name="bepatron")
+     */
     public function bepatron(Connection $connection): Response
     {
         $selectSettings = $connection->fetchAll('SELECT * FROM settings');
@@ -23,6 +27,9 @@ class SupportusController extends Controller
         return $this->render('@theme/bepatron.html.twig', ['settings' => $selectSettings]);
     }
 
+    /**
+     * @Route("/bedonator", methods={"GET"}, name="bedonator")
+     */
     public function bedonator(Connection $connection): Response
     {
         $selectSettings = $connection->fetchAll('SELECT * FROM settings');

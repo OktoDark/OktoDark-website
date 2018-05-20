@@ -14,12 +14,18 @@ use App\Entity\Settings;
 use App\Entity\OurGames;
 use App\Repository\SettingsRepository;
 use App\Repository\OurGamesRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\DBAL\Driver\Connection;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-class GamesController extends Controller
+class GamesController extends AbstractController
 {
+    /**
+     * @Route("/games", methods={"GET"}, name="games")
+     * @param Connection $connection
+     * @return Response
+     */
     public function games(Connection $connection): Response
     {
         $AllGames = $connection->fetchAll('SELECT * FROM our_games');

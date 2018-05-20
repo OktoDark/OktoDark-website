@@ -19,9 +19,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class InfoController extends Controller
 {
+    /**
+     * @Route("/about", methods={"GET"}, name="about")
+     * @param Connection $connection
+     * @return Response
+     */
     public function about(Connection $connection): Response
     {
         $selectSettings = $connection->fetchAll('SELECT * FROM settings');
@@ -30,6 +36,11 @@ class InfoController extends Controller
         return $this->render('@theme/info/about.html.twig', ['settings' => $selectSettings, 'team' => $viewTeam]);
     }
 
+    /**
+     * @Route("/contact", methods={"GET"}, name="contact")
+     * @param Connection $connection
+     * @return Response
+     */
     public function contact(Connection $connection, Request $request, \Swift_Mailer $mailer): Response
     {
         $selectSettings = $connection->fetchAll('SELECT * FROM settings');
@@ -61,6 +72,11 @@ class InfoController extends Controller
         return $this->render('@theme/info/contact.html.twig', ['settings' => $selectSettings, 'form' => $form->createView()]);
     }
 
+    /**
+     * @Route("/faq", methods={"GET"}, name="faq")
+     * @param Connection $connection
+     * @return Response
+     */
     public function faq(Connection $connection): Response
     {
         $selectSettings = $connection->fetchAll('SELECT * FROM settings');
@@ -68,6 +84,11 @@ class InfoController extends Controller
         return $this->render('@theme/info/faq.html.twig', ['settings' => $selectSettings]);
     }
 
+    /**
+     * @Route("/privacy-policy", methods={"GET"}, name="privacy-policy")
+     * @param Connection $connection
+     * @return Response
+     */
     public function privacypolicy(Connection $connection): Response
     {
         $selectSettings = $connection->fetchAll('SELECT * FROM settings');
@@ -75,6 +96,11 @@ class InfoController extends Controller
         return $this->render('@theme/info/privacy-policy.html.twig', ['settings' => $selectSettings]);
     }
 
+    /**
+     * @Route("/services", methods={"GET"}, name="services")
+     * @param Connection $connection
+     * @return Response
+     */
     public function services(Connection $connection): Response
     {
         $selectSettings = $connection->fetchAll('SELECT * FROM settings');

@@ -14,9 +14,15 @@ use Doctrine\DBAL\Connection;
 use App\Entity\Settings;
 use App\Repository\SettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CareersController extends Controller
 {
+    /**
+     * @Route("/careers", methods={"GET"}, name="careers")
+     * @param Connection $connection
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function careers(Connection $connection)
     {
         $selectSettings = $connection->fetchAll('SELECT * FROM settings');

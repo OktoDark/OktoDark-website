@@ -10,11 +10,16 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
-class RedirectController extends Controller
+class RedirectController extends AbstractController
 {
+    /**
+     * @Route("/forum", methods={"GET"}, name="forum")
+     */
     public function forum()
     {
         $response = new RedirectResponse('https://forum.oktodark.com');

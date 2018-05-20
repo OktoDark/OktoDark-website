@@ -14,15 +14,27 @@ use App\Entity\News;
 use App\Repository\NewsRepository;
 use App\Entity\Settings;
 use App\Repository\SettingsRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\DBAL\Driver\Connection;
+use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends Controller
+/**
+ * @Route("/")
+ *
+ * Class HomeController
+ * @package App\Controller
+ */
+class HomeController extends AbstractController
 {
+    /**
+     * @Route("/", methods={"GET"}, name="home_index")
+     * @Route("/home", methods={"GET"}, name="home")
+     *
+     * @param Connection $connection
+     * @return Response
+     */
     public function home(Connection $connection): Response
     {
         $latestNews = $connection->fetchAll('SELECT * FROM news');

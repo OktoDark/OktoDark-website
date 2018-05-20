@@ -21,7 +21,7 @@ security:
                 check_path: security_login
                 login_path: security_login
                 csrf_token_generator: security.csrf.token_manager
-                default_target_path: homepage
+                default_target_path: home_index
 
             logout:
                 path: security_logout

@@ -14,28 +14,10 @@
         </div>
     </section>
 
-    <section class="section section-lg bg-default text-center">
-        <div class="container">
-            <div class="row justify-content-lg-center">
-                <div class="col-lg-9 col-xl-7">
-                    <p>You must to login on your account for accessing member page. </p>
-                    <!-- RD Mailform-->
-                    <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="contact" method="post" action="#">
-                        <div class="form-wrap">
-                            <label class="form-label form-label-outside" for="contact-name">Your name: </label>
-                            <input class="form-input" id="contact-name" type="text" name="name" data-constraints="@Required">
-                        </div>
-                        <div class="form-wrap">
-                            <label class="form-label form-label-outside" for="contact-password">Your Password: </label>
-                            <input class="form-input" id="contact-password" type="password" name="password" data-constraints="@Required">
-                        </div>
-                        <div class="form-button text-center">
-                            <button class="button button-primary" type="submit">Login</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {{ render(controller('App\\Controller\\MemberController:viewPage')) }}
+    {% else %}
+        {% include('@theme/form/login.html.twig') %}
+    {% endif %}
 
 {% endblock %}
