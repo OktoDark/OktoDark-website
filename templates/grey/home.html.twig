@@ -99,7 +99,7 @@
     <section class="section bg-default">
         <div class="row flex-lg-row-reverse align-items-lg-center no-gutters">
             <div class="col-lg-6">
-                <div class="box-img-right"><img src="{% for s in settings %}{{ s.site_cdn }}{% endfor %}/themes/grey/images/home-1.jpg" alt=""></div>
+                <div class="box-img-right"><img src="{% for s in settings %}{{ s.siteCDN }}{% endfor %}/themes/grey/images/home-1.jpg" alt=""></div>
             </div>
         </div>
     </section>
@@ -113,7 +113,7 @@
                     <div class="text-decoration">
                         <h4>{{ n.title }}</h4>
                         <p>{{ n.content }}</p>
-                        <p class="right_side" ><i class="icon-news-time far fa-clock"></i> {{ n.created_at }}</p>
+                        <p class="right_side" ><i class="icon-news-time far fa-clock"></i> {{ n.createdAt|localizeddate('long', 'medium', null, 'UTC') }}</p>
                     </div>
                 </div>
             </div>
@@ -121,5 +121,4 @@
         </div>
     </section>
     <!-- End News Section -->
-
 {% endblock %}

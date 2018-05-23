@@ -10,47 +10,56 @@
 
 namespace App\Controller;
 
+use App\Entity\Settings;
+use App\Repository\SettingsRepository;
 use Doctrine\DBAL\Connection;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/member")
+ *
+ * Class MemberController
+ * @package App\Controller
+ */
 class MemberController extends AbstractController
 {
     /**
-     * @Route("/member", methods={"GET"}, name="member")
-     * @param Connection $connection
+     * @Route("/", methods={"GET"}, name="member_area")
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function member(Connection $connection): Response
+    public function member(SettingsRepository $settings): Response
     {
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $selectSettings = $settings->findAll();
 
-        return $this->render('@theme/member.html.twig', ['settings' => $selectSettings]);
+        return $this->render('@theme/member/member.html.twig', ['settings' => $selectSettings]);
     }
 
     /**
-     * @Route("/settings", methods={"GET"}, name="settings")
-     * @param Connection $connection
+     * @Route("/settings", methods={"GET"}, name="settings_area")
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function settings(Connection $connection): Response
+    public function settings(SettingsRepository $settings): Response
     {
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $selectSettings = $settings->findAll();
 
-        return $this->render('@theme/settings.html.twig', ['settings' => $selectSettings]);
+        return $this->render('@theme/member/settings.html.twig', ['settings' => $selectSettings]);
     }
 
     /**
-     * @Route("/viewPage", methods={"GET"}, name="viewPage")
-     * @param Connection $connection
+     * @Route("/viewPage", methods={"GET"}, name="viewPage_area")
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewPage(Connection $connection): Response
+    public function viewPage(SettingsRepository $settings): Response
     {
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $selectSettings = $settings->findAll();
 
-        return $this->render('@theme/bepatron.html.twig', ['settings' => $selectSettings]);
+        return $this->render('@theme/member/member.html.twig', ['settings' => $selectSettings]);
     }
 }

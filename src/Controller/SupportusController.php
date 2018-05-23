@@ -10,6 +10,7 @@
 
 namespace App\Controller;
 
+use App\Repository\SettingsRepository;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +21,9 @@ class SupportusController extends AbstractController
     /**
      * @Route("/bepatron", methods={"GET"}, name="bepatron")
      */
-    public function bepatron(Connection $connection): Response
+    public function bepatron(SettingsRepository $settings): Response
     {
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $selectSettings = $settings->findAll();
 
         return $this->render('@theme/bepatron.html.twig', ['settings' => $selectSettings]);
     }
@@ -30,9 +31,9 @@ class SupportusController extends AbstractController
     /**
      * @Route("/bedonator", methods={"GET"}, name="bedonator")
      */
-    public function bedonator(Connection $connection): Response
+    public function bedonator(SettingsRepository $settings): Response
     {
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $selectSettings = $settings->findAll();
 
         return $this->render('@theme/bedonator.html.twig', ['settings' => $selectSettings]);
     }

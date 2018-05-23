@@ -10,6 +10,8 @@
 
 namespace App\Controller;
 
+use App\Repository\SettingsRepository;
+use App\Repository\TeamRepository;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,25 +27,25 @@ class InfoController extends Controller
 {
     /**
      * @Route("/about", methods={"GET"}, name="about")
-     * @param Connection $connection
+     *
      * @return Response
      */
-    public function about(Connection $connection): Response
+    public function about(SettingsRepository $settings, TeamRepository $team): Response
     {
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
-        $viewTeam = $connection->fetchAll('SELECT * FROM team');
+        $selectSettings = $settings->findAll();
+        $viewTeam = $team->findAll();
 
         return $this->render('@theme/info/about.html.twig', ['settings' => $selectSettings, 'team' => $viewTeam]);
     }
 
     /**
      * @Route("/contact", methods={"GET"}, name="contact")
-     * @param Connection $connection
+     *
      * @return Response
      */
-    public function contact(Connection $connection, Request $request, \Swift_Mailer $mailer): Response
+    public function contact(SettingsRepository $settings, Request $request, \Swift_Mailer $mailer): Response
     {
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $selectSettings = $settings->findAll();
 
         $contact = ['message' => 'Type your message'];
 
@@ -74,36 +76,36 @@ class InfoController extends Controller
 
     /**
      * @Route("/faq", methods={"GET"}, name="faq")
-     * @param Connection $connection
+     *
      * @return Response
      */
-    public function faq(Connection $connection): Response
+    public function faq(SettingsRepository $settings): Response
     {
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $selectSettings = $settings->findAll();
 
         return $this->render('@theme/info/faq.html.twig', ['settings' => $selectSettings]);
     }
 
     /**
      * @Route("/privacy-policy", methods={"GET"}, name="privacy-policy")
-     * @param Connection $connection
+     *
      * @return Response
      */
-    public function privacypolicy(Connection $connection): Response
+    public function privacypolicy(SettingsRepository $settings): Response
     {
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $selectSettings = $settings->findAll();
 
         return $this->render('@theme/info/privacy-policy.html.twig', ['settings' => $selectSettings]);
     }
 
     /**
      * @Route("/services", methods={"GET"}, name="services")
-     * @param Connection $connection
+     *
      * @return Response
      */
-    public function services(Connection $connection): Response
+    public function services(SettingsRepository $settings): Response
     {
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $selectSettings = $settings->findAll();
 
         return $this->render('@theme/info/services.html.twig', ['settings' => $selectSettings]);
     }

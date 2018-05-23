@@ -4,7 +4,7 @@
                 <div class="container">
                     <div class="row row-50 justify-content-xl-between">
                         <div class="col-lg-6 col-xl-5">
-                            <img src="{% for s in settings %}{{ s.site_cdn }}{% endfor %}/themes/grey/images/logo.png" alt="" width="437" height="59"/>
+                            <img src="{% for s in settings %}{{ s.siteCDN }}{% endfor %}/themes/grey/images/logo.png" alt="" width="437" height="59"/>
                             <div class="footer-about-section">
                                 <p>Few words about us</p>
                                 <p>We are new Game Studio founded in 2015, but the whole OktoDark project was created in 2013.</p>
@@ -53,7 +53,7 @@
                         <span class="copyright-year"></span>
                         <span>&nbsp;</span>
                         <span>&copy;&nbsp;</span>
-                        <span>{% for s in settings %}{{ s.site_name }}{% endfor %}</span>
+                        <span>{% for s in settings %}{{ s.siteName }}{% endfor %}</span>
                         <span>.&nbsp;</span>
                         <a href="{{ path('privacy-policy') }}">{{ 'privacy_policy.text'|trans }}</a>
                     </p>
@@ -65,8 +65,8 @@
     <div class="snackbars" id="form-output-global"></div>
     <!-- Javascript-->
     {% for s in settings %}
-    <script src="{{s.site_cdn}}/themes/grey/js/core.min.js"></script>
-    <script src="{{s.site_cdn}}/themes/grey/js/script.js"></script>
+    <script src="{{s.siteCDN}}/themes/grey/js/core.min.js"></script>
+    <script src="{{s.siteCDN}}/themes/grey/js/script.js"></script>
     {% endfor %}
 </body>
 </html>

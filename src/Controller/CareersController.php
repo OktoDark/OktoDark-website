@@ -10,23 +10,23 @@
 
 namespace App\Controller;
 
-use Doctrine\DBAL\Connection;
-use App\Entity\Settings;
+use App\Repository\CareersRepository;
 use App\Repository\SettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CareersController extends Controller
 {
     /**
      * @Route("/careers", methods={"GET"}, name="careers")
-     * @param Connection $connection
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function careers(Connection $connection)
+    public function careers(SettingsRepository $settings, CareersRepository $careers): Response
     {
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
-        $showCareers = $connection->fetchAll('SELECT * FROM careers ORDER BY jobtitle ASC ');
+        $selectSettings = $settings->findAll();
+        $showCareers = $careers->findAll();
 
         return $this->render('@theme/careers.html.twig', ['settings' => $selectSettings, 'careers' => $showCareers]);
     }

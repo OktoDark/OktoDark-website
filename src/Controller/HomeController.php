@@ -32,13 +32,12 @@ class HomeController extends AbstractController
      * @Route("/", methods={"GET"}, name="home_index")
      * @Route("/home", methods={"GET"}, name="home")
      *
-     * @param Connection $connection
      * @return Response
      */
-    public function home(Connection $connection): Response
+    public function home(SettingsRepository $settings, NewsRepository $news): Response
     {
-        $latestNews = $connection->fetchAll('SELECT * FROM news');
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $latestNews = $news->findAll();
+        $selectSettings = $settings->findAll();
 
         return $this->render('@theme/home.html.twig', ['news' => $latestNews, 'settings' => $selectSettings]);
     }

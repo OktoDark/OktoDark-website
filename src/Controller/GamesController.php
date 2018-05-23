@@ -23,13 +23,13 @@ class GamesController extends AbstractController
 {
     /**
      * @Route("/games", methods={"GET"}, name="games")
-     * @param Connection $connection
+     *
      * @return Response
      */
-    public function games(Connection $connection): Response
+    public function games(SettingsRepository $settings, OurGamesRepository $ourGames): Response
     {
-        $AllGames = $connection->fetchAll('SELECT * FROM our_games');
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $AllGames = $ourGames->findAll();
+        $selectSettings = $settings->findAll();
 
         return $this->render('@theme/games.html.twig', ['games' => $AllGames, 'settings' => $selectSettings]);
     }

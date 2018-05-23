@@ -6,7 +6,7 @@
                         <div class="rd-navbar-main">
                             <div class="rd-navbar-panel">
                                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                                <div class="rd-navbar-brand"><img class="brand-logo-light" src="{% for s in settings %}{{ s.site_cdn }}{% endfor %}/themes/grey/images/logo.png" alt="" width="437" height="59"/></div>
+                                <div class="rd-navbar-brand"><img class="brand-logo-light" src="{% for s in settings %}{{ s.siteCDN }}{% endfor %}/themes/grey/images/logo.png" alt="" width="437" height="59"/></div>
                             </div>
                             <div class="rd-navbar-main-element">
                                 <div class="rd-navbar-nav-wrap">
@@ -31,12 +31,15 @@
                                         {% if app.user %}
                                         <li class="rd-nav-item"><a class="rd-nav-link" href="#"><i class="fas fa-user"></i> Hi, {{ app.user.username }}</a>
                                             <ul class="rd-menu rd-navbar-dropdown">
-                                                <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('settings') }}">{{ 'navbar.user_settings'|trans }}</a></li>
+                                                <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('settings_area') }}">{{ 'navbar.user_settings'|trans }}</a></li>
+                                                {% if is_granted('ROLE_ADMIN') %}
+                                                <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('admin') }}">{{ 'navbar.admin'|trans }}</a></li>
+                                                {% endif %}
                                                 <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('security_logout') }}">{{ 'navbar.logout'|trans }}</a></li>
                                             </ul>
                                         </li>
                                         {% endif %}
-                                    </ul><a class="button button-circle" href="{{ path('member') }}">{{ 'navbar.only_members'|trans }}</a>
+                                    </ul><a class="button button-circle" href="{{ path('member_area') }}">{{ 'navbar.only_members'|trans }}</a>
                                 </div>
                             </div>
                         </div>
