@@ -18,4 +18,18 @@ class CareersRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Careers::class);
     }
+
+    public function showCareers()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT * FROM careers c 
+            WHERE c.id
+        ';
+
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->fetchAll();
+    }
 }
