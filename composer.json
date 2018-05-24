@@ -1,7 +1,7 @@
 {
   "name": "oktodark/website",
   "description": "OktoDark Studios Main Website",
-  "minimum-stability": "stable",
+  "minimum-stability": "beta",
   "license": "proprietary",
   "authors": [
     {
