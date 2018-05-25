@@ -5084,11 +5084,11 @@ html.tablet .ui-to-top {
     top: -1px;
     left: -6px;
     display: inline-block;
-    content: '\F2D1';
+    content: '\F142';
     font-family: 'Material Design Icons';
     font-size: inherit;
     line-height: inherit;
-    color: #e30000;
+    color: #b3b0b0;
     opacity: 0;
     visibility: hidden;
 }
