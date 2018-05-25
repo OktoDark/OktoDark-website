@@ -306,6 +306,32 @@
                 <target>Ability to suggest ideas for new games or improvements to existing games</target>
             </trans-unit>
             <!-- End bePatron Zone -->
+            <!-- Footer Zone -->
+            <trans-unit id="footer.information_text">
+                <source>footer.information_text</source>
+                <target>Informatii</target>
+            </trans-unit>
+            <trans-unit id="footer.get_in_touch_text">
+                <source>footer.get_in_touch_text</source>
+                <target>Intrați în legătură</target>
+            </trans-unit>
+            <trans-unit id="footer.source_code_text">
+                <source>footer.source_code_text</source>
+                <target>Cod Sursa</target>
+            </trans-unit>
+            <trans-unit id="footer.live_stream_text">
+                <source>footer.live_stream_text</source>
+                <target>Transmitere live</target>
+            </trans-unit>
+            <trans-unit id="footer.discourse_text">
+                <source>footer.discourse_text</source>
+                <target>Discuție</target>
+            </trans-unit>
+            <trans-unit id="footer.support_us_text">
+                <source>footer.support_us_text</source>
+                <target>Ajuta-ne</target>
+            </trans-unit>
+            <!-- End Footer Zone -->
         </body>
     </file>
 </xliff>

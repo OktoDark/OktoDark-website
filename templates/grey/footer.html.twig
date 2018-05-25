@@ -3,36 +3,48 @@
             <div class="footer-classic">
                 <div class="container">
                     <div class="row row-50 justify-content-xl-between">
-                        <div class="col-lg-6 col-xl-5">
-                            <img src="{% for s in settings %}{{ s.siteCDN }}{% endfor %}/themes/grey/images/logo.png" alt="" width="437" height="59"/>
-                            <div class="footer-about-section">
-                                <p>Few words about us</p>
-                                <p>We are new Game Studio founded in 2015, but the whole OktoDark project was created in 2013.</p>
-                                <p>We are not a biggest game developer but we are searching for new talent to join our Team to grow it into a world class game development company. </p>
-                            </div>
+                        <div class="col-lg-6 col-xl-4">
+                            <h4 class="footer-classic-title">{{ 'information.text'|trans }}</h4>
+                            <ul class="list list-font-accent list-marked">
+                                <li><a href="{{ path('faq') }}">{{ 'title.faq'|trans }}</a></li>
+                                <li><a href="{{ path('services') }}">{{ 'title.services'|trans }}</a></li>
+                                <li><a href="{{ path('contact') }}">{{ 'title.contact'|trans }}</a></li>
+                            </ul>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-8">
                             <div class="row row-50">
-                                <div class="col-sm-6">
-                                    <h4 class="footer-classic-title">{{ 'information.text'|trans }}</h4>
-                                    <ul class="list list-font-accent list-marked">
-                                        <li><a href="{{ path('faq') }}">{{ 'title.faq'|trans }}</a></li>
-                                        <li><a href="{{ path('services') }}">{{ 'title.services'|trans }}</a></li>
-                                        <li><a href="{{ path('contact') }}">{{ 'title.contact'|trans }}</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4 class="footer-classic-title">{{ 'get.intouch'|trans }}</h4>
+                                <div class="col">
+                                    <h4 class="footer-classic-title">{{ 'footer.get_in_touch_text'|trans }}</h4>
                                     <ul class="list list-font-accent list-marked">
                                         <li><i class="fab fa-facebook"></i> <a href="https://www.facebook.com/">Facebook</a></li>
                                         <li><i class="fab fa-twitter"></i> <a href="https://www.twitter.com/">Twitter</a></li>
-                                        <li><i class="fab fa-google-plus"></i> <a href="https://www.google.com/">Google+</a></li>
                                         <li><i class="fab fa-youtube"></i> <a href="https://www.youtube.com/">Youtube</a></li>
-                                        <li><i class="fab fa-discord"></i> <a href="https://www.discord.com/">Discord</a></li>
-                                        <li><i class="fab fa-twitch"></i> <a href="https://www.twitch.com/">Twitch</a></li>
-                                        <li><i class="fab fa-patreon"></i> <a href="https://www.patreon.com/">Patreon</a></li>
+                                        <li><i class="fab fa-google-plus"></i> <a href="https://www.google.com/">Google+</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <h4 class="footer-classic-title">{{ 'footer.source_code_text'|trans }}</h4>
+                                    <ul class="list list-font-accent list-marked">
                                         <li><i class="fab fa-github"></i> <a href="https://www.github.com/">Github</a></li>
                                         <li><i class="fab fa-bitbucket"></i> <a href="https://www.bitbucket/">Bitbucket</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <h4 class="footer-classic-title">{{ 'footer.live_stream_text'|trans }}</h4>
+                                    <ul class="list list-font-accent list-marked">
+                                        <li><i class="fab fa-twitch"></i> <a href="https://www.twitch.com/">Twitch</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <h4 class="footer-classic-title">{{ 'footer.discourse_text'|trans }}</h4>
+                                    <ul class="list list-font-accent list-marked">
+                                        <li><i class="fab fa-discord"></i> <a href="https://www.discord.com/">Discord</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <h4 class="footer-classic-title">{{ 'footer.support_us_text'|trans }}</h4>
+                                    <ul class="list list-font-accent list-marked">
+                                        <li><i class="fab fa-patreon"></i> <a href="https://www.patreon.com/">Patreon</a></li>
                                     </ul>
                                 </div>
                             </div>

@@ -518,6 +518,32 @@
                 <![CDATA[<br>]]>
                 </target>
             </trans-unit>
+            <!-- Footer Zone -->
+            <trans-unit id="footer.information_text">
+                <source>footer.information_text</source>
+                <target>Information</target>
+            </trans-unit>
+            <trans-unit id="footer.get_in_touch_text">
+                <source>footer.get_in_touch_text</source>
+                <target>Get in touch</target>
+            </trans-unit>
+            <trans-unit id="footer.source_code_text">
+                <source>footer.source_code_text</source>
+                <target>Source Code</target>
+            </trans-unit>
+            <trans-unit id="footer.live_stream_text">
+                <source>footer.live_stream_text</source>
+                <target>Live Stream</target>
+            </trans-unit>
+            <trans-unit id="footer.discourse_text">
+                <source>footer.discourse_text</source>
+                <target>Discourse</target>
+            </trans-unit>
+            <trans-unit id="footer.support_us_text">
+                <source>footer.support_us_text</source>
+                <target>Support us</target>
+            </trans-unit>
+            <!-- End Footer Zone -->
         </body>
     </file>
 </xliff>
