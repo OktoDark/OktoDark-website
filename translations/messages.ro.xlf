@@ -59,6 +59,10 @@
                 <source>navbar.user_settings</source>
                 <target>Setari</target>
             </trans-unit>
+            <trans-unit id="navbar.admin">
+                <source>navbar.admin</source>
+                <target>Panou Administrator</target>
+            </trans-unit>
             <trans-unit id="navbar.logout">
                 <source>navbar.logout</source>
                 <target>Deconecteaza-te</target>
@@ -171,7 +175,7 @@
                 <target>Se incarca...</target>
             </trans-unit>
             <!-- End Misc Zone -->
-            <!-- Maintenance -->
+            <!-- Maintenance Zone -->
             <trans-unit id="maintenance.text">
                 <source>maintenance.text</source>
                 <target>Mentenanta</target>
@@ -240,6 +244,68 @@
                 <target>Trimite</target>
             </trans-unit>
             <!-- End E-mail Zone -->
+            <!-- bePatron Zone -->
+            <trans-unit id="bepatron.for">
+                <source>bepatron.for</source>
+                <target>Pentru:</target>
+            </trans-unit>
+            <trans-unit id="bepatron.rewards">
+                <source>bepatron.rewards</source>
+                <target>Recompense</target>
+            </trans-unit>
+            <trans-unit id="bepatron.list_rewards">
+                <source>bepatron.list_rewards</source>
+                <target>Lista de recompense</target>
+            </trans-unit>
+            <trans-unit id="bepatron.tier_TxT_I">
+                <source>bepatron.tier_TxT_I</source>
+                <target>Access la forum-ul privat</target>
+            </trans-unit>
+            <trans-unit id="bepatron.tier_TxT_II">
+                <source>bepatron.tier_TxT_II</source>
+                <target>Access la Live Stream</target>
+            </trans-unit>
+            <trans-unit id="bepatron.tier_TxT_III">
+                <source>bepatron.tier_TxT_III</source>
+                <target>Stiri despre progresul jocurilor, etc.</target>
+            </trans-unit>
+            <trans-unit id="bepatron.tier_TxT_IV">
+                <source>bepatron.tier_TxT_IV</source>
+                <target>Imagini de la noul joc</target>
+            </trans-unit>
+            <trans-unit id="bepatron.tier_TxT_V">
+                <source>bepatron.tier_TxT_V</source>
+                <target>Premium Roles at discord server</target>
+            </trans-unit>
+            <trans-unit id="bepatron.tier_TxT_VI">
+                <source>bepatron.tier_TxT_VI</source>
+                <target>Able to request additions</target>
+            </trans-unit>
+            <trans-unit id="bepatron.tier_TxT_VII">
+                <source>bepatron.tier_TxT_VII</source>
+                <target>Descarca jocuri Beta</target>
+            </trans-unit>
+            <trans-unit id="bepatron.tier_TxT_VIII">
+                <source>bepatron.tier_TxT_VIII</source>
+                <target>Titlu special pe forum</target>
+            </trans-unit>
+            <trans-unit id="bepatron.tier_TxT_IX">
+                <source>bepatron.tier_TxT_IX</source>
+                <target>Descarca jocuri Alpha</target>
+            </trans-unit>
+            <trans-unit id="bepatron.tier_TxT_X">
+                <source>bepatron.tier_TxT_X</source>
+                <target>Adaugare a numelui tau la sectiune credits din joc, ca sponsor</target>
+            </trans-unit>
+            <trans-unit id="bepatron.tier_TxT_XI">
+                <source>bepatron.tier_TxT_XI</source>
+                <target>Bonus Scenes on request</target>
+            </trans-unit>
+            <trans-unit id="bepatron.tier_TxT_XII">
+                <source>bepatron.tier_TxT_XII</source>
+                <target>Ability to suggest ideas for new games or improvements to existing games</target>
+            </trans-unit>
+            <!-- End bePatron Zone -->
         </body>
     </file>
 </xliff>
