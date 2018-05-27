@@ -7,6 +7,7 @@ use App\Entity\Post;
 use App\Events;
 use App\Form\CommentType;
 use App\Repository\PostRepository;
+use App\Repository\SettingsRepository;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
@@ -29,7 +30,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BlogController extends AbstractController
 {
     /**
-     * @Route("/", defaults={"page": "1", "_format"="html"}, methods={"GET"}, name="blog_index")
+     * @Route("/", defaults={"page": "1", "_format"="html"}, methods={"GET"}, name="blog")
      * @Route("/rss.xml", defaults={"page": "1", "_format"="xml"}, methods={"GET"}, name="blog_rss")
      * @Route("/page/{page}", defaults={"_format"="html"}, requirements={"page": "[1-9]\d*"}, methods={"GET"}, name="blog_index_paginated")
      * @Cache(smaxage="10")
@@ -38,10 +39,10 @@ class BlogController extends AbstractController
      * Content-Type header for the response.
      * See https://symfony.com/doc/current/quick_tour/the_controller.html#using-formats
      */
-    public function index(int $page, string $_format, PostRepository $posts, Connection $connection): Response
+    public function index(int $page, string $_format, PostRepository $posts, SettingsRepository $settings): Response
     {
         $latestPosts = $posts->findLatest($page);
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $selectSettings = $settings->findAll();
 
         return $this->render('@theme/blog/index.'.$_format.'.twig', ['settings' => $selectSettings, 'posts' => $latestPosts]);
     }
@@ -54,9 +55,9 @@ class BlogController extends AbstractController
      * value given in the route.
      * See https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html
      */
-    public function postShow(Post $post, Connection $connection): Response
+    public function postShow(Post $post, SettingsRepository $settings): Response
     {
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $selectSettings = $settings->findAll();
 
         return $this->render('@theme/blog/post_show.html.twig', ['post' => $post, 'settings' => $selectSettings]);
     }

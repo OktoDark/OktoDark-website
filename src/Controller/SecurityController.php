@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\SettingsRepository;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +21,9 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="security_login")
      */
-    public function login(AuthenticationUtils $helper, Connection $connection): Response
+    public function login(AuthenticationUtils $helper, SettingsRepository $settings): Response
     {
-        $selectSettings = $connection->fetchAll('SELECT * FROM settings');
+        $selectSettings = $settings->findAll();
 
         return $this->render('@theme/login.html.twig', [
             // last username entered by the user (if any)
