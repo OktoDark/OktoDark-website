@@ -10,12 +10,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Settings;
 use App\Repository\SettingsRepository;
-use Doctrine\DBAL\Connection;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -29,6 +26,7 @@ class MemberController extends AbstractController
 {
     /**
      * @Route("/", methods={"GET"}, name="member_area")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
