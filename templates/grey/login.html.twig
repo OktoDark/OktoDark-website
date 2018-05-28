@@ -1,13 +1,14 @@
 {% extends '@theme/base.html.twig' %}
 
+{% block title %}{{ 'title.login'|trans }}{% endblock %}
+
 {% block body_id 'login' %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('build/js/login.js') }}"></script>
+{% block head %}
+    {{  parent() }}
 {% endblock %}
 
-{% block body %}
+{% block main %}
     {% if error %}
         <div class="alert alert-danger">
             {{ error.messageKey|trans(error.messageData, 'security') }}
@@ -15,6 +16,7 @@
     {% endif %}
 
     {% include('@theme/form/login.html.twig') %}
+
 {% endblock %}
 
 {% block sidebar %}
