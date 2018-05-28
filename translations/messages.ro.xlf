@@ -55,6 +55,10 @@
                 <source>navbar.only_members</source>
                 <target>Numai Membri</target>
             </trans-unit>
+            <trans-unit id="navbar.member_area">
+                <source>navbar.member_area</source>
+                <target>Zona Membrilor</target>
+            </trans-unit>
             <trans-unit id="navbar.user_settings">
                 <source>navbar.user_settings</source>
                 <target>Setari</target>
@@ -125,6 +129,10 @@
                 <source>title.services</source>
                 <target>Servicii</target>
             </trans-unit>
+            <trans-unit id="title.settings">
+                <source>title.settings</source>
+                <target>Setari</target>
+            </trans-unit>
             <!-- End Titles Pages -->
             <!-- Contents -->
 
@@ -137,7 +145,12 @@
                 <source>content.gamesPage</source>
                 <target>Pe aceasta pagina gasiti toate jocurile noastre care au fost lansate de la inceput.</target>
             </trans-unit>
-
+            <!-- Members Area Zone -->
+            <trans-unit id="member.settings">
+                <source>member.settings</source>
+                <target>Setari</target>
+            </trans-unit>
+            <!-- End Members Zone -->
             <!-- End Contents -->
             <!-- Footer Zone -->
             <trans-unit id="language_selector">

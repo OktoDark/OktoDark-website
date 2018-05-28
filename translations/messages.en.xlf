@@ -55,6 +55,10 @@
                 <source>navbar.only_members</source>
                 <target>Only Members</target>
             </trans-unit>
+            <trans-unit id="navbar.member_area">
+                <source>navbar.member_area</source>
+                <target>Member Area</target>
+            </trans-unit>
             <trans-unit id="navbar.user_settings">
                 <source>navbar.user_settings</source>
                 <target>Settings</target>
@@ -125,6 +129,10 @@
                 <source>title.services</source>
                 <target>Services</target>
             </trans-unit>
+            <trans-unit id="title.settings">
+                <source>title.settings</source>
+                <target>Settings</target>
+            </trans-unit>
             <!-- End Titles Pages -->
             <!-- Contents -->
 
@@ -137,7 +145,12 @@
                 <source>content.gamesPage</source>
                 <target>On this page you can find the all our games released from the beginning.</target>
             </trans-unit>
-
+            <!-- Members Area Zone -->
+            <trans-unit id="member.settings">
+                <source>member.settings</source>
+                <target>Settings</target>
+            </trans-unit>
+            <!-- End Members Zone -->
             <!-- End Contents -->
             <!-- Footer Zone -->
             <trans-unit id="language_selector">
