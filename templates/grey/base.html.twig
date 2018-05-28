@@ -30,7 +30,7 @@
         <meta property="og:image"         content="https://www.your-domain.com/path/image.jpg" />
         <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>
-    <body>
+    <body id="{% block body_id %}{% endblock %}">
     <!-- Load Facebook SDK for JavaScript -->
     <div id="fb-root"></div>
     <script>(function(d, s, id) {
@@ -43,5 +43,8 @@
     {% include("@theme/loading.html.twig") %}
     <div class="page">
         {% include("@theme/navbar.html.twig") %}
-        {% block body %}{% endblock %}
+        {% block body %}
+            {% block main %}{% endblock %}
+        {% endblock %}
+
 {% include("@theme/footer.html.twig") %}
