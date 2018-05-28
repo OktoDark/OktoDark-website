@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MemberController extends AbstractController
 {
     /**
-     * @Route("/", methods={"GET"}, name="member_area")
+     * @Route("/", methods={"GET","POST"}, name="member_area")
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -39,6 +39,7 @@ class MemberController extends AbstractController
 
     /**
      * @Route("/settings", methods={"GET"}, name="settings_area")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -51,6 +52,7 @@ class MemberController extends AbstractController
 
     /**
      * @Route("/viewPage", methods={"GET"}, name="viewPage_area")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
