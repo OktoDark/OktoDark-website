@@ -1,0 +1,97 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.member'|trans }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block body_id 'member_area' %}
+
+{% block body %}
+
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.member'|trans }}</h2>
+        </div>
+    </section>
+
+    <!-- Tabs-->
+    <section class="section section-md bg-default text-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h3>In this area you choose what you do want</h3>
+                    <h5 class="text-gray-500">If you have a blocked Tier you must to upgrade your Tier to higher.</h5>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+                    <h4 class="text-uppercase">Tiers Rewards</h4>
+                    <!-- Bootstrap tabs -->
+                    <div class="tabs-custom tabs-horizontal tabs-corporate" id="tabs-1">
+                        <!-- Nav tabs-->
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item" role="presentation"><a class="nav-link active" href="#tabs-1-1" data-toggle="tab">Tier I<br><h6>{{ 'member.unblocked'|trans }}</h6></a></li>
+                            {% if is_granted('ROLE_TIER_II') %}
+                                <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-2" data-toggle="tab">Tier II<br><h6>{{ 'member.unblocked'|trans }}</h6></a></li>
+                                {% else %}
+                                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-2" data-toggle="tab">Tier II<br><h6>{{ 'member.blocked'|trans }}</h6></a></li>
+                            {% endif %}
+                            {% if is_granted('ROLE_TIER_III') %}
+                                <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-3" data-toggle="tab">Tier III<br><h6>{{ 'member.unblocked'|trans }}</h6></a></li>
+                                {% else %}
+                                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-3" data-toggle="tab">Tier III<br><h6>{{ 'member.blocked'|trans }}</h6></a></li>
+                            {% endif %}
+                            {% if is_granted('ROLE_TIER_IV') %}
+                                <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-toggle="tab">Tier IV<br><h6>{{ 'member.unblocked'|trans }}</h6></a></li>
+                                {% else %}
+                                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-toggle="tab">Tier IV<br><h6>{{ 'member.blocked'|trans }}</h6></a></li>
+                            {% endif %}
+                            {% if is_granted('ROLE_TIER_V') %}
+                                <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-toggle="tab">Tier V<br><h6>{{ 'member.unblocked'|trans }}</h6></a></li>
+                                {% else %}
+                                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-toggle="tab">Tier V<br><h6>{{ 'member.blocked'|trans }}</h6></a></li>
+                            {% endif %}
+                        </ul>
+                        <!-- Tab panes-->
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="tabs-1-1">
+                                <p>Download Beta:
+                                <ul class="listed">
+                                    <li>The School (version 1.1.1)</li>
+                                    <li>The Tutor (version 1.1)</li>
+                                </ul>
+                                </p>
+                            </div>
+                            <div class="tab-pane fade" id="tabs-1-2">
+                                <p>Download Alpha:
+                                <ul class="listed">
+                                    <li>The School (version 1.1.1)</li>
+                                    <li>The Tutor (version 1.1)</li>
+                                </ul>
+                                </p>
+                            </div>
+                            <div class="tab-pane fade" id="tabs-1-3">
+                                <p>Request to added your name to Game Credits</p>
+                                <form>
+                                    <label>Name</label>
+                                    <input name="Your name"/>
+                                    <label>Nickname</label>
+                                    <input name="Nickname"/>
+                                    <button>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="tabs-1-4">
+                                <p>Download source code</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

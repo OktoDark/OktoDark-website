@@ -150,6 +150,14 @@
                 <source>member.settings</source>
                 <target>Settings</target>
             </trans-unit>
+            <trans-unit id="member.blocked">
+                <source>member.blocked</source>
+                <target>Blocked</target>
+            </trans-unit>
+            <trans-unit id="member.unblocked">
+                <source>member.unblocked</source>
+                <target>Unblocked</target>
+            </trans-unit>
             <!-- End Members Zone -->
             <!-- End Contents -->
             <!-- Footer Zone -->

@@ -1234,6 +1234,27 @@ html .list-inline-md > * {
     counter-increment: li;
 }
 
+.listed {
+    text-align: left;
+}
+
+.listed > li {
+    position: relative;
+    padding-left: 25px;
+    color: #888888;
+}
+
+.listed > li::before {
+    content: '\F443';
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    top: 0;
+    min-width: 25px;
+    font: 400 14px/24px 'Material Design Icons';
+    color: #0cc5b6;
+}
+
 .list-marked {
     text-align: left;
 }
