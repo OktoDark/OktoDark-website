@@ -274,53 +274,57 @@
                 <source>bepatron.list_rewards</source>
                 <target>List of Rewards</target>
             </trans-unit>
-            <trans-unit id="bepatron.tier_TxT_I">
-                <source>bepatron.tier_TxT_I</source>
+            <trans-unit id="bepatron.access_private_forum">
+                <source>bepatron.access_private_forum</source>
                 <target>Access on our private forums</target>
             </trans-unit>
-            <trans-unit id="bepatron.tier_TxT_II">
-                <source>bepatron.tier_TxT_II</source>
+            <trans-unit id="bepatron.access_private_live_stream">
+                <source>bepatron.access_private_live_stream</source>
                 <target>Access at our private Live Stream</target>
             </trans-unit>
-            <trans-unit id="bepatron.tier_TxT_III">
-                <source>bepatron.tier_TxT_III</source>
+            <trans-unit id="bepatron.news_progress">
+                <source>bepatron.news_progress</source>
                 <target>News about the progress of the games, etc.</target>
             </trans-unit>
-            <trans-unit id="bepatron.tier_TxT_IV">
-                <source>bepatron.tier_TxT_IV</source>
+            <trans-unit id="bepatron.images_from_projects">
+                <source>bepatron.images_from_projects</source>
                 <target>Images from the new game</target>
             </trans-unit>
-            <trans-unit id="bepatron.tier_TxT_V">
-                <source>bepatron.tier_TxT_V</source>
-                <target>Premium Roles at discord server</target>
+            <trans-unit id="bepatron.discord_role">
+                <source>bepatron.discord_role</source>
+                <target>Tier role at discord server</target>
             </trans-unit>
-            <trans-unit id="bepatron.tier_TxT_VI">
-                <source>bepatron.tier_TxT_VI</source>
-                <target>Able to request additions</target>
+            <trans-unit id="bepatron.access_voting">
+                <source>bepatron.access_voting</source>
+                <target>Access on voting system</target>
             </trans-unit>
-            <trans-unit id="bepatron.tier_TxT_VII">
-                <source>bepatron.tier_TxT_VII</source>
+            <trans-unit id="bepatron.download_beta">
+                <source>bepatron.download_beta</source>
                 <target>Download Beta games</target>
             </trans-unit>
-            <trans-unit id="bepatron.tier_TxT_VIII">
-                <source>bepatron.tier_TxT_VIII</source>
-                <target>Special title on our forum</target>
+            <trans-unit id="bepatron.tier_title_forum">
+                <source>bepatron.tier_title_forum</source>
+                <target>Tier title on our forum</target>
             </trans-unit>
-            <trans-unit id="bepatron.tier_TxT_IX">
-                <source>bepatron.tier_TxT_IX</source>
+            <trans-unit id="bepatron.download_alpha">
+                <source>bepatron.download_alpha</source>
                 <target>Download Alpha games</target>
             </trans-unit>
-            <trans-unit id="bepatron.tier_TxT_X">
-                <source>bepatron.tier_TxT_X</source>
+            <trans-unit id="bepatron.name_at_credits">
+                <source>bepatron.name_at_credits</source>
                 <target>Adding your name to our game credits as a sponsor</target>
             </trans-unit>
-            <trans-unit id="bepatron.tier_TxT_XI">
-                <source>bepatron.tier_TxT_XI</source>
+            <trans-unit id="bepatron.request_bonus">
+                <source>bepatron.request_bonus</source>
                 <target>Bonus Scenes on request</target>
             </trans-unit>
-            <trans-unit id="bepatron.tier_TxT_XII">
-                <source>bepatron.tier_TxT_XII</source>
+            <trans-unit id="bepatron.suggest_ideas">
+                <source>bepatron.suggest_ideas</source>
                 <target>Ability to suggest ideas for new games or improvements to existing games</target>
+            </trans-unit>
+            <trans-unit id="bepatron.note">
+                <source>bepatron.note</source>
+                <target>Note: Read on FAQ for more details</target>
             </trans-unit>
             <!-- End bePatron Zone -->
             <!-- Privacy Zone -->
