@@ -33,6 +33,7 @@ class BlogController extends AbstractController
      * @Route("/", defaults={"page": "1", "_format"="html"}, methods={"GET"}, name="blog")
      * @Route("/rss.xml", defaults={"page": "1", "_format"="xml"}, methods={"GET"}, name="blog_rss")
      * @Route("/page/{page}", defaults={"_format"="html"}, requirements={"page": "[1-9]\d*"}, methods={"GET"}, name="blog_index_paginated")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      * @Cache(smaxage="10")
      *
      * NOTE: For standard formats, Symfony will also automatically choose the best
@@ -49,6 +50,7 @@ class BlogController extends AbstractController
 
     /**
      * @Route("/posts/{slug}", methods={"GET"}, name="blog_post")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      * NOTE: The $post controller argument is automatically injected by Symfony
      * after performing a database query looking for a Post with the 'slug'
