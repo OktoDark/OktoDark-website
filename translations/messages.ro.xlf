@@ -282,6 +282,10 @@
                 <source>bepatron.list_rewards</source>
                 <target>Lista de recompense</target>
             </trans-unit>
+            <trans-unit id="bepatron.access_private_blog">
+                <source>bepatron.access_private_blog</source>
+                <target>Access la blogul private</target>
+            </trans-unit>
             <trans-unit id="bepatron.access_private_forum">
                 <source>bepatron.access_private_forum</source>
                 <target>Access la forum-ul privat</target>
