@@ -20,14 +20,14 @@ services:
                             # The best practice is to be explicit about your dependencies anyway.
         bind:
             $locales: '%app_locales%'
-            # $defaultLocale: '%locale%'
+            $defaultLocale: '%locale%'
             # $emailSender: '%app.notifications.email_sender%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{Entity,Migrations,Tests}'
+        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
