@@ -138,7 +138,7 @@
 
             <trans-unit id="content.contact">
                 <source>content.contact</source>
-                <target>Daca ai intrebari privind produsele noastre sau orice alta problema, va vom raspunde in scurt timp.</target>
+                <target>Daca ai intrebari privind produsele noastre sau orice alta problema, va vom raspunde in scurt timp posibil.</target>
             </trans-unit>
 
             <trans-unit id="content.gamesPage">
@@ -288,7 +288,7 @@
             </trans-unit>
             <trans-unit id="bepatron.access_private_forum">
                 <source>bepatron.access_private_forum</source>
-                <target>Access la forum-ul privat</target>
+                <target>Access la forumul privat</target>
             </trans-unit>
             <trans-unit id="bepatron.access_private_live_stream">
                 <source>bepatron.access_private_live_stream</source>
@@ -308,23 +308,23 @@
             </trans-unit>
             <trans-unit id="bepatron.access_voting">
                 <source>bepatron.access_voting</source>
-                <target>Able to request additions</target>
+                <target>Ai acces la sistemul de voting</target>
             </trans-unit>
             <trans-unit id="bepatron.download_beta">
                 <source>bepatron.download_beta</source>
-                <target>Descarca jocuri Beta</target>
+                <target>Posibilitatea de a descarca jocuri in stadiul Beta</target>
             </trans-unit>
             <trans-unit id="bepatron.tier_title_forum">
                 <source>bepatron.tier_title_forum</source>
-                <target>Tier titlu pe forum</target>
+                <target>Titlu pe forum nostru</target>
             </trans-unit>
             <trans-unit id="bepatron.download_alpha">
                 <source>bepatron.download_alpha</source>
-                <target>Descarca jocuri Alpha</target>
+                <target>Posibilitatea de a descarca jocuri in stadiul Alpha</target>
             </trans-unit>
             <trans-unit id="bepatron.name_at_credits">
                 <source>bepatron.tier_TxT_X</source>
-                <target>Adaugare numelui tau la sectiune credits din joc, ca sponsor</target>
+                <target>Adaugare numelui tau la sectiune credit din joc, ca sponsor</target>
             </trans-unit>
             <trans-unit id="bepatron.request_bonus">
                 <source>bepatron.request_bonus</source>
@@ -332,11 +332,11 @@
             </trans-unit>
             <trans-unit id="bepatron.suggest_ideas">
                 <source>bepatron.suggest_ideas</source>
-                <target>Ability to suggest ideas for new games or improvements to existing games</target>
+                <target>Posibilitatea de a face sugestii pentru noile jocuri sau imbunatatiri la cele existente</target>
             </trans-unit>
             <trans-unit id="bepatron.note">
                 <source>bepatron.note</source>
-                <target>Nota: Citeste FAQ pentru mai multe detalii</target>
+                <target>Nota: Citeste FAQ pentru a afla mai multe detalii</target>
             </trans-unit>
             <!-- End bePatron Zone -->
             <!-- Footer Zone -->

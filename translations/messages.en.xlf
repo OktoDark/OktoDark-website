@@ -312,7 +312,7 @@
             </trans-unit>
             <trans-unit id="bepatron.download_beta">
                 <source>bepatron.download_beta</source>
-                <target>Download Beta games</target>
+                <target>The possibility of downloading a game in the Beta state</target>
             </trans-unit>
             <trans-unit id="bepatron.tier_title_forum">
                 <source>bepatron.tier_title_forum</source>
@@ -320,7 +320,7 @@
             </trans-unit>
             <trans-unit id="bepatron.download_alpha">
                 <source>bepatron.download_alpha</source>
-                <target>Download Alpha games</target>
+                <target>The possibility of downloading a game in the Alpha state</target>
             </trans-unit>
             <trans-unit id="bepatron.name_at_credits">
                 <source>bepatron.name_at_credits</source>
@@ -336,7 +336,7 @@
             </trans-unit>
             <trans-unit id="bepatron.note">
                 <source>bepatron.note</source>
-                <target>Note: Read on FAQ for more details</target>
+                <target>Note: Read FAQ for more details</target>
             </trans-unit>
             <!-- End bePatron Zone -->
             <!-- Privacy Zone -->
