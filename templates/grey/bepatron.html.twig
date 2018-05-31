@@ -36,7 +36,7 @@
         <div class="container">
             <div class="table-custom-responsive">
                 <h3>{{ 'bepatron.list_rewards'|trans }}</h3>
-                <table class="table-custom table-custom-gray table-custom-striped">
+                <table class="table-custom table-custom-striped table-custom-primary">
                     <thead>
                     <tr>
                         <th><i class="fas fa-gift"></i> {{ 'bepatron.rewards'|trans }}</th>
@@ -152,8 +152,6 @@
                         <td><i class="fas fa-times"></i></td>
                         <td><i class="fas fa-check"></i></td>
                     </tr>
-                    </tbody>
-                    <tfoot>
                     <tr>
                         <td>{{ 'bepatron.for'|trans }}</td>
                         <td><i class="fas fa-euro-sign"></i> 1</td>
@@ -162,13 +160,13 @@
                         <td><i class="fas fa-euro-sign"></i> 50</td>
                         <td><i class="fas fa-euro-sign"></i> 75</td>
                     </tr>
-                    </tfoot>
+                    </tbody>
                 </table>
             </div>
         </div>
         <br>
         <div class="text-left-note">
-            <a href="">{{ 'bepatron.note'|trans }}</a>
+            <a href="{{ path('faq') }}">{{ 'bepatron.note'|trans }}</a>
         </div>
     </section>
 {% endblock %}
