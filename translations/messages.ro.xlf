@@ -150,14 +150,6 @@
                 <source>member.settings</source>
                 <target>Setari</target>
             </trans-unit>
-            <trans-unit id="member.blocked">
-                <source>member.blocked</source>
-                <target>Blocat</target>
-            </trans-unit>
-            <trans-unit id="member.unblocked">
-                <source>member.unblocked</source>
-                <target>Deblocat</target>
-            </trans-unit>
             <!-- End Members Zone -->
             <!-- End Contents -->
             <!-- Footer Zone -->

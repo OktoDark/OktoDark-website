@@ -31,26 +31,26 @@
                     <h4 class="text-uppercase">Tiers Rewards</h4>
                     <div class="tabs-custom tabs-horizontal tabs-corporate" id="tabs-1">
                         <ul class="nav nav-tabs">
-                            <li class="nav-item" role="presentation"><a class="nav-link active" href="#tabs-1-1" data-toggle="tab">Tier I<br><h6>{{ 'member.unblocked'|trans }}</h6></a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link active" href="#tabs-1-1" data-toggle="tab"><i class="fas fa-lock-open"></i> Tier I</a></li>
                             {% if is_granted('ROLE_TIER_II') %}
-                                <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-2" data-toggle="tab">Tier II<br><h6>{{ 'member.unblocked'|trans }}</h6></a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-2" data-toggle="tab"><i class="fas fa-lock-open"></i> Tier II</a></li>
                                 {% else %}
-                                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-2" data-toggle="tab">Tier II<br><h6>{{ 'member.blocked'|trans }}</h6></a></li>
+                                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-2" data-toggle="tab"><i class="fas fa-lock"></i> Tier II</a></li>
                             {% endif %}
                             {% if is_granted('ROLE_TIER_III') %}
-                                <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-3" data-toggle="tab">Tier III<br><h6>{{ 'member.unblocked'|trans }}</h6></a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-3" data-toggle="tab"><i class="fas fa-lock-open"></i> Tier III</a></li>
                                 {% else %}
-                                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-3" data-toggle="tab">Tier III<br><h6>{{ 'member.blocked'|trans }}</h6></a></li>
+                                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-3" data-toggle="tab"><i class="fas fa-lock"></i> Tier III</a></li>
                             {% endif %}
                             {% if is_granted('ROLE_TIER_IV') %}
-                                <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-toggle="tab">Tier IV<br><h6>{{ 'member.unblocked'|trans }}</h6></a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-toggle="tab"><i class="fas fa-lock-open"></i> Tier IV</a></li>
                                 {% else %}
-                                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-toggle="tab">Tier IV<br><h6>{{ 'member.blocked'|trans }}</h6></a></li>
+                                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-toggle="tab"><i class="fas fa-lock"></i> Tier IV</a></li>
                             {% endif %}
                             {% if is_granted('ROLE_TIER_V') %}
-                                <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-toggle="tab">Tier V<br><h6>{{ 'member.unblocked'|trans }}</h6></a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-toggle="tab"><i class="fas fa-lock-open"></i> Tier V</a></li>
                                 {% else %}
-                                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-toggle="tab">Tier V<br><h6>{{ 'member.blocked'|trans }}</h6></a></li>
+                                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-toggle="tab"><i class="fas fa-lock"></i> Tier V</a></li>
                             {% endif %}
                         </ul>
                         <div class="tab-content">
