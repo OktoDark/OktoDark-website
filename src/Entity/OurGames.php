@@ -8,6 +8,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OurGamesRepository")
  * @ORM\Table(name="our_games")
+ *
+ * Here will be all for games, downloading links for alpha/beta stages for our members.
+ * Needed to be reworked all database for a clean sheets.
  */
 class OurGames
 {
@@ -32,7 +35,47 @@ class OurGames
      * @ORM\Column(type="string")
      * @Assert\Length(max="100")
      */
-    private $ourGameURL;
+    private $ourGameShortName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="100")
+     */
+    private $ourGameWebsiteLink;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="100")
+     */
+    private $ourGameFreeLink;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="100")
+     */
+    private $ourGameAlpha;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="100")
+     */
+    private $ourGameBeta;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="100")
+     */
+    private $ourGameSourceCode;
 
     /**
      * @var string
@@ -50,96 +93,153 @@ class OurGames
      */
     private $ourGameCover;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
-     */
-    private $ourGameShortTitle;
-
     public function getId()
     {
         return $this->id;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getOurGameURLCDN()
-    {
-        return $this->ourGameURLCDN;
-    }
-
-    /**
-     * @param mixed $ourGameURLCDN
-     */
-    public function setOurGameURLCDN($ourGameURLCDN)
-    {
-        $this->ourGameURLCDN = $ourGameURLCDN;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOurGameName()
+    public function getOurGameName(): string
     {
         return $this->ourGameName;
     }
 
     /**
-     * @param mixed $ourGameName
+     * @param string $ourGameName
      */
-    public function setOurGameName($ourGameName)
+    public function setOurGameName(string $ourGameName)
     {
         $this->ourGameName = $ourGameName;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getOurGameURL()
+    public function getOurGameShortName(): string
     {
-        return $this->ourGameURL;
+        return $this->ourGameShortName;
     }
 
     /**
-     * @param mixed $ourGameURL
+     * @param string $ourGameShortName
      */
-    public function setOurGameURL($ourGameURL)
+    public function setOurGameShortName(string $ourGameShortName)
     {
-        $this->ourGameURL = $ourGameURL;
+        $this->ourGameShortName = $ourGameShortName;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getOurGameCover()
+    public function getOurGameWebsiteLink(): string
+    {
+        return $this->ourGameWebsiteLink;
+    }
+
+    /**
+     * @param string $ourGameWebsiteLink
+     */
+    public function setOurGameWebsiteLink(string $ourGameWebsiteLink)
+    {
+        $this->ourGameWebsiteLink = $ourGameWebsiteLink;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOurGameFreeLink(): string
+    {
+        return $this->ourGameFreeLink;
+    }
+
+    /**
+     * @param string $ourGameFreeLink
+     */
+    public function setOurGameFreeLink(string $ourGameFreeLink)
+    {
+        $this->ourGameFreeLink = $ourGameFreeLink;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOurGameAlpha(): string
+    {
+        return $this->ourGameAlpha;
+    }
+
+    /**
+     * @param string $ourGameAlpha
+     */
+    public function setOurGameAlpha(string $ourGameAlpha)
+    {
+        $this->ourGameAlpha = $ourGameAlpha;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOurGameBeta(): string
+    {
+        return $this->ourGameBeta;
+    }
+
+    /**
+     * @param string $ourGameBeta
+     */
+    public function setOurGameBeta(string $ourGameBeta)
+    {
+        $this->ourGameBeta = $ourGameBeta;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOurGameSourceCode(): string
+    {
+        return $this->ourGameSourceCode;
+    }
+
+    /**
+     * @param string $ourGameSourceCode
+     */
+    public function setOurGameSourceCode(string $ourGameSourceCode)
+    {
+        $this->ourGameSourceCode = $ourGameSourceCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOurGameURLCDN(): string
+    {
+        return $this->ourGameURLCDN;
+    }
+
+    /**
+     * @param string $ourGameURLCDN
+     */
+    public function setOurGameURLCDN(string $ourGameURLCDN)
+    {
+        $this->ourGameURLCDN = $ourGameURLCDN;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOurGameCover(): string
     {
         return $this->ourGameCover;
     }
 
     /**
-     * @param mixed $ourGameCover
+     * @param string $ourGameCover
      */
-    public function setOurGameCover($ourGameCover)
+    public function setOurGameCover(string $ourGameCover)
     {
         $this->ourGameCover = $ourGameCover;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOurGameShortTitle()
-    {
-        return $this->ourGameShortTitle;
-    }
-
-    /**
-     * @param mixed $ourGameShortTitle
-     */
-    public function setOurGameShortTitle($ourGameShortTitle)
-    {
-        $this->ourGameShortTitle = $ourGameShortTitle;
-    }
 }
