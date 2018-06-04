@@ -29,7 +29,7 @@
                             {% for g in games %}
                                 {% for s in settings %}
                             <div class="col-md-6 col-lg-5">
-                                <p><a href="{{ g.ourGameURL }}"><img class="game_covers_image" src="{{ s.siteCDN }}/images/covers/{{ g.ourGameCover }}.png" alt="{{ g.ourGameName }}" /></a></p>
+                                <p><a href="{{ g.ourGameWebsiteLink }}"><img class="game_covers_image" src="{{ s.siteCDN }}/images/covers/{{ g.ourGameCover }}.png" alt="{{ g.ourGameName }}" /></a></p>
                             </div>
                                 {% endfor %}
                             {% endfor %}
