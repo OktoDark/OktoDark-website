@@ -10,6 +10,7 @@
 
 namespace App\Controller;
 
+use App\Repository\OurGamesRepository;
 use App\Repository\SettingsRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,11 +31,12 @@ class MemberController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function member(SettingsRepository $settings): Response
+    public function member(SettingsRepository $settings, OurGamesRepository $ourGames): Response
     {
         $selectSettings = $settings->findAll();
+        $AllGames = $ourGames->findAll();
 
-        return $this->render('@theme/member/member.html.twig', ['settings' => $selectSettings]);
+        return $this->render('@theme/member/member.html.twig', ['settings' => $selectSettings, 'games' => $AllGames]);
     }
 
     /**

@@ -146,6 +146,18 @@
                 <target>On this page you can find the all our games released from the beginning.</target>
             </trans-unit>
             <!-- Members Area Zone -->
+            <trans-unit id="member.download_alpha_text">
+                <source>member.download_alpha_text</source>
+                <target>Download Alpha</target>
+            </trans-unit>
+            <trans-unit id="member.download_beta_text">
+                <source>member.download_beta_text</source>
+                <target>Download Beta</target>
+            </trans-unit>
+            <trans-unit id="member.upgrade_now_text">
+                <source>member.upgrade_now_text</source>
+                <target>Upgrade now your Tier to have access</target>
+            </trans-unit>
             <trans-unit id="member.settings">
                 <source>member.settings</source>
                 <target>Settings</target>
