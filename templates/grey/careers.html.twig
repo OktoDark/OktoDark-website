@@ -25,7 +25,7 @@
                         <div class="card-header" id="accordion1Heading{{ c.id }}" role="tab">
                             <div class="card-title">
                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion1" href="#accordion1Collapse{{ c.id }}" aria-controls="accordion1Collapse{{ c.id }}">
-                                    {{ c.jobtitle }} {{ c.number }}
+                                    {{ c.jobtitle }} | Available: {{ c.number }}
                                     <div class="card-arrow"></div>
                                 </a>
                             </div>
@@ -33,6 +33,9 @@
                         <div class="collapse" id="accordion1Collapse{{ c.id }}" role="tabpanel" aria-labelledby="accordion1Heading{{ c.id }}">
                             <div class="card-body">
                                 <p>{{ c.requiments }}</p>
+                                <div class="group-xl group-middle buttons-group">
+                                    <a class="button button-sm button-gradient" href="#">Apply Now</a>
+                                </div>
                             </div>
                         </div>
                     </article>
