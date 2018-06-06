@@ -146,6 +146,18 @@
                 <target>Pe aceasta pagina gasiti toate jocurile noastre care au fost lansate de la inceput.</target>
             </trans-unit>
             <!-- Members Area Zone -->
+            <trans-unit id="member.download_alpha_text">
+                <source>member.download_alpha_text</source>
+                <target>Descarcare Alpha</target>
+            </trans-unit>
+            <trans-unit id="member.download_beta_text">
+                <source>member.download_beta_text</source>
+                <target>Descarcare Beta</target>
+            </trans-unit>
+            <trans-unit id="member.upgrade_now_text">
+                <source>member.upgrade_now_text</source>
+                <target>Faceti upgrade la Tier acum, ca sa aveti acces</target>
+            </trans-unit>
             <trans-unit id="member.settings">
                 <source>member.settings</source>
                 <target>Setari</target>
