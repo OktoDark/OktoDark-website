@@ -1,13 +1,14 @@
 twig:
-    globals:
-        # You can choose what theme to be for website:
-        # default | grey
-        theme_site:    grey
+    # globals:
 
     debug:            '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     # auto_reload:      ~
 
-    # Theme of the website
+    # Templates
     paths:
-        '%kernel.project_dir%/templates/grey': theme
+        # uncomment if you use or comment if not use
+        # default
+        '%kernel.project_dir%/templates/default': 'theme'
+        # grey
+        # '%kernel.project_dir%/templates/grey': 'theme'
