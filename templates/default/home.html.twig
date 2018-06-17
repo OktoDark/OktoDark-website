@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block body %}
+
     <div id="main-wrapper">
         <div id="main" class="container">
             <div class="row">
@@ -21,7 +22,7 @@
                                 <h3>{{ n.title }}</h3>
                                 <p>{{ n.content }}</p>
                                 <ul class="meta">
-                                    <li class="icon far fa-clock">{{ n.created_at }}</li>
+                                    <li class="icon far fa-clock">{{ n.createdAt|localizeddate('long', 'medium', null, 'UTC') }}</li>
                                 </ul>
                             </section>
                             {% endfor %}
@@ -31,5 +32,6 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
 

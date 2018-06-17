@@ -24,8 +24,8 @@
                                     {% for g in games %}
                                         {% for s in settings %}
                                         <li>
-                                            <a name="{{ g.our_game_short_title }}"></a>
-                                            <a href="{{ g.our_game_url }}"><img class="game_covers_image" src="{{ s.site_cdn }}/images/covers/{{ g.our_game_cover }}.png" alt="{{ g.our_game_name }}" /></a>
+                                            <a name="{{ g.ourGameName }}"></a>
+                                            <a href="{{ g.ourGameWebsiteLink }}"><img class="game_covers_image" src="{{ s.siteCDN }}/images/covers/{{ g.ourGameCover }}.png" alt="{{ g.ourGameName }}" /></a>
                                         </li>
                                         {% endfor %}
                                     {% endfor %}

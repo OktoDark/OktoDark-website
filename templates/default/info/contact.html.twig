@@ -1,0 +1,64 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.contact'|trans }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block body %}
+    <div id="main-wrapper">
+        <div id="main" class="container">
+            <div class="row">
+                <div class="12u">
+                    <div class="content">
+                        <article class="box page-content">
+                            <header>
+                                <h2>{{ 'title.contact'|trans }}</h2>
+                            </header>
+                            <section>
+                                <p>{{ 'content.contact'|trans }}</p>
+                            </section>
+
+                            <section>
+                                <p></p>
+                                {{ form_start(form) }}
+                                    <label class="row">
+                                        <div class="col-1-2">
+                                            <div class="wrap-col">
+                                                {{ form_row(form.name) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-1-2">
+                                            <div class="wrap-col">
+                                                {{ form_row(form.email) }}
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="row">
+                                        <div class="wrap-col">
+                                            Select the department:
+                                        </div>
+                                    </label>
+                                    <label class="row">
+                                        <div class="wrap-col">
+                                            {{ form_row(form.subject) }}
+                                        </div>
+                                    </label>
+                                    <label class="row">
+                                        <div class="wrap-col">
+                                            {{ form_row(form.message) }}
+                                        </div>
+                                    </label>
+
+                                {{ form_end(form) }}
+                            </section>
+
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

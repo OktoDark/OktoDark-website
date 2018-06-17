@@ -1,40 +1,33 @@
 <!DOCTYPE html>
-<html lang="{{ app.request.locale }}">
+<html lang="{{ app.request.locale }}" dir="ltr">
     <head>
-    {% block head %}
-        {% for s in settings %}
-
+        {% block head %}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>{% block title %}{% endblock %} - {{ s.site_name }}</title>
-        <link rel="shortcut icon" href="{{s.site_cdn}}/themes/default/images/icons/favicon.ico" />
+        <title>{% block title %}{% endblock %} - {% for s in settings %} {{ s.siteName }}</title>
+        <link rel="shortcut icon" href="{{s.siteCDN}}/themes/default/images/icons/favicon.ico" />
         {% block stylesheets %}
 
         <!-- Stylesheets -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-        <link href="{{s.site_cdn}}/themes/default/css/main.css" rel="stylesheet" />
+        <link href="{{s.siteCDN}}/themes/default/css/main.css" rel="stylesheet" />
         {% endblock %}
         {% endfor %}
-    {% endblock %}
+        {% endblock %}
     </head>
     <body>
         <header id="header">
             <div class="logo container">
-                {% for s in settings %}
-
-                <div><img src="{{s.site_cdn}}/themes/default/images/{{s.logo_name}}.png" class="logos" alt=""/></div>
-                {% endfor %}
-
+            {% for s in settings %}
+                <div><img src="{{s.siteCDN}}/themes/default/images/{{s.logoName}}.png" class="logos" alt=""/></div>
+            {% endfor %}
             </div>
         </header>
         {% include("@theme/navbar.html.twig") %}
-        <div class="account">
-            Username: <input id="username" /> <input id="password"/> <button type="button">Login</button>
-        </div>
         {% block body %}
         <div id="main-wrapper">
             <div id="main" class="container">
             </div>
         </div>
     {% endblock %}
-{% include("@theme/footer.html.twig") %}
+{% include('@theme/footer.html.twig') %}
