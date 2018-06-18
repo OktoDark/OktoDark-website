@@ -15,19 +15,17 @@
         {% endfor %}
         {% endblock %}
     </head>
-    <body>
-        <header id="header">
-            <div class="logo container">
-            {% for s in settings %}
-                <div><img src="{{s.siteCDN}}/themes/default/images/{{s.logoName}}.png" class="logos" alt=""/></div>
-            {% endfor %}
-            </div>
-        </header>
-        {% include("@theme/navbar.html.twig") %}
-        {% block body %}
-        <div id="main-wrapper">
-            <div id="main" class="container">
-            </div>
-        </div>
-    {% endblock %}
-{% include('@theme/footer.html.twig') %}
+    <body class="is-preload">
+        <div id="page-wrapper">
+            <header id="header">
+                <div class="logo container">
+                {% for s in settings %}
+                    <div><img src="{{s.siteCDN}}/themes/default/images/{{s.logoName}}.png" class="logos" alt=""/></div>
+                {% endfor %}
+                </div>
+            </header>
+            {% include("@theme/navbar.html.twig") %}
+            {% block body %}{% endblock %}
+            {% include('@theme/footer.html.twig') %}
+    </body>
+</html>

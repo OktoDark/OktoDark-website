@@ -1,52 +1,46 @@
-        <footer id="footer" class="container">
-            <div class="row 200%">
-                <div class="12u">
-                    <!-- Socials -->
-                    <section>
-                        <h2 class="major"><span>{{ 'get.intouch'|trans }}</span></h2>
-                        <ul class="contact">
-                            <li data-balloon="Facebook" data-balloon-pos="up"><a class="icon fab fa-facebook" href="https://www.facebook.com/OktoDark/"><span class="label">Facebook</span></a></li>
-                            <li data-balloon="Twitter" data-balloon-pos="up"><a class="icon fab fa-twitter" href="https://www.twitter.com/OktoDark"><span class="label">Twitter</span></a></li>
-                            <li data-balloon="Patreon" data-balloon-pos="up"><a class="icon fab fa-patreon" href="https://www.patreon.com/OktoDark"><span class="label">Patreon</span></a></li>
-                            <li data-balloon="Twitch" data-balloon-pos="up"><a class="icon fab fa-twitch" href="https://www.twitch.tv/OktoDark"><span class="label">Twitch</span></a></li>
-                            <li data-balloon="Google+" data-balloon-pos="up"><a class="icon fab fa-google-plus" href="https://plus.google.com/u/0/b/103588266793943361093/103588266793943361093"><span class="label">Google+</span></a></li>
-                            <li data-balloon="GitHub" data-balloon-pos="up"><a class="icon fab fa-github" href="https://github.com/OktoDark"><span class="label">GitHub</span></a></li>
-                            <li data-balloon="Bitbucket" data-balloon-pos="up"><a class="icon fab fa-bitbucket" href="https://bitbucket.org/OktoDark/"><span class="label">Bitbucket</span></a></li>
-                            <li data-balloon="Youtube" data-balloon-pos="up"><a class="icon fab fa-youtube" href="https://www.youtube.com/channel/UCDqAin2dpl6R9XIPFQe4Vsg"><span class="label">Youtube</span></a></li>
-                            <li data-balloon="Discord" data-balloon-pos="up"><a class="icon fab fa-discord" href="https://discord.gg/zAA8Gdz"><span class="label">Discord</span></a></li>
-                        </ul>
-                    </section>
-                </div>
-            </div>
+            <footer id="footer">
+                <div class="container">
+                    <div class="row 200%">
+                        <div class="col-12">
+                            <!-- Socials -->
+                            <section>
+                                <h2 class="major"><span>{{ 'get.intouch'|trans }}</span></h2>
+                                <ul class="contact">
+                                    <li><a class="icon fab fa-facebook" href="https://www.facebook.com/OktoDark/"><span class="label">Facebook</span></a></li>
+                                    <li><a class="icon fab fa-twitter" href="https://www.twitter.com/OktoDark"><span class="label">Twitter</span></a></li>
+                                    <li><a class="icon fab fa-patreon" href="https://www.patreon.com/OktoDark"><span class="label">Patreon</span></a></li>
+                                    <li><a class="icon fab fa-twitch" href="https://www.twitch.tv/OktoDark"><span class="label">Twitch</span></a></li>
+                                    <li><a class="icon fab fa-google-plus" href="https://plus.google.com/u/0/b/103588266793943361093/103588266793943361093"><span class="label">Google+</span></a></li>
+                                    <li><a class="icon fab fa-github" href="https://github.com/OktoDark"><span class="label">GitHub</span></a></li>
+                                    <li><a class="icon fab fa-bitbucket" href="https://bitbucket.org/OktoDark/"><span class="label">Bitbucket</span></a></li>
+                                    <li><a class="icon fab fa-youtube" href="https://www.youtube.com/channel/UCDqAin2dpl6R9XIPFQe4Vsg"><span class="label">Youtube</span></a></li>
+                                    <li><a class="icon fab fa-discord" href="https://discord.gg/zAA8Gdz"><span class="label">Discord</span></a></li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="lang_selector">
+                        <div class="languages">
+                            <i class="fas fa-globe"></i> {{ 'language.selector'|trans }}:
+                            {% for locale in locales() %}
+                                <a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
 
-            <div class="lang_selector">
-                <div class="languages">
-                    <i class="fas fa-globe"></i> {{ 'language.selector'|trans }}:
-                    {% for locale in locales() %}
-
-                        <a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }}</a>
-
-                    {% endfor %}
-
-                </div>
-            </div>
         {% for s in settings %}
-
-            <div id="copyright">
-                <ul class="menu">
-                    <li>{{ 'copyright.text'|trans }} &copy; 2016 - 2018 {{s.siteName}}. {{ 'copyright.content'|trans }}</li>
-                </ul>
-            </div>
-        </footer>
+                    <div id="copyright">
+                        <ul class="menu">
+                            <li>{{ 'copyright.text'|trans }} &copy; 2016 - 2018 {{s.siteName}}. {{ 'copyright.content'|trans }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>
+        </div>
         <script src="{{s.siteCDN}}/themes/default/js/jquery.min.js"></script>
         <script src="{{s.siteCDN}}/themes/default/js/jquery.dropotron.min.js"></script>
-        <script src="{{s.siteCDN}}/themes/default/js/skel.min.js"></script>
-        <script src="{{s.siteCDN}}/themes/default/js/skel-viewport.min.js"></script>
+        <script src="{{s.siteCDN}}/themes/default/js/jquery.scrolly.min.js"></script>
+        <script src="{{s.siteCDN}}/themes/default/js/breakpoints.min.js"></script>
         <script src="{{s.siteCDN}}/themes/default/js/util.js"></script>
         <script src="{{s.siteCDN}}/themes/default/js/main.js"></script>
-        <!--[if lte IE 8]><script src="{{s.siteCDN}}/themes/default/js/ie/respond.min.js"></script><![endif]-->
-        <script src="{{s.siteCDN}}/themes/default/js/jquery.scrollNav.min.js"></script>
         {% endfor %}
-
-    </body>
-</html>

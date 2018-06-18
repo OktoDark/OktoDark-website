@@ -8,30 +8,30 @@
 
 {% block body %}
 
-    <div id="main-wrapper">
-        <div id="main" class="container">
-            <div class="row">
-                <div class="12u">
-                    <div class="content">
-                        <article class="box page-content">
-                            <header>
-                                <h2>News</h2>
-                            </header>
-                            {% for n in news %}
-                            <section>
-                                <h3>{{ n.title }}</h3>
-                                <p>{{ n.content }}</p>
-                                <ul class="meta">
-                                    <li class="icon far fa-clock">{{ n.createdAt|localizeddate('long', 'medium', null, 'UTC') }}</li>
-                                </ul>
-                            </section>
-                            {% endfor %}
-                        </article>
+            <section id="main">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="content">
+                                <article class="box page-content">
+                                    <header>
+                                        <h2>News</h2>
+                                    </header>
+                                    {% for n in news %}
+                                    <section>
+                                        <h3>{{ n.title }}</h3>
+                                        <p>{{ n.content }}</p>
+                                        <ul class="meta">
+                                            <li class="icon far fa-clock">{{ n.createdAt|localizeddate('long', 'medium', null, 'UTC') }}</li>
+                                        </ul>
+                                    </section>
+                                    {% endfor %}
+                                </article>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </section>
 
 {% endblock %}
 

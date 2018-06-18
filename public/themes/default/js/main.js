@@ -1,99 +1,68 @@
-/*
- * Copyright (c) 2018 OktoDark Studios
- * Website: https://www.oktodark.com
- *
- * Author: Razvan George H. (Viruzzz)
- *
- * File date of modification: 25.04.2018 18:40
- */
-
 (function($) {
 
-	skel
-		.breakpoints({
-			desktop: '(min-width: 737px)',
-			tablet: '(min-width: 737px) and (max-width: 1200px)',
-			mobile: '(max-width: 736px)'
-		})
-		.viewport({
-			breakpoints: {
-				tablet: {
-					width: 1080
-				}
-			}
-		});
+    var	$window = $(window),
+        $body = $('body'),
+        $nav = $('#nav');
 
-	$(function() {
+    // Breakpoints.
+    breakpoints({
+        xlarge:  [ '1281px',  '1680px' ],
+        large:   [ '981px',   '1280px' ],
+        medium:  [ '737px',   '980px'  ],
+        small:   [ '361px',   '736px'  ],
+        xsmall:  [ null,      '360px'  ]
+    });
 
-		var	$window = $(window),
-			$body = $('body');
+    // Play initial animations on page load.
+    $window.on('load', function() {
+        window.setTimeout(function() {
+            $body.removeClass('is-preload');
+        }, 100);
+    });
 
-		// Disable animations/transitions until the page has loaded.
-			$body.addClass('is-loading');
+    // Dropdowns.
+    $('#nav > ul').dropotron({
+        mode: 'fade',
+        noOpenerFade: true,
+        speed: 300,
+        alignment: 'center'
+    });
 
-			$window.on('load', function() {
-				$body.removeClass('is-loading');
-			});
+    // Scrolly
+    $('.scrolly').scrolly({
+        speed: 1000,
+        offset: function() { return $nav.height() - 5; }
+    });
 
-		// Fix: Placeholder polyfill.
-			$('form').placeholder();
+    // Nav.
 
-		// Prioritize "important" elements on mobile.
-			skel.on('+mobile -mobile', function() {
-				$.prioritize(
-					'.important\\28 mobile\\29',
-					skel.breakpoint('mobile').active
-				);
-			});
+    // Title Bar.
+    $(
+        '<div id="titleBar">' +
+        '<a href="#navPanel" class="toggle"></a>' +
+        '<span class="title">' + $('#logo').html() + '</span>' +
+        '</div>'
+    )
+        .appendTo($body);
 
-		// CSS polyfills (IE<9).
-			if (skel.vars.IEVersion < 9)
-				$(':last-child').addClass('last-child');
-
-		// Dropdowns.
-			$('#nav > ul').dropotron({
-				mode: 'fade',
-				noOpenerFade: true,
-				speed: 300,
-				alignment: 'center'
-			});
-
-		// Off-Canvas Navigation.
-
-			// Title Bar.
-				$(
-					'<div id="titleBar">' +
-						'<a href="#navPanel" class="toggle"></a>' +
-						'<span class="title">' + $('#logo').html() + '</span>' +
-					'</div>'
-				)
-					.appendTo($body);
-
-			// Navigation Panel.
-				$(
-					'<div id="navPanel">' +
-						'<nav>' +
-							$('#nav').navList() +
-						'</nav>' +
-					'</div>'
-				)
-					.appendTo($body)
-					.panel({
-						delay: 500,
-						hideOnClick: true,
-						hideOnSwipe: true,
-						resetScroll: true,
-						resetForms: true,
-						side: 'left',
-						target: $body,
-						visibleClass: 'navPanel-visible'
-					});
-
-			// Fix: Remove navPanel transitions on WP<10 (poor/buggy performance).
-				if (skel.vars.os == 'wp' && skel.vars.osVersion < 10)
-					$('#titleBar, #navPanel, #page-wrapper')
-						.css('transition', 'none');
-
-	});
+    // Panel.
+    $(
+        '<div id="navPanel">' +
+        '<nav>' +
+        $('#nav').navList() +
+        '</nav>' +
+        '</div>'
+    )
+        .appendTo($body)
+        .panel({
+            delay: 500,
+            hideOnClick: true,
+            hideOnSwipe: true,
+            resetScroll: true,
+            resetForms: true,
+            side: 'left',
+            target: $body,
+            visibleClass: 'navPanel-visible'
+        });
 
 })(jQuery);
