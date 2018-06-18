@@ -3103,3 +3103,12 @@ input, select, textarea {
 	width: 320px;
 	height: 200px;
 }
+
+.lang_selector {
+	 text-align: left;
+	 margin-top: 50px;
+	 margin-bottom: -40px;
+}
+
+.languages {
+}
