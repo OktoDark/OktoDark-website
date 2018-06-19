@@ -8,20 +8,22 @@
     {{  parent() }}
 {% endblock %}
 
+{% block body_id 'login' %}
+
 {% block main %}
-    {% if error %}
+        {% if error %}
         <div class="alert alert-danger">
             {{ error.messageKey|trans(error.messageData, 'security') }}
         </div>
-    {% endif %}
+        {% endif %}
 
-    <section class="section section-page-title context-dark">
-        <div class="container">
-            <h2>{{ 'title.login'|trans }}</h2>
-        </div>
-    </section>
+        <section class="section section-page-title context-dark">
+            <div class="container">
+                <h2>{{ 'title.login'|trans }}</h2>
+            </div>
+        </section>
 
-    {% include('@theme/form/login.html.twig') %}
+        {% include('@theme/form/login.html.twig') %}
 
 {% endblock %}
 
