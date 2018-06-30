@@ -576,6 +576,10 @@
                 <source>footer.support_us_text</source>
                 <target>Support us</target>
             </trans-unit>
+            <trans-unit id="footer.all_rights_reserved_text">
+                <source>footer.all_rights_reserved_text</source>
+                <target>All rights reserved</target>
+            </trans-unit>
             <!-- End Footer Zone -->
         </body>
     </file>

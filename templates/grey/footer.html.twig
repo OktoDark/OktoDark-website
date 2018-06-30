@@ -65,7 +65,7 @@
                         <span class="copyright-year"></span>
                         <span>&nbsp;</span>
                         <span>&copy;&nbsp;</span>
-                        <span>{% for s in settings %}{{ s.siteName }}{% endfor %}</span>
+                        <span>{% for s in settings %}{{s.siteName}}. {{ 'footer.all_rights_reserved_text'|trans }}{% endfor %}</span>
                         <span>.&nbsp;</span>
                         <a href="{{ path('privacy-policy') }}">{{ 'privacy_policy.text'|trans }}</a>
                     </p>

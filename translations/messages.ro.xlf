@@ -368,6 +368,10 @@
                 <source>footer.support_us_text</source>
                 <target>Ajuta-ne</target>
             </trans-unit>
+            <trans-unit id="footer.all_rights_reserved_text">
+                <source>footer.all_rights_reserved_text</source>
+                <target>Toate drepturile rezervate</target>
+            </trans-unit>
             <!-- End Footer Zone -->
         </body>
     </file>
