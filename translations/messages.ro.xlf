@@ -169,18 +169,6 @@
                 <source>language.selector</source>
                 <target>Limba</target>
             </trans-unit>
-            <trans-unit id="copyright.text">
-                <source>copyright.text</source>
-                <target>Copyright</target>
-            </trans-unit>
-            <trans-unit id="copyright.content">
-                <source>copyright.content</source>
-                <target>Toate drepturile rezervate.</target>
-            </trans-unit>
-            <trans-unit id="get.intouch">
-                <source>get.intouch</source>
-                <target>Intrați în legătură</target>
-            </trans-unit>
             <trans-unit id="privacy_policy.text">
                 <source>privacy_policy.text</source>
                 <target>Politica de confidentialitate</target>
@@ -188,6 +176,34 @@
             <trans-unit id="information.text">
                 <source>information.text</source>
                 <target>Informatii</target>
+            </trans-unit>
+            <trans-unit id="footer.information_text">
+                <source>footer.information_text</source>
+                <target>Informatii</target>
+            </trans-unit>
+            <trans-unit id="footer.get_in_touch_text">
+                <source>footer.get_in_touch_text</source>
+                <target>Intrați în legătură</target>
+            </trans-unit>
+            <trans-unit id="footer.source_code_text">
+                <source>footer.source_code_text</source>
+                <target>Cod Sursa</target>
+            </trans-unit>
+            <trans-unit id="footer.live_stream_text">
+                <source>footer.live_stream_text</source>
+                <target>Transmitere live</target>
+            </trans-unit>
+            <trans-unit id="footer.discourse_text">
+                <source>footer.discourse_text</source>
+                <target>Discuție</target>
+            </trans-unit>
+            <trans-unit id="footer.support_us_text">
+                <source>footer.support_us_text</source>
+                <target>Ajuta-ne</target>
+            </trans-unit>
+            <trans-unit id="footer.all_rights_reserved_text">
+                <source>footer.all_rights_reserved_text</source>
+                <target>Toate drepturile rezervate</target>
             </trans-unit>
             <!-- End Footer Zone -->
             <!-- Misc Zone -->
@@ -343,36 +359,6 @@
                 <target>Nota: Citeste FAQ pentru a afla mai multe detalii</target>
             </trans-unit>
             <!-- End bePatron Zone -->
-            <!-- Footer Zone -->
-            <trans-unit id="footer.information_text">
-                <source>footer.information_text</source>
-                <target>Informatii</target>
-            </trans-unit>
-            <trans-unit id="footer.get_in_touch_text">
-                <source>footer.get_in_touch_text</source>
-                <target>Intrați în legătură</target>
-            </trans-unit>
-            <trans-unit id="footer.source_code_text">
-                <source>footer.source_code_text</source>
-                <target>Cod Sursa</target>
-            </trans-unit>
-            <trans-unit id="footer.live_stream_text">
-                <source>footer.live_stream_text</source>
-                <target>Transmitere live</target>
-            </trans-unit>
-            <trans-unit id="footer.discourse_text">
-                <source>footer.discourse_text</source>
-                <target>Discuție</target>
-            </trans-unit>
-            <trans-unit id="footer.support_us_text">
-                <source>footer.support_us_text</source>
-                <target>Ajuta-ne</target>
-            </trans-unit>
-            <trans-unit id="footer.all_rights_reserved_text">
-                <source>footer.all_rights_reserved_text</source>
-                <target>Toate drepturile rezervate</target>
-            </trans-unit>
-            <!-- End Footer Zone -->
         </body>
     </file>
 </xliff>
