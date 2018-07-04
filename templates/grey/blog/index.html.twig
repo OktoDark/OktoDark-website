@@ -39,7 +39,7 @@
                         <div class="well">{{ 'post.no_posts_found'|trans }}</div>
                     {% endfor %}
                     {% if posts.haveToPaginate %}
-                        {{ pagerfanta(posts, 'twitter_bootstrap3_translated', {routeName: 'blog_index_paginated'}) }}
+                        {{ pagerfanta(posts, 'twitter_bootstrap3_translated', {routeName: 'blog_index_paginated', routeParams: app.request.query.all}) }}
                     {% endif %}
                     <div class="row">
                         <div class="col-12">

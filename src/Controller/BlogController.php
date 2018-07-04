@@ -8,6 +8,7 @@ use App\Events;
 use App\Form\CommentType;
 use App\Repository\PostRepository;
 use App\Repository\SettingsRepository;
+use App\Repository\TagRepository;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
@@ -32,7 +33,7 @@ class BlogController extends AbstractController
     /**
      * @Route("/", defaults={"page": "1", "_format"="html"}, methods={"GET"}, name="blog")
      * @Route("/rss.xml", defaults={"page": "1", "_format"="xml"}, methods={"GET"}, name="blog_rss")
-     * @Route("/page/{page}", defaults={"_format"="html"}, requirements={"page": "[1-9]\d*"}, methods={"GET"}, name="blog_index_paginated")
+     * @Route("/page/{page<[1-9]\d*>}", defaults={"_format"="html"}, methods={"GET"}, name="blog_index_paginated")
      * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      * @Cache(smaxage="10")
      *
@@ -40,9 +41,14 @@ class BlogController extends AbstractController
      * Content-Type header for the response.
      * See https://symfony.com/doc/current/quick_tour/the_controller.html#using-formats
      */
-    public function index(int $page, string $_format, PostRepository $posts, SettingsRepository $settings): Response
+    public function index(Request $request, int $page, string $_format, PostRepository $posts, TagRepository $tags, SettingsRepository $settings): Response
     {
-        $latestPosts = $posts->findLatest($page);
+        $tag = null;
+        if ($request->query->has('tag'))
+        {
+            $tag = $tags->findOneBy(['name' => $request->query->get('tag')]);
+        }
+        $latestPosts = $posts->findLatest($page, $tag);
         $selectSettings = $settings->findAll();
 
         return $this->render('@theme/blog/index.'.$_format.'.twig', ['settings' => $selectSettings, 'posts' => $latestPosts]);
