@@ -28,6 +28,13 @@ class Settings
 
     /**
      * @var string
+     * @ORM\Column(type="string")
+     * @Assert\Lenght(max="50")
+     */
+    private $jobmail;
+
+    /**
+     * @var string
      *
      * @ORM\Column(type="string")
      * @Assert\Length(max="50")
@@ -88,6 +95,22 @@ class Settings
     public function setSiteName($siteName)
     {
         $this->siteName = $siteName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJobmail()
+    {
+        return $this->jobmail;
+    }
+
+    /**
+     * @param mixed $jobmail
+     */
+    public function setJobmail($jobmail)
+    {
+        $this->jobmail = $jobmail;
     }
 
     /**
