@@ -20,6 +20,7 @@
         <div class="container">
             <div class="text-decoration">
                 <div class="card-group-custom card-group-corporate" id="accordion1" role="tablist" aria-multiselectable="false">
+                {% for s in settings %}
                     {% for c in careers %}
                     <article class="card card-custom card-corporate">
                         <div class="card-header" id="accordion1Heading{{ c.id }}" role="tab">
@@ -34,12 +35,13 @@
                             <div class="card-body">
                                 <p>{{ c.requiments }}</p>
                                 <div class="group-xl group-middle buttons-group">
-                                    <a class="button button-sm button-gradient" href="mailto:{{ c.jobmail }}?subject=Application for {{ c.jobtitle }}">Apply Now</a>
+                                    <a class="button button-sm button-gradient" href="mailto:{{ s.jobmail }}?subject=Application for {{ c.jobtitle }}">Apply Now</a>
                                 </div>
                             </div>
                         </div>
                     </article>
                     {% endfor %}
+                {% endfor %}
                 </div>
             </div>
         </div>
