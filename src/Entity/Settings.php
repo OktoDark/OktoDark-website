@@ -29,7 +29,7 @@ class Settings
     /**
      * @var string
      * @ORM\Column(type="string")
-     * @Assert\Lenght(max="50")
+     * @Assert\Length(max="50")
      */
     private $jobmail;
 
