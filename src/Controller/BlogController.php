@@ -9,11 +9,10 @@ use App\Form\CommentType;
 use App\Repository\PostRepository;
 use App\Repository\SettingsRepository;
 use App\Repository\TagRepository;
-use Doctrine\DBAL\Connection;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +33,7 @@ class BlogController extends AbstractController
      * @Route("/", defaults={"page": "1", "_format"="html"}, methods={"GET"}, name="blog")
      * @Route("/rss.xml", defaults={"page": "1", "_format"="xml"}, methods={"GET"}, name="blog_rss")
      * @Route("/page/{page<[1-9]\d*>}", defaults={"_format"="html"}, methods={"GET"}, name="blog_index_paginated")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      * @Cache(smaxage="10")
      *
      * NOTE: For standard formats, Symfony will also automatically choose the best
@@ -56,7 +55,7 @@ class BlogController extends AbstractController
 
     /**
      * @Route("/posts/{slug}", methods={"GET"}, name="blog_post")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      *
      * NOTE: The $post controller argument is automatically injected by Symfony
      * after performing a database query looking for a Post with the 'slug'
@@ -72,7 +71,7 @@ class BlogController extends AbstractController
 
     /**
      * @Route("/comment/{postSlug}/new", methods={"POST"}, name="comment_new")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      * @ParamConverter("post", options={"mapping": {"postSlug": "slug"}})
      *
      * NOTE: The ParamConverter mapping is required because the route parameter
