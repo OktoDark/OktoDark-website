@@ -5,7 +5,7 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 09.05.2018 12:20
+ * File date of modification: 25.08.2018 19:49
  */
 
 namespace App\Controller;
@@ -15,7 +15,6 @@ use App\Entity\OurGames;
 use App\Repository\SettingsRepository;
 use App\Repository\OurGamesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\DBAL\Driver\Connection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

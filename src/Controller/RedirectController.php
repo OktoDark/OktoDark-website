@@ -5,13 +5,12 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 09.05.2018 12:20
+ * File date of modification: 25.08.2018 19:49
  */
 
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 

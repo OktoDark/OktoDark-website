@@ -5,19 +5,15 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 09.05.2018 12:20
+ * File date of modification: 25.08.2018 19:49
  */
 
 namespace App\Controller;
 
-use App\Entity\News;
 use App\Repository\NewsRepository;
-use App\Entity\Settings;
 use App\Repository\SettingsRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\DBAL\Driver\Connection;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
