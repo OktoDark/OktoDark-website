@@ -10,8 +10,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Settings;
-use App\Entity\OurGames;
 use App\Repository\SettingsRepository;
 use App\Repository\OurGamesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
