@@ -44,15 +44,13 @@ class InfoController extends AbstractController
 
         $form->handleRequest($request);
 
-        $this->addFlash('info', 'Do not spam');
-
         if ($form->isSubmitted() && $form->isValid())
         {
             $contactFormData = $form->getData();
 
-            $message = (new \Swift_Message())
+            $message = (new \Swift_Message($contactFormData['subject']))
                 ->setFrom($contactFormData['email'])
-                ->setTo('')
+                ->setTo('contact@oktodark.com')
                 ->setBody(
                     $contactFormData['message'],
                     'text/plain'
@@ -61,7 +59,7 @@ class InfoController extends AbstractController
 
             $mailer->send($message);
 
-            $this->addFlash('success', 'Message Send');
+            $this->addFlash('success', 'Message Send!');
 
             return $this->redirectToRoute('contact');
         }
