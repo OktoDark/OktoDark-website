@@ -2,25 +2,28 @@
 <html class="boxed" lang="{{ app.request.locale }}" dir="ltr">
     <head>
         {% block head %}
+        <meta charset="utf-8">
         <title>{% block title %}{% endblock %} - {% for s in settings %} {{ s.siteName }}</title>
         <meta name="format-detection" content="telephone=no">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta charset="utf-8">
         <link rel="icon" href="{{s.siteCDN}}/themes/grey/images/favicon.ico" type="image/x-icon">
-        <!-- Stylesheets-->
+        <!-- Stylesheets -->
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700%7CMontserrat:400,700,800">
         <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.4.85/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="{{s.siteCDN}}/themes/grey/css/bootstrap.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
         <link rel="stylesheet" href="{{s.siteCDN}}/themes/grey/css/style.css" id="main-styles-link">
+        <!-- Stylesheets -->
         {% endfor %}
         {% endblock %}
+        <!-- Facebook Meta -->
         <meta property="og:url"           content="https://www.oktodark.com" />
         <meta property="og:type"          content="oktodark" />
         <meta property="og:title"         content="OktoDark" />
         <meta property="og:description"   content="OktoDark Studios" />
-        <meta property="og:image"         content="https://www.your-domain.com/path/image.jpg" />
+        <meta property="og:image"         content="https://cdn.oktodark.com/image.jpg" />
+        <!-- End Facebook Meta -->
         <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>
     <body id="{% block body_id %}{% endblock %}">
@@ -33,6 +36,7 @@
             js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script>
+    <!-- End Load Facebook SDK for JavaScript -->
     {% include("@theme/loading.html.twig") %}
     <div class="page">
         {% include("@theme/navbar.html.twig") %}
@@ -102,23 +106,25 @@
                             <a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }}</a>
                         {% endfor %}
                     </div>
-                    <!-- Rights-->
+                    <!-- Copyright -->
                     <p class="rights">
                         <span>&copy;</span>
                         <span class="copyright-year"></span>
                         <span>{% for s in settings %}{{s.siteName}}. {{ 'footer.all_rights_reserved_text'|trans }}{% endfor %}</span>
                         <span><a href="{{ path('privacy-policy') }}">{{ 'privacy_policy.text'|trans }}</a></span>
                     </p>
+                    <!-- End Copyright -->
                 </div>
             </div>
         </footer>
+        <!-- End Footer -->
     </div>
     <div class="snackbars" id="form-output-global"></div>
-    <!-- Javascript-->
+    <!-- Javascript -->
     {% for s in settings %}
         <script src="{{s.siteCDN}}/themes/grey/js/core.min.js"></script>
         <script src="{{s.siteCDN}}/themes/grey/js/script.js"></script>
     {% endfor %}
-    <!-- End Footer -->
+    <!-- End Javascript -->
     </body>
 </html>
