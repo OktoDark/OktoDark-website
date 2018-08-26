@@ -5,7 +5,7 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 09.05.2018 12:20
+ * File date of modification: 26.08.2018 21:22
  */
 
 namespace App\Controller;
@@ -28,6 +28,9 @@ class CareersController extends Controller
         $selectSettings = $settings->findAll();
         $showCareers = $careers->findAll();
 
-        return $this->render('@theme/careers.html.twig', ['settings' => $selectSettings, 'careers' => $showCareers]);
+        return $this->render('@theme/careers.html.twig', [
+            'settings' => $selectSettings,
+            'careers' => $showCareers,
+        ]);
     }
 }

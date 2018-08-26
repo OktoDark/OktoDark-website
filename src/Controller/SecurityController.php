@@ -5,7 +5,7 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 25.08.2018 19:49
+ * File date of modification: 26.08.2018 21:22
  */
 
 namespace App\Controller;
@@ -37,7 +37,7 @@ class SecurityController extends AbstractController
             'last_username' => $helper->getLastUsername(),
             // last authentication error (if any)
             'error' => $helper->getLastAuthenticationError(),
-            'settings' => $selectSettings
+            'settings' => $selectSettings,
         ]);
     }
 

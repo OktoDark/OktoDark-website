@@ -50,7 +50,10 @@ class BlogController extends AbstractController
         $latestPosts = $posts->findLatest($page, $tag);
         $selectSettings = $settings->findAll();
 
-        return $this->render('@theme/blog/index.'.$_format.'.twig', ['settings' => $selectSettings, 'posts' => $latestPosts]);
+        return $this->render('@theme/blog/index.'.$_format.'.twig', [
+            'settings' => $selectSettings,
+            'posts' => $latestPosts,
+        ]);
     }
 
     /**
@@ -66,7 +69,10 @@ class BlogController extends AbstractController
     {
         $selectSettings = $settings->findAll();
 
-        return $this->render('@theme/blog/post_show.html.twig', ['post' => $post, 'settings' => $selectSettings]);
+        return $this->render('@theme/blog/post_show.html.twig', [
+            'post' => $post,
+            'settings' => $selectSettings,
+        ]);
     }
 
     /**

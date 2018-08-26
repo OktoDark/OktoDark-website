@@ -5,7 +5,7 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 15.07.2018 12:55
+ * File date of modification: 26.08.2018 21:22
  */
 
 namespace App\Controller;
@@ -30,7 +30,10 @@ class InfoController extends AbstractController
         $selectSettings = $settings->findAll();
         $viewTeam = $team->findAll();
 
-        return $this->render('@theme/info/about.html.twig', ['settings' => $selectSettings, 'team' => $viewTeam]);
+        return $this->render('@theme/info/about.html.twig', [
+            'settings' => $selectSettings,
+            'team' => $viewTeam,
+        ]);
     }
 
     /**
@@ -64,7 +67,10 @@ class InfoController extends AbstractController
             return $this->redirectToRoute('contact');
         }
 
-        return $this->render('@theme/info/contact.html.twig', ['settings' => $selectSettings, 'form' => $form->createView()]);
+        return $this->render('@theme/info/contact.html.twig', [
+            'settings' => $selectSettings,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

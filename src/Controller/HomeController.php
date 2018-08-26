@@ -5,7 +5,7 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 25.08.2018 19:49
+ * File date of modification: 26.08.2018 21:22
  */
 
 namespace App\Controller;
@@ -35,6 +35,9 @@ class HomeController extends AbstractController
         $latestNews = $news->findAll();
         $selectSettings = $settings->findAll();
 
-        return $this->render('@theme/home.html.twig', ['news' => $latestNews, 'settings' => $selectSettings]);
+        return $this->render('@theme/home.html.twig', [
+            'news' => $latestNews,
+            'settings' => $selectSettings,
+        ]);
     }
 }

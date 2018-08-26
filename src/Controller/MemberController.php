@@ -5,7 +5,7 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 19.05.2018 20:39
+ * File date of modification: 26.08.2018 21:22
  */
 
 namespace App\Controller;
@@ -36,7 +36,10 @@ class MemberController extends AbstractController
         $selectSettings = $settings->findAll();
         $AllGames = $ourGames->findAll();
 
-        return $this->render('@theme/member/member.html.twig', ['settings' => $selectSettings, 'games' => $AllGames]);
+        return $this->render('@theme/member/member.html.twig', [
+            'settings' => $selectSettings,
+            'games' => $AllGames,
+        ]);
     }
 
     /**
