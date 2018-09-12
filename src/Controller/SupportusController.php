@@ -28,9 +28,9 @@ class SupportusController extends AbstractController
     }
 
     /**
-     * @Route("/bedonator", methods={"GET"}, name="bedonator")
+     * @Route("/bedonor", methods={"GET"}, name="bedonor")
      */
-    public function bedonator(SettingsRepository $settings): Response
+    public function bedonor(SettingsRepository $settings): Response
     {
         $selectSettings = $settings->findAll();
 
