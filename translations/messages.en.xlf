@@ -45,11 +45,11 @@
             </trans-unit>
             <trans-unit id="navbar.be_patron">
                 <source>navbar.be_patron</source>
-                <target>Be Patron</target>
+                <target>Be a Patron</target>
             </trans-unit>
-            <trans-unit id="navbar.be_donator">
-                <source>navbar.be_donator</source>
-                <target>Be Donator</target>
+            <trans-unit id="navbar.be_donor">
+                <source>navbar.be_donor</source>
+                <target>Be a Donor</target>
             </trans-unit>
             <trans-unit id="navbar.only_members">
                 <source>navbar.only_members</source>
@@ -87,11 +87,11 @@
             </trans-unit>
             <trans-unit id="title.be_patron">
                 <source>title.be_patron</source>
-                <target>Be Patron</target>
+                <target>Be a Patron</target>
             </trans-unit>
-            <trans-unit id="title.be_donator">
-                <source>title.be_donator</source>
-                <target>Be Donator</target>
+            <trans-unit id="title.be_donor">
+                <source>title.be_donor</source>
+                <target>Be a Donor</target>
             </trans-unit>
             <trans-unit id="title.games">
                 <source>title.games</source>

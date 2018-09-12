@@ -47,8 +47,8 @@
                 <source>navbar.be_patron</source>
                 <target>Fi Patron</target>
             </trans-unit>
-            <trans-unit id="navbar.be_donator">
-                <source>navbar.be_donator</source>
+            <trans-unit id="navbar.be_donor">
+                <source>navbar.be_donor</source>
                 <target>Fi Donator</target>
             </trans-unit>
             <trans-unit id="navbar.only_members">
@@ -89,8 +89,8 @@
                 <source>title.be_patron</source>
                 <target>Fi Patron</target>
             </trans-unit>
-            <trans-unit id="title.be_donator">
-                <source>title.be_donator</source>
+            <trans-unit id="title.be_donor">
+                <source>title.be_donor</source>
                 <target>Fi Donator</target>
             </trans-unit>
             <trans-unit id="title.games">

@@ -34,6 +34,6 @@ class SupportusController extends AbstractController
     {
         $selectSettings = $settings->findAll();
 
-        return $this->render('@theme/bedonator.html.twig', ['settings' => $selectSettings]);
+        return $this->render('@theme/bedonor.html.twig', ['settings' => $selectSettings]);
     }
 }
