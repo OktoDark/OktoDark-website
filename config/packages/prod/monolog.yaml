@@ -13,3 +13,7 @@ monolog:
             type:   console
             process_psr_3_messages: false
             channels: ['!event', '!doctrine']
+        syslog_handler:
+            type: syslog
+            # log error-level messages and higher
+            level: error
