@@ -163,6 +163,34 @@
                 <target>Settings</target>
             </trans-unit>
             <!-- End Members Zone -->
+
+            <!-- FAQ Area -->
+            <trans-unit id="faq.one_title_txt">
+                <source>faq.one_title_txt</source>
+                <target>What I can do to have access on this site?</target>
+            </trans-unit>
+            <trans-unit id="faq.one_content_txt">
+                <source>faq.one_content_txt</source>
+                <target>You must to be a patron or donor, and send us using contact form or send a private message on our <![CDATA[<a href="https://facebook.com/OktoDark">facebook</a>]]> address with your real name.<![CDATA[<br>]]> The account for our site you will be receive on your mail with all details for connect.</target>
+            </trans-unit>
+            <trans-unit id="faq.two_title_txt">
+                <source>faq.two_title_txt</source>
+                <target>What is means Voting system?</target>
+            </trans-unit>
+            <trans-unit id="faq.two_content_txt">
+                <source>faq.two_content_txt</source>
+                <target>From Tier II anyone can vote the characters, the game world, e.t.c., means all are involved in development.</target>
+            </trans-unit>
+            <trans-unit id="faq.three_title_txt">
+                <source>faq.three_title_txt</source>
+                <target>Explain more about voting system, please</target>
+            </trans-unit>
+            <trans-unit id="faq.three_content_txt">
+                <source>faq.three_content_txt</source>
+                <target>You must to be a patron or donor to see the voting system. It's secret. <![CDATA[<i class="fas fa-user-ninja"></i>]]></target>
+            </trans-unit>
+            <!-- End FAQ Area -->
+
             <!-- End Contents -->
             <!-- Footer Zone -->
             <trans-unit id="language_selector">

@@ -163,6 +163,34 @@
                 <target>Setari</target>
             </trans-unit>
             <!-- End Members Zone -->
+
+            <!-- FAQ Area -->
+            <trans-unit id="faq.one_title_txt">
+                <source>faq.one_title_txt</source>
+                <target>Ce pot sa fac, ca sa am acces pe acest site?</target>
+            </trans-unit>
+            <trans-unit id="faq.one_content_txt">
+                <source>faq.one_content_txt</source>
+                <target>Trebuie sa fii patron sau donator, si sa ne trimiti folosind pagina de contact sau sa ne trimiti un mesaj privat pe adresa noastra de <![CDATA[<a href="https://facebook.com/OktoDark">facebook</a>]]> cu numele tau.<![CDATA[<br>]]> Contul cu toate detaliile pe site il vei primi pe mail.</target>
+            </trans-unit>
+            <trans-unit id="faq.two_title_txt">
+                <source>faq.two_title_txt</source>
+                <target>Ce inseamna sistem de votare?</target>
+            </trans-unit>
+            <trans-unit id="faq.two_content_txt">
+                <source>faq.two_content_txt</source>
+                <target>De la Tier II toti pot vota, caractere, lumea din joc, etc., adica toti vor fi implicati in dezvoltare.</target>
+            </trans-unit>
+            <trans-unit id="faq.three_title_txt">
+                <source>faq.three_title_txt</source>
+                <target>Poti sa ne explici mai multe despre sistemul de votare, te rog.</target>
+            </trans-unit>
+            <trans-unit id="faq.three_content_txt">
+                <source>faq.three_content_txt</source>
+                <target>Trebuie sa fii patron sau donator ca sa vezi sistemul de votare. Este secret. <![CDATA[<i class="fas fa-user-ninja"></i>]]></target>
+            </trans-unit>
+            <!-- End FAQ Area -->
+
             <!-- End Contents -->
             <!-- Footer Zone -->
             <trans-unit id="language_selector">
