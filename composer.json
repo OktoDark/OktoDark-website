@@ -25,7 +25,6 @@
     "symfony/flex": "^1.0",
     "symfony/form": "^4.1",
     "symfony/framework-bundle": "^4.1",
-    "symfony/lts": "^4@dev",
     "symfony/maker-bundle": "^1.1",
     "symfony/monolog-bundle": "^3.3",
     "symfony/orm-pack": "^1.0",
