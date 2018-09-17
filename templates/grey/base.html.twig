@@ -44,6 +44,7 @@
             {% block main %}{% endblock %}
         {% endblock %}
 
+        {% block footer %}
         <!-- Page Footer -->
         <footer class="section">
             <div class="footer-classic">
@@ -118,13 +119,19 @@
             </div>
         </footer>
         <!-- End Footer -->
+        {% endblock %}
+
     </div>
     <div class="snackbars" id="form-output-global"></div>
+
+    {% block javascripts %}
     <!-- Javascript -->
     {% for s in settings %}
         <script src="{{s.siteCDN}}/themes/grey/js/core.min.js"></script>
         <script src="{{s.siteCDN}}/themes/grey/js/script.js"></script>
     {% endfor %}
     <!-- End Javascript -->
+    {% endblock %}
+
     </body>
 </html>
