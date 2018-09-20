@@ -239,6 +239,17 @@
             </trans-unit>
             <!-- End FAQ Area -->
 
+            <!-- Settings zone -->
+            <trans-unit id="change.password">
+                <source>change.password</source>
+                <target>Change Password</target>
+            </trans-unit>
+            <trans-unit id="change.email_or_fullname">
+                <source>change.email_or_fullname</source>
+                <target>Change e-mail or Fullname</target>
+            </trans-unit>
+            <!-- End Settings Zone -->
+
             <!-- End Contents -->
             <!-- Footer Zone -->
             <trans-unit id="language_selector">

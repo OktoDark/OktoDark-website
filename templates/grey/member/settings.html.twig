@@ -1,34 +1,27 @@
-{% extends '@theme/base.html.twig' %}
+{% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'title.edit_user'|trans }}{% endblock %}
+{% block title %}{{ 'title.member'|trans }}{% endblock %}
 
 {% block head %}
     {{  parent() }}
 {% endblock %}
 
-{% block body_id 'user_edit' %}
+{% block body_id 'settings' %}
 
-{% block main %}
+{% block body %}
 
     <section class="section section-page-title context-dark">
         <div class="container">
-            <h2>{{ 'title.edit_user'|trans }}</h2>
+            <h2>{{ 'title.settings'|trans }}</h2>
         </div>
     </section>
 
+    <!-- Change password -->
     <section class="section section-md bg-default text-center">
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col-md-9 col-lg-7 col-xl-5">
-
-                    {{ form_start(form) }}
-                    {{ form_widget(form) }}
-
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-save" aria-hidden="true"></i> {{ 'action.save'|trans }}
-                    </button>
-                    {{ form_end(form) }}
-
+                    In this area you can use from the sidebar, what you do want!
                 </div>
                 <div class="col-6 col-lg-4">
                     <a href="{{ path('user_change_password') }}">{{ 'change.password'|trans }}</a>
