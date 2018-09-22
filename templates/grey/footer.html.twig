@@ -1,0 +1,76 @@
+        {% block footer %}
+            <!-- Page Footer -->
+            <footer class="section">
+                <div class="footer-classic">
+                    <div class="container">
+                        <div class="row row-50 justify-content-xl-between">
+                            <div class="col-lg-12">
+                                <div class="row row-50">
+                                    <div class="col">
+                                        <h4 class="footer-classic-title">{{ 'information.text'|trans }}</h4>
+                                        <ul class="list list-font-accent list-marked">
+                                            <li><i class="fas fa-info-circle"></i> <a href="{{ path('faq') }}">{{ 'title.faq'|trans }}</a></li>
+                                            <li><i class="fas fa-briefcase"></i> <a href="{{ path('services') }}">{{ 'title.services'|trans }}</a></li>
+                                            <li><i class="fab fa-wpforms"></i> <a href="{{ path('contact') }}">{{ 'title.contact'|trans }}</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="footer-classic-title">{{ 'footer.get_in_touch_text'|trans }}</h4>
+                                        <ul class="list list-font-accent list-marked">
+                                            <li><i class="fab fa-facebook"></i> <a href="https://www.facebook.com/OktoDark">Facebook</a></li>
+                                            <li><i class="fab fa-twitter"></i> <a href="https://www.twitter.com/OktoDark">Twitter</a></li>
+                                            <li><i class="fab fa-youtube"></i> <a href="https://www.youtube.com/channel/UCDqAin2dpl6R9XIPFQe4Vsg">Youtube</a></li>
+                                            <li><i class="fab fa-google-plus"></i> <a href="https://plus.google.com/u/0/b/103588266793943361093/103588266793943361093">Google+</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="footer-classic-title">{{ 'footer.source_code_text'|trans }}</h4>
+                                        <ul class="list list-font-accent list-marked">
+                                            <li><i class="fab fa-github"></i> <a href="https://www.github.com/OktoDark">Github</a></li>
+                                            <li><i class="fab fa-bitbucket"></i> <a href="https://www.bitbucket.com/OktoDark">Bitbucket</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="footer-classic-title">{{ 'footer.live_stream_text'|trans }}</h4>
+                                        <ul class="list list-font-accent list-marked">
+                                            <li><i class="fab fa-twitch"></i> <a href="https://www.twitch.com/OktoDark">Twitch</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="footer-classic-title">{{ 'footer.discourse_text'|trans }}</h4>
+                                        <ul class="list list-font-accent list-marked">
+                                            <li><i class="fab fa-discord"></i> <a href="https://discord.gg/zAA8Gdz">Discord</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="footer-classic-title">{{ 'footer.support_us_text'|trans }}</h4>
+                                        <ul class="list list-font-accent list-marked">
+                                            <li><i class="fab fa-patreon"></i> <a href="https://www.patreon.com/OktoDark">Patreon</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-footer-section">
+                    <div class="container">
+                        <div class="footer-language_selector">
+                            <i class="fas fa-globe"></i> {{ 'language.selector'|trans }}:
+                            {% for locale in locales() %}
+                                <a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }}</a>
+                            {% endfor %}
+                        </div>
+                        <!-- Copyright -->
+                        <p class="rights">
+                            <span>&copy;</span>
+                            <span class="copyright-year"></span>
+                            <span>{% for s in settings %}{{s.siteName}}. {{ 'footer.all_rights_reserved_text'|trans }}{% endfor %}</span>
+                            <span><a href="{{ path('privacy-policy') }}">{{ 'privacy_policy.text'|trans }}</a></span>
+                        </p>
+                        <!-- End Copyright -->
+                    </div>
+                </div>
+            </footer>
+            <!-- End Footer -->
+        {% endblock %}
