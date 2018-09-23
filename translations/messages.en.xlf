@@ -338,18 +338,6 @@
                 <source>action.publish_comment</source>
                 <target>Publish comment</target>
             </trans-unit>
-            <trans-unit id="title.login">
-                <source>title.login</source>
-                <target>Secure Sign in</target>
-            </trans-unit>
-            <trans-unit id="label.username">
-                <source>label.username</source>
-                <target>Username</target>
-            </trans-unit>
-            <trans-unit id="label.password">
-                <source>label.password</source>
-                <target>Password</target>
-            </trans-unit>
             <!-- E-mail Zone -->
             <trans-unit id="email.name">
                 <source>email.name</source>
@@ -372,6 +360,26 @@
                 <target>Submit</target>
             </trans-unit>
             <!-- End E-mail Zone -->
+
+            <!-- Login Form Zone -->
+            <trans-unit id="title.login">
+                <source>title.login</source>
+                <target>Secure Sign in</target>
+            </trans-unit>
+            <trans-unit id="label.username">
+                <source>label.username</source>
+                <target>Username</target>
+            </trans-unit>
+            <trans-unit id="label.password">
+                <source>label.password</source>
+                <target>Password</target>
+            </trans-unit>
+            <trans-unit id="content.login_note">
+                <source>content.login_note</source>
+                <target>Note: You must to be a patron or donor to have access here.<![CDATA[<br>]]>If you are patron or a donor please ask for login information from contact form.</target>
+            </trans-unit>
+            <!-- End Login Form Zone -->
+
             <!-- bePatron Zone -->
             <trans-unit id="bepatron.for">
                 <source>bepatron.for</source>

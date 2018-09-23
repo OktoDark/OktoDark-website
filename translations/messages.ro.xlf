@@ -239,6 +239,17 @@
             </trans-unit>
             <!-- End FAQ Area -->
 
+            <!-- Settings zone -->
+            <trans-unit id="change.password">
+                <source>change.password</source>
+                <target>Schimbare parola</target>
+            </trans-unit>
+            <trans-unit id="change.email_or_fullname">
+                <source>change.email_or_fullname</source>
+                <target>Schimbare e-mail sau Numele complet</target>
+            </trans-unit>
+            <!-- End Settings Zone -->
+
             <!-- End Contents -->
             <!-- Footer Zone -->
             <trans-unit id="language_selector">
@@ -327,18 +338,6 @@
                 <source>action.publish_comment</source>
                 <target>Publica un comentariu</target>
             </trans-unit>
-            <trans-unit id="title.login">
-                <source>title.login</source>
-                <target>Conectare securizata</target>
-            </trans-unit>
-            <trans-unit id="label.username">
-                <source>label.username</source>
-                <target>Nume utilizator</target>
-            </trans-unit>
-            <trans-unit id="label.password">
-                <source>label.password</source>
-                <target>Parola</target>
-            </trans-unit>
             <!-- E-mail Zone -->
             <trans-unit id="email.name">
                 <source>email.name</source>
@@ -361,6 +360,26 @@
                 <target>Trimite</target>
             </trans-unit>
             <!-- End E-mail Zone -->
+
+            <!-- Login Form Zone -->
+            <trans-unit id="title.login">
+                <source>title.login</source>
+                <target>Conectare securizata</target>
+            </trans-unit>
+            <trans-unit id="label.username">
+                <source>label.username</source>
+                <target>Nume utilizator</target>
+            </trans-unit>
+            <trans-unit id="label.password">
+                <source>label.password</source>
+                <target>Parola</target>
+            </trans-unit>
+            <trans-unit id="content.login_note">
+                <source>content.login_note</source>
+                <target>Nota: Trebuie sa fii patron sau donator ca sa ai access aici.<![CDATA[<br>]]>Daca sunteti patron sau donator va rugam sa cereti informatiile despre logare prin formularul de la contact.</target>
+            </trans-unit>
+            <!-- End Login Form Zone -->
+
             <!-- bePatron Zone -->
             <trans-unit id="bepatron.for">
                 <source>bepatron.for</source>
