@@ -133,6 +133,14 @@
                 <source>title.settings</source>
                 <target>Setari</target>
             </trans-unit>
+            <trans-unit id="title.edit_user">
+                <source>title.edit_user</source>
+                <target>Editare utilizator</target>
+            </trans-unit>
+            <trans-unit id="title.change_password">
+                <source>title.change_password</source>
+                <target>Schimba parola</target>
+            </trans-unit>
             <!-- End Titles Pages -->
             <!-- Contents -->
 
@@ -161,6 +169,46 @@
             <trans-unit id="member.settings">
                 <source>member.settings</source>
                 <target>Setari</target>
+            </trans-unit>
+            <trans-unit id="action.edit_user">
+                <source>action.edit_user</source>
+                <target>Editare utilizator</target>
+            </trans-unit>
+            <trans-unit id="action.change_password">
+                <source>action.change_password</source>
+                <target>Schimba parola</target>
+            </trans-unit>
+            <trans-unit id="label.fullname">
+                <source>label.fullname</source>
+                <target>Numele complet</target>
+            </trans-unit>
+            <trans-unit id="label.email">
+                <source>label.email</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="label.current_password">
+                <source>label.current_password</source>
+                <target>Parola curenta</target>
+            </trans-unit>
+            <trans-unit id="label.new_password">
+                <source>label.new_password</source>
+                <target>Parola noua</target>
+            </trans-unit>
+            <trans-unit id="label.new_password_confirm">
+                <source>label.new_password_confirm</source>
+                <target>Confimare parola</target>
+            </trans-unit>
+            <trans-unit id="menu.user">
+                <source>menu.user</source>
+                <target>Cont</target>
+            </trans-unit>
+            <trans-unit id="user.updated_successfully">
+                <source>user.updated_successfully</source>
+                <target>Utilizatorul a fost actualizat cu succes!</target>
+            </trans-unit>
+            <trans-unit id="info.change_password">
+                <source>info.change_password</source>
+                <target>După schimbarea parolei, veți fi deconectat din aplicație.</target>
             </trans-unit>
             <!-- End Members Zone -->
 
