@@ -5,7 +5,7 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 25.08.2018 19:49
+ * File date of modification: 24.09.2018 21:36
  */
 
 namespace App\Controller;
@@ -21,7 +21,6 @@ class RedirectController extends AbstractController
      */
     public function forum()
     {
-        $response = new RedirectResponse('https://forum.oktodark.com');
-        $response->send();
+        return $this->redirect('https://forum.oktodark.com');
     }
 }
