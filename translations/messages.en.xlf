@@ -380,6 +380,13 @@
             </trans-unit>
             <!-- End Login Form Zone -->
 
+            <!-- beDonor Zone -->
+            <trans-unit id="bedonor.note">
+                <source>bedonor.note</source>
+                <target>You can support us without to have a Patreon account.<![CDATA[<br>]]>IPlease send a mail with your confirmation.</target>
+            </trans-unit>
+            <!-- End beDonor Zone -->
+
             <!-- bePatron Zone -->
             <trans-unit id="bepatron.for">
                 <source>bepatron.for</source>
