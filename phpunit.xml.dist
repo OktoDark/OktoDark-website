@@ -10,11 +10,24 @@
     <php>
         <ini name="error_reporting" value="-1" />
         <env name="KERNEL_CLASS" value="App\Kernel" />
-        <env name="APP_ENV" value="test" />
-        <env name="APP_DEBUG" value="1" />
-        <env name="APP_SECRET" value="s$cretf0rt3st" />
-        <env name="SHELL_VERBOSITY" value="-1" />
+        <env name="SYMFONY_PHPUNIT_VERSION" value="7.1"/>
         <!-- define your env variables for the test env here -->
+
+        <!-- ###+ doctrine/doctrine-bundle ### -->
+        <env name="DATABASE_URL" value="sqlite:///data/database_test.sqlite"/>
+        <!-- ###- doctrine/doctrine-bundle ### -->
+
+        <!-- ###+ symfony/swiftmailer-bundle ### -->
+        <env name="MAILER_URL" value="null://localhost"/>
+        <!-- ###- symfony/swiftmailer-bundle ### -->
+
+        <!-- ###+ symfony/framework-bundle ### -->
+        <env name="APP_ENV" value="test"/>
+        <env name="APP_DEBUG" value="1"/>
+        <env name="APP_SECRET" value="s$cretf0rt3st"/>
+        <!-- env name="TRUSTED_PROXIES" value="127.0.0.1,127.0.0.2" -->
+        <!-- env name="TRUSTED_HOSTS" value="localhost,example.com" -->
+        <!-- ###- symfony/framework-bundle ### -->
     </php>
 
     <testsuites>
@@ -23,13 +36,9 @@
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist>
-            <directory>./src/</directory>
-        </whitelist>
-    </filter>
-
     <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+        <!-- it begins a database transaction before every testcase and rolls it back after
+             the test finished, so tests can manipulate the database without affecting other tests -->
+        <listener class="\DAMA\DoctrineTestBundle\PHPUnit\PHPUnitListener" />
     </listeners>
 </phpunit>
