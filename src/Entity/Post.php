@@ -78,7 +78,6 @@ class Post
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
-     * @Assert\DateTime
      */
     private $publishedAt;
 
