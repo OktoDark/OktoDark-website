@@ -179,6 +179,9 @@
     "symfony/asset": {
         "version": "v4.0.3"
     },
+    "symfony/browser-kit": {
+        "version": "4.2-dev"
+    },
     "symfony/cache": {
         "version": "v4.0.3"
     },
@@ -214,6 +217,9 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v4.0.3"
+    },
+    "symfony/dom-crawler": {
+        "version": "4.2-dev"
     },
     "symfony/dotenv": {
         "version": "v4.0.3"
