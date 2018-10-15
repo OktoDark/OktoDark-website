@@ -12,11 +12,11 @@ namespace App\Controller;
 
 use App\Repository\CareersRepository;
 use App\Repository\SettingsRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CareersController extends Controller
+class CareersController extends AbstractController
 {
     /**
      * @Route("/careers", methods={"GET"}, name="careers")
