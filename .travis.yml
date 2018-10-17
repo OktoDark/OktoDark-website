@@ -24,4 +24,4 @@ install:
 
 script:
   - ./vendor/bin/simple-phpunit
-  - composer validate --strict
+  # - composer validate --strict
