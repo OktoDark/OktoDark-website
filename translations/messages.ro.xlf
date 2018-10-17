@@ -317,6 +317,7 @@
                 <target>Site-ul nostru este în întreținere, lucrăm foarte mult pentru a vă oferi cea mai bună experiență pe noul nostru site web.</target>
             </trans-unit>
             <!-- End Maintenance Zone -->
+
             <!-- Blog Zone -->
             <trans-unit id="action.sign_in">
                 <source>action.sign_in</source>
@@ -325,6 +326,34 @@
             <trans-unit id="post.to_publish_a_comment">
                 <source>post.to_publish_a_comment</source>
                 <target>pentru a publica un comentariu</target>
+            </trans-unit>
+            <trans-unit id="post.num_comments">
+                <source>post.num_comments</source>
+                <target>{count, plural, one {# comentariu} other {# comentarii}}</target>
+            </trans-unit>
+            <trans-unit id="post.commented_on">
+                <source>post.commented_on</source>
+                <target>comentat la</target>
+            </trans-unit>
+            <trans-unit id="post.no_comments">
+                <source>post.no_comments</source>
+                <target>Fii primul care comentează acest articol.</target>
+            </trans-unit>
+            <trans-unit id="post.no_posts_found">
+                <source>post.no_posts_found</source>
+                <target>Nu s-au găsit articole.</target>
+            </trans-unit>
+            <trans-unit id="post.created_successfully">
+                <source>post.created_successfully</source>
+                <target>Articol creat cu succes!</target>
+            </trans-unit>
+            <trans-unit id="post.updated_successfully">
+                <source>post.updated_successfully</source>
+                <target>Articol modificat cu succes!</target>
+            </trans-unit>
+            <trans-unit id="post.deleted_successfully">
+                <source>post.deleted_successfully</source>
+                <target>Articol șters cu succes!</target>
             </trans-unit>
             <trans-unit id="title.add_comment">
                 <source>title.add_comment</source>
@@ -338,6 +367,8 @@
                 <source>action.publish_comment</source>
                 <target>Publica un comentariu</target>
             </trans-unit>
+            <!-- End Blog Zone -->
+
             <!-- E-mail Zone -->
             <trans-unit id="email.name">
                 <source>email.name</source>

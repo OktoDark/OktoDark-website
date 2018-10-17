@@ -317,6 +317,7 @@
                 <target>Our website is under maintenance, we are working very hard to give you the best experience on our new web site.</target>
             </trans-unit>
             <!-- End Maintenance Zone -->
+
             <!-- Blog Zone -->
             <trans-unit id="action.sign_in">
                 <source>action.sign_in</source>
@@ -325,6 +326,42 @@
             <trans-unit id="post.to_publish_a_comment">
                 <source>post.to_publish_a_comment</source>
                 <target>to publish a comment</target>
+            </trans-unit>
+            <trans-unit id="post.num_comments">
+                <source>post.num_comments</source>
+                <target>{count, plural, one {# comment} other {# comments}}</target>
+            </trans-unit>
+            <trans-unit id="post.commented_on">
+                <source>post.commented_on</source>
+                <target>commented on</target>
+            </trans-unit>
+            <trans-unit id="post.no_comments">
+                <source>post.no_comments</source>
+                <target>Be the first to comment on this post.</target>
+            </trans-unit>
+            <trans-unit id="post.no_posts_found">
+                <source>post.no_posts_found</source>
+                <target>No posts found.</target>
+            </trans-unit>
+            <trans-unit id="post.created_successfully">
+                <source>post.created_successfully</source>
+                <target>Post created successfully!</target>
+            </trans-unit>
+            <trans-unit id="post.updated_successfully">
+                <source>post.updated_successfully</source>
+                <target>Post updated successfully!</target>
+            </trans-unit>
+            <trans-unit id="post.deleted_successfully">
+                <source>post.deleted_successfully</source>
+                <target>Post deleted successfully!</target>
+            </trans-unit>
+            <trans-unit id="post.search_for">
+                <source>post.search_for</source>
+                <target>Search for...</target>
+            </trans-unit>
+            <trans-unit id="post.search_no_results">
+                <source>post.search_no_results</source>
+                <target>No results found</target>
             </trans-unit>
             <trans-unit id="title.add_comment">
                 <source>title.add_comment</source>
@@ -338,6 +375,8 @@
                 <source>action.publish_comment</source>
                 <target>Publish comment</target>
             </trans-unit>
+            <!-- End Blog Zone -->
+
             <!-- E-mail Zone -->
             <trans-unit id="email.name">
                 <source>email.name</source>
