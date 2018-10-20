@@ -10,31 +10,35 @@
 
 namespace App\EventListener;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
-class MaintenanceListener extends Controller
+class MaintenanceListener
 {
-    protected $container;
+    private $isLocked;
+    private $twig;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct($isLocked, \Twig_Environment $twig)
     {
-        $this->container = $container;
+        $this->isLocked = $isLocked;
+        $this->twig = $twig;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
     {
-        $maintenance = $this->container->hasParameter('maintenance') ? $this->container->getParameter('maintenance') : false;
-        $debug = in_array($this->container->get('kernel')->getEnvironment(), ['prod']);
-
-        if ($maintenance && !$debug)
+        if ( ! $this->isLocked)
         {
-            $engine = $this->container->get('app.maintenance');
-            $template = $engine->renderView('@theme/maintenance/maintenance.html.twig',[]);
-            $event->setResponse(new Response($template, 503));
-            $event->stopPropagation();
+            return;
         }
+
+        $page = $this->twig->render('@theme/maintenance/maintenance.html.twig');
+
+        $event->setResponse(
+            new Response(
+                $page,
+                Response::HTTP_SERVICE_UNAVAILABLE
+            )
+        );
+        $event->stopPropagation();
     }
 }
