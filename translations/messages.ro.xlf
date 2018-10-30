@@ -355,6 +355,14 @@
                 <source>post.deleted_successfully</source>
                 <target>Articol șters cu succes!</target>
             </trans-unit>
+            <trans-unit id="post.search_for">
+                <source>post.search_for</source>
+                <target>Cautare pentru...</target>
+            </trans-unit>
+            <trans-unit id="post.search_no_results">
+                <source>post.search_no_results</source>
+                <target>Nici un rezultat gasit</target>
+            </trans-unit>
             <trans-unit id="title.add_comment">
                 <source>title.add_comment</source>
                 <target>Adauga un comentariu</target>
