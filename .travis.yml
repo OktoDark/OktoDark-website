@@ -12,6 +12,7 @@ matrix:
     - php: 7.2
     - php: 7.3
       env: DB=mysqli
+    - php: nightly
   allow_failures:
     - php: nightly
 
