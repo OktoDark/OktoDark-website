@@ -12,9 +12,9 @@ matrix:
     - php: 7.2
     - php: 7.3
       env: DB=mysqli
-    - php: nightly
-  allow_failures:
-    - php: nightly
+#    - php: nightly
+#  allow_failures:
+#    - php: nightly
 
 before_install:
   - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
