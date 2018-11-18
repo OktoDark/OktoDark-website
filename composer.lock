@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9832b1e8413c8f1d0730ef4525e55297",
+    "content-hash": "58fe0e12cce10fe1a2bd43b6fba0c0ad",
     "packages": [
         {
             "name": "art4/json-api-client",
@@ -5370,6 +5370,53 @@
             "time": "2018-11-15T12:17:10+00:00"
         },
         {
+            "name": "symfony/webpack-encore-bundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/webpack-encore-bundle.git",
+                "reference": "a3382c840f74db83c3df42cd811e06934c422bd9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/a3382c840f74db83c3df42cd811e06934c422bd9",
+                "reference": "a3382c840f74db83c3df42cd811e06934c422bd9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "symfony/asset": "^3.4 || ^4.0",
+                "symfony/config": "^3.4 || ^4.0",
+                "symfony/dependency-injection": "^3.4 || ^4.0",
+                "symfony/http-kernel": "^3.4 || ^4.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.13",
+                "symfony/framework-bundle": "^3.4 || ^4.0",
+                "symfony/phpunit-bridge": "^3.4 || ^4.1",
+                "symfony/twig-bundle": "^3.4 || ^4.0",
+                "twig/twig": "^1.35 || ^2.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\WebpackEncoreBundle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Integration with your Symfony app & Webpack Encore!",
+            "time": "2018-11-16T14:25:01+00:00"
+        },
+        {
             "name": "symfony/yaml",
             "version": "v4.2.0-BETA2",
             "source": {
@@ -6395,7 +6442,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "sensiolabs/security-checker": 20
+        "sensiolabs/security-checker": 20,
+        "symfony/webpack-encore-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

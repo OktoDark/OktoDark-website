@@ -37,6 +37,7 @@
     "symfony/translation": "4.2.0-beta2",
     "symfony/twig-bundle": "4.2.0-beta2",
     "symfony/validator": "4.2.0-beta2",
+    "symfony/webpack-encore-bundle": "dev-master",
     "symfony/yaml": "4.2.0-beta2",
     "twig/extensions": "^1.5",
     "twig/twig": "^2.4",
