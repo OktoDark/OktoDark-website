@@ -72,6 +72,7 @@
                 <target>Logout</target>
             </trans-unit>
             <!-- End Navbar Zone -->
+
             <!-- Title Pages Zone -->
             <trans-unit id="title.home">
                 <source>title.home</source>
@@ -142,8 +143,8 @@
                 <target>Change password</target>
             </trans-unit>
             <!-- End Titles Pages -->
-            <!-- Contents -->
 
+            <!-- Contents -->
             <trans-unit id="content.contact">
                 <source>content.contact</source>
                 <target>If you have questions about our products, problems or any else, we answering of your question in short time.</target>
@@ -153,6 +154,8 @@
                 <source>content.gamesPage</source>
                 <target>On this page you can find the all our games released from the beginning.</target>
             </trans-unit>
+            <!-- End Content Area -->
+
             <!-- Members Area Zone -->
             <trans-unit id="member.download_alpha_text">
                 <source>member.download_alpha_text</source>
@@ -250,7 +253,6 @@
             </trans-unit>
             <!-- End Settings Zone -->
 
-            <!-- End Contents -->
             <!-- Footer Zone -->
             <trans-unit id="language_selector">
                 <source>language.selector</source>
@@ -293,6 +295,7 @@
                 <target>All rights reserved.</target>
             </trans-unit>
             <!-- End Footer Zone -->
+
             <!-- Misc Zone -->
             <trans-unit id="old_browser.text">
                 <source>old_browser.text</source>
@@ -303,6 +306,7 @@
                 <target>Loading...</target>
             </trans-unit>
             <!-- End Misc Zone -->
+
             <!-- Maintenance Zone -->
             <trans-unit id="maintenance.text">
                 <source>maintenance.text</source>

@@ -72,6 +72,7 @@
                 <target>Deconecteaza-te</target>
             </trans-unit>
             <!-- End Navbar Zone -->
+
             <!-- Title Pages Zone -->
             <trans-unit id="title.home">
                 <source>title.home</source>
@@ -142,8 +143,8 @@
                 <target>Schimba parola</target>
             </trans-unit>
             <!-- End Titles Pages -->
-            <!-- Contents -->
 
+            <!-- Contents -->
             <trans-unit id="content.contact">
                 <source>content.contact</source>
                 <target>Daca ai intrebari privind produsele noastre sau orice alta problema, va vom raspunde in scurt timp posibil.</target>
@@ -153,6 +154,8 @@
                 <source>content.gamesPage</source>
                 <target>Pe aceasta pagina gasiti toate jocurile noastre care au fost lansate de la inceput.</target>
             </trans-unit>
+            <!-- End Content Area -->
+
             <!-- Members Area Zone -->
             <trans-unit id="member.download_alpha_text">
                 <source>member.download_alpha_text</source>
@@ -250,7 +253,6 @@
             </trans-unit>
             <!-- End Settings Zone -->
 
-            <!-- End Contents -->
             <!-- Footer Zone -->
             <trans-unit id="language_selector">
                 <source>language.selector</source>
@@ -293,6 +295,7 @@
                 <target>Toate drepturile rezervate.</target>
             </trans-unit>
             <!-- End Footer Zone -->
+
             <!-- Misc Zone -->
             <trans-unit id="old_browser.text">
                 <source>old_browser.text</source>
@@ -303,6 +306,7 @@
                 <target>Se incarca...</target>
             </trans-unit>
             <!-- End Misc Zone -->
+
             <!-- Maintenance Zone -->
             <trans-unit id="maintenance.text">
                 <source>maintenance.text</source>
