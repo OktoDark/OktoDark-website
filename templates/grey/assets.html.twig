@@ -1,0 +1,52 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.contact'|trans }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block body_id 'contact' %}
+
+{% block main %}
+
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.contact'|trans }}</h2>
+        </div>
+    </section>
+
+    <section class="section section-md bg-default">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-3">
+                    <h5 class="text-primary">Menu</h5>
+                    <p>
+                        <a href="">Create Category</a>
+                        <br>
+                        <a href="">Add Assets</a>
+                        -----------
+                        <br>
+                        Category List:
+                        <br>
+                        -----------
+                    </p>
+                </div>
+                <div class="col-9">
+                    <h5 class="text-primary">Products</h5>
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <div class="card h-100">
+                            <h4 class="card-title">
+                                <a href="#">Name</a>
+                            </h4>
+                            <a href="#"><img class="card-img-top" src="" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}
