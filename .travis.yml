@@ -4,14 +4,19 @@ sudo: false
 cache:
   directories:
     - $HOME/.composer/cache/files
-    # - ./bin/.phpunit
+    - ./bin/.phpunit
+
+env:
+  global:
+    - SYMFONY_PHPUNIT_DIR=./bin/.phpunit
+    - SYMFONY_DEPRECATIONS_HELPER=9
 
 matrix:
   fast_finish: true
   include:
-    - php: 7.1
+    - php: 7.1.18
     - php: 7.2
-      env: DB=mysqli
+    - php: nightly
   allow_failures:
     - php: nightly
 
@@ -21,7 +26,7 @@ before_install:
 
 install:
   - composer install
-  # - ./bin/phpunit install
+  - ./bin/phpunit install
 
 script:
   - ./bin/.phpunit
