@@ -4,7 +4,7 @@ sudo: false
 cache:
   directories:
     - $HOME/.composer/cache/files
-    - ./bin/.phpunit
+    # - ./bin/.phpunit
 
 matrix:
   fast_finish: true
