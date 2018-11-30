@@ -142,6 +142,10 @@
                 <source>title.change_password</source>
                 <target>Schimba parola</target>
             </trans-unit>
+            <trans-unit id="title.assets">
+                <source>title.assets</source>
+                <target>Assets</target>
+            </trans-unit>
             <!-- End Titles Pages -->
 
             <!-- Contents -->

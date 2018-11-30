@@ -142,6 +142,10 @@
                 <source>title.change_password</source>
                 <target>Change password</target>
             </trans-unit>
+            <trans-unit id="title.assets">
+                <source>title.assets</source>
+                <target>Assets</target>
+            </trans-unit>
             <!-- End Titles Pages -->
 
             <!-- Contents -->
@@ -155,6 +159,29 @@
                 <target>On this page you can find the all our games released from the beginning.</target>
             </trans-unit>
             <!-- End Content Area -->
+
+            <!-- Assets Area -->
+            <trans-unit id="assets.category_list">
+                <source>assets.category_list</source>
+                <target>Category List</target>
+            </trans-unit>
+            <trans-unit id="assets.menu">
+                <source>assets.menu</source>
+                <target>Menu</target>
+            </trans-unit>
+            <trans-unit id="assets.name">
+                <source>assets.name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="assets.products">
+                <source>assets.products</source>
+                <target>Products</target>
+            </trans-unit>
+            <trans-unit id="assets.add_assets">
+                <source>assets.add_assets</source>
+                <target>Add Assets</target>
+            </trans-unit>
+            <!-- End Assets Area -->
 
             <!-- Members Area Zone -->
             <trans-unit id="member.download_alpha_text">
