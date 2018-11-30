@@ -4,6 +4,7 @@ sudo: false
 cache:
   directories:
     - $HOME/.composer/cache/files
+    - ./bin/.phpunit
 
 matrix:
   fast_finish: true
@@ -20,8 +21,8 @@ before_install:
 
 install:
   - composer install
-  - ./vendor/bin/simple-phpunit install
+  - ./bin/phpunit install
 
 script:
-  - ./vendor/bin/simple-phpunit
+  - ./bin/.phpunit
   # - composer validate --strict
