@@ -1,6 +1,6 @@
 framework:
     secret: '%env(APP_SECRET)%'
-    csrf_protection: { enabled: true }
+    csrf_protection: true
     http_method_override: true
     trusted_hosts: ~
 
@@ -8,9 +8,11 @@ framework:
     # Remove or comment this section to explicitly disable session support.
     session:
         handler_id: ~
+        cookie_secure: auto
+        cookie_samesite: lax
 
-    esi: { enabled: true }
-    fragments: { enabled: true }
+    esi: true
+    fragments: true
     php_errors:
         log: true
 
