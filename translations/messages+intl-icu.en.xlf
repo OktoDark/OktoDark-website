@@ -458,9 +458,13 @@
             <!-- End beDonor Zone -->
 
             <!-- bePatron Zone -->
-            <trans-unit id="bepatron.for">
-                <source>bepatron.for</source>
-                <target>For:</target>
+            <trans-unit id="bepatron.worth">
+                <source>bepatron.worth</source>
+                <target>Worth</target>
+            </trans-unit>
+            <trans-unit id="bepatron.ring_the_bell">
+                <source>bepatron.ring_the_bell</source>
+                <target>Ring the Bell</target>
             </trans-unit>
             <trans-unit id="bepatron.now">
                 <source>bepatron.now</source>
