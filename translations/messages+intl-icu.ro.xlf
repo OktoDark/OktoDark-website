@@ -226,7 +226,7 @@
             </trans-unit>
             <trans-unit id="faq.one_content_txt">
                 <source>faq.one_content_txt</source>
-                <target>Trebuie sa fii patron sau donator, si sa ne trimiti folosind pagina de contact sau sa ne trimiti un mesaj privat pe adresa noastra de <![CDATA[<a href="https://facebook.com/OktoDark">facebook</a>]]> cu numele tau.<![CDATA[<br>]]> Contul cu toate detaliile pe site il vei primi pe mail.</target>
+                <target><![CDATA[Trebuie sa fii patron sau donator, si sa ne trimiti folosind pagina de contact sau sa ne trimiti un mesaj privat pe adresa noastra de <a href="https://facebook.com/OktoDark">facebook</a> cu numele tau.<br>Contul cu toate detaliile pe site il vei primi pe mail.]]></target>
             </trans-unit>
             <trans-unit id="faq.two_title_txt">
                 <source>faq.two_title_txt</source>
@@ -242,7 +242,7 @@
             </trans-unit>
             <trans-unit id="faq.three_content_txt">
                 <source>faq.three_content_txt</source>
-                <target>Trebuie sa fii patron sau donator ca sa vezi sistemul de votare. Este secret. <![CDATA[<i class="fas fa-user-ninja"></i>]]></target>
+                <target><![CDATA[Trebuie sa fii patron sau donator ca sa vezi sistemul de votare. Este secret. <i class="fas fa-user-ninja"></i>]]></target>
             </trans-unit>
             <!-- End FAQ Area -->
 
@@ -423,14 +423,14 @@
             </trans-unit>
             <trans-unit id="content.login_note">
                 <source>content.login_note</source>
-                <target>Nota: Trebuie sa fii patron sau donator ca sa ai access aici.<![CDATA[<br>]]>Daca sunteti patron sau donator va rugam sa cereti informatiile despre logare prin formularul de la contact.</target>
+                <target><![CDATA[Nota: Trebuie sa fii patron sau donator ca sa ai access aici.<br>Daca sunteti patron sau donator va rugam sa cereti informatiile despre logare prin formularul de la contact.]]></target>
             </trans-unit>
             <!-- End Login Form Zone -->
 
             <!-- beDonor Zone -->
             <trans-unit id="bedonor.note">
                 <source>bedonor.note</source>
-                <target>Poti sa ne ajutati si fara sa ai cont pe Patreon.<![CDATA[<br>]]>Va rugam sa ne trimite-ti un email cu confirmarea.</target>
+                <target><![CDATA[Poti sa ne ajutati si fara sa ai cont pe Patreon.<br>Va rugam sa ne trimite-ti un email cu confirmarea.]]></target>
             </trans-unit>
             <!-- End beDonor Zone -->
 
