@@ -453,7 +453,7 @@
             <!-- beDonor Zone -->
             <trans-unit id="bedonor.note">
                 <source>bedonor.note</source>
-                <target><![CDATA[You can support us without to have a Patreon account.<br>IPlease send a mail with your confirmation.]]></target>
+                <target><![CDATA[You can support us without to have a Patreon account.<br><b>You receive all from Tier Rewards from "Be a Patron" page</b><br>Please send a mail with your confirmation.]]></target>
             </trans-unit>
             <!-- End beDonor Zone -->
 
