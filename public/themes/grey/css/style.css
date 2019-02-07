@@ -5496,13 +5496,13 @@ html.tablet .ui-to-top {
 }
 
 .rd-navbar-fixed .rd-navbar-submenu-toggle::after {
-    content: '\f107';
+    content: '\f236';
     position: absolute;
     top: 0;
     right: 0;
     width: 56px;
     height: 52px;
-    font: 400 14px "FontAwesome";
+    font: 400 14px "Material Design Icons";
     line-height: 52px;
     text-align: center;
     transition: 0.4s all ease;
