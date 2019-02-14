@@ -311,6 +311,68 @@
             </trans-unit>
             <!-- End Misc Zone -->
 
+            <!-- Slider main page Zone -->
+            <trans-unit id="slider_one.text">
+                <source>slider_one.text</source>
+                <target>Bun venit la OktoDark Studios!</target>
+            </trans-unit>
+            <trans-unit id="slider_one_row.text">
+                <source>slider_one_row.text</source>
+                <target>Noi creăm jocuri, mods și apps</target>
+            </trans-unit>
+            <trans-unit id="slider_two.text">
+                <source>slider_two.text</source>
+                <target>Gratis</target>
+            </trans-unit>
+            <trans-unit id="slider_two_row.text">
+                <source>slider_two_row.text</source>
+                <target>Anumite jocuri sunt gratuite</target>
+            </trans-unit>
+            <trans-unit id="slider_three.text">
+                <source>slider_three.text</source>
+                <target>Plătite</target>
+            </trans-unit>
+            <trans-unit id="slider_three_row.text">
+                <source>slider_three_row.text</source>
+                <target>Ai ceea ce alegi să încerci</target>
+            </trans-unit>
+            <!-- End Slider main page Zone -->
+
+            <!-- Main home Info -->
+            <trans-unit id="info_home_one.text">
+                <source>info_home_one.text</source>
+                <target>Verifica</target>
+            </trans-unit>
+            <trans-unit id="info_home_one_content.text">
+                <source>info_home_one_content.text</source>
+                <target>Puteți vedea ce producem.</target>
+            </trans-unit>
+            <trans-unit id="info_home_two.text">
+                <source>info_home_two.text</source>
+                <target>Alege</target>
+            </trans-unit>
+            <trans-unit id="info_home_two_content.text">
+                <source>info_home_two_content.text</source>
+                <target>După ce vedeți produsele noastre, puteți să începeți alegerea.</target>
+            </trans-unit>
+            <trans-unit id="info_home_three.text">
+                <source>info_home_three.text</source>
+                <target>Testarea</target>
+            </trans-unit>
+            <trans-unit id="info_home_three_content.text">
+                <source>info_home_three_content.text</source>
+                <target>După alegerea dvs. puteți testa produsele noastre, online sau offline.</target>
+            </trans-unit>
+            <trans-unit id="info_home_four.text">
+                <source>info_home_four.text</source>
+                <target>Descarca</target>
+            </trans-unit>
+            <trans-unit id="info_home_four_content.text">
+                <source>info_home_four_content.text</source>
+                <target>Puteți descărca ceea ce doriți.</target>
+            </trans-unit>
+            <!-- End Main home Info -->
+
             <!-- Maintenance Zone -->
             <trans-unit id="maintenance.text">
                 <source>maintenance.text</source>

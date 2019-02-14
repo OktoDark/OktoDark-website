@@ -334,6 +334,68 @@
             </trans-unit>
             <!-- End Misc Zone -->
 
+            <!-- Slider main page Zone -->
+            <trans-unit id="slider_one.text">
+                <source>slider_one.text</source>
+                <target>Welcome to OktoDark Studios!</target>
+            </trans-unit>
+            <trans-unit id="slider_one_row.text">
+                <source>slider_one_row.text</source>
+                <target>We create games, mods and apps</target>
+            </trans-unit>
+            <trans-unit id="slider_two.text">
+                <source>slider_two.text</source>
+                <target>For free</target>
+            </trans-unit>
+            <trans-unit id="slider_two_row.text">
+                <source>slider_two_row.text</source>
+                <target>Some games are free</target>
+            </trans-unit>
+            <trans-unit id="slider_three.text">
+                <source>slider_three.text</source>
+                <target>Payed</target>
+            </trans-unit>
+            <trans-unit id="slider_three_row.text">
+                <source>slider_three_row.text</source>
+                <target>You receive what you choose to try</target>
+            </trans-unit>
+            <!-- End Slider main page Zone -->
+
+            <!-- Main home Info -->
+            <trans-unit id="info_home_one.text">
+                <source>info_home_one.text</source>
+                <target>Check</target>
+            </trans-unit>
+            <trans-unit id="info_home_one_content.text">
+                <source>info_home_one_content.text</source>
+                <target>You can see what we produce.</target>
+            </trans-unit>
+            <trans-unit id="info_home_two.text">
+                <source>info_home_two.text</source>
+                <target>Choice</target>
+            </trans-unit>
+            <trans-unit id="info_home_two_content.text">
+                <source>info_home_two_content.text</source>
+                <target>After you see our products, you can to start to choice.</target>
+            </trans-unit>
+            <trans-unit id="info_home_three.text">
+                <source>info_home_three.text</source>
+                <target>Testing</target>
+            </trans-unit>
+            <trans-unit id="info_home_three_content.text">
+                <source>info_home_three_content.text</source>
+                <target>After your choice you can testing our products, online or offline.</target>
+            </trans-unit>
+            <trans-unit id="info_home_four.text">
+                <source>info_home_four.text</source>
+                <target>Download</target>
+            </trans-unit>
+            <trans-unit id="info_home_four_content.text">
+                <source>info_home_four_content.text</source>
+                <target>You can download what you do want.</target>
+            </trans-unit>
+            <!-- End Main home Info -->
+
             <!-- Maintenance Zone -->
             <trans-unit id="maintenance.text">
                 <source>maintenance.text</source>
