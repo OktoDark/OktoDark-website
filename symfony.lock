@@ -107,9 +107,6 @@
     "erusev/parsedown": {
         "version": "1.6.4"
     },
-    "ezyang/htmlpurifier": {
-        "version": "v4.9.3"
-    },
     "friendsofphp/php-cs-fixer": {
         "version": "2.2",
         "recipe": {
@@ -121,6 +118,12 @@
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "league/uri-parser": {
+        "version": "1.4.1"
+    },
+    "masterminds/html5": {
+        "version": "2.5.0"
     },
     "monolog/monolog": {
         "version": "1.23.0"
@@ -427,6 +430,21 @@
     },
     "symfony/yaml": {
         "version": "v4.0.3"
+    },
+    "tgalopin/html-sanitizer": {
+        "version": "1.1.1"
+    },
+    "tgalopin/html-sanitizer-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "26a72f38eede2c53b5d3ccbed5c150e10a93268d"
+        },
+        "files": [
+            "./config/packages/html_sanitizer.yaml"
+        ]
     },
     "twig/extensions": {
         "version": "1.0",
