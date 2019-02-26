@@ -12,9 +12,11 @@ namespace App\Controller;
 
 use App\Repository\SettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 /**
  * Controller used to manage the application security.
@@ -25,11 +27,14 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
  */
 class SecurityController extends AbstractController
 {
+    use TargetPathTrait;
+
     /**
      * @Route("/login", name="security_login")
      */
-    public function login(AuthenticationUtils $helper, SettingsRepository $settings): Response
+    public function login(Request $request, AuthenticationUtils $helper, SettingsRepository $settings): Response
     {
+        $this->saveTargetPath($request->getSession(), 'home', $this->generateUrl('home_index'));
         $selectSettings = $settings->findAll();
 
         return $this->render('@theme/login.html.twig', [
