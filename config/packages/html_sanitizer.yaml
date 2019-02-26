@@ -5,7 +5,7 @@ html_sanitizer:
             # Read https://github.com/tgalopin/html-sanitizer/blob/master/docs/1-getting-started.md#extensions
             # to learn more about which extensions you would like to enable.
             extensions:
-                - 'basic'
+                 - 'basic'
                  - 'list'
                  - 'table'
                  - 'image'
