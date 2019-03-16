@@ -14,7 +14,7 @@
     "ext-intl": "^1.1",
     "doctrine/doctrine-bundle": "^1.8",
     "doctrine/orm": "^2.6",
-    "easycorp/easyadmin-bundle": "^1.17",
+    "easycorp/easyadmin-bundle": "^2.1.1",
     "erusev/parsedown": "^1.6",
     "patreon/patreon": "^0.3.1",
     "sensio/framework-extra-bundle": "^5.1",
