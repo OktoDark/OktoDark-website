@@ -15,7 +15,7 @@ easy_admin:
             - { entity: 'Team', icon: 'users' }
             - { entity: 'User', icon: 'user' }
             - { entity: 'Careers', icon: 'id-badge' }
-            - { entity: 'Blog', icon: 'wordpress'}
+            - { entity: 'Post', icon: 'wordpress'}
 
         assets:
             js:
@@ -80,10 +80,10 @@ easy_admin:
                     - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
 
         #####################
-        # Blog
+        # Post
         #####################
-        Blog:
-            class: App\Entity\Blog
+        Post:
+            class: App\Entity\Post
             form:
                 fields:
                     - title

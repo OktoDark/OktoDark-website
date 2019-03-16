@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\BlogRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  * @ORM\Table(name="blog_post")
  *
  * Defines the properties of the Post entity to represent the blog posts.
@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  * @author Yonel Ceruto <yonelceruto@gmail.com>
  */
-class Blog
+class Post
 {
     /**
      * Use constants to define configuration options that rarely change instead
@@ -127,7 +127,7 @@ class Blog
         $this->tags = new ArrayCollection();
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -137,7 +137,7 @@ class Blog
         return $this->title;
     }
 
-    public function setTitle(?string $title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -147,7 +147,7 @@ class Blog
         return $this->slug;
     }
 
-    public function setSlug(?string $slug): void
+    public function setSlug(string $slug): void
     {
         $this->slug = $slug;
     }
@@ -157,7 +157,7 @@ class Blog
         return $this->content;
     }
 
-    public function setContent(?string $content): void
+    public function setContent(string $content): void
     {
         $this->content = $content;
     }
@@ -167,17 +167,17 @@ class Blog
         return $this->publishedAt;
     }
 
-    public function setPublishedAt(?\DateTime $publishedAt): void
+    public function setPublishedAt(\DateTime $publishedAt): void
     {
         $this->publishedAt = $publishedAt;
     }
 
-    public function getAuthor(): User
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): void
+    public function setAuthor(User $author): void
     {
         $this->author = $author;
     }
@@ -187,7 +187,7 @@ class Blog
         return $this->comments;
     }
 
-    public function addComment(?Comment $comment): void
+    public function addComment(Comment $comment): void
     {
         $comment->setPost($this);
         if (!$this->comments->contains($comment)) {
@@ -197,7 +197,6 @@ class Blog
 
     public function removeComment(Comment $comment): void
     {
-        $comment->setPost(null);
         $this->comments->removeElement($comment);
     }
 
@@ -206,12 +205,12 @@ class Blog
         return $this->summary;
     }
 
-    public function setSummary(?string $summary): void
+    public function setSummary(string $summary): void
     {
         $this->summary = $summary;
     }
 
-    public function addTag(?Tag ...$tags): void
+    public function addTag(Tag ...$tags): void
     {
         foreach ($tags as $tag) {
             if (!$this->tags->contains($tag)) {

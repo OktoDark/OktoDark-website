@@ -10,9 +10,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Blog;
+use App\Entity\Post;
 use App\Form\PostType;
-use App\Repository\BlogRepository;
+use App\Repository\PostRepository;
 use App\Utils\Slugger;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -31,11 +31,8 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * See http://knpbundles.com/keyword/admin
  *
- * @Route("/admin/blog")
+ * @Route("/admin")
  * @Security("is_granted('ROLE_ADMIN')")
- *
- * @author Ryan Weaver <weaverryan@gmail.com>
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
 class AdminController extends AbstractController
 {
@@ -53,7 +50,7 @@ class AdminController extends AbstractController
      * @Route("/", methods={"GET"}, name="admin_index")
      * @Route("/", methods={"GET"}, name="admin_post_index")
      */
-    public function index(BlogRepository $posts): Response
+    public function index(PostRepository $posts): Response
     {
         $authorPosts = $posts->findBy(['author' => $this->getUser()], ['publishedAt' => 'DESC']);
 
@@ -71,7 +68,7 @@ class AdminController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $post = new Blog();
+        $post = new Post();
         $post->setAuthor($this->getUser());
 
         // See https://symfony.com/doc/current/book/forms.html#submitting-forms-with-multiple-buttons
@@ -115,7 +112,7 @@ class AdminController extends AbstractController
      *
      * @Route("/{id}", requirements={"id": "\d+"}, methods={"GET"}, name="admin_post_show")
      */
-    public function show(Blog $post): Response
+    public function show(Post $post): Response
     {
         // This security check can also be performed
         // using an annotation: @Security("is_granted('show', blog)")
@@ -131,7 +128,7 @@ class AdminController extends AbstractController
      *
      * @Route("/{id}/edit", requirements={"id": "\d+"}, methods={"GET", "POST"}, name="admin_post_edit")
      */
-    public function edit(Request $request, Blog $post): Response
+    public function edit(Request $request, Post $post): Response
     {
         $this->denyAccessUnlessGranted('edit', $post, 'Posts can only be edited by their authors.');
 
@@ -162,7 +159,7 @@ class AdminController extends AbstractController
      * The Security annotation value is an expression (if it evaluates to false,
      * the authorization mechanism will prevent the user accessing this resource).
      */
-    public function delete(Request $request, Blog $post): Response
+    public function delete(Request $request, Post $post): Response
     {
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
             return $this->redirectToRoute('admin_post_index');

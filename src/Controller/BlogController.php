@@ -11,10 +11,10 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
-use App\Entity\Blog;
+use App\Entity\Post;
 use App\Events;
 use App\Form\CommentType;
-use App\Repository\BlogRepository;
+use App\Repository\PostRepository;
 use App\Repository\SettingsRepository;
 use App\Repository\TagRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
@@ -48,7 +48,7 @@ class BlogController extends AbstractController
      * Content-Type header for the response.
      * See https://symfony.com/doc/current/quick_tour/the_controller.html#using-formats
      */
-    public function index(Request $request, int $page, string $_format, BlogRepository $posts, TagRepository $tags, SettingsRepository $settings): Response
+    public function index(Request $request, int $page, string $_format, PostRepository $posts, TagRepository $tags, SettingsRepository $settings): Response
     {
         $tag = null;
         if ($request->query->has('tag'))
@@ -73,12 +73,12 @@ class BlogController extends AbstractController
      * value given in the route.
      * See https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html
      */
-    public function postShow(Blog $post, SettingsRepository $settings): Response
+    public function postShow(Post $post, SettingsRepository $settings): Response
     {
         $selectSettings = $settings->findAll();
 
         return $this->render('@theme/blog/post_show.html.twig', [
-            'blog' => $post,
+            'post' => $post,
             'settings' => $selectSettings,
         ]);
     }
@@ -92,7 +92,7 @@ class BlogController extends AbstractController
      * (postSlug) doesn't match any of the Doctrine entity properties (slug).
      * See https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html#doctrine-converter
      */
-    public function commentNew(Request $request, Blog $post, EventDispatcherInterface $eventDispatcher): Response
+    public function commentNew(Request $request, Post $post, EventDispatcherInterface $eventDispatcher): Response
     {
         $comment = new Comment();
         $comment->setAuthor($this->getUser());
@@ -122,6 +122,7 @@ class BlogController extends AbstractController
 
             return $this->redirectToRoute('blog_post', ['slug' => $post->getSlug()]);
         }
+
         return $this->render('@theme/blog/comment_form_error.html.twig', [
             'post' => $post,
             'form' => $form->createView(),
@@ -136,9 +137,10 @@ class BlogController extends AbstractController
      * The "id" of the Post is passed in and then turned into a Post object
      * automatically by the ParamConverter.
      */
-    public function commentForm(Blog $post): Response
+    public function commentForm(Post $post): Response
     {
         $form = $this->createForm(CommentType::class);
+
         return $this->render('@theme/blog/_comment_form.html.twig', [
             'post' => $post,
             'form' => $form->createView(),
@@ -148,7 +150,7 @@ class BlogController extends AbstractController
     /**
      * @Route("/search", methods={"GET"}, name="blog_search")
      */
-    public function search(Request $request, BlogRepository $posts): Response
+    public function search(Request $request, PostRepository $posts): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->render('blog/search.html.twig');
