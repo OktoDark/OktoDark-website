@@ -70,7 +70,7 @@ class BlogController extends AbstractController
         $selectSettings = $settings->findAll();
 
         return $this->render('@theme/blog/post_show.html.twig', [
-            'post' => $post,
+            'blog' => $post,
             'settings' => $selectSettings,
         ]);
     }
@@ -89,24 +89,29 @@ class BlogController extends AbstractController
         $comment = new Comment();
         $comment->setAuthor($this->getUser());
         $post->addComment($comment);
+
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
+
             // When triggering an event, you can optionally pass some information.
             // For simple applications, use the GenericEvent object provided by Symfony
             // to pass some PHP variables. For more complex applications, define your
             // own event object classes.
             // See https://symfony.com/doc/current/components/event_dispatcher/generic_event.html
             $event = new GenericEvent($comment);
+
             // When an event is dispatched, Symfony notifies it to all the listeners
             // and subscribers registered to it. Listeners can modify the information
             // passed in the event and they can even modify the execution flow, so
             // there's no guarantee that the rest of this controller will be executed.
             // See https://symfony.com/doc/current/components/event_dispatcher.html
             $eventDispatcher->dispatch(Events::COMMENT_CREATED, $event);
+
             return $this->redirectToRoute('blog_post', ['slug' => $post->getSlug()]);
         }
         return $this->render('@theme/blog/comment_form_error.html.twig', [
@@ -114,6 +119,7 @@ class BlogController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
     /**
      * This controller is called directly via the render() function in the
      * blog/post_show.html.twig template. That's why it's not needed to define
@@ -130,6 +136,7 @@ class BlogController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
     /**
      * @Route("/search", methods={"GET"}, name="blog_search")
      */
@@ -138,9 +145,11 @@ class BlogController extends AbstractController
         if (!$request->isXmlHttpRequest()) {
             return $this->render('blog/search.html.twig');
         }
+
         $query = $request->query->get('q', '');
         $limit = $request->query->get('l', 10);
         $foundPosts = $posts->findBySearchQuery($query, $limit);
+
         $results = [];
         foreach ($foundPosts as $post) {
             $results[] = [
@@ -151,6 +160,7 @@ class BlogController extends AbstractController
                 'url' => $this->generateUrl('blog_post', ['slug' => $post->getSlug()]),
             ];
         }
+
         return $this->json($results);
     }
 }

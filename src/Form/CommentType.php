@@ -10,16 +10,28 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CommentType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options) : void
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // By default, form fields include the 'required' attribute, which enables
+        // the client-side form validation. This means that you can't test the
+        // server-side validation errors from the browser. To temporarily disable
+        // this validation, set the 'required' attribute to 'false':
+        // $builder->add('content', null, ['required' => false]);
+
         $builder
             ->add('content', TextareaType::class, [
-                'help' => 'Comments not complying with our Code of Conduct will be moderated.',
+                'help' => 'help.comment_content',
             ])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver) : void
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Comment::class,

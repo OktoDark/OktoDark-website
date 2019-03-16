@@ -16,7 +16,7 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        bind:
+        bind:               # defines the scalar arguments once and apply them to any service defined/created in this file
             $locales: '%app_locales%'
             $defaultLocale: '%locale%'
             # $emailSender: '%app.notifications.email_sender%'
@@ -33,8 +33,10 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    # when the service definition only contains arguments, you can omit the
+    # 'arguments' key and define the arguments just below the service class
+    App\EventSubscriber\CommentNotificationSubscriber:
+        $sender: '%app.notifications.email_sender%'
 
     maintenance_listener:
         class: App\EventListener\MaintenanceListener

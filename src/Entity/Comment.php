@@ -81,7 +81,7 @@ class Comment
         return !$containsInvalidCharacters;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -106,7 +106,7 @@ class Comment
         $this->publishedAt = $publishedAt;
     }
 
-    public function getAuthor(): User
+    public function getAuthor(): ?User
     {
         return $this->author;
     }

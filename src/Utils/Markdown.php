@@ -29,7 +29,6 @@ class Markdown
     public function __construct(SanitizerInterface $sanitizer)
     {
         $this->parser = new \Parsedown();
-
         $this->sanitizer = $sanitizer;
     }
 

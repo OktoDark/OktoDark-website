@@ -44,7 +44,6 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
-     *
      */
     private $username;
 
@@ -70,7 +69,7 @@ class User implements UserInterface, \Serializable
      */
     private $roles = [];
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -80,12 +79,12 @@ class User implements UserInterface, \Serializable
         $this->fullName = $fullName;
     }
 
-    public function getFullName(): string
+    public function getFullName(): ?string
     {
         return $this->fullName;
     }
 
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
@@ -95,7 +94,7 @@ class User implements UserInterface, \Serializable
         $this->username = $username;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -105,7 +104,7 @@ class User implements UserInterface, \Serializable
         $this->email = $email;
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -174,9 +173,7 @@ class User implements UserInterface, \Serializable
      */
     public function unserialize($serialized): void
     {
-        /**
-         * add $this->salt too if you don't use Bcrypt or Argon2i
-         */
+        // add $this->salt too if you don't use Bcrypt or Argon2i
         [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
     }
 }
