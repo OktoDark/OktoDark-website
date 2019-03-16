@@ -1,4 +1,12 @@
 <?php
+/**
+ * Copyright (c) 2019 OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * File date of modification: 16.03.2019 17:30
+ */
 
 namespace App\Repository;
 

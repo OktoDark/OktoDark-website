@@ -1,12 +1,12 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
+/**
+ * Copyright (c) 2019 OktoDark Studios
+ * Website: https://www.oktodark.com
  *
- * (c) Fabien Potencier <fabien@symfony.com>
+ * Author: Razvan George H. (Viruzzz)
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * File date of modification: 16.03.2019 17:30
  */
 
 namespace App\Utils;
