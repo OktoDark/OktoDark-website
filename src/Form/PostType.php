@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Post;
+use App\Entity\Blog;
 use App\Form\Type\DateTimePickerType;
 use App\Form\Type\TagsInputType;
 use Symfony\Component\Form\AbstractType;
@@ -57,7 +57,7 @@ class PostType extends AbstractType
     public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
-            'data_class' => Post::class,
+            'data_class' => Blog::class,
         ]);
     }
 }

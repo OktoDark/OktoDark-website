@@ -1,17 +1,21 @@
 easy_admin:
     site_name: 'Admin Panel'
 
+    user:
+        name_property_path: 'fullName'
+        display_avatar: false
+
     #####################
     # Design
     #####################
     design:
         menu:
-            - { entity: 'News', icon: 'newspaper' }
+            - { entity: 'News', icon: 'newspaper-o' }
             - { entity: 'Settings', icon: 'wrench' }
-            - { entity: 'Team', icon: 'user-friends' }
+            - { entity: 'Team', icon: 'users' }
             - { entity: 'User', icon: 'user' }
             - { entity: 'Careers', icon: 'id-badge' }
-            - { entity: 'Post', icon: 'blog'}
+            - { entity: 'Blog', icon: 'wordpress'}
 
         assets:
             js:
@@ -76,10 +80,10 @@ easy_admin:
                     - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
 
         #####################
-        # Post
+        # Blog
         #####################
-        Post:
-            class: App\Entity\Post
+        Blog:
+            class: App\Entity\Blog
             form:
                 fields:
                     - title

@@ -32,7 +32,7 @@ class Comment
     /**
      * @var Post
      *
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="Blog", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $post;
@@ -116,12 +116,12 @@ class Comment
         $this->author = $author;
     }
 
-    public function getPost(): ?Post
+    public function getPost(): ?Blog
     {
         return $this->post;
     }
 
-    public function setPost(?Post $post): void
+    public function setPost(?Blog $post): void
     {
         $this->post = $post;
     }
