@@ -9,9 +9,9 @@ twig:
     paths:
         # uncomment if you use or comment if not use
         # default
-        '%kernel.project_dir%/templates/default': 'theme'
+        # '%kernel.project_dir%/templates/default': 'theme'
         # grey
-        # '%kernel.project_dir%/templates/grey': 'theme'
+        '%kernel.project_dir%/templates/grey': 'theme'
 
     form_themes:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
