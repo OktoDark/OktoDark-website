@@ -19,8 +19,8 @@ easy_admin:
 
         assets:
             js:
-                - '/bundles/ckeditor5-build-classic/ckeditor.js'
-                - '/bundles/ckeditor5-build-classic/custom.js'
+                - '/bundles/fosckeditor/adapters/jquery.js'
+                - '/bundles/fosckeditor/ckeditor.js'
 
     #####################
     # List actions
@@ -39,7 +39,7 @@ easy_admin:
                 fields:
                     - title
                     - author
-                    - { property: 'content', type: 'textarea' }
+                    - { property: 'content', type: 'fos_ckeditor', type_options: { config_name: 'view_textarea' } }
                     - { property: 'created_at', type: 'datetime' }
 
         #####################
@@ -88,6 +88,6 @@ easy_admin:
                 fields:
                     - title
                     - summary
-                    - { property: 'content', css_class: 'show-ckeditor', type: 'textarea' }
+                    - { property: 'content', css_class: 'show-ckeditor', type: 'fos_ckeditor', type_options: { config_name: 'view_textarea' } }
                     - { property: 'published_at', type: 'datetime' }
 

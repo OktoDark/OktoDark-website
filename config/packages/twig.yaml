@@ -12,3 +12,6 @@ twig:
         '%kernel.project_dir%/templates/default': 'theme'
         # grey
         # '%kernel.project_dir%/templates/grey': 'theme'
+
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'

@@ -116,7 +116,7 @@
                     <div class="col-12">
                         <div class="text-decoration">
                             <h4>{{ n.title }}</h4>
-                            <p>{{ n.content }}</p>
+                            <p>{{ n.content|md2html }}</p>
                             <p class="right_side" ><i class="icon-news-time far fa-clock"></i> {{ n.createdAt|localizeddate('long', 'medium', null, 'UTC') }}</p>
                         </div>
                     </div>
