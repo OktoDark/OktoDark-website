@@ -28,18 +28,15 @@
                         <div class="share-block">
                             <h5>Share This Post: </h5>
                             <ul class="list-inline">
-                                <div class="fb-share-button" data-href="{{ path('blog_post', {slug: post.slug}) }}" data-layout="button_count"> </div>
-                                <li><a class="icon icon-sm fa-tumblr-square icon-circle icon-circle-primary icon-md-circle" href="#"></a></li>
-                                <li><a class="icon icon-sm fa-pinterest-p icon-circle icon-circle-primary icon-md-circle" href="#"></a></li>
-                                <li><a class="icon icon-sm fa-soundcloud icon-circle icon-circle-primary icon-md-circle" href="#"></a></li>
-                                <li><a class="icon icon-sm fa-vimeo-square icon-circle icon-circle-primary icon-md-circle" href="#"></a></li>
+                                <li><a class="icon icon-sm fab fa-facebook-square icon-circle icon-circle-primary icon-md-circle" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost }}{{ path('blog_post', {slug: post.slug}) }}"></a></li>
+                                <li><a class="icon icon-sm fab fa-twitter-square icon-circle icon-circle-primary icon-md-circle" href="https://twitter.com/share?ref_src={{ app.request.schemeAndHttpHost }}{{ path('blog_post', {slug: post.slug}) }}"></a></li>
                             </ul>
                         </div>
                     </div>
                     <!-- Comment Block -->
                     <div class="comment-block">
                         <h4 class="text-uppercase">3 comments</h4>
-                        <!-- start cooment -->
+                        <!-- start comment -->
                         {% for comment in post.comments %}
                         <a name="comment_{{ comment.id }}"></a>
                         <div class="comment-block-item unit flex-column align-items-start flex-md-row">
