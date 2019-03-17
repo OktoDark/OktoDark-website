@@ -40,7 +40,7 @@
     "symfony/yaml": "*",
     "tgalopin/html-sanitizer-bundle": "^1.1",
     "twig/extensions": "^1.5",
-    "twig/twig": "^2.4",
+    "twig/twig": "^2.6",
     "white-october/pagerfanta-bundle": "^1.1"
   },
   "require-dev": {
@@ -83,7 +83,13 @@
       "cache:clear": "symfony-cmd",
       "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd",
       "security-checker security:check": "script"
-    }
+    },
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ]
   },
   "conflict": {
     "symfony/symfony": "*"
