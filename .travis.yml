@@ -4,7 +4,7 @@ sudo: false
 cache:
   directories:
     - $HOME/.composer/cache/files
-    - ./bin/.phpunit
+    # - ./bin/.phpunit
 
 env:
   global:
@@ -30,7 +30,7 @@ install:
   # - ./bin/phpunit install
 
 script:
-  - ./bin/phpunit
+  # - ./bin/phpunit
   - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || ./vendor/bin/php-cs-fixer fix --diff --dry-run -v'
   - ./bin/console lint:yaml config
   - ./bin/console lint:twig templates
