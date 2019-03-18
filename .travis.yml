@@ -27,7 +27,7 @@ before_install:
 
 install:
   - composer install
-  - ./bin/phpunit install
+  # - ./bin/phpunit install
 
 script:
   - ./bin/phpunit
