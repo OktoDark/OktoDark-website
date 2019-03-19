@@ -11,9 +11,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AssetsRepository")
+ * @ORM\Table(name="assets")
  */
 class Assets
 {
@@ -27,56 +29,93 @@ class Assets
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=255)
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, max=255)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=10000)
+     * @ORM\Column(type="integer")
+     */
+    private $sku;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(type="json")
+     */
+    private $brand = [];
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text")
+     * @Assert\Length(min=10, max=10000)
      */
     private $description;
 
     /**
-     * @var array
-     *
-     * @ORM\Column(type="json")
-     */
-    private $category;
-
-    /**
      * @var string
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
+     * @Assert\Length(min=10, max=50)
      */
-    private $ids;
+    private $website;
 
     /**
      * @var array
      *
      * @ORM\Column(type="json")
      */
-    private $subcat;
+    private $hairtype = [];
+
+    /**
+     * @var array
+     * @ORM\Column(type="json")
+     */
+    private $clothing = [];
+
+    /**
+     * @var array
+     * @ORM\Column(type="json")
+     */
+    private $misc = [];
 
     /**
      * @var array
      *
      * @ORM\Column(type="json")
      */
-    private $requirement;
+    private $requirement = [];
 
     /**
-     * @var string
+     * @var array
      *
-     * @ORM\Column(type="text", length=500)
+     * @ORM\Column(type="json")
      */
-    private $url;
+    private $softwarecompatible = [];
 
+    /**
+     * @var array
+     *
+     * @ORM\Column(type="json")
+     */
+    private $figurecompatible = [];
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(type="json")
+     */
+    private $genre = [];
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=255)
+     * @ORM\Column(type="string")
+     * @Assert\Length(min=10, max=50)
      */
     private $from;
 
@@ -84,6 +123,12 @@ class Assets
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
+
+    /**
+     *
+     * From here start public functions in order as table
+     *
+     */
 
     public function getId(): ?int
     {
@@ -93,7 +138,7 @@ class Assets
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -109,7 +154,42 @@ class Assets
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getSku(): ?string
+    {
+        return $this->sku;
+    }
+
+    /**
+     * @param string $sku
+     */
+    public function setSku(string $sku): void
+    {
+        $this->sku = $sku;
+    }
+
+    /**
+     * Array brand
+     */
+    public function getBrand(): array
+    {
+        $brand = $this->brand;
+
+        if (empty($brand)) {
+            $brand[] = '-';
+        }
+
+        return array_unique($brand);
+    }
+
+    public function setBrand(array $brand): void
+    {
+        $this->brand = $brand;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -122,90 +202,170 @@ class Assets
         $this->description = $description;
     }
 
-    /**
-     * @return array
-     */
-    public function getCategory(): array
+    public function getWebsite(): ?string
     {
-        return $this->category;
+        return $this->website;
     }
 
-    /**
-     * @param array $category
-     */
-    public function setCategory(array $category): void
+    public function setWebsite(string $website): void
     {
-        $this->category = $category;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIds(): string
-    {
-        return $this->ids;
-    }
-
-    /**
-     * @param string $ids
-     */
-    public function setIds(string $ids): void
-    {
-        $this->ids = $ids;
+        $this->website = $website;
     }
 
     /**
      * @return array
      */
-    public function getSubcat(): array
+    public function getHairtype(): array
     {
-        return $this->subcat;
+        $hairtype = $this->hairtype;
+
+        if (empty($hairtype)) {
+            $hairtype[] = '-';
+        }
+
+        return array_unique($hairtype);
     }
 
     /**
-     * @param array $subcat
+     * @param array $hairtype
      */
-    public function setSubcat(array $subcat): void
+    public function setHairtype(array $hairtype): void
     {
-        $this->subcat = $subcat;
+        $this->hairtype = $hairtype;
     }
 
     /**
      * @return array
+     */
+    public function getClothing(): array
+    {
+        $clothing = $this->clothing;
+
+        if (empty($clothing)) {
+            $clothing[] = '-';
+        }
+
+        return array_unique($clothing);
+    }
+
+    /**
+     * @param array $clothing
+     */
+    public function setClothing(array $clothing): void
+    {
+        $this->clothing = $clothing;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMisc(): array
+    {
+        $misc = $this->misc;
+
+        if (empty($misc)) {
+            $misc[] = '-';
+        }
+
+        return array_unique($misc);
+    }
+
+    /**
+     * @param array $misc
+     */
+    public function setMisc(array $misc): void
+    {
+        $this->misc = $misc;
+    }
+
+    /**
+     * Requirement
      */
     public function getRequirement(): array
     {
-        return $this->requirement;
+        $requirement = $this->requirement;
+
+        if (empty($requirement)) {
+            $requirement[] = '-';
+        }
+
+        return array_unique($requirement);
     }
 
-    /**
-     * @param array $requirement
-     */
     public function setRequirement(array $requirement): void
     {
         $this->requirement = $requirement;
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getUrl(): string
+    public function getSoftwarecompatible(): array
     {
-        return $this->url;
+        $softwarecompatible = $this->softwarecompatible;
+
+        if (empty($softwarecompatible)) {
+            $softwarecompatible[] = '-';
+        }
+        return array_unique($softwarecompatible);
     }
 
     /**
-     * @param string $url
+     * @param array $softwarecompatible
      */
-    public function setUrl(string $url): void
+    public function setSoftwarecompatible(array $softwarecompatible): void
     {
-        $this->url = $url;
+        $this->softwarecompatible = $softwarecompatible;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFigurecompatible(): array
+    {
+        $figurecompatible = $this->figurecompatible;
+
+        if (empty($figurecompatible)) {
+            $figurecompatible[] = '-';
+        }
+
+        return array_unique($figurecompatible);
+    }
+
+    /**
+     * @param array $figurecompatible
+     */
+    public function setFigurecompatible(array $figurecompatible): void
+    {
+        $this->figurecompatible = $figurecompatible;
+    }
+
+    /**
+     * @return array
+     */
+    public function getGenre(): array
+    {
+        $genre = $this->genre;
+
+        if (empty($genre)) {
+            $genre[] = '-';
+        }
+
+        return array_unique($genre);
+    }
+
+    /**
+     * @param array $genre
+     */
+    public function setGenre(array $genre): void
+    {
+        $this->genre = $genre;
     }
 
     /**
      * @return string
      */
-    public function getFrom(): string
+    public function getFrom(): ?string
     {
         return $this->from;
     }
@@ -233,8 +393,5 @@ class Assets
     {
         $this->createdAt = $createdAt;
     }
-
-
-
 
 }
