@@ -111,25 +111,18 @@ class Assets
      * @ORM\Column(type="json")
      */
     private $genre = [];
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string")
-     * @Assert\Length(min=10, max=50)
-     */
-    private $from;
 
     /**
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     * @var bool
+     * @ORM\Column(type="boolean")
      */
-    private $createdAt;
+    private $bundle = false;
 
-    /**
+     /**
      *
      * From here start public functions in order as table
      *
      */
-
     public function getId(): ?int
     {
         return $this->id;
@@ -186,17 +179,11 @@ class Assets
         $this->brand = $brand;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     */
     public function setDescription(string $description): void
     {
         $this->description = $description;
@@ -363,35 +350,18 @@ class Assets
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getFrom(): ?string
+    public function isBundle(): bool
     {
-        return $this->from;
+        return $this->bundle;
     }
 
     /**
-     * @param string $from
+     * @param bool $bundle
      */
-    public function setFrom(string $from): void
+    public function setBundle(bool $bundle): void
     {
-        $this->from = $from;
+        $this->bundle = $bundle;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param mixed $createdAt
-     */
-    public function setCreatedAt($createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
 }
