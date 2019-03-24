@@ -5198,101 +5198,105 @@ html.tablet .ui-to-top {
 }
 
 .rd-navbar-static .rd-search {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 270px;
-    opacity: 0;
-    visibility: hidden;
-    transition: .3s;
-    margin-top: 20px;
-    z-index: 2;
+	position: absolute;
+	top: 100%;
+	right: 0;
+	width: 270px;
+	opacity: 0;
+	visibility: hidden;
+	transition: .3s;
+	margin-top: 20px;
+	z-index: 2;
 }
 
 .rd-navbar-static * + .rd-navbar-search {
-    margin-left: 20px;
+	margin-left: 20px;
 }
 
 .rd-navbar-static .rd-navbar-search-toggle {
-    display: inline-flex;
-    color: #2c343b;
+	display: inline-flex;
+	color: #2c343b;
 }
 
 .rd-navbar-static .rd-navbar-search-toggle span {
-    display: inline-block;
-    position: relative;
-    width: 32px;
-    height: 32px;
-    font-size: 26px;
-    line-height: 32px;
-    text-align: center;
-    cursor: pointer;
-    background: none;
-    border: none;
-    outline: none;
-    padding: 0;
+	display: inline-block;
+	position: relative;
+	width: 32px;
+	height: 32px;
+	font-size: 26px;
+	line-height: 32px;
+	text-align: center;
+	cursor: pointer;
+	background: none;
+	border: none;
+	outline: none;
+	padding: 0;
 }
 
 .rd-navbar-static .rd-navbar-search-toggle span, .rd-navbar-static .rd-navbar-search-toggle span::before, .rd-navbar-static .rd-navbar-search-toggle span::after {
-    transition: .3s all ease-in-out;
+	transition: .3s all ease-in-out;
 }
 
 .rd-navbar-static .rd-navbar-search-toggle span::before, .rd-navbar-static .rd-navbar-search-toggle span::after {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
 .rd-navbar-static .rd-navbar-search-toggle span::before {
     content: "\f002";
+    font-family: "Font Awesome 5 Free";
+    font-style: normal;
+    font-weight: 900;
     transform: rotate(0deg) scale(1);
     opacity: 1;
     visibility: visible;
-    font-family: "Material Design Icons";
 }
 
 .rd-navbar-static .rd-navbar-search-toggle span::after {
     content: "\f002";
+    font-family: "Font Awesome 5 Free";
+    font-style: normal;
+    font-weight: 900;
     transform: rotate(-90deg) scale(0.4);
     opacity: 0;
     visibility: hidden;
-    font-family: "Material Design Icons";
 }
 
 .rd-navbar-static .rd-navbar-search-toggle.active span::before {
-    opacity: 0;
-    visibility: hidden;
-    transform: rotate(90deg) scale(0.4);
+	opacity: 0;
+	visibility: hidden;
+	transform: rotate(90deg) scale(0.4);
 }
 
 .rd-navbar-static .rd-navbar-search-toggle.active span::after {
-    transform: rotate(0deg) scale(1);
-    opacity: 1;
-    visibility: visible;
+	transform: rotate(0deg) scale(1);
+	opacity: 1;
+	visibility: visible;
 }
 
 .rd-navbar-static .rd-navbar-search-toggle:hover {
-    color: #0cc5b6;
+	color: #0cc5b6;
 }
 
 .rd-navbar-static.rd-navbar--is-clone {
-    display: block;
-    transform: translate3d(0, -100%, 0);
+	display: block;
+	transform: translate3d(0, -100%, 0);
 }
 
 .rd-navbar-static.rd-navbar--is-clone.rd-navbar--is-stuck {
-    transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
 }
 
 .rd-navbar-static.rd-navbar--is-stuck, .rd-navbar-static.rd-navbar--is-clone {
-    position: fixed;
-    left: 0;
-    top: 0;
-    right: 0;
-    z-index: 1071;
-    background: #fff;
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	z-index: 1071;
+	background: #fff;
 }
 
 .rd-navbar-static .rd-navbar--has-dropdown {
