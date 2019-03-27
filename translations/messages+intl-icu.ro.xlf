@@ -67,6 +67,10 @@
                 <source>navbar.admin</source>
                 <target>Panou Administrator</target>
             </trans-unit>
+            <trans-unit id="navbar.assets">
+                <source>navbar.assets</source>
+                <target>Bunuri</target>
+            </trans-unit>
             <trans-unit id="navbar.logout">
                 <source>navbar.logout</source>
                 <target>Deconecteaza-te</target>

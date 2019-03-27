@@ -67,6 +67,10 @@
                 <source>navbar.admin</source>
                 <target>Admin Panel</target>
             </trans-unit>
+            <trans-unit id="navbar.assets">
+                <source>navbar.assets</source>
+                <target>Assets</target>
+            </trans-unit>
             <trans-unit id="navbar.logout">
                 <source>navbar.logout</source>
                 <target>Logout</target>

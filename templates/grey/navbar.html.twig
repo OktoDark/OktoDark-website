@@ -39,6 +39,7 @@
                                                 {% if is_granted('ROLE_ADMIN') %}
                                                     <hr/>
                                                     <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('admin_index') }}">{{ 'navbar.admin'|trans }}</a></li>
+                                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('assets_index') }}">{{ 'navbar.assets'|trans }}</a></li>
                                                     <hr/>
                                                 {% endif %}
                                                 <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('security_logout') }}">{{ 'navbar.logout'|trans }}</a></li>
