@@ -131,7 +131,7 @@ class User implements UserInterface, \Serializable
 
         // guarantees that a user always has at least one role for security
         if (empty($roles)) {
-            $roles[] = 'ROLE_USER';
+            $roles[] = 'ROLE_MEMBER';
         }
 
         return array_unique($roles);
