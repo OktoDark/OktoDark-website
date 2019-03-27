@@ -6,7 +6,7 @@
     {{  parent() }}
 {% endblock %}
 
-{% block body_id 'contact' %}
+{% block body_id 'assets' %}
 
 {% block main %}
 
@@ -23,14 +23,12 @@
                 <div class="col-3">
                     <h5 class="text-primary">{{ '' }}</h5>
                     <p>
-                        <a href="">{{ 'assets.category_list'|trans }}</a>
-                        <br>
-                        <a href="">{{ 'assets.add_assets'|trans }}</a>
-                        -----------
+                        <a href="/admin/?entity=Assets">{{ 'assets.add_assets'|trans }}</a>
                         <br>
                         Category List:
                         <br>
-                        -----------
+                        {% for c in assets %}
+                            <a href="assets/category/{{ c.figurecompatible|json_encode()|raw }}">{{ c.figurecompatible|json_encode|raw }}</a>
                     </p>
                 </div>
                 <div class="col-9">
@@ -38,10 +36,11 @@
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                         <div class="card h-100">
                             <h4 class="card-title">
-                                <a href="#">{{ 'assets.name'|trans }}</a>
+                                <a href="assets/show/{{ c.name }}">{{ c.name }} {{ c.figurecompatible|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_SLASHES')) }}</a>
                             </h4>
                             <a href="#"><img class="card-img-top" src="" alt=""></a>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

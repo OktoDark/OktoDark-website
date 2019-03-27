@@ -41,6 +41,23 @@ class AssetsRepository extends ServiceEntityRepository
 
         return $stmt->fetchAll();
     }
+
+    public function showFigureCompatible()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT figurecompatible FROM assets c
+            WHERE c.id
+            ORDER BY c.id ASC
+        ';
+
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->fetchAll();
+    }
+
+
     // /**
     //  * @return Assets[] Returns an array of Assets objects
     //  */

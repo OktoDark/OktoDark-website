@@ -21,22 +21,24 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class AssetsController
  * @package App\Controller
  *
- * #@IsGranted("ROLE_ADMIN")
+ * @IsGranted("ROLE_ADMIN")
  */
 class AssetsController extends AbstractController
 {
     /**
-     * @Route("/assets", methods={"GET"}, name="assets")
+     * @Route("/assets", methods={"GET"}, name="assets_index")
      *
      * @return Response
      */
     public function home(SettingsRepository $settings, AssetsRepository $assets): Response
     {
         $findAllAssets = $assets->findAll();
+        $figurecompatible = $assets->showFigureCompatible();
         $selectSettings = $settings->findAll();
 
         return $this->render('@theme/assets.html.twig', [
             'assets' => $findAllAssets,
+            'figurec' => $figurecompatible,
             'settings' => $selectSettings,
         ]);
     }
