@@ -22,13 +22,17 @@
                 <div class="col-lg-8 col-xl-9">
                     {% for post in posts %}
                     <div class="post-creative">
+                        <div class="author-block">
+                            <figure class="author-img"><img src="#" alt="{{ post.author.fullname }}" width="114" height="114"/></figure>
+                            <h4>{{ post.author.fullname }}</h4>
+                            <h6>Blogger</h6>
+                            <div class="divider"></div>
+                        </div>
                         <div class="post-body">
                             <div class="post-classic-meta">
                                 <ul class="list list-inline">
-                                    <li><span class="icon icon-xs fl-outicons-clock169"></span> <span class="time">{{ post.publishedAt|localizeddate('long', 'medium', null, 'UTC') }}</span>
-                                    </li>
-                                    <li><span class="icon icon-xs fl-outicons-speech-balloon2"></span> {{ post.author.fullname }}
-                                    </li>
+                                    <li><span class="icon icon-xs far fa-clock"></span> <span class="time">{{ post.publishedAt|localizeddate('long', 'medium', null, 'UTC') }}</span></li>
+                                    <li><span class="icon icon-xs far fa-comments"></span> <!-- comment numbers --></li>
                                 </ul>
                             </div>
                             <h5 class="post-title"><a href="{{ path('blog_post', {slug: post.slug}) }}">{{ post.title }}</a></h5>
@@ -38,22 +42,37 @@
                     {% else %}
                         <div class="well">{{ 'post.no_posts_found'|trans }}</div>
                     {% endfor %}
+
                     {% if posts.haveToPaginate %}
-                        {{ pagerfanta(posts, 'twitter_bootstrap3_translated', {routeName: 'blog_index_paginated', routeParams: app.request.query.all}) }}
-                    {% endif %}
                     <div class="row">
                         <div class="col-12">
                             <ul class="pagination">
-                                <li class="page-item page-item-control"><a class="page-link" href="#" aria-label="Previous"><span class="icon fa-chevron-left"></span></a></li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item page-item-control"><a class="page-link" href="#" aria-label="Next"><span class="icon fa-chevron-right"></span></a></li>
+                                <div class="navigation text-center">
+                                    {{ pagerfanta(posts, 'twitter_bootstrap3_translated', {routeName: 'blog_index_paginated', routeParams: app.request.query.all}) }}
+                                </div>
                             </ul>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
+                {% block sidebar %}
+                    <div class="col-lg-4 col-xl-3">
+                        <aside class="aside-components">
+                            <div class="aside-component">
+                                <h4 class="component-title">Search</h4>
+                                <div class="search-form">
+                                    <form class="rd-search" action="#"></form>
+                                    <div class="form-wrap">
+                                        <input class="form-input" id="rd-search-form-input" type="text" autocomplete="off"/>
+                                        <button class="icon mdi mdi-magnify" type="submit"></button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </aside>
+
+                    </div>
+                {% endblock %}
             </div>
         </div>
     </section>
