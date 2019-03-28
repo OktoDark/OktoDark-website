@@ -67,6 +67,8 @@
                             <span class="copyright-year"></span>
                             <span>{% for s in settings %}{{s.siteName}}. {{ 'footer.all_rights_reserved_text'|trans }}{% endfor %}</span>
                             <span><a href="{{ path('privacy-policy') }}">{{ 'privacy_policy.text'|trans }}</a></span>
+                            <br>
+                            <span><i class="fas fa-code-branch"></i> {{ shivas_app_version }}</span>
                         </p>
                         <!-- End Copyright -->
                     </div>
