@@ -19,12 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/member")
- * @IsGranted("IS_AUTHENTICATED_FULLY")
+ * @IsGranted("ROLE_MEMBER")
  */
 class MemberController extends AbstractController
 {
     /**
-     * @Route("/member", methods={"GET"}, name="member_area")
+     * @Route("/", methods={"GET"}, name="member_area")
      */
     public function member(SettingsRepository $settings, OurGamesRepository $ourGames): Response
     {
