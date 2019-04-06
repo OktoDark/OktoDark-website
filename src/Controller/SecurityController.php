@@ -18,13 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-/**
- * Controller used to manage the application security.
- * See https://symfony.com/doc/current/cookbook/security/form_login_setup.html.
- *
- * @author Ryan Weaver <weaverryan@gmail.com>
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
- */
 class SecurityController extends AbstractController
 {
     use TargetPathTrait;
@@ -34,7 +27,8 @@ class SecurityController extends AbstractController
      */
     public function login(Request $request, AuthenticationUtils $helper, SettingsRepository $settings): Response
     {
-        $this->saveTargetPath($request->getSession(), 'home', $this->generateUrl('home_index'));
+        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('member_area'));
+
         $selectSettings = $settings->findAll();
 
         return $this->render('@theme/login.html.twig', [
