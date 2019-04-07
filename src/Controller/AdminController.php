@@ -31,7 +31,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * See http://knpbundles.com/keyword/admin
  *
- * @Route("/admin")
+ * @Route("/admin/post")
  * @IsGranted('ROLE_ADMIN')")
  */
 class AdminController extends AbstractController
@@ -108,14 +108,14 @@ class AdminController extends AbstractController
     }
 
     /**
-     * Finds and displays a Blog entity.
+     * Finds and displays a Post entity.
      *
      * @Route("/{id<\d+>}", methods={"GET"}, name="admin_post_show")
      */
     public function show(Post $post): Response
     {
         // This security check can also be performed
-        // using an annotation: @Security("is_granted('show', blog)")
+        // using an annotation: @IsGranted("show", subject="post", message="Posts can only be shown to their authors.")
         $this->denyAccessUnlessGranted(PostVoter::SHOW, $post, 'Posts can only be shown to their authors.');
 
         return $this->render('admin/blog/show.html.twig', [
@@ -124,7 +124,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * Displays a form to edit an existing Blog entity.
+     * Displays a form to edit an existing Post entity.
      *
      * @Route("/{id<\d+>}/edit", methods={"GET", "POST"}, name="admin_post_edit")
      * @IsGranted("edit", subject="post", message="Posts can only be edited by their authors.")
@@ -150,7 +150,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * Deletes a Blog entity.
+     * Deletes a Post entity.
      *
      * @Route("/{id}/delete", methods={"POST"}, name="admin_post_delete")
      * @IsGranted("delete", subject="post")
