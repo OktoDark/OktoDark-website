@@ -32,7 +32,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * See http://knpbundles.com/keyword/admin
  *
  * @Route("/admin/post")
- * @IsGranted('ROLE_ADMIN')")
+ * @IsGranted("ROLE_ADMIN")
  */
 class AdminController extends AbstractController
 {
