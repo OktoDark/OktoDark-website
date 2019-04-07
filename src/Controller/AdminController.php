@@ -14,7 +14,7 @@ use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Utils\Slugger;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Security\PostVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -32,7 +32,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * See http://knpbundles.com/keyword/admin
  *
  * @Route("/admin")
- * @Security("is_granted('ROLE_ADMIN')")
+ * @IsGranted('ROLE_ADMIN')")
  */
 class AdminController extends AbstractController
 {
@@ -110,13 +110,13 @@ class AdminController extends AbstractController
     /**
      * Finds and displays a Blog entity.
      *
-     * @Route("/{id}", requirements={"id": "\d+"}, methods={"GET"}, name="admin_post_show")
+     * @Route("/{id<\d+>}", methods={"GET"}, name="admin_post_show")
      */
     public function show(Post $post): Response
     {
         // This security check can also be performed
         // using an annotation: @Security("is_granted('show', blog)")
-        $this->denyAccessUnlessGranted('show', $post, 'Posts can only be shown to their authors.');
+        $this->denyAccessUnlessGranted(PostVoter::SHOW, $post, 'Posts can only be shown to their authors.');
 
         return $this->render('admin/blog/show.html.twig', [
             'post' => $post,
@@ -126,12 +126,11 @@ class AdminController extends AbstractController
     /**
      * Displays a form to edit an existing Blog entity.
      *
-     * @Route("/{id}/edit", requirements={"id": "\d+"}, methods={"GET", "POST"}, name="admin_post_edit")
+     * @Route("/{id<\d+>}/edit", methods={"GET", "POST"}, name="admin_post_edit")
+     * @IsGranted("edit", subject="post", message="Posts can only be edited by their authors.")
      */
     public function edit(Request $request, Post $post): Response
     {
-        $this->denyAccessUnlessGranted('edit', $post, 'Posts can only be edited by their authors.');
-
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
@@ -154,10 +153,7 @@ class AdminController extends AbstractController
      * Deletes a Blog entity.
      *
      * @Route("/{id}/delete", methods={"POST"}, name="admin_post_delete")
-     * @Security("is_granted('delete', post)")
-     *
-     * The Security annotation value is an expression (if it evaluates to false,
-     * the authorization mechanism will prevent the user accessing this resource).
+     * @IsGranted("delete", subject="post")
      */
     public function delete(Request $request, Post $post): Response
     {
