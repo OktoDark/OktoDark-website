@@ -12,6 +12,7 @@ namespace App\Controller;
 
 use App\Repository\OurGamesRepository;
 use App\Repository\SettingsRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,7 @@ class MemberController extends AbstractController
 {
     /**
      * @Route("/", methods={"GET"}, name="member_area")
+     * @Cache(smaxage="10")
      */
     public function member(SettingsRepository $settings, OurGamesRepository $ourGames): Response
     {
