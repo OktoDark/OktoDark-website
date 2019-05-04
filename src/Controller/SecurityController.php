@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
@@ -25,8 +26,13 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="security_login")
      */
-    public function login(Request $request, AuthenticationUtils $helper, SettingsRepository $settings): Response
+    public function login(Request $request, Security $security, AuthenticationUtils $helper, SettingsRepository $settings): Response
     {
+        if ($security->isGranted('ROLE_MEMBER'))
+        {
+            return $this->redirectToRoute('member_area');
+        }
+
         $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('member_area'));
 
         $selectSettings = $settings->findAll();
