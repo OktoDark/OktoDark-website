@@ -1,7 +1,5 @@
 twig:
-    # globals:
-
-    debug:            '%kernel.debug%'
+    debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     # auto_reload:      ~
 
