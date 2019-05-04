@@ -31,7 +31,9 @@ class MaintenanceListener
             return;
         }
 
-        $page = $this->twig->render('@theme/maintenance/maintenance.html.twig');
+        $page = $this->twig->render('@theme/maintenance/maintenance.html.twig',[
+
+        ]);
 
         $event->setResponse(
             new Response(

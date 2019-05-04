@@ -28,8 +28,7 @@ class SecurityController extends AbstractController
      */
     public function login(Request $request, Security $security, AuthenticationUtils $helper, SettingsRepository $settings): Response
     {
-        if ($security->isGranted('ROLE_MEMBER'))
-        {
+        if ($security->isGranted('ROLE_MEMBER')) {
             return $this->redirectToRoute('member_area');
         }
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+
 /**
  * This class defines the names of all the events dispatched in
  * the Symfony Demo application. It's not mandatory to create a
