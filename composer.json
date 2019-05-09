@@ -1,6 +1,7 @@
 {
   "name": "oktodark/website",
   "description": "OktoDark Studios Main Website",
+  "minimum-stability": "dev",
   "license": "proprietary",
   "authors": [
     {
@@ -27,7 +28,7 @@
     "symfony/flex": "^1.1",
     "symfony/form": "*",
     "symfony/framework-bundle": "*",
-    "symfony/intl": "4.2.*",
+    "symfony/intl": "*",
     "symfony/maker-bundle": "^1.1",
     "symfony/monolog-bundle": "^3.3",
     "symfony/orm-pack": "^1.0",
@@ -99,7 +100,7 @@
     "symfony": {
       "id": "01C240QDH68XFC7KR57RMF0202",
       "allow-contrib": true,
-      "require": "4.2.*"
+      "require": "4.3.0-beta1"
     }
   }
 }
