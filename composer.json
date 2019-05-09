@@ -46,6 +46,7 @@
     "white-october/pagerfanta-bundle": "^1.1"
   },
   "require-dev": {
+    "dama/doctrine-test-bundle": "^5.0",
     "doctrine/doctrine-fixtures-bundle": "^3.0",
     "easycorp/easy-deploy-bundle": "^1.0",
     "friendsofphp/php-cs-fixer": "^2.12",
