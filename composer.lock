@@ -504,12 +504,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "bb9c64b20bc45a862cf5cf603fdc7bc5c7cb58f8"
+                "reference": "6a366bcd46c9ae2a76a981de9077f4ff17c575c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/bb9c64b20bc45a862cf5cf603fdc7bc5c7cb58f8",
-                "reference": "bb9c64b20bc45a862cf5cf603fdc7bc5c7cb58f8",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/6a366bcd46c9ae2a76a981de9077f4ff17c575c4",
+                "reference": "6a366bcd46c9ae2a76a981de9077f4ff17c575c4",
                 "shasum": ""
             },
             "require": {
@@ -585,7 +585,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2019-05-09T11:01:03+00:00"
+            "time": "2019-05-10T13:16:31+00:00"
         },
         {
             "name": "doctrine/doctrine-cache-bundle",
@@ -1864,12 +1864,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "f3b19c19ef147dc4e0adfce628d21031a7e20869"
+                "reference": "8012faea54d5536ea23451a830cc7c1c190015c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/f3b19c19ef147dc4e0adfce628d21031a7e20869",
-                "reference": "f3b19c19ef147dc4e0adfce628d21031a7e20869",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/8012faea54d5536ea23451a830cc7c1c190015c1",
+                "reference": "8012faea54d5536ea23451a830cc7c1c190015c1",
                 "shasum": ""
             },
             "require": {
@@ -1907,7 +1907,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2019-05-09T12:17:28+00:00"
+            "time": "2019-05-09T17:15:35+00:00"
         },
         {
             "name": "nikolaposa/version",
@@ -6150,12 +6150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "47085e8d952e633115d7d246406dccaa4b8c6412"
+                "reference": "ed3cbebe47d20fb896cc911f44b39204c220fd61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/47085e8d952e633115d7d246406dccaa4b8c6412",
-                "reference": "47085e8d952e633115d7d246406dccaa4b8c6412",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ed3cbebe47d20fb896cc911f44b39204c220fd61",
+                "reference": "ed3cbebe47d20fb896cc911f44b39204c220fd61",
                 "shasum": ""
             },
             "require": {
@@ -6209,7 +6209,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-05-09T15:35:47+00:00"
+            "time": "2019-05-10T06:47:07+00:00"
         },
         {
             "name": "white-october/pagerfanta-bundle",
