@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2019 OktoDark Studios
+ * Copyright © 2019 OktoDark Studios
  * Website: https://www.oktodark.com
  *
  * Author: Razvan George H. (Viruzzz)
