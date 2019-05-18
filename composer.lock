@@ -504,12 +504,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "6a366bcd46c9ae2a76a981de9077f4ff17c575c4"
+                "reference": "43e90873f24fb2d4b20714a1fc3a90e6a72a6733"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/6a366bcd46c9ae2a76a981de9077f4ff17c575c4",
-                "reference": "6a366bcd46c9ae2a76a981de9077f4ff17c575c4",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/43e90873f24fb2d4b20714a1fc3a90e6a72a6733",
+                "reference": "43e90873f24fb2d4b20714a1fc3a90e6a72a6733",
                 "shasum": ""
             },
             "require": {
@@ -547,7 +547,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.11.x-dev"
+                    "dev-master": "1.12.x-dev"
                 }
             },
             "autoload": {
@@ -585,7 +585,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2019-05-10T13:16:31+00:00"
+            "time": "2019-05-11T05:31:52+00:00"
         },
         {
             "name": "doctrine/doctrine-cache-bundle",
@@ -1331,16 +1331,16 @@
         },
         {
             "name": "easycorp/easyadmin-bundle",
-            "version": "v2.1.2",
+            "version": "v2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EasyCorp/EasyAdminBundle.git",
-                "reference": "06d38c1ca93892e5015c92631436556826c85d6e"
+                "reference": "4cd7038cd3a2b4986637fafb5263f396ea64cd30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/06d38c1ca93892e5015c92631436556826c85d6e",
-                "reference": "06d38c1ca93892e5015c92631436556826c85d6e",
+                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/4cd7038cd3a2b4986637fafb5263f396ea64cd30",
+                "reference": "4cd7038cd3a2b4986637fafb5263f396ea64cd30",
                 "shasum": ""
             },
             "require": {
@@ -1370,7 +1370,7 @@
                 "symfony/twig-bundle": "^4.1",
                 "symfony/validator": "^4.1",
                 "twig/extensions": "^1.5",
-                "twig/twig": "^2.4"
+                "twig/twig": "^2.9"
             },
             "require-dev": {
                 "doctrine/data-fixtures": "^1.3",
@@ -1412,7 +1412,7 @@
                 "backend",
                 "generator"
             ],
-            "time": "2019-05-06T18:37:49+00:00"
+            "time": "2019-05-15T18:50:12+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -1864,12 +1864,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "8012faea54d5536ea23451a830cc7c1c190015c1"
+                "reference": "a167aa206198570fc8957f7b3f2c6778b0a0e2ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/8012faea54d5536ea23451a830cc7c1c190015c1",
-                "reference": "8012faea54d5536ea23451a830cc7c1c190015c1",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/a167aa206198570fc8957f7b3f2c6778b0a0e2ad",
+                "reference": "a167aa206198570fc8957f7b3f2c6778b0a0e2ad",
                 "shasum": ""
             },
             "require": {
@@ -1907,7 +1907,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2019-05-09T17:15:35+00:00"
+            "time": "2019-05-12T13:26:26+00:00"
         },
         {
             "name": "nikolaposa/version",
@@ -3470,12 +3470,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "47b17760f3f02e3989db197b0307187b51597513"
+                "reference": "fe6c577d8825b673482b931956fff647cf1b6202"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/47b17760f3f02e3989db197b0307187b51597513",
-                "reference": "47b17760f3f02e3989db197b0307187b51597513",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/fe6c577d8825b673482b931956fff647cf1b6202",
+                "reference": "fe6c577d8825b673482b931956fff647cf1b6202",
                 "shasum": ""
             },
             "require": {
@@ -3511,7 +3511,7 @@
                 }
             ],
             "description": "Composer plugin for Symfony",
-            "time": "2019-05-09T09:38:45+00:00"
+            "time": "2019-05-13T11:34:26+00:00"
         },
         {
             "name": "symfony/form",
@@ -4197,12 +4197,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/monolog-bundle.git",
-                "reference": "005aefb1c4df246b07791188a65a0485fd6f4c5c"
+                "reference": "036cd4bdfe60eba58a870bfc0798748ec26a77d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/005aefb1c4df246b07791188a65a0485fd6f4c5c",
-                "reference": "005aefb1c4df246b07791188a65a0485fd6f4c5c",
+                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/036cd4bdfe60eba58a870bfc0798748ec26a77d1",
+                "reference": "036cd4bdfe60eba58a870bfc0798748ec26a77d1",
                 "shasum": ""
             },
             "require": {
@@ -4252,7 +4252,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2019-03-12T13:45:08+00:00"
+            "time": "2019-05-16T11:47:58+00:00"
         },
         {
             "name": "symfony/options-resolver",
@@ -5295,12 +5295,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/swiftmailer-bundle.git",
-                "reference": "4c46b6d59c9fd15f57a55c021c7d9d8effb8dcf2"
+                "reference": "959459318a022f9ad6bc85e3a87a0a10af173ff1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/swiftmailer-bundle/zipball/4c46b6d59c9fd15f57a55c021c7d9d8effb8dcf2",
-                "reference": "4c46b6d59c9fd15f57a55c021c7d9d8effb8dcf2",
+                "url": "https://api.github.com/repos/symfony/swiftmailer-bundle/zipball/959459318a022f9ad6bc85e3a87a0a10af173ff1",
+                "reference": "959459318a022f9ad6bc85e3a87a0a10af173ff1",
                 "shasum": ""
             },
             "require": {
@@ -5309,6 +5309,9 @@
                 "symfony/config": "~2.8|~3.3|~4.0",
                 "symfony/dependency-injection": "~2.7|~3.3|~4.0",
                 "symfony/http-kernel": "~2.7|~3.3|~4.0"
+            },
+            "conflict": {
+                "twig/twig": "<1.41|<2.10"
             },
             "require-dev": {
                 "symfony/console": "~2.7|~3.3|~4.0",
@@ -5349,7 +5352,7 @@
             ],
             "description": "Symfony SwiftmailerBundle",
             "homepage": "http://symfony.com",
-            "time": "2019-04-21T09:09:11+00:00"
+            "time": "2019-05-11T07:24:21+00:00"
         },
         {
             "name": "symfony/translation",
@@ -6150,12 +6153,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "ed3cbebe47d20fb896cc911f44b39204c220fd61"
+                "reference": "5a56076659f8a56b2e580d4699efc48cb6d9ef2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ed3cbebe47d20fb896cc911f44b39204c220fd61",
-                "reference": "ed3cbebe47d20fb896cc911f44b39204c220fd61",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/5a56076659f8a56b2e580d4699efc48cb6d9ef2a",
+                "reference": "5a56076659f8a56b2e580d4699efc48cb6d9ef2a",
                 "shasum": ""
             },
             "require": {
@@ -6171,7 +6174,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.10-dev"
+                    "dev-master": "2.11-dev"
                 }
             },
             "autoload": {
@@ -6209,7 +6212,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-05-10T06:47:07+00:00"
+            "time": "2019-05-18T09:24:16+00:00"
         },
         {
             "name": "white-october/pagerfanta-bundle",
@@ -6941,12 +6944,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "7bfc1b57d1ac9513703391498aa8da4764388bc6"
+                "reference": "080d8ca54cea8cfdd9320a668ed60f535d8fea86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/7bfc1b57d1ac9513703391498aa8da4764388bc6",
-                "reference": "7bfc1b57d1ac9513703391498aa8da4764388bc6",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/080d8ca54cea8cfdd9320a668ed60f535d8fea86",
+                "reference": "080d8ca54cea8cfdd9320a668ed60f535d8fea86",
                 "shasum": ""
             },
             "require": {
@@ -6964,7 +6967,7 @@
             "type": "symfony-bridge",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3-dev"
+                    "dev-master": "4.4-dev"
                 },
                 "thanks": {
                     "name": "phpunit/phpunit",
@@ -6998,7 +7001,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2019-05-08T13:47:25+00:00"
+            "time": "2019-05-09T07:23:25+00:00"
         },
         {
             "name": "symfony/web-server-bundle",
