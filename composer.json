@@ -1,7 +1,7 @@
 {
   "name": "oktodark/website",
   "description": "OktoDark Studios Main Website",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "license": "proprietary",
   "authors": [
     {
@@ -42,8 +42,7 @@
     "symfony/yaml": "*",
     "tgalopin/html-sanitizer-bundle": "^1.1",
     "twig/extensions": "^1.5",
-    "twig/twig": "^2.6",
-    "white-october/pagerfanta-bundle": "^1.1"
+    "twig/twig": "^2.6"
   },
   "require-dev": {
     "dama/doctrine-test-bundle": "^5.0",
@@ -102,7 +101,7 @@
     "symfony": {
       "id": "01C240QDH68XFC7KR57RMF0202",
       "allow-contrib": true,
-      "require": "4.3.0-beta1"
+      "require": "4.3.*"
     }
   }
 }
