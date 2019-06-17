@@ -12,11 +12,10 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Comment;
-use App\Events;
+use App\Events\CommentCreatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Notifies post's author about new comments.
@@ -39,14 +38,14 @@ class CommentNotificationSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            Events::COMMENT_CREATED => 'onCommentCreated',
+            CommentCreatedEvent::class => 'onCommentCreated',
         ];
     }
 
-    public function onCommentCreated(GenericEvent $event): void
+    public function onCommentCreated(CommentCreatedEvent $event): void
     {
         /** @var Comment $comment */
-        $comment = $event->getSubject();
+        $comment = $event->getComment();
         $post = $comment->getPost();
 
         $linkToPost = $this->urlGenerator->generate('blog_post', [
