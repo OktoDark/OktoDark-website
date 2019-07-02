@@ -11,6 +11,7 @@
 namespace App\Controller;
 
 use App\Form\ContactType;
+use App\Repository\ServicesRepository;
 use App\Repository\SettingsRepository;
 use App\Repository\TeamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -102,10 +103,14 @@ class InfoController extends AbstractController
      *
      * @return Response
      */
-    public function services(SettingsRepository $settings): Response
+    public function services(SettingsRepository $settings, ServicesRepository $services): Response
     {
         $selectSettings = $settings->findAll();
+        $showServices = $services->findAll();
 
-        return $this->render('@theme/info/services.html.twig', ['settings' => $selectSettings]);
+        return $this->render('@theme/info/services.html.twig', [
+            'settings' => $selectSettings,
+            'services' => $showServices,
+        ]);
     }
 }
