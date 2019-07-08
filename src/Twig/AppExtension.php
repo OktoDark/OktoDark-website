@@ -37,7 +37,9 @@ class AppExtension extends AbstractExtension
     {
         $this->parser = $parser;
 
-        $this->localeCodes = explode('|', $locales);
+        $localeCodes = explode('|', $locales);
+        sort($localeCodes);
+        $this->localeCodes = $localeCodes;
     }
 
     /**

@@ -3327,12 +3327,21 @@ textarea.form-input {
     margin-top: 30px;
 }
 
-.footer-language_selector a {
+.footer-language-selector {
+    text-align: center;
+}
+
+.footer-language-selector a {
     color: #888888;
 }
 
-.footer-language_selector a:hover {
+.footer-language-selector a:hover {
     color: #0cc5b6;;
+}
+
+.footer-logo {
+    width: 180px;
+    height: 30px;
 }
 
 @media (min-width: 1200px) {

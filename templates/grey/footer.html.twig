@@ -55,11 +55,18 @@
                 </div>
                 <div class="sub-footer-section">
                     <div class="container">
-                        <div class="footer-language_selector">
-                            <i class="fas fa-globe"></i> {{ 'language.selector'|trans }}:
-                            {% for locale in locales() %}
-                                <a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }}</a>
-                            {% endfor %}
+                        <div class="footer-language-selector">
+                            <img src="{% for s in settings %}{{ s.siteCDN }}{% endfor %}/themes/grey/images/logo.png" class="footer-logo" />
+                            &numsp;|&numsp;
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="locales">
+                                <i class="fas fa-globe" aria-hidden="true"></i>
+                                {{ 'language.selector'|trans }}
+                            </a>
+                            <ul class="dropdown-menu locales" role="menu" aria-labelledby="locales">
+                                {% for locale in locales() %}
+                                    <li><a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }} <small>{{ locale.code[0:2] }}</small></a></li>
+                                {% endfor %}
+                            </ul>
                         </div>
                         <!-- Copyright -->
                         <p class="rights">
