@@ -3334,9 +3334,41 @@ textarea.form-input {
 .footer-language-selector a {
     color: #888888;
 }
-
 .footer-language-selector a:hover {
-    color: #0cc5b6;;
+    color: #0cc5b6;
+}
+
+.footer-language-selector .active {
+    color: #FFFFFF;
+    background: #000000;
+}
+
+/**
+ * Locales
+ */
+footer .locales {
+    min-width: 190px;
+}
+footer .locales a {
+    padding-right: 10px;
+    padding: 3px 15px;
+}
+footer .locales a small {
+    border-radius: 4px;
+    border: 2px solid #dee2e6;
+    color: #7b8a8b;
+    float: left;
+    font-size: 12px;
+    line-height: 1.1;
+    margin: 2px 10px 0 0;
+    min-width: 26px;
+    padding: 0px 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+footer .locales .active small,
+footer .locales a:hover small {
+    color: inherit;
 }
 
 .footer-logo {
