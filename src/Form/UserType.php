@@ -17,11 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Defines the form used to edit an user.
- *
- * @author Romain Monteil <monteil.romain@gmail.com>
- */
 class UserType extends AbstractType
 {
     /**

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright © 2019 OktoDark Studios
  * Website: https://www.oktodark.com
