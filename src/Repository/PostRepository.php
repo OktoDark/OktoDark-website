@@ -12,10 +12,9 @@ namespace App\Repository;
 
 use App\Entity\Post;
 use App\Entity\Tag;
+use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * This custom Doctrine repository contains some methods which are useful when
@@ -34,7 +33,7 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
-    public function findLatest(int $page = 1, Tag $tag = null): array
+    public function findLatest(int $page = 1, Tag $tag = null): Paginator
     {
         $qb = $this->createQueryBuilder('p')
             ->addSelect('a', 't')
@@ -50,15 +49,14 @@ class PostRepository extends ServiceEntityRepository
                 ->setParameter('tag', $tag);
         }
 
-        return $this->createPaginator($qb, $page);
+        return (new Paginator($qb))->paginate($page);
     }
 
     /**
      * @return Post[]
      */
-    public function findBySearchQuery(string $rawQuery, int $limit = Post::NUM_ITEMS): array
+    public function findBySearchQuery(string $query, int $limit = Post::NUM_ITEMS): array
     {
-        $query = $this->sanitizeSearchQuery($rawQuery);
         $searchTerms = $this->extractSearchTerms($query);
 
         if (0 === \count($searchTerms)) {
@@ -82,49 +80,16 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * Removes all non-alphanumeric characters except whitespaces.
-     */
-    private function sanitizeSearchQuery(string $query): string
-    {
-        return trim(preg_replace('/[[:space:]]+/', ' ', $query));
-    }
-
-    /**
-     * Splits the search query into terms and removes the ones which are irrelevant.
+     * Transforms the search string into an array of search terms.
      */
     private function extractSearchTerms(string $searchQuery): array
     {
+        $searchQuery = trim(preg_replace('/[[:space:]]+/', ' ', $searchQuery));
         $terms = array_unique(explode(' ', $searchQuery));
 
+        // ignore the search terms that are too short
         return array_filter($terms, function ($term) {
             return 2 <= mb_strlen($term);
         });
-    }
-
-    private function createPaginator(QueryBuilder $queryBuilder, int $currentPage, int $pageSize = Post::NUM_ITEMS)
-    {
-        $currentPage = $currentPage < 1 ? 1 : $currentPage;
-        $firstResult = ($currentPage - 1) * $pageSize;
-
-        $query = $queryBuilder
-            ->setFirstResult($firstResult)
-            ->setMaxResults($pageSize)
-            ->getQuery();
-
-        $paginator = new Paginator($query);
-        $numResults = $paginator->count();
-        $hasPreviousPage = $currentPage > 1;
-        $hasNextPage = ($currentPage * $pageSize) < $numResults;
-
-        return [
-            'results' => $paginator->getIterator(),
-            'currentPage' => $currentPage,
-            'hasPreviousPage' => $hasPreviousPage,
-            'hasNextPage' => $hasNextPage,
-            'previousPage' => $hasPreviousPage ? $currentPage - 1 : null,
-            'nextPage' => $hasNextPage ? $currentPage + 1 : null,
-            'numPages' => (int) ceil($numResults / $pageSize),
-            'haveToPaginate' => $numResults > $pageSize,
-        ];
     }
 }
