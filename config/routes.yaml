@@ -6,6 +6,6 @@ homepage:
         _locale: '%app_locales%'
     defaults:
         template: "@theme/intro.html.twig"
-        _locale: '%locale%'
+        _locale:  '%locale%'
         maxAge:    86400
         sharedAge: 86400
