@@ -23,8 +23,8 @@
                     {% for post in paginator.results %}
                     <div class="post-creative">
                         <div class="author-block">
-                            <figure class="author-img"><img src="#" alt="{{ post.author.fullname }}" width="114" height="114"/></figure>
-                            <h4>{{ post.author.fullname }}</h4>
+                            <figure class="author-img"><img src="#" alt="{{ post.author.fullName }}" width="114" height="114"/></figure>
+                            <h4>{{ post.author.fullName }}</h4>
                             <h6>Blogger</h6>
                             <div class="divider"></div>
                         </div>
@@ -43,33 +43,31 @@
                         <div class="well">{{ 'post.no_posts_found'|trans }}</div>
                     {% endfor %}
 
-                    {% if paginator.haveToPaginate %}
+                    {% if paginator.hasToPaginate %}
                     <div class="row">
                         <div class="col-12">
                             <ul class="pagination">
-                                <div class="navigation text-center">
                                     <ul class="pagination">
                                         {% if paginator.hasPreviousPage %}
-                                            <li class="prev"><a href="{{ path('blog_index_paginated', {page: paginator.previousPage}) }}" rel="previous"><i class="fa fw fa-long-arrow-left"></i> Previous</a></li>
+                                            <li class="page-item page-item-control prev"><a class="page-link" href="{{ path('blog_index_paginated', {page: paginator.previousPage}) }}" aria-label="Previous" rel="previous"><span class="icon fa-chevron-left"></span></a></li>
                                         {% else %}
-                                            <li class="prev disabled"><span><i class="fa fw fa-arrow-left"></i> Previous</span></li>
+                                            <li class="page-item page-item-control prev disabled"><span><i class="icon fa-chevron-left"></i> Previous</span></li>
                                         {% endif %}
 
-                                        {% for i in 1..paginator.numPages %}
+                                        {% for i in 1..paginator.lastPage %}
                                             {% if i == paginator.currentPage %}
-                                                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                                <li class="page-item active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
                                             {% else %}
-                                                <li><a href="{{ path('blog_index_paginated', {page: i}) }}">{{ i }}</a></li>
+                                                <li class="page-item"><a class="page-link" href="{{ path('blog_index_paginated', {page: i}) }}">{{ i }}</a></li>
                                             {% endif %}
                                         {% endfor %}
 
                                         {% if paginator.hasNextPage %}
-                                            <li class="prev"><a href="{{ path('blog_index_paginated', {page: paginator.nextPage}) }}" rel="next">Next <i class="fa fw fa-arrow-right"></i></a></li>
+                                            <li class="page-item page-item-control next"><a class="page-link" href="{{ path('blog_index_paginated', {page: paginator.nextPage}) }}" aria-label="Next"><span class="icon arrow-right"></span></a></li>
                                         {% else %}
-                                            <li class="next disabled"><span>Next <i class="fa fw fa-arrow-right"></i></span></li>
+                                            <li class="page-item page-item-control next disabled"><span class="icon arrow-right"></span></li>
                                         {% endif %}
                                     </ul>
-                                </div>
                             </ul>
                         </div>
                     </div>
