@@ -49,23 +49,23 @@
                             <ul class="pagination">
                                     <ul class="pagination">
                                         {% if paginator.hasPreviousPage %}
-                                            <li class="page-item page-item-control prev"><a class="page-link" href="{{ path('blog_index_paginated', {page: paginator.previousPage}) }}" aria-label="Previous" rel="previous"><span class="icon fa-chevron-left"></span></a></li>
+                                            <li class="page-item page-item-control prev"><a class="page-link" href="{{ path('blog_index_paginated', {page: paginator.previousPage}) }}" aria-label="Previous" rel="previous"><span class="fas fa-chevron-left"></span></a></li>
                                         {% else %}
-                                            <li class="page-item page-item-control prev disabled"><span><i class="icon fa-chevron-left"></i> Previous</span></li>
+                                            <li class="page-item page-item-control prev disabled"><span><i class="fas fa-chevron-left"></i> Previous</span></li>
                                         {% endif %}
 
                                         {% for i in 1..paginator.lastPage %}
                                             {% if i == paginator.currentPage %}
-                                                <li class="page-item active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                                <li class="page-item active"><a class="page-link"><span>{{ i }}</span></a></li>
                                             {% else %}
                                                 <li class="page-item"><a class="page-link" href="{{ path('blog_index_paginated', {page: i}) }}">{{ i }}</a></li>
                                             {% endif %}
                                         {% endfor %}
 
                                         {% if paginator.hasNextPage %}
-                                            <li class="page-item page-item-control next"><a class="page-link" href="{{ path('blog_index_paginated', {page: paginator.nextPage}) }}" aria-label="Next"><span class="icon arrow-right"></span></a></li>
+                                            <li class="page-item page-item-control next"><a class="page-link" href="{{ path('blog_index_paginated', {page: paginator.nextPage}) }}" aria-label="Next"><span class="fas fa-chevron-right"></span></a></li>
                                         {% else %}
-                                            <li class="page-item page-item-control next disabled"><span class="icon arrow-right"></span></li>
+                                            <li class="page-item page-item-control next disabled"><span class="fas fa-chevron-right"></span></li>
                                         {% endif %}
                                     </ul>
                             </ul>
