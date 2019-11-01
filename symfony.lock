@@ -164,6 +164,12 @@
     "pagerfanta/pagerfanta": {
         "version": "v1.0.5"
     },
+    "paragonie/random_compat": {
+        "version": "dev-master"
+    },
+    "paragonie/sodium_compat": {
+        "version": "dev-master"
+    },
     "patreon/patreon": {
         "version": "0.3.0"
     },
