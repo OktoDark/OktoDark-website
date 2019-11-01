@@ -7,5 +7,5 @@ TIMEOUT 5 >nul
 echo Loading ...
 TIMEOUT 5 >nul
 echo Loading ... Complete
-php bin/console server:run
+php -S 127.0.0.1:8000 -t public/
 pause
