@@ -1,7 +1,7 @@
 {
   "name": "oktodark/website",
   "description": "OktoDark Studios Main Website",
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "license": "proprietary",
   "authors": [
     {
@@ -14,12 +14,11 @@
     "ext-iconv": "*",
     "doctrine/doctrine-bundle": "^1.8",
     "doctrine/orm": "^2.6",
-    "easycorp/easyadmin-bundle": "^2.1.1",
+    "easycorp/easyadmin-bundle": "^2.3.2",
     "erusev/parsedown": "^1.6",
     "friendsofsymfony/ckeditor-bundle": "^2.0",
     "patreon/patreon": "^0.3.1",
     "sensio/framework-extra-bundle": "^5.1",
-    "sensiolabs/security-checker": "^5.0",
     "shivas/versioning-bundle": "^3.2.1",
     "symfony/asset": "*",
     "symfony/browser-kit": "*",
@@ -39,7 +38,7 @@
     "symfony/swiftmailer-bundle": "^3.1",
     "symfony/translation": "*",
     "symfony/twig-bundle": "*",
-    "symfony/validator": "4.2.*",
+    "symfony/validator": "4.4.*",
     "symfony/webpack-encore-bundle": "^1.4",
     "symfony/yaml": "*",
     "tgalopin/html-sanitizer-bundle": "^1.1",
@@ -53,8 +52,7 @@
     "friendsofphp/php-cs-fixer": "^2.12",
     "symfony/debug-bundle": "*",
     "symfony/phpunit-bridge": "*",
-    "symfony/web-profiler-bundle": "*",
-    "symfony/web-server-bundle": "*"
+    "symfony/web-profiler-bundle": "*"
   },
   "config": {
     "platform": {
@@ -85,8 +83,7 @@
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
       "ckeditor:install --clear=drop": "symfony-cmd",
-      "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd",
-      "security-checker security:check": "script"
+      "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd"
     },
     "post-install-cmd": [
       "@auto-scripts"
@@ -102,7 +99,7 @@
     "symfony": {
       "id": "01C240QDH68XFC7KR57RMF0202",
       "allow-contrib": true,
-      "require": "4.3.*"
+      "require": "4.4.*"
     }
   }
 }
