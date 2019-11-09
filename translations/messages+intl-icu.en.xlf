@@ -114,6 +114,10 @@
                 <source>title.contact</source>
                 <target>Contact</target>
             </trans-unit>
+            <trans-unit id="title.our_clients">
+                <source>title.our_clients</source>
+                <target>Our Clients</target>
+            </trans-unit>
             <trans-unit id="title.our_team">
                 <source>title.our_team</source>
                 <target>Our Team</target>
