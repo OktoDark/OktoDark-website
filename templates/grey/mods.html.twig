@@ -1,0 +1,102 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.mods'|trans }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block body_id 'mods' %}
+
+{% block main %}
+
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.mods'|trans }}</h2>
+            <h5 class="text-uppercase">{{ 'subtitle.mods.text'|trans }}</h5>
+        </div>
+    </section>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <!-- Section Icon box-->
+    <section class="section section-lg bg-gray-100">
+        <div class="container">
+            <div class="row row-50 row-bordered">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="icon-box">
+                        <div class="icon-box-text">
+                            <p>
+                                <a href="#thesims4"><img src="../images/thesims4_img.png" /></a>
+                                Mods and custom content for The Sims 4
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="icon-box">
+                        <div class="icon-box-text">
+                            <p>Soon</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="icon-box">
+                        <div class="icon-box-text">
+                            <p>Soon</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="icon-box">
+                        <div class="icon-box-text">
+                            <p>Soon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Post Minimal-->
+    <section class="section bg-default section-xl" id="thesims4">
+        <div class="container">
+            <img src="../images/thesims4_img.png" width="150px" height="70px" />
+            <div class="row row-50">
+                <!-- Items -->
+                {% for m in mods %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="post-minimal">
+                        <figure class="post-img"><a href="#"><img src="images/home-1-420x245.jpg" alt="" width="420" height="245"/></a></figure>
+                        <div class="post-body">
+                            <h4 class="post-title"><a href="#">{{ m.name }}</a></h4>
+                            <div class="post-text">
+                                <p><i class="fas fa-info"></i> {{ m.description }}</p>
+                                <p>
+                                    <i class="fas fa-theater-masks"></i>
+                                    <img src="../images/{{ m.slug }}/{{ m.compatible}}.png" width="35px" height="35px" />
+                                </p>
+                            </div><a class="button button-gradient" href="{{ m.download }}"><i class="fas fa-download"></i> Download</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <!-- End Items -->
+            </div>
+        </div>
+    </section>
+        {% else %}
+            <section class="section section-lg bg-default text-center">
+                <div class="container">
+                    <h3>{{ 'restriction.mods.text'|trans }}</h3>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="box-team-modern box-team-modern-quote">
+                                <div class="box-team-modern-caption">
+                                    {{ 'rescontent.mods.text'|trans|raw }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    {% endif %}
+
+{% endblock %}

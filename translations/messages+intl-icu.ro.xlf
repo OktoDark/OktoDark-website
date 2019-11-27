@@ -319,6 +319,28 @@
             </trans-unit>
             <!-- End Misc Zone -->
 
+            <!-- Mods Area -->
+            <trans-unit id="subtitle.mods.text">
+                <source>subtitle.mods.text</source>
+                <target>Mods si Continut pentru jocuri</target>
+            </trans-unit>
+            <trans-unit id="restriction.mods.text">
+                <source>restriction.mods.text</source>
+                <target>Numai pentru membri</target>
+            </trans-unit>
+            <trans-unit id="rescontent.mods.text">
+                <source>rescontent.mods.text</source>
+                <target>
+                <![CDATA[
+                <p>Cu 1&euro; poti descarca orice, in fiecare zi fara restrictii.</p>
+                <p><b>De ce sa platesc 1&euro;?</b><ul><li>Cu plata efectuata, noi vom avea mai mult spatiu de stocare pentru mods si continut.</li></ul></p>
+                <p><b>In fiecare luna?</b><ul><li>Da, este abonament lunar.</li></ul></p>
+                <p>Pentru abonament, accesati pagina noastra <a href="https://www.patreon.com/OktoDark">Patreon</a> si alegeți dorintele dvs.</p>
+                ]]>
+                </target>
+            </trans-unit>
+            <!-- End Mods Area -->
+
             <!-- Slider main page Zone -->
             <trans-unit id="slider_one.text">
                 <source>slider_one.text</source>

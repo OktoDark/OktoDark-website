@@ -342,6 +342,28 @@
             </trans-unit>
             <!-- End Misc Zone -->
 
+            <!-- Mods Area -->
+            <trans-unit id="subtitle.mods.text">
+                <source>subtitle.mods.text</source>
+                <target>Mods and Content for games</target>
+            </trans-unit>
+            <trans-unit id="restriction.mods.text">
+                <source>restriction.mods.text</source>
+                <target>Only for Members</target>
+            </trans-unit>
+            <trans-unit id="rescontent.mods.text">
+                <source>rescontent.mods.text</source>
+                <target>
+                <![CDATA[
+                <p>With 1&euro; you can download anything, everyday without restriction.</p>
+                <p><b>Why to pay 1&euro;?</b><ul><li>With your payment we will have more hosting space for mods.</li></ul></p>
+                <p><b>Every month?</b><ul><li>Yes, it's subscription monthly.</li></ul></p>
+                <p>For subscription please visit our <a href="https://www.patreon.com/OktoDark">Patreon</a> page and choice your wishes.</p>
+                ]]>
+                </target>
+            </trans-unit>
+            <!-- End Mods Area -->
+
             <!-- Slider main page Zone -->
             <trans-unit id="slider_one.text">
                 <source>slider_one.text</source>
