@@ -523,6 +523,29 @@
             </trans-unit>
             <!-- End Login Form Zone -->
 
+            <!-- Contact Form Zone -->
+            <trans-unit id="label.contact_name">
+                <source>label.contact_name</source>
+                <target>Numele</target>
+            </trans-unit>
+            <trans-unit id="label.contact_email">
+                <source>label.contact_email</source>
+                <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="label.contact_category">
+                <source>label.contact_category</source>
+                <target>Categorie</target>
+            </trans-unit>
+            <trans-unit id="label.contact_subject">
+                <source>label.contact_subject</source>
+                <target>Subiect</target>
+            </trans-unit>
+            <trans-unit id="label.contact_message">
+                <source>label.contact_message</source>
+                <target>Mesaj</target>
+            </trans-unit>
+            <!-- End Contact Form Zone -->
+
             <!-- beDonor Zone -->
             <trans-unit id="bedonor.note">
                 <source>bedonor.note</source>
