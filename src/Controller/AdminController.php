@@ -13,8 +13,8 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
-use App\Utils\Slugger;
 use App\Security\PostVoter;
+use App\Utils\Slugger;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -126,7 +126,7 @@ class AdminController extends AbstractController
     /**
      * Displays a form to edit an existing Post entity.
      *
-     * @Route("/{id<\d+>}/edit", methods={"GET", "POST"}, name="admin_post_edit")
+     * @Route("/{id<\d+>}/edit",methods={"GET", "POST"}, name="admin_post_edit")
      * @IsGranted("edit", subject="post", message="Posts can only be edited by their authors.")
      */
     public function edit(Request $request, Post $post): Response

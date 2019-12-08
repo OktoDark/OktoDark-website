@@ -11,20 +11,20 @@
 namespace App\EventListener;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class MaintenanceListener
 {
     private $isLocked;
     private $twig;
 
-    public function __construct($isLocked, \Twig_Environment $twig)
+    public function __construct($isLocked, \Twig\Environment $twig)
     {
         $this->isLocked = $isLocked;
         $this->twig = $twig;
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         if ( ! $this->isLocked)
         {
