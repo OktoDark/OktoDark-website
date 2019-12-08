@@ -31,7 +31,7 @@
                         <div class="post-body">
                             <div class="post-classic-meta">
                                 <ul class="list list-inline">
-                                    <li><span class="icon icon-xs far fa-clock"></span> <span class="time">{{ post.publishedAt|localizeddate('long', 'medium', null, 'UTC') }}</span></li>
+                                    <li><span class="icon icon-xs far fa-clock"></span> <span class="time">{{ post.publishedAt|format_datetime('long', 'medium', '', 'UTC') }}</span></li>
                                     <li><span class="icon icon-xs far fa-comments"></span> <!-- comment numbers --></li>
                                 </ul>
                             </div>

@@ -18,7 +18,7 @@
                         <h4 class="post-title">{{ post.title }}</h4>
                         <div class="post-classic-meta">
                             <ul class="list list-inline">
-                                <li><span class="icon icon-xs fl-outicons-clock169"></span> <span class="time">{{ post.publishedAt|localizeddate('long', 'medium', null, 'UTC') }}</span>
+                                <li><span class="icon icon-xs fl-outicons-clock169"></span> <span class="time">{{ post.publishedAt|format_datetime('long', 'medium', '', 'UTC') }}</span>
                                 </li>
                                 <li><span class="icon icon-xs fl-outicons-speech-balloon2"></span> {{ post.author.fullName }}
                                 </li>
@@ -53,7 +53,7 @@
                                         </ul>
                                     </div>
                                     <div class="block-right">
-                                        <p><span class="icon icon-xs fl-outicons-clock169"></span><span class="time">{{ comment.publishedAt|localizeddate('medium', 'short', null, 'UTC') }}</span></p>
+                                        <p><span class="icon icon-xs fl-outicons-clock169"></span><span class="time">{{ comment.publishedAt|format_datetime('long', 'medium', '', 'UTC') }}</span></p>
                                     </div>
                                 </div>
                                 <div class="comment-text">
