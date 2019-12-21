@@ -55,11 +55,8 @@ class InfoController extends AbstractController
             $message = (new \Swift_Message($contactFormData['subject']))
                 ->setFrom($contactFormData['email'])
                 ->setTo('contact@oktodark.com')
-                ->setBody(
-                    $contactFormData['message'],
-                    'text/plain'
-                )
-                ;
+                ->setBody($body, 'text/html')
+            ;
 
             $mailer->send($message);
 

@@ -21,17 +21,9 @@
             <div class="row justify-content-lg-center">
                 <div class="col-md-9 col-lg-7">
                     <p>{{ 'content.contact'|trans }}</p>
+                    <br>
                     <div>
-                        {{ include('@theme/_flash_messages.html.twig') }}
-                    {% for label, messages in app.flashes %}
-                        {% for message in messages %}
-                            <div class="flash-{{ label }}">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-
-                    {{ form_start(form, {'attr' : { 'class' : 'rd-mailform text-life', 'data-form-output': 'form-output-global' } }) }}
+                    {{ form_start(form, {'attr' : { 'class' : 'rd-mailform text-left', 'data-form-output': 'form-output-global', 'data-form-type': 'contact' } }) }}
                         <div class="form-warp">
                             {{ form_widget(form) }}
                         </div>
