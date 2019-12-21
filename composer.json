@@ -13,6 +13,7 @@
   "require": {
     "php": "^7.2.9",
     "ext-iconv": "*",
+    "crayner/ckeditor-bundle": "^2.1.51",
     "doctrine/doctrine-bundle": "^1.12|^2.0",
     "doctrine/doctrine-migrations-bundle": "^1.3|^2.0",
     "doctrine/orm": "^2.5.11",
@@ -35,6 +36,7 @@
     "symfony/polyfill-intl-messageformatter": "^1.12",
     "symfony/polyfill-php72": "^1.8",
     "symfony/security-bundle": "5.0.*",
+    "symfony/string": "5.0.*",
     "symfony/swiftmailer-bundle": "^3.1",
     "symfony/translation": "5.0.*",
     "symfony/twig-bundle": "5.0.*",

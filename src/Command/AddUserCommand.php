@@ -137,7 +137,7 @@ class AddUserCommand extends Command
         // Ask for the password if it's not defined
         $password = $input->getArgument('password');
         if (null !== $password) {
-            $this->io->text(' > <info>Password</info>: '.str_repeat('*', mb_strlen($password)));
+            $this->io->text(' > <info>Password</info>: '.u('*')->repeat(u($password)->length()));
         } else {
             $password = $this->io->askHidden('Password (your type will be hidden)', [$this->validator, 'validatePassword']);
             $input->setArgument('password', $password);
