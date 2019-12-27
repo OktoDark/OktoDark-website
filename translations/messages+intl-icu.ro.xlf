@@ -75,6 +75,22 @@
                 <source>navbar.logout</source>
                 <target>Deconecteaza-te</target>
             </trans-unit>
+            <trans-unit id="navbar.mods">
+                <source>navbar.mods</source>
+                <target>Mods</target>
+            </trans-unit>
+            <trans-unit id="navbar.projects">
+                <source>navbar.projects</source>
+                <target>Proiecte</target>
+            </trans-unit>
+            <trans-unit id="navbar.info">
+                <source>navbar.info</source>
+                <target>Info</target>
+            </trans-unit>
+            <trans-unit id="navbar.services">
+                <source>navbar.services</source>
+                <target>Servicii</target>
+            </trans-unit>
             <!-- End Navbar Zone -->
 
             <!-- Title Pages Zone -->

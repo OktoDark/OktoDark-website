@@ -75,6 +75,22 @@
                 <source>navbar.logout</source>
                 <target>Logout</target>
             </trans-unit>
+            <trans-unit id="navbar.mods">
+                <source>navbar.mods</source>
+                <target>Mods</target>
+            </trans-unit>
+            <trans-unit id="navbar.projects">
+                <source>navbar.projects</source>
+                <target>Projects</target>
+            </trans-unit>
+            <trans-unit id="navbar.info">
+                <source>navbar.info</source>
+                <target>Info</target>
+            </trans-unit>
+            <trans-unit id="navbar.services">
+                <source>navbar.services</source>
+                <target>Services</target>
+            </trans-unit>
             <!-- End Navbar Zone -->
 
             <!-- Title Pages Zone -->
