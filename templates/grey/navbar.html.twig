@@ -33,6 +33,7 @@
                                                 <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('mods') }}">{{ 'navbar.mods'|trans }}</a></li>
                                             </ul>
                                         </li>
+                                        <li class="rd-nav-item"><a class="rd-nav-link" href="{{ path('services') }}">{{ 'navbar.services'|trans }}</a></li>
                                         <li class="rd-nav-item"><a class="rd-nav-link" href="#">{{ 'navbar.info'|trans }}</a>
                                             <ul class="rd-menu rd-navbar-dropdown">
                                                 <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('careers') }}">{{ 'navbar.careers'|trans }}</a></li>
@@ -40,7 +41,6 @@
                                                 <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('contact') }}">{{ 'navbar.contact'|trans }}</a></li>
                                             </ul>
                                         </li>
-                                        <li class="rd-nav-item"><a class="rd-nav-link" href="{{ path('services') }}">{{ 'navbar.services'|trans }}</a></li>
                                         {% if app.user %}
                                         <li class="rd-nav-item"><a class="rd-nav-link" href="#"><i class="fas fa-user"></i> Hi, {{ app.user.username }}</a>
                                             <ul class="rd-menu rd-navbar-dropdown">
