@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ModsController extends AbstractController
 {
     /**
-     * @Route("/mods", methods={"GET"}, name="mods")
+     * @Route("/mods", methods="GET", name="mods")
      *
      * @return Response
      */

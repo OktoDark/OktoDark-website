@@ -25,8 +25,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/", methods={"GET"}, name="home_index")
-     * @Route("/home", methods={"GET"}, name="home")
+     * @Route("/", methods="GET", name="home_index")
+     * @Route("/home", methods="GET", name="home")
      *
      * @return Response
      */

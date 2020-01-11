@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CareersController extends AbstractController
 {
     /**
-     * @Route("/careers", methods={"GET"}, name="careers")
+     * @Route("/careers", methods="GET", name="careers")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */

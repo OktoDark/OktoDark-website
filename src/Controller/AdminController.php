@@ -47,8 +47,8 @@ class AdminController extends AbstractController
      *     could move this annotation to any other controller while maintaining
      *     the route name and therefore, without breaking any existing link.
      *
-     * @Route("/", methods={"GET"}, name="admin_index")
-     * @Route("/", methods={"GET"}, name="admin_post_index")
+     * @Route("/", methods="GET", name="admin_index")
+     * @Route("/", methods="GET", name="admin_post_index")
      */
     public function index(PostRepository $posts): Response
     {
@@ -60,7 +60,7 @@ class AdminController extends AbstractController
     /**
      * Creates a new Post entity.
      *
-     * @Route("/new", methods={"GET", "POST"}, name="admin_post_new")
+     * @Route("/new", methods="GET|POST", name="admin_post_new")
      *
      * NOTE: the Method annotation is optional, but it's a recommended practice
      * to constraint the HTTP methods each controller responds to (by default
@@ -110,7 +110,7 @@ class AdminController extends AbstractController
     /**
      * Finds and displays a Post entity.
      *
-     * @Route("/{id<\d+>}", methods={"GET"}, name="admin_post_show")
+     * @Route("/{id<\d+>}", methods="GET", name="admin_post_show")
      */
     public function show(Post $post): Response
     {
@@ -126,7 +126,7 @@ class AdminController extends AbstractController
     /**
      * Displays a form to edit an existing Post entity.
      *
-     * @Route("/{id<\d+>}/edit",methods={"GET", "POST"}, name="admin_post_edit")
+     * @Route("/{id<\d+>}/edit", methods="GET|POST", name="admin_post_edit")
      * @IsGranted("edit", subject="post", message="Posts can only be edited by their authors.")
      */
     public function edit(Request $request, Post $post, SluggerInterface $slugger): Response
@@ -152,7 +152,7 @@ class AdminController extends AbstractController
     /**
      * Deletes a Post entity.
      *
-     * @Route("/{id}/delete", methods={"POST"}, name="admin_post_delete")
+     * @Route("/{id}/delete", methods="POST", name="admin_post_delete")
      * @IsGranted("delete", subject="post")
      */
     public function delete(Request $request, Post $post): Response

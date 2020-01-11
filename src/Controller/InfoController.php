@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class InfoController extends AbstractController
 {
     /**
-     * @Route("/about", methods={"GET"}, name="about")
+     * @Route("/about", methods="GET", name="about")
      *
      * @return Response
      */
@@ -72,7 +72,7 @@ class InfoController extends AbstractController
     }
 
     /**
-     * @Route("/faq", methods={"GET"}, name="faq")
+     * @Route("/faq", methods="GET", name="faq")
      *
      * @return Response
      */
@@ -84,7 +84,7 @@ class InfoController extends AbstractController
     }
 
     /**
-     * @Route("/privacy-policy", methods={"GET"}, name="privacy-policy")
+     * @Route("/privacy-policy", methods="GET", name="privacy-policy")
      *
      * @return Response
      */
@@ -96,7 +96,7 @@ class InfoController extends AbstractController
     }
 
     /**
-     * @Route("/services", methods={"GET"}, name="services")
+     * @Route("/services", methods="GET", name="services")
      *
      * @return Response
      */

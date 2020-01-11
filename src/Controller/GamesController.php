@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GamesController extends AbstractController
 {
     /**
-     * @Route("/games", methods={"GET"}, name="games")
+     * @Route("/games", methods="GET", name="games")
      *
      * @return Response
      */

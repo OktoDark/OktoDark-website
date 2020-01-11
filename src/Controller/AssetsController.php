@@ -26,7 +26,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AssetsController extends AbstractController
 {
     /**
-     * @Route("/assets", methods={"GET"}, name="assets_index")
+     * @Route("/assets", methods="GET", name="assets_index")
      *
      * @return Response
      */

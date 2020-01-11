@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SupportusController extends AbstractController
 {
     /**
-     * @Route("/bepatron", methods={"GET"}, name="bepatron")
+     * @Route("/bepatron", methods="GET", name="bepatron")
      */
     public function bepatron(SettingsRepository $settings): Response
     {
@@ -28,7 +28,7 @@ class SupportusController extends AbstractController
     }
 
     /**
-     * @Route("/bedonor", methods={"GET"}, name="bedonor")
+     * @Route("/bedonor", methods="GET", name="bedonor")
      */
     public function bedonor(SettingsRepository $settings): Response
     {
