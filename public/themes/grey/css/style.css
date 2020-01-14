@@ -4326,8 +4326,9 @@ html [class*='section-'].section-bottom-0 {
 }
 
 p.rights {
-    font-size: 16px;
+    font-size: 12px;
     color: #888888;
+    text-align: center;
 }
 
 p.rights a {
