@@ -43,10 +43,8 @@ class News
     private $author;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string")
-     * @Assert\Length(max="5000")
+     * @ORM\Column(type="text")
+     * @Assert\Length(max="50000")
      */
     private $content;
 

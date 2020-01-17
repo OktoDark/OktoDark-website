@@ -333,6 +333,10 @@
                 <source>loading.text</source>
                 <target>Se incarca...</target>
             </trans-unit>
+            <trans-unit id="by.news">
+                <source>by.news</source>
+                <target>De</target>
+            </trans-unit>
             <!-- End Misc Zone -->
 
             <!-- Mods Area -->

@@ -110,18 +110,26 @@
         <!-- News Section-->
         <section class="section section-lg bg-default">
             <div class="container">
-                <h3>{{ 'title.news'|trans }}</h3>
-                {% for n in news %}
-                <div class="row">
-                    <div class="col-12">
-                        <div class="text-decoration">
+                <div class="section-title text-center">
+                    <h3>{{ 'title.news'|trans }}</h3>
+                </div>
+                <div class="row row-50">
+                    {% for n in news %}
+                    <div class="col-md-6">
+                        <div class="post-classic post-classic-type-1">
                             <h4>{{ n.title }}</h4>
-                            <p>{{ n.content|md2html }}</p>
-                            <p class="right_side" ><i class="icon-news-time far fa-clock"></i> {{ n.createdAt|format_datetime('medium', 'short', '', 'UTC') }}</p>
+                            <div class="post-classic-meta">
+                                <ul class="list list-inline">
+                                    <li>{{ 'by.news'|trans }} {{ n.author }}</li>
+                                    <li></li>
+                                    <li><span class="icon-news-time far fa-clock"></span> {{ n.createdAt|format_datetime('medium', 'short', '', 'UTC') }}</li>
+                                </ul>
+                            </div>
+                            {{ n.content|md2html }}
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </section>
         <!-- End News Section -->
