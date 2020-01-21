@@ -10,6 +10,10 @@
       "email": "contact@oktodark.com"
     }
   ],
+  "replace": {
+    "symfony/polyfill-php70": "*",
+    "symfony/polyfill-php72": "*"
+  },
   "require": {
     "php": "^7.2.9",
     "ext-iconv": "*",
@@ -34,7 +38,6 @@
     "symfony/monolog-bundle": "^3.3",
     "symfony/orm-pack": "^1.0",
     "symfony/polyfill-intl-messageformatter": "^1.12",
-    "symfony/polyfill-php72": "^1.8",
     "symfony/security-bundle": "5.0.*",
     "symfony/string": "5.0.*",
     "symfony/swiftmailer-bundle": "^3.4.0",
