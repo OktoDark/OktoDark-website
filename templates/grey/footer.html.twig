@@ -16,14 +16,6 @@
                                         </ul>
                                     </div>
                                     <div class="col">
-                                        <h4 class="footer-classic-title">{{ 'footer.get_in_touch_text'|trans }}</h4>
-                                        <ul class="list list-font-accent list-marked">
-                                            <li><i class="fab fa-facebook"></i> <a href="https://www.facebook.com/OktoDark">Facebook</a></li>
-                                            <li><i class="fab fa-twitter"></i> <a href="https://www.twitter.com/OktoDark">Twitter</a></li>
-                                            <li><i class="fab fa-youtube"></i> <a href="https://www.youtube.com/channel/UCDqAin2dpl6R9XIPFQe4Vsg">Youtube</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col">
                                         <h4 class="footer-classic-title">{{ 'footer.source_code_text'|trans }}</h4>
                                         <ul class="list list-font-accent list-marked">
                                             <li><i class="fab fa-github"></i> <a href="https://www.github.com/OktoDark">Github</a></li>
@@ -55,30 +47,36 @@
                     </div>
                 </div>
                 <div class="sub-footer-section">
-                    <div class="container">
-                        <div class="footer-language-selector">
-                            <img src="{% for s in settings %}{{ s.siteCDN }}{% endfor %}/themes/grey/images/logo.png" class="footer-logo" />
-                            &numsp;|&numsp;
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="locales">
-                                <i class="fas fa-globe" aria-hidden="true"></i>
-                                {{ 'language.selector'|trans }}
-                            </a>
-                            <ul class="dropdown-menu locales" role="menu" aria-labelledby="locales">
-                                {% for locale in locales() %}
-                                    <li {% if app.request.locale == locale.code %}aria-checked="true" class="active"{% else %}aria-checked="false"{% endif %} role="menuitem"><a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }} <small>{{ locale.code[0:2] }}</small></a></li>
-                                {% endfor %}
-                            </ul>
+                    <section class="section section-md">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-8">
+                                    <p class="social">
+                                        <a href="https://www.facebook.com/OktoDark"><i class="fab fa-facebook-square lg-share-facebook"></i></a>
+                                        <a href="https://www.twitter.com/OktoDark"><i class="fab fa-twitter-square"></i></a>
+                                        <a href="https://www.youtube.com/channel/UCDqAin2dpl6R9XIPFQe4Vsg"><i class="fab fa-youtube-square"></i></a>
+                                    </p>
+                                    <br>
+                                    <p class="rights">
+                                        <span>Copyright &copy;</span>
+                                        <span class="copyright-year"></span>
+                                        <span>{% for s in settings %}{{s.siteName}}. {{ 'footer.all_rights_reserved_text'|trans }}{% endfor %}</span>
+                                    </p>
+                                </div>
+                                <div class="col-4 right_lang">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="locales">
+                                        <i class="fas fa-globe" aria-hidden="true"></i>
+                                        {{ 'language.selector'|trans }}
+                                    </a>
+                                    <ul class="dropdown-menu locales" role="menu" aria-labelledby="locales">
+                                        {% for locale in locales() %}
+                                            <li {% if app.request.locale == locale.code %}aria-checked="true" class="active"{% else %}aria-checked="false"{% endif %} role="menuitem"><a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }} <small>{{ locale.code[0:2] }}</small></a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                        <!-- Copyright -->
-                        <p class="rights">
-                            <span>Copyright &copy;</span>
-                            <span class="copyright-year"></span>
-                            <span>{% for s in settings %}{{s.siteName}}. {{ 'footer.all_rights_reserved_text'|trans }}{% endfor %}</span>
-                            <br>
-                            <span><i class="fas fa-code-branch"></i> {{ shivas_app_version }}</span>
-                        </p>
-                        <!-- End Copyright -->
-                    </div>
+                    </section>
                 </div>
             </footer>
             <!-- End Footer -->
