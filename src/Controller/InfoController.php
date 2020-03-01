@@ -17,6 +17,8 @@ use App\Repository\TeamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class InfoController extends AbstractController
@@ -40,7 +42,7 @@ class InfoController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact(SettingsRepository $settings, Request $request, \Swift_Mailer $mailer): Response
+    public function contact(SettingsRepository $settings, Request $request, MailerInterface $mailer): Response
     {
         $selectSettings = $settings->findAll();
 
@@ -52,13 +54,13 @@ class InfoController extends AbstractController
         {
             $contactFormData = $form->getData();
 
-            $message = (new \Swift_Message($contactFormData['subject']))
-                ->setFrom($contactFormData['email'])
-                ->setTo('contact@oktodark.com')
-                ->setBody($body, 'text/html')
+            $email = (new Email($contactFormData['subject']))
+                ->from($contactFormData['email'])
+                ->to('contact@oktodark.com')
+                ->html($contactFormData['message'])
             ;
 
-            $mailer->send($message);
+            $mailer->send($email);
 
             $this->addFlash('success', 'Message Send!');
 
