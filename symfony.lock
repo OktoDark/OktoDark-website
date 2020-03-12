@@ -1,41 +1,5 @@
 {
-    "doctrine/orm": {
-        "version": "v2.7.0"
-    },
-    "friendsofsymfony/ckeditor-bundle": {
-        "version": "2.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.0",
-            "ref": "8eb1cd0962ded6a6d6e1e5a9b6d3e888f9f94ff6"
-        },
-        "files": [
-            "./config/packages/fos_ckeditor.yaml"
-        ]
-    },
     "php": {
         "version": "7.2.9"
-    },
-    "symfony/mailer": {
-        "version": "4.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "4.3",
-            "ref": "15658c2a0176cda2e7dba66276a2030b52bd81b2"
-        },
-        "files": [
-            "./config/packages/mailer.yaml"
-        ]
-    },
-    "symfony/polyfill-intl-grapheme": {
-        "version": "v1.13.1"
-    },
-    "symfony/polyfill-intl-normalizer": {
-        "version": "v1.13.1"
-    },
-    "symfony/string": {
-        "version": "v5.0.2"
     }
 }

@@ -6391,16 +6391,16 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "cbe23383749496fe0f373345208b79568e4bc248"
+                "reference": "1ab9842d69e64fb3a01be6b656501032d1b78cb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/cbe23383749496fe0f373345208b79568e4bc248",
-                "reference": "cbe23383749496fe0f373345208b79568e4bc248",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/1ab9842d69e64fb3a01be6b656501032d1b78cb7",
+                "reference": "1ab9842d69e64fb3a01be6b656501032d1b78cb7",
                 "shasum": ""
             },
             "require": {
@@ -6431,20 +6431,20 @@
                 "Xdebug",
                 "performance"
             ],
-            "time": "2019-11-06T16:40:04+00:00"
+            "time": "2020-03-01T12:26:26+00:00"
         },
         {
             "name": "dama/doctrine-test-bundle",
-            "version": "v6.3.1",
+            "version": "v6.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dmaicher/doctrine-test-bundle.git",
-                "reference": "13eaeacf5bda4fd716c5d6d8ec6bf7bac89d3947"
+                "reference": "06932e828b4e8ed8655b9b64ae30428e048b616e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dmaicher/doctrine-test-bundle/zipball/13eaeacf5bda4fd716c5d6d8ec6bf7bac89d3947",
-                "reference": "13eaeacf5bda4fd716c5d6d8ec6bf7bac89d3947",
+                "url": "https://api.github.com/repos/dmaicher/doctrine-test-bundle/zipball/06932e828b4e8ed8655b9b64ae30428e048b616e",
+                "reference": "06932e828b4e8ed8655b9b64ae30428e048b616e",
                 "shasum": ""
             },
             "require": {
@@ -6455,7 +6455,7 @@
             },
             "require-dev": {
                 "phpstan/phpstan": "^0.12",
-                "phpunit/phpunit": "^7.0 || ^8.0",
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
                 "symfony/phpunit-bridge": "^4.3 || ^5.0",
                 "symfony/yaml": "^3.4 || ^4.3 || ^5.0"
             },
@@ -6488,7 +6488,7 @@
                 "symfony",
                 "tests"
             ],
-            "time": "2019-12-09T22:53:03+00:00"
+            "time": "2020-03-02T20:42:23+00:00"
         },
         {
             "name": "doctrine/data-fixtures",
@@ -6627,12 +6627,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "b98ffa996d84014a9662855ee73a984c7d4fadff"
+                "reference": "5fa669eb2b0084bb611685a3d3574c2cdee8b74b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/b98ffa996d84014a9662855ee73a984c7d4fadff",
-                "reference": "b98ffa996d84014a9662855ee73a984c7d4fadff",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/5fa669eb2b0084bb611685a3d3574c2cdee8b74b",
+                "reference": "5fa669eb2b0084bb611685a3d3574c2cdee8b74b",
                 "shasum": ""
             },
             "require": {
@@ -6710,7 +6710,7 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2020-02-28T09:02:05+00:00"
+            "time": "2020-03-10T15:01:14+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -7053,16 +7053,16 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.14.3",
+            "version": "v1.14.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "c864e7f9b8d1e1f5f60acc3beda11299f637aded"
+                "reference": "bc4df88792fbaaeb275167101dc714218475db5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/c864e7f9b8d1e1f5f60acc3beda11299f637aded",
-                "reference": "c864e7f9b8d1e1f5f60acc3beda11299f637aded",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/bc4df88792fbaaeb275167101dc714218475db5f",
+                "reference": "bc4df88792fbaaeb275167101dc714218475db5f",
                 "shasum": ""
             },
             "require": {
@@ -7117,7 +7117,7 @@
                 "scaffold",
                 "scaffolding"
             ],
-            "time": "2019-11-07T00:56:03+00:00"
+            "time": "2020-03-04T13:57:29+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
