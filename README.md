@@ -9,7 +9,7 @@
 
 -------------
 ### Description
-The main website builded in Symfony 4 for OktoDark Studios.
+The main website builded in Symfony 5 for OktoDark Studios.
 
 -------------
 ### Prepare for deploy
@@ -17,7 +17,7 @@ The main website builded in Symfony 4 for OktoDark Studios.
 
 Linux Ubuntu (latest)
 
-PHP 7.2
+Install PHP 7.3:
 
 `apt-get update && apt-get upgrade`
 
@@ -27,9 +27,9 @@ PHP 7.2
 
 `apt-get update`
 
-`apt-get install php7.2`
+`apt-get install php7.3`
 
-Composer
+Install Composer:
 
 `curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer`
 
