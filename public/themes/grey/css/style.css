@@ -5495,7 +5495,7 @@ html.tablet .ui-to-top {
     position: relative;
     display: inline-block;
     transition: .22s;
-    content: '\f062';
+    content: '\F0062';
 }
 
 .rd-navbar-static .rd-nav-item > .rd-navbar-submenu-toggle:hover {
@@ -5606,7 +5606,7 @@ html.tablet .ui-to-top {
     top: -1px;
     left: -6px;
     display: inline-block;
-    content: '\F142';
+    content: '\F0054';
     font-family: 'Material Design Icons';
     font-size: inherit;
     line-height: inherit;
@@ -5639,7 +5639,7 @@ html.tablet .ui-to-top {
 
 [dir='rtl'] .rd-navbar-static .rd-navbar-dropdown li > a::before,
 [dir='rtl'] .rd-navbar-static .rd-megamenu-list li > a::before {
-    content: '\f104';
+	content: '\f104';
 }
 
 .rd-navbar-static .rd-navbar-megamenu {
@@ -8805,7 +8805,7 @@ html.rd-navbar-fixed-linked .page {
 
 .card-corporate .card-arrow::after {
     font-family: 'Material Design Icons';
-    content: '\F60D';
+    content: '\F060D';
     position: absolute;
     top: 50%;
     left: 50%;
