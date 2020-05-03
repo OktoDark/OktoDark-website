@@ -9,11 +9,6 @@
 {% block body_id 'login' %}
 
 {% block main %}
-        {% if error %}
-        <div class="alert alert-danger">
-            {{ error.messageKey|trans(error.messageData, 'security') }}
-        </div>
-        {% endif %}
 
         <section class="section section-page-title context-dark">
             <div class="container">
@@ -23,21 +18,28 @@
 
         <section class="section section-md bg-default text-center">
             <div class="container">
-                <div class="row justify-content-md-center">
-                    <form action="{{ path('security_login') }}" method="post" class="rd-form rd-mailform rd-form-centered text-center">
+                <h class="row justify-content-md-center">
+                    <form method="post" class="rd-form rd-mailform rd-form-centered text-center">
                         <fieldset>
+                            {% if error %}
+                                <h4 class="text-uppercase">{{ error.messageKey|trans(error.messageData, 'security') }}</h4>
+                            {% endif %}
                             <legend><i class="fa fa-lock" aria-hidden="true"></i> {{ 'label.secure_sign_in'|trans }}</legend>
                             <div class="form-warp">
-                                <label for="username" class="form-label form-label-outside">{{ 'label.username'|trans }}</label>
-                                <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-input form-input-circle form-input-gray"/>
+                                <label for="inputEmail" class="form-label form-label-outside">{{ 'label.username'|trans }}</label>
+                                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-input form-input-circle form-input-gray" required autofocus>
                             </div>
                             <div class="form-warp">
-                                <label for="password" class="form-label form-label-outside">{{ 'label.password'|trans }}</label>
-                                <input type="password" id="password" name="_password" class="form-input form-input-circle form-input-gray"/>
+                                <label for="inputPassword" class="form-label form-label-outside">{{ 'label.password'|trans }}</label>
+                                <input type="password" name="password" id="inputPassword" class="form-input form-input-circle form-input-gray" required>
                             </div>
-                            <input type="hidden" name="_target_path" value="{{ app.request.get('redirect_to') }}"/>
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
-                            <button type="submit" class="button button-block button-gradient button-circle">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                            <div class="checkbox mb-3">
+                                <label>
+                                    <input type="checkbox" name="_remember_me"> Remember me
+                                </label>
+                            </div>
+                            <button class="button button-block button-gradient button-circle" type="submit">
                                 <i class="fa fa-sign-in" aria-hidden="true"></i> {{ 'action.sign_in'|trans }}
                             </button>
                         </fieldset>
