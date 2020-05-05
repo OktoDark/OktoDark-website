@@ -1,81 +1,46 @@
         {% block footer %}
             <!-- Page Footer -->
-            <footer class="section">
-                <div class="footer-classic">
-                    <div class="container">
-                        <div class="row row-50 justify-content-xl-between">
-                            <div class="col-lg-12">
-                                <div class="row row-50">
-                                    <div class="col">
-                                        <h4 class="footer-classic-title">{{ 'information.text'|trans }}</h4>
-                                        <ul class="list list-font-accent list-marked">
-                                            <li><i class="fas fa-info-circle"></i> <a href="{{ path('faq') }}">{{ 'title.faq'|trans }}</a></li>
-                                            <li><i class="fas fa-briefcase"></i> <a href="{{ path('services') }}">{{ 'title.services'|trans }}</a></li>
-                                            <li><i class="fab fa-wpforms"></i> <a href="{{ path('contact') }}">{{ 'title.contact'|trans }}</a></li>
-                                            <li><i class="fas fa-user-shield fa-sm"></i> <a href="{{ path('privacy-policy') }}">{{ 'privacy_policy.text'|trans }}</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col">
-                                        <h4 class="footer-classic-title">{{ 'footer.source_code_text'|trans }}</h4>
-                                        <ul class="list list-font-accent list-marked">
-                                            <li><i class="fab fa-github"></i> <a href="https://www.github.com/OktoDark">Github</a></li>
-                                            <li><i class="fab fa-gitlab"></i> <a href="https://gitlab.com/oktodark-studios">Gitlab</a></li>
-                                            <li><i class="fab fa-bitbucket"></i> <a href="https://www.bitbucket.com/OktoDark">Bitbucket</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col">
-                                        <h4 class="footer-classic-title">{{ 'footer.live_stream_text'|trans }}</h4>
-                                        <ul class="list list-font-accent list-marked">
-                                            <li><i class="fab fa-twitch"></i> <a href="https://www.twitch.com/OktoDark">Twitch</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col">
-                                        <h4 class="footer-classic-title">{{ 'footer.discourse_text'|trans }}</h4>
-                                        <ul class="list list-font-accent list-marked">
-                                            <li><i class="fab fa-discord"></i> <a href="https://discord.gg/UmfZPvF">Discord</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col">
-                                        <h4 class="footer-classic-title">{{ 'footer.support_us_text'|trans }}</h4>
-                                        <ul class="list list-font-accent list-marked">
-                                            <li><i class="fab fa-patreon"></i> <a href="https://www.patreon.com/OktoDark">Patreon</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+            <footer class="section footer-normal">
+                <div class="container">
+                    <div class="row row-50 flex-lg-row-reverse">
+                        <div class="col-sm-4 col-lg-3">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="locales">
+                                <i class="fas fa-globe" aria-hidden="true"></i>
+                                {{ 'language.selector'|trans }}
+                            </a>
+                            <ul class="dropdown-menu locales" role="menu" aria-labelledby="locales">
+                                {% for locale in locales() %}
+                                    <li {% if app.request.locale == locale.code %}aria-checked="true" class="active"{% else %}aria-checked="false"{% endif %} role="menuitem"><a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }} <small>{{ locale.code[0:2] }}</small></a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-sm-4 col-lg-3">
+                            <h4 class="footer-title">Utils</h4>
+                            <a href="{{ path('faq') }}">{{ 'title.faq'|trans }}</a><br>
+                            <a href="{{ path('services') }}">{{ 'title.services'|trans }}</a><br>
+                            <a href="{{ path('contact') }}">{{ 'title.contact'|trans }}</a><br>
+                            <a href="{{ path('privacy-policy') }}">{{ 'privacy_policy.text'|trans }}</a>
+                        </div>
+                        <div class="col-lg-4">
+                            <p class="rights">
+                                <span>
+                                        <a href="https://www.facebook.com/OktoDark"><i class="fab fa-facebook-square lg-share-facebook fa-2x"></i></a>
+                                        <a href="https://www.twitter.com/OktoDark"><i class="fab fa-twitter-square fa-2x"></i></a>
+                                        <a href="https://www.youtube.com/channel/UCDqAin2dpl6R9XIPFQe4Vsg"><i class="fab fa-youtube-square fa-2x"></i></a>
+                                        <a href="https://discord.gg/UmfZPvF"><i class="fab fa-discord fa-2x"></i></a>
+                                        <a href="https://www.twitch.com/OktoDark"><i class="fab fa-twitch fa-2x"></i></a>
+                                        <a href="https://www.patreon.com/OktoDark"><i class="fab fa-patreon fa-2x"></i></a>
+                                        <a href="https://www.bitbucket.com/OktoDark"><i class="fab fa-bitbucket fa-2x"></i></a>
+                                        <a href="https://gitlab.com/oktodark-studios"><i class="fab fa-gitlab fa-2x"></i></a>
+                                        <a href="https://www.github.com/OktoDark"><i class="fab fa-github fa-2x"></i></a>
+                                </span>
+                                <br>
+                                <span>&copy;</span>
+                                <span class="copyright-year"></span>
+                                <span>{% for s in settings %}{{s.siteName}}. {{ 'footer.all_rights_reserved_text'|trans }}{% endfor %}</span>
+                            </p>
                         </div>
                     </div>
-                </div>
-                <div class="sub-footer-section">
-                    <section class="section section-md">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-8">
-                                    <p class="social">
-                                        <a href="https://www.facebook.com/OktoDark"><i class="fab fa-facebook-square lg-share-facebook"></i></a>
-                                        <a href="https://www.twitter.com/OktoDark"><i class="fab fa-twitter-square"></i></a>
-                                        <a href="https://www.youtube.com/channel/UCDqAin2dpl6R9XIPFQe4Vsg"><i class="fab fa-youtube-square"></i></a>
-                                    </p>
-                                    <p class="rights">
-                                        <span>Copyright &copy;</span>
-                                        <span class="copyright-year"></span>
-                                        <span>{% for s in settings %}{{s.siteName}}. {{ 'footer.all_rights_reserved_text'|trans }}{% endfor %}</span>
-                                    </p>
-                                </div>
-                                <div class="col-4 right_lang">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="locales">
-                                        <i class="fas fa-globe" aria-hidden="true"></i>
-                                        {{ 'language.selector'|trans }}
-                                    </a>
-                                    <ul class="dropdown-menu locales" role="menu" aria-labelledby="locales">
-                                        {% for locale in locales() %}
-                                            <li {% if app.request.locale == locale.code %}aria-checked="true" class="active"{% else %}aria-checked="false"{% endif %} role="menuitem"><a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }} <small>{{ locale.code[0:2] }}</small></a></li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
                 </div>
             </footer>
             <!-- End Footer -->

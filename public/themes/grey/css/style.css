@@ -476,7 +476,7 @@ p [style*='max-width'] {
 .fa.fa-behance-square {
     color: #1769ff;
 }
-.fa.fa-bitbucket {
+.fab.fa-bitbucket {
     color: #205081;
 }
 .fa.fa-bitbucket-square {
@@ -548,6 +548,9 @@ p [style*='max-width'] {
 .fa.fa-digg {
     color: #000;
 }
+.fab.fa-discord {
+    color: #7289DA;
+}
 .fa.fa-dribbble {
     color: #444444;
 }
@@ -605,8 +608,8 @@ p [style*='max-width'] {
 .fa.fa-git-square {
     color: #333;
 }
-.fa.fa-github {
-    color: #333;
+.fab.fa-github {
+    color: #999999;
 }
 .fa.fa-github-alt {
     color: #333;
@@ -616,6 +619,9 @@ p [style*='max-width'] {
 }
 .fa.fa-gittip {
     color: #663300;
+}
+.fab.fa-gitlab {
+    color: #FCA326;
 }
 .fa.fa-google {
     color: #4285f4;
@@ -700,6 +706,9 @@ p [style*='max-width'] {
 }
 .fa.fa-pagelines {
     color: #000;
+}
+.fab.fa-patreon {
+    color: #f96854;
 }
 .fa.fa-paypal {
     color: #253b80;
@@ -809,7 +818,7 @@ p [style*='max-width'] {
 .fa.fa-tumblr-square {
     color: #35465c;
 }
-.fa.fa-twitch {
+.fab.fa-twitch {
     color: #6441a5;
 }
 .fab.fa-twitter {
@@ -3780,6 +3789,28 @@ textarea.form-input {
 }
 
 .footer-dark .footer-title + * {
+    margin-top: 30px;
+}
+
+.footer-normal {
+    padding: 80px 0;
+}
+
+.footer-normal a {
+    display: inline-block;
+    color: #888888;
+}
+
+.footer-normal a:hover {
+    color: #0cc5b6;
+}
+
+.footer-normal .footer-title {
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.footer-normal.footer-title + * {
     margin-top: 30px;
 }
 
