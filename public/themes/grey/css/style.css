@@ -6035,7 +6035,7 @@ html.tablet .ui-to-top {
 }
 
 .rd-navbar-fixed .rd-navbar-submenu-toggle::after {
-    content: '\f236';
+    content: '\F0062';
     position: absolute;
     top: 0;
     right: 0;
