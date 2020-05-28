@@ -18,5 +18,5 @@ RewriteRule ^(.*)$ index.php [QSA,L]
 # If symbolic links are not already being followed, uncomment the line below.
 # http://anothersysadmin.wordpress.com/2008/06/10/mod_rewrite-forbidden-403-with-apache-228/
 #
-#Options +FollowSymLinks
+# Options +FollowSymLinks
 </IfModule>
