@@ -40,4 +40,4 @@ script:
   # - ./bin/.phpunit
   # - '[[ "$TRAVIS_PHP_VERSION" == "7.4" ]] || ./vendor/bin/php-cs-fixer fix --diff --dry-run -v'
   - symfony check:security
-  - composer validate --strict
+  # - composer validate --strict
