@@ -10,5 +10,8 @@
     },
     "symfony/polyfill-php80": {
         "version": "v1.17.0"
+    },
+    "symfony/property-info": {
+        "version": "v5.1.0"
     }
 }
