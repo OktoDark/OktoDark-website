@@ -13,3 +13,10 @@ homepage:
         _locale: '%locale%'
         maxAge:    86400
         sharedAge: 86400
+
+dashboard:
+    path: /admin
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+        path: /dashboard
+        permanent: true

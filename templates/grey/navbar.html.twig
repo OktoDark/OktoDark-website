@@ -48,7 +48,7 @@
                                                 <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('settings_area') }}">{{ 'navbar.user_settings'|trans }}</a></li>
                                                 {% if is_granted('ROLE_ADMIN') %}
                                                     <hr/>
-                                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('admin_index') }}">{{ 'navbar.admin'|trans }}</a></li>
+                                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('admin') }}">{{ 'navbar.admin'|trans }}</a></li>
                                                     <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{{ path('assets_index') }}">{{ 'navbar.assets'|trans }}</a></li>
                                                     <hr/>
                                                 {% endif %}
