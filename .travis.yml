@@ -46,4 +46,4 @@ script:
   - ./bin/console lint:container
   - ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
   - symfony check:security
-  - composer validate --strict
+  - composer validate --no-check-all --strict
