@@ -62,6 +62,13 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $active;
+
+    /**
      * @var array
      *
      * @ORM\Column(type="json")
@@ -113,6 +120,29 @@ class User implements UserInterface, \Serializable
         $this->password = $password;
     }
 
+    /**
+     * Set active.
+     *
+     * @param bool $active
+     *
+     * @return User
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active.
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
     /**
      * Returns the roles or permissions granted to the user for security.
      */
@@ -174,5 +204,10 @@ class User implements UserInterface, \Serializable
     {
         // add $this->salt too if you don't use Bcrypt or Argon2i
         [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    public function __toString()
+    {
+        return (string) $this->getUsername();
     }
 }
