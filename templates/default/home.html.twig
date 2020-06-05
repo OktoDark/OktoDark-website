@@ -24,7 +24,7 @@
                                         <h3>{{ n.title }}</h3>
                                         <p>{{ n.content }}</p>
                                         <ul class="meta">
-                                            <li class="icon far fa-clock">{{ n.createdAt|localizeddate('long', 'medium', null, 'UTC') }}</li>
+                                            <li class="icon far fa-clock">{{ n.createdAt|format_datetime('medium', 'short', '', 'UTC') }}</li>
                                         </ul>
                                     </section>
                                     {% endfor %}
