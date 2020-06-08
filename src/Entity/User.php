@@ -30,12 +30,20 @@ class User implements UserInterface, \Serializable
     private $id;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
      * @Assert\NotBlank()
      */
-    private $fullName;
+    private $firstName;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
+     * @Assert\NotBlank()
+     */
+    private $lastName;
 
     /**
      * @var string
@@ -57,7 +65,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="password", type="string")
      */
     private $password;
 
@@ -75,19 +83,38 @@ class User implements UserInterface, \Serializable
      */
     private $roles = [];
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $agreedTerms;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setFullName(string $fullName): void
+    public function getFirstName(): ?string
     {
-        $this->fullName = $fullName;
+        return $this->firstName;
     }
 
-    public function getFullName(): ?string
+    public function setFirstName(?string $name): self
     {
-        return $this->fullName;
+        $this->firstName = $name;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $name): self
+    {
+        $this->lastName = $name;
+
+        return $this;
     }
 
     public function getUsername(): ?string
@@ -115,9 +142,11 @@ class User implements UserInterface, \Serializable
         return $this->password;
     }
 
-    public function setPassword(string $password): void
+    public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
     }
 
     /**
@@ -143,6 +172,7 @@ class User implements UserInterface, \Serializable
     {
         return $this->active;
     }
+
     /**
      * Returns the roles or permissions granted to the user for security.
      */
@@ -152,15 +182,28 @@ class User implements UserInterface, \Serializable
 
         // guarantees that a user always has at least one role for security
         if (empty($roles)) {
-            $roles[] = 'ROLE_MEMBER';
+            $roles[] = 'ROLE_USER';
         }
 
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): void
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getAgreedTerms(): ?\DateTimeInterface
+    {
+        return $this->agreedTerms;
+    }
+    public function setAgreedTerms(\DateTimeInterface $agreedTerms): self
+    {
+        $this->agreedTerms = $agreedTerms;
+
+        return $this;
     }
 
     /**

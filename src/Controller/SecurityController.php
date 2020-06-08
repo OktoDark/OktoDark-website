@@ -10,10 +10,14 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\Type\RegistrationFormType;
 use App\Repository\SettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -45,5 +49,46 @@ class SecurityController extends AbstractController
     public function logout()
     {
         throw new \LogicException('This should never be reached!');
+    }
+
+    /**
+     * @Route("/register", name="register_index")
+     */
+    public function register(SettingsRepository $settings, Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    {
+        $selectSettings = $settings->findAll();
+
+        $user = new User();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
+
+            // be absolutely sure they agree
+            if (true === $form['agreeTerms']->getData()) {
+                $user->agreeToTerms();
+            }
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            // do anything else you need here, like send an email
+            // in this example, we are just redirecting to the homepage
+            return $this->redirectToRoute('home_index');
+        }
+
+        return $this->render('@theme/member/register.html.twig', [
+            'settings' => $selectSettings,
+            'registrationForm' => $form->createView(),
+        ]);
     }
 }

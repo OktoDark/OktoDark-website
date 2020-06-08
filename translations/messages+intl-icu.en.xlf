@@ -59,6 +59,14 @@
                 <source>navbar.member_area</source>
                 <target>Member Area</target>
             </trans-unit>
+            <trans-unit id="navbar.login">
+                <source>navbar.login</source>
+                <target>Login</target>
+            </trans-unit>
+            <trans-unit id="navbar.register">
+                <source>navbar.register</source>
+                <target>Register</target>
+            </trans-unit>
             <trans-unit id="navbar.user_settings">
                 <source>navbar.user_settings</source>
                 <target>Settings</target>
@@ -157,6 +165,10 @@
             <trans-unit id="title.settings">
                 <source>title.settings</source>
                 <target>Settings</target>
+            </trans-unit>
+            <trans-unit id="title.register">
+                <source>title.register</source>
+                <target>Register</target>
             </trans-unit>
             <trans-unit id="title.edit_user">
                 <source>title.edit_user</source>

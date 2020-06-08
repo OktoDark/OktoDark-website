@@ -1,0 +1,76 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}{{ 'title.register'|trans }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body_id 'register' %}
+
+{% block body %}
+
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.register'|trans }}</h2>
+        </div>
+    </section>
+
+    <section class="section section-md bg-default text-center">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-9 col-lg-7">
+                    {% set formErrors = registrationForm.vars.errors.form.getErrors(true) %}
+                    {% if formErrors|length %}
+                        <div class="alert alert-danger">
+                            <ul>
+                                {% for error in formErrors %}
+                                    <li>{{ error.message }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    {{ form_start(registrationForm, { 'attr': {'class': 'rd-form rd-mailform', 'data-form-output': 'form-output-global'}}) }}
+                        <div class="row row-20 align-items-end">
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    {{ form_row(registrationForm.firstName, { 'attr': {'class': 'form-input form-input-circle form-input-gray'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    {{ form_row(registrationForm.lastName, { 'attr': {'class': 'form-input form-input-circle form-input-gray'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    {{ form_row(registrationForm.username, { 'attr': {'class': 'form-input form-input-circle form-input-gray'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    {{ form_row(registrationForm.email, { 'attr': {'class': 'form-input form-input-circle form-input-gray'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    {{ form_row(registrationForm.password, { 'attr': {'class': 'form-input form-input-circle form-input-gray'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    {{ form_row(registrationForm.agreeTerms) }}
+                                </div>
+                            </div>
+                            {{ form_row(registrationForm.active) }}
+                            <div class="col-md-6">
+                                <button class="button button-block button-gradient button-circle">Register</button>
+                            </div>
+                        </div>
+                    {{ form_end(registrationForm) }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
