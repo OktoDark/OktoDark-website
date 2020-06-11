@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Copyright (c) 2013 - 2020 OktoDark Studios
  * Website: https://www.oktodark.com
  *
