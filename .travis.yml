@@ -24,8 +24,6 @@ matrix:
     - php: 7.4
 
 before_install:
-  - chmod +x ./bin/console
-  - chmod +x ./bin/phpunit
   - '[[ "$TRAVIS_PHP_VERSION" == "7.4snapshot" ]] || phpenv config-rm xdebug.ini'
   - '[[ "$ACTION" == "install" ]] || echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini'
   - '[[ "$ACTION" == "install" ]] || composer config minimum-stability dev'
