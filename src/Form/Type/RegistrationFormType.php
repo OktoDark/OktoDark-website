@@ -6,7 +6,7 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 08.06.2020, 03:22
+ * For the full copyright and license information, please view the LICENSE.
  */
 
 namespace App\Form\Type;

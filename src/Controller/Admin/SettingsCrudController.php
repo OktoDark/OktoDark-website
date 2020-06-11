@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * Copyright (c) 2013 - 2020 OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * For the full copyright and license information, please view the LICENSE.
+ */
+
 namespace App\Controller\Admin;
 
 use App\Entity\Settings;

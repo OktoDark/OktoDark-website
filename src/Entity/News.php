@@ -6,7 +6,7 @@
  *
  * Author: Razvan George H. (Viruzzz)
  *
- * File date of modification: 13.01.2020, 06:50
+ * For the full copyright and license information, please view the LICENSE.
  */
 
 namespace App\Entity;
