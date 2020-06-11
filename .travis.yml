@@ -17,13 +17,14 @@ env:
 matrix:
   fast_finish: true
   include:
-    - php: 7.2
     - php: 7.3
       env: SYMFONY="5.1.*"
            ACTION="update"
     - php: 7.4
 
 before_install:
+  - chmod +x ./bin/console
+  - chmod +x ./bin/phpunit
   - '[[ "$TRAVIS_PHP_VERSION" == "7.4snapshot" ]] || phpenv config-rm xdebug.ini'
   - '[[ "$ACTION" == "install" ]] || echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini'
   - '[[ "$ACTION" == "install" ]] || composer config minimum-stability dev'
@@ -32,14 +33,12 @@ before_install:
 
 install:
   - php -r "echo ini_get('memory_limit').PHP_EOL;"
-  # install or update
   - composer $ACTION
   - ./bin/phpunit install
 
 script:
-   - ./bin/.phpunit
-   - '[[ "$TRAVIS_PHP_VERSION" == "7.4" ]] || ./vendor/bin/php-cs-fixer fix --diff --dry-run -v'
-  # Checking if all is Ok
+  - ./bin/.phpunit
+  - '[[ "$TRAVIS_PHP_VERSION" == "7.4" ]] || ./vendor/bin/php-cs-fixer fix --diff --dry-run -v'
   - ./bin/console lint:yaml config --parse-tags
   - ./bin/console lint:twig templates --env=prod
   - ./bin/console lint:xliff translations
