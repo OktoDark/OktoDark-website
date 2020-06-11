@@ -5,8 +5,6 @@
  * Website: https://www.oktodark.com
  *
  * Author: Razvan George H. (Viruzzz)
- *
- * File date of modification: 13.01.2020, 06:50
  */
 
 namespace App\Command;
