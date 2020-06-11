@@ -106,5 +106,4 @@ class Contact
     {
         $this->message = $message;
     }
-
 }

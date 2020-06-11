@@ -62,6 +62,7 @@ class Settings
     {
         return $this->logoName;
     }
+
     public function setLogoName($logoName)
     {
         $this->logoName = $logoName;
@@ -106,5 +107,4 @@ class Settings
     {
         $this->siteCDN = $siteCDN;
     }
-
 }

@@ -30,7 +30,7 @@ class ModsRepository extends ServiceEntityRepository
 
     /**
      * @return Mods[] Returns an array of Mods objects
-    */
+     */
     public function findAllMods()
     {
         $conn = $this->getEntityManager()->getConnection();

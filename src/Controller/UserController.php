@@ -11,9 +11,9 @@
 
 namespace App\Controller;
 
-use App\Repository\SettingsRepository;
 use App\Form\Type\ChangePasswordType;
 use App\Form\UserType;
+use App\Repository\SettingsRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

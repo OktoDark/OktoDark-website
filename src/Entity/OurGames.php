@@ -250,5 +250,4 @@ class OurGames
     {
         $this->ourGameCover = $ourGameCover;
     }
-
 }

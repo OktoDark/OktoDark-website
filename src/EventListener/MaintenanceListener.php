@@ -27,7 +27,7 @@ class MaintenanceListener
 
     public function onKernelRequest(RequestEvent $event)
     {
-        if ( ! $this->isLocked) {
+        if (!$this->isLocked) {
             return;
         }
 
@@ -43,4 +43,5 @@ class MaintenanceListener
         );
         $event->stopPropagation();
     }
+
 }

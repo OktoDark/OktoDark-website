@@ -12,9 +12,9 @@ use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @IsGranted("ROLE_ADMIN")
@@ -37,8 +37,8 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToRoute('Homepage','fas fa-home','homepage');
-        yield MenuItem::linktoDashboard('Dashboard','fas fa-chalkboard');
+        yield MenuItem::linkToRoute('Homepage', 'fas fa-home','homepage');
+        yield MenuItem::linktoDashboard('Dashboard', 'fas fa-chalkboard');
 
         yield MenuItem::section('Website', 'fas fa-folder-open');
         yield MenuItem::linkToCrud('News', 'far fa-newspaper', News::class);

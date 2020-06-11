@@ -11,8 +11,8 @@
 
 namespace App\Controller;
 
-use App\Repository\SettingsRepository;
 use App\Repository\OurGamesRepository;
+use App\Repository\SettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

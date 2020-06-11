@@ -103,5 +103,4 @@ class News
     {
         $this->createdAt = $createdAt;
     }
-
 }

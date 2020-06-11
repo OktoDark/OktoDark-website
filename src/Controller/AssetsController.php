@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class AssetsController
+ * Class AssetsController.
  *
  * @IsGranted("ROLE_ADMIN")
  */

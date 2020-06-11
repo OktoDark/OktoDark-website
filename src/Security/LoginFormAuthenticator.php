@@ -45,7 +45,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {
         //return self::LOGIN_ROUTE === $request->attributes->get('_route')
         //  && $request->isMethod('POST');
-        return $request->attributes->get('_route') == 'security_login'
+        return 'security_login' === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
 
