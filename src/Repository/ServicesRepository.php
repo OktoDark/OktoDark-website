@@ -33,7 +33,7 @@ class ServicesRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            SELECT * FROM services e 
+            SELECT * FROM services e
             WHERE e.id
         ';
 

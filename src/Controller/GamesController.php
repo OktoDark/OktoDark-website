@@ -21,8 +21,6 @@ class GamesController extends AbstractController
 {
     /**
      * @Route("/games", methods="GET", name="games")
-     *
-     * @return Response
      */
     public function games(SettingsRepository $settings, OurGamesRepository $ourGames): Response
     {

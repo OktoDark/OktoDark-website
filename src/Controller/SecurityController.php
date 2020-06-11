@@ -40,7 +40,7 @@ class SecurityController extends AbstractController
         return $this->render('@theme/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
-            'settings' => $selectSettings
+            'settings' => $selectSettings,
         ]);
     }
 
@@ -63,8 +63,7 @@ class SecurityController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(

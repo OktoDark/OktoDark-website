@@ -24,14 +24,14 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ContactType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options) : void
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
                 'label' => 'label.contact_name',
                 'attr' => [
-                    'class' => 'form-input form-input-circle form-input-gray'
+                    'class' => 'form-input form-input-circle form-input-gray',
                 ],
                 'constraints' => [
                     new NotBlank(),
@@ -41,53 +41,55 @@ class ContactType extends AbstractType
                 'required' => true,
                 'label' => 'label.contact_email',
                 'attr' => [
-                    'class' => 'form-input form-input-circle form-input-gray'
+                    'class' => 'form-input form-input-circle form-input-gray',
                 ],
                 'constraints' => [
                     new NotBlank(),
                 ],
             ])
-            ->add('category', ChoiceType::class, array(
+            ->add('category', ChoiceType::class, [
                 'label' => 'label.contact_category',
                 'attr' => [
-                    'class' => 'form-input form-input-circle form-input-gray'
+                    'class' => 'form-input form-input-circle form-input-gray',
                 ],
-                'choices' => array(
+                'choices' => [
                     'Staff' => false,
                     'Webmaster' => false,
-                ),
+                ],
                 'required' => true,
                 'placeholder' => 'Choice your departament',
-                'empty_data'  => null
-            ))
+                'empty_data' => null,
+            ])
             ->add('subject', TextType::class, [
                 'required' => true,
                 'label' => 'label.contact_subject',
                 'attr' => [
-                    'class' => 'form-input form-input-circle form-input-gray'
+                    'class' => 'form-input form-input-circle form-input-gray',
                 ],
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank(),
                 ],
             ])
-            ->add('message', TextareaType::class, array(
+            ->add('message', TextareaType::class, [
                 'label' => 'label.contact_message',
-                'attr' => array(
-                    'class' => 'form-input form-input-circle form-input-gray')
-            ))
-            ->add('submit', SubmitType::class, array(
+                'attr' => [
+                    'class' => 'form-input form-input-circle form-input-gray',
+                    ],
+            ])
+            ->add('submit', SubmitType::class, [
                 'label' => 'Send',
-                'attr' => array(
+                'attr' => [
                     'class' => 'button button-block button-gradient button-circle',
-                    'style' => 'margin-top:20px')
-            ))
+                    'style' => 'margin-top:20px',
+                    ],
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
-            'data_class' => Contact::class
+            'data_class' => Contact::class,
         ]);
     }
 }

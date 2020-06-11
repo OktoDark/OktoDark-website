@@ -21,15 +21,12 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/")
  *
  * Class HomeController
- * @package App\Controller
  */
 class HomeController extends AbstractController
 {
     /**
      * @Route("/", methods="GET", name="home_index")
      * @Route("/home", methods="GET", name="home")
-     *
-     * @return Response
      */
     public function home(SettingsRepository $settings, NewsRepository $news): Response
     {

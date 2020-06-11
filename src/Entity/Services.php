@@ -59,81 +59,50 @@ class Services
      */
     private $ServiceToDo;
 
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
     }
-
-    /**
-     * @param mixed $id
-     */
     public function setId($id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getServiceName(): ?string
     {
         return $this->serviceName;
     }
 
-    /**
-     * @param string $serviceName
-     */
     public function setServiceName(string $serviceName): void
     {
         $this->serviceName = $serviceName;
     }
 
-    /**
-     * @return string|null
-     */
     public function getServicePrice(): ?string
     {
         return $this->servicePrice;
     }
 
-    /**
-     * @param string $servicePrice
-     */
     public function setServicePrice(string $servicePrice): void
     {
         $this->servicePrice = $servicePrice;
     }
 
-    /**
-     * @return string|null
-     */
     public function getServiceWorkDays(): ?string
     {
         return $this->serviceWorkDays;
     }
 
-    /**
-     * @param string $serviceWorkDays
-     */
     public function setServiceWorkDays(string $serviceWorkDays): void
     {
         $this->serviceWorkDays = $serviceWorkDays;
     }
 
-    /**
-     * @return string|null
-     */
     public function getServiceToDo(): ?string
     {
         return $this->ServiceToDo;
     }
 
-    /**
-     * @param string $ServiceToDo
-     */
     public function setServiceToDo(string $ServiceToDo): void
     {
         $this->ServiceToDo = $ServiceToDo;

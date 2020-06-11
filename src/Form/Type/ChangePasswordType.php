@@ -39,6 +39,7 @@ class ChangePasswordType extends AbstractType
                 'label' => 'label.current_password',
                 'attr' => [
                     'autocomplete' => 'off',
+                    'class' => 'form-input',
                 ],
             ])
             ->add('newPassword', RepeatedType::class, [
@@ -52,9 +53,15 @@ class ChangePasswordType extends AbstractType
                 ],
                 'first_options' => [
                     'label' => 'label.new_password',
+                    'attr' => [
+                        'class' => 'form-input',
+                    ],
                 ],
                 'second_options' => [
                     'label' => 'label.new_password_confirm',
+                    'attr' => [
+                        'class' => 'form-input',
+                    ],
                 ],
             ])
         ;

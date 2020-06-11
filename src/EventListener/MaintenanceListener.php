@@ -27,12 +27,11 @@ class MaintenanceListener
 
     public function onKernelRequest(RequestEvent $event)
     {
-        if ( ! $this->isLocked)
-        {
+        if ( ! $this->isLocked) {
             return;
         }
 
-        $page = $this->twig->render('@theme/maintenance/maintenance.html.twig',[
+        $page = $this->twig->render('@theme/maintenance/maintenance.html.twig', [
 
         ]);
 

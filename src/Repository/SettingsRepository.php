@@ -33,7 +33,7 @@ class SettingsRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            SELECT * FROM settings s 
+            SELECT * FROM settings s
             WHERE s.id
         ';
 

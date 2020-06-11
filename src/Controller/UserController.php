@@ -24,15 +24,13 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 /**
  * Controller used to manage current user.
  *
- * @Route("/member/profile")
- * @IsGranted("is_granted('ROLE_MEMBER')")
- *
- * @author Romain Monteil <monteil.romain@gmail.com>
+ * @Route("/member/profile_old")
+ * @IsGranted("IS_AUTHENTICATED_FULLY")
  */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/edit", methods={"GET", "POST"}, name="user_edit")
+     * @Route("/edit", methods="GET|POST", name="user_edit")
      */
     public function edit(SettingsRepository $settings, Request $request): Response
     {
@@ -59,7 +57,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/change-password", methods={"GET", "POST"}, name="user_change_password")
+     * @Route("/change-password", methods="GET|POST", name="user_change_password")
      */
     public function changePassword(SettingsRepository $settings, Request $request, UserPasswordEncoderInterface $encoder): Response
     {

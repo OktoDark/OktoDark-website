@@ -65,97 +65,61 @@ class Mods
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * @param mixed $name
-     */
     public function setName($name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getSlug(): string
     {
         return $this->slug;
     }
 
-    /**
-     * @param string $slug
-     */
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     */
     public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
-    /**
-     * @return mixed
-     */
     public function getCompatible()
     {
         return $this->compatible;
     }
 
-    /**
-     * @param mixed $compatible
-     */
     public function setCompatible($compatible): void
     {
         $this->compatible = $compatible;
     }
 
-    /**
-     * @return string
-     */
     public function getDownload(): string
     {
         return $this->download;
     }
 
-    /**
-     * @param string $download
-     */
     public function setDownload(string $download): void
     {
         $this->download = $download;
     }
 
-    /**
-     * @return mixed
-     */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param mixed $createdAt
-     */
     public function setCreatedAt($createdAt): void
     {
         $this->createdAt = $createdAt;

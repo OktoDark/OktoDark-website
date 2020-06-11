@@ -20,7 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class AssetsController
- * @package App\Controller
  *
  * @IsGranted("ROLE_ADMIN")
  */
@@ -28,8 +27,6 @@ class AssetsController extends AbstractController
 {
     /**
      * @Route("/assets", methods="GET", name="assets_index")
-     *
-     * @return Response
      */
     public function home(SettingsRepository $settings, AssetsRepository $assets): Response
     {

@@ -56,49 +56,31 @@ class Careers
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
     public function getJobtitle()
     {
         return $this->jobtitle;
     }
 
-    /**
-     * @param mixed $jobtitle
-     */
     public function setJobtitle($jobtitle)
     {
         $this->jobtitle = $jobtitle;
     }
 
-    /**
-     * @return mixed
-     */
     public function getRequiments()
     {
         return $this->requiments;
     }
 
-    /**
-     * @param mixed $requiments
-     */
     public function setRequiments($requiments)
     {
         $this->requiments = $requiments;
     }
 
-    /**
-     * @return mixed
-     */
     public function getNumber()
     {
         return $this->number;
     }
 
-    /**
-     * @param mixed $number
-     */
     public function setNumber($number)
     {
         $this->number = $number;

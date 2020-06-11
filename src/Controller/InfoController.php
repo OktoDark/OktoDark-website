@@ -26,8 +26,6 @@ class InfoController extends AbstractController
 {
     /**
      * @Route("/about", methods="GET", name="about")
-     *
-     * @return Response
      */
     public function about(SettingsRepository $settings, TeamRepository $team): Response
     {
@@ -51,8 +49,7 @@ class InfoController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $contactFormData = $form->getData();
 
             $email = (new Email($contactFormData['subject']))
@@ -76,8 +73,6 @@ class InfoController extends AbstractController
 
     /**
      * @Route("/faq", methods="GET", name="faq")
-     *
-     * @return Response
      */
     public function faq(SettingsRepository $settings): Response
     {
@@ -88,8 +83,6 @@ class InfoController extends AbstractController
 
     /**
      * @Route("/privacy-policy", methods="GET", name="privacy-policy")
-     *
-     * @return Response
      */
     public function privacypolicy(SettingsRepository $settings): Response
     {
@@ -100,8 +93,6 @@ class InfoController extends AbstractController
 
     /**
      * @Route("/services", methods="GET", name="services")
-     *
-     * @return Response
      */
     public function services(SettingsRepository $settings, ServicesRepository $services): Response
     {

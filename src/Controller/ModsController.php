@@ -21,8 +21,6 @@ class ModsController extends AbstractController
 {
     /**
      * @Route("/mods", methods="GET", name="mods")
-     *
-     * @return Response
      */
     public function mods(SettingsRepository $settings, ModsRepository $mods): Response
     {

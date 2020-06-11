@@ -27,7 +27,7 @@ class NewsRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            SELECT * FROM news n 
+            SELECT * FROM news n
             WHERE n.id
             ORDER BY n.id ASC
         ';

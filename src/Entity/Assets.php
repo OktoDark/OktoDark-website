@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\AssetsRepository")
  * @ORM\Table(name="assets")
  */
-class Assets
+class Assets implements \Serializable
 {
     /**
      * @ORM\Id()
@@ -119,51 +119,31 @@ class Assets
      */
     private $bundle = false;
 
-     /**
-     *
-     * From here start public functions in order as table
-     *
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getSku(): ?string
     {
         return $this->sku;
     }
 
-    /**
-     * @param string $sku
-     */
     public function setSku(string $sku): void
     {
         $this->sku = $sku;
     }
 
-    /**
-     * Array brand
-     */
     public function getBrand(): array
     {
         $brand = $this->brand;
@@ -200,9 +180,6 @@ class Assets
         $this->website = $website;
     }
 
-    /**
-     * @return array
-     */
     public function getHairtype(): array
     {
         $hairtype = $this->hairtype;
@@ -214,17 +191,11 @@ class Assets
         return array_unique($hairtype);
     }
 
-    /**
-     * @param array $hairtype
-     */
     public function setHairtype(array $hairtype): void
     {
         $this->hairtype = $hairtype;
     }
 
-    /**
-     * @return array
-     */
     public function getClothing(): array
     {
         $clothing = $this->clothing;
@@ -236,17 +207,11 @@ class Assets
         return array_unique($clothing);
     }
 
-    /**
-     * @param array $clothing
-     */
     public function setClothing(array $clothing): void
     {
         $this->clothing = $clothing;
     }
 
-    /**
-     * @return array
-     */
     public function getMisc(): array
     {
         $misc = $this->misc;
@@ -258,17 +223,11 @@ class Assets
         return array_unique($misc);
     }
 
-    /**
-     * @param array $misc
-     */
     public function setMisc(array $misc): void
     {
         $this->misc = $misc;
     }
 
-    /**
-     * Requirement
-     */
     public function getRequirement(): array
     {
         $requirement = $this->requirement;
@@ -285,9 +244,6 @@ class Assets
         $this->requirement = $requirement;
     }
 
-    /**
-     * @return array
-     */
     public function getSoftwarecompatible(): array
     {
         $softwarecompatible = $this->softwarecompatible;
@@ -298,17 +254,11 @@ class Assets
         return array_unique($softwarecompatible);
     }
 
-    /**
-     * @param array $softwarecompatible
-     */
     public function setSoftwarecompatible(array $softwarecompatible): void
     {
         $this->softwarecompatible = $softwarecompatible;
     }
 
-    /**
-     * @return array
-     */
     public function getFigurecompatible(): array
     {
         $figurecompatible = $this->figurecompatible;
@@ -320,17 +270,11 @@ class Assets
         return array_unique($figurecompatible);
     }
 
-    /**
-     * @param array $figurecompatible
-     */
     public function setFigurecompatible(array $figurecompatible): void
     {
         $this->figurecompatible = $figurecompatible;
     }
 
-    /**
-     * @return array
-     */
     public function getGenre(): array
     {
         $genre = $this->genre;
@@ -342,27 +286,35 @@ class Assets
         return array_unique($genre);
     }
 
-    /**
-     * @param array $genre
-     */
     public function setGenre(array $genre): void
     {
         $this->genre = $genre;
     }
 
-    /**
-     * @return bool
-     */
     public function isBundle(): bool
     {
         return $this->bundle;
     }
-
-    /**
-     * @param bool $bundle
-     */
     public function setBundle(bool $bundle): void
     {
         $this->bundle = $bundle;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize(): string
+    {
+        // add $this->salt too if you don't use Bcrypt or Argon2i
+        return serialize([$this->id, $this->username, $this->password]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized): void
+    {
+        // add $this->salt too if you don't use Bcrypt or Argon2i
+        [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
     }
 }

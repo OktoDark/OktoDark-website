@@ -21,8 +21,6 @@ class CareersController extends AbstractController
 {
     /**
      * @Route("/careers", methods="GET", name="careers")
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function careers(SettingsRepository $settings, CareersRepository $careers): Response
     {

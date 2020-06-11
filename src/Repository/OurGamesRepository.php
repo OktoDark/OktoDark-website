@@ -33,9 +33,24 @@ class OurGamesRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            SELECT * FROM our_games g 
+            SELECT * FROM our_games g
             WHERE g.id
             ORDER BY g.id ASC
+        ';
+
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->fetchAll();
+    }
+
+    public function PlayOnline()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT our_game_play_online_id FROM our_games p
+            WHERE p.our_game_play_online_id
+            ORDER BY p.id ASC
         ';
 
         $stmt = $conn->prepare($sql);

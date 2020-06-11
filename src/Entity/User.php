@@ -200,6 +200,7 @@ class User implements UserInterface, \Serializable
     {
         return $this->agreedTerms;
     }
+
     public function setAgreedTerms(\DateTimeInterface $agreedTerms): self
     {
         $this->agreedTerms = $agreedTerms;

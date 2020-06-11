@@ -36,7 +36,7 @@ class ModsRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            SELECT * FROM mods m 
+            SELECT * FROM mods m
             WHERE m.id
             ORDER BY m.id ASC
         ';

@@ -33,7 +33,7 @@ class AssetsRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            SELECT * FROM assets s 
+            SELECT * FROM assets s
             WHERE s.id
             ORDER BY s.id ASC
         ';

@@ -66,6 +66,30 @@ class OurGames
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\Length(max="10")
+     */
+    private $ourGamePlayOnlineID;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="100")
+     */
+    private $ourGamePlayOnline;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\Length(max="500")
+     */
+    private $ourGamePlayOnlineText;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
      * @Assert\Length(max="100")
      */
     private $ourGameAlpha;
@@ -107,145 +131,121 @@ class OurGames
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getOurGameName(): string
     {
         return $this->ourGameName;
     }
 
-    /**
-     * @param string $ourGameName
-     */
     public function setOurGameName(string $ourGameName)
     {
         $this->ourGameName = $ourGameName;
     }
 
-    /**
-     * @return string
-     */
     public function getOurGameShortName(): string
     {
         return $this->ourGameShortName;
     }
 
-    /**
-     * @param string $ourGameShortName
-     */
     public function setOurGameShortName(string $ourGameShortName)
     {
         $this->ourGameShortName = $ourGameShortName;
     }
 
-    /**
-     * @return string
-     */
     public function getOurGameWebsiteLink(): string
     {
         return $this->ourGameWebsiteLink;
     }
 
-    /**
-     * @param string $ourGameWebsiteLink
-     */
     public function setOurGameWebsiteLink(string $ourGameWebsiteLink)
     {
         $this->ourGameWebsiteLink = $ourGameWebsiteLink;
     }
 
-    /**
-     * @return string
-     */
     public function getOurGameFreeLink(): string
     {
         return $this->ourGameFreeLink;
     }
 
-    /**
-     * @param string $ourGameFreeLink
-     */
     public function setOurGameFreeLink(string $ourGameFreeLink)
     {
         $this->ourGameFreeLink = $ourGameFreeLink;
     }
 
-    /**
-     * @return string
-     */
+    public function getOurGamePlayOnlineID(): string
+    {
+        return $this->ourGamePlayOnlineID;
+    }
+
+    public function setOurGamePlayOnlineID(string $ourGamePlayOnlineID): void
+    {
+        $this->ourGamePlayOnlineID = $ourGamePlayOnlineID;
+    }
+
+    public function getOurGamePlayOnline(): string
+    {
+        return $this->ourGamePlayOnline;
+    }
+
+    public function setOurGamePlayOnline(string $ourGamePlayOnline): void
+    {
+        $this->ourGamePlayOnline = $ourGamePlayOnline;
+    }
+
+    public function getOurGamePlayOnlineText(): string
+    {
+        return $this->ourGamePlayOnlineText;
+    }
+
+    public function setOurGamePlayOnlineText(string $ourGamePlayOnlineText): void
+    {
+        $this->ourGamePlayOnlineText = $ourGamePlayOnlineText;
+    }
+
     public function getOurGameAlpha(): string
     {
         return $this->ourGameAlpha;
     }
 
-    /**
-     * @param string $ourGameAlpha
-     */
     public function setOurGameAlpha(string $ourGameAlpha)
     {
         $this->ourGameAlpha = $ourGameAlpha;
     }
 
-    /**
-     * @return string
-     */
     public function getOurGameBeta(): string
     {
         return $this->ourGameBeta;
     }
 
-    /**
-     * @param string $ourGameBeta
-     */
     public function setOurGameBeta(string $ourGameBeta)
     {
         $this->ourGameBeta = $ourGameBeta;
     }
 
-    /**
-     * @return string
-     */
     public function getOurGameSourceCode(): string
     {
         return $this->ourGameSourceCode;
     }
 
-    /**
-     * @param string $ourGameSourceCode
-     */
     public function setOurGameSourceCode(string $ourGameSourceCode)
     {
         $this->ourGameSourceCode = $ourGameSourceCode;
     }
 
-    /**
-     * @return string
-     */
     public function getOurGameURLCDN(): string
     {
         return $this->ourGameURLCDN;
     }
 
-    /**
-     * @param string $ourGameURLCDN
-     */
     public function setOurGameURLCDN(string $ourGameURLCDN)
     {
         $this->ourGameURLCDN = $ourGameURLCDN;
     }
 
-    /**
-     * @return string
-     */
     public function getOurGameCover(): string
     {
         return $this->ourGameCover;
     }
 
-    /**
-     * @param string $ourGameCover
-     */
     public function setOurGameCover(string $ourGameCover)
     {
         $this->ourGameCover = $ourGameCover;
