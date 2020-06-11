@@ -89,5 +89,4 @@ class PostType extends AbstractType
             'data_class' => Post::class,
         ]);
     }
-
 }

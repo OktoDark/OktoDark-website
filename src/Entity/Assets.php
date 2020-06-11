@@ -251,6 +251,7 @@ class Assets implements \Serializable
         if (empty($softwarecompatible)) {
             $softwarecompatible[] = '-';
         }
+
         return array_unique($softwarecompatible);
     }
 
@@ -295,6 +296,7 @@ class Assets implements \Serializable
     {
         return $this->bundle;
     }
+
     public function setBundle(bool $bundle): void
     {
         $this->bundle = $bundle;

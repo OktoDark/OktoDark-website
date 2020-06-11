@@ -58,7 +58,6 @@ class AssetsRepository extends ServiceEntityRepository
         return $stmt->fetchAll();
     }
 
-
     // /**
     //  * @return Assets[] Returns an array of Assets objects
     //  */

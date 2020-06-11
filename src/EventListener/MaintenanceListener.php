@@ -43,5 +43,4 @@ class MaintenanceListener
         );
         $event->stopPropagation();
     }
-
 }
