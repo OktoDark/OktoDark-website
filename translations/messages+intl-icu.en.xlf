@@ -182,6 +182,14 @@
                 <source>title.assets</source>
                 <target>Assets</target>
             </trans-unit>
+            <trans-unit id="title.mods">
+                <source>title.mods</source>
+                <target>Mods</target>
+            </trans-unit>
+            <trans-unit id="title.profile">
+                <source>title.profile</source>
+                <target>Profile</target>
+            </trans-unit>
             <!-- End Titles Pages -->
 
             <!-- Contents -->

@@ -12873,6 +12873,11 @@ img:hover {
     display: inline-flex !important;
 }
 
+.bepatron_note_left {
+    text-align: left;
+    margin-left: 14em;
+}
+
 /**
  * Profile Section
  */
