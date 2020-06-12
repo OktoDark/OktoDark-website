@@ -629,6 +629,14 @@
                 <source>bepatron.list_rewards</source>
                 <target>List of Rewards</target>
             </trans-unit>
+            <trans-unit id="bepatron.download_mods">
+                <source>bepatron.download_mods</source>
+                <target>Download mods*</target>
+            </trans-unit>
+            <trans-unit id="bepatron.download_premium_mods">
+                <source>bepatron.download_premium_mods</source>
+                <target>Download Premium mods*</target>
+            </trans-unit>
             <trans-unit id="bepatron.access_private_blog">
                 <source>bepatron.access_private_blog</source>
                 <target>Access on our private blog</target>
@@ -684,6 +692,10 @@
             <trans-unit id="bepatron.note">
                 <source>bepatron.note</source>
                 <target>Note: Read FAQ for more details</target>
+            </trans-unit>
+            <trans-unit id="bepatron.star">
+                <source>bepatron.star</source>
+                <target>* Only game mods</target>
             </trans-unit>
             <!-- End bePatron Zone -->
 
