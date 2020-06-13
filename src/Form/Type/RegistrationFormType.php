@@ -30,12 +30,15 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
+                'label' => 'label.firstName',
                 'label_attr' => ['class' => 'form-label form-label-outside'],
             ])
             ->add('lastName', TextType::class, [
+                'label' => 'label.lastName',
                 'label_attr' => ['class' => 'form-label form-label-outside'],
             ])
             ->add('username', TextType::class, [
+                'label' => 'label.username',
                 'label_attr' => ['class' => 'form-label form-label-outside'],
                 'required' => true,
             ])
@@ -44,6 +47,7 @@ class RegistrationFormType extends AbstractType
                 'data' => 'ROLE_USER',
             ])
             ->add('email', TextType::class, [
+                'label' => 'label.email',
                 'label_attr' => ['class' => 'form-label form-label-outside'],
             ])
             ->add('password', RepeatedType::class, [
@@ -51,8 +55,8 @@ class RegistrationFormType extends AbstractType
                 'options' => ['attr' => ['class' => 'form-input form-input-circle form-input-gray'], 'label_attr' => ['class' => 'form-label form-label-outside']],
                 'invalid_message' => 'The password fields must match.',
                 'required' => true,
-                'first_options' => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat Password'],
+                'first_options' => ['label' => 'label.password'],
+                'second_options' => ['label' => 'label.repeatPassword'],
                 //'mapped' => false,
                 'constraints' => [
                     new NotBlank([
@@ -66,6 +70,7 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
+                'label' => 'label.agreeTerms',
                 'label_attr' => ['class' => 'form-label form-label-outside form-check-label'],
                 'attr' => ['class' => 'form-check-input'],
                 'mapped' => false,

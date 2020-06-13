@@ -57,7 +57,7 @@ class ContactType extends AbstractType
                     'Webmaster' => false,
                 ],
                 'required' => true,
-                'placeholder' => 'Choice your departament',
+                'placeholder' => 'label.choiceDepartment',
                 'empty_data' => null,
             ])
             ->add('subject', TextType::class, [
@@ -77,7 +77,7 @@ class ContactType extends AbstractType
                     ],
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Send',
+                'label' => 'label.send',
                 'attr' => [
                     'class' => 'button button-block button-gradient button-circle',
                     'style' => 'margin-top:20px',
