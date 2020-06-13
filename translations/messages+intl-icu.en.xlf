@@ -126,6 +126,10 @@
                 <source>title.games</source>
                 <target>Games</target>
             </trans-unit>
+            <trans-unit id="title.play_online">
+                <source>title.play_online</source>
+                <target>Play Online</target>
+            </trans-unit>
             <trans-unit id="title.news">
                 <source>title.news</source>
                 <target>News</target>
@@ -252,13 +256,75 @@
                 <source>action.change_password</source>
                 <target>Change password</target>
             </trans-unit>
+
+            <!-- Label -->
+            <trans-unit id="label.contact_name">
+                <source>label.contact_name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="label.contact_email">
+                <source>label.contact_email</source>
+                <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="label.content">
+                <source>label.content</source>
+                <target>Content</target>
+            </trans-unit>
+            <trans-unit id="label.contact_category">
+                <source>label.contact_category</source>
+                <target>Category</target>
+            </trans-unit>
+            <trans-unit id="label.contact_subject">
+                <source>label.contact_subject</source>
+                <target>Subject</target>
+            </trans-unit>
+            <trans-unit id="label.contact_message">
+                <source>label.contact_message</source>
+                <target>Message</target>
+            </trans-unit>
+            <trans-unit id="label.choiceDepartment">
+                <source>label.choiceDepartment</source>
+                <target>Choice your department</target>
+            </trans-unit>
+            <trans-unit id="label.secure_sign_in">
+                <source>label.secure_sign_in</source>
+                <target>Secure Sign in</target>
+            </trans-unit>
+            <trans-unit id="label.send">
+                <source>label.send</source>
+                <target>Send</target>
+            </trans-unit>
+            <trans-unit id="label.username">
+                <source>label.username</source>
+                <target>Username</target>
+            </trans-unit>
             <trans-unit id="label.fullname">
                 <source>label.fullname</source>
                 <target>Fullname</target>
             </trans-unit>
+            <trans-unit id="label.firstName">
+                <source>label.firstName</source>
+                <target>First Name</target>
+            </trans-unit>
+            <trans-unit id="label.lastName">
+                <source>label.lastName</source>
+                <target>Last Name</target>
+            </trans-unit>
             <trans-unit id="label.email">
                 <source>label.email</source>
-                <target>Email</target>
+                <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="label.agreeTerms">
+                <source>label.agreeTerms</source>
+                <target>Agree Terms</target>
+            </trans-unit>
+            <trans-unit id="label.password">
+                <source>label.password</source>
+                <target>Password</target>
+            </trans-unit>
+            <trans-unit id="label.repeatPassword">
+                <source>label.repeatPassword</source>
+                <target>Repeat Password</target>
             </trans-unit>
             <trans-unit id="label.current_password">
                 <source>label.current_password</source>
@@ -272,6 +338,8 @@
                 <source>label.new_password_confirm</source>
                 <target>Confirm password</target>
             </trans-unit>
+            <!-- End Label -->
+
             <trans-unit id="menu.user">
                 <source>menu.user</source>
                 <target>Account</target>
@@ -283,6 +351,10 @@
             <trans-unit id="info.change_password">
                 <source>info.change_password</source>
                 <target>After changing your password, you will be logged out of the application.</target>
+            </trans-unit>
+            <trans-unit id="info.unabble_change_username">
+                <source>info.unabble_change_username</source>
+                <target>You are unable to change your username.</target>
             </trans-unit>
             <!-- End Members Zone -->
 
@@ -316,11 +388,11 @@
             <!-- Settings zone -->
             <trans-unit id="change.password">
                 <source>change.password</source>
-                <target>Change Password</target>
+                <target>Change your password</target>
             </trans-unit>
-            <trans-unit id="change.email_or_fullname">
-                <source>change.email_or_fullname</source>
-                <target>Change e-mail or Fullname</target>
+            <trans-unit id="change.informations">
+                <source>change.informations</source>
+                <target>Change your information</target>
             </trans-unit>
             <!-- End Settings Zone -->
 
@@ -530,10 +602,6 @@
                 <source>title.add_comment</source>
                 <target>Add a comment</target>
             </trans-unit>
-            <trans-unit id="label.content">
-                <source>label.content</source>
-                <target>Content</target>
-            </trans-unit>
             <trans-unit id="action.publish_comment">
                 <source>action.publish_comment</source>
                 <target>Publish comment</target>
@@ -568,46 +636,15 @@
                 <source>title.login</source>
                 <target>Only Members</target>
             </trans-unit>
-            <trans-unit id="label.secure_sign_in">
-                <source>label.secure_sign_in</source>
-                <target>Secure Sign in</target>
-            </trans-unit>
-            <trans-unit id="label.username">
-                <source>label.username</source>
-                <target>Username</target>
-            </trans-unit>
-            <trans-unit id="label.password">
-                <source>label.password</source>
-                <target>Password</target>
-            </trans-unit>
             <trans-unit id="content.login_note">
                 <source>content.login_note</source>
                 <target><![CDATA[Note: You must to be a patron or donor to have access here.<br>If you are patron or a donor please ask for login information from contact form.]]></target>
             </trans-unit>
+            <trans-unit id="error.email">
+                <source>error.email</source>
+                <target>E-mail could not be found.</target>
+            </trans-unit>
             <!-- End Login Form Zone -->
-
-            <!-- Contact Form Zone -->
-            <trans-unit id="label.contact_name">
-                <source>label.contact_name</source>
-                <target>Name</target>
-            </trans-unit>
-            <trans-unit id="label.contact_email">
-                <source>label.contact_email</source>
-                <target>E-mail</target>
-            </trans-unit>
-            <trans-unit id="label.contact_category">
-                <source>label.contact_category</source>
-                <target>Category</target>
-            </trans-unit>
-            <trans-unit id="label.contact_subject">
-                <source>label.contact_subject</source>
-                <target>Subject</target>
-            </trans-unit>
-            <trans-unit id="label.contact_message">
-                <source>label.contact_message</source>
-                <target>Message</target>
-            </trans-unit>
-            <!-- End Contact Form Zone -->
 
             <!-- beDonor Zone -->
             <trans-unit id="bedonor.note">

@@ -59,6 +59,14 @@
                 <source>navbar.member_area</source>
                 <target>Zona Membrilor</target>
             </trans-unit>
+            <trans-unit id="navbar.login">
+                <source>navbar.login</source>
+                <target>Logare</target>
+            </trans-unit>
+            <trans-unit id="navbar.register">
+                <source>navbar.register</source>
+                <target>Inregistreaza-te</target>
+            </trans-unit>
             <trans-unit id="navbar.user_settings">
                 <source>navbar.user_settings</source>
                 <target>Setari</target>
@@ -73,7 +81,7 @@
             </trans-unit>
             <trans-unit id="navbar.logout">
                 <source>navbar.logout</source>
-                <target>Deconecteaza-te</target>
+                <target>Deconectare</target>
             </trans-unit>
             <trans-unit id="navbar.mods">
                 <source>navbar.mods</source>
@@ -118,6 +126,10 @@
                 <source>title.games</source>
                 <target>Jocuri</target>
             </trans-unit>
+            <trans-unit id="title.play_online">
+                <source>title.play_online</source>
+                <target>Joaca Online</target>
+            </trans-unit>
             <trans-unit id="title.news">
                 <source>title.news</source>
                 <target>Stiri</target>
@@ -158,6 +170,10 @@
                 <source>title.settings</source>
                 <target>Setari</target>
             </trans-unit>
+            <trans-unit id="title.register">
+                <source>title.register</source>
+                <target>Inregistrare</target>
+            </trans-unit>
             <trans-unit id="title.edit_user">
                 <source>title.edit_user</source>
                 <target>Editare utilizator</target>
@@ -168,7 +184,15 @@
             </trans-unit>
             <trans-unit id="title.assets">
                 <source>title.assets</source>
-                <target>Assets</target>
+                <target>Bunuri</target>
+            </trans-unit>
+            <trans-unit id="title.mods">
+                <source>title.mods</source>
+                <target>Moduri</target>
+            </trans-unit>
+            <trans-unit id="title.profile">
+                <source>title.profile</source>
+                <target>Profil</target>
             </trans-unit>
             <!-- End Titles Pages -->
 
@@ -183,6 +207,29 @@
                 <target>Pe aceasta pagina gasiti toate jocurile noastre care au fost lansate de la inceput.</target>
             </trans-unit>
             <!-- End Content Area -->
+
+            <!-- Assets Area -->
+            <trans-unit id="assets.category_list">
+                <source>assets.category_list</source>
+                <target>Lista Categorie</target>
+            </trans-unit>
+            <trans-unit id="assets.menu">
+                <source>assets.menu</source>
+                <target>Meniu</target>
+            </trans-unit>
+            <trans-unit id="assets.name">
+                <source>assets.name</source>
+                <target>Nume</target>
+            </trans-unit>
+            <trans-unit id="assets.products">
+                <source>assets.products</source>
+                <target>Produse</target>
+            </trans-unit>
+            <trans-unit id="assets.add_assets">
+                <source>assets.add_assets</source>
+                <target>Adaugare Item</target>
+            </trans-unit>
+            <!-- End Assets Area -->
 
             <!-- Members Area Zone -->
             <trans-unit id="member.download_alpha_text">
@@ -209,13 +256,75 @@
                 <source>action.change_password</source>
                 <target>Schimba parola</target>
             </trans-unit>
+
+            <!-- Label -->
+            <trans-unit id="label.contact_name">
+                <source>label.contact_name</source>
+                <target>Numele</target>
+            </trans-unit>
+            <trans-unit id="label.contact_email">
+                <source>label.contact_email</source>
+                <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="label.content">
+                <source>label.content</source>
+                <target>Continut</target>
+            </trans-unit>
+            <trans-unit id="label.contact_category">
+                <source>label.contact_category</source>
+                <target>Categorie</target>
+            </trans-unit>
+            <trans-unit id="label.contact_subject">
+                <source>label.contact_subject</source>
+                <target>Subiect</target>
+            </trans-unit>
+            <trans-unit id="label.contact_message">
+                <source>label.contact_message</source>
+                <target>Mesaj</target>
+            </trans-unit>
+            <trans-unit id="label.choiceDepartment">
+                <source>label.choiceDepartment</source>
+                <target>Selecteaza departamentul</target>
+            </trans-unit>
+            <trans-unit id="label.secure_sign_in">
+                <source>label.secure_sign_in</source>
+                <target>Conectare securizata</target>
+            </trans-unit>
+            <trans-unit id="label.send">
+                <source>label.send</source>
+                <target>Trimite</target>
+            </trans-unit>
+            <trans-unit id="label.username">
+                <source>label.username</source>
+                <target>Nume utilizator</target>
+            </trans-unit>
             <trans-unit id="label.fullname">
                 <source>label.fullname</source>
                 <target>Numele complet</target>
             </trans-unit>
+            <trans-unit id="label.firstName">
+                <source>label.firstName</source>
+                <target>Nume</target>
+            </trans-unit>
+            <trans-unit id="label.lastName">
+                <source>label.lastName</source>
+                <target>Prenume</target>
+            </trans-unit>
             <trans-unit id="label.email">
                 <source>label.email</source>
                 <target>Email</target>
+            </trans-unit>
+            <trans-unit id="label.agreeTerms">
+                <source>label.agreeTerms</source>
+                <target>Sunt de acord cu Termenii</target>
+            </trans-unit>
+            <trans-unit id="label.password">
+                <source>label.password</source>
+                <target>Parola</target>
+            </trans-unit>
+            <trans-unit id="label.repeatPassword">
+                <source>label.repeatPassword</source>
+                <target>Repeta Parola</target>
             </trans-unit>
             <trans-unit id="label.current_password">
                 <source>label.current_password</source>
@@ -229,6 +338,8 @@
                 <source>label.new_password_confirm</source>
                 <target>Confimare parola</target>
             </trans-unit>
+            <!-- End Label -->
+
             <trans-unit id="menu.user">
                 <source>menu.user</source>
                 <target>Cont</target>
@@ -240,6 +351,10 @@
             <trans-unit id="info.change_password">
                 <source>info.change_password</source>
                 <target>După schimbarea parolei, veți fi deconectat din aplicație.</target>
+            </trans-unit>
+            <trans-unit id="info.unabble_change_username">
+                <source>info.unabble_change_username</source>
+                <target>Nu puteți modifica numele de utilizator.</target>
             </trans-unit>
             <!-- End Members Zone -->
 
@@ -275,9 +390,9 @@
                 <source>change.password</source>
                 <target>Schimbare parola</target>
             </trans-unit>
-            <trans-unit id="change.email_or_fullname">
-                <source>change.email_or_fullname</source>
-                <target>Schimbare e-mail sau Numele complet</target>
+            <trans-unit id="change.informations">
+                <source>change.informations</source>
+                <target>Schimbă-ți informațiile</target>
             </trans-unit>
             <!-- End Settings Zone -->
 
@@ -487,10 +602,6 @@
                 <source>title.add_comment</source>
                 <target>Adauga un comentariu</target>
             </trans-unit>
-            <trans-unit id="label.content">
-                <source>label.content</source>
-                <target>Continut</target>
-            </trans-unit>
             <trans-unit id="action.publish_comment">
                 <source>action.publish_comment</source>
                 <target>Publica un comentariu</target>
@@ -525,46 +636,15 @@
                 <source>title.login</source>
                 <target>Doar membrii</target>
             </trans-unit>
-            <trans-unit id="label.secure_sign_in">
-                <source>label.secure_sign_in</source>
-                <target>Conectare securizata</target>
-            </trans-unit>
-            <trans-unit id="label.username">
-                <source>label.username</source>
-                <target>Nume utilizator</target>
-            </trans-unit>
-            <trans-unit id="label.password">
-                <source>label.password</source>
-                <target>Parola</target>
-            </trans-unit>
-            <trans-unit id="content.login_note">
+             <trans-unit id="content.login_note">
                 <source>content.login_note</source>
                 <target><![CDATA[Nota: Trebuie sa fii patron sau donator ca sa ai access aici.<br>Daca sunteti patron sau donator va rugam sa cereti informatiile despre logare prin formularul de la contact.]]></target>
             </trans-unit>
+            <trans-unit id="error.email">
+                <source>error.email</source>
+                <target>E-mailul nu a putut fi găsit.</target>
+            </trans-unit>
             <!-- End Login Form Zone -->
-
-            <!-- Contact Form Zone -->
-            <trans-unit id="label.contact_name">
-                <source>label.contact_name</source>
-                <target>Numele</target>
-            </trans-unit>
-            <trans-unit id="label.contact_email">
-                <source>label.contact_email</source>
-                <target>E-mail</target>
-            </trans-unit>
-            <trans-unit id="label.contact_category">
-                <source>label.contact_category</source>
-                <target>Categorie</target>
-            </trans-unit>
-            <trans-unit id="label.contact_subject">
-                <source>label.contact_subject</source>
-                <target>Subiect</target>
-            </trans-unit>
-            <trans-unit id="label.contact_message">
-                <source>label.contact_message</source>
-                <target>Mesaj</target>
-            </trans-unit>
-            <!-- End Contact Form Zone -->
 
             <!-- beDonor Zone -->
             <trans-unit id="bedonor.note">
@@ -593,6 +673,14 @@
             <trans-unit id="bepatron.list_rewards">
                 <source>bepatron.list_rewards</source>
                 <target>Lista de recompense</target>
+            </trans-unit>
+            <trans-unit id="bepatron.download_mods">
+                <source>bepatron.download_mods</source>
+                <target>Descărcați moduri*</target>
+            </trans-unit>
+            <trans-unit id="bepatron.download_premium_mods">
+                <source>bepatron.download_premium_mods</source>
+                <target>Descărcați moduri premium*</target>
             </trans-unit>
             <trans-unit id="bepatron.access_private_blog">
                 <source>bepatron.access_private_blog</source>
@@ -649,6 +737,10 @@
             <trans-unit id="bepatron.note">
                 <source>bepatron.note</source>
                 <target>Nota: Citeste FAQ pentru a afla mai multe detalii</target>
+            </trans-unit>
+            <trans-unit id="bepatron.star">
+                <source>bepatron.star</source>
+                <target>* Numai moduri de joc</target>
             </trans-unit>
             <!-- End bePatron Zone -->
         </body>
