@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view the LICENSE.
  */
 
-namespace App\Events;
+namespace App\Event;
 
 use App\Entity\Comment;
 use Symfony\Contracts\EventDispatcher\Event;
