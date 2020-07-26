@@ -60,6 +60,7 @@ class BlogController extends AbstractController
         return $this->render('@theme/blog/index.'.$_format.'.twig', [
             'settings' => $selectSettings,
             'paginator' => $latestPosts,
+            'tagName' => $tag ? $tag->getName() : null,
         ]);
     }
 
