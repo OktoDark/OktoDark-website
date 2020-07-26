@@ -24,6 +24,7 @@ services:
             $defaultLocale: '%locale%'
             # $emailSender: '%app.notifications.email_sender%'
 
+    # Remember me Token
     Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider: ~
 
     # makes classes in src/ available to be used as services

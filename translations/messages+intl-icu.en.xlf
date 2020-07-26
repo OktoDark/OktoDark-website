@@ -644,6 +644,10 @@
                 <source>error.email</source>
                 <target>E-mail could not be found.</target>
             </trans-unit>
+            <trans-unit id="checkbox.remember_me">
+                <source>checkbox.remember_me</source>
+                <target>Keep me logged in</target>
+            </trans-unit>
             <!-- End Login Form Zone -->
 
             <!-- beDonor Zone -->

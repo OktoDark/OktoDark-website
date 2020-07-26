@@ -36,7 +36,7 @@
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                             <div class="col-md-10">
                                 <input type="checkbox" id="remember_me" name="_remember_me" checked />
-                                <label for="remember_me">Remember me</label>
+                                <label for="remember_me">{{ 'checkbox.remember_me'|trans }}</label>
                             </div>
                             <button class="button button-block button-gradient button-circle" type="submit">
                                 <i class="fa fa-sign-in" aria-hidden="true"></i> {{ 'action.sign_in'|trans }}

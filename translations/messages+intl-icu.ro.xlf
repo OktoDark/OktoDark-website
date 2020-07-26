@@ -644,6 +644,10 @@
                 <source>error.email</source>
                 <target>E-mailul nu a putut fi găsit.</target>
             </trans-unit>
+            <trans-unit id="checkbox.remember_me">
+                <source>checkbox.remember_me</source>
+                <target>Ține-mă logat</target>
+            </trans-unit>
             <!-- End Login Form Zone -->
 
             <!-- beDonor Zone -->
