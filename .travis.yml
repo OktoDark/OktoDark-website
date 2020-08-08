@@ -14,31 +14,33 @@ env:
     - ACTION="install"
     - PATH="$HOME/.symfony/bin:$PATH"
 
-matrix:
+jobs:
   fast_finish: true
   include:
     - php: 7.3
-      env: SYMFONY="5.1.*"
-           ACTION="update"
     - php: 7.4
+
+    - php: 7.3
+      env: STABILITY=dev ACTION=update
+
+    - php: 7.3
+      env: STABILITY=dev SYMFONY=5.* ACTION=update
 
 before_install:
   - chmod +x ./bin/console
   - chmod +x ./bin/phpunit
-  - '[[ "$TRAVIS_PHP_VERSION" == "7.4snapshot" ]] || phpenv config-rm xdebug.ini'
-  - '[[ "$ACTION" == "install" ]] || echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini'
-  - '[[ "$ACTION" == "install" ]] || composer config minimum-stability dev'
-  - '[[ "$ACTION" == "install" ]] || composer config extra.symfony.require $SYMFONY'
+  - '[[ -z $STABILITY ]] || composer config minimum-stability "$STABILITY"'
+  - '[[ -z $SYMFONY ]] || composer config extra.symfony.require "$SYMFONY"'
   - if symfony self:version; then symfony self:update --yes ; else wget https://get.symfony.com/cli/installer -O - | bash ; fi
 
 install:
   - php -r "echo ini_get('memory_limit').PHP_EOL;"
-  - composer $ACTION
+  - COMPOSER_MEMORY_LIMIT=-1 composer $ACTION
   - ./bin/phpunit install
 
 script:
   # - ./bin/.phpunit
-  - '[[ "$TRAVIS_PHP_VERSION" == "7.4" ]] || ./vendor/bin/php-cs-fixer fix --diff --dry-run -v'
+  - '[[ $TRAVIS_PHP_VERSION != "7.4" ]] || ./vendor/bin/php-cs-fixer fix --diff --dry-run -v'
   - ./bin/console lint:yaml config --parse-tags
   - ./bin/console lint:twig templates --env=prod
   - ./bin/console lint:xliff translations
