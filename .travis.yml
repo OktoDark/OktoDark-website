@@ -29,6 +29,7 @@ jobs:
 before_install:
   - chmod +x ./bin/console
   - chmod +x ./bin/phpunit
+  - phpenv config-rm xdebug.ini || true
   - '[[ -z $STABILITY ]] || composer config minimum-stability "$STABILITY"'
   - '[[ -z $SYMFONY ]] || composer config extra.symfony.require "$SYMFONY"'
   - if symfony self:version; then symfony self:update --yes ; else wget https://get.symfony.com/cli/installer -O - | bash ; fi
