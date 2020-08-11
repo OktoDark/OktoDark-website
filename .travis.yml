@@ -32,11 +32,12 @@ before_install:
   - phpenv config-rm xdebug.ini || true
   - '[[ -z $STABILITY ]] || composer config minimum-stability "$STABILITY"'
   - '[[ -z $SYMFONY ]] || composer config extra.symfony.require "$SYMFONY"'
-  - if symfony self:version; then symfony self:update --yes --lock ; else wget https://get.symfony.com/cli/installer -O - | bash ; fi
+  - if symfony self:version; then symfony self:update --yes ; else wget https://get.symfony.com/cli/installer -O - | bash ; fi
 
 install:
   - php -r "echo ini_get('memory_limit').PHP_EOL;"
   - COMPOSER_MEMORY_LIMIT=-1 composer $ACTION
+  - composer update --lock
   - ./bin/phpunit install
 
 script:
