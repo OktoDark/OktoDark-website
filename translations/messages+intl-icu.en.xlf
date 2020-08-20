@@ -423,7 +423,7 @@
             </trans-unit>
             <trans-unit id="footer.live_stream_text">
                 <source>footer.live_stream_text</source>
-                <target>Live Stream</target>
+                <target>Live Streaming</target>
             </trans-unit>
             <trans-unit id="footer.discourse_text">
                 <source>footer.discourse_text</source>
@@ -592,7 +592,7 @@
             </trans-unit>
             <trans-unit id="post.search_for">
                 <source>post.search_for</source>
-                <target>Search for...</target>
+                <target>Search for ...</target>
             </trans-unit>
             <trans-unit id="post.search_no_results">
                 <source>post.search_no_results</source>
@@ -668,7 +668,7 @@
             </trans-unit>
             <trans-unit id="bepatron.now">
                 <source>bepatron.now</source>
-                <target>be Patron Now</target>
+                <target>be Patron now</target>
             </trans-unit>
             <trans-unit id="bepatron.rewards">
                 <source>bepatron.rewards</source>
@@ -696,7 +696,7 @@
             </trans-unit>
             <trans-unit id="bepatron.access_private_live_stream">
                 <source>bepatron.access_private_live_stream</source>
-                <target>Access at our private Live Stream</target>
+                <target>Access at our private Live Streaming</target>
             </trans-unit>
             <trans-unit id="bepatron.news_progress">
                 <source>bepatron.news_progress</source>

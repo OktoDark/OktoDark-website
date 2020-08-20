@@ -242,7 +242,7 @@
             </trans-unit>
             <trans-unit id="member.upgrade_now_text">
                 <source>member.upgrade_now_text</source>
-                <target>Faceti upgrade la Tier acum, ca sa aveti acces</target>
+                <target>Faceti actualizare la Nivel tau acum, ca sa aveti acces</target>
             </trans-unit>
             <trans-unit id="member.settings">
                 <source>member.settings</source>
@@ -312,7 +312,7 @@
             </trans-unit>
             <trans-unit id="label.email">
                 <source>label.email</source>
-                <target>Email</target>
+                <target>E-mail</target>
             </trans-unit>
             <trans-unit id="label.agreeTerms">
                 <source>label.agreeTerms</source>
@@ -373,7 +373,7 @@
             </trans-unit>
             <trans-unit id="faq.two_content_txt">
                 <source>faq.two_content_txt</source>
-                <target>De la Tier II toti pot vota, caractere, lumea din joc, etc., adica toti vor fi implicati in dezvoltare.</target>
+                <target>De la Nivelul II toti pot vota, caractere, lumea din joc, etc., adica toti vor fi implicati in dezvoltare.</target>
             </trans-unit>
             <trans-unit id="faq.three_title_txt">
                 <source>faq.three_title_txt</source>
@@ -592,7 +592,7 @@
             </trans-unit>
             <trans-unit id="post.search_for">
                 <source>post.search_for</source>
-                <target>Cautare pentru...</target>
+                <target>Cautare pentru ...</target>
             </trans-unit>
             <trans-unit id="post.search_no_results">
                 <source>post.search_no_results</source>
@@ -668,7 +668,7 @@
             </trans-unit>
             <trans-unit id="bepatron.now">
                 <source>bepatron.now</source>
-                <target>fi Patron Acum</target>
+                <target>fi Patron acum</target>
             </trans-unit>
             <trans-unit id="bepatron.rewards">
                 <source>bepatron.rewards</source>
@@ -688,7 +688,7 @@
             </trans-unit>
             <trans-unit id="bepatron.access_private_blog">
                 <source>bepatron.access_private_blog</source>
-                <target>Access la blogul private</target>
+                <target>Access la blogul privat</target>
             </trans-unit>
             <trans-unit id="bepatron.access_private_forum">
                 <source>bepatron.access_private_forum</source>
@@ -696,7 +696,7 @@
             </trans-unit>
             <trans-unit id="bepatron.access_private_live_stream">
                 <source>bepatron.access_private_live_stream</source>
-                <target>Access la Live Stream</target>
+                <target>Access la Live Streaming</target>
             </trans-unit>
             <trans-unit id="bepatron.news_progress">
                 <source>bepatron.news_progress</source>
@@ -708,7 +708,7 @@
             </trans-unit>
             <trans-unit id="bepatron.discord_role">
                 <source>bepatron.discord_role</source>
-                <target>Tier role la serverul discord</target>
+                <target>Nivel de rol la serverul discord</target>
             </trans-unit>
             <trans-unit id="bepatron.access_voting">
                 <source>bepatron.access_voting</source>
