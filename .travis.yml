@@ -41,12 +41,12 @@ install:
   - ./bin/phpunit install
 
 script:
-  # - ./bin/.phpunit
+  - ./bin/.phpunit
   - '[[ $TRAVIS_PHP_VERSION != "7.4" ]] || ./vendor/bin/php-cs-fixer fix --diff --dry-run -v'
   - ./bin/console lint:yaml config --parse-tags
   - ./bin/console lint:twig templates --env=prod
   - ./bin/console lint:xliff translations
   - ./bin/console lint:container
-  - ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
   - symfony check:security
+  - ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
   - composer validate --no-check-all --strict
