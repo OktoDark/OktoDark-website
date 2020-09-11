@@ -20,7 +20,7 @@
     "ext-iconv": "*",
     "composer/package-versions-deprecated": "^1.8",
     "doctrine/doctrine-bundle": "^1.12|^2.0.7",
-    "doctrine/doctrine-migrations-bundle": "^1.3|^2.1.2",
+    "doctrine/doctrine-migrations-bundle": "^3.0",
     "doctrine/orm": "2.7.*",
     "easycorp/easyadmin-bundle": "dev-master",
     "friendsofsymfony/ckeditor-bundle": "^2.2.0",

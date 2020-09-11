@@ -13,7 +13,7 @@ namespace App\Repository;
 
 use App\Entity\Mods;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Mods|null find($id, $lockMode = null, $lockVersion = null)

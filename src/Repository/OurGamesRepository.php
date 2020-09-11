@@ -13,7 +13,7 @@ namespace App\Repository;
 
 use App\Entity\OurGames;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method OurGames|null find($id, $lockMode = null, $lockVersion = null)
