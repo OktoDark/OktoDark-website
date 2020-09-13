@@ -10,21 +10,19 @@ cache:
 env:
   global:
     - SYMFONY_PHPUNIT_DIR=./bin/.phpunit
-    - SYMFONY_DEPRECATIONS_HELPER=9
+    - SYMFONY_DEPRECATIONS_HELPER=6
     - ACTION="install"
     - PATH="$HOME/.symfony/bin:$PATH"
 
 jobs:
   fast_finish: true
   include:
-    - php: 7.3
     - php: 7.4
-
-    - php: 7.3
-      env: STABILITY=dev ACTION=update
-
-    - php: 7.3
+    - php: nightly
+    - php: 7.4
       env: STABILITY=dev SYMFONY=5.* ACTION=update
+  allow_failures:
+    - php: nightly
 
 before_install:
   - chmod +x ./bin/console
