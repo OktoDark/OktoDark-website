@@ -1,0 +1,32 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}{{ 'title.reset_your_password'|trans }}{% endblock %}
+
+{% block body %}
+
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.reset_your_password'|trans }}</h2>
+        </div>
+    </section>
+
+    <section class="section section-md bg-default text-center">
+        <div class="container">
+            <div class="row justify-content-md-center">
+
+            {% for flashError in app.flashes('reset_password_error') %}
+                <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+            {% endfor %}
+                <div class="col-md-9 col-lg-7 col-xl-5">
+                    {{ form_start(requestForm, {'attr': {'class': 'rd-form rd-mailform rd-form-centered text-center', 'data-form-type': 'contact', 'data-form-output': 'form-output-global'}}) }}
+                        <div class="form-wrap">
+                            {{ form_row(requestForm.email, {'attr': {'class': 'form-input form-input-circle form-input-gray', 'label': 'E-mail'}}) }}
+                        </div>
+                        <small>{{ 'note.reset_password'|trans }}</small>
+                        <button class="button button-block button-gradient button-circle">{{ 'button.reset_password'|trans }}</button>
+                    {{ form_end(requestForm) }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

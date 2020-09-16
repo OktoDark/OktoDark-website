@@ -23,8 +23,8 @@
     "doctrine/doctrine-migrations-bundle": "^3.0",
     "doctrine/orm": "2.7.*",
     "easycorp/easyadmin-bundle": "dev-master",
-    "friendsofsymfony/ckeditor-bundle": "^2.2.0",
     "erusev/parsedown": "^1.6",
+    "friendsofsymfony/ckeditor-bundle": "^2.2.0",
     "paragonie/sodium_compat": "dev-master",
     "patreon/patreon": "dev-master",
     "sensio/framework-extra-bundle": "^5.1",
@@ -48,6 +48,7 @@
     "symfony/validator": "^5.1",
     "symfony/webpack-encore-bundle": "^1.4",
     "symfony/yaml": "^5.1",
+    "symfonycasts/reset-password-bundle": "^1.1",
     "tgalopin/html-sanitizer-bundle": "^1.1",
     "twig/intl-extra": "^3.0",
     "twig/twig": "^3.0"
