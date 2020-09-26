@@ -49,6 +49,7 @@
     "symfony/webpack-encore-bundle": "^1.4",
     "symfony/yaml": "^5.1",
     "symfonycasts/reset-password-bundle": "^1.1",
+    "symfonycasts/verify-email-bundle": "^1.0",
     "tgalopin/html-sanitizer-bundle": "^1.1",
     "twig/intl-extra": "^3.0",
     "twig/twig": "^3.0"
