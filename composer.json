@@ -2,7 +2,7 @@
   "name": "oktodark/website",
   "type": "project",
   "description": "OktoDark Studios Main Website",
-  "minimum-stability": "stable",
+  "minimum-stability": "beta",
   "prefer-stable": true,
   "license": "proprietary",
   "authors": [
@@ -16,7 +16,7 @@
     "symfony/polyfill-php72": "*"
   },
   "require": {
-    "php": "^7.2.9",
+    "php": "^7.3",
     "ext-iconv": "*",
     "composer/package-versions-deprecated": "^1.8",
     "doctrine/doctrine-bundle": "^1.12|^2.0.7",
@@ -27,28 +27,28 @@
     "friendsofsymfony/ckeditor-bundle": "^2.2.0",
     "paragonie/sodium_compat": "dev-master",
     "patreon/patreon": "dev-master",
-    "sensio/framework-extra-bundle": "^5.1",
+    "sensio/framework-extra-bundle": "^5.6",
     "shivas/versioning-bundle": "^3.2.3",
-    "symfony/asset": "^5.1",
-    "symfony/console": "^5.1",
-    "symfony/dotenv": "^5.1",
-    "symfony/expression-language": "^5.1",
+    "symfony/asset": "^5.2.0-beta1",
+    "symfony/console": "^5.2.0-beta1",
+    "symfony/dotenv": "^5.2.0-beta1",
+    "symfony/expression-language": "^5.2.0-beta1",
     "symfony/flex": "^1.1",
-    "symfony/form": "^5.1",
-    "symfony/framework-bundle": "^5.1",
-    "symfony/intl": "^5.1",
-    "symfony/mailer": "^5.1",
+    "symfony/form": "^5.2.0-beta1",
+    "symfony/framework-bundle": "^5.2.0-beta1",
+    "symfony/intl": "^5.2.0-beta1",
+    "symfony/mailer": "^5.2.0-beta1",
     "symfony/monolog-bundle": "^3.3",
-    "symfony/notifier": "5.1.*",
+    "symfony/notifier": "^5.2.0-beta1",
     "symfony/orm-pack": "^1.0",
     "symfony/polyfill-intl-messageformatter": "^1.12",
-    "symfony/security-bundle": "^5.1",
-    "symfony/string": "^5.1",
-    "symfony/translation": "^5.1",
-    "symfony/twig-bundle": "^5.1",
-    "symfony/validator": "^5.1",
+    "symfony/security-bundle": "^5.2.0-beta1",
+    "symfony/string": "^5.2.0-beta1",
+    "symfony/translation": "^5.2.0-beta1",
+    "symfony/twig-bundle": "^5.2.0-beta1",
+    "symfony/validator": "^5.2.0-beta1",
     "symfony/webpack-encore-bundle": "^1.4",
-    "symfony/yaml": "^5.1",
+    "symfony/yaml": "^5.2.0-beta1",
     "symfonycasts/reset-password-bundle": "^1.1",
     "symfonycasts/verify-email-bundle": "^1.0",
     "tgalopin/html-sanitizer-bundle": "^1.1",
@@ -59,17 +59,17 @@
     "dama/doctrine-test-bundle": "^6.2",
     "doctrine/doctrine-fixtures-bundle": "^3.0",
     "friendsofphp/php-cs-fixer": "3.0.x-dev",
-    "symfony/browser-kit": "^5.1",
-    "symfony/css-selector": "^5.1",
-    "symfony/debug-bundle": "^5.1",
+    "symfony/browser-kit": "^5.2.0-beta1",
+    "symfony/css-selector": "^5.2.0-beta1",
+    "symfony/debug-bundle": "^5.2.0-beta1",
     "symfony/maker-bundle": "^1.11",
-    "symfony/phpunit-bridge": "^5.1",
-    "symfony/stopwatch": "^5.1",
-    "symfony/web-profiler-bundle": "^5.1"
+    "symfony/phpunit-bridge": "^5.2.0-beta1",
+    "symfony/stopwatch": "^5.2.0-beta1",
+    "symfony/web-profiler-bundle": "^5.2.0-beta1"
   },
   "config": {
     "platform": {
-      "php": "7.2.9"
+      "php": "7.3"
     },
     "preferred-install": {
       "*": "dist"
@@ -103,8 +103,7 @@
   },
   "extra": {
     "symfony": {
-      "allow-contrib": true,
-      "require": "5.1.*"
+      "allow-contrib": true
     }
   }
 }

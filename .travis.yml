@@ -10,7 +10,7 @@ cache:
 env:
   global:
     - SYMFONY_PHPUNIT_DIR=./bin/.phpunit
-    - SYMFONY_DEPRECATIONS_HELPER=6
+    - SYMFONY_DEPRECATIONS_HELPER=7
     - ACTION="install"
     - PATH="$HOME/.symfony/bin:$PATH"
 
