@@ -27,6 +27,7 @@ jobs:
 before_install:
   - chmod +x ./bin/console
   - chmod +x ./bin/phpunit
+  - chmod +x ./var/
   - phpenv config-rm xdebug.ini || true
   - '[[ -z $STABILITY ]] || composer config minimum-stability "$STABILITY"'
   - '[[ -z $SYMFONY ]] || composer config extra.symfony.require "$SYMFONY"'
