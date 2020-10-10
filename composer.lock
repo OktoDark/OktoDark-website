@@ -1430,12 +1430,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/EasyCorp/EasyAdminBundle.git",
-                "reference": "91ef0ebb192aa9300988d3c8bf0eb80cc14ed45c"
+                "reference": "4584c4bfdf397a777f4483d82d58a08a287886e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/91ef0ebb192aa9300988d3c8bf0eb80cc14ed45c",
-                "reference": "91ef0ebb192aa9300988d3c8bf0eb80cc14ed45c",
+                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/4584c4bfdf397a777f4483d82d58a08a287886e3",
+                "reference": "4584c4bfdf397a777f4483d82d58a08a287886e3",
                 "shasum": ""
             },
             "require": {
@@ -1511,7 +1511,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-10-07T17:39:48+00:00"
+            "time": "2020-10-10T15:00:47+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -8695,12 +8695,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "236fb500eb341e48ac8529051c02691d59922724"
+                "reference": "37dbe7e03737c93c01b3f945e31d2865c9fc7deb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/236fb500eb341e48ac8529051c02691d59922724",
-                "reference": "236fb500eb341e48ac8529051c02691d59922724",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/37dbe7e03737c93c01b3f945e31d2865c9fc7deb",
+                "reference": "37dbe7e03737c93c01b3f945e31d2865c9fc7deb",
                 "shasum": ""
             },
             "require": {
@@ -8784,7 +8784,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-10-04T14:52:10+00:00"
+            "time": "2020-10-09T13:04:42+00:00"
         },
         {
             "name": "php-cs-fixer/diff",
