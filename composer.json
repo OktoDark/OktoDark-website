@@ -31,6 +31,7 @@
     "shivas/versioning-bundle": "^3.2.3",
     "symfony/asset": "^5.2.0-dev",
     "symfony/console": "^5.2.0-dev",
+    "symfony/discord-notifier": "^5.2.0-dev",
     "symfony/dotenv": "^5.2.0-dev",
     "symfony/expression-language": "^5.2.0-dev",
     "symfony/flex": "^1.1",
