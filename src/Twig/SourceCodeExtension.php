@@ -14,7 +14,6 @@ namespace App\Twig;
 use function Symfony\Component\String\u;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
-use Twig\Template;
 use Twig\TemplateWrapper;
 use Twig\TwigFunction;
 
@@ -43,9 +42,12 @@ class SourceCodeExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @param string|TemplateWrapper|array $template
+     */
     public function showSourceCode(Environment $twig, $template): string
     {
-        return $twig->render('debug/source_code.html.twig', [
+        return $twig->render('@theme/debug/source_code.html.twig', [
             'controller' => $this->getController(),
             'template' => $this->getTemplateSource($twig->resolveTemplate($template)),
         ]);
@@ -91,10 +93,7 @@ class SourceCodeExtension extends AbstractExtension
         return new \ReflectionFunction($callable);
     }
 
-    /**
-     * @param TemplateWrapper|Template $template
-     */
-    private function getTemplateSource($template): array
+    private function getTemplateSource(TemplateWrapper $template): array
     {
         $templateSource = $template->getSourceContext();
 

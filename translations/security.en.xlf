@@ -2,9 +2,9 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" datatype="plaintext" original="file.ext">
         <body>
-            <trans-unit id="contact.name.not_blank">
-                <source>contact.name.not_blank</source>
-                <target>Please enter your name.</target>
+            <trans-unit id="Invalid credentials.">
+                <source>Invalid credentials.</source>
+                <target>The password you entered was invalid!</target>
             </trans-unit>
         </body>
     </file>

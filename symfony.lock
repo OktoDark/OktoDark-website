@@ -8,15 +8,6 @@
     "php": {
         "version": "7.3"
     },
-    "phpdocumentor/reflection-common": {
-        "version": "2.2.0"
-    },
-    "phpdocumentor/reflection-docblock": {
-        "version": "5.2.2"
-    },
-    "phpdocumentor/type-resolver": {
-        "version": "1.4.0"
-    },
     "symfony/deprecation-contracts": {
         "version": "v2.1.2"
     },
@@ -50,9 +41,6 @@
     "symfony/property-info": {
         "version": "v5.1.0"
     },
-    "symfony/serializer": {
-        "version": "v5.2.0-beta1"
-    },
     "symfony/uid": {
         "version": "v5.1.2"
     },
@@ -84,7 +72,7 @@
     "symfonycasts/verify-email-bundle": {
         "version": "v1.0.0"
     },
-    "webmozart/assert": {
-        "version": "1.9.1"
+    "zendframework/zend-code": {
+        "version": "3.4.1"
     }
 }

@@ -20,9 +20,9 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:               # defines the scalar arguments once and apply them to any service defined/created in this file
-            $locales: '%app_locales%'
-            $defaultLocale: '%locale%'
-            # $emailSender: '%app.notifications.email_sender%'
+            string $locales: '%app_locales%'
+            string $defaultLocale: '%locale%'
+            # string $emailSender: '%app.notifications.email_sender%'
 
     # Remember me Token
     Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider: ~

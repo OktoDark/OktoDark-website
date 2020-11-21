@@ -31,4 +31,18 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+
+    public function showUser()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT * FROM user u
+            WHERE u.id
+        ';
+
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->fetchAll();
+    }
 }

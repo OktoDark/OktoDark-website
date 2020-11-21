@@ -12,12 +12,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="user")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface, \Serializable
 {
@@ -89,6 +91,11 @@ class User implements UserInterface, \Serializable
      */
     private $agreedTerms;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVerified = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -150,13 +157,6 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    /**
-     * Set active.
-     *
-     * @param bool $active
-     *
-     * @return User
-     */
     public function setActive($active)
     {
         $this->active = $active;
@@ -164,11 +164,6 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    /**
-     * Get active.
-     *
-     * @return bool
-     */
     public function isActive()
     {
         return $this->active;
@@ -196,16 +191,14 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getAgreedTerms(): ?\DateTimeInterface
+    public function getAgreedTerms(\DateTimeInterface $agreedTerms): self
     {
         return $this->agreedTerms;
     }
 
-    public function setAgreedTerms(\DateTimeInterface $agreedTerms): self
+    public function agreeTerms()
     {
-        $this->agreedTerms = $agreedTerms;
-
-        return $this;
+        $this->agreedTerms = new \DateTime();
     }
 
     /**
@@ -254,5 +247,17 @@ class User implements UserInterface, \Serializable
     public function __toString()
     {
         return (string) $this->getUsername();
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
     }
 }

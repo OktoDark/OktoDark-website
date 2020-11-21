@@ -29,7 +29,7 @@ class CommentNotificationSubscriber implements EventSubscriberInterface
     private $urlGenerator;
     private $sender;
 
-    public function __construct(MailerInterface $mailer, UrlGeneratorInterface $urlGenerator, TranslatorInterface $translator, $sender)
+    public function __construct(MailerInterface $mailer, UrlGeneratorInterface $urlGenerator, TranslatorInterface $translator, string $sender)
     {
         $this->mailer = $mailer;
         $this->urlGenerator = $urlGenerator;

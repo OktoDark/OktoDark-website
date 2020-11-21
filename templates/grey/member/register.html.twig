@@ -20,25 +20,30 @@
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col-md-9 col-lg-7">
-                    {% set formErrors = registrationForm.vars.errors.form.getErrors(true) %}
-                    {% if formErrors|length %}
-                        <div class="alert alert-danger">
-                            <ul>
-                                {% for error in formErrors %}
-                                    <li>{{ error.message }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endif %}
                     {{ form_start(registrationForm, { 'attr': {'class': 'rd-form rd-mailform', 'data-form-output': 'form-output-global'}}) }}
                         <div class="row row-20 align-items-end">
+                            {% for flashError in app.flashes('verify_email_error') %}
+                                <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                            {% endfor %}
+                            {% set formErrors = registrationForm.vars.errors.form.getErrors(true) %}
+                            {% if formErrors|length %}
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        {% for error in formErrors %}
+                                            <li>{{ error.message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
                             <div class="col-md-6">
                                 <div class="form-wrap">
+                                    {{ form_errors(registrationForm.firstName) }}
                                     {{ form_row(registrationForm.firstName, { 'attr': {'class': 'form-input form-input-circle form-input-gray'}}) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-wrap">
+                                    {{ form_errors(registrationForm.lastName) }}
                                     {{ form_row(registrationForm.lastName, { 'attr': {'class': 'form-input form-input-circle form-input-gray'}}) }}
                                 </div>
                             </div>
@@ -57,6 +62,7 @@
                                     {{ form_row(registrationForm.password, { 'attr': {'class': 'form-input form-input-circle form-input-gray'}}) }}
                                 </div>
                             </div>
+                        </div>
                             <div class="col-md-6">
                                 <div class="form-wrap">
                                     {{ form_row(registrationForm.agreeTerms) }}
@@ -64,7 +70,7 @@
                             </div>
                             {{ form_row(registrationForm.active) }}
                             <div class="col-md-6">
-                                <button class="button button-block button-gradient button-circle">Register</button>
+                                <button type="submit" class="button button-block button-gradient button-circle" formnovalidate>Register</button>
                             </div>
                         </div>
                     {{ form_end(registrationForm) }}

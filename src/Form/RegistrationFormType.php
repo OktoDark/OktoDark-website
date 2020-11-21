@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view the LICENSE.
  */
 
-namespace App\Form\Type;
+namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
@@ -43,12 +43,20 @@ class RegistrationFormType extends AbstractType
                 'required' => true,
             ])
             ->add('active', HiddenType::class)
-            ->add('roles', HiddenType::class, [
-                'data' => 'ROLE_USER',
-            ])
             ->add('email', TextType::class, [
                 'label' => 'label.email',
                 'label_attr' => ['class' => 'form-label form-label-outside'],
+            ])
+            ->add('agreeTerms', CheckboxType::class, [
+                'label' => 'label.agreeTerms',
+                'label_attr' => ['class' => 'form-label form-label-outside form-check-label'],
+                'attr' => ['class' => 'form-check-input'],
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'You should agree to our terms.',
+                    ]),
+                ],
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -69,21 +77,10 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'label.agreeTerms',
-                'label_attr' => ['class' => 'form-label form-label-outside form-check-label'],
-                'attr' => ['class' => 'form-check-input'],
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
-            ])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => User::class,

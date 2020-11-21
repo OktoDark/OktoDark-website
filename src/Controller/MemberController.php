@@ -16,6 +16,7 @@ use App\Form\Type\ChangePasswordType;
 use App\Form\UserType;
 use App\Repository\OurGamesRepository;
 use App\Repository\SettingsRepository;
+use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,9 +50,10 @@ class MemberController extends AbstractController
      * @Route("/profile", methods="GET|POST", name="profile_area")
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function edit_profile(SettingsRepository $settings, Request $request): Response
+    public function edit_profile(SettingsRepository $settings, UserRepository $user, Request $request): Response
     {
         $selectSettings = $settings->findAll();
+        $user = $user->findAll();
 
         $user = $this->getUser();
 
