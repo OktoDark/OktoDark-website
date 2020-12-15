@@ -12,7 +12,13 @@
         "version": "v2.1.2"
     },
     "symfony/discord-notifier": {
-        "version": "v5.2.0-beta2"
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "1bbc2f7c212346491efde98bf55a3f689056ed3f"
+        }
     },
     "symfony/http-client": {
         "version": "v5.1.7"
