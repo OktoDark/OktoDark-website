@@ -1,4 +1,7 @@
 {
+    "doctrine/deprecations": {
+        "version": "v0.5.3"
+    },
     "doctrine/sql-formatter": {
         "version": "1.0.1"
     },
