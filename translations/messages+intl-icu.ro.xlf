@@ -400,6 +400,21 @@
             </trans-unit>
             <!-- End Settings Zone -->
 
+            <!-- Services Zone -->
+            <trans-unit id="services.from">
+                <source>services.from</source>
+                <target>de la</target>
+            </trans-unit>
+            <trans-unit id="services.contact_us">
+                <source>services.contact_us</source>
+                <target>Contacteaza-ne</target>
+            </trans-unit>
+            <trans-unit id="services.notes">
+                <source>services.notes</source>
+                <target>Nota: O anumita prestatie poate sa fie terminata in mai mult de o saptamana sau mai putin, depinde de dificultatea necesara sa fie terminat acel proiect dorit si agreat de dumneavoastra.</target>
+            </trans-unit>
+            <!-- End Services Zone -->
+
             <!-- Footer Zone -->
             <trans-unit id="language_selector">
                 <source>language.selector</source>

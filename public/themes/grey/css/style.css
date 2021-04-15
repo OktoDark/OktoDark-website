@@ -1338,6 +1338,10 @@ a[href*='tel'], a[href*='mailto'] {
     margin-top: 20px;
 }
 
+.but-contact-us {
+    margin: auto;
+}
+
 .box-numeric > h5 {
     color: #bcbcbc;
 }
@@ -1418,6 +1422,11 @@ a[href*='tel'], a[href*='mailto'] {
 
 .service-item-caption .service-title > a:hover {
     color: #0cc5b6;
+}
+
+.service-notes {
+    margin: auto;
+    font-size: 14px !important;
 }
 
 .aside-components {

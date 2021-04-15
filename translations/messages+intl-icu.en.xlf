@@ -400,6 +400,21 @@
             </trans-unit>
             <!-- End Settings Zone -->
 
+            <!-- Services Zone -->
+            <trans-unit id="services.from">
+                <source>services.from</source>
+                <target>from</target>
+            </trans-unit>
+            <trans-unit id="services.contact_us">
+                <source>services.contact_us</source>
+                <target>Contact us</target>
+            </trans-unit>
+            <trans-unit id="services.notes">
+                <source>services.notes</source>
+                <target>Note: A certain service can be completed in more than a week or less, depending on the difficulty required to complete that project desired and agreed by you.</target>
+            </trans-unit>
+            <!-- End Services Zone -->
+
             <!-- Footer Zone -->
             <trans-unit id="language_selector">
                 <source>language.selector</source>
