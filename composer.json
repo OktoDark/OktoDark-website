@@ -12,11 +12,11 @@
     }
   ],
   "replace": {
-    "symfony/polyfill-php70": "*",
-    "symfony/polyfill-php72": "*"
+    "symfony/polyfill-php72": "*",
+    "symfony/polyfill-php73": "*"
   },
   "require": {
-    "php": "^7.3",
+    "php": "^7.3 || ^8.0",
     "ext-iconv": "*",
     "composer/package-versions-deprecated": "^1.8",
     "doctrine/doctrine-bundle": "^2.2.3",
