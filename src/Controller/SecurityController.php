@@ -41,10 +41,6 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils, SettingsRepository $settings): Response
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('member_area');
-        }
-
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
@@ -52,8 +48,8 @@ class SecurityController extends AbstractController
 
         return $this->render('@theme/login.html.twig', [
             'last_username' => $lastUsername,
-            'error' => $error,
-            'settings' => $selectSettings,
+            'error'         => $error,
+            'settings'      => $selectSettings,
         ]);
     }
 

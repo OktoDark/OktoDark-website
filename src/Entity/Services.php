@@ -74,7 +74,7 @@ class Services
         return $this->serviceName;
     }
 
-    public function setServiceName(string $serviceName): void
+    public function setServiceName(?string $serviceName): void
     {
         $this->serviceName = $serviceName;
     }
@@ -84,7 +84,7 @@ class Services
         return $this->servicePrice;
     }
 
-    public function setServicePrice(string $servicePrice): void
+    public function setServicePrice(?string $servicePrice): void
     {
         $this->servicePrice = $servicePrice;
     }
@@ -94,7 +94,7 @@ class Services
         return $this->serviceWorkDays;
     }
 
-    public function setServiceWorkDays(string $serviceWorkDays): void
+    public function setServiceWorkDays(?string $serviceWorkDays): void
     {
         $this->serviceWorkDays = $serviceWorkDays;
     }
@@ -104,7 +104,7 @@ class Services
         return $this->ServiceToDo;
     }
 
-    public function setServiceToDo(string $ServiceToDo): void
+    public function setServiceToDo(?string $ServiceToDo): void
     {
         $this->ServiceToDo = $ServiceToDo;
     }

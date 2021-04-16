@@ -89,7 +89,7 @@ class Team
         return $this->description;
     }
 
-    public function setDescription($description)
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
