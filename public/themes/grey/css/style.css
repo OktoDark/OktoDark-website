@@ -3808,6 +3808,7 @@ textarea.form-input {
 
 .footer-normal a:hover {
     color: #0cc5b6;
+    text-decoration: none !important;
 }
 
 .footer-normal .footer-title {
