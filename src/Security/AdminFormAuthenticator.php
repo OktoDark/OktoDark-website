@@ -41,7 +41,6 @@ class AdminFormAuthenticator extends AbstractFormLoginAuthenticator
     private $passwordEncoder;
     private $translator;
 
-
     public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
@@ -54,7 +53,7 @@ class AdminFormAuthenticator extends AbstractFormLoginAuthenticator
     public function supports(Request $request)
     {
         //return self::LOGIN_ROUTE === $request->attributes->get('_route')
-          //  && $request->isMethod('POST');
+        //  && $request->isMethod('POST');
         return $request->attributes->get('_route') == 'security_login'
             && $request->isMethod('POST');
     }
@@ -103,7 +102,7 @@ class AdminFormAuthenticator extends AbstractFormLoginAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         //if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-         //   return new RedirectResponse($targetPath);
+        //   return new RedirectResponse($targetPath);
         //}
 
         // redirect to some "app_homepage" route - of wherever you want

@@ -36,8 +36,7 @@ class RequestSubscriber implements EventSubscriberInterface
             !$event->isMasterRequest()
             || $request->isXmlHttpRequest()
             || 'security_login' === $request->attributes->get('_route')
-        )
-        {
+        ) {
             return;
         }
 
@@ -47,7 +46,7 @@ class RequestSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => ['onKernelRequest']
+            KernelEvents::REQUEST => ['onKernelRequest'],
         ];
     }
 }

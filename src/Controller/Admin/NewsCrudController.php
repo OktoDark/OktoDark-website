@@ -18,7 +18,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-
 class NewsCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -33,7 +32,7 @@ class NewsCrudController extends AbstractCrudController
             ->setDateTimeFormat('full')
             ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig')
             ->setFormOptions([
-                'validation_groups' => ['content']
+                'validation_groups' => ['content'],
             ]);
     }
 

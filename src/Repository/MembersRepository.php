@@ -30,7 +30,6 @@ class MembersRepository extends ServiceEntityRepository
 
     public function rewards()
     {
-
     }
 //    /**
 //     * @return Members[] Returns an array of Members objects
