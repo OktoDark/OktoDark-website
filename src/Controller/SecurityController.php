@@ -48,8 +48,8 @@ class SecurityController extends AbstractController
 
         return $this->render('@theme/login.html.twig', [
             'last_username' => $lastUsername,
-            'error'         => $error,
-            'settings'      => $selectSettings,
+            'error' => $error,
+            'settings' => $selectSettings,
         ]);
     }
 
