@@ -5,7 +5,8 @@
 -------------
 
 ### Build
-[![Build Status](https://travis-ci.com/OktoDark/OktoDark-website.svg?branch=master)](https://travis-ci.com/OktoDark/OktoDark-website)
+[![CI](https://github.com/OktoDark/OktoDark-website/actions/workflows/ci.yaml/badge.svg)](https://github.com/OktoDark/OktoDark-website/actions/workflows/ci.yaml)
+[![Lint](https://github.com/OktoDark/OktoDark-website/actions/workflows/lint.yaml/badge.svg)](https://github.com/OktoDark/OktoDark-website/actions/workflows/lint.yaml)
 
 -------------
 ### Description
@@ -17,7 +18,7 @@ The main website builded in Symfony 5 for OktoDark Studios.
 
 Linux Ubuntu (latest)
 
-Install PHP 7.3:
+Install PHP 8.0:
 
 `apt-get update && apt-get upgrade`
 
@@ -27,7 +28,7 @@ Install PHP 7.3:
 
 `apt-get update`
 
-`apt-get install php7.3`
+`apt-get install php8.0`
 
 Install Composer:
 
