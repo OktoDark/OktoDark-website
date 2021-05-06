@@ -29,6 +29,18 @@
     "symfony/http-client-contracts": {
         "version": "v2.2.0"
     },
+    "symfony/lock": {
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "13350583a83fa636bf45a5fb62da3bdc73be52a1"
+        },
+        "files": [
+            "./config/packages/lock.yaml"
+        ]
+    },
     "symfony/notifier": {
         "version": "5.0",
         "recipe": {
@@ -52,6 +64,9 @@
     },
     "symfony/proxy-manager-bridge": {
         "version": "v5.2.2"
+    },
+    "symfony/rate-limiter": {
+        "version": "v5.2.7"
     },
     "symfony/uid": {
         "version": "v5.1.2"
