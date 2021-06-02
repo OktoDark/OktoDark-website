@@ -53,8 +53,14 @@
             "./config/packages/notifier.yaml"
         ]
     },
+    "symfony/password-hasher": {
+        "version": "v5.3.0-rc1"
+    },
     "symfony/polyfill-php80": {
         "version": "v1.17.0"
+    },
+    "symfony/polyfill-php81": {
+        "version": "v1.23.0"
     },
     "symfony/polyfill-uuid": {
         "version": "v1.17.1"
@@ -67,6 +73,9 @@
     },
     "symfony/rate-limiter": {
         "version": "v5.2.7"
+    },
+    "symfony/runtime": {
+        "version": "v5.3.0"
     },
     "symfony/uid": {
         "version": "v5.1.2"

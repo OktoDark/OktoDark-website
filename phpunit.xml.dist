@@ -25,11 +25,11 @@
         </testsuite>
     </testsuites>
 
-    <coverage>
-        <include>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
             <directory>src</directory>
-        </include>
-    </coverage>
+        </whitelist>
+    </filter>
 
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />

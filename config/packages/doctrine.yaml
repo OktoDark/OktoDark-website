@@ -11,7 +11,7 @@ doctrine:
         # IMPORTANT: when not use SQLite, you MUST configure your db driver and
         # server version, either here or in the DATABASE_URL env var (see .env file)
         driver: 'pdo_mysql'
-        server_version: '5.7'
+        server_version: '5.7' # 13
 
         # Only needed for MySQL (ignored otherwise)
         charset: utf8mb4
@@ -28,3 +28,9 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+
+when@test:
+    doctrine:
+        dbal:
+            # "TEST_TOKEN" is typically set by ParaTest
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'

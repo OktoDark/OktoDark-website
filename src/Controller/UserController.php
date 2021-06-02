@@ -18,8 +18,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Controller used to manage current user.
@@ -59,7 +59,7 @@ class UserController extends AbstractController
     /**
      * @Route("/change-password", methods="GET|POST", name="user_change_password")
      */
-    public function changePassword(SettingsRepository $settings, Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function changePassword(SettingsRepository $settings, Request $request, UserPasswordHasherInterface $hasher): Response
     {
         $selectSettings = $settings->findAll();
 
@@ -69,7 +69,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($encoder->encodePassword($user, $form->get('newPassword')->getData()));
+            $user->setPassword($hasher->hashPassword($user, $form->get('newPassword')->getData()));
 
             $this->getDoctrine()->getManager()->flush();
 
