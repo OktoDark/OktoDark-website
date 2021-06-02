@@ -60,7 +60,7 @@ class AddUserCommand extends Command
     private $validator;
     private $users;
 
-    public function __construct(EntityManagerInterface $em, UserPasswordHasherInterface  $passwordHasher, Validator $validator, UserRepository $users)
+    public function __construct(EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher, Validator $validator, UserRepository $users)
     {
         parent::__construct();
 
@@ -189,7 +189,7 @@ class AddUserCommand extends Command
         $user->setRoles([$isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER']);
 
         // See https://symfony.com/doc/current/book/security.html#security-encoding-password
-        $hashedPassword  = $this->passwordHasher->hashPassword($user, $plainPassword);
+        $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
         $user->setPassword($hashedPassword);
 
         $this->entityManager->persist($user);
