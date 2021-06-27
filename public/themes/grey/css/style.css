@@ -8820,7 +8820,7 @@ html.rd-navbar-fixed-linked .page {
 }
 
 .card-corporate .card-title a.collapsed {
-    background: #fff;
+    background: #f4f7fb;
     border-bottom-width: 0;
 }
 
@@ -8850,8 +8850,9 @@ html.rd-navbar-fixed-linked .page {
 }
 
 .card-corporate .card-arrow::after {
-    font-family: 'Material Design Icons';
-    content: '\F060D';
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: '\f3be';
     position: absolute;
     top: 50%;
     left: 50%;
