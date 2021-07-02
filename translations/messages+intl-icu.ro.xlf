@@ -208,7 +208,7 @@
 
             <trans-unit id="content.gamesPage">
                 <source>content.gamesPage</source>
-                <target>Pe aceasta pagina gasiti toate jocurile noastre care au fost lansate de la inceput.</target>
+                <target><![CDATA[Studioul nostru creează propriile jocuri cu un design și un concept unic al dezvoltării fiecărui joc.<br>Puteți încerca jocurile noastre enumerate mai jos, plătite sau gratuite pentru descărcare.]]></target>
             </trans-unit>
             <!-- End Content Area -->
 

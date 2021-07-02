@@ -208,7 +208,7 @@
 
             <trans-unit id="content.gamesPage">
                 <source>content.gamesPage</source>
-                <target>On this page you can find the all our games released from the beginning.</target>
+                <target><![CDATA[Our studio create the own games with a unique design and concept of the development of each game.<br>You can try our games listed below, paid or free for download.]]></target>
             </trans-unit>
             <!-- End Content Area -->
 

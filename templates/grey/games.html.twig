@@ -18,22 +18,17 @@
 
     <section class="section section-lg bg-gray-100">
         <div class="container">
-            <h5>{{ 'content.gamesPage'|trans }}</h5>
+            <h5>{{ 'content.gamesPage'|trans|raw }}</h5>
             <div class="row">
                 <div class="col-12">
-                    <div class="text-decoration">
-                        <div class="row row-20 justify-content-lg-between">
-                            <div class="col-12">
-                                <h5>To be access at one game you must to click on banner.</h5>
-                            </div>
-                            {% for g in games %}
-                                {% for s in settings %}
-                            <div class="col-md-6 col-lg-5">
-                                <p><a href="{{ g.ourGameWebsiteLink }}"><img class="game_covers_image" src="{{ s.siteCDN }}/images/covers/{{ g.ourGameCover }}.png" alt="{{ g.ourGameName }}" /></a></p>
-                            </div>
-                                {% endfor %}
+                    <div class="row row-20 justify-content-lg-between">
+                        {% for g in games %}
+                            {% for s in settings %}
+                                <div class="col-md-6 col-lg-5">
+                                    <p><a href="{{ g.ourGameWebsiteLink }}"><img class="game_covers_image" src="{{ s.siteCDN }}/images/covers/{{ g.ourGameCover }}.png" alt="{{ g.ourGameName }}" /></a></p>
+                                </div>
                             {% endfor %}
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
