@@ -18,16 +18,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/")
- *
  * Class HomeController
  */
+#[Route('/')]
 class HomeController extends AbstractController
 {
-    /**
-     * @Route("/", methods="GET", name="home_index")
-     * @Route("/home", methods="GET", name="home")
-     */
+    #[Route('/', methods: ['GET'], name: 'home_index')]
+    #[Route('/home', methods: ['GET'], name: 'home')]
     public function home(SettingsRepository $settings, NewsRepository $news): Response
     {
         $latestNews = $news->findAll();

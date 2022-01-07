@@ -27,7 +27,7 @@ class SourceCodeExtension extends AbstractExtension
 {
     private $controller;
 
-    public function setController(?callable $controller)
+    public function setController(?callable $controller): void
     {
         $this->controller = $controller;
     }
@@ -116,16 +116,16 @@ class SourceCodeExtension extends AbstractExtension
     {
         $codeLines = u($code)->split("\n");
 
-        $indentedOrBlankLines = array_filter($codeLines, function ($lineOfCode) {
+        $indentedOrBlankLines = array_filter($codeLines, static function ($lineOfCode) {
             return u($lineOfCode)->isEmpty() || u($lineOfCode)->startsWith('    ');
         });
 
         $codeIsIndented = \count($indentedOrBlankLines) === \count($codeLines);
         if ($codeIsIndented) {
-            $unindentedLines = array_map(function ($lineOfCode) {
+            $unindentedLines = array_map(static function ($lineOfCode) {
                 return u($lineOfCode)->after('    ');
             }, $codeLines);
-            $code = u("\n")->join($unindentedLines);
+            $code = u("\n")->join($unindentedLines)->toString();
         }
 
         return $code;

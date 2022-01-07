@@ -1,8 +1,5 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
 # Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
     # This parameter defines the codes of the locales (languages) enabled in the application
@@ -20,9 +17,9 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:               # defines the scalar arguments once and apply them to any service defined/created in this file
-            string $locales: '%app_locales%'
-            string $defaultLocale: '%locale%'
-            # string $emailSender: '%app.notifications.email_sender%'
+            $locales: '%app_locales%'
+            $defaultLocale: '%locale%'
+            # $emailSender: '%app.notifications.email_sender%'
 
     # Remember me Token
     Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider: ~
@@ -52,10 +49,6 @@ services:
             - "@twig"
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-
-    Shivas\VersioningBundle\Service\VersionManager:
-        arguments:
-            $formatter: ~
 
 when@test:
     services:

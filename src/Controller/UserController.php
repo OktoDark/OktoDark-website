@@ -14,6 +14,7 @@ namespace App\Controller;
 use App\Form\Type\ChangePasswordType;
 use App\Form\UserType;
 use App\Repository\SettingsRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,16 +24,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Controller used to manage current user.
- *
- * @Route("/member/profile_old")
- * @IsGranted("IS_AUTHENTICATED_FULLY")
  */
+#[Route('/profile'), IsGranted('IS_AUTHENTICATED_FULLY')]
 class UserController extends AbstractController
 {
-    /**
-     * @Route("/edit", methods="GET|POST", name="user_edit")
-     */
-    public function edit(SettingsRepository $settings, Request $request): Response
+    #[Route('/edit', methods: ['GET', 'POST'], name: 'user_edit')]
+    public function edit(SettingsRepository $settings, Request $request, EntityManagerInterface $entityManager): Response
     {
         $selectSettings = $settings->findAll();
 
@@ -42,7 +39,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             $this->addFlash('success', 'user.updated_successfully');
 
@@ -56,10 +53,8 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/change-password", methods="GET|POST", name="user_change_password")
-     */
-    public function changePassword(SettingsRepository $settings, Request $request, UserPasswordHasherInterface $hasher): Response
+    #[Route('/change-password', methods: ['GET', 'POST'], name: 'user_change_password')]
+    public function changePassword(SettingsRepository $settings, Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
     {
         $selectSettings = $settings->findAll();
 
@@ -69,9 +64,8 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($hasher->hashPassword($user, $form->get('newPassword')->getData()));
-
-            $this->getDoctrine()->getManager()->flush();
+            $user->setPassword($passwordHasher->hashPassword($user, $form->get('newPassword')->getData()));
+            $entityManager->flush();
 
             return $this->redirectToRoute('security_logout');
         }

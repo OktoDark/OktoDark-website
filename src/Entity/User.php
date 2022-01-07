@@ -18,60 +18,50 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="user")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
-     * @var int
-     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
-     * @Assert\NotBlank()
      */
-    private $firstName;
+    #[Assert\NotBlank]
+    private ?string $firstName = null;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
-     * @Assert\NotBlank()
      */
-    private $lastName;
+    #[Assert\NotBlank]
+    private ?string $lastName = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", unique=true)
-     * @Assert\NotBlank()
-     * @Assert\Length(min=2, max=50)
      */
-    private $username;
+    #[
+        Assert\NotBlank,
+        Assert\Length(min: 2, max: 50)
+    ]
+    private ?string $username = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", unique=true)
-     * @Assert\Email()
      */
-    private $email;
+    #[Assert\Email]
+    private ?string $email = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="password", type="string")
      */
-    private $password;
+    private ?string $password = null;
 
     /**
      * @var bool
@@ -81,11 +71,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $active;
 
     /**
-     * @var array
-     *
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @ORM\Column(type="datetime")
@@ -96,6 +84,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\Column(type="string", unique=true, nullable=true)
+     */
+    private $apiToken;
 
     public function getId(): ?int
     {
@@ -126,9 +119,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * The public representation of the user (e.g. a username, an email address, etc.)
+     *
+     * @see UserInterface
+     */
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        return (string) $this->email;
     }
 
     public function getUsername(): string
@@ -146,12 +144,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): void
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
     }
 
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -183,9 +183,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
 
         // guarantees that a user always has at least one role for security
-        if (empty($roles)) {
-            $roles[] = 'ROLE_USER';
-        }
+        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
@@ -207,17 +205,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->agreedTerms = new \DateTime();
     }
 
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
     /**
-     * Returns the salt that was originally used to encode the password.
+     * @return mixed
+     */
+    public function getApiToken()
+    {
+        return $this->apiToken;
+    }
+
+    /**
+     * @param mixed $apiToken
+     */
+    public function setApiToken($apiToken): void
+    {
+        $this->apiToken = $apiToken;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
-     * {@inheritdoc}
+     * @see UserInterface
      */
     public function getSalt(): ?string
     {
-        // See "Do you need to use a Salt?" at https://symfony.com/doc/current/cookbook/security/entity_provider.html
-        // we're using bcrypt in security.yml to encode the password, so
-        // the salt value is built-in and you don't have to generate one
-
         return null;
     }
 
@@ -232,18 +255,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __serialize(): array
     {
         // add $this->salt too if you don't use Bcrypt or Argon2i
         return [$this->id, $this->username, $this->password];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __unserialize(array $data): void
     {
         // add $this->salt too if you don't use Bcrypt or Argon2i
@@ -253,17 +270,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return (string) $this->getUsername();
-    }
-
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
-
-    public function setIsVerified(bool $isVerified): self
-    {
-        $this->isVerified = $isVerified;
-
-        return $this;
     }
 }

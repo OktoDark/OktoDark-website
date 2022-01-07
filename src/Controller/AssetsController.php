@@ -20,14 +20,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class AssetsController.
- *
- * @IsGranted("ROLE_ADMIN")
  */
+#[IsGranted('ROLE_ADMIN')]
 class AssetsController extends AbstractController
 {
-    /**
-     * @Route("/assets", methods="GET", name="assets_index")
-     */
+    #[Route('/assets', methods: ['GET'], name: 'assets_index')]
     public function home(SettingsRepository $settings, AssetsRepository $assets): Response
     {
         $findAllAssets = $assets->findAll();

@@ -23,11 +23,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class SecurityController extends AbstractController
 {
+    use TargetPathTrait;
+
     private $emailVerifier;
 
     public function __construct(EmailVerifier $emailVerifier)
@@ -35,35 +39,32 @@ class SecurityController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    /**
-     * @Route("/login", name="security_login")
-     */
-    public function login(AuthenticationUtils $authenticationUtils, SettingsRepository $settings): Response
+    #[Route("/login", name: "security_login")]
+    public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, SettingsRepository $settings): Response
     {
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
+        if ($security->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('home_index');
+        }
+
+        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('admin'));
 
         $selectSettings = $settings->findAll();
 
         return $this->render('@theme/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error,
+            'last_username' => $authenticationUtils->getLastUsername(),
+            'error' => $authenticationUtils->getLastAuthenticationError(),
             'settings' => $selectSettings,
         ]);
     }
 
-    /**
-     * @Route("/logout", name="security_logout")
-     */
-    public function logout()
+    #[Route('/logout', name: 'security_logout')]
+    public function logout(): void
     {
-        throw new \LogicException('This should never be reached!');
+        throw new \Exception('This should never be reached!');
     }
 
-    /**
-     * @Route("/register", name="app_register")
-     */
-    public function register(SettingsRepository $settings, Request $request, UserPasswordHasherInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $formAuthenticator): Response
+    #[Route('/register', name: 'app_register')]
+    public function register(SettingsRepository $settings, Request $request, UserPasswordHasherInterface $passwordEncoder, LoginFormAuthenticator $formAuthenticator): Response
     {
         $selectSettings = $settings->findAll();
 
@@ -104,9 +105,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/verify/email", name="app_verify_email")
-     */
+    #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

@@ -25,39 +25,31 @@ class Team
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private $id = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="10")
      */
-    private $position;
+    #[Assert\Length(max: 10)]
+    private ?string $position = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="20")
      */
-    private $name;
+    #[Assert\Length(max: 20)]
+    private ?string $name = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $description;
+    #[Assert\Length(max: 100)]
+    private ?string $description = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="10")
      */
-    private $teamImage;
+    #[Assert\Length(max: 10)]
+    private ?string $teamImage = null;
 
     public function getId()
     {

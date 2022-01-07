@@ -30,8 +30,8 @@ use Twig\TwigFunction;
 class AppExtension extends AbstractExtension
 {
     private $parser;
-    private $localeCodes;
-    private $locales;
+    private array $localeCodes;
+    private ?array $locales = null;
 
     public function __construct(Markdown $parser, string $locales)
     {

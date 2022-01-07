@@ -25,39 +25,31 @@ class Services
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $serviceName;
+    #[Assert\Length(max: 100)]
+    private ?string $serviceName = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="20")
      */
-    private $servicePrice;
+    #[Assert\Length(max: 20)]
+    private ?string $servicePrice = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="10")
      */
-    private $serviceWorkDays;
+    #[Assert\Length(max: 10)]
+    private ?string $serviceWorkDays = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="10000")
      */
-    private $ServiceToDo;
+    #[Assert\Length(max: 10000)]
+    private ?string $ServiceToDo = null;
 
     public function getId()
     {

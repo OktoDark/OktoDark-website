@@ -12,6 +12,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ModsRepository")
@@ -24,28 +25,27 @@ class Mods
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    #[Assert\Length(max: 255)]
+    private ?string $name = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=100)
      */
-    private $slug;
+    #[Assert\Length(max: 100)]
+    private ?string $slug = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=5000)
      */
-    private $description;
+    #[Assert\Length(max: 5000)]
+    private ?string $description = null;
 
-    private $compatible;
+    private array $compatible = [];
 
     /**
      * @var string

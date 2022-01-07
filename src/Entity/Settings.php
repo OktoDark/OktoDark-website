@@ -25,38 +25,31 @@ class Settings
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="10")
      */
-    private $siteName;
+    #[Assert\Length(max: 10)]
+    private ?string $siteName = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
-     * @Assert\Length(max="50")
      */
-    private $jobmail;
+    #[Assert\Length(max: 50)]
+    private ?string $jobmail = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="50")
      */
-    private $siteCDN;
+    #[Assert\Length(max: 50)]
+    private ?string $siteCDN = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="10")
      */
-    private $logoName;
+    #[Assert\Length(max: 10)]
+    private ?string $logoName = null;
 
     public function getLogoName()
     {

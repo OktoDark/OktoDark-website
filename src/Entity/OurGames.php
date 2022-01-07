@@ -28,103 +28,79 @@ class OurGames
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $ourGameName;
+    #[Assert\Length(max: 100)]
+    private ?string $ourGameName = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $ourGameShortName;
+    #[Assert\Length(max: 100)]
+    private ?string $ourGameShortName = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $ourGameWebsiteLink;
+    #[Assert\Length(max: 100)]
+    private ?string $ourGameWebsiteLink = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $ourGameFreeLink;
+    #[Assert\Length(max: 100)]
+    private ?string $ourGameFreeLink = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="10")
      */
-    private $ourGamePlayOnlineID;
+    #[Assert\Length(max: 10)]
+    private ?string $ourGamePlayOnlineID = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $ourGamePlayOnline;
+    #[Assert\Length(max: 100)]
+    private ?string $ourGamePlayOnline = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="500")
      */
-    private $ourGamePlayOnlineText;
+    #[Assert\Length(max: 500)]
+    private ?string $ourGamePlayOnlineText = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $ourGameAlpha;
+    #[Assert\Length(max: 100)]
+    private ?string $ourGameAlpha = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $ourGameBeta;
+    #[Assert\Length(max: 100)]
+    private ?string $ourGameBeta = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $ourGameSourceCode;
+    #[Assert\Length(max: 100)]
+    private ?string $ourGameSourceCode = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $ourGameURLCDN;
+    #[Assert\Length(max: 100)]
+    private ?string $ourGameURLCDN = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $ourGameCover;
+    #[Assert\Length(max: 100)]
+    private ?string $ourGameCover = null;
 
     public function getId()
     {

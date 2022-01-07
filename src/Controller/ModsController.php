@@ -19,9 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ModsController extends AbstractController
 {
-    /**
-     * @Route("/mods", methods="GET", name="mods")
-     */
+    #[Route('/mods', methods: ['GET'], name: 'mods')]
     public function mods(SettingsRepository $settings, ModsRepository $mods): Response
     {
         $latestMods = $mods->findAll();

@@ -25,23 +25,21 @@ class Assets implements \Serializable
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     * @Assert\Length(min=2, max=255)
      */
-    private $name;
+    #[
+        Assert\NotBlank,
+        Assert\Length(min: 2, max: 255)
+    ]
+    private ?string $name = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="integer")
      */
-    private $sku;
+    private ?string $sku = null;
 
     /**
      * @var array
@@ -51,20 +49,20 @@ class Assets implements \Serializable
     private $brand = [];
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="text")
-     * @Assert\Length(min=10, max=10000)
      */
-    private $description;
+    #[
+        Assert\Length(min: 10, max: 10000)
+    ]
+    private ?string $description = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(min=10, max=50)
      */
-    private $website;
+    #[
+        Assert\Length(min: 10, max: 50)
+    ]
+    private ?string $website = null;
 
     /**
      * @var array

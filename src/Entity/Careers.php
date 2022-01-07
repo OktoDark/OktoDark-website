@@ -21,35 +21,28 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Careers
 {
     /**
-     * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $jobtitle;
+    #[Assert\Length(max: 100)]
+    private ?string $jobtitle = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="1000")
      */
-    private $requiments;
+    #[Assert\Length(max: 100)]
+    private ?string $requiments = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="3")
      */
-    private $number;
+    #[Assert\Length(max: 3)]
+    private ?string $number = null;
 
     public function getId()
     {

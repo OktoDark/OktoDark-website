@@ -18,9 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SupportusController extends AbstractController
 {
-    /**
-     * @Route("/bepatron", methods="GET", name="bepatron")
-     */
+    #[Route('/bepatron', methods: ['GET'], name: 'bepatron')]
     public function bepatron(SettingsRepository $settings): Response
     {
         $selectSettings = $settings->findAll();
@@ -28,9 +26,7 @@ class SupportusController extends AbstractController
         return $this->render('@theme/bepatron.html.twig', ['settings' => $selectSettings]);
     }
 
-    /**
-     * @Route("/bedonor", methods="GET", name="bedonor")
-     */
+    #[Route('/bedonor', methods: ['GET'], name: 'bedonor')]
     public function bedonor(SettingsRepository $settings): Response
     {
         $selectSettings = $settings->findAll();

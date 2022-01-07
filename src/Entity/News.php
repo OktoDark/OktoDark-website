@@ -25,34 +25,30 @@ class News
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="100")
      */
-    private $title;
+    #[Assert\Length(max: 100)]
+    private ?string $title = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
-     * @Assert\Length(max="30")
      */
-    private $author;
+    #[Assert\Length(max: 30)]
+    private ?string $author = null;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Length(max="50000")
      */
+    #[Assert\Length(max: 50000)]
     private $content;
 
     /**
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
-    private $createdAt;
+    private \DateTime $createdAt;
 
     public function getId()
     {

@@ -1,55 +1,73 @@
 security:
     # a new authentication system is available since Symfony 5.1 to make
     # Symfony security more extensible and easier to understand
-    # https://symfony.com/doc/current/security/experimental_authenticators.html
+    # https://symfony.com/doc/current/security.html
     enable_authenticator_manager: true
 
     password_hashers:
         # Our user class and the algorithm we'll use to encode passwords
         # 'auto' means to let Symfony choose the best possible password hasher (Argon2 or Bcrypt)
-        # https://symfony.com/doc/current/security.html#c-encoding-the-user-s-password
-        App\Entity\User: 'auto'
+        # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
     providers:
         # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
         # In this example, users are stored via Doctrine in the database
         # To see the users at src/App/DataFixtures/ORM/LoadFixtures.php
-        # To load users from somewhere else: https://symfony.com/doc/current/security/custom_provider.html
+        # To load users from somewhere else: https://symfony.com/doc/current/security/user_providers.html#using-a-custom-query-to-load-the-user
         database_users:
-            entity: { class: App\Entity\User, property: email }
+            entity:
+                class: App\Entity\User
+                property: email
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            # this firewall applies to all URLs
-            pattern: ^/
-
+            # this firewall does not have a 'pattern' option because it applies to all URLs
             lazy: true
-
             provider: database_users
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
+            http_basic: ~
+
+            form_login:
+                # The route name that the login form submits to
+                check_path: login
+                # The name of the route where the login form lives
+                # When the user tries to access a protected page, they are redirected here
+                login_path: login
+                # Secure the login form against CSRF
+                enable_csrf: true
+                # The page users are redirect to when there is no previous page stored in the
+                # session (for example when the users access directly to the login page).
+                default_target_path: index
+
+            logout:
+                # The route name the user can go to in order to logout
+                path: logout
+                # The name of the route to redirect to after logging out
+                target: index
+
+            login_throttling:
+                max_attempts: 3
+                interval: '15 minutes'
+
             remember_me:
                 secret: '%kernel.secret%'
-                lifetime: 604800
+                lifetime: 604800 # 1 week in seconds
                 path: /
                 token_provider: 'Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider'
-            logout:
-                path: security_logout
-                target: homepage
+
             # needed because in tests we redefine the 'main' firewall to use
             # HTTP Basic instead of he login form, so this firewall has
             # multiple authenticators
-            # See https://symfony.com/doc/current/security/experimental_authenticators.html#configuring-the-authentication-entry-point
-            # entry_point: 'form_login'
+            # See https://symfony.com/doc/current/security/access_denied_handler.html#security-entry-point
+            entry_point: form_login
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: '^/{%app_locales%}/login$', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/{%app_locales%}/login$', roles: PUBLIC_ACCESS }
         - { path: '^/(%app_locales%)/admin', roles: ROLE_ADMIN }
         - { path: '^/admin', roles: ROLE_ADMIN }
 

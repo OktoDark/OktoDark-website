@@ -23,7 +23,7 @@ class Members
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     public function getId()
     {

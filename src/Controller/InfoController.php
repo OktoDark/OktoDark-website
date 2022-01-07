@@ -24,9 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class InfoController extends AbstractController
 {
-    /**
-     * @Route("/about", methods="GET", name="about")
-     */
+    #[Route('/about', methods: ['GET'], name: 'about')]
     public function about(SettingsRepository $settings, TeamRepository $team): Response
     {
         $selectSettings = $settings->findAll();
@@ -38,9 +36,7 @@ class InfoController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/contact", name="contact")
-     */
+    #[Route('/contact', methods: ['GET'], name: 'contact')]
     public function contact(SettingsRepository $settings, Request $request, MailerInterface $mailer): Response
     {
         $selectSettings = $settings->findAll();
@@ -71,9 +67,7 @@ class InfoController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/faq", methods="GET", name="faq")
-     */
+    #[Route('/faq', methods: ['GET'], name: 'faq')]
     public function faq(SettingsRepository $settings): Response
     {
         $selectSettings = $settings->findAll();
@@ -81,9 +75,7 @@ class InfoController extends AbstractController
         return $this->render('@theme/info/faq.html.twig', ['settings' => $selectSettings]);
     }
 
-    /**
-     * @Route("/privacy-policy", methods="GET", name="privacy-policy")
-     */
+    #[Route('/privacy-policy', methods: ['GET'], name: 'privacy-policy')]
     public function privacypolicy(SettingsRepository $settings): Response
     {
         $selectSettings = $settings->findAll();
@@ -94,6 +86,7 @@ class InfoController extends AbstractController
     /**
      * @Route("/services", methods="GET", name="services")
      */
+    #[Route('/services', methods: ['GET'], name: 'services')]
     public function services(SettingsRepository $settings, ServicesRepository $services): Response
     {
         $selectSettings = $settings->findAll();

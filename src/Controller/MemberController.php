@@ -25,16 +25,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-/**
- * @Route("/member")
- */
+#[Route('/member')]
 class MemberController extends AbstractController
 {
-    /**
-     * @Route("/", methods="GET", name="member_area")
-     * @Cache(smaxage="10")
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
-     */
+    #[Route('/', methods: ['GET'], name: 'member_area')]
+    #[Cache(smaxage: 10)]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function member(SettingsRepository $settings, OurGamesRepository $ourGames): Response
     {
         $selectSettings = $settings->findAll();
@@ -46,10 +42,8 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/profile", methods="GET|POST", name="profile_area")
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
-     */
+    #[Route('/profile', methods: ['GET', 'POST'], name: 'profile_area')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function edit_profile(SettingsRepository $settings, UserRepository $user, Request $request): Response
     {
         $selectSettings = $settings->findAll();
@@ -75,10 +69,8 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/settings", methods="GET", name="settings_area")
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
-     */
+    #[Route('/settings', methods: ['GET'], name: 'settings_area')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function settings(SettingsRepository $settings): Response
     {
         $selectSettings = $settings->findAll();
@@ -86,10 +78,8 @@ class MemberController extends AbstractController
         return $this->render('@theme/member/settings.html.twig', ['settings' => $selectSettings]);
     }
 
-    /**
-     * @Route("/play_online", methods="GET", name="play_online")
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
-     */
+    #[Route('/play_online', methods: ['GET'], name: 'play_online')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function member_games(SettingsRepository $settings, OurGamesRepository $ourGames): Response
     {
         $selectSettings = $settings->findAll();
@@ -103,10 +93,8 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/viewPage", methods="GET", name="viewPage_area")
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
-     */
+    #[Route('/viewPage', methods: ['GET'], name: 'viewPage_area')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function viewPage(SettingsRepository $settings): Response
     {
         $selectSettings = $settings->findAll();
@@ -114,9 +102,8 @@ class MemberController extends AbstractController
         return $this->render('@theme/member/member.html.twig', ['settings' => $selectSettings]);
     }
 
-    /**
-     * @Route("/edit", methods="GET|POST", name="user_edit")
-     */
+    #[Route('/edit', methods: ['GET', 'POST'], name: 'user_edit')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function edit(Request $request): Response
     {
         $user = $this->getUser();
@@ -138,9 +125,8 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/change-password", methods="GET|POST", name="user_change_password")
-     */
+    #[Route('/change-password', methods: ['GET', 'POST'], name: 'user_change_password')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function changePassword(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = $this->getUser();

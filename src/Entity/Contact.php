@@ -11,31 +11,41 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 class Contact
 {
     /**
-     * @var vars
+     * @ORM\Column(type="string")
      */
-    private $name;
-
-    private $staff;
-    private $webmaster;
+    private ?string $name = null;
 
     /**
-     * @var string
+     * @ORM\Column(type="string")
      */
-    private $email;
-    private $category;
+    private ?string $staff = null;
 
     /**
-     * @var string
+     * @ORM\Column(type="string")
      */
-    private $subject;
+    private ?string $webmaster = null;
 
     /**
-     * @var string
+     * @ORM\Column(type="string")
      */
-    private $message;
+    private ?string $email = null;
+
+    private array $category = [];
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private ?string $subject = null;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private ?string $message = null;
 
     public function getName(): string
     {
