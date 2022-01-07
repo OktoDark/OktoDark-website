@@ -25,8 +25,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class SecurityController extends AbstractController
 {
@@ -39,7 +39,7 @@ class SecurityController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    #[Route("/login", name: "security_login")]
+    #[Route('/login', name: 'security_login')]
     public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, SettingsRepository $settings): Response
     {
         if ($security->isGranted('ROLE_USER')) {

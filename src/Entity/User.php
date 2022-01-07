@@ -120,7 +120,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * The public representation of the user (e.g. a username, an email address, etc.)
+     * The public representation of the user (e.g. a username, an email address, etc.).
      *
      * @see UserInterface
      */

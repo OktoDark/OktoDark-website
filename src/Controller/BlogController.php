@@ -40,7 +40,7 @@ class BlogController extends AbstractController
     /**
      * NOTE: For standard formats, Symfony will also automatically choose the best
      * Content-Type header for the response.
-     * See https://symfony.com/doc/current/quick_tour/the_controller.html#using-formats
+     * See https://symfony.com/doc/current/quick_tour/the_controller.html#using-formats.
      */
     #[
         Route('/', defaults: ['page' => '1', '_format' => 'html'], methods: ['GET'], name: 'blog'),
@@ -69,7 +69,7 @@ class BlogController extends AbstractController
      * NOTE: The $post controller argument is automatically injected by Symfony
      * after performing a database query looking for a Post with the 'slug'
      * value given in the route.
-     * See https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html
+     * See https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html.
      */
     #[Route('/posts/{slug}', methods: ['GET'], name: 'blog_post')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
@@ -86,7 +86,7 @@ class BlogController extends AbstractController
     /**
      * NOTE: The ParamConverter mapping is required because the route parameter
      * (postSlug) doesn't match any of the Doctrine entity properties (slug).
-     * See https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html#doctrine-converter
+     * See https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html#doctrine-converter.
      */
     #[Route('/comment/{postSlug}/new', methods: ['POST'], name: 'comment_new')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
