@@ -21,7 +21,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Careers
 {
     /**
-     * @ORM\GeneratedValue()
+     * @ORM\Id()
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private ?int $id = null;

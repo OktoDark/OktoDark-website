@@ -26,7 +26,7 @@
     "doctrine/orm": "^2.10",
     "easycorp/easyadmin-bundle": "^4.0",
     "erusev/parsedown": "^1.7",
-    "friendsofsymfony/ckeditor-bundle": "2.x-dev",
+    "friendsofsymfony/ckeditor-bundle": "^2.x-dev",
     "paragonie/sodium_compat": "dev-master",
     "patreon/patreon": "dev-master",
     "sensio/framework-extra-bundle": "^6.2",
