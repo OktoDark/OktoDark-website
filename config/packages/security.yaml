@@ -32,10 +32,10 @@ security:
 
             form_login:
                 # The route name that the login form submits to
-                check_path: login
+                check_path: security_login
                 # The name of the route where the login form lives
                 # When the user tries to access a protected page, they are redirected here
-                login_path: login
+                login_path: security_login
                 # Secure the login form against CSRF
                 enable_csrf: true
                 # The page users are redirect to when there is no previous page stored in the
