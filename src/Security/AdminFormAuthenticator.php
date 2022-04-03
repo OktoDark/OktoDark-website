@@ -50,7 +50,7 @@ class AdminFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function supports(Request $request)
     {
-        //return self::LOGIN_ROUTE === $request->attributes->get('_route')
+        // return self::LOGIN_ROUTE === $request->attributes->get('_route')
         //  && $request->isMethod('POST');
         return 'security_login' === $request->attributes->get('_route')
             && $request->isMethod('POST');
@@ -99,9 +99,9 @@ class AdminFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        //if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+        // if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
         //   return new RedirectResponse($targetPath);
-        //}
+        // }
 
         // redirect to some "app_homepage" route - of wherever you want
         return new RedirectResponse($this->urlGenerator->generate('home_index'));

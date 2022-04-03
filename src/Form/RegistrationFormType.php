@@ -65,7 +65,7 @@ class RegistrationFormType extends AbstractType
                 'required' => true,
                 'first_options' => ['label' => 'label.password'],
                 'second_options' => ['label' => 'label.repeatPassword'],
-                //'mapped' => false,
+                // 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
