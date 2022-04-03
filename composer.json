@@ -20,9 +20,9 @@
   "require": {
     "php": ">=8.0.2",
     "ext-iconv": "*",
-    "doctrine/doctrine-bundle": "^2.5",
-    "doctrine/doctrine-migrations-bundle": "^3.1.1",
-    "doctrine/orm": "^2.10",
+    "doctrine/doctrine-bundle": "^2.6",
+    "doctrine/doctrine-migrations-bundle": "^3.2.2",
+    "doctrine/orm": "^2.11",
     "easycorp/easyadmin-bundle": "^4.0",
     "erusev/parsedown": "^1.7",
     "friendsofsymfony/ckeditor-bundle": "^2.4",
@@ -34,14 +34,14 @@
     "symfony/discord-notifier": "^6.0",
     "symfony/dotenv": "^6.0",
     "symfony/expression-language": "^6.0",
-    "symfony/flex": "^2.0",
+    "symfony/flex": "^2.1",
     "symfony/form": "^6.0",
     "symfony/framework-bundle": "^6.0",
     "symfony/intl": "^6.0",
     "symfony/mailer": "^6.0",
     "symfony/monolog-bundle": "^3.7",
     "symfony/notifier": "^6.0",
-    "symfony/polyfill-intl-messageformatter": "^1.12",
+    "symfony/polyfill-intl-messageformatter": "^1.25",
     "symfony/proxy-manager-bridge": "^6.0",
     "symfony/rate-limiter": "^6.0",
     "symfony/runtime": "^6.0",
@@ -51,10 +51,10 @@
     "symfony/translation": "^6.0",
     "symfony/twig-bundle": "^6.0",
     "symfony/validator": "^6.0",
-    "symfony/webpack-encore-bundle": "^1.13",
+    "symfony/webpack-encore-bundle": "^1.14",
     "symfony/yaml": "^6.0",
-    "symfonycasts/reset-password-bundle": "^1.8",
-    "symfonycasts/verify-email-bundle": "^1.0",
+    "symfonycasts/reset-password-bundle": "^1.13",
+    "symfonycasts/verify-email-bundle": "^1.10",
     "tgalopin/html-sanitizer-bundle": "^1.4",
     "twig/intl-extra": "^3.3",
     "twig/twig": "^3.3"
@@ -62,11 +62,11 @@
   "require-dev": {
     "dama/doctrine-test-bundle": "^6.7",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
-    "friendsofphp/php-cs-fixer": "^3.3.2",
+    "friendsofphp/php-cs-fixer": "^3.8.0",
     "symfony/browser-kit": "^6.0",
     "symfony/css-selector": "^6.0",
     "symfony/debug-bundle": "^6.0",
-    "symfony/maker-bundle": "^1.36",
+    "symfony/maker-bundle": "^1.38",
     "symfony/phpunit-bridge": "^6.0",
     "symfony/stopwatch": "^6.0",
     "symfony/web-profiler-bundle": "^6.0"
@@ -98,7 +98,8 @@
   "scripts": {
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+      "assets:install %PUBLIC_DIR%": "symfony-cmd",
+      "ckeditor:install": "symfony-cmd"
     },
     "post-install-cmd": [
       "@auto-scripts"
