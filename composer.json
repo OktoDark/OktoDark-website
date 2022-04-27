@@ -22,8 +22,8 @@
     "ext-iconv": "*",
     "doctrine/doctrine-bundle": "^2.6",
     "doctrine/doctrine-migrations-bundle": "^3.2.2",
-    "doctrine/orm": "^2.11",
-    "easycorp/easyadmin-bundle": "^4.0",
+    "doctrine/orm": "^2.12",
+    "easycorp/easyadmin-bundle": "^4.1",
     "erusev/parsedown": "^1.7",
     "friendsofsymfony/ckeditor-bundle": "^2.4",
     "paragonie/sodium_compat": "dev-master",
@@ -60,13 +60,13 @@
     "twig/twig": "^3.3"
   },
   "require-dev": {
-    "dama/doctrine-test-bundle": "^6.7",
+    "dama/doctrine-test-bundle": "^7.0",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
     "friendsofphp/php-cs-fixer": "^3.8.0",
     "symfony/browser-kit": "^6.0",
     "symfony/css-selector": "^6.0",
     "symfony/debug-bundle": "^6.0",
-    "symfony/maker-bundle": "^1.38",
+    "symfony/maker-bundle": "^1.40",
     "symfony/phpunit-bridge": "^6.0",
     "symfony/stopwatch": "^6.0",
     "symfony/web-profiler-bundle": "^6.0"
