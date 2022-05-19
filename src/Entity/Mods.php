@@ -11,52 +11,40 @@
 
 namespace App\Entity;
 
+use App\Repository\ModsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ModsRepository")
- * @ORM\Table(name="mods")
- */
+#[ORM\Entity(repositoryClass: ModsRepository::class)]
+#[ORM\Table(name: 'mods')]
 class Mods
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 255)]
     private ?string $name = null;
 
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 100)]
     private ?string $slug = null;
 
-    /**
-     * @ORM\Column(type="string", length=5000)
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 5000)]
     private ?string $description = null;
 
     private array $compatible = [];
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=500)
-     */
+    #[ORM\Column(type: 'string')]
+    #[Assert\Length(max: 500)]
     private $download;
 
-    /**
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
-     */
+    #[ORM\JoinTable(name: 'created_at')]
+    #[ORM\Column(type: 'datetime')]
+    #[ORM\JoinColumn(nullable: true)]
     private $createdAt;
 
     public function getId(): ?int

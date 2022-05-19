@@ -11,18 +11,15 @@
 
 namespace App\Entity;
 
+use App\Repository\MembersRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\MembersRepository")
- */
+#[ORM\Entity(repositoryClass: MembersRepository::class)]
 class Members
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
     public function getId()

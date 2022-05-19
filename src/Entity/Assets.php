@@ -11,110 +11,87 @@
 
 namespace App\Entity;
 
+use App\Repository\AssetsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\AssetsRepository")
- * @ORM\Table(name="assets")
- */
+#[ORM\Entity(repositoryClass: AssetsRepository::class)]
+#[ORM\Table(name: 'assets')]
 class Assets implements \Serializable
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    #[
-        Assert\NotBlank,
-        Assert\Length(min: 2, max: 255)
-    ]
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 255)]
     private ?string $name = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private ?string $sku = null;
 
     /**
      * @var array
-     *
-     * @ORM\Column(type="json")
      */
+    #[ORM\Column(type: 'json')]
     private $brand = [];
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    #[
-        Assert\Length(min: 10, max: 10000)
-    ]
+    #[ORM\Column(type: 'text')]
+    #[Assert\Length(min: 10, max: 10000)]
     private ?string $description = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    #[
-        Assert\Length(min: 10, max: 50)
-    ]
+    #[ORM\Column(type: 'string')]
+    #[Assert\Length(min: 10, max: 50)]
     private ?string $website = null;
 
     /**
      * @var array
-     *
-     * @ORM\Column(type="json")
      */
+    #[ORM\Column(type: 'json')]
     private $hairtype = [];
 
     /**
      * @var array
-     * @ORM\Column(type="json")
      */
+    #[ORM\Column(type: 'json')]
     private $clothing = [];
 
     /**
      * @var array
-     * @ORM\Column(type="json")
      */
+    #[ORM\Column(type: 'json')]
     private $misc = [];
 
     /**
      * @var array
-     *
-     * @ORM\Column(type="json")
      */
+    #[ORM\Column(type: 'json')]
     private $requirement = [];
 
     /**
      * @var array
-     *
-     * @ORM\Column(type="json")
      */
+    #[ORM\Column(type: 'json')]
     private $softwarecompatible = [];
 
     /**
      * @var array
-     *
-     * @ORM\Column(type="json")
      */
+    #[ORM\Column(type: 'json')]
     private $figurecompatible = [];
 
     /**
      * @var array
-     *
-     * @ORM\Column(type="json")
      */
+    #[ORM\Column(type: 'json')]
     private $genre = [];
 
     /**
      * @var bool
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $bundle = false;
 
     public function getId(): ?int

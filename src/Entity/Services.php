@@ -11,43 +11,32 @@
 
 namespace App\Entity;
 
+use App\Repository\ServicesRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ServicesRepository")
- * @ORM\Table(name="services")
- */
+#[ORM\Entity(repositoryClass: ServicesRepository::class)]
+#[ORM\Table(name: 'services')]
 class Services
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 100)]
     private ?string $serviceName = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 20)]
     private ?string $servicePrice = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 10)]
     private ?string $serviceWorkDays = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 10000)]
     private ?string $ServiceToDo = null;
 

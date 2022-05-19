@@ -11,43 +11,32 @@
 
 namespace App\Entity;
 
+use App\Repository\SettingsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\SettingsRepository")
- * @ORM\Table(name="settings")
- */
+#[ORM\Entity(repositoryClass: SettingsRepository::class)]
+#[ORM\Table(name: 'settings')]
 class Settings
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 10)]
     private ?string $siteName = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 50)]
     private ?string $jobmail = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 50)]
     private ?string $siteCDN = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 10)]
     private ?string $logoName = null;
 

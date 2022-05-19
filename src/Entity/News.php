@@ -11,43 +11,34 @@
 
 namespace App\Entity;
 
+use App\Repository\NewsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\NewsRepository")
- * @ORM\Table(name="news")
- */
+#[ORM\Entity(repositoryClass: NewsRepository::class)]
+#[ORM\Table(name: 'news')]
 class News
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 100)]
     private ?string $title = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 30)]
     private ?string $author = null;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: 'text')]
     #[Assert\Length(max: 50000)]
     private $content;
 
-    /**
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
-     */
+    #[ORM\JoinTable(name: 'created_at')]
+    #[ORM\Column(type: 'datetime')]
+    #[ORM\JoinColumn(nullable: true)]
     private \DateTime $createdAt;
 
     public function getId()

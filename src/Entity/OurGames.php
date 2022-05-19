@@ -11,94 +11,68 @@
 
 namespace App\Entity;
 
+use App\Repository\OurGamesRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\OurGamesRepository")
- * @ORM\Table(name="our_games")
- *
  * Here will be all for games, downloading links for alpha/beta stages for our members.
  * Needed to be reworked all database for a clean sheets.
  */
+#[ORM\Entity(repositoryClass: OurGamesRepository::class)]
+#[ORM\Table(name: 'our_games')]
 class OurGames
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 100)]
     private ?string $ourGameName = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 100)]
     private ?string $ourGameShortName = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 100)]
     private ?string $ourGameWebsiteLink = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 100)]
     private ?string $ourGameFreeLink = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 10)]
     private ?string $ourGamePlayOnlineID = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 100)]
     private ?string $ourGamePlayOnline = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 500)]
     private ?string $ourGamePlayOnlineText = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 100)]
     private ?string $ourGameAlpha = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 100)]
     private ?string $ourGameBeta = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 100)]
     private ?string $ourGameSourceCode = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 100)]
     private ?string $ourGameURLCDN = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 100)]
     private ?string $ourGameCover = null;
 
