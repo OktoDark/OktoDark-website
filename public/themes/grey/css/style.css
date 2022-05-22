@@ -1717,7 +1717,7 @@ html .list-inline-md > * {
     left: 0;
     top: 0;
     min-width: 25px;
-    font: 400 14px/24px 'Material Design Icons';
+    font-family: "Font Awesome 6 Free";
     color: #0cc5b6;
 }
 
@@ -1746,7 +1746,7 @@ html .list-inline-md > * {
     left: 0;
     top: 0;
     min-width: 25px;
-    font: 400 14px/24px 'Material Design Icons';
+    font-family: "Font Awesome 6 Free";
     color: #0cc5b6;
 }
 */
@@ -2760,7 +2760,7 @@ textarea.form-input {
 .checkbox .checkbox-custom-dummy::after,
 .checkbox-inline .checkbox-custom-dummy::after {
     content: '\f222';
-    font-family: "Material Design Icons";
+    font-family: "Font Awesome 6 Free";
     position: absolute;
     top: -1px;
     left: -2px;
@@ -5539,7 +5539,7 @@ html.tablet .ui-to-top {
     position: relative;
     display: inline-block;
     transition: .22s;
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 6 Free";
     font-weight: 900;
     content: "\f078";
 }
@@ -5657,7 +5657,7 @@ html.tablet .ui-to-top {
     color: #b3b0b0;
     opacity: 0;
     visibility: hidden;
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 6 Free";
     font-weight: 900;
     content: "\f105";
 }
@@ -5791,7 +5791,7 @@ html.tablet .ui-to-top {
 
 .rd-navbar-static .rd-navbar-search-toggle span::before {
     content: "\f002";
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 6 Free";
     font-style: normal;
     font-weight: 900;
     transform: rotate(0deg) scale(1);
@@ -5801,7 +5801,7 @@ html.tablet .ui-to-top {
 
 .rd-navbar-static .rd-navbar-search-toggle span::after {
     content: "\f002";
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 6 Free";
     font-style: normal;
     font-weight: 900;
     transform: rotate(-90deg) scale(0.4);
@@ -6047,13 +6047,14 @@ html.tablet .ui-to-top {
 }
 
 .rd-navbar-fixed .rd-navbar-submenu-toggle::after {
-    content: '\F0062';
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    content: '\f078';
     position: absolute;
     top: 0;
     right: 0;
     width: 56px;
     height: 52px;
-    font: 400 14px "Material Design Icons";
     line-height: 52px;
     text-align: center;
     transition: 0.4s all ease;
@@ -6177,7 +6178,7 @@ html.tablet .ui-to-top {
     transform: rotate(0deg) scale(1);
     opacity: 1;
     visibility: visible;
-    font-family: "Material Design Icons";
+    font-family: "Font Awesome 6 Free";
 }
 
 .rd-navbar-fixed .rd-navbar-search-toggle span::after {
@@ -6185,7 +6186,7 @@ html.tablet .ui-to-top {
     transform: rotate(-90deg) scale(0.4);
     opacity: 0;
     visibility: hidden;
-    font-family: "Material Design Icons";
+    font-family: "Font Awesome 6 Free";
 }
 
 .rd-navbar-fixed .rd-navbar-search-toggle.active span::before {
@@ -8851,7 +8852,7 @@ html.rd-navbar-fixed-linked .page {
 }
 
 .card-corporate .card-arrow::after {
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 6 Free";
     font-weight: 900;
     content: '\f3be';
     position: absolute;
@@ -12640,7 +12641,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	font-family: 'Material Design Icons';
+    font-family: "Font Awesome 6 Free";
 	font-size: 16px;
 	transition: .33s;
 }
