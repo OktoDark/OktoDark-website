@@ -42,11 +42,9 @@ class BlogController extends AbstractController
      * Content-Type header for the response.
      * See https://symfony.com/doc/current/quick_tour/the_controller.html#using-formats.
      */
-    #[
-        Route('/', defaults: ['page' => '1', '_format' => 'html'], methods: ['GET'], name: 'blog'),
-        Route('/rss.xml', defaults: ['page' => '1', '_format' => 'xml'], methods: ['GET'], name: 'blog_rss'),
-        Route('/page/{page<[1-9]\d*>}', defaults: ['_format' => 'html'], methods: ['GET'], name: 'blog_index_paginated'),
-    ]
+    #[Route('/', defaults: ['page' => '1', '_format' => 'html'], methods: ['GET'], name: 'blog')]
+    #[Route('/rss.xml', defaults: ['page' => '1', '_format' => 'xml'], methods: ['GET'], name: 'blog_rss')]
+    #[Route('/page/{page<[1-9]\d*>}', defaults: ['_format' => 'html'], methods: ['GET'], name: 'blog_index_paginated')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Cache(smaxage: 10)]
     public function index(Request $request, int $page, string $_format, PostRepository $posts, TagRepository $tags, SettingsRepository $settings): Response
@@ -61,7 +59,7 @@ class BlogController extends AbstractController
         return $this->render('@theme/blog/index.'.$_format.'.twig', [
             'settings' => $selectSettings,
             'paginator' => $latestPosts,
-            'tagName' => $tag ? $tag->getName() : null,
+            'tagName' => $tag?->getName(),
         ]);
     }
 

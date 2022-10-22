@@ -14,7 +14,6 @@ namespace App\Twig;
 use App\Utils\Markdown;
 use Symfony\Component\Intl\Locales;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 /**
@@ -42,19 +41,6 @@ class AppExtension extends AbstractExtension
         $this->localeCodes = $localeCodes;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilters(): array
-    {
-        return [
-            new TwigFilter('md2html', [$this, 'markdownToHtml'], ['is_safe' => ['html']]),
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFunctions(): array
     {
         return [

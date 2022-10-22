@@ -11,7 +11,7 @@
 
 namespace App\Utils;
 
-use HtmlSanitizer\SanitizerInterface;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface;
 
 /**
  * This class is a light interface between an external Markdown parser library
@@ -26,7 +26,7 @@ class Markdown
     private $parser;
     private $sanitizer;
 
-    public function __construct(SanitizerInterface $sanitizer)
+    public function __construct(HtmlSanitizerInterface $sanitizer)
     {
         $this->parser = new \Parsedown();
         $this->sanitizer = $sanitizer;

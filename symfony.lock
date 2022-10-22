@@ -173,9 +173,6 @@
     "patreon/patreon": {
         "version": "dev-master"
     },
-    "php-cs-fixer/diff": {
-        "version": "v2.0.2"
-    },
     "psr/cache": {
         "version": "3.0.0"
     },
