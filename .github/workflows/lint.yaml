@@ -1,6 +1,10 @@
 name: "Lint"
 
-on: [push, pull_request]
+on:
+    pull_request:
+    push:
+        branches:
+            - master
 
 env:
     fail-fast: true
@@ -23,7 +27,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-version: ['8.0']
+                php-version: ['8.1']
 
         steps:
             - name: "Checkout code"
