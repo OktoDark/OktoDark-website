@@ -53,7 +53,6 @@ jobs:
                   restore-keys: ${{ runner.os }}-${{ matrix.php-version }}-composer-
 
             - name: "Composer install"
-              id: install
               run: composer install --no-interaction --no-progress
 
             - name: Lint YAML files
@@ -86,4 +85,4 @@ jobs:
 
             - name: Check if any dependencies are compromised
               if: always() && steps.install.outcome == 'success'
-              run: /home/runner/.symfony/bin/symfony check:security
+              run: composer audit
