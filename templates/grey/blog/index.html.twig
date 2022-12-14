@@ -36,7 +36,7 @@
                                 </ul>
                             </div>
                             <h5 class="post-title"><a href="{{ path('blog_post', {slug: post.slug}) }}">{{ post.title }}</a></h5>
-                            <p>{{ post.summary|md2html }}</p><a class="button button-gradient" href="{{ path('blog_post', {slug: post.slug}) }}">Read More</a>
+                            <p>{{ post.summary }}</p><a class="button button-gradient" href="{{ path('blog_post', {slug: post.slug}) }}">Read More</a>
                         </div>
                     </div>
                     {% else %}

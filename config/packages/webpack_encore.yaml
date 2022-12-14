@@ -38,8 +38,12 @@ webpack_encore:
         mainConfig: '%kernel.project_dir%/public/templates/grey'
         mobilConfig: '%kernel.project_dir%/public/templates/grey'
 
-when@prod:
-    #webpack_encore:
-    # Cache the entrypoints.json (rebuild Symfony's cache when entrypoints.json changes)
-    # Available in version 1.2
-    #cache: true
+#when@prod:
+#    webpack_encore:
+#        # Cache the entrypoints.json (rebuild Symfony's cache when entrypoints.json changes)
+#        # Available in version 1.2
+#        cache: true
+
+#when@test:
+#    webpack_encore:
+#        strict_mode: false

@@ -125,7 +125,7 @@
                                     <li><span class="icon-news-time far fa-clock"></span> {{ n.createdAt|format_datetime('medium', 'short', '', 'UTC') }}</li>
                                 </ul>
                             </div>
-                            {{ n.content|md2html }}
+                            {{ n.content|sanitize_html }}
                         </div>
                     </div>
                     {% endfor %}

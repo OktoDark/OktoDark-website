@@ -63,7 +63,7 @@ class MemberController extends AbstractController
 
         return $this->render('@theme/member/profile.html.twig', [
             'user' => $user,
-            'form' => $form->createView(),
+            'form' => $form,
             'settings' => $selectSettings,
         ]);
     }
@@ -120,7 +120,7 @@ class MemberController extends AbstractController
 
         return $this->render('member/edit.html.twig', [
             'user' => $user,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
@@ -142,7 +142,7 @@ class MemberController extends AbstractController
         }
 
         return $this->render('member/change_password.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 }

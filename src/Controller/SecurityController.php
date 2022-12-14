@@ -42,17 +42,14 @@ class SecurityController extends AbstractController
     #[Route('/login', name: 'security_login')]
     public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, SettingsRepository $settings): Response
     {
-        if ($security->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute('home_index');
-        }
-
-        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('admin'));
-
         $selectSettings = $settings->findAll();
 
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+
         return $this->render('@theme/login.html.twig', [
-            'last_username' => $authenticationUtils->getLastUsername(),
-            'error' => $authenticationUtils->getLastAuthenticationError(),
+            'last_username' => $lastUsername,
+            'error' => $error,
             'settings' => $selectSettings,
         ]);
     }

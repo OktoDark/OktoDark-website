@@ -63,7 +63,7 @@ class InfoController extends AbstractController
 
         return $this->render('@theme/info/contact.html.twig', [
             'settings' => $selectSettings,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 

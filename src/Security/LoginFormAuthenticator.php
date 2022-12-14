@@ -53,8 +53,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): ?bool
     {
-        return self::LOGIN_ROUTE === $request->attributes->get('_route')
-            && $request->isMethod('POST');
+        return $request->isMethod('POST');
     }
 
     public function authenticate(Request $request): Passport
@@ -65,10 +64,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
           'csrf_token' => $request->request->get('_csrf_token'),
         ];
 
-        $request->getSession()->set(
-            Security::LAST_USERNAME,
-            $credentials['email']
-        );
+        $request->getSession()->set(Security::LAST_USERNAME, $credentials['email']);
 
         return new Passport(
             new UserBadge($credentials['email']),

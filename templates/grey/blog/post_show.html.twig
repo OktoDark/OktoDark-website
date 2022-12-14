@@ -24,7 +24,7 @@
                                 </li>
                             </ul>
                         </div>
-                        {{ post.content|md2html }}
+                        {{ post.content|markdown_to_html|sanitize_html }}
                         <div class="share-block">
                             <h5>Share This Post: </h5>
                             <ul class="list-inline">
@@ -57,7 +57,7 @@
                                     </div>
                                 </div>
                                 <div class="comment-text">
-                                    {{ comment.content|md2html }}
+                                    {{ comment.content|markdown_to_html|sanitize_html }}
                                 </div>
                             </div>
                         </div>

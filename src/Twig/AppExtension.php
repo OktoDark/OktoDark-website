@@ -11,15 +11,11 @@
 
 namespace App\Twig;
 
-use App\Utils\Markdown;
 use Symfony\Component\Intl\Locales;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
- * This Twig extension adds a new 'md2html' filter to easily transform Markdown
- * contents into HTML contents inside Twig templates.
- *
  * See https://symfony.com/doc/current/templating/twig_extension.html
  *
  * @author Ryan Weaver <weaverryan@gmail.com>
@@ -28,14 +24,11 @@ use Twig\TwigFunction;
  */
 class AppExtension extends AbstractExtension
 {
-    private $parser;
     private array $localeCodes;
     private ?array $locales = null;
 
-    public function __construct(Markdown $parser, string $locales)
+    public function __construct(string $locales)
     {
-        $this->parser = $parser;
-
         $localeCodes = explode('|', $locales);
         sort($localeCodes);
         $this->localeCodes = $localeCodes;
@@ -46,14 +39,6 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFunction('locales', [$this, 'getLocales']),
         ];
-    }
-
-    /**
-     * Transforms the given Markdown content into HTML content.
-     */
-    public function markdownToHtml(string $content): string
-    {
-        return $this->parser->toHtml($content);
     }
 
     /**
