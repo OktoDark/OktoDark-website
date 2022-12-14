@@ -66,7 +66,6 @@ class UserController extends AbstractController
         EntityManagerInterface $entityManager,
         LogoutUrlGenerator $logoutUrlGenerator,
     ): Response {
-
         $selectSettings = $settings->findAll();
 
         $form = $this->createForm(ChangePasswordType::class, $user);
