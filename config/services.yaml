@@ -41,14 +41,6 @@ services:
     # needed to activate the filters provided by Twig Intl Extension
     Twig\Extra\Intl\IntlExtension: null
 
-    maintenance_listener:
-        class: App\EventListener\MaintenanceListener
-        arguments:
-            - "%isLocked%"
-            - "@twig"
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-
     Symfony\Component\Security\Http\Logout\LogoutUrlGenerator: '@security.logout_url_generator'
 
 when@test:
