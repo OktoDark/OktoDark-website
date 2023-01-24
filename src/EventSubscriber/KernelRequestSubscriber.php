@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) OktoDark Studios
  * Website: https://www.oktodark.com
@@ -7,8 +10,6 @@
  *
  * For the full copyright and license information, please view the LICENSE.
  */
-
-declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
@@ -42,7 +43,7 @@ class KernelRequestSubscriber implements EventSubscriberInterface
     public function onMaintenance(RequestEvent $event): void
     {
         /** @var bool $isMaintenance */
-        $isMaintenance = \filter_var($_ENV['MAINTENANCE_MODE'] ?? '0', \FILTER_VALIDATE_BOOLEAN);
+        $isMaintenance = filter_var($_ENV['MAINTENANCE_MODE'] ?? '0', \FILTER_VALIDATE_BOOLEAN);
         $isCli = \PHP_SAPI === 'cli';
 
         if ($isMaintenance && !$isCli) {
