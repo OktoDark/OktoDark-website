@@ -25,7 +25,7 @@
                     <div class="icon-box">
                         <div class="icon-box-text">
                             <p>
-                                <a href="#thesims4"><img src="../images/thesims4_img.png" /></a>
+                                <a href="#thesims4"><img src="../images/thesims4_img.png" alt="The Sims 4"></a>
                                 Mods and custom content for The Sims 4
                             </p>
                         </div>
@@ -58,20 +58,20 @@
     <!-- Post Minimal-->
     <section class="section bg-default section-xl" id="thesims4">
         <div class="container">
-            <img src="../images/thesims4_img.png" width="150px" height="70px" />
+            <img src="../images/thesims4_img.png" alt="The Sims 4" width="150px" height="70px">
             <div class="row row-50">
                 <!-- Items -->
                 {% for m in mods %}
                 <div class="col-md-6 col-lg-4">
                     <div class="post-minimal">
-                        <figure class="post-img"><a href="#"><img src="images/home-1-420x245.jpg" alt="" width="420" height="245"/></a></figure>
+                        <figure class="post-img"><a href="#"><img src="images/home-1-420x245.jpg" alt="item image" width="420" height="245"></a></figure>
                         <div class="post-body">
                             <h4 class="post-title"><a href="#">{{ m.name }}</a></h4>
                             <div class="post-text">
                                 <p><i class="fas fa-info"></i> {{ m.description }}</p>
                                 <p>
                                     <i class="fas fa-theater-masks"></i>
-                                    <img src="../images/{{ m.slug }}/{{ m.compatible}}.png" width="35px" height="35px" />
+                                    <img src="../images/{{ m.slug }}/{{ m.compatible}}.png" alt="compatible" width="35px" height="35px">
                                 </p>
                             </div><a class="button button-gradient" href="{{ m.download }}"><i class="fas fa-download"></i> Download</a>
                         </div>
