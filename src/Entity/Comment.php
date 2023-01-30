@@ -12,10 +12,9 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use function Symfony\Component\String\u;
-
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Defines the properties of the Comment entity to represent the blog comments.
