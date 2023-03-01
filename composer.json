@@ -25,7 +25,7 @@
     "doctrine/doctrine-bundle": "^2.9.x-dev",
     "doctrine/doctrine-migrations-bundle": "^3.2.2",
     "doctrine/orm": "^2.14",
-    "easycorp/easyadmin-bundle": "^4.5",
+    "easycorp/easyadmin-bundle": "^4.6",
     "erusev/parsedown": "^1.7",
     "friendsofsymfony/ckeditor-bundle": "^2.4",
     "paragonie/sodium_compat": "dev-master",
