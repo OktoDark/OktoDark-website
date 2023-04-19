@@ -22,7 +22,7 @@
   "require": {
     "php": ">=8.2",
     "ext-iconv": "*",
-    "doctrine/doctrine-bundle": "^2.9.x-dev",
+    "doctrine/doctrine-bundle": "^2.10.x-dev",
     "doctrine/doctrine-migrations-bundle": "^3.2.2",
     "doctrine/orm": "^2.14",
     "easycorp/easyadmin-bundle": "^4.6",
@@ -63,7 +63,7 @@
   "require-dev": {
     "dama/doctrine-test-bundle": "^7.2",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
-    "friendsofphp/php-cs-fixer": "^3.14",
+    "friendsofphp/php-cs-fixer": "^3.16",
     "symfony/browser-kit": "^6.2",
     "symfony/css-selector": "^6.2",
     "symfony/debug-bundle": "^6.2",
