@@ -14,7 +14,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class RedirectController extends AbstractController
+final class RedirectController extends AbstractController
 {
     #[Route('/forum', methods: ['GET'], name: 'forum')]
     public function forum()

@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SupportusController extends AbstractController
+final class SupportusController extends AbstractController
 {
     #[Route('/bepatron', methods: ['GET'], name: 'bepatron')]
     public function bepatron(SettingsRepository $settings): Response

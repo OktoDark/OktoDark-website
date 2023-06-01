@@ -28,7 +28,7 @@ use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
  * Controller used to manage current user.
  */
 #[Route('/profile'), IsGranted('IS_AUTHENTICATED_FULLY')]
-class UserController extends AbstractController
+final class UserController extends AbstractController
 {
     #[Route('/edit', methods: ['GET', 'POST'], name: 'user_edit')]
     public function edit(

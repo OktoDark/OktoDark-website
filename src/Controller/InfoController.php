@@ -22,7 +22,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
-class InfoController extends AbstractController
+final class InfoController extends AbstractController
 {
     #[Route('/about', methods: ['GET'], name: 'about')]
     public function about(SettingsRepository $settings, TeamRepository $team): Response

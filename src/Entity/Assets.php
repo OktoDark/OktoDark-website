@@ -12,6 +12,7 @@
 namespace App\Entity;
 
 use App\Repository\AssetsRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -21,15 +22,15 @@ class Assets implements \Serializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?string $sku = null;
 
     /**
@@ -42,7 +43,7 @@ class Assets implements \Serializable
     #[Assert\Length(min: 10, max: 10000)]
     private ?string $description = null;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\Length(min: 10, max: 50)]
     private ?string $website = null;
 
@@ -277,18 +278,12 @@ class Assets implements \Serializable
         $this->bundle = $bundle;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function serialize(): string
     {
         // add $this->salt too if you don't use Bcrypt or Argon2i
         return serialize([$this->id, $this->username, $this->password]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function unserialize($serialized): void
     {
         // add $this->salt too if you don't use Bcrypt or Argon2i

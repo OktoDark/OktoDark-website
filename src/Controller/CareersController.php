@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CareersController extends AbstractController
+final class CareersController extends AbstractController
 {
     #[Route('/careers', methods: ['GET'], name: 'careers')]
     public function careers(SettingsRepository $settings, CareersRepository $careers): Response

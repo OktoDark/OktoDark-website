@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class AssetsController.
  */
 #[IsGranted('ROLE_ADMIN')]
-class AssetsController extends AbstractController
+final class AssetsController extends AbstractController
 {
     #[Route('/assets', methods: ['GET'], name: 'assets_index')]
     public function home(SettingsRepository $settings, AssetsRepository $assets): Response

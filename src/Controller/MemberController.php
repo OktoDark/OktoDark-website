@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 #[Route('/member')]
-class MemberController extends AbstractController
+final class MemberController extends AbstractController
 {
     #[Route('/', methods: ['GET'], name: 'member_area')]
     #[Cache(smaxage: 10)]

@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class HomeController.
  */
 #[Route('/')]
-class HomeController extends AbstractController
+final class HomeController extends AbstractController
 {
     #[Route('/', methods: ['GET'], name: 'home_index')]
     #[Route('/home', methods: ['GET'], name: 'home')]

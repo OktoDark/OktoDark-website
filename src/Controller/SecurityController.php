@@ -23,12 +23,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
-class SecurityController extends AbstractController
+final class SecurityController extends AbstractController
 {
     use TargetPathTrait;
 
@@ -40,7 +39,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/login', name: 'security_login')]
-    public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, SettingsRepository $settings): Response
+    public function login(AuthenticationUtils $authenticationUtils, SettingsRepository $settings): Response
     {
         $selectSettings = $settings->findAll();
 
@@ -61,7 +60,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(SettingsRepository $settings, Request $request, UserPasswordHasherInterface $passwordEncoder, LoginFormAuthenticator $formAuthenticator): Response
+    public function register(SettingsRepository $settings, Request $request, UserPasswordHasherInterface $userPasswordHasher, LoginFormAuthenticator $formAuthenticator): Response
     {
         $selectSettings = $settings->findAll();
 
@@ -71,7 +70,7 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
-                $passwordEncoder->encodePassword(
+                $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('password')->getData()
                 )
@@ -98,7 +97,7 @@ class SecurityController extends AbstractController
 
         return $this->render('@theme/member/register.html.twig', [
             'settings' => $selectSettings,
-            'registrationForm' => $form->createView(),
+            'registrationForm' => $form,
         ]);
     }
 

@@ -12,6 +12,7 @@
 namespace App\Entity;
 
 use App\Repository\ModsRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -21,29 +22,29 @@ class Mods
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\Length(max: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\Length(max: 100)]
     private ?string $slug = null;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\Length(max: 5000)]
     private ?string $description = null;
 
     private array $compatible = [];
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\Length(max: 500)]
     private $download;
 
     #[ORM\JoinTable(name: 'created_at')]
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[ORM\JoinColumn(nullable: true)]
     private $createdAt;
 

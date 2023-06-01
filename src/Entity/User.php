@@ -12,8 +12,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -22,62 +22,52 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: 'user')]
+#[ORM\Table(name: 'users')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    final public const ROLE_USER = 'ROLE_USER';
+    final public const ROLE_ADMIN = 'ROLE_ADMIN';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\Length(max: 255)]
     #[Assert\NotBlank]
     private ?string $firstName = null;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     #[Assert\Length(max: 255)]
     #[Assert\NotBlank]
     private ?string $lastName = null;
 
-    #[ORM\Column(type: 'string', unique: true)]
+    #[ORM\Column(type: Types::STRING, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
     private ?string $username = null;
 
-    #[ORM\Column(type: 'string', unique: true)]
+    #[ORM\Column(type: Types::STRING, unique: true)]
     #[Assert\Email]
     private ?string $email = null;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private ?string $password = null;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="active", type="boolean")
-     */
+    #[ORM\Column(type: Types::BOOLEAN)]
     private $active;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: Types::JSON)]
     private array $roles = [];
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private $agreedTerms;
 
     /**
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
-
-    /**
-     * @ORM\Column(type="string", unique=true, nullable=true)
-     */
-    private $apiToken;
 
     public function getId(): ?int
     {
@@ -172,7 +162,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
 
         // guarantees that a user always has at least one role for security
-        $roles[] = 'ROLE_USER';
+        if (empty($roles)) {
+            $roles[] = self::ROLE_USER;
+        }
 
         return array_unique($roles);
     }
@@ -207,22 +199,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return mixed
-     */
-    public function getApiToken()
-    {
-        return $this->apiToken;
-    }
-
-    /**
-     * @param mixed $apiToken
-     */
-    public function setApiToken($apiToken): void
-    {
-        $this->apiToken = $apiToken;
-    }
-
-    /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
@@ -235,8 +211,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Removes sensitive data from the user.
-     *
-     * {@inheritdoc}
      */
     public function eraseCredentials(): void
     {

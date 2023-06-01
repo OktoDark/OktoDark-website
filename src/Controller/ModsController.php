@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ModsController extends AbstractController
+final class ModsController extends AbstractController
 {
     #[Route('/mods', methods: ['GET'], name: 'mods')]
     public function mods(SettingsRepository $settings, ModsRepository $mods): Response
