@@ -23,7 +23,7 @@ class Team
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
-    private $id = null;
+    private $id;
 
     #[ORM\Column(type: Types::STRING)]
     #[Assert\Length(max: 10)]
