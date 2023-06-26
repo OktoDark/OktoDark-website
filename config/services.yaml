@@ -1,5 +1,5 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     locale: 'en'
     # This parameter defines the codes of the locales (languages) enabled in the application
@@ -33,8 +33,8 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # when the service definition only contains arguments, you can omit the
-    # 'arguments' key and define the arguments just below the service class
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
     App\EventSubscriber\CommentNotificationSubscriber:
         $sender: '%app.notifications.email_sender%'
 
@@ -42,9 +42,3 @@ services:
     Twig\Extra\Intl\IntlExtension: null
 
     Symfony\Component\Security\Http\Logout\LogoutUrlGenerator: '@security.logout_url_generator'
-
-when@test:
-    services:
-        test.user_password_hasher:
-            alias: 'security.user_password_hasher'
-            public: true

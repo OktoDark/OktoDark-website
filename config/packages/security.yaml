@@ -17,14 +17,13 @@ security:
         # To see the users at src/App/DataFixtures/ORM/LoadFixtures.php
         # To load users from somewhere else: https://symfony.com/doc/current/security/user_providers.html#using-a-custom-query-to-load-the-user
         database_users:
-            entity:
-                class: App\Entity\User
-                property: email
+            entity: { class: App\Entity\User, property: email }
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
         main:
             # this firewall does not have a 'pattern' option because it applies to all URLs
             lazy: true
@@ -48,6 +47,8 @@ security:
                 path: logout
                 # The name of the route to redirect to after logging out
                 target: index
+                # Secure the logout against CSRF
+                enable_csrf: true
 
             login_throttling:
                 max_attempts: 3
@@ -68,7 +69,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: '^/{%app_locales%}/login$', roles: PUBLIC_ACCESS }
+        - { path: '^/(%app_locales%)/login', roles: PUBLIC_ACCESS }
         - { path: '^/(%app_locales%)/admin', roles: ROLE_ADMIN }
         - { path: '^/admin', roles: ROLE_ADMIN }
 

@@ -1,10 +1,9 @@
 twig:
-    # auto_reload:      ~
+    # auto_reload: ~
 
-    # Templates
     paths:
-        # uncomment if you use or comment if not use
-        # default
+        # Templates
+        # uncomment if you use or comment if not use 'default'
         # '%kernel.project_dir%/templates/default': 'theme'
         # grey
         '%kernel.project_dir%/templates/grey': 'theme'
