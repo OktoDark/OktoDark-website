@@ -10,7 +10,7 @@
                             </a>
                             <ul class="dropdown-menu locales" role="menu" aria-labelledby="locales">
                                 {% for locale in locales() %}
-                                    <li {% if app.request.locale == locale.code %}aria-checked="true" class="active" {% else %}aria-checked="false"{% endif %} role="menuitem"><a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }} <small>{{ locale.code[0:2] }}</small></a></li>
+                                    <li {% if app.request.locale == locale.code %}aria-checked="true" class="active" {% else %}aria-checked="false"{% endif %} role="menuitem"><a href="{{ path(app.request.get('_route', 'home'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -23,14 +23,14 @@
                         <div class="col-lg-4">
                             <p class="rights">
                                 <span>
-                                    <a href="https://www.twitter.com/OktoDark"><i class="fab fa-twitter-square fa-2x"></i></a>
-                                    <a href="https://www.youtube.com/@OktoDark"><i class="fab fa-youtube-square fa-2x"></i></a>
-                                    <a href="https://discord.gg/UmfZPvF"><i class="fab fa-discord fa-2x"></i></a>
-                                    <a href="https://www.twitch.com/OktoDark"><i class="fab fa-twitch fa-2x"></i></a>
-                                    <a href="https://www.patreon.com/OktoDark"><i class="fab fa-patreon fa-2x"></i></a>
-                                    <a href="https://www.bitbucket.com/OktoDark"><i class="fab fa-bitbucket fa-2x"></i></a>
-                                    <a href="https://gitlab.com/oktodark-studios"><i class="fab fa-gitlab fa-2x"></i></a>
-                                    <a href="https://www.github.com/OktoDark"><i class="fab fa-github fa-2x"></i></a>
+                                    <a href="https://www.twitter.com/OktoDark"><i class="fa-brands fa-x-twitter fa-xl"></i></a>
+                                    <a href="https://www.youtube.com/@OktoDark"><i class="fab fa-youtube-square fa-xl"></i></a>
+                                    <a href="https://discord.gg/UmfZPvF"><i class="fab fa-discord fa-xl"></i></a>
+                                    <a href="https://www.twitch.com/OktoDark"><i class="fab fa-twitch fa-xl"></i></a>
+                                    <a href="https://www.patreon.com/OktoDark"><i class="fab fa-patreon fa-xl"></i></a>
+                                    <a href="https://www.bitbucket.com/OktoDark"><i class="fab fa-bitbucket fa-xl"></i></a>
+                                    <a href="https://gitlab.com/oktodark-studios"><i class="fab fa-gitlab fa-xl"></i></a>
+                                    <a href="https://www.github.com/OktoDark"><i class="fab fa-github fa-xl"></i></a>
                                 </span>
                                 <br>
                                 <span>&copy;</span>
