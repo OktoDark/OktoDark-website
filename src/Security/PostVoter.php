@@ -23,6 +23,7 @@ class PostVoter extends Voter
     public const DELETE = 'delete';
     public const EDIT = 'edit';
     public const SHOW = 'show';
+
     protected function supports(string $attribute, $subject): bool
     {
         // this voter is only executed for three specific permissions on Post objects
