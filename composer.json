@@ -27,7 +27,6 @@
     "doctrine/orm": "^2.16",
     "easycorp/easyadmin-bundle": "^4.7",
     "erusev/parsedown": "^1.7",
-    "friendsofsymfony/ckeditor-bundle": "^2.4",
     "paragonie/sodium_compat": "dev-master",
     "patreon/patreon": "dev-master",
     "symfony/asset": "^6.3",
@@ -98,8 +97,7 @@
   "scripts": {
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd",
-      "ckeditor:install": "symfony-cmd"
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
     },
     "post-install-cmd": [
       "@auto-scripts"
