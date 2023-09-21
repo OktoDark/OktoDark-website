@@ -23,7 +23,7 @@
                     {% for post in paginator.results %}
                     <div class="post-creative">
                         <div class="author-block">
-                            <figure class="author-img"><img src="#" alt="{{ post.author.fullName }}" width="114" height="114"/></figure>
+                            <figure class="author-img"><img src="#" alt="{{ post.author.fullName }}" width="114" height="114"></figure>
                             <h4>{{ post.author.fullName }}</h4>
                             <h6>Blogger</h6>
                             <div class="divider"></div>
@@ -47,27 +47,27 @@
                     <div class="row">
                         <div class="col-12">
                             <ul class="pagination">
-                                    <ul class="pagination">
-                                        {% if paginator.hasPreviousPage %}
-                                            <li class="page-item page-item-control prev"><a class="page-link" href="{{ path('blog_index_paginated', {page: paginator.previousPage, tag: tagName}) }}" aria-label="Previous" rel="previous"><span class="fas fa-chevron-left"></span></a></li>
-                                        {% else %}
-                                            <li class="page-item page-item-control prev disabled"><span><i class="fas fa-chevron-left"></i> Previous</span></li>
-                                        {% endif %}
+                                <ul class="pagination">
+                                    {% if paginator.hasPreviousPage %}
+                                        <li class="page-item page-item-control prev"><a class="page-link" href="{{ path('blog_index_paginated', {page: paginator.previousPage, tag: tagName}) }}" aria-label="Previous" rel="previous"><span class="fas fa-chevron-left"></span></a></li>
+                                    {% else %}
+                                        <li class="page-item page-item-control prev disabled"><span><i class="fas fa-chevron-left"></i> Previous</span></li>
+                                    {% endif %}
 
-                                        {% for i in 1..paginator.lastPage %}
-                                            {% if i == paginator.currentPage %}
-                                                <li class="page-item active"><a class="page-link"><span>{{ i }}</span></a></li>
-                                            {% else %}
-                                                <li class="page-item"><a class="page-link" href="{{ path('blog_index_paginated', {page: i, tag: tagName}) }}">{{ i }}</a></li>
-                                            {% endif %}
-                                        {% endfor %}
-
-                                        {% if paginator.hasNextPage %}
-                                            <li class="page-item page-item-control next"><a class="page-link" href="{{ path('blog_index_paginated', {page: paginator.nextPage, tag: tagName}) }}" aria-label="Next"><span class="fas fa-chevron-right"></span></a></li>
+                                    {% for i in 1..paginator.lastPage %}
+                                        {% if i == paginator.currentPage %}
+                                            <li class="page-item active"><a class="page-link"><span>{{ i }}</span></a></li>
                                         {% else %}
-                                            <li class="page-item page-item-control next disabled"><span class="fas fa-chevron-right"></span></li>
+                                            <li class="page-item"><a class="page-link" href="{{ path('blog_index_paginated', {page: i, tag: tagName}) }}">{{ i }}</a></li>
                                         {% endif %}
-                                    </ul>
+                                    {% endfor %}
+
+                                    {% if paginator.hasNextPage %}
+                                        <li class="page-item page-item-control next"><a class="page-link" href="{{ path('blog_index_paginated', {page: paginator.nextPage, tag: tagName}) }}" aria-label="Next"><span class="fas fa-chevron-right"></span></a></li>
+                                    {% else %}
+                                        <li class="page-item page-item-control next disabled"><span class="fas fa-chevron-right"></span></li>
+                                    {% endif %}
+                                </ul>
                             </ul>
                         </div>
                     </div>
@@ -85,10 +85,8 @@
                                         <button class="icon mdi mdi-magnify" type="submit"></button>
                                     </div>
                                 </div>
-                                </div>
                             </div>
                         </aside>
-
                     </div>
                 {% endblock %}
             </div>

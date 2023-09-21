@@ -51,7 +51,6 @@
             </div>
             <div class="swiper-pagination"></div>
         </section>
-
         <section class="section section-lg bg-gray-100">
             <div class="container">
                 <div class="row row-50 row-bordered">
@@ -98,7 +97,6 @@
                 </div>
             </div>
         </section>
-
         <section class="section bg-default">
             <div class="row flex-lg-row-reverse align-items-lg-center no-gutters">
                 <div class="col-lg-6">
@@ -106,8 +104,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- News Section-->
         <section class="section section-lg bg-default">
             <div class="container">
                 <div class="section-title text-center">
@@ -132,22 +128,18 @@
                 </div>
             </div>
         </section>
-        <!-- End News Section -->
-
-        <!-- Our Clients -->
         <section class="section section-xl bg-gray-100 text-center">
             <div class="container">
                 <h3>{{ 'title.our_clients'|trans }}</h3>
                 <div class="row row-50">
                     <div class="col-12" style="align-content: center">
                         <div class="owl-carousel carousel-dots-minimal carousel-bordered-item" data-items="1" data-sm-items="2" data-md-items="3" data-xl-items="6" data-dots="true" data-nav="false" data-stage-padding="15" data-loop="false" data-margin="0" data-mouse-drag="false">
-                            <div class="partner-item"><a href="https://www.l2heaven.net"><img src="../images/clients/l2heaven.png" alt="L2Heaven" width="120" height="80" data-toggle="tooltip" data-placement="top" title="L2Heaven"></a></div>
-                            <div class="partner-item"><a href="https://www.hartafaptelorbune.ro"><img src="../images/clients/hartafaptelorbune.png" alt="Harta Faptelor Bune" width="120" height="80" data-toggle="tooltip" data-placement="top" title="Harta Faptelor Bune"></a></div>
+                            <div class="partner-item"><a href="https://www.l2heaven.net"><img src="{% for s in settings %}{{ s.siteCDN }}{% endfor %}/images/clients/l2heaven.png" alt="L2Heaven" width="120" height="80" data-toggle="tooltip" data-placement="top" title="L2Heaven"></a></div>
+                            <div class="partner-item"><a href="https://www.hartafaptelorbune.ro"><img src="{% for s in settings %}{{ s.siteCDN }}{% endfor %}/images/clients/hartafaptelorbune.png" alt="Harta Faptelor Bune" width="120" height="80" data-toggle="tooltip" data-placement="top" title="Harta Faptelor Bune"></a></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- End Our Clients -->
 
 {% endblock %}

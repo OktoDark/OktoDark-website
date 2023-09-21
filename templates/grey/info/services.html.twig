@@ -10,39 +10,35 @@
 
 {% block main %}
 
-        <section class="section section-page-title context-dark">
-            <div class="container">
-                <h2>{{ 'title.services'|trans }}</h2>
-            </div>
-        </section>
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.services'|trans }}</h2>
+        </div>
+    </section>
 
-        <section class="section section-lg bg-gray-100">
-            <div class="container">
-                <div class="row row-50 row-bordered">
-                    <div class="container">
-                        <div class="card-deck mb-3 text-center">
-
-                            {% for e in services %}
-                            <div class="card mb-4 box-shadow">
-                                <div class="card-header">
-                                    <h4 class="my-0 font-weight-normal">{{ e.serviceName }}</h4>
-                                </div>
-                                <div class="card-body">
-                                    {{ 'services.from'|trans }}
-                                    <h3 class="card-title pricing-card-title"><i class="fas fa-euro-sign fa-xs"></i>{{ e.servicePrice }}<small class="text-muted">&numsp;/&numsp;{{ e.serviceWorkDays }}</small></h3>
-                                    <ul class="list-unstyled mt-3 mb-4">
-                                        {{ e.serviceToDo|raw }}
-                                    </ul>
-                                    <a href="{{ path('contact') }}" class="btn btn-lg btn-block btn-primary but-contact-us"><h6>{{ 'services.contact_us'|trans }}</h6></a>
-                                </div>
+    <section class="section section-lg bg-gray-100">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-4 mb-4 text-center">
+                {% for e in services %}
+                    <div class="col">
+                        <div class="card mb-4 rounded-3 shadow-sm">
+                            <div class="card-header py-3">
+                                <h4 class="my-0 fw-normal">{{ e.serviceName }}</h4>
                             </div>
-                            {% endfor %}
-
+                            <div class="card-body">
+                                {{ 'services.from'|trans }}
+                                <h3 class="card-title pricing-card-title"><i class="fas fa-euro-sign fa-xs"></i>{{ e.servicePrice }}<small class="text-muted">&numsp;/&numsp;{{ e.serviceWorkDays }}</small></h3>
+                                <ul class="list-unstyled mt-3 mb-4">
+                                    {{ e.serviceToDo|raw }}
+                                </ul>
+                                <a href="{{ path('contact') }}" class="btn btn-lg btn-block btn-primary but-contact-us"><h6 style="color: white">{{ 'services.contact_us'|trans }}</h6></a>
+                            </div>
                         </div>
-                        <div class="service-notes">{{ 'services.notes'|trans }}</div>
                     </div>
-                </div>
+                {% endfor %}
+                <div class="service-notes">{{ 'services.notes'|trans }}</div>
             </div>
-        </section>
+        </div>
+    </section>
 
 {% endblock %}
