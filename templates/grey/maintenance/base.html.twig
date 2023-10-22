@@ -3,19 +3,16 @@
     <head>
     {% block head %}
         <title>{% block title %}{% endblock %}</title>
+        {% for s in settings %}
         <meta name="format-detection" content="telephone=no">
-        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta charset="utf-8">
-        <link rel="icon" href="../themes/grey/images/favicon.ico" type="image/x-icon">
-        <!-- Fonts -->
+        <link rel="icon" href="{{s.siteCDN}}/themes/grey/images/favicon.ico" type="image/x-icon">
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700%7CMontserrat:400,700,800">
-        <!-- Icons -->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-        <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.8.94/css/materialdesignicons.min.css">
-        <!-- Stylesheets -->
-        <link rel="stylesheet" href="../themes/grey/css/bootstrap.css">
-        <link rel="stylesheet" href="../themes/grey/css/style.css" id="main-styles-link">
+        <link rel="stylesheet" href="{{s.siteCDN}}/themes/grey/css/bootstrap.css">
+        <link rel="stylesheet" href="{{s.siteCDN}}/themes/grey/css/style.css" id="main-styles-link">
+        {% endfor %}
     {% endblock %}
     </head>
 <body>
