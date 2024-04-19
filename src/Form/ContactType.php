@@ -74,14 +74,14 @@ class ContactType extends AbstractType
                 'label' => 'label.contact_message',
                 'attr' => [
                     'class' => 'form-input form-input-circle form-input-gray',
-                    ],
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'label.send',
                 'attr' => [
-                    'class' => 'button button-block button-gradient button-circle',
-                    'style' => 'margin-top:20px',
-                    ],
+                    'class' => 'button button-block button-gradient button-circle contact-button-submit',
+                    'style' => 'margin-top:20px; margin:auto; width:fit-content;',
+                ],
             ])
         ;
     }
