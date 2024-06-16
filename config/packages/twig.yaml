@@ -10,6 +10,7 @@ twig:
 
     form_themes:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+    file_name_pattern: '*.twig'
 
 when@test:
     twig:

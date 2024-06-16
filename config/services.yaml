@@ -11,6 +11,8 @@ parameters:
     #   false = Online
     isLocked: false
 
+    container.build_hash: 123
+
 services:
     # default configuration for services in *this* file
     _defaults:
