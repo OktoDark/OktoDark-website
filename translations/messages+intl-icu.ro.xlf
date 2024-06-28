@@ -235,6 +235,25 @@
             </trans-unit>
             <!-- End Assets Area -->
 
+            <!-- Start Careers Page -->
+            <trans-unit id="careers.text1">
+                <source>careers.text1</source>
+                <target>De unde lucrăm</target>
+            </trans-unit>
+            <trans-unit id="careers.description">
+                <source>careers.description</source>
+                <target><![CDATA[<li>Lucrăm doar de la distanță din întreaga lume.</li><li>Lucrezi când poți, când vrei fără un program fix.</li><li>Sunteți mai vizibil în proiectele noastre pentru că avem o echipă mică.</li>]]></target>
+            </trans-unit>
+            <trans-unit id="careers.available">
+                <source>careers.available</source>
+                <target>Disponibil</target>
+            </trans-unit>
+            <trans-unit id="careers.applynow">
+                <source>careers.applynow</source>
+                <target>Aplica Acum</target>
+            </trans-unit>
+            <!-- End Careers Page -->
+
             <!-- Members Area Zone -->
             <trans-unit id="member.download_alpha_text">
                 <source>member.download_alpha_text</source>

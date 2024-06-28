@@ -16,6 +16,17 @@
         </div>
     </section>
 
+    <section class="section bg-default section-lg">
+        <div class="container">
+            <div class="row row-100">
+                <div class="col-12"><b>{{ 'careers.text1'|trans }}</b>
+                    <ul>
+                        {{ 'careers.description'|trans|raw }}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="section section-lg bg-default">
         <div class="container">
             <div class="card-group-custom card-group-corporate" id="accordion1" role="tablist" aria-multiselectable="false">
@@ -25,7 +36,7 @@
                         <div class="card-header" id="accordion1Heading{{ c.id }}" role="tab">
                             <div class="card-title">
                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion1" href="#accordion1Collapse{{ c.id }}" aria-controls="accordion1Collapse{{ c.id }}">
-                                    {{ c.jobtitle }} | Available: {{ c.number }}
+                                    {{ c.jobtitle }} | {{ 'careers.available'|trans }}: {{ c.number }}
                                     <div class="card-arrow"></div>
                                 </a>
                             </div>
@@ -34,7 +45,7 @@
                             <div class="card-body">
                                 <p>{{ c.requiments }}</p>
                                 <div class="group-xl group-middle buttons-group">
-                                    <a class="button button-sm button-gradient" href="mailto:{{ s.jobmail }}?subject=Application for {{ c.jobtitle }}">Apply Now</a>
+                                    <a class="button button-sm button-gradient" href="mailto:{{ s.jobmail }}?subject=Application for {{ c.jobtitle }}">{{ 'careers.applynow'|trans }}</a>
                                 </div>
                             </div>
                         </div>

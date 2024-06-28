@@ -235,6 +235,25 @@
             </trans-unit>
             <!-- End Assets Area -->
 
+            <!-- Start Careers Page -->
+            <trans-unit id="careers.text1">
+                <source>careers.text1</source>
+                <target>From where we work</target>
+            </trans-unit>
+            <trans-unit id="careers.description">
+                <source>careers.description</source>
+                <target><![CDATA[<li>We work only remotely from worldwide.</li><li>You work when you can, when you want without a fixed program.</li><li>You are more visible in our projects because we have a small team.</li>]]></target>
+            </trans-unit>
+            <trans-unit id="careers.available">
+                <source>careers.available</source>
+                <target>Available</target>
+            </trans-unit>
+            <trans-unit id="careers.applynow">
+                <source>careers.applynow</source>
+                <target>Apply Now</target>
+            </trans-unit>
+            <!-- End Careers Page -->
+
             <!-- Members Area Zone -->
             <trans-unit id="member.download_alpha_text">
                 <source>member.download_alpha_text</source>
