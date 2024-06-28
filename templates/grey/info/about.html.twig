@@ -10,45 +10,43 @@
 
 {% block main %}
 
-        <section class="section section-page-title context-dark">
-            <div class="container">
-                <h2>{{ 'title.about'|trans }}</h2>
-            </div>
-        </section>
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.about'|trans }}</h2>
+        </div>
+    </section>
 
-        <!-- About Section -->
-        <section class="section bg-default section-lg">
-            <div class="container">
-                <div class="row row-100">
-                    <div class="col-12">
-                        <p>We are new Game Studio founded in 2015, but the whole OktoDark project was created in 2013.</p>
-                        <p>We are not a biggest game developer but we are searching for new talent to join our Team tgrow it into a world class game development company. </p>
-                    </div>
+    <section class="section section-lg bg-gray-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <p>{{ 'about.description'|trans|raw }}</p>
                 </div>
             </div>
-        </section>
-        <!-- End About Section -->
+        </div>
+    </section>
+    <section class="section section-lg bg-default text-center">
+        <div class="container">
+            <h3>{{ 'title.our_team'|trans }}</h3>
+            <div class="row">
 
-        <!-- Team Section -->
-        <section class="section bg-default section-lg bg-gray-100">
-            <div class="container">
-                <h3 class="text-center">{{ 'title.our_team'|trans }}</h3>
-                <div class="row row-50">
+                {% for t in team %}
                     <div class="col-12">
-                        {% for t in team %}
-                        <div class="box-team">
-                            <figure class="team-img"><img src="{% for s in settings %}{{ s.siteCDN }}{% endfor %}/themes/grey/images/not_available.png" alt="" width="301" height="301"></figure>
-                            <div class="box-team-caption">
-                                <h5 class="team-position">{{ t.position }}</h5>
-                                <h4 class="team-name">{{ t.name }}</h4>
+                        <div class="box-team-modern box-team-modern-quote">
+                            <figure class="team-img">
+                                <img class="rounded-circle" src="{% for s in settings %}{{ s.siteCDN }}{% endfor %}/themes/grey/images/not_available.png" alt="" width="210" height="210"/>
+                            </figure>
+                            <div class="box-team-modern-caption">
+                                <h5 class="team-modern-subtitle">{{ t.position }}</h5>
+                                <h4 class="team-modern-title">{{ t.name }}</h4>
                                 <p>{{ t.description }}</p>
                             </div>
                         </div>
-                        {% endfor %}
                     </div>
-                </div>
+                {% endfor %}
+
             </div>
-        </section>
-        <!-- End Team Section -->
+        </div>
+    </section>
 
 {% endblock %}

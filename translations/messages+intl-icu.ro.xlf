@@ -212,6 +212,13 @@
             </trans-unit>
             <!-- End Content Area -->
 
+            <!-- Start About Page -->
+            <trans-unit id="about.description">
+                <source>about.description</source>
+                <target><![CDATA[Suntem o echipă mică, internațională, care creează jocuri și aplicații.<br>Suntem noul Game Studio fondat în 2015, dar întregul proiect OktoDark a fost creat în 2013.<br>Nu suntem cel mai mare dezvoltator de jocuri, căutăm noi talente care se alătură echipei noastre, transformându-l într-o companie de dezvoltare de jocuri de clasă mondială.<br>]]></target>
+            </trans-unit>
+            <!-- End About Page -->
+
             <!-- Assets Area -->
             <trans-unit id="assets.category_list">
                 <source>assets.category_list</source>

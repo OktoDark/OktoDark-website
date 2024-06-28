@@ -212,6 +212,13 @@
             </trans-unit>
             <!-- End Content Area -->
 
+            <!-- Start About Page -->
+            <trans-unit id="about.description">
+                <source>about.description</source>
+                <target><![CDATA[We’re a small, international team making games and apps.<br>We are new Game Studio founded in 2015, but the whole OktoDark project was created in 2013.<br>We are not the biggest game developer, we are searching for new talent to join our Team grow it into a worldclass game development company.<br>]]></target>
+            </trans-unit>
+            <!-- End About Page -->
+
             <!-- Assets Area -->
             <trans-unit id="assets.category_list">
                 <source>assets.category_list</source>
