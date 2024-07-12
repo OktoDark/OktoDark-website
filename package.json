@@ -16,6 +16,6 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "postcss": "^8.4.31"
+        "postcss": "^8.4.39"
     }
 }
