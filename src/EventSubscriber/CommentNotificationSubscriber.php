@@ -21,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Notifies post's author about new comments.
  */
-class CommentNotificationSubscriber implements EventSubscriberInterface
+final readonly class CommentNotificationSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private MailerInterface $mailer,

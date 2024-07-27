@@ -26,7 +26,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * subscriber listens to console events and in case of an exception caused by
  * a disabled 'sqlite3' extension, it displays a meaningful error message.
  */
-class CheckRequirementsSubscriber implements EventSubscriberInterface
+final readonly class CheckRequirementsSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager
