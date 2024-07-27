@@ -1,0 +1,121 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.supportus'|trans }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body_id 'supportus' %}
+
+{% block main %}
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.supportus'|trans }}</h2>
+        </div>
+    </section>
+
+    <section class="section section-md bg-default text-center">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-9 col-lg-7 col-xl-5">
+                    <!-- PayPal code here -->
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display: inline-table;">
+                        <input type="hidden" name="cmd" value="_s-xclick">
+                        <input type="hidden" name="hosted_button_id" value="W7T3C6JF6ADHN">
+                        <div class="row justify-content-md-center">
+                            <input type="hidden" name="on0" value="">
+                            <select name="os0" style="width: auto">
+                                <option value="Tier 1">Tier 1 :  €1.00 EUR - monthly</option>
+                                <option value="Tier 2">Tier 2 : €10.00 EUR - monthly</option>
+                                <option value="Tier 3">Tier 3 : €25.00 EUR - monthly</option>
+                                <option value="Tier 4">Tier 4 : €50.00 EUR - monthly</option>
+                                <option value="Tier 5">Tier 5 : €75.00 EUR - monthly</option>
+                            </select>
+                        </div>
+                        <br>
+                        <input type="hidden" name="currency_code" value="EUR">
+                        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_subscribeCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                        <img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                    </form>
+                    <!-- // -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section section-md bg-default text-center">
+        <h2 class="display-6 text-center mb-4">Compare plans</h2>
+        <div class="table-responsive" style="display: inline-block;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="scope"></th>
+                        <th class="scope">Tier 1</th>
+                        <th class="scope">Tier 2</th>
+                        <th class="scope">Tier 3</th>
+                        <th class="scope">Tier 4</th>
+                        <th class="scope">Tier 5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row" class="th-item">Title on Discord Server</th>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="th-item">Discord Private Channels</th>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <th scope="row" class="th-item">Models Access</th>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="th-item">Streaming Wish</th>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="th-item">Unlimited downloads</th>
+                        <td><i class="fa-solid fa-xmark fac-red"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="th-item">Sharing Allow</th>
+                        <td><i class="fa-solid fa-xmark fac-red"></i></td>
+                        <td><i class="fa-solid fa-xmark fac-red"></i></td>
+                        <td><i class="fa-solid fa-xmark fac-red"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                        <td><i class="fa-solid fa-check fac-green"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container">
+            <div class="text-center">
+                <h5 class="text-gray-500">{{ 'supportus.note'|trans|raw }}</h5>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

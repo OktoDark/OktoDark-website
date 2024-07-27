@@ -18,6 +18,14 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class SupportusController extends AbstractController
 {
+    #[Route('/supportus', methods: ['GET'], name: 'supportus')]
+    public function supportus(SettingsRepository $settings): Response
+    {
+        $selectSettings = $settings->findAll();
+
+        return $this->render('@theme/supportus.html.twig', ['settings' => $selectSettings]);
+    }
+
     #[Route('/bepatron', methods: ['GET'], name: 'bepatron')]
     public function bepatron(SettingsRepository $settings): Response
     {

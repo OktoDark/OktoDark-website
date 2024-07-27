@@ -198,6 +198,10 @@
                 <source>title.profile</source>
                 <target>Profile</target>
             </trans-unit>
+            <trans-unit id="title.supportus">
+                <source>title.supportus</source>
+                <target>Support Us</target>
+            </trans-unit>
             <!-- End Titles Pages -->
 
             <!-- Contents -->
@@ -702,6 +706,13 @@
                 <target>Keep me logged in</target>
             </trans-unit>
             <!-- End Login Form Zone -->
+
+            <!-- Support Us -->
+            <trans-unit id="supportus.note">
+                <source>supportus.note</source>
+                <target>Note: -</target>
+            </trans-unit>
+            <!-- End Support Us -->
 
             <!-- beDonor Zone -->
             <trans-unit id="bedonor.note">
