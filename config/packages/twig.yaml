@@ -9,7 +9,7 @@ twig:
         '%kernel.project_dir%/templates/grey': 'theme'
 
     form_themes:
-        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+        # - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
     file_name_pattern: '*.twig'
 
 when@test:

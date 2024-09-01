@@ -27,7 +27,7 @@ final readonly class CommentNotificationSubscriber implements EventSubscriberInt
         private MailerInterface $mailer,
         private UrlGeneratorInterface $urlGenerator,
         private TranslatorInterface $translator,
-        private string $sender
+        private string $sender,
     ) {
     }
 

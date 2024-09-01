@@ -23,7 +23,7 @@ use function Symfony\Component\String\u;
 class DateTimePickerType extends AbstractType
 {
     public function __construct(
-        private MomentFormatConverter $formatConverter
+        private MomentFormatConverter $formatConverter,
     ) {
     }
 
