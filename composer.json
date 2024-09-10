@@ -22,10 +22,10 @@
   "require": {
     "php": ">=8.2",
     "ext-iconv": "*",
-    "doctrine/doctrine-bundle": "^2.12",
+    "doctrine/doctrine-bundle": "^2.13",
     "doctrine/doctrine-migrations-bundle": "^3.3",
     "doctrine/orm": "^2.19",
-    "easycorp/easyadmin-bundle": "^4.10",
+    "easycorp/easyadmin-bundle": "^4.12",
     "erusev/parsedown": "^1.7",
     "paragonie/sodium_compat": "dev-master",
     "patreon/patreon": "dev-master",
@@ -42,7 +42,7 @@
     "symfony/mailer": "^7.1",
     "symfony/monolog-bundle": "^3.10",
     "symfony/notifier": "^7.1",
-    "symfony/polyfill-intl-messageformatter": "^1.29",
+    "symfony/polyfill-intl-messageformatter": "^1.31",
     "symfony/proxy-manager-bridge": "6.4.*",
     "symfony/rate-limiter": "^7.1",
     "symfony/runtime": "^7.1",
@@ -54,19 +54,19 @@
     "symfony/validator": "^7.1",
     "symfony/webpack-encore-bundle": "^2.1",
     "symfony/yaml": "^7.1",
-    "symfonycasts/reset-password-bundle": "^1.21",
+    "symfonycasts/reset-password-bundle": "^1.22",
     "symfonycasts/verify-email-bundle": "^1.17",
-    "twig/intl-extra": "^3.10",
-    "twig/twig": "^3.10"
+    "twig/intl-extra": "^3.13",
+    "twig/twig": "^3.14"
   },
   "require-dev": {
-    "dama/doctrine-test-bundle": "^8.1",
+    "dama/doctrine-test-bundle": "^8.2",
     "doctrine/doctrine-fixtures-bundle": "^3.6",
-    "friendsofphp/php-cs-fixer": "^3.58",
+    "friendsofphp/php-cs-fixer": "^3.64",
     "symfony/browser-kit": "^7.1",
     "symfony/css-selector": "^7.1",
     "symfony/debug-bundle": "^7.1",
-    "symfony/maker-bundle": "^1.59",
+    "symfony/maker-bundle": "^1.60",
     "symfony/phpunit-bridge": "^7.1",
     "symfony/stopwatch": "^7.1",
     "symfony/web-profiler-bundle": "^7.1"
@@ -80,7 +80,7 @@
       "php": "8.2.0"
     },
     "preferred-install": {
-      "7.1.*": "dist"
+      "*": "dist"
     },
     "sort-packages": true
   },
