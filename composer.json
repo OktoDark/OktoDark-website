@@ -25,7 +25,7 @@
     "doctrine/doctrine-bundle": "^2.13",
     "doctrine/doctrine-migrations-bundle": "^3.3",
     "doctrine/orm": "^2.20",
-    "easycorp/easyadmin-bundle": "^4.13",
+    "easycorp/easyadmin-bundle": "^4.14",
     "erusev/parsedown": "^1.7",
     "paragonie/sodium_compat": "dev-master",
     "patreon/patreon": "dev-master",
