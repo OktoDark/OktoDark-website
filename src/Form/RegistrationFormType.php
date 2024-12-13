@@ -20,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -29,14 +30,6 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName', TextType::class, [
-                'label' => 'label.firstName',
-                'label_attr' => ['class' => 'form-label form-label-outside'],
-            ])
-            ->add('lastName', TextType::class, [
-                'label' => 'label.lastName',
-                'label_attr' => ['class' => 'form-label form-label-outside'],
-            ])
             ->add('username', TextType::class, [
                 'label' => 'label.username',
                 'label_attr' => ['class' => 'form-label form-label-outside'],

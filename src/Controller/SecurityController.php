@@ -15,7 +15,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\SettingsRepository;
 use App\Security\EmailVerifier;
-use App\Security\LoginFormAuthenticator;
+use App\Security\FormAuthenticator;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,69 +36,6 @@ final class SecurityController extends AbstractController
     public function __construct(EmailVerifier $emailVerifier)
     {
         $this->emailVerifier = $emailVerifier;
-    }
-
-    #[Route('/login', name: 'security_login')]
-    public function login(AuthenticationUtils $authenticationUtils, SettingsRepository $settings): Response
-    {
-        $selectSettings = $settings->findAll();
-
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('@theme/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error,
-            'settings' => $selectSettings,
-        ]);
-    }
-
-    #[Route('/logout', name: 'security_logout')]
-    public function logout(): void
-    {
-        throw new \Exception('This should never be reached!');
-    }
-
-    #[Route('/register', name: 'app_register')]
-    public function register(SettingsRepository $settings, Request $request, UserPasswordHasherInterface $userPasswordHasher, LoginFormAuthenticator $formAuthenticator): Response
-    {
-        $selectSettings = $settings->findAll();
-
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            if (true === $form['agreeTerms']->getData()) {
-                $user->agreeTerms();
-            }
-
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('no-reply@oktodark.com', 'OktoDark No-reply'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('@theme/registration/confirmation_email.html.twig')
-            );
-
-            return $this->redirectToRoute('home');
-        }
-
-        return $this->render('@theme/member/register.html.twig', [
-            'settings' => $selectSettings,
-            'registrationForm' => $form,
-        ]);
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
