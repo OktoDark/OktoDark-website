@@ -1,9 +1,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    locale: 'en'
+    app.locale: en
     # This parameter defines the codes of the locales (languages) enabled in the application
-    app_locales: en|ro
+    app.locales: en|ro
     app.notifications.email_sender: anonymous@example.com
 
     # Maintenance mode:
@@ -19,8 +19,9 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:               # defines the scalar arguments once and apply them to any service defined/created in this file
-            $locales: '%app_locales%'
-            $defaultLocale: '%locale%'
+            array $enabledLocales: '%kernel.enabled_locales%'
+            string $locales: '%app.locales%'
+            string $defaultLocale: '%app.locale%'
             # $emailSender: '%app.notifications.email_sender%'
 
     # Remember me Token
