@@ -149,6 +149,20 @@
     "patreon/patreon": {
         "version": "dev-master"
     },
+    "phpunit/phpunit": {
+        "version": "11.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "10.0",
+            "ref": "bb22cf8d8c554a623b427d5f3416b538f5525233"
+        },
+        "files": [
+            "./.env.test",
+            "./phpunit.dist.xml",
+            "./tests/bootstrap.php"
+        ]
+    },
     "psr/cache": {
         "version": "3.0.0"
     },
@@ -350,21 +364,6 @@
     },
     "symfony/password-hasher": {
         "version": "v6.0.3"
-    },
-    "symfony/phpunit-bridge": {
-        "version": "6.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "5.3",
-            "ref": "97cb3dc7b0f39c7cfc4b7553504c9d7b7795de96"
-        },
-        "files": [
-            "./.env.test",
-            "./bin/phpunit",
-            "./phpunit.xml.dist",
-            "./tests/bootstrap.php"
-        ]
     },
     "symfony/polyfill-ctype": {
         "version": "v1.24.0"
