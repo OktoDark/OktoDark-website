@@ -9,13 +9,16 @@ on:
 env:
     fail-fast: true
 
+permissions:
+    contents: read
+
 jobs:
     php-cs-fixer:
         name: PHP-CS-Fixer
         runs-on: ubuntu-latest
         steps:
             - name: "Checkout code"
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: PHP-CS-Fixer
               uses: docker://oskarstark/php-cs-fixer-ga
@@ -31,7 +34,7 @@ jobs:
 
         steps:
             - name: "Checkout code"
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: "Install PHP with extensions"
               uses: shivammathur/setup-php@v2
@@ -41,19 +44,8 @@ jobs:
                   php-version: ${{ matrix.php-version }}
                   tools: composer:v2
 
-            - name: "Set composer cache directory"
-              id: composer-cache
-              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-            - name: "Cache composer"
-              uses: actions/cache@v3
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-${{ matrix.php-version }}-composer-${{ hashFiles('composer.lock') }}
-                  restore-keys: ${{ runner.os }}-${{ matrix.php-version }}-composer-
-
             - name: "Composer install"
-              run: composer install --no-interaction --no-progress
+              run: composer install --ansi --no-interaction --no-progress
 
             - name: Lint YAML files
               if: always() && steps.install.outcome == 'success'
