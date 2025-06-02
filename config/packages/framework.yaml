@@ -28,6 +28,9 @@ framework:
     # See https://symfony.com/doc/current/reference/configuration/framework.html#ide
     ide: null
 
+    property_info:
+        with_constructor_extractor: false
+
 when@test:
     framework:
         test: true

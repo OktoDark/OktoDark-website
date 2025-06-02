@@ -14,6 +14,7 @@ namespace App\Security;
 use App\Entity\Post;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class PostVoter extends Voter
@@ -33,7 +34,7 @@ class PostVoter extends Voter
     /**
      * @param Post $post
      */
-    protected function voteOnAttribute(string $attribute, $post, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, $post, TokenInterface $token, ?Vote $vote = null): bool
     {
         $user = $token->getUser();
 
