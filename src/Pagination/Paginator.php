@@ -23,14 +23,14 @@ class Paginator
      *
      * See https://symfony.com/doc/current/best_practices/configuration.html#constants-vs-configuration-options
      */
-    const PAGE_ZISE = 10;
+    public const PAGE_SIZE = 10;
     private int $currentPage;
     private \Traversable $results;
     private int $numResults;
 
     public function __construct(
         private DoctrineQueryBuilder $queryBuilder,
-        private int $pageSize = self::PAGE_ZISE,
+        private int $pageSize = self::PAGE_SIZE,
     ) {
     }
 

@@ -47,7 +47,7 @@ class Validator
             throw new \InvalidArgumentException('The email cannot be empty.');
         }
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($email, \FILTER_VALIDATE_EMAIL)) {
             throw new \InvalidArgumentException('The email is not valid.');
         }
 
