@@ -22,12 +22,9 @@ final class GamesController extends AbstractController
     #[Route('/games', methods: ['GET'], name: 'games')]
     public function games(SettingsRepository $settings, OurGamesRepository $ourGames): Response
     {
-        $AllGames = $ourGames->findAll();
-        $selectSettings = $settings->findAll();
-
         return $this->render('@theme/games.html.twig', [
-            'games' => $AllGames,
-            'settings' => $selectSettings,
+            'games' => $ourGames->findAll(),
+            'settings' => $settings->findAll(),
         ]);
     }
 }

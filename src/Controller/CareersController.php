@@ -22,12 +22,9 @@ final class CareersController extends AbstractController
     #[Route('/careers', methods: ['GET'], name: 'careers')]
     public function careers(SettingsRepository $settings, CareersRepository $careers): Response
     {
-        $selectSettings = $settings->findAll();
-        $showCareers = $careers->findAll();
-
         return $this->render('@theme/careers.html.twig', [
-            'settings' => $selectSettings,
-            'careers' => $showCareers,
+            'settings' => $settings->findAll(),
+            'careers' => $careers->findAll(),
         ]);
     }
 }

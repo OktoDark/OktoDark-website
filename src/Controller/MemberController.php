@@ -11,18 +11,18 @@
 
 namespace App\Controller;
 
-use App\Form\Type\ChangePasswordType;
+use App\Form\ChangePasswordType;
 use App\Form\UserType;
 use App\Repository\OurGamesRepository;
 use App\Repository\SettingsRepository;
-use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 #[Route('/member')]
 final class MemberController extends AbstractController
@@ -32,39 +32,32 @@ final class MemberController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function member(SettingsRepository $settings, OurGamesRepository $ourGames): Response
     {
-        $selectSettings = $settings->findAll();
-        $AllGames = $ourGames->findAll();
-
         return $this->render('@theme/member/member.html.twig', [
-            'settings' => $selectSettings,
-            'games' => $AllGames,
+            'settings' => $settings->findAll(),
+            'games' => $ourGames->findAll(),
         ]);
     }
 
     #[Route('/profile', methods: ['GET', 'POST'], name: 'profile_area')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function edit_profile(SettingsRepository $settings, UserRepository $user, Request $request): Response
+    public function editProfile(EntityManagerInterface $em, SettingsRepository $settings, Request $request): Response
     {
-        $selectSettings = $settings->findAll();
-        $user = $user->findAll();
-
         $user = $this->getUser();
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
+            $em->flush();
             $this->addFlash('success', 'user.updated_successfully');
 
-            return $this->redirectToRoute('edit_profile');
+            return $this->redirectToRoute('profile_area');
         }
 
         return $this->render('@theme/member/profile.html.twig', [
             'user' => $user,
             'form' => $form,
-            'settings' => $selectSettings,
+            'settings' => $settings->findAll(),
         ]);
     }
 
@@ -72,23 +65,21 @@ final class MemberController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function settings(SettingsRepository $settings): Response
     {
-        $selectSettings = $settings->findAll();
-
-        return $this->render('@theme/member/settings.html.twig', ['settings' => $selectSettings]);
+        return $this->render('@theme/member/settings.html.twig', [
+            'settings' => $settings->findAll(),
+        ]);
     }
 
     #[Route('/play_online', methods: ['GET'], name: 'play_online')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function member_games(SettingsRepository $settings, OurGamesRepository $ourGames): Response
+    public function memberGames(SettingsRepository $settings, OurGamesRepository $ourGames): Response
     {
-        $selectSettings = $settings->findAll();
-        $AllGames = $ourGames->findAll();
-        $PlayOnline = $ourGames->findAll();
+        $games = $ourGames->findAll();
 
         return $this->render('@theme/member/play_online.html.twig', [
-            'settings' => $selectSettings,
-            'games' => $AllGames,
-            'playonline' => $PlayOnline,
+            'settings' => $settings->findAll(),
+            'games' => $games,
+            'playonline' => $games,
         ]);
     }
 
@@ -96,14 +87,14 @@ final class MemberController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function viewPage(SettingsRepository $settings): Response
     {
-        $selectSettings = $settings->findAll();
-
-        return $this->render('@theme/member/member.html.twig', ['settings' => $selectSettings]);
+        return $this->render('@theme/member/member.html.twig', [
+            'settings' => $settings->findAll(),
+        ]);
     }
 
     #[Route('/edit', methods: ['GET', 'POST'], name: 'user_edit')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function edit(Request $request): Response
+    public function edit(EntityManagerInterface $em, Request $request): Response
     {
         $user = $this->getUser();
 
@@ -111,8 +102,7 @@ final class MemberController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
+            $em->flush();
             $this->addFlash('success', 'user.updated_successfully');
 
             return $this->redirectToRoute('user_edit');
@@ -126,7 +116,7 @@ final class MemberController extends AbstractController
 
     #[Route('/change-password', methods: ['GET', 'POST'], name: 'user_change_password')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function changePassword(Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function changePassword(Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
 
@@ -134,9 +124,10 @@ final class MemberController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($encoder->encodePassword($user, $form->get('newPassword')->getData()));
-
-            $this->getDoctrine()->getManager()->flush();
+            $user->setPassword(
+                $hasher->hashPassword($user, $form->get('newPassword')->getData())
+            );
+            $em->flush();
 
             return $this->redirectToRoute('security_logout');
         }

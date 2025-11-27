@@ -35,6 +35,8 @@ class AppFixtures extends Fixture
         $this->loadUsers($manager);
         $this->loadTags($manager);
         $this->loadPosts($manager);
+
+        $manager->flush();
     }
 
     private function loadUsers(ObjectManager $manager): void
@@ -50,8 +52,6 @@ class AppFixtures extends Fixture
             $manager->persist($user);
             $this->addReference($username, $user);
         }
-
-        $manager->flush();
     }
 
     private function loadTags(ObjectManager $manager): void
@@ -63,8 +63,6 @@ class AppFixtures extends Fixture
             $manager->persist($tag);
             $this->addReference('tag-'.$name, $tag);
         }
-
-        $manager->flush();
     }
 
     private function loadPosts(ObjectManager $manager): void
@@ -90,8 +88,6 @@ class AppFixtures extends Fixture
 
             $manager->persist($post);
         }
-
-        $manager->flush();
     }
 
     private function getUserData(): array

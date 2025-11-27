@@ -22,12 +22,9 @@ final class ModsController extends AbstractController
     #[Route('/mods', methods: ['GET'], name: 'mods')]
     public function mods(SettingsRepository $settings, ModsRepository $mods): Response
     {
-        $latestMods = $mods->findAll();
-        $selectSettings = $settings->findAll();
-
         return $this->render('@theme/mods.html.twig', [
-            'mods' => $latestMods,
-            'settings' => $selectSettings,
+            'mods' => $mods->findAll(),
+            'settings' => $settings->findAll(),
         ]);
     }
 }

@@ -54,10 +54,9 @@ final class BlogController extends AbstractController
             $tag = $tags->findOneBy(['name' => $request->query->get('tag')]);
         }
         $latestPosts = $posts->findLatest($page, $tag);
-        $selectSettings = $settings->findAll();
 
         return $this->render('@theme/blog/index.'.$_format.'.twig', [
-            'settings' => $selectSettings,
+            'settings' => $settings->findAll(),
             'paginator' => $latestPosts,
             'tagName' => $tag?->getName(),
         ]);
@@ -73,11 +72,9 @@ final class BlogController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function postShow(Post $post, SettingsRepository $settings): Response
     {
-        $selectSettings = $settings->findAll();
-
         return $this->render('@theme/blog/post_show.html.twig', [
             'post' => $post,
-            'settings' => $selectSettings,
+            'settings' => $settings->findAll(),
         ]);
     }
 
@@ -128,7 +125,7 @@ final class BlogController extends AbstractController
      */
     public function commentForm(Post $post): Response
     {
-        $form = $this->createForm(CommentType::class);
+        $form = $this->createForm(CommentType::class, new Comment());
 
         return $this->render('@theme/blog/_comment_form.html.twig', [
             'post' => $post,

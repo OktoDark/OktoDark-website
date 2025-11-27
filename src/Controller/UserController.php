@@ -37,7 +37,6 @@ final class UserController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
     ): Response {
-        $selectSettings = $settings->findAll();
         $user = $this->getUser();
 
         $form = $this->createForm(UserType::class, $user);
@@ -54,7 +53,7 @@ final class UserController extends AbstractController
         return $this->render('@theme/member/edit.html.twig', [
             'user' => $user,
             'form' => $form,
-            'settings' => $selectSettings,
+            'settings' => $settings->findAll(),
         ]);
     }
 
@@ -79,7 +78,7 @@ final class UserController extends AbstractController
 
         return $this->render('@theme/member/change_password.html.twig', [
             'form' => $form,
-            'settings' => $selectSettings,
+            'settings' => $settings->findAll(),
         ]);
     }
 }

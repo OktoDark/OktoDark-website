@@ -32,7 +32,7 @@ security:
 
             logout:
                 # The route name the user can go to in order to logout
-                path: logout
+                path: security_logout
                 # The name of the route to redirect to after logging out
                 target: index
 

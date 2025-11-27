@@ -34,8 +34,6 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(SettingsRepository $settings, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-        $selectSettings = $settings->findAll();
-
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -67,7 +65,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('@theme/member/register.html.twig', [
             'registrationForm' => $form,
-            'settings' => $selectSettings,
+            'settings' => $settings->findAll(),
         ]);
     }
 

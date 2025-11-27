@@ -27,12 +27,9 @@ final class HomeController extends AbstractController
     #[Route('/home', methods: ['GET'], name: 'home')]
     public function home(SettingsRepository $settings, NewsRepository $news): Response
     {
-        $latestNews = $news->findAll();
-        $selectSettings = $settings->findAll();
-
         return $this->render('@theme/home.html.twig', [
-            'news' => $latestNews,
-            'settings' => $selectSettings,
+            'news' => $news->findAll(),
+            'settings' => $settings->findAll(),
         ]);
     }
 }

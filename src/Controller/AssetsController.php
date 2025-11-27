@@ -18,23 +18,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * Class AssetsController.
- */
 #[IsGranted('ROLE_ADMIN')]
 final class AssetsController extends AbstractController
 {
     #[Route('/assets', methods: ['GET'], name: 'assets_index')]
-    public function home(SettingsRepository $settings, AssetsRepository $assets): Response
+    public function index(SettingsRepository $settings, AssetsRepository $assets): Response
     {
-        $findAllAssets = $assets->findAll();
-        $figurecompatible = $assets->showFigureCompatible();
-        $selectSettings = $settings->findAll();
-
         return $this->render('@theme/assets.html.twig', [
-            'assets' => $findAllAssets,
-            'figurec' => $figurecompatible,
-            'settings' => $selectSettings,
+            'assets' => $assets->findAll(),
+            'figurec' => $assets->findFigureCompatible(), // renamed for clarity
+            'settings' => $settings->findAll(),
         ]);
     }
 }

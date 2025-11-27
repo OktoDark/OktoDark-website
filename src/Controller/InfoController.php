@@ -27,20 +27,15 @@ final class InfoController extends AbstractController
     #[Route('/about', methods: ['GET'], name: 'about')]
     public function about(SettingsRepository $settings, TeamRepository $team): Response
     {
-        $selectSettings = $settings->findAll();
-        $viewTeam = $team->findAll();
-
         return $this->render('@theme/info/about.html.twig', [
-            'settings' => $selectSettings,
-            'team' => $viewTeam,
+            'settings' => $settings->findAll(),
+            'team' => $team->findAll(),
         ]);
     }
 
     #[Route('/contact', methods: ['GET'], name: 'contact')]
     public function contact(SettingsRepository $settings, Request $request, MailerInterface $mailer): Response
     {
-        $selectSettings = $settings->findAll();
-
         $form = $this->createForm(ContactType::class);
 
         $form->handleRequest($request);
@@ -62,7 +57,7 @@ final class InfoController extends AbstractController
         }
 
         return $this->render('@theme/info/contact.html.twig', [
-            'settings' => $selectSettings,
+            'settings' => $settings->findAll(),
             'form' => $form,
         ]);
     }
@@ -78,9 +73,9 @@ final class InfoController extends AbstractController
     #[Route('/privacy-policy', methods: ['GET'], name: 'privacy-policy')]
     public function privacypolicy(SettingsRepository $settings): Response
     {
-        $selectSettings = $settings->findAll();
-
-        return $this->render('@theme/info/privacy-policy.html.twig', ['settings' => $selectSettings]);
+        return $this->render('@theme/info/privacy-policy.html.twig', [
+            'settings' => $settings->findAll(),
+        ]);
     }
 
     /**
@@ -89,12 +84,9 @@ final class InfoController extends AbstractController
     #[Route('/services', methods: ['GET'], name: 'services')]
     public function services(SettingsRepository $settings, ServicesRepository $services): Response
     {
-        $selectSettings = $settings->findAll();
-        $showServices = $services->findAll();
-
         return $this->render('@theme/info/services.html.twig', [
-            'settings' => $selectSettings,
-            'services' => $showServices,
+            'settings' => $settings->findAll(),
+            'services' => $services->findAll(),
         ]);
     }
 }

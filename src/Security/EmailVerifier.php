@@ -51,11 +51,15 @@ class EmailVerifier
      */
     public function handleEmailConfirmation(Request $request, UserInterface $user): void
     {
-        $this->verifyEmailHelper->validateEmailConfirmationFromRequest($request, $user->getId(), $user->getEmail());
+        $this->verifyEmailHelper->validateEmailConfirmationFromRequest(
+            $request,
+            $user->getId(),
+            $user->getEmail()
+        );
 
         $user->setIsVerified(true);
 
-        $this->entityManager->persist($user);
+        // persist() not needed if $user is already managed
         $this->entityManager->flush();
     }
 }

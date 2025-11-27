@@ -22,27 +22,23 @@ class LoginController extends AbstractController
     #[Route(path: '/login', name: 'security_login')]
     public function login(SettingsRepository $settings, AuthenticationUtils $authenticationUtils): Response
     {
-        $selectSettings = $settings->findAll();
-
         if ($this->getUser()) {
             return $this->redirectToRoute('member_area');
         }
 
-        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('@theme/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
-            'settings' => $selectSettings,
+            'settings' => $settings->findAll(),
         ]);
     }
 
-    #[Route(path: '/logout', name: 'app_logout')]
-    public function logout(): void
+    #[Route(path: '/logout', name: 'security_logout')]
+    public function logout(): never
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new \LogicException('This method is intercepted by the firewall.');
     }
 }

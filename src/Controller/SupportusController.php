@@ -21,24 +21,24 @@ final class SupportusController extends AbstractController
     #[Route('/supportus', methods: ['GET'], name: 'supportus')]
     public function supportus(SettingsRepository $settings): Response
     {
-        $selectSettings = $settings->findAll();
-
-        return $this->render('@theme/supportus.html.twig', ['settings' => $selectSettings]);
+        return $this->render('@theme/supportus.html.twig', [
+            'settings' => $settings->findAll(),
+        ]);
     }
 
     #[Route('/bepatron', methods: ['GET'], name: 'bepatron')]
     public function bepatron(SettingsRepository $settings): Response
     {
-        $selectSettings = $settings->findAll();
-
-        return $this->render('@theme/bepatron.html.twig', ['settings' => $selectSettings]);
+        return $this->render('@theme/bepatron.html.twig', [
+            'settings' => $settings->findAll(),
+        ]);
     }
 
     #[Route('/bedonor', methods: ['GET'], name: 'bedonor')]
     public function bedonor(SettingsRepository $settings): Response
     {
-        $selectSettings = $settings->findAll();
-
-        return $this->render('@theme/bedonor.html.twig', ['settings' => $selectSettings]);
+        return $this->render('@theme/bedonor.html.twig', [
+            'settings' => $settings->findAll(),
+        ]);
     }
 }
