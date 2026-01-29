@@ -4,7 +4,7 @@
 # See https://symfony.com/doc/current/cookbook/templating/render_without_controller.html
 homepage:
     path: /{_locale}
-    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
     # schemes:    [https]
     requirements:
         _locale: '%app.locales%'
@@ -16,8 +16,8 @@ homepage:
 
 dashboard:
     path: /admin
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
     defaults:
-        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
         path: /dashboard
         permanent: true
 

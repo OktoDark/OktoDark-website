@@ -3,3 +3,4 @@ when@test:
         enable_static_connection: true
         enable_static_meta_data_cache: true
         enable_static_query_cache: true
+        enable_static_result_cache: true

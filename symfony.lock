@@ -20,14 +20,8 @@
             "./config/packages/test/dama_doctrine_test_bundle.yaml"
         ]
     },
-    "doctrine/cache": {
-        "version": "2.1.1"
-    },
     "doctrine/collections": {
         "version": "1.6.8"
-    },
-    "doctrine/common": {
-        "version": "3.2.2"
     },
     "doctrine/data-fixtures": {
         "version": "1.5.2"
@@ -127,15 +121,6 @@
         "files": [
             "./.php-cs-fixer.dist.php"
         ]
-    },
-    "friendsofphp/proxy-manager-lts": {
-        "version": "v1.0.5"
-    },
-    "laminas/laminas-code": {
-        "version": "4.5.1"
-    },
-    "masterminds/html5": {
-        "version": "2.7.5"
     },
     "monolog/monolog": {
         "version": "2.3.5"
@@ -329,6 +314,18 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/messenger": {
+        "version": "8.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "6.0",
+            "ref": "d8936e2e2230637ef97e5eecc0eea074eecae58b"
+        },
+        "files": [
+            "./config/packages/messenger.yaml"
+        ]
+    },
     "symfony/mime": {
         "version": "v6.0.3"
     },
@@ -365,9 +362,6 @@
     "symfony/password-hasher": {
         "version": "v6.0.3"
     },
-    "symfony/polyfill-ctype": {
-        "version": "v1.24.0"
-    },
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.24.0"
     },
@@ -396,9 +390,6 @@
         "version": "v6.0.3"
     },
     "symfony/property-info": {
-        "version": "v6.0.3"
-    },
-    "symfony/proxy-manager-bridge": {
         "version": "v6.0.3"
     },
     "symfony/rate-limiter": {

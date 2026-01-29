@@ -32,6 +32,14 @@ services:
     App\:
         resource: '../src/'
 
+    App\Controller\AdminToolsController:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
+    App\MessageHandler\CommandJobMessageHandler:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     App\EventSubscriber\CommentNotificationSubscriber:

@@ -1,5 +1,5 @@
 twig:
-    # auto_reload: ~
+    auto_reload: true
 
     paths:
         # Templates

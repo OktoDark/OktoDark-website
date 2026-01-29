@@ -1,0 +1,6 @@
+framework:
+  messenger:
+    transports:
+      async: 'doctrine://default' # or redis, amqp, etc.
+    routing:
+      App\Message\CommandJobMessage: async
