@@ -37,8 +37,6 @@ final class UserController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
     ): Response {
-        $user = $this->getUser();
-
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -65,8 +63,6 @@ final class UserController extends AbstractController
         EntityManagerInterface $entityManager,
         LogoutUrlGenerator $logoutUrlGenerator,
     ): Response {
-        $selectSettings = $settings->findAll();
-
         $form = $this->createForm(ChangePasswordType::class, $user);
         $form->handleRequest($request);
 

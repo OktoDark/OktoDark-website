@@ -14,6 +14,7 @@ namespace App\Security;
 use App\Entity\Post;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class PostVoter extends Voter
@@ -24,23 +25,25 @@ class PostVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        // only vote on Post objects and specific attributes
         return $subject instanceof Post
             && \in_array($attribute, [self::SHOW, self::EDIT, self::DELETE], true);
     }
 
-    /**
-     * @param Post $post
-     */
-    protected function voteOnAttribute(string $attribute, mixed $post, TokenInterface $token): bool
-    {
-        $user = $token->getUser();
+    protected function voteOnAttribute(
+        string $attribute,
+        mixed $subject,
+        TokenInterface $token,
+        ?Vote $vote = null,
+    ): bool {
+        /** @var Post $post */
+        $post = $subject;
 
+        $user = $token->getUser();
         if (!$user instanceof User) {
             return false;
         }
 
-        // simple rule: only the author can view/edit/delete their own post
+        // Only the author can view/edit/delete their own post
         return $user === $post->getAuthor();
     }
 }

@@ -24,11 +24,8 @@ final class SecurityController extends AbstractController
 {
     use TargetPathTrait;
 
-    private EmailVerifier $emailVerifier;
-
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(private EmailVerifier $emailVerifier)
     {
-        $this->emailVerifier = $emailVerifier;
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
