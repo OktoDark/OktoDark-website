@@ -18,19 +18,19 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: "Checkout code"
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: PHP-CS-Fixer
-              uses: docker://oskarstark/php-cs-fixer-ga
+              uses: docker://ghcr.io/php-cs-fixer/php-cs-fixer:3-php8.4
               with:
-                  args: --diff --dry-run
+                  args: check --diff --using-cache=no
 
     linters:
         name: Linters
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-version: ['8.2']
+                php-version: ['8.4']
 
         steps:
             - name: "Checkout code"
