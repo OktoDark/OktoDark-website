@@ -140,7 +140,7 @@ final class AdminToolsController extends AbstractController
 
             // Basic JSON validation
             json_decode($newContent, true);
-            if (JSON_ERROR_NONE !== json_last_error()) {
+            if (\JSON_ERROR_NONE !== json_last_error()) {
                 $this->addFlash('error', 'Invalid JSON: '.json_last_error_msg());
 
                 return $this->render('@theme/admin/tools/composer.html.twig', [

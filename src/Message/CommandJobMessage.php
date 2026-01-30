@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) OktoDark Studios
  * Website: https://www.oktodark.com
@@ -14,8 +15,7 @@ final class CommandJobMessage
 {
     public function __construct(
         private string $jobId,
-    )
-    {
+    ) {
     }
 
     public function getJobId(): string

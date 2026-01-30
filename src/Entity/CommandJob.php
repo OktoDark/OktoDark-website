@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) OktoDark Studios
  * Website: https://www.oktodark.com
@@ -49,7 +50,7 @@ class CommandJob
 
     public function setId(\Stringable|string $id): void
     {
-        $this->id = (string)$id;
+        $this->id = (string) $id;
     }
 
     public function getCommand(): string
@@ -74,7 +75,7 @@ class CommandJob
 
     public function appendOutput(string $chunk): void
     {
-        $this->output = ($this->output ?? '') . $chunk;
+        $this->output = ($this->output ?? '').$chunk;
     }
 
     public function getStatus(): string
@@ -117,4 +118,3 @@ class CommandJob
         $this->finishedAt = $finishedAt;
     }
 }
-

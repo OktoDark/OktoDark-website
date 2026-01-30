@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) OktoDark Studios
  * Website: https://www.oktodark.com
@@ -21,10 +22,9 @@ final class CommandJobMessageHandler
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private CommandRunner          $runner,
-        private string                 $projectDir,
-    )
-    {
+        private CommandRunner $runner,
+        private string $projectDir,
+    ) {
     }
 
     public function __invoke(CommandJobMessage $message): void
@@ -46,7 +46,7 @@ final class CommandJobMessageHandler
             $job->setOutput($output);
             $job->setStatus(CommandJob::STATUS_FINISHED);
         } catch (\Throwable $e) {
-            $job->appendOutput("\n[exception] " . $e->getMessage());
+            $job->appendOutput("\n[exception] ".$e->getMessage());
             $job->setStatus(CommandJob::STATUS_FAILED);
         }
 
@@ -54,4 +54,3 @@ final class CommandJobMessageHandler
         $this->em->flush();
     }
 }
-
