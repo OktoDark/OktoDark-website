@@ -43,12 +43,12 @@ final class CommandRunner
 
         $output = '';
         if ($stdout) {
-            $output .= $stdout.PHP_EOL;
+            $output .= $stdout.\PHP_EOL;
         }
         if ($stderr) {
-            $output .= '[stderr]'.PHP_EOL.$stderr.PHP_EOL;
+            $output .= '[stderr]'.\PHP_EOL.$stderr.PHP_EOL;
         }
-        $output .= sprintf('[exit code] %d', $exitCode).PHP_EOL;
+        $output .= sprintf('[exit code] %d', $exitCode).\PHP_EOL;
 
         return $output;
     }
