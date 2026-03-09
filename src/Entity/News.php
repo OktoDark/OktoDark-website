@@ -25,22 +25,17 @@ class News
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $title = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 30)]
+    #[ORM\Column(type: Types::STRING, length: 30)]
     private ?string $author = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\Length(max: 50000)]
     private $content;
 
-    #[ORM\JoinTable(name: 'created_at')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[ORM\JoinColumn(nullable: true)]
-    private \DateTime $createdAt;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTime $createdAt = null;
 
     public function getId()
     {

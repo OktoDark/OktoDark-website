@@ -16,24 +16,24 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Contact
 {
-    #[ORM\Column(type: Types::STRING)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[Assert\NotBlank]
     private ?string $staff = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[Assert\NotBlank]
     private ?string $webmaster = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[Assert\Email]
     private ?string $email = null;
 
     private array $category = [];
 
-    #[ORM\Column(type: Types::STRING)]
+    #[Assert\NotBlank]
     private ?string $subject = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[Assert\NotBlank]
     private ?string $message = null;
 
     public function getName(): string

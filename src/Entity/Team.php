@@ -23,50 +23,46 @@ class Team
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
-    private $id;
+    private ?int $id = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 10)]
+    #[ORM\Column(type: Types::STRING, length: 10)]
     private ?string $position = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 20)]
+    #[ORM\Column(type: Types::STRING, length: 20)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 10)]
+    #[ORM\Column(type: Types::STRING, length: 10)]
     private ?string $teamImage = null;
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPosition()
+    public function getPosition(): ?string
     {
         return $this->position;
     }
 
-    public function setPosition($position)
+    public function setPosition(?string $position): void
     {
         $this->position = $position;
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -76,12 +72,12 @@ class Team
         $this->description = $description;
     }
 
-    public function getTeamImage()
+    public function getTeamImage(): ?string
     {
         return $this->teamImage;
     }
 
-    public function setTeamImage($teamImage)
+    public function setTeamImage(?string $teamImage): void
     {
         $this->teamImage = $teamImage;
     }

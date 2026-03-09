@@ -29,100 +29,88 @@ class OurGames
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $ourGameName = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $ourGameShortName = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $ourGameWebsiteLink = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $ourGameFreeLink = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 10)]
+    #[ORM\Column(type: Types::STRING, length: 10)]
     private ?string $ourGamePlayOnlineID = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $ourGamePlayOnline = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 500)]
+    #[ORM\Column(type: Types::STRING, length: 500)]
     private ?string $ourGamePlayOnlineText = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $ourGameAlpha = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $ourGameBeta = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $ourGameSourceCode = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $ourGameURLCDN = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $ourGameCover = null;
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getOurGameName(): string
+    public function getOurGameName(): ?string
     {
         return $this->ourGameName;
     }
 
-    public function setOurGameName(string $ourGameName)
+    public function setOurGameName(string $ourGameName): void
     {
         $this->ourGameName = $ourGameName;
     }
 
-    public function getOurGameShortName(): string
+    public function getOurGameShortName(): ?string
     {
         return $this->ourGameShortName;
     }
 
-    public function setOurGameShortName(string $ourGameShortName)
+    public function setOurGameShortName(string $ourGameShortName): void
     {
         $this->ourGameShortName = $ourGameShortName;
     }
 
-    public function getOurGameWebsiteLink(): string
+    public function getOurGameWebsiteLink(): ?string
     {
         return $this->ourGameWebsiteLink;
     }
 
-    public function setOurGameWebsiteLink(string $ourGameWebsiteLink)
+    public function setOurGameWebsiteLink(string $ourGameWebsiteLink): void
     {
         $this->ourGameWebsiteLink = $ourGameWebsiteLink;
     }
 
-    public function getOurGameFreeLink(): string
+    public function getOurGameFreeLink(): ?string
     {
         return $this->ourGameFreeLink;
     }
 
-    public function setOurGameFreeLink(string $ourGameFreeLink)
+    public function setOurGameFreeLink(string $ourGameFreeLink): void
     {
         $this->ourGameFreeLink = $ourGameFreeLink;
     }
 
-    public function getOurGamePlayOnlineID(): string
+    public function getOurGamePlayOnlineID(): ?string
     {
         return $this->ourGamePlayOnlineID;
     }
@@ -132,7 +120,7 @@ class OurGames
         $this->ourGamePlayOnlineID = $ourGamePlayOnlineID;
     }
 
-    public function getOurGamePlayOnline(): string
+    public function getOurGamePlayOnline(): ?string
     {
         return $this->ourGamePlayOnline;
     }
@@ -142,7 +130,7 @@ class OurGames
         $this->ourGamePlayOnline = $ourGamePlayOnline;
     }
 
-    public function getOurGamePlayOnlineText(): string
+    public function getOurGamePlayOnlineText(): ?string
     {
         return $this->ourGamePlayOnlineText;
     }
@@ -152,52 +140,52 @@ class OurGames
         $this->ourGamePlayOnlineText = $ourGamePlayOnlineText;
     }
 
-    public function getOurGameAlpha(): string
+    public function getOurGameAlpha(): ?string
     {
         return $this->ourGameAlpha;
     }
 
-    public function setOurGameAlpha(string $ourGameAlpha)
+    public function setOurGameAlpha(string $ourGameAlpha): void
     {
         $this->ourGameAlpha = $ourGameAlpha;
     }
 
-    public function getOurGameBeta(): string
+    public function getOurGameBeta(): ?string
     {
         return $this->ourGameBeta;
     }
 
-    public function setOurGameBeta(string $ourGameBeta)
+    public function setOurGameBeta(string $ourGameBeta): void
     {
         $this->ourGameBeta = $ourGameBeta;
     }
 
-    public function getOurGameSourceCode(): string
+    public function getOurGameSourceCode(): ?string
     {
         return $this->ourGameSourceCode;
     }
 
-    public function setOurGameSourceCode(string $ourGameSourceCode)
+    public function setOurGameSourceCode(string $ourGameSourceCode): void
     {
         $this->ourGameSourceCode = $ourGameSourceCode;
     }
 
-    public function getOurGameURLCDN(): string
+    public function getOurGameURLCDN(): ?string
     {
         return $this->ourGameURLCDN;
     }
 
-    public function setOurGameURLCDN(string $ourGameURLCDN)
+    public function setOurGameURLCDN(string $ourGameURLCDN): void
     {
         $this->ourGameURLCDN = $ourGameURLCDN;
     }
 
-    public function getOurGameCover(): string
+    public function getOurGameCover(): ?string
     {
         return $this->ourGameCover;
     }
 
-    public function setOurGameCover(string $ourGameCover)
+    public function setOurGameCover(string $ourGameCover): void
     {
         $this->ourGameCover = $ourGameCover;
     }

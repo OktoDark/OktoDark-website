@@ -14,7 +14,6 @@ namespace App\Entity;
 use App\Repository\SettingsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SettingsRepository::class)]
 #[ORM\Table(name: 'settings')]
@@ -25,69 +24,60 @@ class Settings
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 10)]
+    #[ORM\Column(type: Types::STRING, length: 10)]
     private ?string $siteName = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 50)]
+    #[ORM\Column(type: Types::STRING, length: 50)]
     private ?string $jobmail = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 50)]
+    #[ORM\Column(type: Types::STRING, length: 50)]
     private ?string $siteCDN = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 10)]
+    #[ORM\Column(type: Types::STRING, length: 10)]
     private ?string $logoName = null;
 
-    public function getLogoName()
-    {
-        return $this->logoName;
-    }
-
-    public function setLogoName($logoName)
-    {
-        $this->logoName = $logoName;
-    }
-
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getSiteName()
+    public function getSiteName(): ?string
     {
         return $this->siteName;
     }
 
-    public function setSiteName($siteName)
+    public function setSiteName(string $siteName): void
     {
         $this->siteName = $siteName;
     }
 
-    public function getJobmail()
+    public function getJobmail(): ?string
     {
         return $this->jobmail;
     }
 
-    public function setJobmail($jobmail)
+    public function setJobmail(string $jobmail): void
     {
         $this->jobmail = $jobmail;
     }
 
-    public function getSiteCDN()
+    public function getSiteCDN(): ?string
     {
         return $this->siteCDN;
     }
 
-    public function setSiteCDN($siteCDN)
+    public function setSiteCDN(string $siteCDN): void
     {
         $this->siteCDN = $siteCDN;
+    }
+
+    public function getLogoName(): ?string
+    {
+        return $this->logoName;
+    }
+
+    public function setLogoName(string $logoName): void
+    {
+        $this->logoName = $logoName;
     }
 }

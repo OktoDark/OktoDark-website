@@ -25,49 +25,46 @@ class Careers
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
-    private ?string $jobtitle = null;
+    #[ORM\Column(type: Types::STRING, length: 100)]
+    private ?string $jobTitle = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 100)]
-    private ?string $requiments = null;
+    #[ORM\Column(type: Types::STRING, length: 100)]
+    private ?string $requirements = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 3)]
+    #[ORM\Column(type: Types::STRING, length: 3)]
     private ?string $number = null;
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getJobtitle()
+    public function getJobTitle(): ?string
     {
-        return $this->jobtitle;
+        return $this->jobTitle;
     }
 
-    public function setJobtitle($jobtitle)
+    public function setJobTitle(?string $jobTitle): void
     {
-        $this->jobtitle = $jobtitle;
+        $this->jobTitle = $jobTitle;
     }
 
-    public function getRequiments()
+    public function getRequirements(): ?string
     {
-        return $this->requiments;
+        return $this->requirements;
     }
 
-    public function setRequiments($requiments)
+    public function setRequirements(?string $requirements): void
     {
-        $this->requiments = $requiments;
+        $this->requirements = $requirements;
     }
 
-    public function getNumber()
+    public function getNumber(): ?string
     {
         return $this->number;
     }
 
-    public function setNumber($number)
+    public function setNumber(?string $number): void
     {
         $this->number = $number;
     }

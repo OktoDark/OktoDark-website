@@ -24,7 +24,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -36,23 +35,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 255)]
-    #[Assert\NotBlank]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $firstName = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\Length(max: 255)]
-    #[Assert\NotBlank]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $lastName = null;
 
-    #[ORM\Column(type: Types::STRING, unique: true)]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 50)]
+    #[ORM\Column(type: Types::STRING, length: 50, unique: true)]
     private ?string $username = null;
 
     #[ORM\Column(type: Types::STRING, unique: true)]
-    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::STRING)]
@@ -65,13 +57,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private $agreedTerms;
+    private ?\DateTimeInterface $agreedTerms = null;
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $isVerified = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isVerified = false;
-
     public function getId(): ?int
     {
         return $this->id;

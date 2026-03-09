@@ -18,82 +18,55 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AssetsRepository::class)]
 #[ORM\Table(name: 'assets')]
-class Assets implements \Serializable
+class Assets
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::INTEGER)]
-    private ?string $sku = null;
+    private ?int $sku = null;
 
-    /**
-     * @var array
-     */
-    #[ORM\Column(type: 'json')]
-    private $brand = [];
+    #[ORM\Column(type: Types::JSON)]
+    private array $brand = [];
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::TEXT)]
     #[Assert\Length(min: 10, max: 10000)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 50)]
     #[Assert\Length(min: 10, max: 50)]
     private ?string $website = null;
 
-    /**
-     * @var array
-     */
-    #[ORM\Column(type: 'json')]
-    private $hairtype = [];
+    #[ORM\Column(type: Types::JSON)]
+    private array $hairtype = [];
 
-    /**
-     * @var array
-     */
-    #[ORM\Column(type: 'json')]
-    private $clothing = [];
+    #[ORM\Column(type: Types::JSON)]
+    private array $clothing = [];
 
-    /**
-     * @var array
-     */
-    #[ORM\Column(type: 'json')]
-    private $misc = [];
+    #[ORM\Column(type: Types::JSON)]
+    private array $misc = [];
 
-    /**
-     * @var array
-     */
-    #[ORM\Column(type: 'json')]
-    private $requirement = [];
+    #[ORM\Column(type: Types::JSON)]
+    private array $requirement = [];
 
-    /**
-     * @var array
-     */
-    #[ORM\Column(type: 'json')]
-    private $softwarecompatible = [];
+    #[ORM\Column(type: Types::JSON)]
+    private array $softwarecompatible = [];
 
-    /**
-     * @var array
-     */
-    #[ORM\Column(type: 'json')]
-    private $figurecompatible = [];
+    #[ORM\Column(type: Types::JSON)]
+    private array $figurecompatible = [];
 
-    /**
-     * @var array
-     */
-    #[ORM\Column(type: 'json')]
-    private $genre = [];
+    #[ORM\Column(type: Types::JSON)]
+    private array $genre = [];
 
-    /**
-     * @var bool
-     */
-    #[ORM\Column(type: 'boolean')]
-    private $bundle = false;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $bundle = false;
 
     public function getId(): ?int
     {
@@ -110,25 +83,19 @@ class Assets implements \Serializable
         $this->name = $name;
     }
 
-    public function getSku(): ?string
+    public function getSku(): ?int
     {
         return $this->sku;
     }
 
-    public function setSku(string $sku): void
+    public function setSku(int $sku): void
     {
         $this->sku = $sku;
     }
 
     public function getBrand(): array
     {
-        $brand = $this->brand;
-
-        if (empty($brand)) {
-            $brand[] = '-';
-        }
-
-        return array_unique($brand);
+        return $this->brand ?: ['-'];
     }
 
     public function setBrand(array $brand): void
@@ -158,13 +125,7 @@ class Assets implements \Serializable
 
     public function getHairtype(): array
     {
-        $hairtype = $this->hairtype;
-
-        if (empty($hairtype)) {
-            $hairtype[] = '-';
-        }
-
-        return array_unique($hairtype);
+        return $this->hairtype ?: ['-'];
     }
 
     public function setHairtype(array $hairtype): void
@@ -174,13 +135,7 @@ class Assets implements \Serializable
 
     public function getClothing(): array
     {
-        $clothing = $this->clothing;
-
-        if (empty($clothing)) {
-            $clothing[] = '-';
-        }
-
-        return array_unique($clothing);
+        return $this->clothing ?: ['-'];
     }
 
     public function setClothing(array $clothing): void
@@ -190,13 +145,7 @@ class Assets implements \Serializable
 
     public function getMisc(): array
     {
-        $misc = $this->misc;
-
-        if (empty($misc)) {
-            $misc[] = '-';
-        }
-
-        return array_unique($misc);
+        return $this->misc ?: ['-'];
     }
 
     public function setMisc(array $misc): void
@@ -206,13 +155,7 @@ class Assets implements \Serializable
 
     public function getRequirement(): array
     {
-        $requirement = $this->requirement;
-
-        if (empty($requirement)) {
-            $requirement[] = '-';
-        }
-
-        return array_unique($requirement);
+        return $this->requirement ?: ['-'];
     }
 
     public function setRequirement(array $requirement): void
@@ -222,13 +165,7 @@ class Assets implements \Serializable
 
     public function getSoftwarecompatible(): array
     {
-        $softwarecompatible = $this->softwarecompatible;
-
-        if (empty($softwarecompatible)) {
-            $softwarecompatible[] = '-';
-        }
-
-        return array_unique($softwarecompatible);
+        return $this->softwarecompatible ?: ['-'];
     }
 
     public function setSoftwarecompatible(array $softwarecompatible): void
@@ -238,13 +175,7 @@ class Assets implements \Serializable
 
     public function getFigurecompatible(): array
     {
-        $figurecompatible = $this->figurecompatible;
-
-        if (empty($figurecompatible)) {
-            $figurecompatible[] = '-';
-        }
-
-        return array_unique($figurecompatible);
+        return $this->figurecompatible ?: ['-'];
     }
 
     public function setFigurecompatible(array $figurecompatible): void
@@ -254,13 +185,7 @@ class Assets implements \Serializable
 
     public function getGenre(): array
     {
-        $genre = $this->genre;
-
-        if (empty($genre)) {
-            $genre[] = '-';
-        }
-
-        return array_unique($genre);
+        return $this->genre ?: ['-'];
     }
 
     public function setGenre(array $genre): void
@@ -276,17 +201,5 @@ class Assets implements \Serializable
     public function setBundle(bool $bundle): void
     {
         $this->bundle = $bundle;
-    }
-
-    public function serialize(): string
-    {
-        // add $this->salt too if you don't use Bcrypt or Argon2i
-        return serialize([$this->id, $this->username, $this->password]);
-    }
-
-    public function unserialize($serialized): void
-    {
-        // add $this->salt too if you don't use Bcrypt or Argon2i
-        [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
     }
 }

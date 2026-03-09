@@ -17,16 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use function Symfony\Component\String\u;
 
-/**
- * Defines the properties of the Comment entity to represent the blog comments.
- * See https://symfony.com/doc/current/book/doctrine.html#creating-an-entity-class.
- *
- * Tip: if you have an existing database, you can generate these entity class automatically.
- * See https://symfony.com/doc/current/cookbook/doctrine/reverse_engineering.html
- *
- * @author Ryan Weaver <weaverryan@gmail.com>
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
- */
 #[ORM\Entity]
 #[ORM\Table(name: 'blog_comment')]
 class Comment
@@ -42,11 +32,16 @@ class Comment
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank(message: 'comment.blank')]
-    #[Assert\Lengh(min: 5, minMessage: 'comment.too_short', max: 10000, maxMessage: 'comment.too_long')]
+    #[Assert\Length(
+        min: 5,
+        max: 10000,
+        minMessage: 'comment.too_short',
+        maxMessage: 'comment.too_long'
+    )]
     private ?string $content = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private \DateTime $publishedAt;
+    private \DateTimeInterface $publishedAt;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -54,15 +49,14 @@ class Comment
 
     public function __construct()
     {
-        $this->publishedAt = new \DateTime();
+        $this->publishedAt = new \DateTimeImmutable();
     }
 
     #[Assert\IsTrue(message: 'comment.is_spam')]
     public function isLegitComment(): bool
     {
-        $containsInvalidCharacters = null !== u($this->content)->indexOf('@');
-
-        return !$containsInvalidCharacters;
+        // Mark as spam if it contains '@'
+        return null === u($this->content)->indexOf('@');
     }
 
     public function getId(): ?int
@@ -80,12 +74,12 @@ class Comment
         $this->content = $content;
     }
 
-    public function getPublishedAt(): \DateTime
+    public function getPublishedAt(): \DateTimeInterface
     {
         return $this->publishedAt;
     }
 
-    public function setPublishedAt(\DateTime $publishedAt): void
+    public function setPublishedAt(\DateTimeInterface $publishedAt): void
     {
         $this->publishedAt = $publishedAt;
     }
