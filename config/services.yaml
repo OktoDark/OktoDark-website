@@ -9,11 +9,11 @@ parameters:
 services:
     _defaults:
         autowire: true
-    autoconfigure: true
-    bind:
-        array $enabledLocales: '%kernel.enabled_locales%'
-        string $locales: '%app.locales%'
-        string $defaultLocale: '%app.locale%'
+        autoconfigure: true
+        bind:
+            array $enabledLocales: '%kernel.enabled_locales%'
+            string $locales: '%app.locales%'
+            string $defaultLocale: '%app.locale%'
 
     Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider: ~
 
