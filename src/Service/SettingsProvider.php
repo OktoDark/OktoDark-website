@@ -12,35 +12,51 @@
 namespace App\Service;
 
 use App\Repository\SettingsRepository;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 
 class SettingsProvider
 {
-    private $settings;
+    private ?object $settings = null;
 
-    public function __construct(SettingsRepository $repo)
+    public function __construct(private SettingsRepository $repo)
     {
-        // Load settings once
-        $this->settings = $repo->findOneBy([]);
     }
 
-    public function getSettings()
+    private function load(): void
     {
+        if ($this->settings !== null) {
+            return;
+        }
+
+        try {
+            $this->settings = $this->repo->findOneBy([]);
+        } catch (TableNotFoundException) {
+            // Happens in CI or first install
+            $this->settings = null;
+        }
+    }
+
+    public function getSettings(): ?object
+    {
+        $this->load();
         return $this->settings;
     }
 
     public function getTheme(): string
     {
-        return $this->settings->getTheme() ?? 'grey';
+        $this->load();
+        return $this->settings?->getTheme() ?? 'grey';
     }
 
     public function getSiteName(): string
     {
-        return $this->settings->getSiteName();
+        $this->load();
+        return $this->settings?->getSiteName() ?? 'OktoDark';
     }
 
     public function getCDN(): string
     {
-        return $this->settings->getSiteCDN();
+        $this->load();
+        return $this->settings?->getSiteCDN() ?? '';
     }
 }
-
