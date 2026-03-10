@@ -24,7 +24,7 @@ class SettingsProvider
 
     private function load(): void
     {
-        if ($this->settings !== null) {
+        if (null !== $this->settings) {
             return;
         }
 
@@ -39,24 +39,28 @@ class SettingsProvider
     public function getSettings(): ?object
     {
         $this->load();
+
         return $this->settings;
     }
 
     public function getTheme(): string
     {
         $this->load();
+
         return $this->settings?->getTheme() ?? 'grey';
     }
 
     public function getSiteName(): string
     {
         $this->load();
+
         return $this->settings?->getSiteName() ?? 'OktoDark';
     }
 
     public function getCDN(): string
     {
         $this->load();
+
         return $this->settings?->getSiteCDN() ?? '';
     }
 }

@@ -24,7 +24,7 @@ class ThemeResolver
 
     private function load(): void
     {
-        if ($this->theme !== null) {
+        if (null !== $this->theme) {
             return;
         }
 
@@ -39,6 +39,7 @@ class ThemeResolver
     public function getTheme(): string
     {
         $this->load();
+
         return $this->theme;
     }
 }
