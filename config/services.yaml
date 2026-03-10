@@ -53,3 +53,10 @@ services:
     # Dynamically registers @theme namespace based on DB theme
     App\Twig\ThemeLoader:
         tags: ['twig.loader']
+
+when@test:
+    services:
+        App\Service\SettingsProvider: null
+        App\Service\ThemeResolver: null
+        App\Twig\SettingsExtension: null
+        App\Twig\ThemeLoader: null
