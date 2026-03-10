@@ -14,7 +14,6 @@ namespace App\Entity;
 use App\Repository\OurGamesRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Here will be all for games, downloading links for alpha/beta stages for our members.

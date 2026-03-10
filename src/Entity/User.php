@@ -15,17 +15,17 @@ use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
+#[ORM\Table(name: '`users`')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
 {
     final public const ROLE_USER = 'ROLE_USER';
     final public const ROLE_ADMIN = 'ROLE_ADMIN';
@@ -62,9 +62,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isVerified = false;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
     public function getId(): ?int
     {
         return $this->id;
@@ -150,14 +147,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->active;
     }
 
-    /**
-     * Returns the roles or permissions granted to the user for security.
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
-
-        // guarantees that a user always has at least one role for security
         if (empty($roles)) {
             $roles[] = self::ROLE_USER;
         }
@@ -172,12 +164,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAgreedTerms(\DateTimeInterface $agreedTerms): self
+    public function getAgreedTerms(): ?\DateTimeInterface
     {
         return $this->agreedTerms;
     }
 
-    public function agreeTerms()
+    public function agreeTerms(): void
     {
         $this->agreedTerms = new \DateTime();
     }
@@ -194,27 +186,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * Removes sensitive data from the user.
-     */
     public function eraseCredentials(): void
     {
-        // if you had a plainPassword property, you'd nullify it here
-        // $this->plainPassword = null;
     }
 
+    /**
+     * IMPORTANT: We must serialize the EMAIL because that is our identifier.
+     */
     public function __serialize(): array
     {
-        return [$this->id, $this->username, $this->password];
+        return [$this->id, $this->email, $this->password];
     }
 
     public function __unserialize(array $data): void
     {
-        [$this->id, $this->username, $this->password] = $data;
+        [$this->id, $this->email, $this->password] = $data;
     }
 
     public function __toString()
     {
-        return (string) $this->getUsername();
+        return (string) $this->getUserIdentifier();
+    }
+
+    /**
+     * EquatableInterface method.
+     */
+    public function isEqualTo(UserInterface $user): bool
+    {
+        if (!$user instanceof self) {
+            return false;
+        }
+
+        // Check password
+        if ($this->password !== $user->getPassword()) {
+            return false;
+        }
+
+        // Check email/identifier
+        if ($this->getUserIdentifier() !== $user->getUserIdentifier()) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -33,6 +33,9 @@ class Settings
     #[ORM\Column(type: Types::STRING, length: 50)]
     private ?string $siteCDN = null;
 
+    #[ORM\Column(length: 50)]
+    private ?string $theme = 'grey';
+
     #[ORM\Column(type: Types::STRING, length: 10)]
     private ?string $logoName = null;
 
@@ -69,6 +72,17 @@ class Settings
     public function setSiteCDN(string $siteCDN): void
     {
         $this->siteCDN = $siteCDN;
+    }
+
+    public function getTheme(): ?string
+    {
+        return $this->theme;
+    }
+
+    public function setTheme(string $theme): self
+    {
+        $this->theme = $theme;
+        return $this;
     }
 
     public function getLogoName(): ?string

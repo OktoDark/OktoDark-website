@@ -6,7 +6,7 @@ security:
         # are not important, waste resources and increase test times. The following
         # reduces the work factor to the lowest possible values.
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-            algorithm: auto
+            algorithm: argon2id
             cost: 4 # Lowest possible value for bcrypt
             time_cost: 3 # Lowest possible value for argon
             memory_cost: 10 # Lowest possible value for argon
@@ -26,17 +26,17 @@ security:
 
         main:
             # this firewall does not have a 'pattern' option because it applies to all URLs
+            pattern: ^/[a-z]{2}/
             lazy: true
             provider: database_users
             custom_authenticator: App\Security\FormAuthenticator
 
             logout:
-                # The route name the user can go to in order to logout
                 path: security_logout
-                # The name of the route to redirect to after logging out
-                target: index
+                target: home_index
 
             remember_me:
+                always_remember_me: false
                 secret: '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds
                 path: /
@@ -45,15 +45,12 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: '^/(%app.locales%)/login', roles: PUBLIC_ACCESS }
-        - { path: '^/(%app.locales%)/admin', roles: ROLE_ADMIN }
-        - { path: '^/admin', roles: ROLE_ADMIN }
-
-        # Members
-        - { path: '^/(%app.locales%)/member', roles: ROLE_MEMBER }
+        - { path: '^/[a-z]{2}/login', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/admin', roles: ROLE_ADMIN }
+        - { path: '^/[a-z]{2}/member', roles: ROLE_USER }
 
     role_hierarchy:
-        ROLE_ADMIN: ROLE_MEMBER
+        ROLE_ADMIN: [ROLE_USER]
 
 when@test:
     # this configuration simplifies testing URLs protected by the security mechanism

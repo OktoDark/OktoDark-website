@@ -1,34 +1,22 @@
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+# config/services.yaml
 parameters:
     app.locale: en
-    # This parameter defines the codes of the locales (languages) enabled in the application
     app.locales: en|ro
     app.notifications.email_sender: anonymous@example.com
-
-    # Maintenance mode:
-    #   true  = Offline
-    #   false = Online
     isLocked: false
-
     container.build_hash: 123
 
 services:
-    # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        bind:               # defines the scalar arguments once and apply them to any service defined/created in this file
-            array $enabledLocales: '%kernel.enabled_locales%'
-            string $locales: '%app.locales%'
-            string $defaultLocale: '%app.locale%'
-            # $emailSender: '%app.notifications.email_sender%'
+        autowire: true
+    autoconfigure: true
+    bind:
+        array $enabledLocales: '%kernel.enabled_locales%'
+        string $locales: '%app.locales%'
+        string $defaultLocale: '%app.locale%'
 
-    # Remember me Token
     Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider: ~
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
 
@@ -40,12 +28,28 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
     App\EventSubscriber\CommentNotificationSubscriber:
         $sender: '%app.notifications.email_sender%'
 
-    # needed to activate the filters provided by Twig Intl Extension
     Twig\Extra\Intl\IntlExtension: null
 
     Symfony\Component\Security\Http\Logout\LogoutUrlGenerator: '@security.logout_url_generator'
+
+
+  #######################################################################
+  # 🟦 THEME SYSTEM SERVICES (ADD THESE)
+  #######################################################################
+
+    # Loads settings from DB once per request
+    App\Service\SettingsProvider: ~
+
+    # Makes settings + theme available in ALL Twig templates
+    App\Twig\SettingsExtension:
+        tags: ['twig.extension']
+
+    # Reads theme from DB and exposes it to ThemeLoader
+    App\Service\ThemeResolver: ~
+
+    # Dynamically registers @theme namespace based on DB theme
+    App\Twig\ThemeLoader:
+        tags: ['twig.loader']
