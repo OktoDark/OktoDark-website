@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) OktoDark Studios
  * Website: https://www.oktodark.com

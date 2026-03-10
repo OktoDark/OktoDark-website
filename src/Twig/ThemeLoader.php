@@ -21,12 +21,12 @@ class ThemeLoader extends FilesystemLoader
         $theme = $resolver->getTheme();
 
         parent::__construct([
-            sprintf('%s/templates/%s', dirname(__DIR__, 2), $theme),
+            \sprintf('%s/templates/%s', dirname(__DIR__, 2), $theme),
         ]);
 
         // Register @theme namespace
         $this->addPath(
-            sprintf('%s/templates/%s', dirname(__DIR__, 2), $theme),
+            \sprintf('%s/templates/%s', dirname(__DIR__, 2), $theme),
             'theme'
         );
     }

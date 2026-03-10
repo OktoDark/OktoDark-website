@@ -82,6 +82,7 @@ class Settings
     public function setTheme(string $theme): self
     {
         $this->theme = $theme;
+
         return $this;
     }
 
