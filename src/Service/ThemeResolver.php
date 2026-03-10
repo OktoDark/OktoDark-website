@@ -12,18 +12,33 @@
 namespace App\Service;
 
 use App\Repository\SettingsRepository;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 
 class ThemeResolver
 {
-    private string $theme;
+    private ?string $theme = null;
 
-    public function __construct(SettingsRepository $settings)
+    public function __construct(private SettingsRepository $repo)
     {
-        $this->theme = $settings->findOneBy([])->getTheme() ?? 'grey';
+    }
+
+    private function load(): void
+    {
+        if ($this->theme !== null) {
+            return;
+        }
+
+        try {
+            $settings = $this->repo->findOneBy([]);
+            $this->theme = $settings?->getTheme() ?? 'grey';
+        } catch (TableNotFoundException) {
+            $this->theme = 'grey';
+        }
     }
 
     public function getTheme(): string
     {
+        $this->load();
         return $this->theme;
     }
 }
