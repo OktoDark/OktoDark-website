@@ -7,57 +7,26 @@
  * For the full copyright and license information, please view the LICENSE.
  */
 
-/*
- * OktoDark Studios — Global Stylesheet
- * Modern Theme (2026)
- */
-
-/* 1. Typography */
-@import url("styles/typography.css");
-
-/* 2. Navbar */
-@import url("styles/navbar.css");
-
-/* 3. Hero Section */
-@import url("styles/hero.css");
-
-/* 4. Icon Boxes */
-@import url("styles/icon-boxes.css");
-
-/* 5. Buttons */
-@import url("styles/buttons.css");
-
-/* 6. Cards (News, Services, etc.) */
-@import url("styles/cards.css");
-
-/* 7. News */
-@import url("styles/news.css");
-@import url("styles/careers.css");
 @import url("styles/about.css");
-@import url("styles/contact.css");
-@import url("styles/privacy.css");
-@import url("styles/faq.css");
-@import url("styles/login.css");
-@import url("styles/register.css");
-@import url("styles/forget-pass.css");
 @import url("styles/admin.css");
-
-@import url("styles/clients.css");
-
-/* 8. Partner Logos */
-@import url("styles/partner-logos.css");
-
-/* 9. Footer */
-@import url("styles/footer.css");
-
-/* 10. Spacing System */
-@import url("styles/spacing.css");
-
-/* 11. Animations */
 @import url("styles/animations.css");
-
-/* 12. Shadows */
-@import url("styles/shadows.css");
-
-/* 13. Preloader (optional) */
+@import url("styles/buttons.css");
+@import url("styles/cards.css");
+@import url("styles/careers.css");
+@import url("styles/clients.css");
+@import url("styles/contact.css");
+@import url("styles/faq.css");
+@import url("styles/footer.css");
+@import url("styles/forget-pass.css");
+@import url("styles/hero.css");
+@import url("styles/icon-boxes.css");
+@import url("styles/login.css");
+@import url("styles/navbar.css");
+@import url("styles/news.css");
+@import url("styles/partner-logos.css");
 @import url("styles/preloader.css");
+@import url("styles/privacy.css");
+@import url("styles/register.css");
+@import url("styles/shadows.css");
+@import url("styles/spacing.css");
+@import url("styles/typography.css");
