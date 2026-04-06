@@ -17,12 +17,6 @@ use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 
 class Paginator
 {
-    /**
-     * Use constants to define configuration options that rarely change instead
-     * of specifying them under parameters section in config/services.yaml file.
-     *
-     * See https://symfony.com/doc/current/best_practices/configuration.html#constants-vs-configuration-options
-     */
     public const PAGE_SIZE = 10;
     private int $currentPage;
     private \Traversable $results;

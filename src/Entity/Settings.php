@@ -28,16 +28,30 @@ class Settings
     private ?string $siteName = null;
 
     #[ORM\Column(type: Types::STRING, length: 50)]
-    private ?string $jobmail = null;
+    private ?string $jobMail = null;
 
     #[ORM\Column(type: Types::STRING, length: 50)]
     private ?string $siteCDN = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $theme = 'grey';
+    private ?string $theme = 'modern';
 
     #[ORM\Column(type: Types::STRING, length: 10)]
     private ?string $logoName = null;
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $register_enabled = true;
+
+    public function getRegisterEnabled(): ?bool
+    {
+        return $this->register_enabled;
+    }
+
+    public function setRegisterEnabled(bool $enabled): self
+    {
+        $this->register_enabled = $enabled;
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -54,14 +68,14 @@ class Settings
         $this->siteName = $siteName;
     }
 
-    public function getJobmail(): ?string
+    public function getJobMail(): ?string
     {
-        return $this->jobmail;
+        return $this->jobMail;
     }
 
-    public function setJobmail(string $jobmail): void
+    public function setJobMail(string $jobMail): void
     {
-        $this->jobmail = $jobmail;
+        $this->jobMail = $jobMail;
     }
 
     public function getSiteCDN(): ?string

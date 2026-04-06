@@ -28,17 +28,15 @@ class SettingsRepository extends ServiceEntityRepository
         parent::__construct($registry, Settings::class);
     }
 
-    public function selectSettings()
+    public function selectSettings(): array
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = '
-            SELECT * FROM settings s
-            WHERE s.id
-        ';
+        $sql = 'SELECT * FROM settings';
 
         $stmt = $conn->prepare($sql);
+        $result = $stmt->executeQuery();
 
-        return $stmt->fetchAll();
+        return $result->fetchAllAssociative();
     }
 }

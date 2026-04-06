@@ -26,21 +26,22 @@ security:
 
         main:
             # this firewall does not have a 'pattern' option because it applies to all URLs
-            pattern: ^/[a-z]{2}/
+            # pattern: ^/[a-z]{2}/
             lazy: true
             provider: database_users
             custom_authenticator: App\Security\FormAuthenticator
 
+            remember_me:
+              secret: '%kernel.secret%'
+              lifetime: 604800 # 1 week in seconds
+              path: /
+              remember_me_parameter: _remember_me
+              always_remember_me: false
+              token_provider: 'Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider'
+
             logout:
                 path: security_logout
                 target: home_index
-
-            remember_me:
-                always_remember_me: false
-                secret: '%kernel.secret%'
-                lifetime: 604800 # 1 week in seconds
-                path: /
-                token_provider: 'Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider'
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

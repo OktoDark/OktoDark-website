@@ -5,6 +5,10 @@ parameters:
     app.notifications.email_sender: anonymous@example.com
     isLocked: false
     container.build_hash: 123
+    php_bin: '%env(PHP_BIN)%'
+    composer_bin: '%env(COMPOSER_BIN)%'
+    avatars_directory: '%kernel.project_dir%/public/uploads/avatars'
+    symfonycasts_reset_password.throttle_limit: 600
 
 services:
     _defaults:
@@ -15,12 +19,31 @@ services:
             string $locales: '%app.locales%'
             string $defaultLocale: '%app.locale%'
 
+    App\:
+      resource: '../src/'
+
+    App\Service\GeoIpService:
+        arguments:
+            $countryDbPath: '%kernel.project_dir%/var/geoip/GeoLite2-Country.mmdb'
+            $cityDbPath: '%kernel.project_dir%/var/geoip/GeoLite2-City.mmdb'
+
+    App\EventListener\ClientHintsListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.response }
+
+    Symfony\Component\RateLimiter\RateLimiterFactory: '@limiter.resend_verification'
+
+    App\Controller\RegistrationController:
+        arguments:
+            $resendVerificationLimiter: '@limiter.resend_verification'
+
     Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider: ~
 
-    App\:
-        resource: '../src/'
+    App\Controller\ResetPasswordController:
+      arguments:
+        $throttleLimit: '%symfonycasts_reset_password.throttle_limit%'
 
-    App\Controller\AdminToolsController:
+    App\Controller\Admin\AdminToolsController:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
@@ -31,13 +54,10 @@ services:
     App\EventSubscriber\CommentNotificationSubscriber:
         $sender: '%app.notifications.email_sender%'
 
-    Twig\Extra\Intl\IntlExtension: null
-
     Symfony\Component\Security\Http\Logout\LogoutUrlGenerator: '@security.logout_url_generator'
 
-
   #######################################################################
-  # 🟦 THEME SYSTEM SERVICES (ADD THESE)
+  # THEME SYSTEM SERVICES
   #######################################################################
 
     # Loads settings from DB once per request

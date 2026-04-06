@@ -37,6 +37,7 @@ class ContactType extends AbstractType
                     new NotBlank(),
                 ],
             ])
+
             ->add('email', EmailType::class, [
                 'required' => true,
                 'label' => 'label.contact_email',
@@ -47,19 +48,22 @@ class ContactType extends AbstractType
                     new NotBlank(),
                 ],
             ])
+
             ->add('category', ChoiceType::class, [
                 'label' => 'label.contact_category',
                 'attr' => [
                     'class' => 'form-input form-input-circle form-input-gray',
                 ],
                 'choices' => [
-                    'Staff' => false,
-                    'Webmaster' => false,
+                    'label.department_staff' => 'staff',
+                    'label.department_webmaster' => 'webmaster',
                 ],
                 'required' => true,
-                'placeholder' => 'label.choiceDepartment',
+                'placeholder' => 'label.choice_department',
                 'empty_data' => null,
+                'choice_translation_domain' => 'labels',
             ])
+
             ->add('subject', TextType::class, [
                 'required' => true,
                 'label' => 'label.contact_subject',
@@ -70,12 +74,14 @@ class ContactType extends AbstractType
                     new NotBlank(),
                 ],
             ])
+
             ->add('message', TextareaType::class, [
                 'label' => 'label.contact_message',
                 'attr' => [
                     'class' => 'form-input form-input-circle form-input-gray',
                 ],
             ])
+
             ->add('submit', SubmitType::class, [
                 'label' => 'label.send',
                 'attr' => [
@@ -90,6 +96,7 @@ class ContactType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Contact::class,
+            'translation_domain' => 'labels',
         ]);
     }
 }

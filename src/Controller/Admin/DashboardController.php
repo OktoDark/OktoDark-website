@@ -11,53 +11,97 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Assets;
-use App\Entity\Careers;
-use App\Entity\News;
-use App\Entity\Services;
-use App\Entity\Settings;
-use App\Entity\Team;
-use App\Entity\User;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Entity\AnalyticsPageView;
+use App\Repository\AnalyticsContentViewRepository;
+use App\Repository\AnalyticsEventRepository;
+use App\Repository\AnalyticsPageViewRepository;
+use App\Repository\AnalyticsSessionRepository;
+use App\Repository\NewsRepository;
+use App\Repository\RegistrationWaitlistRepository;
+use App\Repository\ServicesRepository;
+use App\Repository\UserRepository;
+use App\Service\SettingsProvider;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * @IsGranted("ROLE_ADMIN")
- */
-class DashboardController extends AbstractDashboardController
+#[IsGranted('ROLE_ADMIN')]
+class DashboardController extends AbstractController
 {
-    /**
-     * @Route("/admin", name="admin")
-     */
-    public function index(): Response
-    {
-        return parent::index();
+    public function __construct(
+        private UserRepository $userRepo,
+        private NewsRepository $newsRepo,
+        private ServicesRepository $servicesRepo,
+        private RegistrationWaitlistRepository $waitlistRepo,
+        private SettingsProvider $settingsProvider,
+    ) {
     }
 
-    public function configureDashboard(): Dashboard
-    {
-        return Dashboard::new()
-            ->setTitle('OktoDark Website');
+    #[Route('/admin', name: 'admin_dashboard')]
+    public function index(
+        AnalyticsSessionRepository $sessionRepo,
+        AnalyticsPageViewRepository $pageRepo,
+        AnalyticsEventRepository $eventRepo,
+        AnalyticsContentViewRepository $contentRepo,
+    ): Response {
+        $stats = [
+            'users' => $this->userRepo->count([]),
+            'news' => $this->newsRepo->count([]),
+            'services' => $this->servicesRepo->count([]),
+            'waitlist' => $this->waitlistRepo->count([]),
+            'registration_enabled' => $this->settingsProvider->isRegistrationEnabled(),
+
+            'active_sessions' => $sessionRepo->countActiveSessions(),
+            'page_views_today' => $pageRepo->countToday(),
+            'errors_today' => $eventRepo->countToday(),
+
+            'traffic_last_7_days' => $pageRepo->trafficLastDays(7),
+            'hourly_heatmap' => $pageRepo->hourlyHeatmap(),
+            'devices' => $sessionRepo->countByDevice(),
+            'countries' => $sessionRepo->countByCountry(),
+            'browsers' => $sessionRepo->countByBrowser(),
+            'referrers' => $pageRepo->topReferrers(8),
+            'top_routes' => $pageRepo->topRoutes(8),
+            'top_news' => $contentRepo->topContent('news', 8),
+            'top_ips' => $sessionRepo->findTopIps(),
+            'recent_sessions' => $sessionRepo->findRecentSessions(),
+        ];
+
+        return $this->render('admin/dashboard.html.twig', [
+            'stats' => $stats,
+        ]);
     }
 
-    public function configureMenuItems(): iterable
+    #[Route('/analytics/track', name: 'analytics_track', methods: ['POST'])]
+    public function track(Request $request, EntityManagerInterface $em): Response
     {
-        yield MenuItem::linkToRoute('Homepage', 'fas fa-home', 'homepage');
-        yield MenuItem::linktoDashboard('Dashboard', 'fas fa-chalkboard');
+        $data = json_decode($request->getContent(), true);
+        if (!$data) {
+            return new Response('', 204);
+        }
 
-        yield MenuItem::section('Website', 'fas fa-folder-open');
-        yield MenuItem::linkToCrud('News', 'far fa-newspaper', News::class);
-        yield MenuItem::linkToCrud('Settings', 'fa fa-wrench ', Settings::class);
-        yield MenuItem::linkToCrud('Services', 'fa fa-vector-square ', Services::class);
-        yield MenuItem::linkToCrud('Assets', 'fa fa-archive ', Assets::class);
-        yield MenuItem::linkToCrud('Careers', 'fa fa-id-badge ', Careers::class);
-        yield MenuItem::linkToCrud('Team', 'fa fa-users ', Team::class);
+        $sessionId = $request->getSession()->getId();
 
-        yield MenuItem::section('Member Info', 'fas fa-folder-open');
-        yield MenuItem::linkToCrud('User', 'fa fa-user', User::class);
+        $repo = $em->getRepository(AnalyticsPageView::class);
+        $view = $repo->findLatestBySessionAndUrl($sessionId, $data['url']);
+
+        if ($view && isset($data['duration'])) {
+            $view->setDuration($data['duration']);
+            $em->flush();
+        }
+
+        return new Response('', 204);
+    }
+
+    #[Route('/admin/live-traffic')]
+    public function liveTraffic(AnalyticsPageViewRepository $repo): JsonResponse
+    {
+        return new JsonResponse([
+            'views' => $repo->countLastMinuteViews(),
+        ]);
     }
 }

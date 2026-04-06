@@ -11,12 +11,15 @@
 
 namespace App\Controller;
 
+use App\Form\AvatarUploadType;
 use App\Form\ChangePasswordType;
+use App\Form\PreferencesType;
+use App\Form\ProfileType;
 use App\Form\UserType;
 use App\Repository\OurGamesRepository;
-use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\Cache;
@@ -27,20 +30,19 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/member')]
 final class MemberController extends AbstractController
 {
-    #[Route('/', methods: ['GET'], name: 'member_area')]
+    #[Route('/', name: 'member_area', methods: ['GET'])]
     #[Cache(smaxage: 10)]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function member(SettingsRepository $settings, OurGamesRepository $ourGames): Response
+    public function member(OurGamesRepository $ourGames): Response
     {
         return $this->render('@theme/member/member.html.twig', [
-            'settings' => $settings->findAll(),
             'games' => $ourGames->findAll(),
         ]);
     }
 
-    #[Route('/profile', methods: ['GET', 'POST'], name: 'profile_area')]
+    #[Route('/profile', name: 'profile_area', methods: ['GET', 'POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function editProfile(EntityManagerInterface $em, SettingsRepository $settings, Request $request): Response
+    public function editProfile(EntityManagerInterface $em, Request $request): Response
     {
         $user = $this->getUser();
 
@@ -55,85 +57,99 @@ final class MemberController extends AbstractController
         }
 
         return $this->render('@theme/member/profile.html.twig', [
-            'user' => $user,
+            'users' => $user,
             'form' => $form,
-            'settings' => $settings->findAll(),
         ]);
     }
 
-    #[Route('/settings', methods: ['GET'], name: 'settings_area')]
+    #[Route('/play_online', name: 'play_online', methods: ['GET'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function settings(SettingsRepository $settings): Response
-    {
-        return $this->render('@theme/member/settings.html.twig', [
-            'settings' => $settings->findAll(),
-        ]);
-    }
-
-    #[Route('/play_online', methods: ['GET'], name: 'play_online')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function memberGames(SettingsRepository $settings, OurGamesRepository $ourGames): Response
+    public function memberGames(OurGamesRepository $ourGames): Response
     {
         $games = $ourGames->findAll();
 
         return $this->render('@theme/member/play_online.html.twig', [
-            'settings' => $settings->findAll(),
             'games' => $games,
             'playonline' => $games,
         ]);
     }
 
-    #[Route('/viewPage', methods: ['GET'], name: 'viewPage_area')]
+    #[Route('/settings', name: 'settings_area', methods: ['GET', 'POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function viewPage(SettingsRepository $settings): Response
-    {
-        return $this->render('@theme/member/member.html.twig', [
-            'settings' => $settings->findAll(),
-        ]);
-    }
-
-    #[Route('/edit', methods: ['GET', 'POST'], name: 'user_edit')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function edit(EntityManagerInterface $em, Request $request): Response
-    {
+    public function settings(
+        Request $request,
+        EntityManagerInterface $em,
+        UserPasswordHasherInterface $hasher,
+    ): Response {
         $user = $this->getUser();
 
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
+        // PROFILE FORM
+        $profileForm = $this->createForm(ProfileType::class, $user);
+        $profileForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($profileForm->isSubmitted() && $profileForm->isValid()) {
             $em->flush();
-            $this->addFlash('success', 'user.updated_successfully');
+            $this->addFlash('success', 'Your profile was updated.');
 
-            return $this->redirectToRoute('user_edit');
+            return $this->redirectToRoute('settings_area');
         }
 
-        return $this->render('member/edit.html.twig', [
-            'user' => $user,
-            'form' => $form,
-        ]);
-    }
+        // PASSWORD FORM
+        $passwordForm = $this->createForm(ChangePasswordType::class);
+        $passwordForm->handleRequest($request);
 
-    #[Route('/change-password', methods: ['GET', 'POST'], name: 'user_change_password')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function changePassword(Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $em): Response
-    {
-        $user = $this->getUser();
-
-        $form = $this->createForm(ChangePasswordType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
             $user->setPassword(
-                $hasher->hashPassword($user, $form->get('newPassword')->getData())
+                $hasher->hashPassword($user, $passwordForm->get('newPassword')->getData())
             );
             $em->flush();
+            $this->addFlash('success', 'Password changed successfully.');
 
-            return $this->redirectToRoute('security_logout');
+            return $this->redirectToRoute('settings_area');
         }
 
-        return $this->render('member/change_password.html.twig', [
-            'form' => $form,
+        // PREFERENCES FORM
+        $preferencesForm = $this->createForm(PreferencesType::class, $user);
+        $preferencesForm->handleRequest($request);
+
+        if ($preferencesForm->isSubmitted() && $preferencesForm->isValid()) {
+            $em->flush();
+            $this->addFlash('success', 'Preferences saved.');
+
+            return $this->redirectToRoute('settings_area');
+        }
+
+        // AVATAR UPLOAD
+        $avatarForm = $this->createForm(AvatarUploadType::class);
+        $avatarForm->handleRequest($request);
+
+        if ($avatarForm->isSubmitted() && $avatarForm->isValid()) {
+            $file = $avatarForm->get('avatar')->getData();
+
+            if ($file) {
+                $newFilename = uniqid().'.'.$file->guessExtension();
+
+                try {
+                    $file->move($this->getParameter('avatars_directory'), $newFilename);
+                } catch (FileException $e) {
+                    $this->addFlash('error', 'Upload failed.');
+                }
+
+                $user->setAvatar($newFilename);
+                $em->flush();
+
+                $this->addFlash('success', 'Avatar updated.');
+
+                return $this->redirectToRoute('settings_area');
+            }
+        }
+
+        return $this->render('@theme/member/settings.html.twig', [
+            'profileForm' => $profileForm->createView(),
+            'passwordForm' => $passwordForm->createView(),
+            'preferencesForm' => $preferencesForm->createView(),
+            'avatarForm' => $avatarForm->createView(),
+            'user' => $user,
         ]);
     }
 }

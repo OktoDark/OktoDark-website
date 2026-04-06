@@ -31,58 +31,76 @@ class News
     private ?string $author = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private $content;
+    private ?string $content = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTime $createdAt = null;
+    private ?\DateTimeInterface $publishedAt = null;
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
     }
 
-    public function getAuthor()
+    public function getAuthor(): ?string
     {
         return $this->author;
     }
 
-    public function setAuthor($author)
+    public function setAuthor(string $author): self
     {
         $this->author = $author;
+
+        return $this;
     }
 
-    public function getContent()
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
-    public function setContent($content)
+    public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getPublishedAt(): ?\DateTimeInterface
+    {
+        return $this->publishedAt;
+    }
+
+    public function setPublishedAt(?\DateTimeInterface $publishedAt): self
+    {
+        $this->publishedAt = $publishedAt;
+
+        return $this;
     }
 }

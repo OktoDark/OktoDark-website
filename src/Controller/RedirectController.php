@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class RedirectController extends AbstractController
 {
-    #[Route('/forum', methods: ['GET'], name: 'forum')]
+    #[Route('/forum', name: 'forum', methods: ['GET'])]
     public function forum()
     {
         return $this->redirect('https://forum.oktodark.com');

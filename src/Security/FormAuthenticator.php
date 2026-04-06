@@ -71,7 +71,7 @@ class FormAuthenticator extends AbstractLoginFormAuthenticator
         // If you want admin to go to admin area:
         if (\in_array('ROLE_ADMIN', $user->getRoles(), true)) {
             return new RedirectResponse(
-                $this->urlGenerator->generate('admin', ['_locale' => $locale])
+                $this->urlGenerator->generate('admin_dashboard', ['_locale' => $locale])
             );
         }
 

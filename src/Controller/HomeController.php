@@ -12,7 +12,6 @@
 namespace App\Controller;
 
 use App\Repository\NewsRepository;
-use App\Repository\SettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -23,13 +22,12 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/')]
 final class HomeController extends AbstractController
 {
-    #[Route('/', methods: ['GET'], name: 'home_index')]
-    #[Route('/home', methods: ['GET'], name: 'home')]
-    public function home(SettingsRepository $settings, NewsRepository $news): Response
+    #[Route('/', name: 'home_index', methods: ['GET'])]
+    #[Route('/home', name: 'home', methods: ['GET'])]
+    public function home(NewsRepository $news): Response
     {
         return $this->render('@theme/home.html.twig', [
             'news' => $news->findAll(),
-            'settings' => $settings->findAll(),
         ]);
     }
 }

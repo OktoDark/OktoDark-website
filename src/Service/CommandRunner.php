@@ -14,10 +14,11 @@ namespace App\Service;
 final class CommandRunner
 {
     /**
-     * @param string $command Full command line (already validated/whitelisted)
-     * @param string $cwd     Working directory (project root)
+     * Streams command output in real time.
+     *
+     * @param callable $callback function(string $chunk): void
      */
-    public function run(string $command, string $cwd): string
+    public function stream(string $command, string $cwd, callable $callback): int
     {
         $descriptorSpec = [
             0 => ['pipe', 'r'],  // stdin
@@ -27,29 +28,43 @@ final class CommandRunner
 
         $process = proc_open($command, $descriptorSpec, $pipes, $cwd);
 
-        if (!\is_resource($process)) {
-            return 'Failed to start process.';
+        if (!is_resource($process)) {
+            $callback("[error] Failed to start process.\n");
+
+            return 1;
         }
 
-        fclose($pipes[0]); // we don't send input
+        fclose($pipes[0]); // no stdin
 
-        $stdout = stream_get_contents($pipes[1]);
+        stream_set_blocking($pipes[1], false);
+        stream_set_blocking($pipes[2], false);
+
+        $buffer = '';
+
+        while (true) {
+            $stdout = fgets($pipes[1]);
+            $stderr = fgets($pipes[2]);
+
+            if (false !== $stdout) {
+                $callback($stdout);
+            }
+
+            if (false !== $stderr) {
+                $callback('[stderr] '.$stderr);
+            }
+
+            $status = proc_get_status($process);
+
+            if (!$status['running']) {
+                break;
+            }
+
+            usleep(200000); // 200ms
+        }
+
         fclose($pipes[1]);
-
-        $stderr = stream_get_contents($pipes[2]);
         fclose($pipes[2]);
 
-        $exitCode = proc_close($process);
-
-        $output = '';
-        if ($stdout) {
-            $output .= $stdout.\PHP_EOL;
-        }
-        if ($stderr) {
-            $output .= '[stderr]'.\PHP_EOL.$stderr.\PHP_EOL;
-        }
-        $output .= \sprintf('[exit code] %d', $exitCode).\PHP_EOL;
-
-        return $output;
+        return proc_close($process);
     }
 }

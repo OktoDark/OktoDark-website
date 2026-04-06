@@ -14,7 +14,6 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -33,49 +32,66 @@ class RegistrationFormType extends AbstractType
                 'label' => 'label.username',
                 'label_attr' => ['class' => 'form-label form-label-outside'],
                 'required' => true,
+                'constraints' => [
+                    new NotBlank(message: 'error.username_blank'),
+                ],
             ])
-            ->add('active', HiddenType::class)
+
+            // REMOVE THIS — it breaks the flow
+            // ->add('active', HiddenType::class)
+
             ->add('email', TextType::class, [
                 'label' => 'label.email',
                 'label_attr' => ['class' => 'form-label form-label-outside'],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(message: 'error.email_blank'),
+                ],
             ])
+
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => 'label.agreeTerms',
                 'label_attr' => ['class' => 'form-label form-label-outside form-check-label'],
                 'attr' => ['class' => 'form-check-input'],
                 'mapped' => false,
                 'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
+                    new IsTrue(message: 'error.agree_terms'),
                 ],
             ])
+
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'options' => ['attr' => ['class' => 'form-input form-input-circle form-input-gray'], 'label_attr' => ['class' => 'form-label form-label-outside']],
-                'invalid_message' => 'The password fields must match.',
+                'mapped' => false,
+                'invalid_message' => 'error.password_mismatch',
                 'required' => true,
-                'first_options' => ['label' => 'label.password'],
-                'second_options' => ['label' => 'label.repeatPassword'],
-                // 'mapped' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        'max' => 4096,
-                    ]),
+
+                'first_options' => [
+                    'label' => 'label.password',
+                    'attr' => ['class' => 'modern-input'],
+                    'label_attr' => ['class' => 'form-label form-label-outside'],
+                    'constraints' => [
+                        new NotBlank(message: 'error.password_blank'),
+                        new Length(
+                            min: 6,
+                            max: 4096,
+                            minMessage: 'error.password_min'
+                        ),
+                    ],
                 ],
-            ])
-        ;
+
+                'second_options' => [
+                    'label' => 'label.repeatPassword',
+                    'attr' => ['class' => 'modern-input'],
+                    'label_attr' => ['class' => 'form-label form-label-outside'],
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'translation_domain' => 'labels',
         ]);
     }
 }

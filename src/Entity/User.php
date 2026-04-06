@@ -19,12 +19,16 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
- */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`users`')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(
+    fields: ['email'],
+    message: 'error.email_taken'
+)]
+#[UniqueEntity(
+    fields: ['username'],
+    message: 'error.username_taken'
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
 {
     final public const ROLE_USER = 'ROLE_USER';
@@ -35,10 +39,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $firstName = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $lastName = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, unique: true)]
@@ -47,11 +51,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\Column(type: Types::STRING, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $location = null;
+
+    // IMPORTANT: must be nullable for registration step 1
+    #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $password = null;
 
     #[ORM\Column(type: Types::BOOLEAN)]
-    private $active;
+    private bool $active = false;
 
     #[ORM\Column(type: Types::JSON)]
     private array $roles = [];
@@ -61,6 +69,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isVerified = false;
+
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
+    private ?bool $newsletter = false;
+
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
+    private ?bool $darkMode = false;
 
     public function getId(): ?int
     {
@@ -91,24 +105,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
 
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
-        return $this->getUserIdentifier();
+        return $this->username;
     }
 
-    public function setUsername(string $username): void
+    public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -123,26 +134,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
-    public function getPassword(): string
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?string $location): self
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    public function setActive($active)
+    public function setActive(bool $active): self
     {
         $this->active = $active;
 
         return $this;
     }
 
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->active;
     }
@@ -150,6 +173,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function getRoles(): array
     {
         $roles = $this->roles;
+
         if (empty($roles)) {
             $roles[] = self::ROLE_USER;
         }
@@ -186,13 +210,50 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
-    public function eraseCredentials(): void
+    public function getNewsletter(): ?bool
     {
+        return $this->newsletter;
     }
 
-    /**
-     * IMPORTANT: We must serialize the EMAIL because that is our identifier.
-     */
+    public function setNewsletter(?bool $newsletter): self
+    {
+        $this->newsletter = $newsletter;
+
+        return $this;
+    }
+
+    public function getDarkMode(): ?bool
+    {
+        return $this->darkMode;
+    }
+
+    public function setDarkMode(?bool $darkMode): self
+    {
+        $this->darkMode = $darkMode;
+
+        return $this;
+    }
+
+    public function isPending(): bool
+    {
+        return !$this->isVerified && !$this->active;
+    }
+
+    public function isVerifiedOnly(): bool
+    {
+        return $this->isVerified && !$this->active;
+    }
+
+    public function isFullyActive(): bool
+    {
+        return $this->isVerified && $this->active;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // No temporary sensitive data stored
+    }
+
     public function __serialize(): array
     {
         return [$this->id, $this->email, $this->password];
@@ -203,30 +264,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         [$this->id, $this->email, $this->password] = $data;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getUserIdentifier();
     }
 
-    /**
-     * EquatableInterface method.
-     */
     public function isEqualTo(UserInterface $user): bool
     {
         if (!$user instanceof self) {
             return false;
         }
 
-        // Check password
-        if ($this->password !== $user->getPassword()) {
-            return false;
-        }
-
-        // Check email/identifier
-        if ($this->getUserIdentifier() !== $user->getUserIdentifier()) {
-            return false;
-        }
-
-        return true;
+        return
+            $this->password === $user->getPassword()
+            && $this->getUserIdentifier() === $user->getUserIdentifier();
     }
 }

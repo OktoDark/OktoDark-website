@@ -11,34 +11,30 @@
 
 namespace App\Controller;
 
-use App\Repository\SettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class SupportusController extends AbstractController
 {
-    #[Route('/supportus', methods: ['GET'], name: 'supportus')]
-    public function supportus(SettingsRepository $settings): Response
+    #[Route('/supportus', name: 'supportus', methods: ['GET'])]
+    public function supportus(): Response
     {
         return $this->render('@theme/supportus.html.twig', [
-            'settings' => $settings->findAll(),
         ]);
     }
 
-    #[Route('/bepatron', methods: ['GET'], name: 'bepatron')]
-    public function bepatron(SettingsRepository $settings): Response
+    #[Route('/bepatron', name: 'bepatron', methods: ['GET'])]
+    public function bepatron(): Response
     {
         return $this->render('@theme/bepatron.html.twig', [
-            'settings' => $settings->findAll(),
         ]);
     }
 
-    #[Route('/bedonor', methods: ['GET'], name: 'bedonor')]
-    public function bedonor(SettingsRepository $settings): Response
+    #[Route('/bedonor', name: 'bedonor', methods: ['GET'])]
+    public function bedonor(): Response
     {
         return $this->render('@theme/bedonor.html.twig', [
-            'settings' => $settings->findAll(),
         ]);
     }
 }

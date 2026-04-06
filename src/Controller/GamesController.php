@@ -12,19 +12,17 @@
 namespace App\Controller;
 
 use App\Repository\OurGamesRepository;
-use App\Repository\SettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class GamesController extends AbstractController
 {
-    #[Route('/games', methods: ['GET'], name: 'games')]
-    public function games(SettingsRepository $settings, OurGamesRepository $ourGames): Response
+    #[Route('/games', name: 'games', methods: ['GET'])]
+    public function games(OurGamesRepository $ourGames): Response
     {
         return $this->render('@theme/games.html.twig', [
             'games' => $ourGames->findAll(),
-            'settings' => $settings->findAll(),
         ]);
     }
 }

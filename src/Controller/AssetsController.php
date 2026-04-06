@@ -13,15 +13,15 @@ namespace App\Controller;
 
 use App\Repository\AssetsRepository;
 use App\Repository\SettingsRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_ADMIN')]
 final class AssetsController extends AbstractController
 {
-    #[Route('/assets', methods: ['GET'], name: 'assets_index')]
+    #[Route('/assets', name: 'assets_index', methods: ['GET'])]
     public function index(SettingsRepository $settings, AssetsRepository $assets): Response
     {
         return $this->render('@theme/assets.html.twig', [

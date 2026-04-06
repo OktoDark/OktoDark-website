@@ -13,6 +13,14 @@ doctrine:
 
         auto_mapping: true
 
+        dql:
+            datetime_functions:
+                DATE: DoctrineExtensions\Query\Mysql\Date
+                HOUR: DoctrineExtensions\Query\Mysql\Hour
+                MONTH: DoctrineExtensions\Query\Mysql\Month
+                YEAR: DoctrineExtensions\Query\Mysql\Year
+                DAY: DoctrineExtensions\Query\Mysql\Day
+
         mappings:
             App:
                 type: attribute

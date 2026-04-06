@@ -30,10 +30,9 @@ use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 #[Route('/profile'), IsGranted('IS_AUTHENTICATED_FULLY')]
 final class UserController extends AbstractController
 {
-    #[Route('/edit', methods: ['GET', 'POST'], name: 'user_edit')]
+    #[Route('/edit', name: 'user_edit', methods: ['GET', 'POST'])]
     public function edit(
         #[CurrentUser] User $user,
-        SettingsRepository $settings,
         Request $request,
         EntityManagerInterface $entityManager,
     ): Response {
@@ -51,14 +50,12 @@ final class UserController extends AbstractController
         return $this->render('@theme/member/edit.html.twig', [
             'user' => $user,
             'form' => $form,
-            'settings' => $settings->findAll(),
         ]);
     }
 
-    #[Route('/change-password', methods: ['GET', 'POST'], name: 'user_change_password')]
+    #[Route('/change-password', name: 'user_change_password', methods: ['GET', 'POST'])]
     public function changePassword(
         #[CurrentUser] User $user,
-        SettingsRepository $settings,
         Request $request,
         EntityManagerInterface $entityManager,
         LogoutUrlGenerator $logoutUrlGenerator,
@@ -74,7 +71,6 @@ final class UserController extends AbstractController
 
         return $this->render('@theme/member/change_password.html.twig', [
             'form' => $form,
-            'settings' => $settings->findAll(),
         ]);
     }
 }

@@ -19,16 +19,6 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function Symfony\Component\String\u;
 
-/**
- * This custom Doctrine repository contains some methods which are useful when
- * querying for blog post information.
- *
- * See https://symfony.com/doc/current/doctrine/repository.html
- *
- * @author Ryan Weaver <weaverryan@gmail.com>
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
- * @author Yonel Ceruto <yonelceruto@gmail.com>
- */
 class PostRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

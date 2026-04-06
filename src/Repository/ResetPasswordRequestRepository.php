@@ -12,18 +12,13 @@
 namespace App\Repository;
 
 use App\Entity\ResetPasswordRequest;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestInterface;
 use SymfonyCasts\Bundle\ResetPassword\Persistence\Repository\ResetPasswordRequestRepositoryTrait;
 use SymfonyCasts\Bundle\ResetPassword\Persistence\ResetPasswordRequestRepositoryInterface;
 
-/**
- * @method ResetPasswordRequest|null find($id, $lockMode = null, $lockVersion = null)
- * @method ResetPasswordRequest|null findOneBy(array $criteria, array $orderBy = null)
- * @method ResetPasswordRequest[]    findAll()
- * @method ResetPasswordRequest[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class ResetPasswordRequestRepository extends ServiceEntityRepository implements ResetPasswordRequestRepositoryInterface
 {
     use ResetPasswordRequestRepositoryTrait;
@@ -36,5 +31,19 @@ class ResetPasswordRequestRepository extends ServiceEntityRepository implements 
     public function createResetPasswordRequest(object $user, \DateTimeInterface $expiresAt, string $selector, string $hashedToken): ResetPasswordRequestInterface
     {
         return new ResetPasswordRequest($user, $expiresAt, $selector, $hashedToken);
+    }
+
+    /**
+     * Returns the most recent reset request for a given user.
+     */
+    public function getMostRecentResetRequest(User $user): ?ResetPasswordRequest
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('r.requestedAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

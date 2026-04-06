@@ -30,9 +30,9 @@ class ThemeResolver
 
         try {
             $settings = $this->repo->findOneBy([]);
-            $this->theme = $settings?->getTheme() ?? 'grey';
+            $this->theme = $settings?->getTheme() ?? 'modern';
         } catch (TableNotFoundException) {
-            $this->theme = 'grey';
+            $this->theme = 'modern';
         }
     }
 

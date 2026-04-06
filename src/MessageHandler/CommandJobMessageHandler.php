@@ -39,18 +39,29 @@ final class CommandJobMessageHandler
 
         $job->setStatus(CommandJob::STATUS_RUNNING);
         $job->setStartedAt(new \DateTimeImmutable());
+        $job->setOutput('');
         $this->em->flush();
 
-        try {
-            $output = $this->runner->run($job->getCommand(), $this->projectDir);
-            $job->setOutput($output);
-            $job->setStatus(CommandJob::STATUS_FINISHED);
-        } catch (\Throwable $e) {
-            $job->appendOutput("\n[exception] ".$e->getMessage());
-            $job->setStatus(CommandJob::STATUS_FAILED);
-        }
+        $lastFlush = microtime(true);
 
+        $exitCode = $this->runner->stream(
+            $job->getCommand(),
+            $this->projectDir,
+            function (string $chunk) use ($job, &$lastFlush) {
+                $job->appendOutput($chunk);
+
+                // Flush every 0.3 seconds
+                if (microtime(true) - $lastFlush > 0.3) {
+                    $this->em->flush();
+                    $lastFlush = microtime(true);
+                }
+            }
+        );
+
+        $job->appendOutput("\n[exit code] $exitCode\n");
+        $job->setStatus(CommandJob::STATUS_FINISHED);
         $job->setFinishedAt(new \DateTimeImmutable());
+
         $this->em->flush();
     }
 }

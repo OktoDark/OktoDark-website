@@ -47,7 +47,7 @@ class SettingsProvider
     {
         $this->load();
 
-        return $this->settings?->getTheme() ?? 'grey';
+        return $this->settings?->getTheme() ?? 'modern';
     }
 
     public function getSiteName(): string
@@ -62,5 +62,27 @@ class SettingsProvider
         $this->load();
 
         return $this->settings?->getSiteCDN() ?? '';
+    }
+
+    public function get(string $key, mixed $default = null): mixed
+    {
+        $this->load();
+
+        if (!$this->settings) {
+            return $default;
+        }
+
+        $method = 'get'.str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
+
+        if (method_exists($this->settings, $method)) {
+            return $this->settings->$method();
+        }
+
+        return $default;
+    }
+
+    public function isRegistrationEnabled(): bool
+    {
+        return (bool) $this->get('register_enabled', true);
     }
 }

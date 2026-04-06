@@ -12,19 +12,17 @@
 namespace App\Controller;
 
 use App\Repository\ModsRepository;
-use App\Repository\SettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class ModsController extends AbstractController
 {
-    #[Route('/mods', methods: ['GET'], name: 'mods')]
-    public function mods(SettingsRepository $settings, ModsRepository $mods): Response
+    #[Route('/mods', name: 'mods', methods: ['GET'])]
+    public function mods(ModsRepository $mods): Response
     {
         return $this->render('@theme/mods.html.twig', [
             'mods' => $mods->findAll(),
-            'settings' => $settings->findAll(),
         ]);
     }
 }
