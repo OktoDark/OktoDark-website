@@ -28,7 +28,7 @@ final class CommandRunner
 
         $process = proc_open($command, $descriptorSpec, $pipes, $cwd);
 
-        if (!is_resource($process)) {
+        if (!\is_resource($process)) {
             $callback("[error] Failed to start process.\n");
 
             return 1;

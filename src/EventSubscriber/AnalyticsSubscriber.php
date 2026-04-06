@@ -25,7 +25,7 @@ class AnalyticsSubscriber implements EventSubscriberInterface
     public function onKernelController(ControllerEvent $event): void
     {
         $controller = $event->getController();
-        if (!is_array($controller)) {
+        if (!\is_array($controller)) {
             return;
         }
 

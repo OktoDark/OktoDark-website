@@ -40,6 +40,7 @@ class ServicesController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', $id ? 'Service updated.' : 'Service created.');
+
             return $this->redirectToRoute('admin_services');
         }
 
@@ -51,6 +52,7 @@ class ServicesController extends AbstractController
                 $em->flush();
                 $this->addFlash('success', 'Service deleted.');
             }
+
             return $this->redirectToRoute('admin_services');
         }
 

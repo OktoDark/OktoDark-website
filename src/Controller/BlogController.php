@@ -58,7 +58,7 @@ final class BlogController extends AbstractController
     }
 
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    #[Route('/posts/{slug}', methods: ['GET'], name: 'blog_post')]
+    #[Route('/posts/{slug}', name: 'blog_post', methods: ['GET'])]
     public function postShow(
         #[MapEntity(mapping: ['slug' => 'slug'])] Post $post,
     ): Response {
@@ -124,7 +124,7 @@ final class BlogController extends AbstractController
         return $this->redirectToRoute('blog');
     }
 
-    #[Route('/comment/{postSlug}/new', methods: ['POST'], name: 'comment_new')]
+    #[Route('/comment/{postSlug}/new', name: 'comment_new', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function commentNew(
         string $postSlug,
@@ -173,7 +173,7 @@ final class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/search', methods: ['GET'], name: 'blog_search')]
+    #[Route('/search', name: 'blog_search', methods: ['GET'])]
     public function search(Request $request, PostRepository $posts): Response
     {
         $query = $request->query->get('q', '');
@@ -189,10 +189,10 @@ final class BlogController extends AbstractController
 
         $results = array_map(function (Post $post) {
             return [
-                'title' => htmlspecialchars($post->getTitle(), ENT_COMPAT | ENT_HTML5),
+                'title' => htmlspecialchars($post->getTitle(), \ENT_COMPAT | ENT_HTML5),
                 'date' => $post->getPublishedAt()->format('M d, Y'),
-                'author' => htmlspecialchars($post->getAuthor()->getFullName(), ENT_COMPAT | ENT_HTML5),
-                'summary' => htmlspecialchars($post->getSummary(), ENT_COMPAT | ENT_HTML5),
+                'author' => htmlspecialchars($post->getAuthor()->getFullName(), \ENT_COMPAT | ENT_HTML5),
+                'summary' => htmlspecialchars($post->getSummary(), \ENT_COMPAT | ENT_HTML5),
                 'url' => $this->generateUrl('blog_post', ['slug' => $post->getSlug()]),
             ];
         }, $foundPosts);

@@ -39,6 +39,7 @@ class CareersController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', $id ? 'Career position updated.' : 'Career position created.');
+
             return $this->redirectToRoute('admin_careers');
         }
 
@@ -50,6 +51,7 @@ class CareersController extends AbstractController
                 $em->flush();
                 $this->addFlash('success', 'Career position deleted.');
             }
+
             return $this->redirectToRoute('admin_careers');
         }
 

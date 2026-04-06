@@ -40,6 +40,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // If user came from another page → go back
         if ($referer) {
             $event->setResponse(new RedirectResponse($referer));
+
             return;
         }
 

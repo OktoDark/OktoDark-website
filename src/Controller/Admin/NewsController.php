@@ -60,6 +60,7 @@ class NewsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
+
             return $this->redirectToRoute('admin_news_index');
         }
 

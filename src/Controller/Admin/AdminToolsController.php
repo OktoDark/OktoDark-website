@@ -65,7 +65,7 @@ final class AdminToolsController extends AbstractController
         $allowedCommands = array_column($this->getAllowedCommands(), 'cmd');
         $command = $request->request->get('command');
 
-        if (!in_array($command, $allowedCommands, true)) {
+        if (!\in_array($command, $allowedCommands, true)) {
             return $this->json(['error' => 'Command not allowed'], 400);
         }
 

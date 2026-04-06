@@ -54,9 +54,9 @@ class RegistrationController extends AbstractController
         }
 
         if ($request->isMethod('POST')) {
-            $email = trim((string) $request->request->get('email'));
+            $email = mb_trim((string) $request->request->get('email'));
 
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if (!filter_var($email, \FILTER_VALIDATE_EMAIL)) {
                 $this->addFlash('error', 'Invalid email address.');
             } else {
                 $session = $request->getSession();
@@ -329,7 +329,7 @@ class RegistrationController extends AbstractController
             return $this->json(['exists' => true]);
         }
 
-        $username = trim((string) $request->query->get('username'));
+        $username = mb_trim((string) $request->query->get('username'));
 
         if ('' === $username) {
             return $this->json(['exists' => false]);
@@ -347,7 +347,7 @@ class RegistrationController extends AbstractController
             return $this->json(['exists' => true]);
         }
 
-        $email = trim((string) $request->query->get('email'));
+        $email = mb_trim((string) $request->query->get('email'));
 
         if ('' === $email) {
             return $this->json(['exists' => false]);

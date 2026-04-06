@@ -111,7 +111,7 @@ class AnalyticsTracker
             return false;
         }
 
-        $ua = strtolower($ua);
+        $ua = mb_strtolower($ua);
 
         return str_contains($ua, 'bot')
             || str_contains($ua, 'crawl')
@@ -135,7 +135,7 @@ class AnalyticsTracker
             return null;
         }
 
-        $ua = strtolower($ua);
+        $ua = mb_strtolower($ua);
 
         return match (true) {
             str_contains($ua, 'edg') => 'Edge',
@@ -176,7 +176,7 @@ class AnalyticsTracker
             return null;
         }
 
-        $ua = strtolower($ua);
+        $ua = mb_strtolower($ua);
 
         return match (true) {
             str_contains($ua, 'windows') => 'Windows',
@@ -219,7 +219,7 @@ class AnalyticsTracker
             return null;
         }
 
-        $ua = strtolower($ua);
+        $ua = mb_strtolower($ua);
 
         return match (true) {
             str_contains($ua, 'mobile') => 'Mobile',
@@ -251,7 +251,7 @@ class AnalyticsTracker
 
         // Google Pixel
         if (preg_match('/Pixel [0-9A-Za-z ]+/i', $ua, $m)) {
-            return trim($m[0]);
+            return mb_trim($m[0]);
         }
 
         return null;

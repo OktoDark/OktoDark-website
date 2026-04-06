@@ -50,6 +50,7 @@ class Settings
     public function setRegisterEnabled(bool $enabled): self
     {
         $this->register_enabled = $enabled;
+
         return $this;
     }
 

@@ -59,7 +59,7 @@ class ForceProfileCompletionSubscriber implements EventSubscriberInterface
             'check_email',
         ];
 
-        if (in_array($route, $allowedRoutes, true)) {
+        if (\in_array($route, $allowedRoutes, true)) {
             return;
         }
 

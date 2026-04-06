@@ -25,7 +25,7 @@ class LiveStreamController extends AbstractController
         AnalyticsPageViewRepository $views,
         AnalyticsSessionRepository $sessions,
     ): StreamedResponse {
-        $response = new StreamedResponse(function () use ($views, $sessions) {
+        $response = new StreamedResponse(static function () use ($views, $sessions) {
             while (true) {
                 $data = [
                     'active' => $sessions->countActiveSessions(),

@@ -37,10 +37,10 @@ class SettingsExtension extends AbstractExtension implements GlobalsInterface
         }
 
         // Auto-detect vhosts root
-        $vhostsRoot = dirname($_SERVER['DOCUMENT_ROOT']);
+        $vhostsRoot = \dirname($_SERVER['DOCUMENT_ROOT']);
 
         // Build filesystem path
-        $cssFilePath = sprintf(
+        $cssFilePath = \sprintf(
             '%s/%s/themes/%s/css/style.css',
             $vhostsRoot,
             $cdnDomain,
