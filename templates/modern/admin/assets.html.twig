@@ -1,0 +1,181 @@
+{% extends '@theme/base.html.twig' %}
+{% block title %}Assets Library{% endblock %}
+{% block body_id 'admin_assets' %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_layout.html.twig' %}
+
+        {% block admin_content %}
+
+            <section class="section-page-title text-center py-4 fade-in">
+                <h2 class="fw-bold">Assets Library</h2>
+                <p class="text-muted">Manage your 3D assets, metadata, and compatibility tags.</p>
+            </section>
+
+            <section class="py-3 fade-in">
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endfor %}
+
+                {# ADD / EDIT FORM #}
+                <div class="card neon-card p-4 shadow-sm mb-4">
+                    <h4 class="mb-3">Add / Edit Asset</h4>
+
+                    <form method="post">
+
+                        <input type="hidden" name="id" id="assetId">
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Name</label>
+                                <input type="text" name="name" id="name" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">SKU</label>
+                                <input type="number" name="sku" id="sku" class="form-control" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Description</label>
+                                <textarea name="description" id="description" class="form-control" rows="5"></textarea>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Website</label>
+                                <input type="text" name="website" id="website" class="form-control">
+                            </div>
+
+                            <hr class="my-3">
+
+                            <h5 class="fw-bold">Compatibility & Metadata</h5>
+
+                            {% set jsonFields = [
+                                'brand', 'hairtype', 'clothing', 'misc',
+                                'requirement', 'softwarecompatible',
+                                'figurecompatible', 'genre'
+                            ] %}
+
+                            {% for field in jsonFields %}
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">{{ field|capitalize }}</label>
+                                    <textarea name="{{ field }}" id="{{ field }}" class="form-control" rows="3"
+                                              placeholder='["value1", "value2"]'></textarea>
+                                </div>
+                            {% endfor %}
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Bundle</label>
+                                <select name="bundle" id="bundle" class="form-control">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="text-end mt-4">
+                            <button class="btn btn-success px-4">Save Asset</button>
+                        </div>
+
+                    </form>
+                </div>
+
+                {# ASSETS LIST #}
+                <div class="card neon-card p-4 shadow-sm">
+                    <h4 class="mb-3">Assets</h4>
+
+                    <div class="table-responsive">
+                        <table class="table table-dark table-striped align-middle">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>SKU</th>
+                                <th>Website</th>
+                                <th>Bundle</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for a in assets %}
+                                <tr>
+                                    <td>{{ a.id }}</td>
+                                    <td>{{ a.name }}</td>
+                                    <td>{{ a.sku }}</td>
+                                    <td>{{ a.website ?: '-' }}</td>
+                                    <td>{{ a.bundle ? 'Yes' : 'No' }}</td>
+
+                                    <td class="text-end">
+                                        <button class="btn btn-sm btn-primary"
+                                                onclick="editAsset({{ a.id }},
+                                                        '{{ a.name|e('js') }}',
+                                                        '{{ a.sku }}',
+                                                        `{{ a.description|e('js') }}`,
+                                                        '{{ a.website|e('js') }}',
+                                                        `{{ a.brand|json_encode|e('js') }}`,
+                                                        `{{ a.hairtype|json_encode|e('js') }}`,
+                                                        `{{ a.clothing|json_encode|e('js') }}`,
+                                                        `{{ a.misc|json_encode|e('js') }}`,
+                                                        `{{ a.requirement|json_encode|e('js') }}`,
+                                                        `{{ a.softwarecompatible|json_encode|e('js') }}`,
+                                                        `{{ a.figurecompatible|json_encode|e('js') }}`,
+                                                        `{{ a.genre|json_encode|e('js') }}`,
+                                                        '{{ a.bundle ? 1 : 0 }}'
+                                                        )">
+                                            Edit
+                                        </button>
+
+                                        <a href="{{ path('admin_assets', { delete: a.id }) }}"
+                                           class="btn btn-sm btn-danger"
+                                           onclick="return confirm('Delete this asset?')">
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">No assets yet.</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <script>
+                function editAsset(id, name, sku, description, website,
+                                   brand, hairtype, clothing, misc,
+                                   requirement, softwarecompatible,
+                                   figurecompatible, genre, bundle) {
+
+                    document.getElementById('assetId').value = id;
+                    document.getElementById('name').value = name;
+                    document.getElementById('sku').value = sku;
+                    document.getElementById('description').value = description;
+                    document.getElementById('website').value = website;
+
+                    document.getElementById('brand').value = brand;
+                    document.getElementById('hairtype').value = hairtype;
+                    document.getElementById('clothing').value = clothing;
+                    document.getElementById('misc').value = misc;
+                    document.getElementById('requirement').value = requirement;
+                    document.getElementById('softwarecompatible').value = softwarecompatible;
+                    document.getElementById('figurecompatible').value = figurecompatible;
+                    document.getElementById('genre').value = genre;
+
+                    document.getElementById('bundle').value = bundle;
+
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            </script>
+
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}

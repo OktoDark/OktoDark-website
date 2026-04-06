@@ -1,0 +1,186 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.blog'|trans({}, 'titles') }}{% endblock %}
+
+{% block body_id %}blog{% endblock %}
+
+{% block main %}
+
+    <!-- Modern Page Title -->
+    <section class="section section-page-title context-dark py-5">
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold">{{ 'title.blog'|trans({}, 'titles') }}</h1>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="text-end mt-4">
+                    <a href="{{ path('blog_new') }}" class="btn btn-success">
+                        <i class="fas fa-plus"></i> {{ 'action.new_post'|trans({}, 'actions') }}
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <section class="section section-lg bg-default">
+        <div class="container">
+            <div class="row g-5">
+
+                <!-- Main Blog Column -->
+                <div class="col-lg-8 col-xl-9">
+
+                    {% for post in paginator.results %}
+                        <article class="post-modern card shadow-sm border-0 mb-5">
+
+                            <!-- Author Header -->
+                            <header class="card-header bg-white border-0 d-flex align-items-center gap-3 py-4">
+                                <img
+                                        src="{{ post.author.avatarUrl ?? asset('images/default-avatar.png') }}"
+                                        alt="{{ post.author.firstName }}"
+                                        class="rounded-circle"
+                                        width="64" height="64"
+                                >
+
+                                <div>
+                                    <h5 class="mb-0 fw-semibold">{{ post.author.firstName }}</h5>
+                                    <small class="text-muted">{{ 'blog.role_blogger'|trans({}, 'blog') }}</small>
+                                </div>
+                            </header>
+
+                            <!-- Post Body -->
+                            <div class="card-body">
+
+                                <!-- Meta -->
+                                <div class="d-flex flex-wrap gap-4 text-muted small mb-3">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="far fa-clock"></span>
+                                        <time datetime="{{ post.publishedAt|date('c') }}">
+                                            {{ post.publishedAt|format_datetime('long', 'medium') }}
+                                        </time>
+                                    </div>
+
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="far fa-comments"></span>
+                                        {{ post.comments|length }}
+                                    </div>
+                                </div>
+
+                                <!-- Title -->
+                                <h2 class="h3 fw-bold mb-3">
+                                    <a href="{{ path('blog_post', { slug: post.slug }) }}" class="text-decoration-none">
+                                        {{ post.title }}
+                                    </a>
+                                </h2>
+
+                                <!-- Summary -->
+                                <p class="text-muted">{{ post.summary }}</p>
+
+                                <!-- Buttons -->
+                                <div class="d-flex flex-wrap gap-3 mt-3">
+
+                                    <a class="button button-gradient"
+                                       href="{{ path('blog_post', { slug: post.slug }) }}">
+                                        {{ 'action.read_more'|trans({}, 'actions') }}
+                                    </a>
+
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('blog_edit', { slug: post.slug }) }}"
+                                           class="btn btn-warning btn-sm">
+                                            <i class="fas fa-edit"></i> {{ 'action.edit'|trans({}, 'actions') }}
+                                        </a>
+
+                                        <a href="{{ path('blog_delete', { slug: post.slug }) }}"
+                                           class="btn btn-danger btn-sm"
+                                           onclick="return confirm('{{ 'action.confirm_delete'|trans({}, 'actions') }}');">
+                                            <i class="fas fa-trash"></i> {{ 'action.delete'|trans({}, 'actions') }}
+                                        </a>
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+                        </article>
+
+                    {% else %}
+                        <div class="alert alert-info text-center">
+                            {{ 'post.no_posts_found'|trans({}, 'blog') }}
+                        </div>
+                    {% endfor %}
+
+                    <!-- Pagination -->
+                    {% if paginator.hasToPaginate %}
+                        <nav aria-label="Blog pagination" class="mt-4">
+                            <ul class="pagination justify-content-center">
+
+                                <!-- Previous -->
+                                <li class="page-item {{ not paginator.hasPreviousPage ? 'disabled' }}">
+                                    <a class="page-link"
+                                       href="{{ paginator.hasPreviousPage
+                                       ? path('blog_index_paginated', { page: paginator.previousPage, tag: tagName })
+                                       : '#' }}"
+                                       rel="prev">
+                                        <span class="fas fa-chevron-left"></span>
+                                    </a>
+                                </li>
+
+                                <!-- Page Numbers -->
+                                {% for i in 1..paginator.lastPage %}
+                                    <li class="page-item {{ i == paginator.currentPage ? 'active' }}">
+                                        <a class="page-link"
+                                           href="{{ path('blog_index_paginated', { page: i, tag: tagName }) }}">
+                                            {{ i }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+
+                                <!-- Next -->
+                                <li class="page-item {{ not paginator.hasNextPage ? 'disabled' }}">
+                                    <a class="page-link"
+                                       href="{{ paginator.hasNextPage
+                                       ? path('blog_index_paginated', { page: paginator.nextPage, tag: tagName })
+                                       : '#' }}"
+                                       rel="next">
+                                        <span class="fas fa-chevron-right"></span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    {% endif %}
+
+                </div>
+
+                <!-- Sidebar -->
+                {% block sidebar %}
+                    <div class="col-lg-4 col-xl-3">
+                        <aside class="aside-components">
+
+                            <!-- Search -->
+                            <div class="aside-component card shadow-sm border-0 p-4 mb-4">
+                                <h4 class="component-title mb-3">{{ 'title.search'|trans({}, 'titles') }}</h4>
+
+                                <form class="search-form" action="{{ path('blog_search') }}" method="get">
+                                    <div class="input-group">
+                                        <input
+                                                class="form-control"
+                                                name="q"
+                                                type="text"
+                                                autocomplete="off"
+                                                placeholder="{{ 'search.placeholder'|trans({}, 'search') }}"
+                                        >
+                                        <button class="btn btn-primary" type="submit">
+                                            <span class="mdi mdi-magnify"></span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </aside>
+                    </div>
+                {% endblock %}
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

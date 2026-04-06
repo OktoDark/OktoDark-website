@@ -1,0 +1,20 @@
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * For the full copyright and license information, please view the LICENSE.
+ */
+
+/* --------------------------------------------------
+   SHADOWS — OktoDark Modern Edition
+-------------------------------------------------- */
+
+.shadow-soft {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+
+.shadow-hover:hover {
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}

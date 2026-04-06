@@ -1,0 +1,8 @@
+error.agree_terms: "You must agree to the terms."
+error.password_mismatch: "The password fields must match."
+error.password_blank: "Please enter a password."
+error.password_min: "Your password should be at least {{ limit }} characters."
+error.username_blank: "Please enter a username."
+error.username_taken: "Acest nume de utilizator este deja folosit."
+error.email_taken: "Acest email este deja înregistrat."
+error.email_blank: "Please enter an email address."

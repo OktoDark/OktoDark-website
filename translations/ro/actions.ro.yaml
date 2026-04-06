@@ -1,0 +1,5 @@
+action:
+  new_post: "Scrie articol nou"
+  edit: "Editează"
+  delete: "Șterge"
+  confirm_delete: "Sigur vrei să ștergi acest articol?"

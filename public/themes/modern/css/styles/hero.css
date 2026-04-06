@@ -1,0 +1,97 @@
+/*
+ * OktoDark Studios — Hero Slider (Final Optimized Version)
+ * Author: Razvan George H. (Viruzzz)
+ * Website: https://www.oktodark.com
+ */
+
+/* ------------------------------------------------------
+   HERO SLIDER WRAPPER
+------------------------------------------------------ */
+.hero-slider {
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Gradient overlay */
+.hero-slider::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: darkgray;
+    /*background: linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.4),
+            rgba(0,0,0,0.85)
+    );*/
+    z-index: 1;
+}
+
+/* ------------------------------------------------------
+   SLIDES
+------------------------------------------------------ */
+.hero-slider .slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .8s ease, transform .8s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Active slide (visible) */
+.hero-slider .slide.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ------------------------------------------------------
+   CONTENT ABOVE OVERLAY
+------------------------------------------------------ */
+.hero-slider .hero-content {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    text-align: center;
+}
+
+/* Subtitle */
+.hero-slider h5 {
+    font-size: 1rem;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeUp .7s ease forwards .2s;
+}
+
+/* Main title */
+.hero-slider h1 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp .8s ease forwards .4s;
+}
+
+/* Optional: tighten container */
+.hero-slider .container {
+    max-width: 900px;
+}
+
+/* ------------------------------------------------------
+   ANIMATIONS
+------------------------------------------------------ */
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

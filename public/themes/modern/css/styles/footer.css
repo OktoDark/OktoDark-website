@@ -1,0 +1,175 @@
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * For the full copyright and license information, please view the LICENSE.
+ */
+
+/* --------------------------------------------------
+   FOOTER — OktoDark Modern Edition
+   -------------------------------------------------- */
+
+.footer {
+    background: #111;
+    padding: 60px 0;
+    color: #ccc;
+    font-family: "Roboto Slab", serif;
+}
+
+.footer .row {
+    justify-content: center;
+}
+
+.footer .footer-column {
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.footer .footer-column:nth-child(2) {
+    text-align: center;
+}
+
+.footer h5 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 15px;
+    letter-spacing: -0.01em;
+}
+
+.footer a {
+    color: #0cc5b6;
+    text-decoration: none;
+    transition: color .25s ease, transform .25s ease;
+}
+
+.footer a:hover {
+    color: #fff;
+    transform: translateX(4px);
+}
+
+.footer p {
+    color: #aaa;
+    font-size: .95rem;
+    margin-bottom: 10px;
+}
+
+.footer-divider {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin: 30px 0;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    color: #777;
+    font-size: .85rem;
+}
+
+.footer .social-icons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 15px 0 10px;
+    justify-content: center;
+}
+
+.footer .social-icons a i {
+    font-size: 1.45rem;
+    color: #bfbfbf;
+    transition: transform .25s ease, color .25s ease;
+}
+
+.footer .social-icons a:hover i {
+    color: #0cc5b6;
+    transform: scale(1.25);
+    text-shadow: 0 0 8px rgba(12, 197, 182, 0.6);
+}
+
+.footer .lang {
+    padding-left: 150px;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        text-align: center;
+    }
+    .footer .social-icons a {
+        margin-right: 8px;
+    }
+}
+
+/** CO **/
+
+/* Overlay */
+.a9f2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(0,0,0,0.65);
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 999999;
+    pointer-events: auto;
+}
+
+/* Box */
+.b7kq {
+    position: relative;
+    background: #1f1f1f;
+    color: #fff;
+    padding: 30px;
+    width: 90%;
+    max-width: 420px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    animation: fadeIn .3s ease;
+    pointer-events: auto;
+}
+
+/* Close button */
+.c1z0 {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.6rem;
+    cursor: pointer;
+    opacity: .7;
+    transition: opacity .2s ease;
+}
+
+.c1z0:hover {
+    opacity: 1;
+}
+
+/* Options */
+.d8p1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 12px 0;
+}
+
+/* Actions */
+.e4m9 {
+    margin-top: 20px;
+    text-align: right;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(.95); }
+    to { opacity: 1; transform: scale(1); }
+}

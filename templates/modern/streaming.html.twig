@@ -1,0 +1,119 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.streaming'|trans }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body_id 'streaming' %}
+
+{% block main %}
+
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.streaming'|trans }}</h2>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-gray-100">
+        <div class="container">
+
+            <div class="container px-4 py-5" id="hanging-icons">
+                <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+                    <div class="col d-flex align-items-start">
+                        <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                            <i class="fa-brands fa-twitch stream_twitch"></i>
+                        </div>
+                        <div>
+                            <h3 class="fs-2">Twitch</h3>
+                            <p>The main channel for streaming.</p>
+                        </div>
+                    </div>
+                    <div class="col d-flex align-items-start">
+                        <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                            <i class="fa-brands fa-discord stream_discord"></i>
+                        </div>
+                        <div>
+                            <h3 class="fs-2">Discord</h3>
+                            <p>Suggestions/Bugs report and other discussion, Discord it is the best solution for communication voice and non voice.</p>
+                        </div>
+                    </div>
+                    <div class="col d-flex align-items-start">
+                        <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                            <i class="fa-brands fa-x stream_twitter"></i>
+                        </div>
+                        <div>
+                            <h3 class="fs-2">X</h3>
+                            <p>Fast and clean messages for all viewers and followers</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h5>{{ 'content.streamingFAQ'|trans|raw }} </h5>
+            <section class="section section-lg bg-gray-100">
+                <div class="container">
+                    <h4>What you can see on Streaming and where can see</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="text-decoration">
+                                <p>In our Streaming you can see 3D modeling, game creation and more only on our Twitch Channel.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section section-lg bg-default">
+                <div class="container">
+                    <h4>It's free to watch?</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="text-decoration">
+                                <p>Yes. It's free watching.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section section-lg bg-gray-100">
+                <div class="container">
+                    <h4>When starting the streaming and in which days?</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="text-decoration">
+                                <p>The streaming right now is not have fixed days for streaming.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section section-lg bg-default">
+                <div class="container">
+                    <h4>We must to donate or something else?</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="text-decoration">
+                                <p>Everybody can donate if you want with subscription (see Support us menu link) or other method to pay to help the channel, but is at your latitude.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="row">
+                <b>What you can see on Streaming and where can see.</b>In our Streaming you can see 3D modeling, game creation and more only on our Twitch Channel.
+                <br>
+                <b>It's free to watch?</b>Yes. It's free watching.
+                <br>
+                <b>When starting the streaming and in which days?</b>The streaming right now is not have fixed days for streaming.
+                <br>
+                <b>We must to donate or something else?</b>Everybody can donate if you want with subscription (see Support us menu link) or other method to pay to help the channel, but is at your latitude.
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

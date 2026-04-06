@@ -1,0 +1,55 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.about'|trans({}, 'titles') }}{% endblock %}
+
+{% block body_id 'about' %}
+
+{% block main %}
+
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'title.about'|trans({}, 'titles') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'about.subtitle'|trans }}</p>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-gray-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <p>{{ 'about.description'|trans({}, 'about')|raw }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-default text-center">
+        <div class="container">
+            <h3 class="display-6 fw-bold mb-5">{{ 'title.our_team'|trans({}, 'titles') }}</h3>
+
+            <div class="row justify-content-center">
+
+                {% for t in team %}
+                    <div class="col-12 col-md-6 col-lg-4 mb-5">
+                        <div class="box-team-modern box-team-modern-quote">
+
+                            <figure class="team-img mb-3">
+                                <img class="rounded-circle"
+                                     src="{{  settings.siteCDN }}/themes/{{ theme }}/images/not_available.png"
+                                     alt="{{ t.name }}">
+                            </figure>
+
+                            <div class="box-team-modern-caption">
+                                <h5 class="team-modern-subtitle">{{ t.position }}</h5>
+                                <h4 class="team-modern-title">{{ t.name }}</h4>
+                                <p class="mt-2">{{ t.description }}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

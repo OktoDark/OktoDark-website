@@ -1,0 +1,25 @@
+{% set current = current_step|default(1) %}
+
+<div class="od-progress mb-4">
+    <div class="od-progress-steps d-flex justify-content-between mb-2">
+        <div class="od-step {{ current >= 1 ? 'active' : '' }}">
+            <span class="od-step-number">1</span>
+            <span class="od-step-label">{{ 'step.register'|trans({}, 'messages') }}</span>
+        </div>
+        <div class="od-step {{ current >= 2 ? 'active' : '' }}">
+            <span class="od-step-number">2</span>
+            <span class="od-step-label">{{ 'step.verify_email'|trans({}, 'messages') }}</span>
+        </div>
+        <div class="od-step {{ current >= 3 ? 'active' : '' }}">
+            <span class="od-step-number">3</span>
+            <span class="od-step-label">{{ 'step.complete_profile'|trans({}, 'messages') }}</span>
+        </div>
+    </div>
+
+    <div class="progress" style="height: 6px;">
+        <div class="progress-bar" role="progressbar"
+             style="width: {{ (current - 1) / 2 * 100 }}%;"
+             aria-valuenow="{{ (current - 1) / 2 * 100 }}" aria-valuemin="0" aria-valuemax="100">
+        </div>
+    </div>
+</div>

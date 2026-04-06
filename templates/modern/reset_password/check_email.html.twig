@@ -1,0 +1,75 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}{{ 'title.reset_email_sent'|trans({}, 'titles') }}{% endblock %}
+
+{% block body_id 'reset-password-check-email' %}
+
+{% block body %}
+
+    <section class="section section-page-title context-dark text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'title.reset_email_sent'|trans({}, 'titles') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'text.reset_email_sent_intro'|trans({}, 'messages') }}</p>
+        </div>
+    </section>
+
+    <section class="section section-md bg-default text-center pt-0">
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <div class="login-modern p-4 p-md-5">
+
+                    <fieldset>
+                        <legend class="text-center mb-4">
+                            <i class="fa fa-envelope-open me-2"></i>
+                            {{ 'title.reset_email_sent'|trans({}, 'titles') }}
+                        </legend>
+
+                        <p class="mb-3">
+                            {{ 'text.reset_email_expire'|trans({
+                                '%hours%': (tokenLifetime / 3600)|round(0, 'floor')
+                            }, 'messages') }}
+                        </p>
+
+                        <p class="small mb-4">
+                            {{ 'text.reset_email_spam'|trans({}, 'messages') }}
+                        </p>
+
+                        <a href="{{ path('app_forgot_password_request') }}"
+                           class="button btn-info text-info w-100 py-2">
+                            <i class="fa fa-redo me-2"></i>
+                            {{ 'title.try_again'|trans({}, 'titles') }}
+                        </a>
+
+                        {% if remainingSeconds > 0 %}
+                            <div id="cooldown-box" class="alert alert-warning text-center mt-3">
+                                {{ 'reset.throttle_friendly'|trans({}, 'messages') }}
+                                <div id="cooldown-timer" class="mt-2 fw-bold"></div>
+                            </div>
+
+                            <script>
+                                let remaining = {{ remainingSeconds }};
+                                const timer = document.getElementById('cooldown-timer');
+
+                                const interval = setInterval(() => {
+                                    if (remaining <= 0) {
+                                    timer.innerHTML = "You can try again now.";
+                                    clearInterval(interval);
+                                    return;
+                                }
+                                const minutes = Math.floor(remaining / 60);
+                                const seconds = remaining % 60;
+                                timer.innerHTML = minutes + "m " + seconds + "s remaining";
+                                remaining--;
+                                }, 1000);
+                            </script>
+                        {% endif %}
+                    </fieldset>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Waitlist – Admin{% endblock %}
+
+{% block body_id 'admin' %}
+
+{% block main %}
+        {% embed '@theme/admin/partials/_layout.html.twig' %}
+
+    {% block admin_content %}
+    <section class="section-page-title py-4">
+        <h2 class="display-6 fw-bold">Registration Waitlist</h2>
+        <p class="text-muted">Emails collected while registration is offline.</p>
+    </section>
+
+    <section class="py-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                {% if entries is empty %}
+                    <p class="text-muted mb-0">No entries in the waitlist.</p>
+                {% else %}
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Email</th>
+                                <th>Added On</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for entry in entries %}
+                                <tr>
+                                    <td>{{ entry.id }}</td>
+                                    <td>{{ entry.email }}</td>
+                                    <td>{{ entry.createdAt|date('Y-m-d H:i') }}</td>
+                                    <td class="text-end">
+                                        <form method="post" action="{{ path('admin_waitlist_delete', {id: entry.id}) }}"
+                                              onsubmit="return confirm('Remove this entry?');">
+                                            <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+            {% endblock %}
+
+    {% endembed %}
+
+{% endblock %}

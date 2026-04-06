@@ -1,0 +1,5 @@
+error.username_taken: "This username is already taken."
+error.email_taken: "This email is already registered."
+error.password_blank: "Please enter a password."
+error.password_min: "Your password must be at least 6 characters."
+error.agree_terms: "You must agree to the terms."

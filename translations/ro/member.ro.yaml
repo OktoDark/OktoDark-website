@@ -1,0 +1,16 @@
+member.download_alpha_text: "Descarcă Alpha"
+member.download_beta_text: "Descarcă Beta"
+member.upgrade_now_text: "Upgradează-ți nivelul pentru a avea acces"
+member.settings: "Setări"
+
+action.edit_user: "Editează utilizator"
+action.change_password: "Schimbă parola"
+
+menu.user: "Cont"
+
+user.updated_successfully: "Utilizator actualizat cu succes!"
+
+info.change_password: >
+  După schimbarea parolei, vei fi deconectat automat din aplicație.
+
+info.unable_change_username: "Nu poți schimba numele de utilizator."

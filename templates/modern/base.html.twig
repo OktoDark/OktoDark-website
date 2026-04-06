@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}" dir="ltr">
+<head>
+    {% block head %}
+        <meta charset="utf-8">
+        <meta name="description" content="OktoDark a Multi Studio for games/3d models/website services">
+        <meta name="google-site-verification" content="xEIs_lGYQigA4QIQ9JZBJFLM1n140lfdQfGbjr0uG5c">
+        <meta name="robots" content="noindex,nofollow">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>{% block title %}{% endblock %} - {{ settings.siteName }}</title>
+
+        <link rel="icon" href="{{ settings.siteCDN }}/themes/{{ theme }}/images/favicon.ico" type="image/x-icon">
+
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700%7CMontserrat:400,700,800">
+
+        <!-- Bootstrap FIRST -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Theme CSS -->
+        <link rel="stylesheet" href="{{ settings.siteCDN }}/themes/{{ theme }}/css/style.css?v={{ css_version }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js"></script>
+    {% endblock %}
+</head>
+
+<body id="{% block body_id %}{% endblock %}">
+
+{% include("@theme/loading.html.twig") %}
+
+<div class="page">
+
+    {% include("@theme/navbar.html.twig") %}
+
+    {% block body %}
+        {% block main %}{% endblock %}
+    {% endblock %}
+
+    <div id="a9f2" class="a9f2" style="display:none">
+        <div class="b7kq">
+
+            <button class="c1z0" id="a9f2-close">&times;</button>
+
+            <h3>Site Preferences</h3>
+            <p>You can choose which options you want to allow.</p>
+
+            <label class="d8p1">
+                <input type="checkbox" checked disabled>
+                <strong>Necessary</strong>
+            </label>
+
+            <label class="d8p1">
+                <input type="checkbox" id="opt-a1">
+                <strong>Analytics</strong>
+            </label>
+
+            <label class="d8p1">
+                <input type="checkbox" id="opt-a2">
+                <strong>Marketing</strong>
+            </label>
+
+            <div class="e4m9">
+                <button id="a9f2-save" class="button button-gradient button-circle">Save</button>
+            </div>
+        </div>
+    </div>
+
+    {% include("@theme/footer.html.twig") %}
+
+</div>
+
+<div class="snackbars" id="form-output-global"></div>
+
+<!-- jQuery (only if needed by legacy scripts) -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- Bootstrap Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Theme Scripts -->
+{% block javascripts %}
+    <script src="{{ settings.siteCDN }}/themes/{{ theme }}/js/script.js"></script>
+{% endblock %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const start = Date.now();
+
+        window.addEventListener('beforeunload', () => {
+            const duration = Math.round((Date.now() - start) / 1000);
+
+            navigator.sendBeacon('/analytics/track', JSON.stringify({
+                duration: duration,
+                url: window.location.href
+            }));
+        });
+    });
+</script>
+
+<script>
+    window.addEventListener("load", () => {
+        const preloader = document.getElementById("preloader");
+        if (preloader) preloader.classList.add("hidden");
+    });
+</script>
+</body>
+</html>

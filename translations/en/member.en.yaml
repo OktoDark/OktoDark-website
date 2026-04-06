@@ -1,0 +1,16 @@
+member.download_alpha_text: "Download Alpha"
+member.download_beta_text: "Download Beta"
+member.upgrade_now_text: "Upgrade your Tier to gain access"
+member.settings: "Settings"
+
+action.edit_user: "Edit user"
+action.change_password: "Change password"
+
+menu.user: "Account"
+
+user.updated_successfully: "User updated successfully!"
+
+info.change_password: >
+  After changing your password, you will be logged out of the application.
+
+info.unable_change_username: "You are unable to change your username."

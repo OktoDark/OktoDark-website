@@ -1,0 +1,121 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}
+    {{ 'title.reg_check_mail'|trans({}, 'titles') }} – {{ settings.getSiteName() }}
+{% endblock %}
+
+{% block body_id 'register_check_email' %}
+
+{% block body %}
+    <!-- Page Title -->
+    <section class="section section-page-title context-dark text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'title.check_email'|trans({}, 'titles') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'content.register_subtitle'|trans({}, 'content') }}</p>
+        </div>
+    </section>
+
+    <section class="section section-md pt-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 text-center">
+
+                    <p class="text-muted mb-4">
+                        {{ 'text.check_email_intro'|trans({}, 'messages') }}
+                    </p>
+
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body py-4 px-4">
+
+                            <p class="mb-3">
+                                {{ 'text.check_email_instructions'|trans({}, 'messages') }}
+                            </p>
+
+                            <p class="small text-light mb-4">
+                                {{ 'text.check_email_spam'|trans({}, 'messages') }}
+                            </p>
+
+                            {# Countdown resend button #}
+                            <div id="resend-section" class="mb-3">
+                                <button id="resend-btn"
+                                        class="button button-outline w-100"
+                                        data-email="{{ email }}"
+                                        disabled>
+                                    {{ 'title.resend_verification'|trans({}, 'titles') }}
+                                    <span id="countdown">(60)</span>
+                                </button>
+                            </div>
+
+                            {# Troubleshooting #}
+                            <div class="mt-4 text-start">
+                                <h5 class="mb-2 text-light">{{ 'title.troubleshooting'|trans({}, 'titles') }}</h5>
+
+                                <ul class="text-muted small">
+                                    <li>{{ 'help.check_spam'|trans({}, 'messages') }}</li>
+                                    <li>{{ 'help.wait_few_minutes'|trans({}, 'messages') }}</li>
+                                    <li>{{ 'help.correct_email'|trans({}, 'messages') }}</li>
+                                    <li>{{ 'help.whitelist_domain'|trans({'%domain%': 'mailer@mailer.com'}, 'messages') }}</li>
+                                </ul>
+                            </div>
+
+                            {# Sent X minutes ago #}
+                            <p class="small text-light mb-3">
+                                {{ 'text.email_sent_ago'|trans({
+                                    '%minutes%': (
+                                    app.session.get('last_verification_email')
+                                    ? ((date().timestamp - app.session.get('last_verification_email')) / 60)|round
+                                    : 0
+                                    )
+                                }, 'messages') }}
+                            </p>
+
+                            <a href="{{ path('app_register') }}" class="button button-outline w-100 mb-3">
+                                {{ 'title.change_email'|trans({}, 'titles') }}
+                            </a>
+
+                            <a href="{{ path('security_login') }}" class="button button-gradient w-100">
+                                {{ 'title.back_to_login'|trans({}, 'titles') }}
+                            </a>
+
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="progress-wrapper">
+            {% include '@theme/registration/_progress.html.twig' with { current_step: 2 } %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        let seconds = 60;
+        const btn = document.getElementById('resend-btn');
+        const countdown = document.getElementById('countdown');
+
+        const timer = setInterval(() => {
+            seconds--;
+            countdown.textContent = `(${seconds})`;
+
+            if (seconds <= 0) {
+            clearInterval(timer);
+            countdown.textContent = '';
+            btn.disabled = false;
+            btn.classList.remove('button-outline');
+            btn.classList.add('button-gradient');
+        }
+        }, 1000);
+
+        btn.addEventListener('click', () => {
+            if (btn.disabled) return;
+
+        const email = btn.dataset.email;
+        window.location.href = "{{ path('app_resend_verification') }}?email=" + encodeURIComponent(email);
+        });
+    </script>
+{% endblock %}

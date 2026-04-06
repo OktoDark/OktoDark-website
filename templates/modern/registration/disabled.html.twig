@@ -1,0 +1,159 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}{{ 'registration.disabled.title'|trans({}, 'registration') }}{% endblock %}
+
+{% block body %}
+
+    {# -------------------------------------------------------------
+       PAGE TITLE SECTION
+    ------------------------------------------------------------- #}
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">
+                {{ 'registration.disabled.title'|trans({}, 'registration') }}
+            </h2>
+
+            <p class="text-muted mt-2">
+                {{ 'registration.disabled.message'|trans({}, 'registration') }}
+            </p>
+        </div>
+    </section>
+
+    {# -------------------------------------------------------------
+       MAIN CONTENT
+    ------------------------------------------------------------- #}
+    <section class="registration-disabled py-5 pt-0">
+        <div class="container text-center">
+
+            {# SUPPORT BOX #}
+            <div class="support-box mt-4 p-4">
+                <h3 class="mb-2">
+                    {{ 'registration.disabled.support_title'|trans({}, 'registration') }}
+                </h3>
+
+                <p class="mb-3">
+                    {{ 'registration.disabled.support_text'|trans({}, 'registration') }}
+                </p>
+
+                <a href="{{ path('contact') }}" class="btn btn-primary">
+                    {{ 'registration.disabled.contact_support'|trans({}, 'registration') }}
+                </a>
+            </div>
+
+            {# NOTIFY ME BOX #}
+            <div class="notify-box mt-4 p-4">
+                <h3 class="mb-2">
+                    {{ 'registration.disabled.notify_title'|trans({}, 'registration') }}
+                </h3>
+
+                <p class="mb-3">
+                    {{ 'registration.disabled.notify_text'|trans({}, 'registration') }}
+                </p>
+
+                <form method="post" class="notify-form">
+                    <input
+                            type="email"
+                            name="email"
+                            class="form-control notify-input mb-3"
+                            placeholder="{{ 'registration.disabled.notify_placeholder'|trans({}, 'registration') }}"
+                            required
+                    >
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        {{ 'registration.disabled.notify_button'|trans({}, 'registration') }}
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    {# -------------------------------------------------------------
+       FLASH CAPTURE
+    ------------------------------------------------------------- #}
+    {% set successFlashes = app.flashes('success') %}
+    {% set infoFlashes = app.flashes('info') %}
+
+    {# -------------------------------------------------------------
+       HIDDEN TRIGGER BUTTONS
+    ------------------------------------------------------------- #}
+    {% if successFlashes is not empty %}
+        <button id="openNotifyModal" type="button" class="d-none"
+                data-bs-toggle="modal" data-bs-target="#notifyModal"></button>
+    {% endif %}
+
+    {% if infoFlashes is not empty %}
+        <button id="openNotifyExistsModal" type="button" class="d-none"
+                data-bs-toggle="modal" data-bs-target="#notifyExistsModal"></button>
+    {% endif %}
+
+    {# -------------------------------------------------------------
+       SUCCESS MODAL (NEW EMAIL)
+    ------------------------------------------------------------- #}
+    <div class="modal fade" id="notifyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-center p-4">
+
+                <div class="od-modal-icon mb-3">✔</div>
+
+                <h2 class="text-white">
+                    {{ 'registration.disabled.modal_title'|trans({}, 'registration') }}
+                </h2>
+
+                <p class="text-light">
+                    {{ 'registration.disabled.modal_message'|trans({}, 'registration') }}
+                </p>
+
+                <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">
+                    {{ 'registration.disabled.modal_close'|trans({}, 'registration') }}
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    {# -------------------------------------------------------------
+       EXISTS MODAL (EMAIL ALREADY IN LIST)
+    ------------------------------------------------------------- #}
+    <div class="modal fade" id="notifyExistsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-center p-4">
+
+                <div class="od-modal-icon mb-3">ℹ️</div>
+
+                <h2 class="text-white">
+                    {{ 'registration.disabled.modal_exists_title'|trans({}, 'registration') }}
+                </h2>
+
+                <p class="text-light">
+                    {{ 'registration.disabled.modal_exists_message'|trans({}, 'registration') }}
+                </p>
+
+                <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">
+                    {{ 'registration.disabled.modal_close'|trans({}, 'registration') }}
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    {# -------------------------------------------------------------
+       AUTO-OPEN LOGIC
+    ------------------------------------------------------------- #}
+    {% if successFlashes is not empty %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('openNotifyModal').click();
+            });
+        </script>
+    {% endif %}
+
+    {% if infoFlashes is not empty %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('openNotifyExistsModal').click();
+            });
+        </script>
+    {% endif %}
+
+{% endblock %}

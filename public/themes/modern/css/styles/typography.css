@@ -1,0 +1,113 @@
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * For the full copyright and license information, please view the LICENSE.
+ */
+
+/* TYPOGRAPHY — OktoDark Modern Edition */
+
+:root {
+    --font-body: "Roboto Slab", "Times New Roman", Times, serif;
+    --font-heading: "Montserrat", sans-serif;
+
+    --color-text: #7a7a7a;
+    --color-heading: #1f1f1f;
+    --color-accent: #0cc5b6;
+
+    --line-base: 1.65;
+}
+
+/* Body */
+body {
+    font-family: var(--font-body);
+    font-size: clamp(15px, 1.15vw, 17px);
+    line-height: var(--line-base);
+    font-weight: 300;
+    color: var(--color-text);
+    background-color: #fff;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6,
+[class^='heading-'] {
+    margin: 0 0 .5em 0;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-heading);
+    letter-spacing: -0.02em;
+}
+
+/* Hero / cinematic titles */
+h1, .heading-1 {
+    font-size: clamp(2.4rem, 6vw, 7.5rem);
+    line-height: 1.05;
+    font-weight: 800;
+}
+
+/* Section titles */
+.section-title h3 {
+    font-size: clamp(2.2rem, 4vw, 3.8rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    color: var(--color-heading);
+}
+
+/* Subtitles */
+.section-title h5 {
+    color: #9a9a9a;
+    font-weight: 400;
+    margin-bottom: .75rem;
+}
+
+/* Icon-box titles */
+.icon-box-title {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--color-heading);
+}
+
+/* News titles */
+.post-classic h4 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--color-heading);
+    margin-bottom: .5rem;
+}
+
+/* Lead text */
+.lead {
+    font-size: clamp(1.25rem, 2vw, 1.9rem);
+    line-height: 1.55;
+    font-weight: 300;
+    color: var(--color-heading);
+}
+
+/* Small text */
+small, .small {
+    font-size: .8rem;
+    line-height: 1.4;
+    opacity: .85;
+}
+
+/* Paragraphs */
+p {
+    margin-bottom: 1.1rem;
+}
+
+/* Links */
+a {
+    /* color: var(--color-accent);*/
+    color: #9b9d9f !important;
+    transition: color .25s ease;
+}
+a:hover {
+    color: var(--color-heading);
+}

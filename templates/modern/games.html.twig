@@ -1,0 +1,54 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.games'|trans({}, 'titles') }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body_id 'games' %}
+
+{% block main %}
+
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'title.games'|trans({}, 'titles') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'games.subtitle'|trans({}, 'games') }}</p>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-gray-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <p>{{ 'content.gamesPage'|trans|raw }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section class="section section-lg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row row-20 justify-content-lg-between">
+                        {% for g in games %}
+                            <div class="col-md-6 col-lg-5 text-center">
+                                <a href="{{ g.ourGameWebsiteLink }}">
+                                    <img
+                                            class="game_covers_image img-fluid"
+                                            src="{{ settings.siteCDN }}/images/covers/{{ g.ourGameCover }}.png"
+                                            alt="{{ g.ourGameName }}"
+                                    />
+                                </a>
+                                <h5 class="mt-3">{{ g.ourGameName }}</h5>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

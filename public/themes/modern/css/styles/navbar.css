@@ -1,0 +1,109 @@
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * For the full copyright and license information, please view the LICENSE.
+ */
+
+/* NAVBAR — OktoDark Modern Edition */
+
+/* Match template demo font size */
+.navbar-nav .nav-link {
+    font-size: 0.85rem;
+    /* font-weight: 600; */ /* bad looks */
+    padding: 12px 14px;
+    /* bad looks
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+     */
+}
+
+/* Center menu spacing */
+.main-menu .nav-item {
+    margin: 0 10px;
+}
+
+/* Arrow under each item (like demo) */
+.nav-arrow {
+    display: block;
+    width: 6px;
+    height: 6px;
+    margin: 3px auto 0;
+    border-bottom: 2px solid #0cc5b6;
+    border-right: 2px solid #0cc5b6;
+    transform: rotate(45deg);
+    opacity: 0;
+    transition: opacity .25s ease;
+}
+
+.nav-link:hover .nav-arrow,
+.nav-link.active .nav-arrow {
+    opacity: 1;
+}
+
+/* Underline animation */
+.navbar-nav .nav-link {
+    position: relative;
+}
+
+.navbar-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    width: 0;
+    height: 2px;
+    background: #0cc5b6;
+    transition: all .25s ease;
+    transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+    width: 40%;
+}
+
+/* Navbar height like demo */
+.modern-nav {
+    padding: 0.3rem 0;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(10px);
+}
+
+/* Scroll effect */
+.modern-nav.scrolled {
+    background: rgba(0,0,0,0.9);
+}
+
+/* Dropdown animation */
+.navbar .dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all .25s ease;
+    border-radius: 6px;
+    padding: 10px 0;
+}
+
+/* Show on hover */
+.navbar .nav-item:hover > .dropdown-menu,
+.navbar .dropdown-menu:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Dropdown items style */
+.dropdown-menu .dropdown-item {
+    font-size: 0.85rem;
+    padding: 8px 18px;
+    transition: background .2s ease, padding-left .2s ease;
+}
+
+/* Hover effect like template */
+.dropdown-menu .dropdown-item:hover {
+    background: rgba(12, 197, 182, 0.15);
+    padding-left: 22px;
+}

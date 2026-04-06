@@ -1,0 +1,51 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}System Health – Admin{% endblock %}
+
+{% block body_id 'admin' %}
+
+{% block main %}
+
+        {% embed '@theme/admin/partials/_layout.html.twig' %}
+
+        {% block admin_content %}
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">System Health</h2>
+            <p class="lead text-muted mt-2">Overview of core services.</p>
+        </div>
+    </section>
+
+    <section class="bg-default py-4">
+        <div class="container">
+            <div class="row justify-content-center g-4">
+
+                <div class="col-md-3">
+                    <div class="card p-4 shadow-sm text-center">
+                        <h3 class="h5 mb-2">Mailer</h3>
+                        <p class="mb-0">{{ health.mailer }}</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card p-4 shadow-sm text-center">
+                        <h3 class="h5 mb-2">Cache</h3>
+                        <p class="mb-0">{{ health.cache }}</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card p-4 shadow-sm text-center">
+                        <h3 class="h5 mb-2">Logs</h3>
+                        <p class="mb-0">{{ health.logs }}</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+            {% endblock %}
+
+    {% endembed %}
+
+{% endblock %}

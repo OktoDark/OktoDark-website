@@ -1,0 +1,8 @@
+action.new_post: "Write new post"
+action.edit: "Edit"
+action.delete: "Delete"
+action.confirm_delete: "Are you sure you want to delete this post?"
+action.save: "Save"
+action.update: "Update"
+action.submit_comment: "Submit comment"
+action.read_more: "Read More"

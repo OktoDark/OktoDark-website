@@ -1,0 +1,89 @@
+{# templates/admin/partials/_layout.html.twig #}
+
+<div id="admin">
+
+    <script>
+        function toggleAdminMenu() {
+            document.querySelector('#admin .admin-sidebar').classList.toggle('active');
+            document.querySelector('#admin .admin-overlay').classList.toggle('active');
+        }
+    </script>
+
+    <!-- Mobile toggle button -->
+    <button class="admin-toggle" onclick="toggleAdminMenu()">☰</button>
+
+    <!-- Mobile overlay -->
+    <div class="admin-overlay" onclick="toggleAdminMenu()"></div>
+
+    <div class="admin-wrapper">
+
+        <aside class="admin-sidebar">
+            <h5 class="text-white mb-3">Admin</h5>
+
+            <nav class="nav flex-column">
+
+                <a class="nav-link {{ app.request.attributes.get('_route') == 'admin_dashboard' ? 'active' : '' }}"
+                   href="{{ path('admin_dashboard') }}">
+                    <i class="fas fa-gauge-high"></i> Dashboard
+                </a>
+
+                <a class="nav-link {{ app.request.attributes.get('_route') starts with 'admin_registration' ? 'active' : '' }}"
+                   href="{{ path('admin_registration_panel') }}">
+                    <i class="fas fa-user-shield"></i> Registration Control
+                </a>
+
+                <a class="nav-link {{ app.request.attributes.get('_route') starts with 'admin_users' ? 'active' : '' }}"
+                   href="{{ path('admin_users') }}">
+                    <i class="fas fa-users"></i> Users
+                </a>
+
+                <a class="nav-link {{ app.request.attributes.get('_route') starts with 'admin_settings' ? 'active' : '' }}"
+                   href="{{ path('admin_settings') }}">
+                    <i class="fas fa-gear"></i> Settings
+                </a>
+
+                <a class="nav-link {{ app.request.attributes.get('_route') starts with 'admin_waitlist' ? 'active' : '' }}"
+                   href="{{ path('admin_waitlist_index') }}">
+                    <i class="fas fa-clock"></i> Waitlist
+                </a>
+
+                <a class="nav-link {{ app.request.attributes.get('_route') starts with 'admin_system_health' ? 'active' : '' }}"
+                   href="{{ path('admin_system_health') }}">
+                    <i class="fas fa-heart-pulse"></i> System Health
+                </a>
+
+                <a class="nav-link {{ app.request.attributes.get('_route') starts with 'admin_news' ? 'active' : '' }}"
+                   href="{{ path('admin_news_index') }}">
+                    <i class="fas fa-newspaper"></i> News
+                </a>
+
+                <a class="nav-link {{ app.request.attributes.get('_route') starts with 'admin_team' ? 'active' : '' }}"
+                   href="{{ path('admin_team') }}">
+                    <i class="fas fa-user-group"></i> Team
+                </a>
+
+                <a class="nav-link {{ app.request.attributes.get('_route') starts with 'admin_careers' ? 'active' : '' }}"
+                   href="{{ path('admin_careers') }}">
+                    <i class="fas fa-briefcase"></i> Careers
+                </a>
+
+                <a class="nav-link {{ app.request.attributes.get('_route') starts with 'admin_services' ? 'active' : '' }}"
+                   href="{{ path('admin_services') }}">
+                    <i class="fas fa-list-check"></i> Services
+                </a>
+
+                <a class="nav-link {{ app.request.attributes.get('_route') starts with 'admin_assets' ? 'active' : '' }}"
+                   href="{{ path('admin_assets') }}">
+                    <i class="fas fa-boxes-stacked"></i> Assets
+                </a>
+
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            {% block admin_content %}{% endblock %}
+        </main>
+
+    </div>
+
+</div>

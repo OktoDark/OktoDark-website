@@ -1,0 +1,27 @@
+{% if app.user %}
+    <h4 class="fw-bold mb-4">{{ 'post.leave_comment'|trans({}, 'blog') }}</h4>
+
+    {{ form_start(form, {
+        action: path('comment_new', { postSlug: post.slug }),
+        method: 'POST'
+    }) }}
+
+    <!-- Comment Content -->
+    <div class="mb-3">
+        {{ form_label(form.content, null, { label_attr: { class: 'form-label fw-semibold' } }) }}
+        {{ form_widget(form.content, { attr: { class: 'form-control', rows: 4 } }) }}
+        <div class="text-danger small">{{ form_errors(form.content) }}</div>
+    </div>
+
+    <!-- Submit -->
+    <button class="btn btn-primary px-4">
+        <i class="fas fa-paper-plane"></i> {{ 'action.submit_comment'|trans({}, 'actions') }}
+    </button>
+
+    {{ form_end(form) }}
+
+{% else %}
+    <div class="alert alert-info">
+        {{ 'post.login_to_comment'|trans({}, 'blog') }}
+    </div>
+{% endif %}

@@ -1,0 +1,45 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}{{ 'title.edit_user'|trans }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body_id 'user_edit' %}
+
+{% block main %}
+
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.edit_user'|trans }}</h2>
+        </div>
+    </section>
+
+    <section class="section section-md bg-default text-center">
+        <div class="container">
+            <div class="row justify-content-lg-center">
+                <div class="col-8">
+                    <div class="alert alert-info" role="alert">{{ 'info.unabble_change_username'|trans }}</div>
+                    {{ form_start(form, {'attr': {'class': 'rd-mailform text-left', 'data-form-type': 'contact', 'data-form-output': 'form-output-global'}}) }}
+                    <div class="form-warp">
+                        {{ form_widget(form) }}
+                    </div>
+                    <br>
+                    <div class="form-button">
+                        <button class="button button-primary" type="submit">
+                            {{ 'action.save'|trans }}
+                        </button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+                <div class="col-4" style="text-align:left;">
+                    <i class="fas fa-key"></i> <a href="{{ path('user_change_password') }}">{{ 'change.password'|trans }}</a>
+                    <br>
+                    <i class="fas fa-user"></i> <a href="{{ path('user_edit') }}">{{ 'change.informations'|trans }}</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

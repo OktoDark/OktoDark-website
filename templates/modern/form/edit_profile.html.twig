@@ -1,0 +1,12 @@
+<div class="alert alert-info" role="alert">{{ 'info.unabble_change_username'|trans }}</div>
+{{ form_start(form, {'attr': {'class': 'rd-mailform text-left', 'data-form-type': 'contact', 'data-form-output': 'form-output-global'}}) }}
+<div class="form-warp">
+    {{ form_widget(form) }}
+</div>
+<br>
+<div class="form-button">
+    <button class="button button-primary" type="submit">
+        {{ 'action.save'|trans }}
+    </button>
+</div>
+{{ form_end(form) }}

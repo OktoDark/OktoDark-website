@@ -1,0 +1,141 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.home'|trans({}, 'titles') }}{% endblock %}
+
+{% block main %}
+
+    {# HERO SECTION #}
+    <section id="hero" class="hero-slider carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+
+        <div class="carousel-inner">
+
+            <div class="carousel-item active">
+                <div class="container">
+                    <div class="hero-content text-center">
+                        <h5>{{ 'slider_one.text'|trans({}, 'slider') }}</h5>
+                        <h1>{{ 'slider_one_row.text'|trans({}, 'slider') }}</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="hero-content text-center">
+                        <h5>{{ 'slider_two.text'|trans({}, 'slider') }}</h5>
+                        <h1>{{ 'slider_two_row.text'|trans({}, 'slider') }}</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="hero-content text-center">
+                        <h5>{{ 'slider_three.text'|trans({}, 'slider') }}</h5>
+                        <h1>{{ 'slider_three_row.text'|trans({}, 'slider') }}</h1>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    {# ICON BOXES #}
+    <section class="section section-lg bg-gray-100" style="padding-top: 40px !important;padding-bottom: 40px !important;">
+        <div class="container">
+            <div class="row g-4">
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="icon-box shadow-soft shadow-hover fade-in">
+                        <div class="icon-container"><span class="fas fa-check"></span></div>
+                        <h4 class="icon-box-title">{{ 'info_home_one.text'|trans({}, 'home') }}</h4>
+                        <p>{{ 'info_home_one_content.text'|trans({}, 'home') }}</p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="icon-box shadow-soft shadow-hover fade-in">
+                        <div class="icon-container"><span class="fas fa-filter"></span></div>
+                        <h4 class="icon-box-title">{{ 'info_home_two.text'|trans({}, 'home') }}</h4>
+                        <p>{{ 'info_home_two_content.text'|trans({}, 'home') }}</p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="icon-box shadow-soft shadow-hover fade-in">
+                        <div class="icon-container"><span class="fas fa-vial"></span></div>
+                        <h4 class="icon-box-title">{{ 'info_home_three.text'|trans({}, 'home') }}</h4>
+                        <p>{{ 'info_home_three_content.text'|trans({}, 'home') }}</p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="icon-box shadow-soft shadow-hover fade-in">
+                        <div class="icon-container"><span class="fas fa-download"></span></div>
+                        <h4 class="icon-box-title">{{ 'info_home_four.text'|trans({}, 'home') }}</h4>
+                        <p>{{ 'info_home_four_content.text'|trans({}, 'home') }}</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    {# NEWS SECTION #}
+    <section class="section section-lg bg-default">
+        <div class="container">
+
+            <div class="section-title text-center fade-in">
+                <h3>{{ 'title.news'|trans({}, 'titles') }}</h3>
+            </div>
+
+            <div class="row g-4">
+                {% for n in news %}
+                    <div class="col-md-6 fade-in">
+                        <div class="post-classic shadow-soft shadow-hover">
+                            <h4>{{ n.title }}</h4>
+
+                            <div class="post-classic-meta">
+                                <ul class="list list-inline">
+                                    <li>{{ 'by.news'|trans }} {{ n.author }}</li>
+                                    <li><span class="icon-news-time far fa-clock"></span> {{ n.createdAt|format_datetime('medium', 'short', '', 'UTC') }}</li>
+                                </ul>
+                            </div>
+
+                            {{ n.content|sanitize_html }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+    {# CLIENTS SECTION #}
+    <section class="section section-xl clients-section bg-gray-100 text-center">
+        <div class="container">
+
+            <div class="section-title fade-in">
+                <h3>{{ 'title.our_clients'|trans({}, 'titles') }}</h3>
+            </div>
+
+            <div class="row justify-content-center align-items-center g-4">
+
+                <div class="col-6 col-md-4 col-xl-2 fade-in">
+                    <a href="https://www.l2heaven.net">
+                        <img src="{{ settings.siteCDN }}/images/clients/l2heaven.png" class="partner-logo" alt="L2Heaven">
+                    </a>
+                </div>
+
+                <div class="col-6 col-md-4 col-xl-2 fade-in">
+                    <a href="https://www.hartafaptelorbune.ro">
+                        <img src="{{ settings.siteCDN }}/images/clients/hartafaptelorbune.png" class="partner-logo" alt="Harta Faptelor Bune">
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}

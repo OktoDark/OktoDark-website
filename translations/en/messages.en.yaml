@@ -1,0 +1,44 @@
+text.check_email_intro: "We’ve sent a confirmation link to your email address."
+text.check_email_instructions: "Please click the link in that email to verify your account and continue."
+text.check_email_spam: "If you don’t see the email, check your spam or junk folder."
+step.register: "Create account"
+step.verify_email: "Confirm email"
+step.complete_profile: "Complete profile"
+text.email_sent_ago: "Verification email sent %minutes% minutes ago."
+title.troubleshooting: "Didn’t receive the email?"
+help.check_spam: "Check your spam or junk folder."
+help.wait_few_minutes: "Wait a few minutes — sometimes email delivery is delayed."
+help.correct_email: "Make sure you entered the correct email address."
+help.whitelist_domain: "Add %domain% to your email whitelist."
+text.reset_email_sent_intro: "If an account exists with the email you entered, a password reset link has been sent."
+text.reset_email_expire: "This link will expire in %hours% hour(s)."
+text.reset_email_spam: "If you don't see the email, please check your spam or junk folder."
+reset:
+  reset.throttle_error: "You recently requested a password reset. Please wait %minutes% minute(s) before trying again."
+  reset.throttle_error_seconds: "Please wait %seconds% second(s) before trying again."
+  subtitle: "Enter your email address to receive a password reset link."
+  throttle_error: "You recently requested a password reset. Please wait %minutes% minute(s) before trying again."
+  throttle_error_seconds: "Please wait %seconds% second(s) before trying again."
+  throttle_friendly: "For your security, you can request a new reset link only once every hour."
+  email_sent_intro: "If an account exists with the email you entered, a password reset link has been sent."
+  email_expire: "This link will expire in %hours% hour(s)."
+  email_spam: "If you don't see the email, please check your spam or junk folder."
+  token_invalid: "Your reset link is invalid or has expired. Please request a new one."
+validation:
+  password:
+    not_blank: "Please enter a password."
+    min_length: "Your password should be at least {{ limit }} characters."
+    mismatch: "The password fields must match."
+
+label:
+  password_new: "New password"
+  password_repeat: "Repeat password"
+
+title:
+  reset_your_password: "Reset your password"
+
+text:
+  reset_password: "Enter your new password below to complete the reset process."
+
+button:
+  reset_password: "Reset Password"

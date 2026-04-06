@@ -1,0 +1,35 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block body %}
+    <section class="section section-md">
+        <div class="container">
+            <h2 class="text-center mb-4">{{ 'title.complete_profile'|trans({}, 'titles') }}</h2>
+
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+
+                    {{ form_start(profileForm) }}
+
+                    {{ form_row(profileForm.firstName) }}
+                    {{ form_row(profileForm.lastName) }}
+                    {{ form_row(profileForm.location) }}
+                    {{ form_row(profileForm.newsletter) }}
+                    {{ form_row(profileForm.darkMode) }}
+
+                    <button class="button button-gradient w-100 mt-3">
+                        {{ 'title.finish'|trans({}, 'titles') }}
+                    </button>
+
+                    {{ form_end(profileForm) }}
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="progress-wrapper">
+            {% include '@theme/registration/_progress.html.twig' with { current_step: 3 } %}
+        </div>
+    </section>
+{% endblock %}

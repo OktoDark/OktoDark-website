@@ -1,0 +1,60 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.play_online'|trans }}{% endblock %}
+
+{% block head %}
+    {{  parent() }}
+{% endblock %}
+
+{% block body_id 'play_online' %}
+
+{% block main %}
+
+    <section class="section section-page-title context-dark">
+        <div class="container">
+            <h2>{{ 'title.play_online'|trans }}</h2>
+        </div>
+    </section>
+    <!-- Tabs-->
+    <section class="section section-md bg-default text-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h3>Welcome to play ground!</h3>
+                    <h5 class="text-gray-500">Choice and play online directly in your browser what you do want, when you do want, but you must to wait a bit for loading all informations.</h5>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+                    <h4 class="text-uppercase">Select the game!</h4>
+                    <!-- Bootstrap tabs -->
+                    <div class="tabs-custom tabs-horizontal tabs-corporate" id="tabs-1">
+                        <!-- Nav tabs-->
+                        <ul class="nav nav-tabs">
+                            {% for p in playonline %}
+                                {% for s in settings %}
+                            <li class="nav-item" role="presentation">
+                                <a href="#{{ p.ourGamePlayOnlineID }}" data-toggle="tab"><img src="{{ s.siteCDN }}/images/covers/{{ p.ourGameCover }}.png" alt="" width="295" height="111"/></a>
+                            </li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                        <!-- Tab panes-->
+                        <div class="tab-content">
+                            {% for p in playonline %}
+                            <div class="tab-pane fade" id="{{ p.ourGamePlayOnlineID }}">
+                                <p><b>Description</b>:<br><i>{{ p.ourGamePlayOnlineText }}</i></p>
+                                <br>
+                                <iframe src="{{ p.ourGamePlayOnline }}" style="height:720px;width:1280px;margin-left:-200px;"></iframe>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

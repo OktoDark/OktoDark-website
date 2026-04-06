@@ -1,0 +1,5 @@
+error.username_taken: "Acest nume de utilizator este deja folosit."
+error.email_taken: "Acest email este deja înregistrat."
+error.password_blank: "Introduceți o parolă."
+error.password_min: "Parola trebuie să aibă cel puțin 6 caractere."
+error.agree_terms: "Trebuie să fiți de acord cu termenii."

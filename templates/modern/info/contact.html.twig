@@ -1,0 +1,56 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.contact'|trans({}, 'titles') }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body_id 'contact' %}
+
+{% block main %}
+
+    <section class="section section-page-title context-dark text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'title.contact'|trans({}, 'titles') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'content.contact_subtitle'|trans({}, 'content') }}</p>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-gray-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <p>{{ 'content.contact'|trans({}, 'content') }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-default text-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-9 col-lg-7">
+
+                    <div class="contact-form-modern p-4 p-md-5">
+                        {{ form_start(form, {
+                            'attr': {
+                                'class': 'rd-mailform modern-form',
+                                'data-form-output': 'form-output-global',
+                                'data-form-type': 'contact'
+                            }
+                        }) }}
+
+                        <div class="form-wrap-modern">
+                            {{ form_widget(form) }}
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

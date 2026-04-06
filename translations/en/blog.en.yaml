@@ -1,0 +1,13 @@
+action.sign_in: "Sign in"
+
+post.to_publish_a_comment: "to publish a comment"
+post.num_comments: "{count, plural, one {# comment} other {# comments}}"
+post.commented_on: "commented on"
+post.no_comments: "Be the first to comment on this post."
+post.no_posts_found: "No posts found."
+post.created_successfully: "Post created successfully!"
+post.updated_successfully: "Post updated successfully!"
+post.deleted_successfully: "Post deleted successfully!"
+
+post.leave_comment: "Leave a comment"
+post.login_to_comment: "You must be logged in to post a comment."

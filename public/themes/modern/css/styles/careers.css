@@ -1,0 +1,68 @@
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * For the full copyright and license information, please view the LICENSE.
+ */
+
+/* Modern list spacing */
+.modern-list li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+/* Accordion modern look */
+.modern-accordion .accordion-button {
+    background: #1f1f1f;
+    color: #fff;
+    padding: 18px 22px;
+    font-size: 1.05rem;
+    border: none;
+    transition: background .25s ease;
+}
+
+.modern-accordion .accordion-button:not(.collapsed) {
+    background: #0cc5b6;
+    color: #000;
+}
+
+.modern-accordion .accordion-body {
+    background: #151515;
+    color: #ccc;
+    padding: 25px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.modern-accordion .badge {
+    background: linear-gradient(135deg, #0cc5b6, #0a9d8f);
+    font-size: .8rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+/* Reduce vertical spacing on Careers page */
+#careers .section-lg {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+#careers .accordion-item {
+    margin-bottom: 12px; /* smaller gap between job cards */
+}
+
+#careers .accordion-button {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+#careers .accordion-body {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+/* Reduce spacing above the intro list */
+#careers .modern-list {
+    margin-top: 10px;
+}

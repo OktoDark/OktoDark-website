@@ -1,0 +1,881 @@
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * REGISTER PAGE — PREMIUM UI
+ */
+
+/* -------------------------------------------------------
+   CONTAINER
+------------------------------------------------------- */
+#register .register-modern {
+    background: #1a1a1a;
+    width: 400px;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    text-align: left;
+}
+
+#register .col-md-9.col-lg-7 {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* -------------------------------------------------------
+   INPUTS
+------------------------------------------------------- */
+#register .modern-input {
+    background: #111 !important;
+    border: 1px solid #2a2a2a !important;
+    color: #e5e5e5 !important;
+    padding: 12px 16px !important;
+    border-radius: 8px !important;
+    font-size: 0.95rem !important;
+    transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+}
+
+#register .modern-input:focus {
+    border-color: #0cc5b6 !important;
+    box-shadow: 0 0 8px rgba(12,197,182,0.4) !important;
+    background: #151515 !important;
+}
+
+#register .section-md {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
+
+/* Success / Error states */
+#register .modern-input.success {
+    border-color: #28a745 !important;
+    box-shadow: 0 0 6px rgba(40,167,69,0.4) !important;
+}
+
+#register .modern-input.error {
+    border-color: #d9534f !important;
+    box-shadow: 0 0 6px rgba(217,83,79,0.4) !important;
+}
+
+/* -------------------------------------------------------
+   LABELS & SPACING
+------------------------------------------------------- */
+#register label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #dcdcdc !important;
+}
+
+#register .register-modern .mb-3 {
+    margin-bottom: 18px !important;
+}
+
+/* -------------------------------------------------------
+   CHECKBOX
+------------------------------------------------------- */
+#register .form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 0;
+}
+
+#register .form-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
+#register .form-check label {
+    margin: 0;
+    font-weight: 500;
+    color: #ccc !important;
+}
+
+/* -------------------------------------------------------
+   SHOW / HIDE PASSWORD ICON
+------------------------------------------------------- */
+#register .toggle-password {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    color: #aaa;
+    cursor: pointer;
+    transition: color .25s ease;
+    z-index: 5;
+}
+
+#register .toggle-password:hover {
+    color: #0cc5b6;
+}
+
+/* -------------------------------------------------------
+   PASSWORD MATCH INDICATOR
+------------------------------------------------------- */
+#register .match-indicator {
+    position: absolute;
+    right: 14px;
+    top: 38px;
+    font-size: 1.1rem;
+}
+
+#register .match-indicator.ok {
+    color: #28a745;
+}
+
+#register .match-indicator.no {
+    color: #d9534f;
+}
+
+/* -------------------------------------------------------
+   PASSWORD STRENGTH
+------------------------------------------------------- */
+
+/* Strength text */
+#register .password-strength-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ccc;
+}
+
+/* Strength bar */
+#register .password-strength {
+    height: 6px;
+    border-radius: 4px;
+    background: #333;
+    overflow: hidden;
+    position: relative;
+}
+
+#register .password-strength::after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    left: 0;
+    top: 0;
+    transition: width .3s ease, background-color .3s ease;
+}
+
+#register .password-strength.weak::after {
+    width: 33%;
+    background: #d9534f;
+}
+
+#register .password-strength.medium::after {
+    width: 66%;
+    background: #f0ad4e;
+}
+
+#register .password-strength.strong::after {
+    width: 100%;
+    background: #0cc5b6;
+}
+
+#register .input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+#register .input-wrapper input {
+    padding-right: 40px !important; /* space for the icon */
+}
+
+#register .toggle-password,
+#register .match-indicator {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    color: #aaa;
+    cursor: pointer;
+    transition: color .25s ease;
+    z-index: 10;
+}
+
+#register .toggle-password:hover {
+    color: #0cc5b6;
+}
+
+#register .match-indicator.ok {
+    color: #28a745;
+}
+
+#register .match-indicator.no {
+    color: #d9534f;
+}
+
+/*  */
+
+#email-check.text-success + input,
+#email-check.text-success {
+    color: #28a745 !important;
+}
+
+#email-check.text-danger + input,
+#email-check.text-danger {
+    color: #d9534f !important;
+}
+
+/* Eyes */
+
+/* Wrapper for password fields */
+#register .input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* Add space inside input for the icon */
+#register .input-wrapper input {
+    padding-right: 45px !important;
+}
+
+/* Eye icon */
+#register .input-wrapper .toggle-password {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    color: #aaa;
+    cursor: pointer;
+    z-index: 10;
+    transition: color .25s ease;
+}
+
+#register .input-wrapper .toggle-password:hover {
+    color: #0cc5b6;
+}
+
+/* Match indicator (check / X) */
+#register .input-wrapper .match-indicator {
+    position: absolute;
+    right: 58px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    z-index: 10;
+}
+
+#register .match-indicator.ok {
+    color: #28a745;
+}
+
+#register .match-indicator.no {
+    color: #d9534f;
+}
+
+/* Progress */
+.od-progress {
+    margin-bottom: 30px;
+}
+
+.od-progress-steps .od-step {
+    text-align: center;
+    flex: 1;
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+}
+
+.od-progress-steps .od-step.active {
+    opacity: 1;
+}
+
+.od-step-number {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    transition: width 0.6s ease;
+}
+
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * REGISTER PAGE — PREMIUM UI
+ */
+
+/* -------------------------------------------------------
+   CONTAINER
+------------------------------------------------------- */
+#register .register-modern {
+    background: #1a1a1a;
+    width: 400px;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    text-align: left;
+}
+
+#register .col-md-9.col-lg-7 {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* -------------------------------------------------------
+   INPUTS
+------------------------------------------------------- */
+#register .modern-input {
+    background: #111 !important;
+    border: 1px solid #2a2a2a !important;
+    color: #e5e5e5 !important;
+    padding: 12px 16px !important;
+    border-radius: 8px !important;
+    font-size: 0.95rem !important;
+    transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+}
+
+#register .modern-input:focus {
+    border-color: #0cc5b6 !important;
+    box-shadow: 0 0 8px rgba(12,197,182,0.4) !important;
+    background: #151515 !important;
+}
+
+#register .section-md {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
+
+/* Success / Error states */
+#register .modern-input.success {
+    border-color: #28a745 !important;
+    box-shadow: 0 0 6px rgba(40,167,69,0.4) !important;
+}
+
+#register .modern-input.error {
+    border-color: #d9534f !important;
+    box-shadow: 0 0 6px rgba(217,83,79,0.4) !important;
+}
+
+/* -------------------------------------------------------
+   LABELS & SPACING
+------------------------------------------------------- */
+#register label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #dcdcdc !important;
+}
+
+#register .register-modern .mb-3 {
+    margin-bottom: 18px !important;
+}
+
+/* -------------------------------------------------------
+   CHECKBOX
+------------------------------------------------------- */
+#register .form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 0;
+}
+
+#register .form-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
+#register .form-check label {
+    margin: 0;
+    font-weight: 500;
+    color: #ccc !important;
+}
+
+/* -------------------------------------------------------
+   SHOW / HIDE PASSWORD ICON
+------------------------------------------------------- */
+#register .toggle-password {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    color: #aaa;
+    cursor: pointer;
+    transition: color .25s ease;
+    z-index: 5;
+}
+
+#register .toggle-password:hover {
+    color: #0cc5b6;
+}
+
+/* -------------------------------------------------------
+   PASSWORD MATCH INDICATOR
+------------------------------------------------------- */
+#register .match-indicator {
+    position: absolute;
+    right: 14px;
+    top: 38px;
+    font-size: 1.1rem;
+}
+
+#register .match-indicator.ok {
+    color: #28a745;
+}
+
+#register .match-indicator.no {
+    color: #d9534f;
+}
+
+/* -------------------------------------------------------
+   PASSWORD STRENGTH
+------------------------------------------------------- */
+
+/* Strength text */
+#register .password-strength-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ccc;
+}
+
+/* Strength bar */
+#register .password-strength {
+    height: 6px;
+    border-radius: 4px;
+    background: #333;
+    overflow: hidden;
+    position: relative;
+}
+
+#register .password-strength::after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    left: 0;
+    top: 0;
+    transition: width .3s ease, background-color .3s ease;
+}
+
+#register .password-strength.weak::after {
+    width: 33%;
+    background: #d9534f;
+}
+
+#register .password-strength.medium::after {
+    width: 66%;
+    background: #f0ad4e;
+}
+
+#register .password-strength.strong::after {
+    width: 100%;
+    background: #0cc5b6;
+}
+
+#register .input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+#register .input-wrapper input {
+    padding-right: 40px !important; /* space for the icon */
+}
+
+#register .toggle-password,
+#register .match-indicator {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    color: #aaa;
+    cursor: pointer;
+    transition: color .25s ease;
+    z-index: 10;
+}
+
+#register .toggle-password:hover {
+    color: #0cc5b6;
+}
+
+#register .match-indicator.ok {
+    color: #28a745;
+}
+
+#register .match-indicator.no {
+    color: #d9534f;
+}
+
+/*  */
+
+#email-check.text-success + input,
+#email-check.text-success {
+    color: #28a745 !important;
+}
+
+#email-check.text-danger + input,
+#email-check.text-danger {
+    color: #d9534f !important;
+}
+
+/* Eyes */
+
+/* Wrapper for password fields */
+#register .input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* Add space inside input for the icon */
+#register .input-wrapper input {
+    padding-right: 45px !important;
+}
+
+/* Eye icon */
+#register .input-wrapper .toggle-password {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    color: #aaa;
+    cursor: pointer;
+    z-index: 10;
+    transition: color .25s ease;
+}
+
+#register .input-wrapper .toggle-password:hover {
+    color: #0cc5b6;
+}
+
+/* Match indicator (check / X) */
+#register .input-wrapper .match-indicator {
+    position: absolute;
+    right: 58px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    z-index: 10;
+}
+
+#register .match-indicator.ok {
+    color: #28a745;
+}
+
+#register .match-indicator.no {
+    color: #d9534f;
+}
+
+/* Progress bar wrapper for Register page */
+#register .progress-wrapper {
+    max-width: 600px;              /* matches your card width */
+    margin: 18px auto 0 auto;      /* pulls it closer to the card */
+    padding: 0;
+    text-align: center;
+}
+
+/* Reduce spacing between card and progress bar */
+#register .register-modern + .progress-wrapper {
+    margin-top: 18px !important;
+}
+
+/* Make progress bar itself narrower */
+#register .progress-steps {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 4px 6px;
+}
+
+/* Make sure progress bar doesn't stretch */
+#register .od-progress {
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+/* Tighten spacing inside steps */
+#register .od-progress-steps .od-step {
+    padding: 4px 6px;
+}
+
+/* Remove extra bottom spacing under the register card */
+#register .section {
+    padding-bottom: 0 !important;
+}
+
+/* Remove forced vertical centering that pushes content down */
+#register .section-md {
+    min-height: auto !important;
+    padding-bottom: 0 !important;
+}
+
+/* Check Mails */
+/* Card */
+#register_check_email .card {
+    background: #151820;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 0 25px rgba(0,0,0,0.4);
+}
+
+/* Card Body */
+#register_check_email .card-body {
+    color: #d7d9df;
+}
+
+/* Paragraphs */
+#register_check_email p,
+#register_check_email li {
+    color: #b8bcc6;
+}
+
+/* Buttons */
+#register_check_email .button {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 12px 18px;
+}
+
+/* Outline Button */
+#register_check_email .button-outline {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #e4e6eb;
+    transition: all .25s ease;
+}
+
+#register_check_email .button-outline:hover {
+    border-color: #0cc5b6;
+    color: #0cc5b6;
+}
+
+/* Gradient Button */
+#register_check_email .button-gradient {
+    background: linear-gradient(135deg, #0cc5b6, #4f46e5);
+    border: none;
+    color: #fff;
+    box-shadow: 0 0 12px rgba(12,197,182,0.4);
+    transition: all .25s ease;
+}
+
+#register_check_email .button-gradient:hover {
+    box-shadow: 0 0 18px rgba(12,197,182,0.6);
+    transform: translateY(-1px);
+}
+
+/* Countdown Button Disabled */
+#register_check_email #resend-btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Troubleshooting List */
+#register_check_email ul {
+    padding-left: 18px;
+}
+
+#register_check_email ul li::marker {
+    color: #0cc5b6;
+}
+
+/* Progress Component */
+#register_check_email .progress-step {
+    background: #1c1f27;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+#register_check_email .progress-step.active {
+    background: linear-gradient(135deg, #0cc5b6, #4f46e5);
+    color: #fff;
+}
+
+/* Progress */
+.od-progress {
+    margin-bottom: 30px;
+}
+
+.od-progress-steps .od-step {
+    text-align: center;
+    flex: 1;
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+}
+
+.od-progress-steps .od-step.active {
+    opacity: 1;
+}
+
+.od-step-number {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    transition: width 0.6s ease;
+}
+
+/* -------------------------------------------------------
+   REGISTRATION DISABLED — PREMIUM OKTODARK STYLE
+------------------------------------------------------- */
+
+.registration-disabled {
+    max-width: 600px;
+    margin: 80px auto;
+    padding: 40px;
+    background: #1a1a1a;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    border: 1px solid #222;
+}
+
+.registration-disabled h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.registration-disabled p.lead {
+    font-size: 1.1rem;
+    color: #ccc;
+}
+
+/* Notify box */
+.notify-box {
+    background: #111;
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.notify-box h3 {
+    color: #fff;
+}
+
+.notify-box p {
+    color: #bbb;
+}
+
+.notify-input {
+    background: #0f0f0f;
+    border: 1px solid #2a2a2a;
+    color: #e5e5e5;
+    padding: 12px 16px;
+    border-radius: 8px;
+}
+
+.notify-input:focus {
+    border-color: #0cc5b6;
+    box-shadow: 0 0 8px rgba(12,197,182,0.4);
+}
+
+/* Support box */
+.support-box {
+    background: #111;
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.support-box h3 {
+    color: #fff;
+}
+
+.support-box p {
+    color: #bbb;
+}
+
+/* Buttons */
+.registration-disabled .btn-primary {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    border: none;
+    padding: 10px 22px;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.registration-disabled .btn-outline-light {
+    border: 1px solid #ccc;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 8px;
+}
+
+/* -------------------------------------------------------
+   OKTODARK MODAL
+------------------------------------------------------- */
+
+.od-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.od-modal {
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    border: 1px solid #333;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.od-modal h2 {
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.od-modal p {
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+.od-modal-btn {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .25s ease;
+}
+
+.od-modal-btn:hover {
+    opacity: 0.85;
+}

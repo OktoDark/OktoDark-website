@@ -1,0 +1,79 @@
+{% extends '@theme/base.html.twig' %}
+{% block body_id 'admin' %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_layout.html.twig' %}
+
+        {% block admin_content %}
+
+            <section class="section-page-title py-4 mb-4 border-bottom">
+                <h2 class="display-6 fw-bold mb-1">Edit News Article</h2>
+                <p class="text-muted mb-0">Modify and update the article.</p>
+            </section>
+
+            <div class="card shadow-sm border-0 rounded-4 bg-dark">
+                <div class="card-body p-4">
+
+                    {{ form_start(form) }}
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label text-light fw-semibold">Title</label>
+                            {{ form_widget(form.title, {
+                                attr: { class: 'form-control form-control-lg bg-dark text-light border-secondary' }
+                            }) }}
+                            {{ form_errors(form.title) }}
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label text-light fw-semibold">Author</label>
+                            {{ form_widget(form.author, {
+                                attr: { class: 'form-control form-control-lg bg-dark text-light border-secondary' }
+                            }) }}
+                            {{ form_errors(form.author) }}
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label text-light fw-semibold">Publish Date</label>
+                            {{ form_widget(form.publishedAt, {
+                                attr: { class: 'form-control form-control-lg bg-dark text-light border-secondary' }
+                            }) }}
+                            {{ form_errors(form.publishedAt) }}
+                        </div>
+                    </div>
+
+                    <hr class="my-4 opacity-25">
+
+                    <div class="mb-3">
+                        <label class="form-label text-light fw-semibold">Content</label>
+
+                        <input id="trix-content" type="hidden"
+                               name="{{ form.content.vars.full_name }}"
+                               value="{{ form.content.vars.value }}">
+
+                        <div class="editor-wrapper rounded-3 shadow-sm">
+                            <trix-editor input="trix-content" class="trix-editor-modern"></trix-editor>
+                        </div>
+
+                        {{ form_errors(form.content) }}
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-4">
+
+                        {# IMPORTANT: Render CSRF token manually #}
+                        {{ form_widget(form._token) }}
+
+                        <button class="btn btn-primary px-4 py-2 fw-semibold shadow">
+                            <i class="fas fa-save me-1"></i> Update Article
+                        </button>
+                    </div>
+
+                    {{ form_end(form, { render_rest: false }) }}
+
+                </div>
+            </div>
+
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}

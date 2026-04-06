@@ -1,0 +1,53 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block body_id 'reset-password-form' %}
+
+{% block title %}{{ 'title.reset_your_password'|trans({}, 'titles') }}{% endblock %}
+
+{% block body %}
+
+    <section class="section section-page-title context-dark text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">
+                {{ 'title.reset_your_password'|trans({}, 'titles') }}
+            </h2>
+            <p class="lead text-muted mt-2">
+                {{ 'text.reset_password'|trans({}, 'messages') }}
+            </p>
+        </div>
+    </section>
+
+    <section class="section section-md bg-default text-center pt-0">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-9 col-lg-7 col-xl-5">
+
+                    <div class="reset-card">
+                        {{ form_start(resetForm, {
+                            attr: {
+                                class: 'rd-form rd-mailform reset-form',
+                                'data-form-type': 'contact',
+                                'data-form-output': 'form-output-global'
+                            }
+                        }) }}
+
+                        <div class="form-wrap-modern">
+                            {{ form_row(resetForm.plainPassword, {
+                                label: 'label.password_new'|trans({}, 'messages'),
+                                attr: { class: 'form-input-modern' }
+                            }) }}
+                        </div>
+
+                        <button class="button button-gradient reset-button">
+                            {{ 'button.reset_password'|trans({}, 'messages') }}
+                        </button>
+
+                        {{ form_end(resetForm) }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

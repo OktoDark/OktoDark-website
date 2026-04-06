@@ -1,0 +1,15 @@
+language.selector: "Language"
+
+privacy_policy.text: "Privacy Policy"
+information.text: "Information"
+
+footer.information_text: "Information"
+footer.get_in_touch_text: "Get in touch"
+footer.source_code_text: "Source Code"
+footer.live_stream_text: "Live Streaming"
+footer.discourse_text: "Discourse"
+footer.support_us_text: "Support us"
+footer.all_rights_reserved_text: "All rights reserved."
+
+title.follow: "Follow"
+title.links: "Links"

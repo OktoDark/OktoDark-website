@@ -1,0 +1,37 @@
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * For the full copyright and license information, please view the LICENSE.
+ */
+
+/* --------------------------------------------------
+   SPACING — OktoDark Modern Edition
+-------------------------------------------------- */
+
+.section {
+    padding: clamp(60px, 8vw, 120px) 0;
+}
+
+.section-lg {
+    padding: clamp(80px, 1vw, 150px) 0;
+    /* padding: clamp(80px, 10vw, 150px) 0; */
+}
+
+.section-xl {
+    padding: clamp(100px, 12vw, 180px) 0;
+}
+
+.section-title {
+    margin-bottom: clamp(30px, 4vw, 50px);
+}
+
+.bg-gray-100 {
+    background: #f7f7f7;
+}
+
+.bg-default {
+    background: #ffffff;
+}

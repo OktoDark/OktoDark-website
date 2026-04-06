@@ -1,0 +1,186 @@
+/*
+ * OktoDark – Forgot Password / Check Email Styles
+ * Scoped ONLY to:
+ * #reset-password-request
+ * #reset-password-check-email
+ */
+
+/* Dark container */
+#reset-password-request .login-modern,
+#reset-password-check-email .login-modern {
+    background: #1a1a1a;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    width: 100%;
+    max-width: 420px;
+    text-align: left;
+    color: #eee;
+}
+
+/* Fieldset */
+#reset-password-request fieldset,
+#reset-password-check-email fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+#reset-password-request legend,
+#reset-password-check-email legend {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Input wrapper */
+#reset-password-request .form-wrap-modern,
+#reset-password-check-email .form-wrap-modern {
+    margin-bottom: 18px;
+}
+
+#reset-password-request .form-wrap-modern label,
+#reset-password-check-email .form-wrap-modern label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    color: #ccc;
+}
+
+/* Inputs */
+#reset-password-request .form-wrap-modern input,
+#reset-password-check-email .form-wrap-modern input {
+    width: 100%;
+    background: #111;
+    border: 1px solid #333;
+    color: #eee;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+#reset-password-request .form-wrap-modern input:focus,
+#reset-password-check-email .form-wrap-modern input:focus {
+    border-color: #0cc5b6;
+    box-shadow: 0 0 8px rgba(12,197,182,0.4);
+    outline: none;
+}
+
+/* Buttons */
+#reset-password-request .button-gradient,
+#reset-password-check-email .button-gradient {
+    border-radius: 8px;
+    font-weight: 700;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+#reset-password-request .button-gradient:hover,
+#reset-password-check-email .button-gradient:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(12,197,182,0.4);
+}
+
+/* Page title */
+#reset-password-request .section-page-title,
+#reset-password-check-email .section-page-title {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+#reset-password-request .section-page-title h2,
+#reset-password-check-email .section-page-title h2 {
+    font-size: 2.4rem;
+    letter-spacing: -0.5px;
+}
+
+/* Links */
+#reset-password-request .text-gray-400,
+#reset-password-check-email .text-gray-400 {
+    color: #ccc !important;
+}
+
+#reset-password-request .text-gray-400:hover,
+#reset-password-check-email .text-gray-400:hover {
+    color: #fff !important;
+}
+
+/*
+ * OktoDark – Reset Password Page Styles
+ * Scoped ONLY to:
+ * #reset-password-form
+ */
+
+/* Card container */
+#reset-password-form .reset-card {
+    background: #1a1a1a;
+    border-radius: 14px;
+    padding: 32px 28px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    color: #eee;
+    text-align: left;
+}
+
+/* Form wrapper */
+#reset-password-form .form-wrap-modern {
+    margin-bottom: 20px;
+}
+
+#reset-password-form .form-wrap-modern label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    color: #ccc;
+}
+
+/* Inputs */
+#reset-password-form .form-input-modern {
+    width: 100%;
+    background: #111;
+    border: 1px solid #333;
+    color: #eee;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+#reset-password-form .form-input-modern:focus {
+    border-color: #0cc5b6;
+    box-shadow: 0 0 8px rgba(12,197,182,0.4);
+    outline: none;
+}
+
+/* Button */
+#reset-password-form .reset-button {
+    border-radius: 8px;
+    font-weight: 700;
+    width: 100%;
+    padding: 12px 16px;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+#reset-password-form .reset-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(12,197,182,0.4);
+}
+
+/* Page title */
+#reset-password-form .section-page-title {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+#reset-password-form .section-page-title h2 {
+    font-size: 2.4rem;
+    letter-spacing: -0.5px;
+}
+
+/* Links */
+#reset-password-form .text-gray-400 {
+    color: #ccc !important;
+}
+
+#reset-password-form .text-gray-400:hover {
+    color: #fff !important;
+}

@@ -1,0 +1,11 @@
+{% for activ in users.active %}
+    {% if "0" in activ %}
+        Disable
+    {% endif %}
+{% endfor %}
+
+{% for activ in users.active %}
+    {% if "1" in activ %}
+        Enable
+    {% endif %}
+{% endfor %}

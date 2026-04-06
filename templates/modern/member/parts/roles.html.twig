@@ -1,0 +1,11 @@
+{% for role in users.roles %}
+    {% if "ROLE_ADMIN" in role %}
+        Admin
+    {% endif %}
+{% endfor %}
+|
+{% for role in users.roles %}
+    {% if "ROLE_MEMBER" in role %}
+        Member
+    {% endif %}
+{% endfor %}

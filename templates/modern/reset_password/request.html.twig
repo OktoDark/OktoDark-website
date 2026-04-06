@@ -1,0 +1,66 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}{{ 'title.reset_your_password'|trans({}, 'titles') }}{% endblock %}
+
+{% block body_id 'reset-password-request' %}
+
+{% block body %}
+
+    <section class="section section-page-title context-dark text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'title.reset_your_password'|trans({}, 'titles') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'reset.subtitle'|trans }}</p>
+        </div>
+    </section>
+
+    <section class="section section-md bg-default text-center pt-0">
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <div class="login-modern p-4 p-md-5">
+
+                    {% for flashError in app.flashes('reset_password_error') %}
+                        <div class="alert alert-danger mb-3">{{ flashError }}</div>
+                    {% endfor %}
+
+                    {{ form_start(requestForm, { attr: { class: 'text-start' } }) }}
+
+                    <fieldset>
+
+                        <div class="form-wrap-modern">
+                            <label for="email">{{ 'label.email'|trans({}, 'labels') }}</label>
+                            {{ form_widget(requestForm.email, {
+                                attr: {
+                                    id: 'email',
+                                    class: 'form-control'
+                                }
+                            }) }}
+                            {{ form_errors(requestForm.email) }}
+                        </div>
+
+                        <button class="button button-gradient w-100 py-2" type="submit">
+                            <i class="fa fa-paper-plane me-2"></i>
+                            {{ 'button.reset_password'|trans({}, 'buttons') }}
+                        </button>
+
+                        <div class="mt-3 text-center">
+                            <a href="{{ path('security_login') }}" class="text-sm text-gray-400 hover:text-gray-200">
+                                {{ 'text.back_to_login'|trans({}, 'login') }}
+                            </a>
+                        </div>
+                    </fieldset>
+
+                    {{ form_end(requestForm) }}
+
+                </div>
+
+            </div>
+
+            <div class="mt-4 text-muted small">
+                {{ 'note.reset_password'|trans }}
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}

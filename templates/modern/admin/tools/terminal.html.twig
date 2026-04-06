@@ -1,0 +1,154 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Admin Terminal{% endblock %}
+
+{% block main %}
+
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">Admin Terminal</h2>
+            <p class="lead text-muted mt-2">Run Composer & Symfony commands with live output</p>
+        </div>
+    </section>
+
+    <style>
+        .command-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .cmd-btn {
+            background: #2d3748;
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .cmd-btn:hover {
+            background: #4a5568;
+        }
+
+        .terminal-window {
+            background: #000;
+            color: #00ff6a;
+            padding: 15px;
+            height: 450px;
+            overflow-y: auto;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 14px;
+            border-radius: 0 0 6px 6px;
+            white-space: pre-wrap;
+        }
+    </style>
+
+    <section class="section-lg bg-default">
+        <div class="container">
+
+            <!-- Shortcut Buttons -->
+            <div class="command-buttons">
+                {% for item in allowedCommands %}
+                    <button
+                            class="cmd-btn"
+                            data-command="{{ item.cmd }}"
+                    >
+                        {{ item.label }}
+                    </button>
+                {% endfor %}
+            </div>
+
+            <!-- Manual Command Input -->
+            <input type="text" id="command" class="form-control mt-3" placeholder="Enter command manually">
+
+            <button id="runBtn" class="btn btn-primary mt-2">Run Command</button>
+
+            <!-- Progress Bar -->
+            <div class="progress mb-3" style="height: 20px;">
+                <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated"
+                     style="width: 0%">0%
+                </div>
+            </div>
+
+            <!-- Terminal Output -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <strong>Live Output</strong>
+                </div>
+                <div id="terminal" class="terminal-window"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- JS: Shortcut Buttons -->
+    <script>
+        document.querySelectorAll('.cmd-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const cmd = btn.dataset.command;
+                document.getElementById('command').value = cmd;
+            });
+        });
+    </script>
+
+    <!-- JS: Run Command -->
+    <script>
+        document.getElementById('runBtn').addEventListener('click', function () {
+            const cmd = document.getElementById('command').value;
+            const terminal = document.getElementById('terminal');
+            const progress = document.getElementById('progress-bar');
+
+            terminal.innerHTML = "";
+            progress.style.width = "0%";
+            progress.innerText = "0%";
+
+            fetch('{{ path("admin_tools_terminal_run") }}', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'command=' + encodeURIComponent(cmd)
+            })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.error) {
+                        terminal.innerHTML = "[ERROR] " + data.error;
+                        return;
+                    }
+
+                    watchJob(data.jobId);
+                });
+        });
+
+        function watchJob(jobId) {
+            const terminal = document.getElementById('terminal');
+            const progress = document.getElementById('progress-bar');
+
+            const interval = setInterval(() => {
+                fetch('{{ path("admin_tools_terminal_status", {id: "REPLACE"}) }}'.replace("REPLACE", jobId))
+                    .then(r => r.json())
+                    .then(data => {
+
+                        if (data.output) {
+                            terminal.innerHTML = data.output.replace(/\n/g, "<br>");
+                            terminal.scrollTop = terminal.scrollHeight;
+
+                            const match = data.output.match(/(\d+)%/);
+                            if (match) {
+                                const percent = match[1];
+                                progress.style.width = percent + "%";
+                                progress.innerText = percent + "%";
+                            }
+                        }
+
+                        if (data.status === 'finished' || data.status === 'failed') {
+                            clearInterval(interval);
+                            progress.classList.remove("progress-bar-animated");
+                        }
+                    });
+            }, 1000);
+        }
+    </script>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+validation:
+  password:
+    not_blank: "Te rugăm să introduci o parolă."
+    min_length: "Parola trebuie să aibă cel puțin {{ limit }} caractere."
+    mismatch: "Câmpurile parolei trebuie să coincidă."
+
+label:
+  password_new: "Parolă nouă"
+  password_repeat: "Repetă parola"

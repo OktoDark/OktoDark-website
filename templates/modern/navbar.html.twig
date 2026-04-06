@@ -1,0 +1,127 @@
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark modern-nav fixed-top">
+        <div class="container">
+
+            {# LEFT: Logo #}
+            <a class="navbar-brand" href="{{ path('home') }}">
+                <img src="{{ settings.siteCDN }}/themes/{{ theme }}/images/logo.png"
+                     alt="Logo"
+                     width="120"
+                     class="img-fluid">
+            </a>
+
+            {# Mobile toggle #}
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            {# RIGHT SIDE MENU #}
+            <div class="collapse navbar-collapse justify-content-end" id="mainNavbar">
+                <ul class="navbar-nav right-menu">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('home') }}">
+                            {{ 'navbar.home'|trans({}, 'navbar') }}
+                            <span class="nav-arrow"></span>
+                        </a>
+                    </li>
+
+                    {# PROJECTS #}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            {{ 'navbar.projects'|trans({}, 'navbar') }}
+                            <span class="nav-arrow"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ path('games') }}">{{ 'navbar.games'|trans({}, 'navbar') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ path('mods') }}">{{ 'navbar.mods'|trans({}, 'navbar') }}</a></li>
+                        </ul>
+                    </li>
+
+                    {# SERVICES #}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('services') }}">
+                            {{ 'navbar.services'|trans({}, 'navbar') }}
+                            <span class="nav-arrow"></span>
+                        </a>
+                    </li>
+
+                    {# COMMUNITY #}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            {{ 'navbar.community'|trans({}, 'navbar') }}
+                            <span class="nav-arrow"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="https://discord.gg/UmfZPvF">Discord</a></li>
+                            <li><a class="dropdown-item" href="{{ path('blog') }}">{{ 'navbar.blog'|trans({}, 'navbar') }}</a></li>
+                        </ul>
+                    </li>
+
+                    {# INFO #}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            {{ 'navbar.info'|trans({}, 'navbar') }}
+                            <span class="nav-arrow"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ path('careers') }}">{{ 'navbar.careers'|trans({}, 'navbar') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ path('about') }}">{{ 'navbar.about'|trans({}, 'navbar') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ path('contact') }}">{{ 'navbar.contact'|trans({}, 'navbar') }}</a></li>
+                        </ul>
+                    </li>
+
+                    {# SUPPORT US #}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('supportus') }}">
+                            <i class="fa-solid fa-heart" style="color:#fd0909;"></i>
+                            {{ 'navbar.support_us'|trans({}, 'navbar') }}
+                        </a>
+                    </li>
+
+                    {# USER MENU #}
+                    {% if app.user %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                                {{ 'navbar.member_area'|trans({}, 'navbar') }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+
+                                <li><a class="dropdown-item" href="{{ path('member_area') }}">{{ 'navbar.member_area'|trans({}, 'navbar') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ path('profile_area') }}">{{ 'navbar.profile'|trans({}, 'navbar') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ path('settings_area') }}">{{ 'navbar.user_settings'|trans({}, 'navbar') }}</a></li>
+
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ path('admin_dashboard') }}">{{ 'navbar.admin'|trans({}, 'navbar') }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('assets_index') }}">{{ 'navbar.assets'|trans({}, 'navbar') }}</a></li>
+                                {% endif %}
+
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ path('security_logout') }}">{{ 'navbar.logout'|trans({}, 'navbar') }}</a></li>
+                            </ul>
+                        </li>
+
+                    {% else %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                                {{ 'navbar.member_area'|trans({}, 'navbar') }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ path('security_login') }}">{{ 'navbar.login'|trans({}, 'navbar') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ path('app_register') }}">{{ 'navbar.register'|trans({}, 'navbar') }}</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+</header>

@@ -1,0 +1,241 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}{{ 'title.register'|trans({}, 'titles') }}{% endblock %}
+
+{% block body_id 'register' %}
+
+{% block body %}
+
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'title.register'|trans({}, 'titles') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'content.register_subtitle'|trans({}, 'content') }}</p>
+        </div>
+    </section>
+
+    <section class="section bg-default text-center pt-1">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-9 col-lg-7">
+
+                    <div class="register-modern p-4 p-md-5">
+
+                        {{ form_start(registrationForm, {
+                            attr: {
+                                class: 'rd-form rd-mailform modern-form',
+                                'data-form-output': 'form-output-global'
+                            }
+                        }) }}
+
+                        <!-- Username -->
+                        <div class="mb-3 text-start">
+                            {{ form_label(registrationForm.username) }}
+                            {{ form_widget(registrationForm.username, {
+                                attr: { class: 'modern-input' }
+                            }) }}
+                            <div id="username-check" class="small mt-1"></div>
+
+                            {% for error in registrationForm.username.vars.errors %}
+                                <div class="form-error-message">{{ error.message }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3 text-start">
+                            {{ form_label(registrationForm.email) }}
+                            {{ form_widget(registrationForm.email, {
+                                attr: { class: 'modern-input' }
+                            }) }}
+                            <div id="email-check" class="small mt-1"></div>
+
+                            {% for error in registrationForm.email.vars.errors %}
+                                <div class="form-error-message">{{ error.message }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3 text-start">
+                            {{ form_label(registrationForm.password.first) }}
+
+                            <div class="input-wrapper">
+                                {{ form_widget(registrationForm.password.first, {
+                                    attr: { class: 'modern-input', autocomplete: 'new-password' }
+                                }) }}
+
+                                <span class="toggle-password fa fa-eye"
+                                      data-target="registration_form_password_first"></span>
+                            </div>
+
+                            <div id="password-strength-text" class="password-strength-text mt-1"></div>
+                            <div id="password-strength" class="password-strength mt-1"></div>
+
+                            {% for error in registrationForm.password.first.vars.errors %}
+                                <div class="form-error-message">{{ error.message }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Repeat Password -->
+                        <div class="mb-3 text-start">
+                            {{ form_label(registrationForm.password.second) }}
+
+                            <div class="input-wrapper">
+                                {{ form_widget(registrationForm.password.second, {
+                                    attr: { class: 'modern-input' }
+                                }) }}
+
+                                <span class="toggle-password fa fa-eye"
+                                      data-target="registration_form_password_second"></span>
+
+                                <span id="password-match-indicator" class="match-indicator fa"></span>
+                            </div>
+
+                            {% for error in registrationForm.password.second.vars.errors %}
+                                <div class="form-error-message">{{ error.message }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Terms -->
+                        <div class="mb-3 text-start form-check">
+                            {{ form_widget(registrationForm.agreeTerms) }}
+                            {{ form_label(registrationForm.agreeTerms) }}
+
+                            {% for error in registrationForm.agreeTerms.vars.errors %}
+                                <div class="form-error-message">{{ error.message }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <button type="submit"
+                                class="button button-block button-gradient button-circle w-100 mt-3"
+                                formnovalidate>
+                            {{ 'title.register'|trans({}, 'titles') }}
+                        </button>
+
+                        {{ form_end(registrationForm) }}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="progress-wrapper">
+            {% include '@theme/registration/_progress.html.twig' with { current_step: 1 } %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{  parent() }}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const password = document.getElementById("registration_form_password_first");
+            const repeatPassword = document.getElementById("registration_form_password_second");
+            const strengthBar = document.getElementById("password-strength");
+            const strengthText = document.getElementById("password-strength-text");
+            const matchIndicator = document.getElementById("password-match-indicator");
+
+            /* Toggle Password Visibility */
+            document.querySelectorAll(".toggle-password").forEach(icon => {
+                icon.addEventListener("click", () => {
+                    const target = document.getElementById(icon.dataset.target);
+                    const isPassword = target.type === "password";
+
+                    target.type = isPassword ? "text" : "password";
+                    icon.classList.toggle("fa-eye");
+                    icon.classList.toggle("fa-eye-slash");
+                });
+        });
+
+            /* Password Strength Meter */
+            password.addEventListener("input", function () {
+                const value = password.value;
+                let strength = 0;
+
+                if (value.length >= 6) strength++;
+                if (/[A-Z]/.test(value)) strength++;
+                if (/[0-9]/.test(value)) strength++;
+                if (/[^A-Za-z0-9]/.test(value)) strength++;
+
+                strengthBar.className = "password-strength";
+
+                if (strength <= 1) {
+                    strengthBar.classList.add("weak");
+                    strengthText.textContent = "Weak password";
+                    strengthText.style.color = "#d9534f";
+                }
+                else if (strength <= 3) {
+                    strengthBar.classList.add("medium");
+                    strengthText.textContent = "Medium strength";
+                    strengthText.style.color = "#f0ad4e";
+                }
+                else {
+                    strengthBar.classList.add("strong");
+                    strengthText.textContent = "Strong password";
+                    strengthText.style.color = "#0cc5b6";
+                }
+            });
+
+            /* Password Match */
+            function checkMatch() {
+                if (!repeatPassword.value) {
+                    matchIndicator.className = "match-indicator";
+                    return;
+                }
+
+                if (password.value === repeatPassword.value) {
+                    matchIndicator.className = "match-indicator ok fa fa-check text-success";
+                } else {
+                    matchIndicator.className = "match-indicator no fa fa-times text-danger";
+                }
+            }
+
+            password.addEventListener("input", checkMatch);
+            repeatPassword.addEventListener("input", checkMatch);
+
+        });
+    </script>
+
+    <!-- Username Check -->
+    <script>
+        document.querySelector('#registration_form_username').addEventListener('blur', function () {
+            fetch('/check-username?username=' + this.value)
+                .then(r => r.json())
+        .then(data => {
+                const msg = document.querySelector('#username-check');
+                msg.classList.remove('text-danger', 'text-success');
+
+                if (data.exists) {
+                msg.textContent = 'Username already taken';
+                msg.classList.add('text-danger');
+            } else {
+                msg.textContent = 'Username available';
+                msg.classList.add('text-success');
+            }
+        });
+        });
+    </script>
+
+    <!-- Email Check -->
+    <script>
+        document.querySelector('#registration_form_email').addEventListener('blur', function () {
+            fetch('/check-email?email=' + encodeURIComponent(this.value))
+                .then(r => r.json())
+        .then(data => {
+                const msg = document.querySelector('#email-check');
+                msg.classList.remove('text-danger', 'text-success');
+
+                if (data.exists) {
+                msg.textContent = 'Email already registered';
+                msg.classList.add('text-danger');
+            } else {
+                msg.textContent = 'Email available';
+                msg.classList.add('text-success');
+            }
+        });
+        });
+    </script>
+
+{% endblock %}

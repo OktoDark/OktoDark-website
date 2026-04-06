@@ -1,0 +1,229 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.settings'|trans({}, 'titles') }}{% endblock %}
+{% block body_id 'settings' %}
+
+{% block main %}
+
+    <section class="section section-page-title context-dark text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'title.settings'|trans({}, 'titles') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'settings.text_1'|trans({}, 'settings') }}</p>
+        </div>
+    </section>
+
+    <section class="section-lg bg-default">
+        <div class="container">
+            <div class="row">
+
+                <!-- Sidebar -->
+                <div class="col-lg-3 mb-4">
+
+                    <div class="text-center mb-4">
+                        <img
+                                src="{{ app.user.avatarUrl ?? asset('images/default-avatar.png') }}"
+                                class="rounded-circle img-fluid shadow-sm mb-3"
+                                alt="{{ app.user.firstName }} {{ app.user.lastName }}"
+                                width="140" height="140"
+                        >
+                        <h5 class="fw-bold">{{ app.user.firstName }} {{ app.user.lastName }}</h5>
+
+                        {{ form_start(avatarForm) }}
+                        {{ form_widget(avatarForm.avatar, { attr: { class: 'form-control mt-2' } }) }}
+                        <button class="btn btn-primary btn-sm mt-2 px-3">
+                            <i class="fas fa-upload me-1"></i>{{ 'action.upload'|trans }}
+                        </button>
+                        {{ form_end(avatarForm) }}
+                    </div>
+
+                    <div class="card shadow-sm mb-3">
+                        <div class="card-header fw-semibold">{{ 'title.activity'|trans }}</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>{{ 'label.shares'|trans({}, 'labels') }}</span> <strong>125</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>{{ 'label.likes'|trans({}, 'labels') }}</span> <strong>13</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>{{ 'label.posts'|trans({}, 'labels') }}</span> <strong>37</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>{{ 'label.followers'|trans({}, 'labels') }}</span> <strong>78</strong>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header fw-semibold">{{ 'title.social_media'|trans({}, 'titles') }}</div>
+                        <div class="card-body text-center">
+                            <i class="fab fa-facebook fa-2x mx-2 text-primary"></i>
+                            <i class="fab fa-github fa-2x mx-2"></i>
+                            <i class="fab fa-twitter fa-2x mx-2 text-info"></i>
+                            <i class="fab fa-instagram fa-2x mx-2 text-danger"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Main content -->
+                <div class="col-lg-9">
+
+                    <ul class="nav nav-tabs mb-4" id="settingsTabs" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile">
+                                <i class="fas fa-user me-1"></i>{{ 'title.profile'|trans({}, 'titles') }}
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#security">
+                                <i class="fas fa-lock me-1"></i>{{ 'title.security'|trans({}, 'titles') }}
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#preferences">
+                                <i class="fas fa-sliders-h me-1"></i>{{ 'title.preferences'|trans({}, 'titles') }}
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <!-- Profile -->
+                        <div class="tab-pane fade show active" id="profile">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body p-4">
+
+                                    <h4 class="mb-4 fw-bold">{{ 'title.profile_info'|trans({}, 'titles') }}</h4>
+
+                                    {{ form_start(profileForm, { attr: { class: 'row g-3' } }) }}
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">{{ 'label.first_name'|trans({}, 'labels') }}</label>
+                                        {{ form_widget(profileForm.firstName, { attr: { class: 'form-control form-control-lg' } }) }}
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">{{ 'label.last_name'|trans({}, 'labels') }}</label>
+                                        {{ form_widget(profileForm.lastName, { attr: { class: 'form-control form-control-lg' } }) }}
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">{{ 'label.email'|trans({}, 'labels') }}</label>
+                                        {{ form_widget(profileForm.email, { attr: { class: 'form-control form-control-lg' } }) }}
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">{{ 'label.location'|trans({}, 'labels') }}</label>
+                                        {{ form_widget(profileForm.location, { attr: { class: 'form-control form-control-lg' } }) }}
+                                    </div>
+
+                                    <div class="col-12 mt-3">
+                                        <button class="btn btn-success btn-lg px-4">
+                                            <i class="fas fa-save me-2"></i>{{ 'action.save'|trans({}, 'buttons') }}
+                                        </button>
+                                    </div>
+
+                                    {{ form_end(profileForm) }}
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security -->
+                        <div class="tab-pane fade" id="security">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body p-4">
+
+                                    <h4 class="mb-4 fw-bold">{{ 'title.change_password'|trans }}</h4>
+
+                                    {{ form_start(passwordForm, { attr: { class: 'row g-3' } }) }}
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">{{ 'label.password'|trans }}</label>
+                                        {{ form_widget(passwordForm.currentPassword, {
+                                            attr: { class: 'form-control form-control-lg' }
+                                        }) }}
+                                    </div>
+
+                                    <div class="col-md-6"></div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">{{ 'label.new_password'|trans }}</label>
+                                        {{ form_widget(passwordForm.newPassword.first, {
+                                            attr: { class: 'form-control form-control-lg' }
+                                        }) }}
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">{{ 'label.new_password_confirm'|trans }}</label>
+                                        {{ form_widget(passwordForm.newPassword.second, {
+                                            attr: { class: 'form-control form-control-lg' }
+                                        }) }}
+                                    </div>
+
+                                    <div class="col-12 mt-3">
+                                        <button class="btn btn-success btn-lg px-4">
+                                            <i class="fas fa-save me-2"></i>{{ 'action.save'|trans }}
+                                        </button>
+                                    </div>
+
+                                    {{ form_end(passwordForm) }}
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preferences -->
+                        <div class="tab-pane fade" id="preferences">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body p-4">
+
+                                    <h4 class="mb-3 fw-bold">{{ 'title.preferences'|trans({}, 'titles') }}</h4>
+                                    <p class="text-muted mb-4">{{ 'text.preferences_info'|trans({}, 'titles') }}</p>
+
+                                    {{ form_start(preferencesForm, { attr: { class: 'row g-4' } }) }}
+
+                                    <div class="col-md-6">
+                                        <div class="form-check form-switch">
+                                            {{ form_widget(preferencesForm.newsletter, {
+                                                attr: { class: 'form-check-input' }
+                                            }) }}
+                                            <label class="form-check-label fw-semibold" title="{{ 'tooltip.newsletter'|trans }}">
+                                                {{ 'label.newsletter'|trans({}, 'labels') }}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-check form-switch">
+                                            {{ form_widget(preferencesForm.darkMode, {
+                                                attr: { class: 'form-check-input' }
+                                            }) }}
+                                            <label class="form-check-label fw-semibold" title="{{ 'tooltip.dark_mode'|trans }}">
+                                                {{ 'label.dark_mode'|trans }}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 mt-3">
+                                        <button class="btn btn-success btn-lg px-4">
+                                            <i class="fas fa-save me-2"></i>{{ 'action.save'|trans }}
+                                        </button>
+                                    </div>
+
+                                    {{ form_end(preferencesForm) }}
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

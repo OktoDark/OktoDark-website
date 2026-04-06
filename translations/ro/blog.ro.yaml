@@ -1,0 +1,10 @@
+action.sign_in: "Autentificare"
+
+post.to_publish_a_comment: "pentru a publica un comentariu"
+post.num_comments: "{count, plural, one {# comentariu} other {# comentarii}}"
+post.commented_on: "a comentat la"
+post.no_comments: "Fii primul care comentează această postare."
+post.no_posts_found: "Nu au fost găsite postări."
+post.created_successfully: "Postare creată cu succes!"
+post.updated_successfully: "Postare actualizată cu succes!"
+post.deleted_successfully: "Postare ștearsă cu succes!"

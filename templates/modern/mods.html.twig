@@ -1,0 +1,124 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.mods'|trans({}, 'titles') }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body_id 'mods' %}
+
+{% block main %}
+
+    <!-- Page Title -->
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'title.mods'|trans({}, 'titles') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'subtitle.mods.text'|trans }}</p>
+        </div>
+    </section>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+        <!-- Mods Categories -->
+        <section class="section section-lg bg-gray-100">
+            <div class="container">
+                <div class="row row-50 row-bordered">
+
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="icon-box text-center">
+                            <div class="icon-box-text">
+                                <a href="#thesims4">
+                                    <img src="{{ asset('images/thesims4_img.png') }}" alt="The Sims 4">
+                                </a>
+                                <p class="mt-2">Mods and custom content for The Sims 4</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% for i in 1..3 %}
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="icon-box text-center">
+                                <div class="icon-box-text">
+                                    <p>Soon</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Mods List -->
+        <section class="section bg-default section-xl" id="thesims4">
+            <div class="container">
+
+                <img src="{{ asset('images/thesims4_img.png') }}" alt="The Sims 4" width="150" height="70">
+
+                <div class="row row-50 mt-4">
+
+                    {% for m in mods %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="post-minimal">
+
+                                <figure class="post-img">
+                                    <a href="#">
+                                        <img src="{{ asset('images/home-1-420x245.jpg') }}"
+                                             alt="{{ m.name }}"
+                                             width="420" height="245">
+                                    </a>
+                                </figure>
+
+                                <div class="post-body">
+                                    <h4 class="post-title">
+                                        <a href="#">{{ m.name }}</a>
+                                    </h4>
+
+                                    <div class="post-text">
+                                        <p><i class="fas fa-info"></i> {{ m.description }}</p>
+
+                                        <p>
+                                            <i class="fas fa-theater-masks"></i>
+                                            <img src="{{ asset('images/' ~ m.slug ~ '/' ~ m.compatible ~ '.png') }}"
+                                                 alt="compatible"
+                                                 width="35" height="35">
+                                        </p>
+                                    </div>
+
+                                    <a class="button button-gradient" href="{{ m.download }}">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+
+    {% else %}
+
+        <!-- Restricted Section -->
+        <section class="section section-lg bg-default text-center">
+            <div class="container">
+                <h3>{{ 'restriction.mods.text'|trans }}</h3>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="box-team-modern box-team-modern-quote">
+                            <div class="box-team-modern-caption">
+                                {{ 'rescontent.mods.text'|trans|raw }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    {% endif %}
+
+{% endblock %}

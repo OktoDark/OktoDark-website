@@ -1,0 +1,118 @@
+{% extends '@theme/base.html.twig' %}
+{% block title %}Career Positions{% endblock %}
+{% block body_id 'admin_careers' %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_layout.html.twig' %}
+
+        {% block admin_content %}
+
+            <section class="section-page-title text-center py-4 fade-in">
+                <h2 class="fw-bold">Career Positions</h2>
+                <p class="text-muted">Manage job openings for OktoDark Studios.</p>
+            </section>
+
+            <section class="py-3 fade-in">
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endfor %}
+
+                {# ADD / EDIT FORM #}
+                <div class="card neon-card p-4 shadow-sm mb-4">
+                    <h4 class="mb-3">Add / Edit Career Position</h4>
+
+                    <form method="post">
+
+                        <input type="hidden" name="id" id="careerId">
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Job Title</label>
+                                <input type="text" name="jobTitle" id="jobTitle" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Requirements</label>
+                                <input type="text" name="requirements" id="requirements" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Positions Available</label>
+                                <input type="number" name="number" id="number" class="form-control" required>
+                            </div>
+
+                        </div>
+
+                        <div class="text-end mt-4">
+                            <button class="btn btn-success px-4">Save Position</button>
+                        </div>
+
+                    </form>
+                </div>
+
+                {# CAREERS LIST #}
+                <div class="card neon-card p-4 shadow-sm">
+                    <h4 class="mb-3">Career Positions</h4>
+
+                    <div class="table-responsive">
+                        <table class="table table-dark table-striped align-middle">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Job Title</th>
+                                <th>Requirements</th>
+                                <th>Positions</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for c in careers %}
+                                <tr>
+                                    <td>{{ c.id }}</td>
+                                    <td>{{ c.jobTitle }}</td>
+                                    <td>{{ c.requirements }}</td>
+                                    <td>{{ c.number }}</td>
+
+                                    <td class="text-end">
+                                        <button class="btn btn-sm btn-primary"
+                                                onclick="editCareer({{ c.id }}, '{{ c.jobTitle|e('js') }}', '{{ c.requirements|e('js') }}', '{{ c.number }}')">
+                                            Edit
+                                        </button>
+
+                                        <a href="{{ path('admin_careers', { delete: c.id }) }}"
+                                           class="btn btn-sm btn-danger"
+                                           onclick="return confirm('Delete this position?')">
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">No career positions yet.</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <script>
+                function editCareer(id, title, requirements, number) {
+                    document.getElementById('careerId').value = id;
+                    document.getElementById('jobTitle').value = title;
+                    document.getElementById('requirements').value = requirements;
+                    document.getElementById('number').value = number;
+
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            </script>
+
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}

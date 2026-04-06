@@ -1,0 +1,74 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.careers'|trans({}, 'titles') }}{% endblock %}
+
+{% block body_id 'careers' %}
+
+{% block main %}
+
+    <!-- Page Title -->
+    <section class="section section-page-title context-dark text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'title.careers'|trans({}, 'titles') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'careers.text_1'|trans({}, 'careers') }}</p>
+        </div>
+    </section>
+
+    <!-- Intro Section -->
+    <section class="section section-lg bg-gray-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <ul class="modern-list">
+                        {{ 'careers.description'|trans({}, 'careers')|raw }}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Careers Accordion -->
+    <section class="section section-lg bg-default">
+        <div class="container">
+            <div class="accordion modern-accordion" id="accordion1">
+
+                {% for c in careers %}
+                    <div class="accordion-item shadow-sm mb-3 rounded-3 overflow-hidden">
+
+                        <h2 class="accordion-header" id="heading{{ c.id }}">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapse{{ c.id }}"
+                                    aria-expanded="false"
+                                    aria-controls="collapse{{ c.id }}">
+                                <strong>{{ c.jobTitle }}</strong>
+                                <span class="badge bg-gradient ms-3">
+                                    {{ 'careers.available'|trans({}, 'careers') }}: {{ c.number }}
+                                </span>
+                            </button>
+                        </h2>
+
+                        <div id="collapse{{ c.id }}"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="heading{{ c.id }}"
+                             data-bs-parent="#accordion1">
+
+                            <div class="accordion-body">
+                                <p class="mb-4">{{ c.requirements }}</p>
+
+                                <a class="button button-sm bg-info text-bg-info"
+                                   href="mailto:{{ settings.jobMail }}?subject=Application for {{ c.jobTitle }}">
+                                    {{ 'careers.apply_now'|trans({}, 'careers') }}
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

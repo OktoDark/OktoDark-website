@@ -1,0 +1,145 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.supportus'|trans({}, 'titles') }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body_id 'supportus' %}
+
+{% block main %}
+    <section class="py-5 text-white text-center">
+        <div class="container">
+            <h1 class="display-5 fw-bold">{{ 'title.supportus'|trans({}, 'titles') }}</h1>
+            <p class="lead opacity-75">{{ 'supportus.subtitle'|trans({}, 'supportus') }}</p>
+        </div>
+    </section>
+
+    <section class="py-5 bg-light text-center">
+        <div class="container">
+            <div class="col-md-6 mx-auto">
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+
+                        <h3 class="mb-3">{{ 'supportus.choose_tier'|trans({}, 'supportus') }}</h3>
+
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                            <input type="hidden" name="cmd" value="_s-xclick">
+                            <input type="hidden" name="hosted_button_id" value="W7T3C6JF6ADHN">
+
+                            <select name="os0" class="form-select mb-3 w-auto mx-auto">
+                                <option value="Tier 1">Tier 1 — €1.00 / month</option>
+                                <option value="Tier 2">Tier 2 — €10.00 / month</option>
+                                <option value="Tier 3">Tier 3 — €25.00 / month</option>
+                                <option value="Tier 4">Tier 4 — €50.00 / month</option>
+                                <option value="Tier 5">Tier 5 — €75.00 / month</option>
+                            </select>
+
+                            <input type="hidden" name="currency_code" value="EUR">
+
+                            <button type="submit" class="btn btn-primary btn-lg px-4">
+                                <i class="fa-brands fa-paypal me-2"></i>
+                                {{ 'supportus.subscribe'|trans({}, 'supportus') }}
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white">
+        <div class="container">
+
+            <h2 class="display-6 text-center mb-4">{{ 'supportus.compare_plans'|trans({}, 'supportus') }}</h2>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered align-middle">
+
+                    <thead class="table-dark text-center">
+                    <tr>
+                        <th></th>
+                        <th>Tier 1</th>
+                        <th>Tier 2</th>
+                        <th>Tier 3</th>
+                        <th>Tier 4</th>
+                        <th>Tier 5</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <!-- Discord -->
+                    <tr>
+                        <th colspan="6" class="table-category">Discord</th>
+                    </tr>
+
+                    <tr>
+                        <th class="th-item">Special Title for you</th>
+                        <td colspan="5"><i class="fa-solid fa-check text-success"></i></td>
+                    </tr>
+
+                    <tr>
+                        <th class="th-item">Access on Private Channels</th>
+                        <td colspan="5"><i class="fa-solid fa-check text-success"></i></td>
+                    </tr>
+
+                    <tr>
+                        <th class="th-item">Fast support for you*</th>
+                        <td colspan="5"><i class="fa-solid fa-check text-success"></i></td>
+                    </tr>
+
+                    <!-- 3D Models -->
+                    <tr>
+                        <th colspan="6" class="table-category">3D Models</th>
+                    </tr>
+
+                    <tr>
+                        <th class="th-item">Models Access</th>
+                        <td colspan="5"><i class="fa-solid fa-check text-success"></i></td>
+                    </tr>
+
+                    <tr>
+                        <th class="th-item">Unlimited downloads</th>
+                        <td><i class="fa-solid fa-xmark text-danger"></i></td>
+                        <td colspan="4"><i class="fa-solid fa-check text-success"></i></td>
+                    </tr>
+
+                    <tr>
+                        <th class="th-item">Sharing Allow</th>
+                        <td colspan="3"><i class="fa-solid fa-xmark text-danger"></i></td>
+                        <td colspan="2"><i class="fa-solid fa-check text-success"></i></td>
+                    </tr>
+
+                    <!-- Streaming -->
+                    <tr>
+                        <th colspan="6" class="table-category">Streaming</th>
+                    </tr>
+
+                    <tr>
+                        <th class="th-item">Ask something for you*</th>
+                        <td colspan="5"><i class="fa-solid fa-check text-success"></i></td>
+                    </tr>
+
+                    <tr>
+                        <th class="th-item">VIP Status</th>
+                        <td colspan="5"><i class="fa-solid fa-check text-success"></i></td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+
+            <p class="text-muted text-center mt-4">
+                {{ 'supportus.note'|trans({}, 'supportus')|raw }}
+            </p>
+
+        </div>
+    </section>
+
+{% endblock %}

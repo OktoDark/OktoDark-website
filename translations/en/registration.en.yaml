@@ -1,0 +1,16 @@
+registration:
+  disabled:
+    title: "Registration Unavailable"
+    message: "Registration is temporarily disabled. Please try again later."
+    support_title: "Need Assistance?"
+    support_text: "If you believe this is an error or need help, our support team is here for you."
+    contact_support: "Contact Support"
+    notify_title: "Get Notified"
+    notify_text: "Enter your email and we'll notify you as soon as registration opens."
+    notify_placeholder: "Your email address"
+    notify_button: "Notify Me"
+    modal_title: "Thank you!"
+    modal_message: "You will be notified as soon as registration opens. We appreciate your interest."
+    modal_close: "Close"
+    modal_exists_title: "You're already on the list!"
+    modal_exists_message: "Don't panic — you're already registered to be notified as soon as registration opens."

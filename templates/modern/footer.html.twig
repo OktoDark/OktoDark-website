@@ -1,0 +1,48 @@
+{% block footer %}
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 col-lg-3 footer-column">
+                    <h5>{{ 'title.links'|trans({}, 'titles') }}</h5>
+                    <a href="{{ path('faq') }}">{{ 'title.faq'|trans({}, 'titles') }}</a><br>
+                    <a href="{{ path('services') }}">{{ 'title.services'|trans({}, 'titles') }}</a><br>
+                    <a href="{{ path('contact') }}">{{ 'title.contact'|trans({}, 'titles') }}</a><br>
+                    <a href="{{ path('privacy-policy') }}">{{ 'privacy_policy.text'|trans({}, 'footer') }}</a><br>
+                    <a href="#" id="open-x1" class="no-scroll">Site Preferences</a>
+                </div>
+                <div class="col-lg-4 footer-column">
+                    <h5>{{ 'title.follow'|trans({}, 'footer') }}</h5>
+                    <div class="social-icons">
+                        <a href="https://www.x.com/OktoDark"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="https://www.youtube.com/@OktoDark"><i class="fab fa-youtube"></i></a>
+                        <a href="https://discord.gg/UmfZPvF"><i class="fab fa-discord"></i></a>
+                        <a href="https://www.twitch.com/OktoDark"><i class="fab fa-twitch"></i></a>
+                        <a href="https://www.patreon.com/OktoDark"><i class="fab fa-patreon"></i></a>
+                        <a href="https://www.bitbucket.com/OktoDark"><i class="fab fa-bitbucket"></i></a>
+                        <a href="https://gitlab.com/oktodark-studios"><i class="fab fa-gitlab"></i></a>
+                        <a href="https://www.github.com/OktoDark"><i class="fab fa-github"></i></a>
+                    </div>
+                    <div class="footer-bottom">
+                        © {{ "now"|date("Y") }} {{ settings.siteName }} — {{ 'footer.all_rights_reserved_text'|trans({}, 'footer') }}
+                    </div>
+                </div>
+                <div class="col-sm-4 col-lg-3 footer-column lang">
+                    <h5>{{ 'language.selector'|trans({}, 'footer') }}</h5>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="fas fa-globe"></i> {{ currentLocale|upper }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for locale in locales() %}
+                                <li class="{{ currentLocale == locale.code ? 'active' : '' }}">
+                                    <a class="dropdown-item" href="{{ path(currentRoute, currentParams|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+        </div>
+    </footer>
+{% endblock %}
