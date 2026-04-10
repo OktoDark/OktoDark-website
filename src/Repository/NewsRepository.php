@@ -22,18 +22,15 @@ class NewsRepository extends ServiceEntityRepository
         parent::__construct($registry, News::class);
     }
 
-    public function showAllNews()
+    public function findLatest(?int $limit = null): array
     {
-        $conn = $this->getEntityManager()->getConnection();
+        $qb = $this->createQueryBuilder('n')
+            ->orderBy('n.createdAt', 'DESC');
 
-        $sql = '
-            SELECT * FROM news n
-            WHERE n.id
-            ORDER BY n.id ASC
-        ';
+        if (null !== $limit) {
+            $qb->setMaxResults($limit);
+        }
 
-        $stmt = $conn->prepare($sql);
-
-        return $stmt->fetchAll();
+        return $qb->getQuery()->getResult();
     }
 }

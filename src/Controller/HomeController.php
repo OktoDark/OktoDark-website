@@ -27,7 +27,7 @@ final class HomeController extends AbstractController
     public function home(NewsRepository $news): Response
     {
         return $this->render('@theme/home.html.twig', [
-            'news' => $news->findAll(),
+            'news' => $news->findLatest(),
         ]);
     }
 }
