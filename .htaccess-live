@@ -1,8 +1,72 @@
-RewriteEngine on
-RewriteCond %{HTTP_HOST} ^(www.)?oktodark.com$
+RewriteEngine On
+Options -Indexes
+
+# ----------------------------------------------------------------------
+# 1. FORCE HTTPS
+# ----------------------------------------------------------------------
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ----------------------------------------------------------------------
+# 2. SECURITY HEADERS
+# ----------------------------------------------------------------------
+<IfModule mod_headers.c>
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Content-Type-Options "nosniff"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# ----------------------------------------------------------------------
+# 3. BLOCK ALL SENSITIVE FILES AND FOLDERS
+# ----------------------------------------------------------------------
+<FilesMatch "\.(env|env\.local|env\.prod|lock|json|yaml|yml|xml|ini|dist|md|rst|sql|phar|sh|bat|cmd|config|backup|bak)$">
+    Require all denied
+</FilesMatch>
+
+# Block access to Symfony internal folders
+RedirectMatch 404 ^/(bin|var|vendor|migrations|tests|config|src)/
+
+# Block access to hidden files and folders (except .well-known)
+RedirectMatch 404 "^/(?!\.well-known)(\..*)"
+
+# Block SQL dumps and database exports
+RedirectMatch 404 "\.(sql|sqlite|db|dump)$"
+
+# Block archives that may contain source code
+RedirectMatch 404 "\.(zip|rar|tar|gz|7z|bz2)$"
+
+# Block Node/Vite files
+RedirectMatch 404 "^(package\.json|package-lock\.json|vite\.config\.js|webpack\.config\.js)$"
+
+# Block Composer files
+RedirectMatch 404 "^(composer\.json|composer\.lock|symfony\.lock)$"
+
+# Block PHPUnit files
+RedirectMatch 404 "^(phpunit\.xml|phpunit\.dist\.xml)$"
+
+# Block Docker files
+RedirectMatch 404 "^(docker-compose\.yml|docker-compose\.yaml|compose\.yaml|compose\.override\.yaml)$"
+
+# Block Git metadata
+RedirectMatch 404 "^/\.git"
+
+
+# ----------------------------------------------------------------------
+# 4. SYMFONY REDIRECT
+# ----------------------------------------------------------------------
 RewriteCond %{REQUEST_URI} !^/public/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /public/$1
-RewriteCond %{HTTP_HOST} ^(www.)?oktodark.com$
-RewriteRule ^(/)?$ public/index.php [L]
+RewriteRule ^(.*)$ /public/$1 [L]
+
+# ----------------------------------------------------------------------
+# 5. Custom
+# ----------------------------------------------------------------------
+# Allow global
+# RewriteRule ^folder/ - [L]
+
+# Allow ZIP downloads only from /folder
+# RewriteCond %{REQUEST_URI} ^/folder/
+# RewriteRule \.(zip|rar|tar|gz|7z|bz2)$ - [L]
