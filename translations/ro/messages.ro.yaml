@@ -7,3 +7,10 @@ validation:
 label:
   password_new: "Parolă nouă"
   password_repeat: "Repetă parola"
+
+maintenance:
+  title: "Mod de întreținere"
+  appear: "Revenim în curând"
+  under: "Sistemul nostru trece printr-o mentenanță programată. Vă mulțumim pentru răbdare."
+  countdown_label: "Timp rămas estimat"
+

@@ -1,3 +1,10 @@
 profile.rules_note: >
   Respect regulile. Poți face și tu la fel!
   Dacă ai curaj, setează din setările site‑ului opțiunea „Afișează interdicțiile pe profil și API” pe public. :-)
+title.player_history: "Istoric Jucător"
+profile.no_history: "Nu există istoric disponibil"
+profile.private_profile_title: "Acest profil este privat"
+profile.hidden_profile_text: "a ales să își păstreze profilul ascuns."
+profile.go_back_home: "Înapoi acasă"
+profile.verified_account: "Cont Verificat"
+profile.no_social_links: "Niciun link social disponibil."

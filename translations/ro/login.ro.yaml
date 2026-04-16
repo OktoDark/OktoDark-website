@@ -1,2 +1,3 @@
-action.sign_in: "Connecteaza-te"
+action.sign_in: "Autentificare"
 checkbox.remember_me: "Ține-mă logat"
+action.forgot_password: "Ți-ai uitat parola?"

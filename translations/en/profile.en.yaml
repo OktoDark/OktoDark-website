@@ -1,3 +1,12 @@
 profile.rules_note: >
   I respect the Rules. You can do the same!
   If you have courage, set from site settings, 'Display your bans on your profile and API' to public. :-)
+title.player_history: "Player History"
+profile.no_history: "No player history available"
+profile.private_profile_title: "This profile is private"
+profile.hidden_profile_text: "has chosen to keep their profile hidden."
+profile.go_back_home: "Go back home"
+profile.verified_account: "Verified Account"
+profile.no_social_links: "No social links available."
+title.punishment_history: "Punishment History"
+profile.no_penalties: "No penalties on record"

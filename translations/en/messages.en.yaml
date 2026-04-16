@@ -42,3 +42,8 @@ text:
 
 button:
   reset_password: "Reset Password"
+
+maintenance.title: "Maintenance Mode"
+maintenance.appear: "We’ll be back shortly"
+maintenance.under: "Our system is undergoing scheduled maintenance. Thank you for your patience."
+maintenance.countdown_label: "Estimated time remaining"

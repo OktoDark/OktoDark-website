@@ -1,0 +1,16 @@
+registration:
+  disabled:
+    title: "Înregistrare Indisponibilă"
+    message: "Înregistrarea este temporar dezactivată. Vă rugăm să încercați din nou mai târziu."
+    support_title: "Aveți nevoie de asistență?"
+    support_text: "Dacă credeți că aceasta este o eroare sau aveți nevoie de ajutor, echipa noastră de asistență este aici pentru dvs."
+    contact_support: "Contactați Asistența"
+    notify_title: "Fii notificat"
+    notify_text: "Introduceți adresa de e-mail și vă vom anunța imediat ce se deschid înregistrările."
+    notify_placeholder: "Adresa ta de e-mail"
+    notify_button: "Anunță-mă"
+    modal_title: "Vă mulțumim!"
+    modal_message: "Veți fi notificat imediat ce se deschid înregistrările. Vă mulțumim pentru interes."
+    modal_close: "Închide"
+    modal_exists_title: "Ești deja pe listă!"
+    modal_exists_message: "Nu intra în panică — ești deja înregistrat pentru a fi notificat imediat ce se deschid înregistrările."

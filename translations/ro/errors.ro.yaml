@@ -1,0 +1,8 @@
+error.agree_terms: "Trebuie să fii de acord cu termenii și condițiile."
+error.password_mismatch: "Parolele nu se potrivesc."
+error.password_blank: "Vă rugăm să introduceți o parolă."
+error.password_min: "Parola trebuie să aibă cel puțin {{ limit }} caractere."
+error.username_blank: "Vă rugăm să introduceți un nume de utilizator."
+error.username_taken: "Acest nume de utilizator este deja folosit."
+error.email_taken: "Acest email este deja înregistrat."
+error.email_blank: "Vă rugăm să introduceți o adresă de email."

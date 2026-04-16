@@ -1,3 +1,5 @@
 action.sign_in: "Sign in"
 checkbox.remember_me: "Keep me logged in"
 text.back_to_login: "Back to login"
+itstime.subtitle: "It's time to sign in"
+action.forgot_password: "Forgot your password?"
