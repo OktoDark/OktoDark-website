@@ -60,7 +60,7 @@
     "dama/doctrine-test-bundle": "^8.6",
     "doctrine/doctrine-fixtures-bundle": "^4.3",
     "friendsofphp/php-cs-fixer": "^3.94",
-    "phpunit/phpunit": "^11.5",
+    "phpunit/phpunit": "^12.5",
 
     "symfony/browser-kit": "^8.0",
     "symfony/css-selector": "^8.0",
