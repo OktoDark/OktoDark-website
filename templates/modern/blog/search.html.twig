@@ -1,32 +1,174 @@
-{% extends '@theme/base.html.twig' %}
+{% extends "@theme/base.html.twig" %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('search') }}
-{% endblock %}
+{% block title %}{{ 'title.blog'|trans({}, 'titles') }}{% endblock %}
 
 {% block body_id 'blog_search' %}
 
 {% block main %}
-    <form action="{{ path('blog_search') }}" method="get">
-        <div class="form-group">
-            <input name="q"
-                   class="form-control search-field"
-                   placeholder="{{ 'post.search_for'|trans }}"
-                   autocomplete="off"
-                   value="{{ query }}"
-                   autofocus
-                   data-no-results-message="{{ 'post.search_no_results'|trans }}"
-            >
-        </div>
-    </form>
 
-    <div id="results">
-    </div>
+    <!-- Hero -->
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'blog.search'|trans({}, 'blog') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'blog.search_subtitle'|trans({}, 'blog') }}</p>
+        </div>
+    </section>
+
+    <!-- Search Content -->
+    <section class="section section-lg bg-default pt-0">
+        <div class="container">
+            <div class="row g-5">
+
+                <!-- Main Column -->
+                <div class="col-lg-8 col-xl-9">
+
+                    <div class="mb-5">
+                        <form action="{{ path('blog_search') }}" method="get" id="search-form">
+                            <div class="input-group input-group-lg shadow-sm">
+                                <input name="q"
+                                       class="form-control search-field"
+                                       placeholder="{{ 'post.search_for'|trans({}, 'blog') }}"
+                                       autocomplete="off"
+                                       value="{{ query }}"
+                                       autofocus
+                                       data-no-results-message="{{ 'post.search_no_results'|trans({}, 'blog') }}"
+                                >
+                                <button class="btn btn-primary px-4" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="results">
+                        {% if posts is not null %}
+                            {% for post in posts %}
+                                <article class="blog-card">
+                                    <!-- Author Header -->
+                                    <header class="blog-card-header">
+                                        {% if post.author.avatarUrl %}
+                                            <img src="{{ post.author.avatarUrl }}"
+                                                 alt="{{ post.author.firstName }}"
+                                                 class="blog-avatar">
+                                        {% else %}
+                                            <div class="blog-avatar-fallback">
+                                                <i class="fa-solid fa-user"></i>
+                                            </div>
+                                        {% endif %}
+
+                                        <div>
+                                            <h5 class="mb-0 fw-semibold">{{ post.author.firstName }}</h5>
+                                            <small class="text-muted">{{ 'blog.role_blogger'|trans({}, 'blog') }}</small>
+                                        </div>
+                                    </header>
+
+                                    <!-- Body -->
+                                    <div class="blog-card-body">
+                                        <!-- Meta -->
+                                        <div class="blog-meta">
+                                            <div>
+                                                <span class="far fa-clock"></span>
+                                                {{ post.publishedAt|format_datetime('long', 'medium') }}
+                                            </div>
+                                            <div>
+                                                <span class="far fa-comments"></span>
+                                                {{ post.comments|length }}
+                                            </div>
+                                        </div>
+
+                                        <!-- Title -->
+                                        <h2 class="blog-title">
+                                            <a href="{{ path('blog_post', { slug: post.slug }) }}">
+                                                {{ post.title }}
+                                            </a>
+                                        </h2>
+
+                                        <!-- Summary -->
+                                        <p class="blog-summary">{{ post.summary }}</p>
+
+                                        <!-- Buttons -->
+                                        <div class="blog-actions">
+                                            <a class="btn btn-success text-bg-success"
+                                               href="{{ path('blog_post', { slug: post.slug }) }}">
+                                                {{ 'action.read_more'|trans({}, 'actions') }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </article>
+                            {% else %}
+                                <div class="alert alert-info text-center">
+                                    {{ 'post.search_no_results'|trans({}, 'blog') }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-lg-4 col-xl-3">
+                    <aside class="aside-components">
+                        <div class="aside-component card shadow-sm border-0 p-4 mb-4 text-center">
+                            <i class="fas fa-info-circle fa-3x text-primary mb-3"></i>
+                            <p class="mb-0 text-muted">
+                                {{ 'blog.search_info'|trans({}, 'blog') }}
+                            </p>
+                        </div>
+                    </aside>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
 {% endblock %}
 
-{% block sidebar %}
+{% block javascripts %}
     {{ parent() }}
+    <script>
+        $(function() {
+            var $results = $('#results');
+            var $input = $('.search-field');
 
-    {{ show_source_code(_self) }}
+            $input.on('keyup', function() {
+                var query = $(this).val();
+                if (query.length < 1) {
+                    // If we have initial results (from server), don't clear them if the field is just empty on focus
+                    // But if user typed and then deleted, we might want to clear or restore.
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ path('blog_search') }}',
+                    data: { q: query },
+                    type: 'GET',
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                    },
+                    success: function(items) {
+                        if (items.length === 0) {
+                            $results.html('<div class="alert alert-info text-center">{{ 'post.search_no_results'|trans({}, 'blog') }}</div>');
+                        } else {
+                            $results.empty();
+                            $.each(items, function(index, item) {
+                                var html = '<article class="blog-card">' +
+                                    '<div class="blog-card-body">' +
+                                    '<div class="blog-meta">' +
+                                    '<div><span class="far fa-clock"></span> ' + item.date + '</div>' +
+                                    '</div>' +
+                                    '<h2 class="blog-title"><a href="' + item.url + '">' + item.title + '</a></h2>' +
+                                    '<p class="blog-summary">' + item.summary + '</p>' +
+                                    '<div class="blog-actions">' +
+                                    '<a class="btn btn-success text-bg-success" href="' + item.url + '">{{ 'action.read_more'|trans({}, 'actions') }}</a>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</article>';
+                                $results.append(html);
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

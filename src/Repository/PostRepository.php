@@ -56,11 +56,16 @@ class PostRepository extends ServiceEntityRepository
             return [];
         }
 
-        $queryBuilder = $this->createQueryBuilder('p');
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->addSelect('a')
+            ->innerJoin('p.author', 'a')
+            ->where('p.publishedAt <= :now')
+            ->setParameter('now', new \DateTime('+1 hour'))
+        ;
 
         foreach ($searchTerms as $key => $term) {
             $queryBuilder
-                ->orWhere('p.title LIKE :t_'.$key)
+                ->andWhere('p.title LIKE :t_'.$key.' OR p.summary LIKE :t_'.$key.' OR p.content LIKE :t_'.$key)
                 ->setParameter('t_'.$key, '%'.$term.'%')
             ;
         }
@@ -82,7 +87,7 @@ class PostRepository extends ServiceEntityRepository
 
         // ignore the search terms that are too short
         return array_filter($terms, static function ($term) {
-            return 2 <= $term->length();
+            return 1 <= $term->length();
         });
     }
 }

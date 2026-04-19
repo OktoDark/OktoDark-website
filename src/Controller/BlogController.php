@@ -13,6 +13,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Post;
+use App\Entity\User;
 use App\Event\CommentCreatedEvent;
 use App\Form\CommentType;
 use App\Form\PostType;
@@ -34,7 +35,7 @@ final class BlogController extends AbstractController
     #[Route('/', name: 'blog', defaults: ['page' => 1, '_format' => 'html'], methods: ['GET'])]
     #[Route('/rss.xml', name: 'blog_rss', defaults: ['page' => 1, '_format' => 'xml'], methods: ['GET'])]
     #[Route('/page/{page<[1-9]\d*>}', name: 'blog_index_paginated', defaults: ['_format' => 'html'], methods: ['GET'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('ROLE_USER')]
     #[Cache(smaxage: 10)]
     public function index(
         Request $request,
@@ -57,7 +58,7 @@ final class BlogController extends AbstractController
         ]);
     }
 
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('ROLE_USER')]
     #[Route('/posts/{slug}', name: 'blog_post', methods: ['GET'])]
     public function postShow(
         #[MapEntity(mapping: ['slug' => 'slug'])] Post $post,
@@ -71,14 +72,17 @@ final class BlogController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
+
         $post = new Post();
-        $post->setAuthor($this->getUser());
+        $post->setAuthor($user);
 
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post->setAuthor($this->getUser());
+            $post->setAuthor($user);
             $em->persist($post);
             $em->flush();
 
@@ -139,8 +143,11 @@ final class BlogController extends AbstractController
             throw $this->createNotFoundException('Post not found.');
         }
 
+        /** @var User $user */
+        $user = $this->getUser();
+
         $comment = new Comment();
-        $comment->setAuthor($this->getUser());
+        $comment->setAuthor($user);
         $post->addComment($comment);
 
         $form = $this->createForm(CommentType::class, $comment);
@@ -176,27 +183,34 @@ final class BlogController extends AbstractController
     #[Route('/search', name: 'blog_search', methods: ['GET'])]
     public function search(Request $request, PostRepository $posts): Response
     {
-        $query = $request->query->get('q', '');
+        $query = (string) $request->query->get('q', '');
         $limit = (int) $request->query->get('l', 10);
 
-        if (!$request->isXmlHttpRequest()) {
-            return $this->render('blog/search.html.twig', [
-                'query' => $query,
-            ]);
+        if ($request->isXmlHttpRequest()) {
+            $foundPosts = $posts->findBySearchQuery($query, $limit);
+
+            $results = [];
+            foreach ($foundPosts as $post) {
+                $results[] = [
+                    'title' => htmlspecialchars($post->getTitle(), \ENT_COMPAT | \ENT_HTML5),
+                    'date' => $post->getPublishedAt()->format('M d, Y'),
+                    'author' => htmlspecialchars($post->getAuthor()->getFullName(), \ENT_COMPAT | \ENT_HTML5),
+                    'summary' => htmlspecialchars($post->getSummary(), \ENT_COMPAT | \ENT_HTML5),
+                    'url' => $this->generateUrl('blog_post', ['slug' => $post->getSlug()]),
+                ];
+            }
+
+            return $this->json($results);
         }
 
-        $foundPosts = $posts->findBySearchQuery($query, $limit);
+        $foundPosts = null;
+        if ('' !== $query) {
+            $foundPosts = $posts->findBySearchQuery($query, $limit);
+        }
 
-        $results = array_map(function (Post $post) {
-            return [
-                'title' => htmlspecialchars($post->getTitle(), \ENT_COMPAT | \ENT_HTML5),
-                'date' => $post->getPublishedAt()->format('M d, Y'),
-                'author' => htmlspecialchars($post->getAuthor()->getFullName(), \ENT_COMPAT | \ENT_HTML5),
-                'summary' => htmlspecialchars($post->getSummary(), \ENT_COMPAT | \ENT_HTML5),
-                'url' => $this->generateUrl('blog_post', ['slug' => $post->getSlug()]),
-            ];
-        }, $foundPosts);
-
-        return $this->json($results);
+        return $this->render('@theme/blog/search.html.twig', [
+            'query' => $query,
+            'posts' => $foundPosts,
+        ]);
     }
 }

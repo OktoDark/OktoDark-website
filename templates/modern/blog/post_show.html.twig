@@ -37,12 +37,12 @@
                             {% if is_granted('ROLE_ADMIN') %}
                                 <div class="d-flex gap-2 mb-4">
                                     <a href="{{ path('blog_edit', { slug: post.slug }) }}"
-                                       class="btn btn-warning btn-sm">
+                                       class="btn btn-warning text-bg-warning btn-sm">
                                         <i class="fas fa-edit"></i> {{ 'action.edit'|trans({}, 'actions') }}
                                     </a>
 
                                     <a href="{{ path('blog_delete', { slug: post.slug }) }}"
-                                       class="btn btn-danger btn-sm"
+                                       class="btn btn-danger text-bg-danger btn-sm"
                                        onclick="return confirm('{{ 'action.confirm_delete'|trans({}, 'actions') }}');">
                                         <i class="fas fa-trash"></i> {{ 'action.delete'|trans({}, 'actions') }}
                                     </a>
