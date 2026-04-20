@@ -437,10 +437,10 @@ tslib@^2.4.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.8.1.tgz#612efe4ed235d567e8aba5f2a5fab70280ade83f"
   integrity sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==
 
-vite-plugin-symfony@^8.2:
-  version "8.2.3"
-  resolved "https://registry.yarnpkg.com/vite-plugin-symfony/-/vite-plugin-symfony-8.2.3.tgz#ed024785d6f59c77ab8a68058a28ff2b7a3b5b04"
-  integrity sha512-gpCcA8Y5/M6ZORo3SyDcvuRLZyC3tAzSqPVDySA/XRwrGgljQCSLbMsOA5VDoW6BcVWumEKoXnTB8GcHGiVVqA==
+vite-plugin-symfony@^8.2.4:
+  version "8.2.4"
+  resolved "https://registry.yarnpkg.com/vite-plugin-symfony/-/vite-plugin-symfony-8.2.4.tgz#7e9d8decd3f2209f803a6b38e251359b3d07e69b"
+  integrity sha512-ph98EMPx8FhA6QIp43ZiK0zjODV9jumB7EHXfZEhRme2lo9oBa9sAXCNCCIvdVk/m9EWkNZpcRBjequjXZiSuA==
   dependencies:
     debug "^4.4.1"
     fast-glob "^3.3.3"
