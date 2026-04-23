@@ -25,8 +25,6 @@ class AnalyticsTracker
     ) {
     }
 
-    // src/Service/AnalyticsTracker.php
-
     public function trackRequest(string $route): void
     {
         $request = $this->requestStack->getCurrentRequest();

@@ -16,9 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * Class HomeController.
- */
 #[Route('/')]
 final class HomeController extends AbstractController
 {

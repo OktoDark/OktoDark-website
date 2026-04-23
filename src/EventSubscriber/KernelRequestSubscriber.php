@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * Copyright (c) OktoDark Studios
  * Website: https://www.oktodark.com

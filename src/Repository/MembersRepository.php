@@ -27,8 +27,4 @@ class MembersRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Members::class);
     }
-
-    public function rewards()
-    {
-    }
 }
