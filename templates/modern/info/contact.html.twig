@@ -41,10 +41,30 @@
                             }
                         }) }}
 
-                        <div class="form-wrap-modern">
-                            {{ form_widget(form) }}
+                        <div class="form-wrap-modern text-start">
+                            {{ form_row(form.name) }}
+                            {{ form_row(form.email) }}
+                            {{ form_row(form.category) }}
+                            {{ form_row(form.subject) }}
+                            {{ form_row(form.message) }}
+
+                            <div class="form-group mt-3">
+                                <label for="{{ form.captcha_answer.vars.id }}" class="form-label">
+                                    {{ 'Anti-Spam Challenge'|trans }}: <strong>{{ captcha_question }}</strong>
+                                </label>
+                                {{ form_widget(form.captcha_answer) }}
+                                {{ form_errors(form.captcha_answer) }}
+                            </div>
+
+                            {# Hide the honeypot field #}
+                            <div style="display:none !important;">
+                                {{ form_row(form.website) }}
+                            </div>
+
+                            {{ form_row(form.submit) }}
                         </div>
 
+                        {{ form_rest(form) }}
                         {{ form_end(form) }}
                     </div>
 

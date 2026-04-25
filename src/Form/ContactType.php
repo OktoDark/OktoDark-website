@@ -15,11 +15,13 @@ use App\Entity\Contact;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Blank;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ContactType extends AbstractType
@@ -57,6 +59,7 @@ class ContactType extends AbstractType
                 'choices' => [
                     'label.department_staff' => 'staff',
                     'label.department_webmaster' => 'webmaster',
+                    'label.department_services' => 'services',
                 ],
                 'required' => true,
                 'placeholder' => 'label.choice_department',
@@ -79,6 +82,39 @@ class ContactType extends AbstractType
                 'label' => 'label.contact_message',
                 'attr' => [
                     'class' => 'form-input form-input-circle form-input-gray',
+                ],
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
+
+            // Math CAPTCHA field
+            ->add('captcha_answer', IntegerType::class, [
+                'mapped' => false,
+                'required' => true,
+                'label' => 'label.captcha_question',
+                'attr' => [
+                    'class' => 'form-input form-input-circle form-input-gray',
+                    'placeholder' => 'Solve the math problem',
+                ],
+                'constraints' => [
+                    new NotBlank(message: 'Please solve the math challenge.'),
+                ],
+            ])
+
+            // Honeypot field
+            ->add('website', TextType::class, [
+                'required' => false,
+                'mapped' => false,
+                'label' => false,
+                'attr' => [
+                    'class' => 'form-input form-input-circle form-input-gray',
+                    'style' => 'display:none !important;',
+                    'tabindex' => '-1',
+                    'autocomplete' => 'off',
+                ],
+                'constraints' => [
+                    new Blank(message: 'This field must be empty.'),
                 ],
             ])
 
