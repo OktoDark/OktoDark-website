@@ -14,7 +14,6 @@ namespace App\Service;
 use App\Entity\ForumPost;
 use App\Entity\ForumThread;
 use App\Entity\User;
-use App\Service\NotificationService;
 
 class ForumNotificationService
 {
@@ -35,8 +34,8 @@ class ForumNotificationService
         $this->notifier->notify(
             $author,
             'New Forum Reply',
-            sprintf('%s replied to your thread "%s"', $replier->getUsername(), $thread->getTitle()),
-            '/forum/thread/view/' . $thread->getSlug() . '#post-' . $post->getId()
+            \sprintf('%s replied to your thread "%s"', $replier->getUsername(), $thread->getTitle()),
+            '/forum/thread/view/'.$thread->getSlug().'#post-'.$post->getId()
         );
     }
 
@@ -49,8 +48,8 @@ class ForumNotificationService
         $this->notifier->notify(
             $user,
             'You were mentioned',
-            sprintf('%s mentioned you in a forum post', $post->getAuthor()->getUsername()),
-            '/forum/thread/view/' . $post->getThread()->getSlug() . '#post-' . $post->getId()
+            \sprintf('%s mentioned you in a forum post', $post->getAuthor()->getUsername()),
+            '/forum/thread/view/'.$post->getThread()->getSlug().'#post-'.$post->getId()
         );
     }
 
@@ -59,8 +58,8 @@ class ForumNotificationService
         $this->notifier->notify(
             $thread->getAuthor(),
             'Thread Status Updated',
-            sprintf('Your thread "%s" has been %s', $thread->getTitle(), $action),
-            '/forum/thread/view/' . $thread->getSlug()
+            \sprintf('Your thread "%s" has been %s', $thread->getTitle(), $action),
+            '/forum/thread/view/'.$thread->getSlug()
         );
     }
 }

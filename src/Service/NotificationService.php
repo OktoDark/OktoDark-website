@@ -18,7 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class NotificationService
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
     ) {
     }
 

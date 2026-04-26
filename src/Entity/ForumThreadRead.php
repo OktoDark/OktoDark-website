@@ -52,6 +52,7 @@ class ForumThreadRead
     public function setUser(User $user): self
     {
         $this->user = $user;
+
         return $this;
     }
 
@@ -63,6 +64,7 @@ class ForumThreadRead
     public function setThread(ForumThread $thread): self
     {
         $this->thread = $thread;
+
         return $this;
     }
 
@@ -74,6 +76,7 @@ class ForumThreadRead
     public function setLastReadAt(\DateTimeInterface $lastReadAt): self
     {
         $this->lastReadAt = $lastReadAt;
+
         return $this;
     }
 }

@@ -137,12 +137,12 @@ final class ForumThreadController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $slugger = new AsciiSlugger();
-            $slug = strtolower($slugger->slug($thread->getTitle()));
+            $slug = mb_strtolower($slugger->slug($thread->getTitle()));
 
             // Basic unique slug check (append random if needed, or ID)
             $thread->setSlug($slug.'-'.uniqid());
 
-            if ('' === trim($thread->getContent())) {
+            if ('' === mb_trim($thread->getContent())) {
                 $this->addFlash('error', 'Thread content cannot be empty.');
 
                 return $this->redirectToRoute('forum_thread_create', ['category' => $category->getId()]);

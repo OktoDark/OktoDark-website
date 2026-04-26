@@ -29,7 +29,7 @@ class WebhookService
 
         // Basic payload for Discord
         $payload = [
-            'content' => sprintf('**Forum Event: %s**', ucfirst(str_replace('_', ' ', $event))),
+            'content' => \sprintf('**Forum Event: %s**', ucfirst(str_replace('_', ' ', $event))),
             'embeds' => [[
                 'title' => $data['title'] ?? 'New Activity',
                 'description' => $data['summary'] ?? '',

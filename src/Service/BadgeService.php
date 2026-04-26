@@ -20,7 +20,7 @@ class BadgeService
 {
     public function __construct(
         private BadgeRepository $badgeRepo,
-        private EntityManagerInterface $em
+        private EntityManagerInterface $em,
     ) {
     }
 
@@ -31,7 +31,7 @@ class BadgeService
     {
         $automatedBadges = $this->badgeRepo->findBy(['isPermanent' => false], ['threshold' => 'ASC']);
         $userBadges = $user->getBadges();
-        
+
         $stats = [
             'posts' => $user->getPostCount(),
             'threads' => $user->getThreadCount(),
@@ -71,7 +71,7 @@ class BadgeService
         ];
 
         foreach ($specialBadges as $role => $badgeName) {
-            if (in_array($role, $user->getRoles())) {
+            if (\in_array($role, $user->getRoles())) {
                 $badge = $this->badgeRepo->findOneBy(['name' => $badgeName, 'isPermanent' => true]);
                 if ($badge && !$user->getBadges()->contains($badge)) {
                     $user->addBadge($badge);

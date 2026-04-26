@@ -57,6 +57,7 @@ class ForumPollVote
     public function setUser(User $user): self
     {
         $this->user = $user;
+
         return $this;
     }
 
@@ -68,6 +69,7 @@ class ForumPollVote
     public function setPoll(ForumPoll $poll): self
     {
         $this->poll = $poll;
+
         return $this;
     }
 
@@ -79,6 +81,7 @@ class ForumPollVote
     public function setOption(ForumPollOption $option): self
     {
         $this->option = $option;
+
         return $this;
     }
 

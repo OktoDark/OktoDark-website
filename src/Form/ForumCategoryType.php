@@ -12,6 +12,7 @@
 namespace App\Form;
 
 use App\Entity\ForumCategory;
+use App\Repository\ForumCategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -42,7 +43,7 @@ class ForumCategoryType extends AbstractType
                 'required' => false,
                 'placeholder' => 'None (Top Level Category)',
                 'label' => 'Parent Category',
-                'query_builder' => function (\App\Repository\ForumCategoryRepository $repo) use ($category) {
+                'query_builder' => function (ForumCategoryRepository $repo) use ($category) {
                     $qb = $repo->createQueryBuilder('c')
                         ->orderBy('c.position', 'ASC');
 

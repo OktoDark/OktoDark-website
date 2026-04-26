@@ -61,6 +61,7 @@ final readonly class CommentNotificationSubscriber implements EventSubscriberInt
             ->subject($subject)
             ->html($body)
         ;
+        $email->getHeaders()->addTextHeader('X-Transport', 'no_reply');
 
         // In config/packages/dev/mailer.yaml the delivery of messages is disable.
         // That's why in the development environment you won't actually receive any email.

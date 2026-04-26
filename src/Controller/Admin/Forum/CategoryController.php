@@ -28,7 +28,7 @@ final class CategoryController extends AbstractController
 {
     public function __construct(
         private ForumCategoryRepository $repo,
-        private EntityManagerInterface $em
+        private EntityManagerInterface $em,
     ) {
     }
 
@@ -47,11 +47,11 @@ final class CategoryController extends AbstractController
         $form = $this->createForm(ForumCategoryType::class, $category);
 
         $form->handleRequest($request);
-        
+
         // BUG FIX: Generate slug BEFORE isValid() so validation passes
         if ($form->isSubmitted() && !$category->getSlug() && $category->getName()) {
             $slugger = new AsciiSlugger();
-            $category->setSlug(strtolower($slugger->slug($category->getName())));
+            $category->setSlug(mb_strtolower($slugger->slug($category->getName())));
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -59,6 +59,7 @@ final class CategoryController extends AbstractController
             $this->em->flush();
 
             $this->addFlash('success', 'Category created successfully.');
+
             return $this->redirectToRoute('admin_forum_categories');
         }
 
@@ -71,7 +72,7 @@ final class CategoryController extends AbstractController
     #[Route('/edit/{id}', name: 'admin_forum_category_edit')]
     public function edit(
         ForumCategory $category,
-        Request $request
+        Request $request,
     ): Response {
         $form = $this->createForm(ForumCategoryType::class, $category);
 
@@ -80,13 +81,14 @@ final class CategoryController extends AbstractController
         // BUG FIX: Generate slug BEFORE isValid() so validation passes
         if ($form->isSubmitted() && !$category->getSlug() && $category->getName()) {
             $slugger = new AsciiSlugger();
-            $category->setSlug(strtolower($slugger->slug($category->getName())));
+            $category->setSlug(mb_strtolower($slugger->slug($category->getName())));
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->flush();
 
             $this->addFlash('success', 'Category updated successfully.');
+
             return $this->redirectToRoute('admin_forum_categories');
         }
 
@@ -98,12 +100,13 @@ final class CategoryController extends AbstractController
 
     #[Route('/delete/{id}', name: 'admin_forum_category_delete', methods: ['POST'])]
     public function delete(
-        ForumCategory $category
+        ForumCategory $category,
     ): Response {
         $this->em->remove($category);
         $this->em->flush();
 
         $this->addFlash('success', 'Category deleted.');
+
         return $this->redirectToRoute('admin_forum_categories');
     }
 }

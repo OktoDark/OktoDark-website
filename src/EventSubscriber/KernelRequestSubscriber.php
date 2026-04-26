@@ -44,7 +44,7 @@ readonly class KernelRequestSubscriber implements EventSubscriberInterface
 
         // 1. CHECK IF MAINTENANCE MODE IS ON
         $mode = $_ENV['MAINTENANCE_MODE'] ?? $_SERVER['MAINTENANCE_MODE'] ?? '0';
-        if (!filter_var($mode, FILTER_VALIDATE_BOOLEAN)) {
+        if (!filter_var($mode, \FILTER_VALIDATE_BOOLEAN)) {
             return;
         }
 

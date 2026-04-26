@@ -30,7 +30,7 @@ final class ForumFeedController extends AbstractController
         $user = $this->getUser();
 
         // 1. New threads from followed users
-        $followingIds = $user->getFollowing()->map(fn ($u) => $u->getId())->toArray();
+        $followingIds = $user->getFollowing()->map(static fn ($u) => $u->getId())->toArray();
         $followedThreads = [];
         if (!empty($followingIds)) {
             $followedThreads = $threadRepo->createQueryBuilder('t')
@@ -43,7 +43,7 @@ final class ForumFeedController extends AbstractController
         }
 
         // 2. New replies in subscribed threads
-        $subscribedIds = $user->getSubscribedThreads()->map(fn ($t) => $t->getId())->toArray();
+        $subscribedIds = $user->getSubscribedThreads()->map(static fn ($t) => $t->getId())->toArray();
         $subscribedReplies = [];
         if (!empty($subscribedIds)) {
             $subscribedReplies = $postRepo->createQueryBuilder('p')

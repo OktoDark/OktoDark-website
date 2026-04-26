@@ -34,7 +34,7 @@ final class ForumApiController extends AbstractController
                 'name' => $cat->getName(),
                 'slug' => $cat->getSlug(),
                 'description' => $cat->getDescription(),
-                'thread_count' => count($cat->getThreads()),
+                'thread_count' => \count($cat->getThreads()),
             ];
         }
 
@@ -54,7 +54,7 @@ final class ForumApiController extends AbstractController
                 'slug' => $t->getSlug(),
                 'author' => $t->getAuthor()->getUsername(),
                 'views' => $t->getViews(),
-                'replies' => count($t->getPosts()),
+                'replies' => \count($t->getPosts()),
                 'created_at' => $t->getCreatedAt()->format(\DateTimeInterface::ATOM),
             ];
         }

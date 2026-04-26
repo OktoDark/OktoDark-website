@@ -182,12 +182,12 @@ class ForumPost
 
     public function getUpvotesCount(): int
     {
-        return $this->reactions->filter(fn($r) => $r->getType() === 'upvote')->count();
+        return $this->reactions->filter(static fn ($r) => 'upvote' === $r->getType())->count();
     }
 
     public function getDownvotesCount(): int
     {
-        return $this->reactions->filter(fn($r) => $r->getType() === 'downvote')->count();
+        return $this->reactions->filter(static fn ($r) => 'downvote' === $r->getType())->count();
     }
 
     public function getScore(): int
@@ -202,6 +202,7 @@ class ForumPost
                 return $reaction->getType();
             }
         }
+
         return null;
     }
 }

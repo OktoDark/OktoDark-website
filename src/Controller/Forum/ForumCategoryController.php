@@ -33,7 +33,7 @@ class ForumCategoryController extends AbstractController
         ForumThreadRepository $threadRepository,
         ForumPostRepository $postRepository,
         UserRepository $userRepository,
-        BadgeRepository $badgeRepository
+        BadgeRepository $badgeRepository,
     ): Response {
         // Only get top-level categories
         $categories = $categoryRepository->findBy(['parent' => null], ['position' => 'ASC']);

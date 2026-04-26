@@ -66,6 +66,7 @@ class Badge
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -77,6 +78,7 @@ class Badge
     public function setIcon(string $icon): self
     {
         $this->icon = $icon;
+
         return $this;
     }
 
@@ -88,6 +90,7 @@ class Badge
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -99,6 +102,7 @@ class Badge
     public function setColor(string $color): self
     {
         $this->color = $color;
+
         return $this;
     }
 
@@ -110,6 +114,7 @@ class Badge
     public function setActionType(?string $actionType): self
     {
         $this->actionType = $actionType;
+
         return $this;
     }
 
@@ -121,6 +126,7 @@ class Badge
     public function setThreshold(?int $threshold): self
     {
         $this->threshold = $threshold;
+
         return $this;
     }
 
@@ -132,6 +138,7 @@ class Badge
     public function setIsPermanent(bool $isPermanent): self
     {
         $this->isPermanent = $isPermanent;
+
         return $this;
     }
 
@@ -146,6 +153,7 @@ class Badge
             $this->users->add($user);
             $user->addBadge($this);
         }
+
         return $this;
     }
 
@@ -154,6 +162,7 @@ class Badge
         if ($this->children->removeElement($user)) {
             // User side is managed in entity or externally
         }
+
         return $this;
     }
 }

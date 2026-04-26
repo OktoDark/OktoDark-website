@@ -49,7 +49,7 @@ final class ForumPostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ('' === trim($post->getContent())) {
+            if ('' === mb_trim($post->getContent())) {
                 $this->addFlash('error', 'Reply cannot be empty.');
 
                 return $this->redirectToRoute('forum_thread_view', [
@@ -170,7 +170,7 @@ final class ForumPostController extends AbstractController
             return $this->json(['error' => 'You cannot react to your own post.'], 403);
         }
 
-        if (!in_array($type, ['upvote', 'downvote'])) {
+        if (!\in_array($type, ['upvote', 'downvote'])) {
             return $this->json(['error' => 'Invalid reaction type.'], 400);
         }
 

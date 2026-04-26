@@ -303,6 +303,7 @@ class ForumThread
             $poll->setThread($this);
         }
         $this->poll = $poll;
+
         return $this;
     }
 
@@ -314,6 +315,7 @@ class ForumThread
     public function setType(string $type): self
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -325,6 +327,7 @@ class ForumThread
     public function setIsResolved(bool $isResolved): self
     {
         $this->isResolved = $isResolved;
+
         return $this;
     }
 }

@@ -72,7 +72,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function findActiveUsers(int $minutes = 15): array
     {
         $date = new \DateTime();
-        $date->sub(new \DateInterval('PT' . $minutes . 'M'));
+        $date->sub(new \DateInterval('PT'.$minutes.'M'));
 
         $rsm = new ResultSetMappingBuilder($this->getEntityManager());
         $rsm->addRootEntityFromClassMetadata(User::class, 'u');

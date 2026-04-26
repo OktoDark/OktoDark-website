@@ -31,7 +31,7 @@ class ForumPoll
     #[ORM\Column(length: 255)]
     private string $question;
 
-    #[ORM\OneToMany(mappedBy: 'poll', targetEntity: ForumPollOption::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: ForumPollOption::class, mappedBy: 'poll', cascade: ['persist', 'remove'])]
     private Collection $options;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -55,6 +55,7 @@ class ForumPoll
     public function setThread(ForumThread $thread): self
     {
         $this->thread = $thread;
+
         return $this;
     }
 
@@ -66,6 +67,7 @@ class ForumPoll
     public function setQuestion(string $question): self
     {
         $this->question = $question;
+
         return $this;
     }
 
@@ -83,6 +85,7 @@ class ForumPoll
             $this->options->add($option);
             $option->setPoll($this);
         }
+
         return $this;
     }
 
@@ -94,6 +97,7 @@ class ForumPoll
     public function setExpiresAt(?\DateTimeInterface $expiresAt): self
     {
         $this->expiresAt = $expiresAt;
+
         return $this;
     }
 
@@ -102,6 +106,7 @@ class ForumPoll
         if (null === $this->expiresAt) {
             return false;
         }
+
         return $this->expiresAt < new \DateTime();
     }
 }

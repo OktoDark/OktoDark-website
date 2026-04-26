@@ -44,7 +44,7 @@ class ForumThreadRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
             ->leftJoin('t.author', 'a')
             ->where('t.title LIKE :query OR t.content LIKE :query OR a.username LIKE :query')
-            ->setParameter('query', '%' . $query . '%')
+            ->setParameter('query', '%'.$query.'%')
             ->orderBy('t.updatedAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()

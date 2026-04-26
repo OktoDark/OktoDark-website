@@ -30,7 +30,7 @@ class ForumPollOption
     #[ORM\Column(length: 255)]
     private string $text;
 
-    #[ORM\OneToMany(mappedBy: 'option', targetEntity: ForumPollVote::class, cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: ForumPollVote::class, mappedBy: 'option', cascade: ['remove'])]
     private Collection $votes;
 
     public function __construct()
@@ -51,6 +51,7 @@ class ForumPollOption
     public function setPoll(ForumPoll $poll): self
     {
         $this->poll = $poll;
+
         return $this;
     }
 
@@ -62,6 +63,7 @@ class ForumPollOption
     public function setText(string $text): self
     {
         $this->text = $text;
+
         return $this;
     }
 

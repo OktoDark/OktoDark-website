@@ -263,7 +263,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
             return (string) $this->username;
         }
 
-        return trim($this->firstName.' '.$this->lastName);
+        return mb_trim($this->firstName.' '.$this->lastName);
     }
 
     public function getLocation(): ?string
@@ -361,11 +361,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
             'showSocialLinks' => true,
         ];
 
-        $stored = is_array($this->privacy) ? $this->privacy : [];
+        $stored = \is_array($this->privacy) ? $this->privacy : [];
         $merged = array_merge($defaults, $stored);
 
         foreach ($merged as $key => $value) {
-            $merged[$key] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+            $merged[$key] = filter_var($value, \FILTER_VALIDATE_BOOLEAN);
         }
 
         return $merged;
@@ -374,7 +374,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function setPrivacy(array $privacy): self
     {
         foreach ($privacy as $key => $value) {
-            $privacy[$key] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+            $privacy[$key] = filter_var($value, \FILTER_VALIDATE_BOOLEAN);
         }
 
         $this->privacy = $privacy;
@@ -562,12 +562,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function setReputation(int $reputation): self
     {
         $this->reputation = $reputation;
+
         return $this;
     }
 
     public function addReputation(int $points): self
     {
         $this->reputation += $points;
+
         return $this;
     }
 
@@ -581,6 +583,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         if (!$this->badges->contains($badge)) {
             $this->badges->add($badge);
         }
+
         return $this;
     }
 
@@ -632,12 +635,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         if (!$this->following->contains($user)) {
             $this->following->add($user);
         }
+
         return $this;
     }
 
     public function unfollow(User $user): self
     {
         $this->following->removeElement($user);
+
         return $this;
     }
 
@@ -656,12 +661,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         if (!$this->subscribedThreads->contains($thread)) {
             $this->subscribedThreads->add($thread);
         }
+
         return $this;
     }
 
     public function unsubscribeFromThread(ForumThread $thread): self
     {
         $this->subscribedThreads->removeElement($thread);
+
         return $this;
     }
 

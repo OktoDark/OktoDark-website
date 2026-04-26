@@ -75,6 +75,7 @@ class ForumCategory
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -86,6 +87,7 @@ class ForumCategory
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
         return $this;
     }
 
@@ -97,6 +99,7 @@ class ForumCategory
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -108,6 +111,7 @@ class ForumCategory
     public function setPosition(int $position): self
     {
         $this->position = $position;
+
         return $this;
     }
 
@@ -119,6 +123,7 @@ class ForumCategory
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
@@ -130,6 +135,7 @@ class ForumCategory
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
 
@@ -138,14 +144,15 @@ class ForumCategory
         return $this->threads;
     }
 
-    public function getParent(): ?ForumCategory
+    public function getParent(): ?self
     {
         return $this->parent;
     }
 
-    public function setParent(?ForumCategory $parent): self
+    public function setParent(?self $parent): self
     {
         $this->parent = $parent;
+
         return $this;
     }
 
@@ -154,22 +161,24 @@ class ForumCategory
         return $this->children;
     }
 
-    public function addChild(ForumCategory $child): self
+    public function addChild(self $child): self
     {
         if (!$this->children->contains($child)) {
             $this->children->add($child);
             $child->setParent($this);
         }
+
         return $this;
     }
 
-    public function removeChild(ForumCategory $child): self
+    public function removeChild(self $child): self
     {
         if ($this->children->removeElement($child)) {
             if ($child->getParent() === $this) {
                 $child->setParent(null);
             }
         }
+
         return $this;
     }
 
