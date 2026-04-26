@@ -1,0 +1,90 @@
+{% extends '@theme/base.html.twig' %}
+{% block title %}Reported Content – Admin{% endblock %}
+{% block body_id 'admin' %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
+
+        {% block admin_content %}
+            <div class="section-title">
+                <h2>Reported Content</h2>
+                <p>Review and act upon content flagged by the community.</p>
+            </div>
+
+            <section>
+                <div class="admin-table-container">
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                            <tr>
+                                <th>Source Thread</th>
+                                <th>Reported Author</th>
+                                <th>Content Excerpt</th>
+                                <th>Report Date</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for post in posts %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('forum_thread_view', { slug: post.thread.slug }) }}"
+                                           class="text-accent text-decoration-none fw-bold small">
+                                            {{ post.thread.title }}
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        <span class="text-white small">{{ post.author.username }}</span>
+                                    </td>
+
+                                    <td class="text-muted small">
+                                        <div class="text-truncate" style="max-width: 300px;" title="{{ post.content|striptags }}">
+                                            {{ post.content|striptags|slice(0, 80) }}...
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="small text-muted">{{ post.createdAt|date('M j, Y') }}</div>
+                                        <div class="small text-muted" style="font-size: 0.7rem;">{{ post.createdAt|date('H:i') }}</div>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <a href="{{ path('forum_thread_view', { slug: post.thread.slug }) }}"
+                                               class="admin-btn admin-btn-secondary admin-btn-sm" title="View Context">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+
+                                            <form action="{{ path('admin_forum_delete_post', { id: post.id }) }}"
+                                                  method="post"
+                                                  onsubmit="return confirm('Delete this reported post?');">
+                                                <button type="submit" class="admin-btn admin-btn-danger admin-btn-sm" title="Delete Reported Post">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-5">
+                                        <i class="fas fa-flag-checkered d-block mb-3 fs-2 opacity-25"></i>
+                                        Inbox clear! No pending reports to review.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <style>
+                .text-accent { color: var(--admin-accent); }
+            </style>
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}

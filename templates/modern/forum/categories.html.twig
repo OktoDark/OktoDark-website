@@ -1,0 +1,41 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Forum{% endblock %}
+
+{% block body %}
+    <div class="container py-5">
+
+        <div class="text-center mb-5">
+            <h1 class="fw-bold">Forum</h1>
+            <p class="text-muted">Explore the categories and join the discussions</p>
+        </div>
+
+        {% if categories is empty %}
+            <div class="alert alert-info text-center">
+                No categories available.
+            </div>
+        {% else %}
+            <div class="row g-4">
+                {% for category in categories %}
+                    <div class="col-md-6 col-lg-4">
+                        <a href="{{ path('forum_category_view', { slug: category.slug }) }}"
+                           class="text-decoration-none text-dark">
+                            <div class="card h-100 shadow-sm border-0 hover-shadow">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-semibold">{{ category.name }}</h5>
+
+                                    {% if category.description %}
+                                        <p class="card-text text-muted small">
+                                            {{ category.description }}
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </div>
+{% endblock %}

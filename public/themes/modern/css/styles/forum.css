@@ -1,0 +1,149 @@
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * For the full copyright and license information, please view the LICENSE.
+ */
+
+/* --- Forum Modern Styles (Green Theme) --- */
+
+/* Global Utilities */
+.x-small { font-size: 0.72rem; }
+.italic { font-style: italic; }
+.hover-success:hover { color: #16a34a !important; }
+.transition-all { transition: all 0.2s ease-in-out; }
+.hover-lift:hover { transform: translateY(-2px); box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important; }
+.shadow-xs { box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+.hover-bg-light:hover { background-color: #f8f9fa; }
+
+/* Breadcrumbs */
+.breadcrumb-item a { text-decoration: none; font-weight: 500; color: #16a34a; transition: color 0.2s; }
+.breadcrumb-item a:hover { color: #11a34a; }
+
+/* Pagination */
+.page-item.active .page-link { background-color: #16a34a; border-color: #16a34a; }
+.page-link { color: #16a34a; }
+.page-link:hover { color: #11a34a; }
+
+/* Category & Thread Lists */
+.category-icon-box { 
+    width: 40px; 
+    height: 40px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: #f0fdf4; 
+    border-radius: 10px; 
+}
+
+.list-group-item-action { transition: background-color 0.2s; }
+.list-group-item-action:hover { background-color: #fcfdfc; }
+
+/* Thread & Post Cards */
+.post-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.post-body-content { font-size: 1rem; color: #333; line-height: 1.6; }
+.post-body-content img { max-width: 100%; height: auto; border-radius: 8px; }
+
+/* Blockquote & Quotes */
+blockquote, 
+trix-editor blockquote {
+    background: #f8f9fa !important;
+    border-left: 4px solid #16a34a !important;
+    padding: 1rem 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    border-radius: 0 8px 8px 0 !important;
+    font-style: italic !important;
+    color: #4b5563 !important;
+    position: relative !important;
+}
+
+blockquote strong,
+trix-editor blockquote strong {
+    color: #111827 !important;
+    font-style: normal !important;
+}
+
+/* Signatures */
+.signature-content {
+    opacity: 0.8;
+    font-size: 0.85rem;
+    border-top: 1px dashed #eee;
+    margin-top: 2rem;
+    padding-top: 1rem;
+}
+
+/* Fix for Reply Post text color in success header */
+.card-header.bg-success .reply-post,
+.reply-post {
+    color: #f8f9fa !important;
+}
+
+/* Sharing & Actions */
+.btn-xs { padding: 0.25rem 0.5rem !important; font-size: 0.75rem !important; }
+.share-btn { 
+    width: 32px; 
+    height: 32px; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    transition: all 0.2s; 
+    border-radius: 50% !important; 
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+}
+.share-btn:hover { background-color: #16a34a; color: white !important; border-color: #16a34a; }
+
+/* Trix Editor Modernization */
+.editor-wrapper { overflow: hidden; }
+.trix-content,
+.editor-wrapper trix-editor { 
+    min-height: 250px; 
+    border: 1px solid #dee2e6 !important; 
+    border-radius: 8px; 
+    background: white !important; 
+    padding: 1.25rem !important;
+    color: #333 !important;
+    outline: none !important;
+}
+
+.editor-wrapper trix-editor { border: none !important; min-height: 350px; }
+
+trix-toolbar { 
+    border-bottom: 1px solid #eee !important; 
+    padding: 10px !important; 
+    background: #fafafa;
+    border-radius: 8px 8px 0 0;
+}
+
+trix-toolbar .trix-button-group { border: 1px solid #eee !important; margin-bottom: 5px !important; }
+
+/* Search Results */
+.result-item { 
+    transition: transform 0.2s, box-shadow 0.2s; 
+    border-left: 3px solid transparent !important; 
+}
+.result-item:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important; 
+    border-left-color: #16a34a !important; 
+}
+
+/* Avatars */
+.avatar-profile-fallback { 
+    border: 1px solid #dee2e6; 
+    background: #f8f9fa;
+}
+
+/* Sidebar Widgets */
+.aside-component {
+    border: none;
+    border-radius: 12px;
+}

@@ -12,6 +12,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Repository\BadgeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,23 +23,54 @@ use Symfony\Component\Routing\Attribute\Route;
 class UsersController extends AbstractController
 {
     #[Route('', name: 'admin_users')]
-    public function index(Request $request, EntityManagerInterface $em): Response
+    public function index(Request $request, EntityManagerInterface $em, BadgeRepository $badgeRepo): Response
     {
-        $repo = $em->getRepository(User::class);
+        $userRepo = $em->getRepository(User::class);
 
         // CREATE or UPDATE
         if ($request->isMethod('POST')) {
             $id = $request->request->get('id');
-            $user = $id ? $repo->find($id) : new User();
+            $user = $id ? $userRepo->find($id) : new User();
+
+            if (!$user) {
+                $this->addFlash('error', 'User not found.');
+                return $this->redirectToRoute('admin_users');
+            }
 
             $user->setActive('1' === $request->request->get('active'));
             $user->setUsername($request->request->get('username'));
-            $user->setFullName($request->request->get('fullName'));
+            $user->setFirstName($request->request->get('firstName'));
+            $user->setLastName($request->request->get('lastName'));
             $user->setEmail($request->request->get('email'));
+            $user->setIsVerified((bool) $request->request->get('isVerified'));
 
             // Roles (array)
             $roles = $request->request->all('roles') ?? [];
             $user->setRoles($roles);
+
+            // Badges (array)
+            $selectedBadgeIds = $request->request->all('badges') ?? [];
+            $currentBadges = $user->getBadges()->map(fn($badge) => $badge->getId())->toArray();
+
+            // Remove badges no longer selected
+            foreach ($currentBadges as $badgeId) {
+                if (!in_array($badgeId, $selectedBadgeIds)) {
+                    $badgeToRemove = $badgeRepo->find($badgeId);
+                    if ($badgeToRemove) {
+                        $user->getBadges()->removeElement($badgeToRemove);
+                    }
+                }
+            }
+
+            // Add newly selected badges
+            foreach ($selectedBadgeIds as $badgeId) {
+                if (!in_array($badgeId, $currentBadges)) {
+                    $badgeToAdd = $badgeRepo->find($badgeId);
+                    if ($badgeToAdd) {
+                        $user->addBadge($badgeToAdd);
+                    }
+                }
+            }
 
             $em->persist($user);
             $em->flush();

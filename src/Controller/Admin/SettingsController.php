@@ -33,6 +33,12 @@ class SettingsController extends AbstractController
             $settings->setJobmail($request->request->get('jobmail'));
             $settings->setSiteCDN($request->request->get('siteCDN'));
             $settings->setLogoName($request->request->get('logoName'));
+            // Forum Settings
+            $settings->setForumSignaturesEnabled((bool) $request->request->get('forum_signatures_enabled'));
+            $settings->setForumImageUploadsEnabled((bool) $request->request->get('forum_image_uploads_enabled'));
+            $settings->setForumPollsEnabled((bool) $request->request->get('forum_polls_enabled'));
+            $settings->setForumRichEmbedsEnabled((bool) $request->request->get('forum_rich_embeds_enabled'));
+            $settings->setForumPostRateLimit((int) $request->request->get('forum_post_rate_limit', 10));
 
             $em->persist($settings);
             $em->flush();

@@ -1,0 +1,389 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}{{ thread.title }} — Forum{% endblock %}
+
+{% block body %}
+    <!-- Hero Section consistent with Blog -->
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ thread.title }}</h2>
+            <div class="d-flex justify-content-center gap-2 mt-3">
+                {% if thread.pinned %}
+                    <span class="badge bg-warning text-dark"><i class="fa-solid fa-thumbtack me-1"></i> Pinned</span>
+                {% endif %}
+                {% if thread.locked %}
+                    <span class="badge bg-danger"><i class="fa-solid fa-lock me-1"></i> Locked</span>
+                {% endif %}
+                <span class="badge bg-light text-success border border-success-subtle px-3">{{ thread.category.name }}</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-default pt-0">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('forum') }}" class="text-success">Forum</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('forum_category_view', { slug: thread.category.slug }) }}" class="text-success">{{ thread.category.name }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {% if thread.title|length > 30 %}
+                            {{ thread.title|slice(0, 30) }}...
+                        {% else %}
+                            {{ thread.title }}
+                        {% endif %}
+                    </li>
+                </ol>
+            </nav>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex gap-2">
+                    {% if is_granted('ROLE_USER') %}
+                        <form action="{{ path('forum_thread_subscribe', {id: thread.id}) }}" method="post" class="d-inline">
+                            {% set isSubscribed = app.user.subscribedThreads.contains(thread) %}
+                            <button type="submit" class="btn btn-sm {{ isSubscribed ? 'btn-warning' : 'btn-outline-warning' }} shadow-sm">
+                                <i class="fa-solid {{ isSubscribed ? 'fa-bell-slash' : 'fa-bell' }} me-1"></i> {{ isSubscribed ? 'Unsubscribe' : 'Subscribe' }}
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+
+                <!-- Admin Toolbar -->
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div class="btn-group btn-group-sm shadow-sm">
+                        <a href="{{ path('admin_forum_thread_pin', { id: thread.id }) }}" class="btn btn-white border">
+                            {{ thread.pinned ? 'Unpin' : 'Pin' }}
+                        </a>
+                        <a href="{{ path('admin_forum_thread_lock', { id: thread.id }) }}" class="btn btn-white border">
+                            {{ thread.locked ? 'Unlock' : 'Lock' }}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+
+            {# POLL SECTION #}
+            {{ include('@theme/forum/_poll.html.twig') }}
+
+            <!-- Main Thread Original Post -->
+            <div class="card shadow-sm border-0 mb-5 overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-lg-2 bg-light border-end d-none d-lg-block p-4 text-center">
+                        <div class="avatar-container mb-3 d-flex justify-content-center">
+                            {% if thread.author.avatarUrl %}
+                                <img src="{{ thread.author.avatarUrl }}" class="rounded-circle shadow-sm border border-3 border-white" width="80" height="80">
+                            {% else %}
+                                <div class="avatar-profile-fallback rounded-circle shadow-sm d-flex align-items-center justify-content-center mx-auto" style="width: 80px; height: 80px; background: #fff; border: 1px solid #dee2e6;">
+                                    <i class="fa-solid fa-user fa-2x text-muted"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <h6 class="fw-bold mb-1">{{ thread.author.username }}</h6>
+                        <div class="small text-success fw-bold mb-3">{{ thread.author.reputation }} rep</div>
+                        
+                        {% if is_granted('ROLE_USER') and thread.author != app.user %}
+                            <form action="{{ path('forum_user_follow', {id: thread.author.id}) }}" method="post" class="mb-3">
+                                {% set isFollowing = app.user.following.contains(thread.author) %}
+                                <button type="submit" class="btn btn-xs {{ isFollowing ? 'btn-secondary' : 'btn-outline-success' }} w-100">
+                                    {{ isFollowing ? 'Unfollow' : 'Follow' }}
+                                </button>
+                            </form>
+                        {% endif %}
+
+                        <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+                            {% for badge in thread.author.badges %}
+                                <div class="text-center" style="width: 60px;">
+                                    <span class="badge p-1 mb-1 d-inline-block shadow-xs border border-white" 
+                                          style="background-color: {{ badge.color }}; color: #fff;"
+                                          title="{{ badge.description }}" data-bs-toggle="tooltip" data-bs-placement="top">
+                                        <i class="{{ badge.icon }}"></i>
+                                    </span>
+                                    <div class="x-small text-muted fw-bold" style="font-size: 0.55rem; line-height: 1;">{{ badge.name }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="small text-muted text-start mt-3 pt-3 border-top">
+                            {% if thread.author.privacy.showLocation and thread.author.location %}
+                                <div><i class="fa-solid fa-location-dot me-1"></i> {{ thread.author.location }}</div>
+                            {% endif %}
+                            <div><i class="fa-solid fa-calendar-alt me-1"></i> Joined {{ thread.author.createdAt|date('M Y') }}</div>
+                            <div><i class="fa-solid fa-comment-dots me-1"></i> Posts: {{ thread.author.postCount }}</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="card-header bg-white border-bottom p-3 d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="d-lg-none fw-bold small text-success">{{ thread.author.username }} &bull;</span>
+                                <span class="text-muted small post-created-at" data-created-at="{{ thread.createdAt|date('M d, Y H:i') }}"><i class="fa-regular fa-calendar-check me-1"></i> {{ thread.createdAt|date('M d, Y H:i') }}</span>
+                            </div>
+                            {% if thread.author == app.user or is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('forum_thread_edit', { id: thread.id }) }}" class="btn btn-link btn-sm text-warning text-decoration-none py-0">
+                                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                                </a>
+                            {% endif %}
+                        </div>
+                        <div class="card-body p-4 p-lg-5 post-body-content">
+                            <div class="post-text-content">
+                                {{ thread.content|raw }}
+                            </div>
+
+                            {# THREAD AUTHOR SIGNATURE #}
+                            {% if settings.forumSignaturesEnabled and thread.author.signature and thread.author.forumSettings.showSignature %}
+                                {# Show if: it is my own post OR (viewer is guest OR viewer wants to see others) #}
+                                {% if thread.author == app.user or (not app.user or app.user.forumSettings.showOtherSignatures) %}
+                                    <div class="mt-5 pt-3 border-top small text-muted font-italic signature-content">
+                                        {{ thread.author.signature|striptags|nl2br }}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="card-footer bg-light border-0 p-3 d-flex justify-content-between align-items-center">
+                            <div class="d-flex gap-2">
+                                <a class="btn btn-outline-secondary btn-xs rounded-circle share-btn" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri|url_encode }}"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a class="btn btn-outline-secondary btn-xs rounded-circle share-btn" target="_blank" href="https://twitter.com/intent/tweet?url={{ app.request.uri|url_encode }}&text={{ thread.title|url_encode }}"><i class="fa-brands fa-x-twitter"></i></a>
+                                <button class="btn btn-outline-secondary btn-xs rounded-circle share-btn" onclick="copyToClipboard('{{ app.request.uri }}')"><i class="fa-solid fa-link"></i></button>
+                            </div>
+                            <span class="x-small text-muted text-uppercase fw-bold">Original Post</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="fw-bold mb-4 border-bottom pb-3"><i class="fa-solid fa-comments me-2 text-success"></i> Community Replies ({{ paginator.numResults }})</h5>
+
+            <!-- Replies -->
+            <div class="reply-list mb-5">
+                {% for post in paginator.results %}
+                    <div class="card shadow-sm border-0 mb-4 overflow-hidden" id="post-{{ post.id }}">
+                        <div class="row g-0">
+                            <!-- Left Sidebar: Author & Reputation -->
+                            <div class="col-lg-2 bg-light border-end d-none d-lg-block p-4 text-center">
+                                <div class="avatar-container mb-3 d-flex justify-content-center">
+                                    {% if post.author.avatarUrl %}
+                                        <img src="{{ post.author.avatarUrl }}" class="rounded-circle shadow-sm border border-2 border-white" width="60" height="60">
+                                    {% else %}
+                                        <div class="avatar-profile-fallback rounded-circle shadow-sm d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px; background: #fff; border: 1px solid #dee2e6;">
+                                            <i class="fa-solid fa-user text-muted"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <h6 class="small fw-bold mb-1">{{ post.author.username }}</h6>
+                                <div class="x-small text-success fw-bold mb-3">{{ post.author.reputation }} rep</div>
+                                
+                                {% if is_granted('ROLE_USER') and post.author != app.user %}
+                                    <form action="{{ path('forum_user_follow', {id: post.author.id}) }}" method="post" class="mb-3">
+                                        {% set isFollowing = app.user.following.contains(post.author) %}
+                                        <button type="submit" class="btn btn-xs {{ isFollowing ? 'btn-secondary' : 'btn-outline-success' }} w-100">
+                                            {{ isFollowing ? 'Unfollow' : 'Follow' }}
+                                        </button>
+                                    </form>
+                                {% endif %}
+
+                                <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+                                    {% for badge in post.author.badges %}
+                                        <div class="text-center" style="width: 50px;">
+                                            <span class="badge p-1 mb-1 d-inline-block shadow-xs border border-white" 
+                                                  style="background-color: {{ badge.color }}; color: #fff; font-size: 0.6rem;"
+                                                  title="{{ badge.description }}" data-bs-toggle="tooltip" data-bs-placement="top">
+                                                <i class="{{ badge.icon }}"></i>
+                                            </span>
+                                            <div class="x-small text-muted fw-bold" style="font-size: 0.5rem; line-height: 1;">{{ badge.name }}</div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="small text-muted text-start mt-3 pt-3 border-top">
+                                    {% if post.author.privacy.showLocation and post.author.location %}
+                                        <div><i class="fa-solid fa-location-dot me-1"></i> {{ post.author.location }}</div>
+                                    {% endif %}
+                                    <div><i class="fa-solid fa-calendar-alt me-1"></i> Joined {{ post.author.createdAt|date('M Y') }}</div>
+                                    <div><i class="fa-solid fa-comment-dots me-1"></i> Posts: {{ post.author.postCount }}</div>
+                                </div>
+
+                                <!-- Post Reaction/Score block -->
+                                <div class="reaction-block border-top pt-3">
+                                    {% if is_granted('ROLE_USER') and post.author != app.user %}
+                                        {% set userReact = post.getUserReaction(app.user) %}
+                                        <div class="d-flex flex-column align-items-center gap-1">
+                                            <form action="{{ path('forum_post_react', {id: post.id, type: 'upvote'}) }}" method="post">
+                                                <button type="submit" class="btn btn-link p-0 {{ userReact == 'upvote' ? 'text-success' : 'text-muted opacity-50' }}" title="Upvote">
+                                                    <i class="fa-solid fa-circle-chevron-up fa-2xl"></i>
+                                                </button>
+                                            </form>
+                                            <span class="fw-bold {{ post.getScore > 0 ? 'text-success' : (post.getScore < 0 ? 'text-danger' : 'text-muted') }}">{{ post.getScore }}</span>
+                                            <form action="{{ path('forum_post_react', {id: post.id, type: 'downvote'}) }}" method="post">
+                                                <button type="submit" class="btn btn-link p-0 {{ userReact == 'downvote' ? 'text-danger' : 'text-muted opacity-50' }}" title="Downvote">
+                                                    <i class="fa-solid fa-circle-chevron-down fa-2xl"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    {% else %}
+                                        <div class="text-center">
+                                            <div class="small text-muted mb-1">Score</div>
+                                            <span class="h5 mb-0 fw-bold {{ post.getScore > 0 ? 'text-success' : (post.getScore < 0 ? 'text-danger' : 'text-muted') }}">{{ post.getScore }}</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10">
+                                <div class="card-header bg-white border-bottom p-3 d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="d-lg-none fw-bold small text-success">{{ post.author.username }} &bull;</span>
+                                        <span class="text-muted small post-created-at" data-created-at="{{ post.createdAt|date('M d, Y H:i') }}"><i class="fa-regular fa-clock me-1"></i> {{ post.createdAt|date('M d, Y H:i') }}</span>
+                                        
+                                        {% if post.isAcceptedAnswer %}
+                                            <span class="badge bg-success ms-2 shadow-sm"><i class="fa-solid fa-check-circle me-1"></i> Accepted Solution</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="d-flex gap-3">
+                                        <button class="btn btn-link btn-sm text-decoration-none py-0 text-success" onclick="quotePost('{{ post.author.username }}', 'post-{{ post.id }}')">
+                                            <i class="fa-solid fa-quote-left"></i> Quote
+                                        </button>
+
+                                        {% if thread.type == 'question' and thread.author == app.user and not post.isAcceptedAnswer and post.author != app.user %}
+                                            <form action="{{ path('forum_post_accept', {id: post.id}) }}" method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-link btn-sm text-decoration-none py-0 text-primary" title="Mark as solution">
+                                                    <i class="fa-solid fa-circle-check"></i> Accept
+                                                </button>
+                                            </form>
+                                        {% endif %}
+
+                                        {% if post.author == app.user or is_granted('ROLE_ADMIN') %}
+                                            <div class="dropdown">
+                                                <button class="btn btn-link btn-sm text-muted py-0" type="button" data-bs-toggle="dropdown">
+                                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                                                    <li><a href="{{ path('forum_post_edit', { id: post.id }) }}" class="dropdown-item small text-warning"><i class="fa-solid fa-pen me-2"></i> Edit Post</a></li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li>
+                                                        <form action="{{ path('forum_post_delete', { id: post.id }) }}" method="post" onsubmit="return confirm('Permanently delete this reply?');">
+                                                            <button class="dropdown-item small text-danger"><i class="fa-solid fa-trash me-2"></i> Delete Post</button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="card-body p-4 post-body-content">
+                                    <div class="post-text-content">
+                                        {{ post.content|raw }}
+                                    </div>
+
+                                    {# POST AUTHOR SIGNATURE #}
+                                    {% if settings.forumSignaturesEnabled and post.author.signature and post.author.forumSettings.showSignature %}
+                                        {# Show if: it is my own post OR (viewer is guest OR viewer wants to see others) #}
+                                        {% if post.author == app.user or (not app.user or app.user.forumSettings.showOtherSignatures) %}
+                                            <div class="mt-4 pt-2 border-top small text-muted font-italic signature-content">
+                                                {{ post.author.signature|striptags|nl2br }}
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <!-- Pagination -->
+                {% if paginator.hasToPaginate %}
+                    <nav aria-label="Thread pagination" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item {{ not paginator.hasPreviousPage ? 'disabled' }}">
+                                <a class="page-link"
+                                   href="{{ paginator.hasPreviousPage
+                                   ? path('forum_thread_view', { slug: thread.slug, page: paginator.previousPage })
+                                   : '#' }}">
+                                    <span class="fas fa-chevron-left"></span>
+                                </a>
+                            </li>
+
+                            {% for i in 1..paginator.lastPage %}
+                                <li class="page-item {{ i == paginator.currentPage ? 'active' }}">
+                                    <a class="page-link"
+                                       href="{{ path('forum_thread_view', { slug: thread.slug, page: i }) }}">
+                                        {{ i }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+
+                            <li class="page-item {{ not paginator.hasNextPage ? 'disabled' }}">
+                                <a class="page-link"
+                                   href="{{ paginator.hasNextPage
+                                   ? path('forum_thread_view', { slug: thread.slug, page: paginator.nextPage })
+                                   : '#' }}">
+                                    <span class="fas fa-chevron-right"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                {% endif %}
+            </div>
+
+            <!-- Reply Box -->
+            <div class="reply-box mt-5">
+                {% if is_granted('ROLE_USER') %}
+                    {% if not thread.locked %}
+                        <div class="card shadow border-0 overflow-hidden">
+                            <div class="card-header bg-success text-bg-success py-3">
+                                <h5 class="mb-0 fw-bold reply-post"><i class="fa-solid fa-reply me-2"></i> Post your reply</h5>
+                            </div>
+                            <div class="card-body p-4 p-lg-5">
+                                {{ form_start(form, { 'enctype': 'multipart/form-data' }) }}
+                                    
+                                    {# SURFACING REPLY FORM ERRORS #}
+                                    {{ form_errors(form) }}
+
+                                    <div class="editor-wrapper rounded border bg-white mb-4">
+                                        {{ form_widget(form.content) }}
+                                    </div>
+
+                                    <button class="btn btn-success text-bg-success px-5 py-2 fw-bold shadow-sm">
+                                        Submit Reply <i class="fa-solid fa-paper-plane ms-2"></i>
+                                    </button>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning border-0 shadow-sm text-center py-4">
+                            <i class="fa-solid fa-lock fa-2x mb-3 d-block"></i>
+                            <h5 class="fw-bold">Discussion Locked</h5>
+                            <p class="mb-0">Replies are currently disabled for this discussion.</p>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="card shadow-sm border-0 bg-light text-center py-5">
+                        <div class="card-body">
+                            <h5 class="fw-bold mb-3">Join the Conversation</h5>
+                            <p class="text-muted mb-4">You need to be logged in to participate in our community discussions.</p>
+                            <a href="{{ path('security_login') }}" class="btn btn-success text-bg-success px-5">Login / Sign Up</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        function quotePost(username, postId) {
+            const contentElement = document.querySelector(`#${postId} .post-text-content`);
+            const createdAtElement = document.querySelector(`#${postId} .post-created-at`);
+            
+            const content = contentElement ? contentElement.innerHTML : '';
+            const createdAt = createdAtElement ? createdAtElement.dataset.createdAt : '';
+
+            const editor = document.querySelector("trix-editor").editor;
+            editor.insertHTML(`<blockquote><strong>${username}</strong> <span class="text-muted small">on ${createdAt} wrote:</span><br>${content}</blockquote><p><br></p>`);
+            document.querySelector('.reply-box').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Link copied to clipboard!');
+            });
+        }
+    </script>
+{% endblock %}

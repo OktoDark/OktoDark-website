@@ -1,0 +1,70 @@
+{% extends '@theme/base.html.twig' %}
+{% block title %}Forum Categories – Admin{% endblock %}
+{% block body_id 'admin' %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
+
+        {% block admin_content %}
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="section-title mb-0">
+                    <h2>Forum Categories</h2>
+                    <p>Organize and manage the various sections of your forum.</p>
+                </div>
+                <a href="{{ path('admin_forum_category_create') }}" class="admin-btn admin-btn-primary">
+                    <i class="fas fa-plus"></i> Create New Category
+                </a>
+            </div>
+
+            <section>
+                <div class="admin-table-container">
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                            <tr>
+                                <th>Category Name</th>
+                                <th>URL Slug</th>
+                                <th>Display Position</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for category in categories %}
+                                <tr>
+                                    <td><span class="fw-bold">{{ category.name }}</span></td>
+                                    <td><code class="text-accent small">{{ category.slug }}</code></td>
+                                    <td><span class="admin-badge admin-badge-secondary">{{ category.position }}</span></td>
+                                    <td class="text-end">
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <a href="{{ path('admin_forum_category_edit', { id: category.id }) }}"
+                                               class="admin-btn admin-btn-secondary admin-btn-sm" title="Edit Category">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="{{ path('admin_forum_category_delete', { id: category.id }) }}"
+                                                  method="post"
+                                                  onsubmit="return confirm('Permanently delete this category? All associated threads and posts will be affected.');">
+                                                <button type="submit" class="admin-btn admin-btn-danger admin-btn-sm" title="Delete Category">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted py-5">
+                                        <i class="fas fa-folder-open d-block mb-3 fs-2 opacity-25"></i>
+                                        No categories defined yet.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}

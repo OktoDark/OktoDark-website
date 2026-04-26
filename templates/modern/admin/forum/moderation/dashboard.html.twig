@@ -1,0 +1,115 @@
+{% extends '@theme/base.html.twig' %}
+{% block title %}Forum Moderation Dashboard – Admin{% endblock %}
+{% block body_id 'admin' %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
+
+        {% block admin_content %}
+            <div class="section-title">
+                <h2>Moderation Dashboard</h2>
+                <p>Overview of forum activity and pending moderation tasks.</p>
+            </div>
+
+            <section>
+                <div class="row g-4">
+                    <!-- RECENT POSTS -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="admin-card h-100">
+                            <h5 class="mb-4 text-white"><i class="fas fa-comment-dots me-2 text-muted"></i>Recent Posts</h5>
+                            <div class="admin-list-group">
+                                {% for post in recentPosts %}
+                                    <div class="admin-list-group-item">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <strong class="text-white small">{{ post.author.username }}</strong>
+                                            <span class="text-muted" style="font-size: 0.7rem;">{{ post.createdAt|date('M j, H:i') }}</span>
+                                        </div>
+                                        <div class="text-truncate small">
+                                            <span class="text-muted">in</span>
+                                            <a href="{{ path('forum_thread_view', { slug: post.thread.slug }) }}" class="text-accent text-decoration-none">
+                                                {{ post.thread.title }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="admin-list-group-item text-muted small">No recent posts found.</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RECENT THREADS -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="admin-card h-100">
+                            <h5 class="mb-4 text-white"><i class="fas fa-comments me-2 text-muted"></i>Recent Threads</h5>
+                            <div class="admin-list-group">
+                                {% for thread in recentThreads %}
+                                    <div class="admin-list-group-item">
+                                        <a href="{{ path('forum_thread_view', { slug: thread.slug }) }}" class="text-white text-decoration-none d-block fw-bold small mb-1">
+                                            {{ thread.title }}
+                                        </a>
+                                        <div class="text-muted" style="font-size: 0.7rem;">
+                                            Started by {{ thread.author.username }} &bull; {{ thread.createdAt|date('M j, Y') }}
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="admin-list-group-item text-muted small">No recent threads found.</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- REPORTS SUMMARY -->
+                    <div class="col-lg-4 col-md-12">
+                        <div class="admin-card h-100 border-warning border-opacity-25">
+                            <h5 class="mb-4 text-warning"><i class="fas fa-flag me-2"></i>Pending Reports</h5>
+                            <p class="text-muted small mb-4">Users have flagged content that may violate platform guidelines. These require immediate review.</p>
+                            
+                            <div class="mt-auto">
+                                <a href="{{ path('admin_forum_reports') }}" class="admin-btn admin-btn-primary w-100 justify-content-center">
+                                    <i class="fas fa-shield-halved"></i> Review Reports
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RECENT ACTIONS -->
+                    <div class="col-12">
+                        <div class="admin-card">
+                            <h5 class="mb-4 text-white"><i class="fas fa-list-check me-2 text-muted"></i>Recent Moderator Actions</h5>
+                            <div class="table-responsive">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Moderator</th>
+                                            <th>Action Performed</th>
+                                            <th>Date & Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for log in recentLogs %}
+                                            <tr>
+                                                <td><span class="fw-bold text-white">{{ log.moderator.username }}</span></td>
+                                                <td><span class="text-muted small">{{ log.action }}</span></td>
+                                                <td><span class="text-muted small">{{ log.createdAt|date('Y-m-d H:i') }}</span></td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="3" class="text-center text-muted py-4">No recent moderation activity recorded.</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <style>
+                .text-accent { color: var(--admin-accent); }
+            </style>
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}

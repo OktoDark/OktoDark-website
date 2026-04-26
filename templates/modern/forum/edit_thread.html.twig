@@ -1,0 +1,154 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Edit Thread: {{ thread.title }} — Forum{% endblock %}
+
+{% block body %}
+    <!-- Hero Section -->
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">Edit Discussion</h2>
+            <p class="lead text-muted mt-2">Update your thoughts and community contribution.</p>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-default pt-0">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-5">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('forum') }}" class="text-success">Forum</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('forum_category_view', { slug: thread.category.slug }) }}" class="text-success">{{ thread.category.name }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('forum_thread_view', { slug: thread.slug }) }}" class="text-success">{{ thread.title|length > 30 ? thread.title|slice(0, 30) ~ '...' : thread.title }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Thread</li>
+                </ol>
+            </nav>
+
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+                    <div class="card shadow-sm border-0 overflow-hidden">
+                        <div class="card-body p-4 p-lg-5">
+                            
+                            {{ form_start(form, { 'enctype': 'multipart/form-data' }) }}
+                            
+                            {# SURFACING FORM-LEVEL ERRORS #}
+                            {{ form_errors(form) }}
+
+                            <div class="row g-4 mb-4">
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <label class="form-label fw-bold text-dark">Thread Title</label>
+                                        {{ form_widget(form.title, { attr: { class: 'form-control form-control-lg border-0 bg-light shadow-none' } }) }}
+                                        {{ form_errors(form.title) }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-label fw-bold text-dark">Discussion Type</label>
+                                        {{ form_widget(form.type, { attr: { class: 'form-select form-select-lg border-0 bg-light shadow-none' } }) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-5">
+                                <label class="form-label fw-bold text-dark">Content Description</label>
+                                <div class="editor-wrapper rounded border bg-white mb-2">
+                                    {{ form_widget(form.content) }}
+                                </div>
+                                {{ form_errors(form.content) }}
+                            </div>
+
+                            <!-- Modern Poll Toggle Card -->
+                            <div class="card border-0 bg-light bg-opacity-50 mb-5">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-0">
+                                        <div>
+                                            <h5 class="fw-bold mb-1"><i class="fa-solid fa-square-poll-vertical text-success me-2"></i>Poll Management</h5>
+                                            <p class="small text-muted mb-0">Manage the community vote attached to this discussion.</p>
+                                        </div>
+                                        <div class="form-check form-switch fs-4">
+                                            <input class="form-check-input" type="checkbox" id="togglePoll" {% if thread.poll %}checked{% endif %} onchange="togglePollSection(this.checked)">
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 pt-4 border-top {% if not thread.poll %}d-none{% endif %}" id="pollSection">
+                                        <div class="row g-4">
+                                            <div class="col-12">
+                                                <label class="form-label fw-bold">Poll Question</label>
+                                                {{ form_widget(form.poll.question, { attr: { class: 'form-control border-0 shadow-sm', placeholder: 'What is your question?' } }) }}
+                                                {{ form_errors(form.poll.question) }}
+                                            </div>
+                                            
+                                            <div class="col-lg-7">
+                                                <label class="form-label fw-bold">Poll Options</label>
+                                                <div id="poll-options-list" 
+                                                     data-prototype="{{ form_widget(form.poll.options.vars.prototype)|e('html_attr') }}"
+                                                     data-index="{{ form.poll.options|length }}">
+                                                    {% for option in form.poll.options %}
+                                                        <div class="input-group mb-2 shadow-sm rounded overflow-hidden">
+                                                            {{ form_widget(option, { attr: { class: 'form-control border-0' } }) }}
+                                                            <button type="button" class="btn btn-white border-start" onclick="this.parentElement.remove()"><i class="fa-solid fa-times text-danger"></i></button>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                                <button type="button" class="btn btn-white btn-sm mt-2 border shadow-sm" onclick="addPollOption()">
+                                                    <i class="fa-solid fa-plus me-1 text-success"></i> Add Option
+                                                </button>
+                                            </div>
+
+                                            <div class="col-lg-5">
+                                                <label class="form-label fw-bold">Ends On (Optional)</label>
+                                                {{ form_widget(form.poll.expiresAt, { attr: { class: 'form-control border-0 shadow-sm' } }) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                                <a href="{{ path('forum_thread_view', {slug: thread.slug}) }}" class="text-muted text-decoration-none">
+                                    <i class="fa-solid fa-arrow-left me-1"></i> Cancel Changes
+                                </a>
+                                <button type="submit" class="btn btn-success btn-lg px-5 shadow-sm text-bg-success fw-bold">
+                                    Update Discussion <i class="fa-solid fa-save ms-2"></i>
+                                </button>
+                            </div>
+
+                            {{ form_end(form) }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function togglePollSection(show) {
+            const section = document.getElementById('pollSection');
+            section.classList.toggle('d-none', !show);
+            if(show && document.querySelectorAll('#poll-options-list input').length === 0) {
+                addPollOption();
+                addPollOption();
+            }
+        }
+
+        function addPollOption() {
+            const list = document.getElementById('poll-options-list');
+            const counter = parseInt(list.dataset.index);
+            const prototype = list.dataset.prototype;
+            const newForm = prototype.replace(/__name__/g, counter);
+            
+            const div = document.createElement('div');
+            div.className = 'input-group mb-2 shadow-sm rounded overflow-hidden';
+            div.innerHTML = newForm + '<button type="button" class="btn btn-white border-start" onclick="this.parentElement.remove()"><i class="fa-solid fa-times text-danger"></i></button>';
+            
+            const input = div.querySelector('input');
+            if(input) {
+                input.classList.add('form-control', 'border-0');
+            }
+            
+            list.appendChild(div);
+            list.dataset.index = counter + 1;
+        }
+    </script>
+{% endblock %}

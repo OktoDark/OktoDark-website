@@ -1,0 +1,61 @@
+{% extends '@theme/base.html.twig' %}
+{% block title %}Moderation Logs – Admin{% endblock %}
+{% block body_id 'admin' %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
+
+        {% block admin_content %}
+            <div class="section-title">
+                <h2>Moderation Logs</h2>
+                <p>Track all administrative actions performed across the forum.</p>
+            </div>
+
+            <section>
+                <div class="admin-table-container">
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                            <tr>
+                                <th>Moderator</th>
+                                <th>Action Performed</th>
+                                <th>Target Type</th>
+                                <th>Details</th>
+                                <th>Timestamp</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for log in logs %}
+                                <tr>
+                                    <td><span class="fw-bold text-white">{{ log.moderator.username }}</span></td>
+                                    <td><span class="admin-badge admin-badge-info">{{ log.action }}</span></td>
+                                    <td>
+                                        <div class="small text-white opacity-75">{{ log.targetType }}</div>
+                                        <div class="small text-muted" style="font-size: 0.7rem;">ID: #{{ log.targetId }}</div>
+                                    </td>
+                                    <td class="small text-muted" style="max-width: 300px;">
+                                        {{ log.details ?: 'No additional details.' }}
+                                    </td>
+                                    <td>
+                                        <div class="small text-muted">{{ log.createdAt|date('Y-m-d') }}</div>
+                                        <div class="small text-muted" style="font-size: 0.7rem;">{{ log.createdAt|date('H:i') }}</div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-5">
+                                        <i class="fas fa-list-check d-block mb-3 fs-2 opacity-25"></i>
+                                        No moderation activity recorded yet.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}

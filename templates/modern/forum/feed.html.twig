@@ -1,0 +1,97 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Activity Feed — Forum{% endblock %}
+
+{% block body %}
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">Personalized Feed</h2>
+            <p class="lead text-muted mt-2">Latest activity from your circle.</p>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-default pt-0">
+        <div class="container">
+            <div class="row g-5">
+                
+                <!-- Followed Users Activity -->
+                <div class="col-lg-6">
+                    <h4 class="fw-bold mb-4"><i class="fa-solid fa-users me-2 text-success"></i> Following</h4>
+                    
+                    {% if followed_threads is empty %}
+                        <div class="card border-0 shadow-sm p-5 text-center bg-light">
+                            <i class="fa-solid fa-user-plus fa-3x text-muted opacity-25 mb-3"></i>
+                            <p class="mb-0">Follow more users to see their new discussions here.</p>
+                        </div>
+                    {% else %}
+                        {% for thread in followed_threads %}
+                            <div class="card shadow-sm border-0 mb-3 hover-lift transition-all">
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="avatar-container">
+                                            {% if thread.author.avatarUrl %}
+                                                <img src="{{ thread.author.avatarUrl }}" class="rounded-circle" width="40" height="40">
+                                            {% else %}
+                                                <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 40px; height: 40px;">
+                                                    <i class="fa-solid fa-user small"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <h6 class="mb-1 fw-bold text-truncate">
+                                                <a href="{{ path('forum_thread_view', {slug: thread.slug}) }}" class="text-dark text-decoration-none hover-success">{{ thread.title }}</a>
+                                            </h6>
+                                            <div class="x-small text-muted">
+                                                <span class="fw-bold text-success">{{ thread.author.username }}</span> &bull; {{ thread.createdAt|date('M d, H:i') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <!-- Subscribed Threads Activity -->
+                <div class="col-lg-6">
+                    <h4 class="fw-bold mb-4"><i class="fa-solid fa-bell me-2 text-warning"></i> Subscriptions</h4>
+                    
+                    {% if subscribed_replies is empty %}
+                        <div class="card border-0 shadow-sm p-5 text-center bg-light">
+                            <i class="fa-solid fa-bookmark fa-3x text-muted opacity-25 mb-3"></i>
+                            <p class="mb-0">Subscribe to threads to get updates on new replies.</p>
+                        </div>
+                    {% else %}
+                        {% for post in subscribed_replies %}
+                            <div class="card shadow-sm border-0 mb-3 hover-lift transition-all border-start border-4 border-warning">
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="avatar-container">
+                                            {% if post.author.avatarUrl %}
+                                                <img src="{{ post.author.avatarUrl }}" class="rounded-circle" width="40" height="40">
+                                            {% else %}
+                                                <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 40px; height: 40px;">
+                                                    <i class="fa-solid fa-user small"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <div class="x-small text-muted mb-1">
+                                                New reply in <a href="{{ path('forum_thread_view', {slug: post.thread.slug}) }}" class="text-dark fw-bold text-decoration-none">{{ post.thread.title|slice(0, 40) }}...</a>
+                                            </div>
+                                            <p class="small text-muted mb-0 text-truncate">"{{ post.content|striptags }}"</p>
+                                            <div class="x-small text-muted mt-1">
+                                                By <span class="fw-bold">{{ post.author.username }}</span> &bull; {{ post.createdAt|date('M d, H:i') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

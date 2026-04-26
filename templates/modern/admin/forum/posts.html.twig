@@ -1,0 +1,100 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Manage Posts - Forum Admin{% endblock %}
+{% block body_id 'admin' %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
+
+        {% block admin_content %}
+<div class="section-title">
+    <h2 class="fw-bold"><i class="fa-solid fa-reply-all me-2 text-accent"></i> Post Management</h2>
+    <p class="text-muted">Review and moderate individual replies across all threads.</p>
+</div>
+
+<!-- Filters -->
+<div class="admin-card mb-4">
+    <form action="{{ path('admin_forum_posts') }}" method="get" class="row g-3">
+        <div class="col-md-4">
+            <label class="form-label small fw-bold">Status</label>
+            <div class="form-check form-switch mt-2">
+                <input class="form-check-input" type="checkbox" name="reported" value="1" id="filterReported" {% if currentFilters.reported %}checked{% endif %}>
+                <label class="form-check-label" for="filterReported">Show Only Reported Posts</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label small fw-bold">Author</label>
+            <input type="text" name="author" class="admin-form-control" placeholder="Username..." value="{{ currentFilters.author }}">
+        </div>
+        <div class="col-md-4 d-flex align-items-end gap-2">
+            <button type="submit" class="admin-btn admin-btn-primary flex-grow-1 justify-content-center">Filter</button>
+            <a href="{{ path('admin_forum_posts') }}" class="admin-btn admin-btn-secondary px-3"><i class="fas fa-times"></i></a>
+        </div>
+    </form>
+</div>
+
+<div class="admin-table-container">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th class="ps-4">Content Preview</th>
+                <th>Author</th>
+                <th>Thread</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th class="text-end pe-4">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr class="{% if post.reported %}bg-danger-subtle{% endif %}">
+                <td class="ps-4">
+                    <div class="small text-dark text-truncate" style="max-width: 300px;">
+                        {{ post.content|striptags|raw }}
+                    </div>
+                </td>
+                <td>{{ post.author.username }}</td>
+                <td>
+                    <a href="{{ path('forum_thread_view', {slug: post.thread.slug}) }}" target="_blank" class="small text-decoration-none">
+                        {{ post.thread.title|slice(0, 20) }}...
+                    </a>
+                </td>
+                <td>
+                    {% if post.reported %}
+                        <span class="badge bg-danger"><i class="fa-solid fa-triangle-exclamation"></i> Reported</span>
+                    {% endif %}
+                    {% if post.isAcceptedAnswer %}
+                        <span class="badge bg-success"><i class="fa-solid fa-check"></i> Solution</span>
+                    {% endif %}
+                    {% if not post.reported and not post.isAcceptedAnswer %}
+                        <span class="badge bg-light text-muted border">Standard</span>
+                    {% endif %}
+                </td>
+                <td>{{ post.createdAt|date('M d, Y') }}</td>
+                <td class="text-end pe-4">
+                    <div class="btn-group btn-group-sm">
+                        <a href="{{ path('forum_thread_view', {slug: post.thread.slug}) }}#post-{{ post.id }}" class="btn btn-white border" target="_blank" title="View in thread"><i class="fa-solid fa-eye text-primary"></i></a>
+                        
+                        {% if post.reported %}
+                            <a href="{{ path('admin_forum_post_dismiss_report', {id: post.id}) }}" class="btn btn-white border" title="Dismiss Report"><i class="fa-solid fa-check text-success"></i></a>
+                        {% endif %}
+
+                        <form action="{{ path('admin_forum_post_delete', {id: post.id}) }}" method="post" class="d-inline" onsubmit="return confirm('Permanently delete this post?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+                            <button class="btn btn-white border text-danger"><i class="fa-solid fa-trash"></i></button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center py-5 text-muted">No posts found matching your criteria.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}

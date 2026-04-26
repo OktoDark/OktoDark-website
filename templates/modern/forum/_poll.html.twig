@@ -1,0 +1,85 @@
+{% if thread.poll %}
+    {% set poll = thread.poll %}
+    {% set totalVotes = 0 %}
+    {% for option in poll.options %}
+        {% set totalVotes = totalVotes + option.votes|length %}
+    {% endfor %}
+
+    {% set hasVoted = false %}
+    {% if app.user %}
+        {% for option in poll.options %}
+            {% for vote in option.votes %}
+                {% if vote.user == app.user %}
+                    {% set hasVoted = true %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+    <div class="card shadow-sm border-0 mb-4 bg-light bg-opacity-50 overflow-hidden">
+        <div class="card-header bg-success text-bg-success py-3 d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-bold"><i class="fa-solid fa-square-poll-vertical me-2"></i> Community Poll</h5>
+            {% if poll.hasExpired %}
+                <span class="badge bg-danger text-bg-danger px-3">Closed</span>
+            {% elseif poll.expiresAt %}
+                <span class="badge bg-white text-success px-3">Ends: {{ poll.expiresAt|date('M d') }}</span>
+            {% endif %}
+        </div>
+        <div class="card-body p-4 p-lg-5">
+            <h4 class="mb-4 fw-bold text-dark">{{ poll.question }}</h4>
+
+            {% if not hasVoted and not poll.hasExpired and app.user %}
+                <form action="{{ path('forum_poll_vote', {id: 0}) }}" method="post" id="pollVoteForm">
+                    <div class="d-grid gap-3">
+                        {% for option in poll.options %}
+                            <div class="poll-option-radio">
+                                <input type="radio" name="poll_option" id="opt-{{ option.id }}" value="{{ option.id }}" class="btn-check" required>
+                                <label class="btn btn-outline-success btn-lg text-start w-100 py-3 px-4 shadow-sm" for="opt-{{ option.id }}">
+                                    {{ option.text }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="mt-4">
+                        <button type="button" onclick="submitPollVote()" class="btn btn-success btn-lg px-5 shadow">Cast Vote</button>
+                    </div>
+                </form>
+            {% else %}
+                <div class="poll-results d-grid gap-4">
+                    {% for option in poll.options %}
+                        {% set count = option.votes|length %}
+                        {% set percent = totalVotes > 0 ? (count / totalVotes * 100)|round : 0 %}
+                        <div class="poll-result-item">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="fw-bold">{{ option.text }}</span>
+                                <span class="text-muted small">{{ count }} votes ({{ percent }}%)</span>
+                            </div>
+                            <div class="progress" style="height: 12px; border-radius: 6px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ percent }}%" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="mt-4 text-muted small">
+                    <i class="fa-solid fa-users-viewfinder me-1"></i> Total Participants: <strong>{{ totalVotes }}</strong>
+                    {% if not app.user and not poll.hasExpired %}
+                        &bull; <a href="{{ path('app_login') }}" class="text-success fw-bold">Login to vote</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function submitPollVote() {
+            const selected = document.querySelector('input[name="poll_option"]:checked');
+            if (selected) {
+                const form = document.getElementById('pollVoteForm');
+                form.action = "{{ path('forum_poll_vote', {id: 'ID'}) }}".replace('0', selected.value).replace('ID', selected.value);
+                form.submit();
+            } else {
+                alert('Please select an option first.');
+            }
+        }
+    </script>
+{% endif %}

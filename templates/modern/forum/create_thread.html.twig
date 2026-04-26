@@ -1,0 +1,175 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Start a Discussion in {{ category.name }} — Forum{% endblock %}
+
+{% block body %}
+    <!-- Hero Section -->
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">New Discussion</h2>
+            <p class="lead text-muted mt-2">Sharing your thoughts with the community in <strong>{{ category.name }}</strong></p>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-default pt-0">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-5">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('forum') }}" class="text-success">Forum</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('forum_category_view', { slug: category.slug }) }}" class="text-success">{{ category.name }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Create Thread</li>
+                </ol>
+            </nav>
+
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+                    <div class="card shadow-sm border-0 overflow-hidden">
+                        <div class="card-body p-4 p-lg-5">
+                            
+                            {{ form_start(form, { 'enctype': 'multipart/form-data' }) }}
+                            
+                            {# SURFACING FORM-LEVEL ERRORS #}
+                            {{ form_errors(form) }}
+
+                            <div class="row g-4 mb-4">
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <label class="form-label fw-bold text-dark">Thread Title</label>
+                                        {{ form_widget(form.title, { attr: { class: 'form-control form-control-lg border-0 bg-light shadow-none', placeholder: 'What do you want to talk about?' } }) }}
+                                        <div class="small text-muted mt-1">Make it clear and descriptive.</div>
+                                        {{ form_errors(form.title) }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-label fw-bold text-dark">Discussion Type</label>
+                                        {{ form_widget(form.type, { attr: { class: 'form-select form-select-lg border-0 bg-light shadow-none', onchange: 'applyTemplate(this.value)' } }) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-5">
+                                <label class="form-label fw-bold text-dark">Content Description</label>
+                                <div class="editor-wrapper rounded border bg-white">
+                                    {{ form_widget(form.content) }}
+                                </div>
+                                {{ form_errors(form.content) }}
+                            </div>
+
+                            <!-- Modern Poll Toggle Card -->
+                            <div class="card border-0 bg-light bg-opacity-50 mb-5">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-0">
+                                        <div>
+                                            <h5 class="fw-bold mb-1"><i class="fa-solid fa-square-poll-vertical text-success me-2"></i>Create a Poll</h5>
+                                            <p class="small text-muted mb-0">Include a community vote with this discussion.</p>
+                                        </div>
+                                        <div class="form-check form-switch fs-4">
+                                            <input class="form-check-input" type="checkbox" id="togglePoll" onchange="togglePollSection(this.checked)">
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 pt-4 border-top d-none" id="pollSection">
+                                        <div class="row g-4">
+                                            <div class="col-12">
+                                                <label class="form-label fw-bold">Poll Question</label>
+                                                {{ form_widget(form.poll.question, { attr: { class: 'form-control border-0 shadow-sm', placeholder: 'What is your question?' } }) }}
+                                                {{ form_errors(form.poll.question) }}
+                                            </div>
+                                            
+                                            <div class="col-lg-7">
+                                                <label class="form-label fw-bold">Poll Options</label>
+                                                <div id="poll-options-list" 
+                                                     data-prototype="{{ form_widget(form.poll.options.vars.prototype)|e('html_attr') }}"
+                                                     data-index="{{ form.poll.options|length }}">
+                                                    {% for option in form.poll.options %}
+                                                        <div class="input-group mb-2 shadow-sm rounded">
+                                                            {{ form_widget(option, { attr: { class: 'form-control border-0' } }) }}
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                                <button type="button" class="btn btn-white btn-sm mt-2 border shadow-sm" onclick="addPollOption()">
+                                                    <i class="fa-solid fa-plus me-1 text-success"></i> Add Option
+                                                </button>
+                                            </div>
+
+                                            <div class="col-lg-5">
+                                                <label class="form-label fw-bold">Ends On (Optional)</label>
+                                                {{ form_widget(form.poll.expiresAt, { attr: { class: 'form-control border-0 shadow-sm' } }) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                                <a href="{{ path('forum_category_view', {slug: category.slug}) }}" class="text-muted text-decoration-none">
+                                    <i class="fa-solid fa-arrow-left me-1"></i> Back to Category
+                                </a>
+                                <button class="btn btn-success btn-lg px-5 shadow-sm text-bg-success fw-bold">
+                                    Launch Discussion <i class="fa-solid fa-paper-plane ms-2"></i>
+                                </button>
+                            </div>
+
+                            {{ form_end(form) }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const templates = {
+            'bug_report': `<h3>Bug Description</h3><p>A clear and concise description of what the bug is.</p><h3>Steps to Reproduce</h3><ol><li>Go to '...'</li><li>Click on '....'</li><li>Scroll down to '....'</li><li>See error</li></ol><h3>Expected Behavior</h3><p>A clear and concise description of what you expected to happen.</p><h3>Screenshots</h3><p>If applicable, add screenshots to help explain your problem.</p>`,
+            'feature_request': `<h3>Is your feature request related to a problem?</h3><p>A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]</p><h3>Describe the solution you'd like</h3><p>A clear and concise description of what you want to happen.</p><h3>Describe alternatives you've considered</h3><p>A clear and concise description of any alternative solutions or features you've considered.</p>`,
+            'question': `<h3>The Problem</h3><p>Describe exactly what you are trying to achieve or what is not working.</p><h3>What I've tried</h3><p>List any solutions or workarounds you've already attempted.</p>`,
+            'discussion': ''
+        };
+
+        function applyTemplate(type) {
+            const editor = document.querySelector('trix-editor').editor;
+            if (editor.getDocument().toString().trim() === "" || confirm("This will replace your current content with a template. Continue?")) {
+                editor.loadHTML(templates[type] || '');
+            }
+        }
+
+        function togglePollSection(show) {
+            const section = document.getElementById('pollSection');
+            section.classList.toggle('d-none', !show);
+            if(show && document.querySelectorAll('#poll-options-list input').length === 0) {
+                addPollOption();
+                addPollOption();
+            }
+        }
+
+        function addPollOption() {
+            const list = document.getElementById('poll-options-list');
+            const counter = parseInt(list.dataset.index);
+            const prototype = list.dataset.prototype;
+            const newForm = prototype.replace(/__name__/g, counter);
+            
+            const div = document.createElement('div');
+            div.className = 'input-group mb-2 shadow-sm rounded overflow-hidden';
+            div.innerHTML = newForm + '<button type="button" class="btn btn-white border-start" onclick="this.parentElement.remove()"><i class="fa-solid fa-times text-danger"></i></button>';
+            
+            const input = div.querySelector('input');
+            if(input) {
+                input.classList.add('form-control', 'border-0');
+            }
+            
+            list.appendChild(div);
+            list.dataset.index = counter + 1;
+        }
+    </script>
+
+    <style>
+        .btn-xs { padding: .25rem .5rem; font-size: .75rem; }
+        .trix-content { border-radius: 8px; }
+        trix-toolbar { border-bottom: 1px solid #eee !important; padding: 10px !important; }
+        trix-toolbar .trix-button-group { border: 1px solid #eee !important; }
+        .editor-wrapper trix-editor { min-height: 400px; border: none !important; padding: 20px !important; outline: none !important; }
+    </style>
+{% endblock %}

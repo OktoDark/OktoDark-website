@@ -42,6 +42,21 @@ class Settings
     #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $register_enabled = true;
 
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $forum_signatures_enabled = true;
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $forum_image_uploads_enabled = true;
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $forum_polls_enabled = true;
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $forum_rich_embeds_enabled = true;
+
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $forum_post_rate_limit = 10; // seconds
+
     public function getRegisterEnabled(): ?bool
     {
         return $this->register_enabled;
@@ -109,5 +124,65 @@ class Settings
     public function setLogoName(string $logoName): void
     {
         $this->logoName = $logoName;
+    }
+
+    public function isForumSignaturesEnabled(): ?bool
+    {
+        return $this->forum_signatures_enabled;
+    }
+
+    public function setForumSignaturesEnabled(bool $forum_signatures_enabled): self
+    {
+        $this->forum_signatures_enabled = $forum_signatures_enabled;
+
+        return $this;
+    }
+
+    public function isForumImageUploadsEnabled(): ?bool
+    {
+        return $this->forum_image_uploads_enabled;
+    }
+
+    public function setForumImageUploadsEnabled(bool $forum_image_uploads_enabled): self
+    {
+        $this->forum_image_uploads_enabled = $forum_image_uploads_enabled;
+
+        return $this;
+    }
+
+    public function isForumPollsEnabled(): ?bool
+    {
+        return $this->forum_polls_enabled;
+    }
+
+    public function setForumPollsEnabled(bool $forum_polls_enabled): self
+    {
+        $this->forum_polls_enabled = $forum_polls_enabled;
+
+        return $this;
+    }
+
+    public function isForumRichEmbedsEnabled(): ?bool
+    {
+        return $this->forum_rich_embeds_enabled;
+    }
+
+    public function setForumRichEmbedsEnabled(bool $forum_rich_embeds_enabled): self
+    {
+        $this->forum_rich_embeds_enabled = $forum_rich_embeds_enabled;
+
+        return $this;
+    }
+
+    public function getForumPostRateLimit(): ?int
+    {
+        return $this->forum_post_rate_limit;
+    }
+
+    public function setForumPostRateLimit(int $forum_post_rate_limit): self
+    {
+        $this->forum_post_rate_limit = $forum_post_rate_limit;
+
+        return $this;
     }
 }

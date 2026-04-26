@@ -1,0 +1,194 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}{{ category.name }} — Forum{% endblock %}
+
+{% block body %}
+    <!-- Hero Section consistent with Blog -->
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ category.name }}</h2>
+            {% if category.description %}
+                <p class="lead text-muted mt-2">{{ category.description }}</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="section section-lg bg-default pt-0">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('forum') }}" class="text-success">Forum</a></li>
+                    
+                    {# HIERARCHICAL BREADCRUMBS #}
+                    {% if category.parent %}
+                        <li class="breadcrumb-item"><a href="{{ path('forum_category_view', {slug: category.parent.slug}) }}" class="text-success">{{ category.parent.name }}</a></li>
+                    {% endif %}
+                    
+                    <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
+                </ol>
+            </nav>
+
+            {# SUB-CATEGORIES SECTION #}
+            {% if category.children|length > 0 %}
+                <div class="card shadow-sm border-0 mb-5 overflow-hidden">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <h5 class="mb-0 fw-bold text-dark"><i class="fa-solid fa-folder-tree text-success me-2 opacity-50"></i> Sub-categories in {{ category.name }}</h5>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        {% for sub in category.children %}
+                            <div class="list-group-item p-0">
+                                <div class="d-flex align-items-center p-3 px-4 text-decoration-none transition-all hover-bg-light">
+                                    <div class="flex-grow-1">
+                                        <a href="{{ path('forum_category_view', {slug: sub.slug}) }}" class="fw-bold text-dark text-decoration-none hover-success">{{ sub.name }}</a>
+                                        <div class="x-small text-muted">{{ sub.threads|length }} discussions</div>
+                                    </div>
+                                    
+                                    <div class="d-none d-md-block text-end flex-shrink-0" style="min-width: 200px;">
+                                        {% set lastThread = sub.lastThread %}
+                                        {% if lastThread %}
+                                            <div class="x-small text-dark fw-bold text-truncate" style="max-width: 180px;">
+                                                <a href="{{ path('forum_thread_view', {slug: lastThread.slug}) }}" class="text-dark text-decoration-none">{{ lastThread.title }}</a>
+                                            </div>
+                                            <div class="x-small text-muted">
+                                                by <span class="fw-medium text-success">{{ lastThread.author.username }}</span> &bull; {{ lastThread.updatedAt|date('M d, H:i') }}
+                                            </div>
+                                        {% else %}
+                                            <span class="x-small text-muted italic">No posts</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                <div class="dropdown">
+                    <button class="btn btn-white btn-sm border shadow-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-sort me-1 text-success"></i> Sort: {{ currentSort|capitalize }}
+                    </button>
+                    <ul class="dropdown-menu shadow border-0">
+                        <li><a class="dropdown-item {% if currentSort == 'updated' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'updated'}) }}">Recently Updated</a></li>
+                        <li><a class="dropdown-item {% if currentSort == 'newest' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'newest'}) }}">Newest Threads</a></li>
+                        <li><a class="dropdown-item {% if currentSort == 'oldest' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'oldest'}) }}">Oldest Threads</a></li>
+                        <li><a class="dropdown-item {% if currentSort == 'views' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'views'}) }}">Most Viewed</a></li>
+                        <li><a class="dropdown-item {% if currentSort == 'replies' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'replies'}) }}">Most Replies</a></li>
+                    </ul>
+                </div>
+
+                {% if is_granted('ROLE_USER') %}
+                    <a href="{{ path('forum_thread_create', { category: category.id }) }}"
+                       class="btn btn-success text-bg-success px-4 shadow-sm">
+                        <i class="fa-solid fa-plus-circle me-2"></i> Start a Discussion
+                    </a>
+                {% endif %}
+            </div>
+
+            <!-- Thread List -->
+            {% if paginator.numResults == 0 %}
+                <div class="card shadow-sm border-0 py-5 text-center">
+                    <div class="card-body">
+                        <i class="fa-solid fa-comments fa-4x text-light mb-3"></i>
+                        <h4 class="text-muted">No discussions yet</h4>
+                        <p class="text-muted mb-4">Be the first one to start a conversation in {{ category.name }}!</p>
+                        {% if is_granted('ROLE_USER') %}
+                            <a href="{{ path('forum_thread_create', { category: category.id }) }}" class="btn btn-success text-bg-success shadow-sm">
+                                Create New Thread
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="card shadow-sm border-0 overflow-hidden mb-4">
+                    <div class="list-group list-group-flush">
+                        {% for thread in paginator.results %}
+                            <div class="list-group-item list-group-item-action p-4 border-start-0 border-end-0">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-8 mb-3 mb-lg-0">
+                                        <div class="d-flex align-items-start gap-3">
+                                            <div class="avatar-container d-none d-sm-block">
+                                                {% if thread.author.avatarUrl %}
+                                                    <img src="{{ thread.author.avatarUrl }}" class="rounded-circle shadow-sm" width="50" height="50">
+                                                {% else %}
+                                                    <div class="avatar-profile-fallback rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; background: #f8f9fa; border: 1px solid #dee2e6;">
+                                                        <i class="fa-solid fa-user text-muted"></i>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            <div>
+                                                <h5 class="mb-1 fw-bold">
+                                                    <a href="{{ path('forum_thread_view', { slug: thread.slug }) }}" class="text-dark text-decoration-none hover-success">
+                                                        {% if thread.pinned %}<i class="fa-solid fa-thumbtack text-warning me-1 small"></i>{% endif %}
+                                                        {% if thread.locked %}<i class="fa-solid fa-lock text-muted me-1 small"></i>{% endif %}
+                                                        {{ thread.title }}
+                                                    </a>
+                                                </h5>
+                                                <div class="small text-muted">
+                                                    Started by <span class="text-dark fw-medium">{{ thread.author.username }}</span> &bull; {{ thread.createdAt|date('M d, Y') }}
+                                                </div>
+                                                {% set last = thread.getLastPost() %}
+                                                {% if last %}
+                                                    <div class="x-small text-muted mt-2 bg-light d-inline-block px-2 py-1 rounded">
+                                                        <i class="fa-solid fa-reply me-1"></i> Latest reply by <strong>{{ last.author.username }}</strong> &bull; {{ last.createdAt|date('M d, H:i') }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="d-flex justify-content-lg-end gap-4 text-center">
+                                            <div>
+                                                <span class="d-block fw-bold text-dark">{{ thread.views }}</span>
+                                                <span class="x-small text-muted text-uppercase">Views</span>
+                                            </div>
+                                            <div>
+                                                <span class="d-block fw-bold text-success">{{ thread.posts|length }}</span>
+                                                <span class="x-small text-muted text-uppercase">Replies</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                {% if paginator.hasToPaginate %}
+                    <nav aria-label="Forum pagination" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item {{ not paginator.hasPreviousPage ? 'disabled' }}">
+                                <a class="page-link"
+                                   href="{{ paginator.hasPreviousPage
+                                   ? path('forum_category_view', { slug: category.slug, page: paginator.previousPage, sort: currentSort })
+                                   : '#' }}">
+                                    <span class="fas fa-chevron-left"></span>
+                                </a>
+                            </li>
+
+                            {% for i in 1..paginator.lastPage %}
+                                <li class="page-item {{ i == paginator.currentPage ? 'active' }}">
+                                    <a class="page-link"
+                                       href="{{ path('forum_category_view', { slug: category.slug, page: i, sort: currentSort }) }}">
+                                        {{ i }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+
+                            <li class="page-item {{ not paginator.hasNextPage ? 'disabled' }}">
+                                <a class="page-link"
+                                   href="{{ paginator.hasNextPage
+                                   ? path('forum_category_view', { slug: category.slug, page: paginator.nextPage, sort: currentSort })
+                                   : '#' }}">
+                                    <span class="fas fa-chevron-right"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                {% endif %}
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Forum Dashboard - Admin{% endblock %}
+{% block body_id 'admin' %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
+
+        {% block admin_content %}
+    <div class="section-title">
+        <h2 class="fw-bold"><i class="fa-solid fa-gauge-high me-2 text-accent"></i> Forum Dashboard</h2>
+        <p class="text-muted">Overview of your community activity.</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="admin-card border-0 shadow-sm h-100 bg-success text-white">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <i class="fa-solid fa-comments fa-2x opacity-50"></i>
+                    <span class="fs-4 fw-bold">{{ stats.total_threads }}</span>
+                </div>
+                <h6 class="text-uppercase mb-0 opacity-75">Total Threads</h6>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="admin-card border-0 shadow-sm h-100 bg-primary text-white">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <i class="fa-solid fa-reply-all fa-2x opacity-50"></i>
+                    <span class="fs-4 fw-bold">{{ stats.total_posts }}</span>
+                </div>
+                <h6 class="text-uppercase mb-0 opacity-75">Total Posts</h6>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="admin-card border-0 shadow-sm h-100 bg-info text-white">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <i class="fa-solid fa-users fa-2x opacity-50"></i>
+                    <span class="fs-4 fw-bold">{{ stats.total_users }}</span>
+                </div>
+                <h6 class="text-uppercase mb-0 opacity-75">Total Users</h6>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="admin-card border-0 shadow-sm h-100 bg-danger text-white">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <i class="fa-solid fa-triangle-exclamation fa-2x opacity-50"></i>
+                    <span class="fs-4 fw-bold">{{ stats.reported_posts }}</span>
+                </div>
+                <h6 class="text-uppercase mb-0 opacity-75">Reported Posts</h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="admin-card p-0 overflow-hidden">
+                <div class="p-4 border-bottom">
+                    <h5 class="mb-0 fw-bold">Latest Threads</h5>
+                </div>
+                <div class="admin-table-container border-0 shadow-none">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Date</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for thread in latest_threads %}
+                            <tr>
+                                <td>
+                                    <div class="fw-bold text-dark">{{ thread.title }}</div>
+                                    <small class="text-muted">{{ thread.category.name }}</small>
+                                </td>
+                                <td>{{ thread.author.username }}</td>
+                                <td>{{ thread.createdAt|date('M d, H:i') }}</td>
+                                <td class="text-end">
+                                    <a href="{{ path('forum_thread_view', {slug: thread.slug}) }}" class="admin-btn admin-btn-primary py-1 px-3" style="font-size: 0.8rem;">View</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="admin-card p-0 overflow-hidden">
+                <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold text-danger">Pending Reports</h5>
+                    <span class="badge bg-danger rounded-pill">{{ stats.reported_posts }}</span>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for post in reported_items %}
+                    <div class="list-group-item p-4">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="fw-bold small">{{ post.author.username }}</span>
+                            <small class="text-muted">{{ post.createdAt|date('M d') }}</small>
+                        </div>
+                        <p class="small text-muted mb-3 text-truncate">{{ post.content|striptags }}</p>
+                        <a href="{{ path('forum_thread_view', {slug: post.thread.slug}) }}#post-{{ post.id }}" class="admin-btn admin-btn-secondary w-100 justify-content-center py-1 px-3" style="font-size: 0.8rem; background-color: #dc3545;">Review</a>
+                    </div>
+                    {% else %}
+                    <div class="p-5 text-center text-muted">
+                        <i class="fa-solid fa-check-circle fa-3x mb-3 text-success opacity-25"></i>
+                        <p class="mb-0">No pending reports!</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}
