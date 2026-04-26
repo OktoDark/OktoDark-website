@@ -71,7 +71,7 @@ class BadgeService
         ];
 
         foreach ($specialBadges as $role => $badgeName) {
-            if (\in_array($role, $user->getRoles())) {
+            if (\in_array($role, $user->getRoles(), true)) {
                 $badge = $this->badgeRepo->findOneBy(['name' => $badgeName, 'isPermanent' => true]);
                 if ($badge && !$user->getBadges()->contains($badge)) {
                     $user->addBadge($badge);

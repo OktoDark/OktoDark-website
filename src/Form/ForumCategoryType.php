@@ -43,7 +43,7 @@ class ForumCategoryType extends AbstractType
                 'required' => false,
                 'placeholder' => 'None (Top Level Category)',
                 'label' => 'Parent Category',
-                'query_builder' => function (ForumCategoryRepository $repo) use ($category) {
+                'query_builder' => static function (ForumCategoryRepository $repo) use ($category) {
                     $qb = $repo->createQueryBuilder('c')
                         ->orderBy('c.position', 'ASC');
 

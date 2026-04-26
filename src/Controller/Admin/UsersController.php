@@ -34,6 +34,7 @@ class UsersController extends AbstractController
 
             if (!$user) {
                 $this->addFlash('error', 'User not found.');
+
                 return $this->redirectToRoute('admin_users');
             }
 
@@ -50,11 +51,11 @@ class UsersController extends AbstractController
 
             // Badges (array)
             $selectedBadgeIds = $request->request->all('badges') ?? [];
-            $currentBadges = $user->getBadges()->map(fn($badge) => $badge->getId())->toArray();
+            $currentBadges = $user->getBadges()->map(static fn ($badge) => $badge->getId())->toArray();
 
             // Remove badges no longer selected
             foreach ($currentBadges as $badgeId) {
-                if (!in_array($badgeId, $selectedBadgeIds)) {
+                if (!\in_array($badgeId, $selectedBadgeIds)) {
                     $badgeToRemove = $badgeRepo->find($badgeId);
                     if ($badgeToRemove) {
                         $user->getBadges()->removeElement($badgeToRemove);
@@ -64,7 +65,7 @@ class UsersController extends AbstractController
 
             // Add newly selected badges
             foreach ($selectedBadgeIds as $badgeId) {
-                if (!in_array($badgeId, $currentBadges)) {
+                if (!\in_array($badgeId, $currentBadges)) {
                     $badgeToAdd = $badgeRepo->find($badgeId);
                     if ($badgeToAdd) {
                         $user->addBadge($badgeToAdd);

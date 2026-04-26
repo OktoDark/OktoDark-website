@@ -170,7 +170,7 @@ final class ForumPostController extends AbstractController
             return $this->json(['error' => 'You cannot react to your own post.'], 403);
         }
 
-        if (!\in_array($type, ['upvote', 'downvote'])) {
+        if (!\in_array($type, ['upvote', 'downvote'], true)) {
             return $this->json(['error' => 'Invalid reaction type.'], 400);
         }
 

@@ -630,7 +630,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this->following;
     }
 
-    public function follow(User $user): self
+    public function follow(self $user): self
     {
         if (!$this->following->contains($user)) {
             $this->following->add($user);
@@ -639,7 +639,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
-    public function unfollow(User $user): self
+    public function unfollow(self $user): self
     {
         $this->following->removeElement($user);
 
