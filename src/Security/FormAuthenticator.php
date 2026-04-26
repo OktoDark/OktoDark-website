@@ -114,7 +114,6 @@ class FormAuthenticator extends AbstractLoginFormAuthenticator
          * CASE A — Device is trusted → full login
          */
         if ($this->trustedDevices->hasTrustedDevice($user, $request)) {
-
             // Log successful login
             $this->activityLogger->log(
                 $user,

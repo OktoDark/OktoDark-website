@@ -31,7 +31,9 @@ class InviteMailer
             ->from(new Address('mailer@mailer.com', $siteName))
             ->to($email)
             ->subject('You are invited to join '.$siteName)
-            ->htmlTemplate('@theme/emails/invite_waitlist.html.twig');
+            ->htmlTemplate('@email/admin/invite_waitlist.html.twig');
+
+        $message->getHeaders()->addTextHeader('X-Transport', 'no_reply');
 
         $this->mailer->send($message);
     }

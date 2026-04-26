@@ -36,7 +36,7 @@ final class Login2FAService
             $this->em->remove($old);
         }
 
-        $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        $code = mb_str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
         $loginCode = (new LoginCode())
             ->setUser($user)

@@ -57,7 +57,7 @@ class Login2FAController extends AbstractController
         }
 
         // POST → verify code
-        $submittedCode = trim($request->request->get('code', ''));
+        $submittedCode = mb_trim($request->request->get('code', ''));
 
         if (!$login2FA->isCodeValid($user, $submittedCode)) {
             $this->addFlash('error', 'Invalid or expired code.');

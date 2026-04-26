@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * For the full copyright and license information, please view the LICENSE.
+ */
+
 namespace App\EventSubscriber;
 
 use Symfony\Bundle\SecurityBundle\Security;
@@ -31,7 +40,7 @@ final class TwoFactorSubscriber implements EventSubscriberInterface
         $route = $request->attributes->get('_route');
 
         // 1) If route is allowed → do nothing
-        if (!$route || in_array($route, $allowed, true)) {
+        if (!$route || \in_array($route, $allowed, true)) {
             return;
         }
 
