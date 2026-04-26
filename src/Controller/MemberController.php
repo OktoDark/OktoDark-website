@@ -75,7 +75,7 @@ final class MemberController extends AbstractController
         foreach ($user->getSocialLinks() as $key => $value) {
             if (\is_int($key) && \is_string($value)) {
                 $detected = $parser->detectAndBuild($value);
-                $username = ltrim(parse_url($detected['url'], PHP_URL_PATH), '/@');
+                $username = ltrim(parse_url($detected['url'], \PHP_URL_PATH), '/@');
 
                 $normalized[] = [
                     'network' => $detected['network'],
@@ -85,7 +85,7 @@ final class MemberController extends AbstractController
             }
 
             if (\is_string($key) && \is_string($value)) {
-                $username = mb_ltrim(parse_url($value, PHP_URL_PATH), '/@');
+                $username = mb_ltrim(parse_url($value, \PHP_URL_PATH), '/@');
 
                 $normalized[] = [
                     'network' => $key,

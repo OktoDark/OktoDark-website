@@ -58,9 +58,9 @@
                             <span class="nav-arrow"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="https://discord.gg/UmfZPvF">Discord</a></li>
                             <li><a class="dropdown-item" href="{{ path('forum') }}">{{ 'navbar.forum'|trans({}, 'navbar') }}</a></li>
                             <li><a class="dropdown-item" href="{{ path('blog') }}">{{ 'navbar.blog'|trans({}, 'navbar') }}</a></li>
+                            <li><a class="dropdown-item" href="https://discord.gg/UmfZPvF">Discord</a></li>
                         </ul>
                     </li>
 
@@ -94,7 +94,7 @@
                             <ul class="dropdown-menu dropdown-menu-end">
 
                                 <li><a class="dropdown-item" href="{{ path('member_area') }}">{{ 'navbar.member_area'|trans({}, 'navbar') }}</a></li>
-                                <li><a class="dropdown-item" href="{{ path('profile_area') }}">{{ 'navbar.profile'|trans({}, 'navbar') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ path('profile_view', { username: app.user.username }) }}">{{ 'navbar.profile'|trans({}, 'navbar') }}</a></li>
                                 <li><a class="dropdown-item" href="{{ path('settings_area') }}">{{ 'navbar.user_settings'|trans({}, 'navbar') }}</a></li>
 
                                 {% if is_granted('ROLE_ADMIN') %}

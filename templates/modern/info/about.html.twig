@@ -9,7 +9,7 @@
     <section class="section section-page-title bg-default text-center py-5">
         <div class="container">
             <h2 class="display-5 fw-bold">{{ 'title.about'|trans({}, 'titles') }}</h2>
-            <p class="lead text-muted mt-2">{{ 'about.subtitle'|trans }}</p>
+            <p class="lead text-muted mt-2">{{ 'about.subtitle'|trans({}, 'about') }}</p>
         </div>
     </section>
 
@@ -34,9 +34,15 @@
                         <div class="box-team-modern box-team-modern-quote">
 
                             <figure class="team-img mb-3">
-                                <img class="rounded-circle"
-                                     src="{{  settings.siteCDN }}/themes/{{ theme }}/images/not_available.png"
-                                     alt="{{ t.name }}">
+
+                                {% if t.avatar %}
+                                    <img class="rounded-circle team-avatar"
+                                         src="{{ asset('uploads/avatars/' ~ t.avatar) }}"
+                                         alt="{{ t.name }}">
+                                {% else %}
+                                    <i class="fa-solid fa-user-circle team-avatar-default"></i>
+                                {% endif %}
+
                             </figure>
 
                             <div class="box-team-modern-caption">

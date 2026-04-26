@@ -1,11 +1,9 @@
-{% for activ in users.active %}
-    {% if "0" in activ %}
-        Disable
-    {% endif %}
-{% endfor %}
-
-{% for activ in users.active %}
-    {% if "1" in activ %}
-        Enable
-    {% endif %}
-{% endfor %}
+{% if user.isActive %}
+    <span class="badge bg-success">
+        <i class="fa-solid fa-circle-check me-1"></i> Active
+    </span>
+{% else %}
+    <span class="badge bg-danger">
+        <i class="fa-solid fa-circle-xmark me-1"></i> Disabled
+    </span>
+{% endif %}
