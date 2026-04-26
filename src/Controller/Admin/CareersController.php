@@ -55,7 +55,7 @@ class CareersController extends AbstractController
                 $requirements = [];
             }
             // Filter empty values
-            $requirements = array_values(array_filter($requirements, static fn ($v) => !empty(trim($v))));
+            $requirements = array_values(array_filter($requirements, static fn ($v) => !empty(mb_trim($v))));
 
             $career->setRequirements($requirements);
 
