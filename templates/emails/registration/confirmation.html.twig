@@ -1,0 +1,31 @@
+{% extends 'emails/layout.html.twig' %}
+
+{% block title %}{{ 'email.verify.title'|trans({}, 'emails') }} – {{ settings.getSiteName() }}{% endblock %}
+
+{% block badge %}
+    <div class="badge">Registration</div>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ 'email.verify.title'|trans({}, 'emails') }}</h1>
+    
+    <p>Hi there,</p>
+    <p>{{ 'email.verify.intro'|trans({}, 'emails') }}</p>
+    
+    <p>Please confirm your email address by clicking the button below. This helps us ensure that your account information is secure and you receive important updates from <strong>{{ settings.getSiteName() }}</strong>.</p>
+
+    <div class="cta-container">
+        <a href="{{ signedUrl|raw }}" class="cta-button">
+            {{ 'email.verify.button'|trans({}, 'emails') }}
+        </a>
+    </div>
+
+    <p style="text-align: center; color: #6b7280; font-size: 13px;">
+        {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}
+    </p>
+
+    <p>{{ 'email.verify.footer'|trans({}, 'emails') }}</p>
+    
+    <p>Best regards,<br>
+    <strong>The {{ settings.getSiteName() }} Team</strong></p>
+{% endblock %}

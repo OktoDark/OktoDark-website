@@ -1,0 +1,53 @@
+{% extends 'emails/layout.html.twig' %}
+
+{% block title %}Login Verification – {{ settings.getSiteName() }}{% endblock %}
+
+{% block badge %}
+    <div class="badge">Verification</div>
+{% endblock %}
+
+{% block extra_styles %}
+    .code-container {
+        margin: 32px 0;
+        padding: 24px;
+        border-radius: 12px;
+        background: rgba(22,163,74,0.1);
+        border: 2px dashed #16a34a;
+        text-align: center;
+    }
+    .code-value {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 36px;
+        font-weight: 800;
+        color: #16a34a;
+        letter-spacing: 8px;
+        margin: 0;
+    }
+    .expiry-note {
+        font-size: 12px;
+        color: #6b7280;
+        margin-top: 12px;
+    }
+{% endblock %}
+
+{% block content %}
+    <h1>Verify your login</h1>
+    <p>Hi {{ user.username }},</p>
+    <p>To complete your login to <strong>{{ settings.getSiteName() }}</strong>, please enter the following verification code:</p>
+
+    <div class="code-container">
+        <p class="code-value">{{ code }}</p>
+        <p class="expiry-note">This code expires in 5 minutes.</p>
+    </div>
+
+    <p>If you didn't request this code, you can safely ignore this email. Someone might have entered your email address by mistake.</p>
+
+    <div class="cta-container">
+        <a href="{{ url('login_2fa_verify') }}" class="cta-button">Verify Login</a>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+    <p>For your security, never share this code with anyone.</p>
+{% endblock %}

@@ -19,15 +19,22 @@ class ThemeLoader extends FilesystemLoader
     public function __construct(ThemeResolver $resolver)
     {
         $theme = $resolver->getTheme();
+        $projectDir = \dirname(__DIR__, 2);
 
         parent::__construct([
-            \sprintf('%s/templates/%s', \dirname(__DIR__, 2), $theme),
+            \sprintf('%s/templates/%s', $projectDir, $theme),
         ]);
 
         // Register @theme namespace
         $this->addPath(
-            \sprintf('%s/templates/%s', \dirname(__DIR__, 2), $theme),
+            \sprintf('%s/templates/%s', $projectDir, $theme),
             'theme'
+        );
+
+        // Register @email namespace
+        $this->addPath(
+            \sprintf('%s/templates/emails', $projectDir),
+            'email'
         );
     }
 }

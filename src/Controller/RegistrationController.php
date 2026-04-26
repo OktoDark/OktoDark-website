@@ -17,7 +17,9 @@ use App\Form\ProfileCompletionFormType;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
+use App\Security\FormAuthenticator;
 use App\Security\RegistrationFlowGuardTrait;
+use App\Service\EmailIdentityService;
 use App\Service\SettingsProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -29,7 +31,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
@@ -37,15 +39,12 @@ class RegistrationController extends AbstractController
     use RegistrationFlowGuardTrait;
 
     public function __construct(
-        private EmailVerifier $emailVerifier,
-        private SettingsProvider $settingsProvider,
-        private RateLimiterFactory $resendVerificationLimiter,
+        private readonly EmailVerifier $emailVerifier,
+        private readonly SettingsProvider $settingsProvider,
+        private readonly RateLimiterFactory $resendVerificationLimiter,
     ) {
     }
 
-    /* -------------------------------------------------------------
-     * REGISTRATION DISABLED PAGE + NOTIFY FORM
-     * ------------------------------------------------------------- */
     #[Route('/register/disabled', name: 'app_register_disabled')]
     public function registrationDisabled(Request $request, EntityManagerInterface $em): Response
     {
@@ -90,14 +89,12 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    /* -------------------------------------------------------------
-     * REGISTER
-     * ------------------------------------------------------------- */
     #[Route('/register', name: 'app_register')]
     public function register(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $em,
+        EmailIdentityService $emailIdentity,
     ): Response {
         if (!$this->settingsProvider->isRegistrationEnabled()) {
             return $this->redirectToRoute('app_register_disabled');
@@ -126,14 +123,18 @@ class RegistrationController extends AbstractController
 
             $siteName = $this->settingsProvider->getSiteName();
 
+            $email = (new TemplatedEmail())
+                ->from(new Address($emailIdentity->noreply(), $siteName))
+                ->to($user->getEmail())
+                ->subject('Please Confirm your Email')
+                ->htmlTemplate('@email/registration/confirmation.html.twig');
+
+            $email->getHeaders()->addTextHeader('X-Transport', 'no_reply');
+
             $this->emailVerifier->sendEmailConfirmation(
                 'app_verify_email',
                 $user,
-                (new TemplatedEmail())
-                    ->from(new Address('mailer@mailer.com', $siteName))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('@theme/registration/confirmation_email.html.twig')
+                $email
             );
 
             return $this->redirectToRoute('app_register_check_email');
@@ -144,9 +145,6 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    /* -------------------------------------------------------------
-     * CHECK EMAIL
-     * ------------------------------------------------------------- */
     #[Route('/register/check-email', name: 'app_register_check_email')]
     public function checkEmailPage(Request $request): Response
     {
@@ -163,14 +161,13 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    /* -------------------------------------------------------------
-     * VERIFY EMAIL
-     * ------------------------------------------------------------- */
     #[Route('/verifyemail', name: 'app_verify_email')]
     public function verifyUserEmail(
         Request $request,
         UserRepository $repo,
         EntityManagerInterface $em,
+        UserAuthenticatorInterface $authenticator,
+        FormAuthenticator $formAuthenticator,
     ): Response {
         if (!$this->settingsProvider->isRegistrationEnabled()) {
             return $this->redirectToRoute('app_register_disabled');
@@ -204,12 +201,11 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        // AUTO-LOGIN
-        $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
-        $this->container->get('security.token_storage')->setToken($token);
-
-        // FORCE PROFILE COMPLETION
-        return $this->redirectToRoute('app_complete_profile');
+        return $authenticator->authenticateUser(
+            $user,
+            $formAuthenticator,
+            $request
+        );
     }
 
     #[Route('/resend-verification', name: 'app_resend_verification')]
@@ -217,6 +213,7 @@ class RegistrationController extends AbstractController
         Request $request,
         UserRepository $repo,
         EntityManagerInterface $em,
+        EmailIdentityService $emailIdentity,
     ): Response {
         if (!$this->settingsProvider->isRegistrationEnabled()) {
             return $this->redirectToRoute('app_register_disabled');
@@ -273,14 +270,16 @@ class RegistrationController extends AbstractController
         // SEND EMAIL
         $siteName = $this->settingsProvider->getSiteName();
 
+        $email = (new TemplatedEmail())
+            ->from(new Address($emailIdentity->noreply(), $siteName))
+            ->to($user->getEmail())
+            ->subject('Please Confirm your Email')
+            ->htmlTemplate('@email/registration/confirmation.html.twig');
+
         $this->emailVerifier->sendEmailConfirmation(
             'app_verify_email',
             $user,
-            (new TemplatedEmail())
-                ->from(new Address('mailer@mailer.com', $siteName))
-                ->to($user->getEmail())
-                ->subject('Please Confirm your Email')
-                ->htmlTemplate('@theme/registration/confirmation_email.html.twig')
+            $email
         );
 
         $this->addFlash('success', 'Verification email resent.');
@@ -288,9 +287,6 @@ class RegistrationController extends AbstractController
         return $this->redirectToRoute('app_register_check_email');
     }
 
-    /* -------------------------------------------------------------
-     * COMPLETE PROFILE (REQUIRED)
-     * ------------------------------------------------------------- */
     #[Route('/complete-profile', name: 'app_complete_profile')]
     public function completeProfile(Request $request, EntityManagerInterface $em): Response
     {

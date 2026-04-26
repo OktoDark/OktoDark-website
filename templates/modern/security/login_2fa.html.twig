@@ -1,0 +1,184 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}{{ 'title.login'|trans({}, 'titles') }}{% endblock %}
+
+{% block body_id 'login' %}
+
+{% block main %}
+
+    <!-- PAGE TITLE SECTION -->
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'title.login'|trans({}, 'titles') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'itstime.subtitle'|trans({}, 'login') }}</p>
+        </div>
+    </section>
+
+    <!-- AUTH WRAPPER -->
+    <div class="od-auth-wrapper">
+        <div class="od-auth-card">
+
+            <h1 class="od-auth-title">Verify your login</h1>
+
+            <p class="od-auth-subtitle">
+                We’ve sent a 6‑digit code to <strong>{{ user.email }}</strong>.
+                Enter it below to continue.
+            </p>
+
+            <!-- ERROR MESSAGES -->
+            {% for message in app.flashes('error') %}
+                <div class="od-alert od-alert-error">{{ message }}</div>
+            {% endfor %}
+
+            <!-- MAIN VERIFY FORM -->
+            <form method="post" action="{{ path('login_2fa_verify') }}" class="od-form">
+
+                <div class="od-form-group">
+                    <label for="code" class="od-label">Login code</label>
+                    <input type="text"
+                           id="code"
+                           name="code"
+                           maxlength="6"
+                           autofocus
+                           class="od-input"
+                           placeholder="Enter 6‑digit code">
+                </div>
+
+                <div class="od-form-check">
+                    <input type="checkbox" id="trust_device" name="trust_device" value="1">
+                    <label for="trust_device">Trust this device for 30 days</label>
+                </div>
+
+                <button class="od-btn od-btn-primary w-100" type="submit">
+                    Continue
+                </button>
+            </form>
+
+            <!-- RESEND CODE -->
+            <form method="post" action="{{ path('login_2fa_resend') }}" class="od-resend">
+                <button class="od-btn-link">Resend code</button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- INLINE STYLES (OktoDark UI) -->
+    <style>
+        .od-auth-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        .od-auth-card {
+            width: 100%;
+            max-width: 420px;
+            background: #0f0f12;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.45);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .od-auth-title {
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .od-auth-subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 25px;
+        }
+
+        .od-alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .od-alert-error {
+            background: rgba(255, 60, 60, 0.15);
+            border: 1px solid rgba(255, 60, 60, 0.4);
+            color: #ff6b6b;
+        }
+
+        .od-form-group {
+            margin-bottom: 20px;
+        }
+
+        .od-label {
+            display: block;
+            margin-bottom: 6px;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .od-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: #1a1a1f;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .od-input:focus {
+            border-color: #7a3cff;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(122, 60, 255, 0.3);
+        }
+
+        .od-form-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            color: #bbb;
+            font-size: 14px;
+        }
+
+        .od-btn {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .od-btn-primary {
+            background: linear-gradient(135deg, #7a3cff, #9b5bff);
+            color: #fff;
+        }
+
+        .od-btn-primary:hover {
+            background: linear-gradient(135deg, #8b4dff, #b06cff);
+        }
+
+        .od-btn-link {
+            background: none;
+            border: none;
+            color: #7a3cff;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 10px;
+        }
+
+        .od-btn-link:hover {
+            color: #b06cff;
+        }
+
+        .od-resend {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+
+{% endblock %}

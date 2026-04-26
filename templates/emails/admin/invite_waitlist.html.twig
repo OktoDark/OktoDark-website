@@ -1,0 +1,26 @@
+{% extends 'emails/layout.html.twig' %}
+
+{% block title %}You're Invited! – {{ settings.getSiteName() }}{% endblock %}
+
+{% block badge %}
+    <div class="badge">Exclusive Invitation</div>
+{% endblock %}
+
+{% block content %}
+    <h1>Welcome to the inner circle</h1>
+    <p>Hello there,</p>
+    <p>We're thrilled to inform you that you've been invited to join <strong>{{ settings.getSiteName() }}</strong>. We've been reviewing our waitlist, and your spot is now ready.</p>
+    
+    <p>You can now register your account using the unique link below. This invitation is for you only, so please don't share it.</p>
+
+    <div class="cta-container">
+        <a href="{{ url('app_register') }}" class="cta-button">Claim My Invite</a>
+    </div>
+
+    <p>Once registered, you'll have full access to our platform and community. We're excited to see what you bring to the table!</p>
+
+    <p>If you have any questions, feel free to reach out to our support team.</p>
+    
+    <p>Best regards,<br>
+    <strong>The {{ settings.getSiteName() }} Team</strong></p>
+{% endblock %}

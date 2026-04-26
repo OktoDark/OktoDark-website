@@ -1,0 +1,73 @@
+{% extends 'emails/layout.html.twig' %}
+
+{% block title %}Security Alert – {{ settings.getSiteName() }}{% endblock %}
+
+{% block badge %}
+    <div class="badge">Security Alert</div>
+{% endblock %}
+
+{% block extra_styles %}
+    .meta {
+        margin: 24px 0;
+        padding: 20px;
+        border-radius: 10px;
+        background: rgba(15,23,42,0.5);
+        border: 1px solid #1f2937;
+    }
+    .meta-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+    .meta-row:last-child {
+        margin-bottom: 0;
+    }
+    .meta-label {
+        color: #6b7280;
+    }
+    .meta-value {
+        color: #e5e7eb;
+        font-weight: 500;
+        text-align: right;
+    }
+{% endblock %}
+
+{% block content %}
+    <h1>New login detected</h1>
+    <p>Hi {{ user.username }},</p>
+    <p>We've detected a successful login to your <strong>{{ settings.getSiteName() }}</strong> account from a new device or location.</p>
+
+    <div class="meta">
+        <div class="meta-row">
+            <span class="meta-label">Time</span>
+            <span class="meta-value">{{ loggedAt|date('Y-m-d H:i:s') }}</span>
+        </div>
+        <div class="meta-row">
+            <span class="meta-label">IP Address</span>
+            <span class="meta-value">{{ ip }}</span>
+        </div>
+        <div class="meta-row">
+            <span class="meta-label">Location</span>
+            <span class="meta-value">{{ location ?? 'Unknown' }}</span>
+        </div>
+        <div class="meta-row">
+            <span class="meta-label">Device</span>
+            <span class="meta-value">{{ userAgent }}</span>
+        </div>
+    </div>
+
+    <p>If this was you, you can safely ignore this email. No further action is required.</p>
+    <p><strong>Wasn't you?</strong> We recommend changing your password immediately and reviewing your active sessions to secure your account.</p>
+
+    <div class="cta-container">
+        <a href="{{ url('settings_area', { tab: 'security' }) }}" class="cta-button">Secure My Account</a>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+    <p>You received this because login alerts are enabled for your account. 
+       <a href="{{ url('settings_area', { tab: 'security' }) }}">Manage Alert Settings</a>
+    </p>
+{% endblock %}
