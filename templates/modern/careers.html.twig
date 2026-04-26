@@ -46,6 +46,9 @@
                                 <span class="badge bg-gradient ms-3">
                                     {{ 'careers.available'|trans({}, 'careers') }}: {{ c.number }}
                                 </span>
+                                {% if c.publishedAt %}
+                                    <span class="small text-light ms-3">Published: {{ c.publishedAt|date('M d, Y') }}</span>
+                                {% endif %}
                             </button>
                         </h2>
 
@@ -55,12 +58,51 @@
                              data-bs-parent="#accordion1">
 
                             <div class="accordion-body">
-                                <p class="mb-4">{{ c.requirements }}</p>
+                                <div class="row">
+                                    <div class="col-lg-6 mb-4 mb-lg-0">
+                                        <h5 class="mb-3 text-light">Requirements:</h5>
+                                        <div class="d-flex flex-wrap gap-2 mb-4">
+                                            {% if c.requirements is iterable %}
+                                                {% for req in c.requirements %}
+                                                    <span class="badge bg-info text-dark px-3 py-2">{{ req }}</span>
+                                                {% endfor %}
+                                            {% else %}
+                                                <span>No specific requirements listed.</span>
+                                            {% endif %}
+                                        </div>
 
-                                <a class="button button-sm bg-info text-bg-info"
-                                   href="mailto:{{ settings.jobMail }}?subject=Application for {{ c.jobTitle }}">
-                                    {{ 'careers.apply_now'|trans({}, 'careers') }}
-                                </a>
+                                        <h5 class="mb-3 text-light">Description</h5>
+                                        <div class="career-description">
+                                            {{ c.description|raw }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="card border-0 bg-light p-4">
+                                            <h5 class="mb-3">Apply for this position</h5>
+                                            <form action="{{ path('careers') }}" method="post" enctype="multipart/form-data">
+                                                <input type="hidden" name="job_title" value="{{ c.jobTitle }}">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('career_apply') }}">
+                                                
+                                                <div class="mb-3">
+                                                    <input class="form-control" type="text" name="name" placeholder="Full Name" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input class="form-control" type="email" name="email" placeholder="Email Address" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label small">Upload CV (PDF, DOCX - Max 5MB)</label>
+                                                    <input class="form-control" type="file" name="cv" accept=".pdf,.doc,.docx" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <textarea class="form-control" name="message" rows="4" placeholder="Tell us about yourself and your experience..." required></textarea>
+                                                </div>
+                                                <button class="button button-sm bg-info text-bg-info w-100" type="submit">
+                                                    Submit Application
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>

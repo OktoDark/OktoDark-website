@@ -1,117 +1,242 @@
 {% extends '@theme/base.html.twig' %}
-{% block title %}Career Positions{% endblock %}
-{% block body_id 'admin_careers' %}
+{% block title %}Career Management – Admin{% endblock %}
+{% block body_id 'admin' %}
 
 {% block main %}
-    {% embed '@theme/admin/partials/_layout.html.twig' %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
 
         {% block admin_content %}
+            <div class="section-title">
+                <h2>Career Positions</h2>
+                <p>Manage job openings and technical requirements for OktoDark Studios.</p>
+            </div>
 
-            <section class="section-page-title text-center py-4 fade-in">
-                <h2 class="fw-bold">Career Positions</h2>
-                <p class="text-muted">Manage job openings for OktoDark Studios.</p>
-            </section>
-
-            <section class="py-3 fade-in">
-
+            <section>
                 {% for message in app.flashes('success') %}
-                    <div class="alert alert-success">{{ message }}</div>
+                    <div class="alert alert-success border-0 shadow-sm mb-4">
+                        <i class="fas fa-check-circle me-2"></i> {{ message }}
+                    </div>
                 {% endfor %}
 
                 {# ADD / EDIT FORM #}
-                <div class="card neon-card p-4 shadow-sm mb-4">
-                    <h4 class="mb-3">Add / Edit Career Position</h4>
+                <div class="admin-card mb-5" id="formContainer">
+                    <h4 class="mb-4" id="form-title">Add / Edit Career Position</h4>
 
-                    <form method="post">
-
+                    <form method="post" id="careerForm">
                         <input type="hidden" name="id" id="careerId">
 
-                        <div class="row g-3">
-
+                        <div class="row g-4">
                             <div class="col-md-6">
-                                <label class="form-label fw-bold">Job Title</label>
-                                <input type="text" name="jobTitle" id="jobTitle" class="form-control" required>
+                                <label class="admin-form-label">Job Title</label>
+                                <input type="text" name="jobTitle" id="jobTitle" class="admin-form-control" required placeholder="e.g. Senior Backend Developer">
                             </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Requirements</label>
-                                <input type="text" name="requirements" id="requirements" class="form-control" required>
+                            <div class="col-md-3">
+                                <label class="admin-form-label">Positions Open</label>
+                                <input type="number" name="number" id="number" class="admin-form-control" required placeholder="1">
                             </div>
 
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold">Positions Available</label>
-                                <input type="number" name="number" id="number" class="form-control" required>
+                            <div class="col-md-3">
+                                <label class="admin-form-label">Publish Date</label>
+                                <input type="datetime-local" name="publishedAt" id="publishedAt" class="admin-form-control" value="{{ "now"|date('Y-m-d\\TH:i') }}">
                             </div>
 
+                            <div class="col-12">
+                                <label class="admin-form-label mb-3">Required Technical Skills</label>
+                                <div class="row g-2 mb-3">
+                                    {% set common_langs = ['PHP', 'CSS', 'JavaScript', 'Python', 'C++', 'C#', 'Unity', 'Unreal Engine'] %}
+                                    {% for lang in common_langs %}
+                                        <div class="col-6 col-md-3">
+                                            <div class="form-check custom-check">
+                                                <input class="form-check-input lang-checkbox" type="checkbox" value="{{ lang }}" id="lang_{{ loop.index }}" name="requirements[]">
+                                                <label class="form-check-label text-white small" for="lang_{{ loop.index }}">
+                                                    {{ lang }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                
+                                <div id="custom-requirements-container">
+                                    <label class="admin-form-label small">Additional Requirements</label>
+                                    <div id="custom-reqs-list" class="d-flex flex-wrap gap-2 mb-3"></div>
+                                    <button type="button" class="admin-btn admin-btn-secondary admin-btn-sm" onclick="addCustomRequirement()">
+                                        <i class="fas fa-plus"></i> Add Requirement
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="admin-form-label">Job Description</label>
+                                <input id="description_input" type="hidden" name="description">
+                                <div class="editor-wrapper">
+                                    <trix-editor input="description_input" class="trix-editor-modern" placeholder="Outline responsibilities and role details..."></trix-editor>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="text-end mt-4">
-                            <button class="btn btn-success px-4">Save Position</button>
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="button" class="admin-btn admin-btn-secondary" onclick="resetForm()">Reset Form</button>
+                            <button type="submit" class="admin-btn admin-btn-primary px-5">Save Job Position</button>
                         </div>
-
                     </form>
                 </div>
 
                 {# CAREERS LIST #}
-                <div class="card neon-card p-4 shadow-sm">
-                    <h4 class="mb-3">Career Positions</h4>
+                <div class="admin-table-container">
+                    <div class="p-4 border-bottom border-secondary border-opacity-10 d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Job Openings</h4>
+                        <span class="badge bg-dark">{{ careers|length }} Active</span>
+                    </div>
 
                     <div class="table-responsive">
-                        <table class="table table-dark table-striped align-middle">
+                        <table class="admin-table">
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Job Title</th>
-                                <th>Requirements</th>
-                                <th>Positions</th>
+                                <th># ID</th>
+                                <th>Position</th>
+                                <th>Core Requirements</th>
+                                <th>Openings</th>
+                                <th>Published</th>
                                 <th class="text-end">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for c in careers %}
-                                <tr>
-                                    <td>{{ c.id }}</td>
-                                    <td>{{ c.jobTitle }}</td>
-                                    <td>{{ c.requirements }}</td>
-                                    <td>{{ c.number }}</td>
+                                <tr id="career-row-{{ c.id }}" 
+                                    data-json="{{ {
+                                        id: c.id,
+                                        jobTitle: c.jobTitle,
+                                        number: c.number,
+                                        publishedAt: c.publishedAt ? c.publishedAt|date('Y-m-d\\TH:i') : '',
+                                        requirements: c.requirements,
+                                        description: c.description
+                                    }|json_encode|e('html_attr') }}">
+                                    <td><code class="text-accent small">#{{ c.id }}</code></td>
+                                    <td><span class="fw-bold text-white">{{ c.jobTitle }}</span></td>
+                                    <td>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            {% for req in c.requirements %}
+                                                <span class="badge bg-secondary opacity-75" style="font-size: 0.65rem;">{{ req }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+                                    <td><span class="admin-badge admin-badge-info">{{ c.number }}</span></td>
+                                    <td>
+                                        <div class="small text-muted">{{ c.publishedAt ? c.publishedAt|date('M j, Y') : 'N/A' }}</div>
+                                    </td>
 
                                     <td class="text-end">
-                                        <button class="btn btn-sm btn-primary"
-                                                onclick="editCareer({{ c.id }}, '{{ c.jobTitle|e('js') }}', '{{ c.requirements|e('js') }}', '{{ c.number }}')">
-                                            Edit
-                                        </button>
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <button class="admin-btn admin-btn-secondary admin-btn-sm"
+                                                    onclick="editCareer({{ c.id }})" title="Edit Job">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
 
-                                        <a href="{{ path('admin_careers', { delete: c.id }) }}"
-                                           class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Delete this position?')">
-                                            Delete
-                                        </a>
+                                            <a href="{{ path('admin_careers', { delete: c.id }) }}"
+                                               class="admin-btn admin-btn-danger admin-btn-sm"
+                                               onclick="return confirm('Permanently remove this job opening?')" title="Delete Job">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted">No career positions yet.</td>
+                                    <td colspan="6" class="text-center text-muted py-5">
+                                        <i class="fas fa-briefcase d-block mb-3 fs-2 opacity-25"></i>
+                                        No career positions currently listed.
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
                     </div>
-
                 </div>
-
             </section>
 
+            <script src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
             <script>
-                function editCareer(id, title, requirements, number) {
-                    document.getElementById('careerId').value = id;
-                    document.getElementById('jobTitle').value = title;
-                    document.getElementById('requirements').value = requirements;
-                    document.getElementById('number').value = number;
+                function addCustomRequirement(value = '') {
+                    const container = document.getElementById('custom-reqs-list');
+                    const div = document.createElement('div');
+                    div.className = 'd-flex align-items-center bg-dark p-1 rounded border border-secondary border-opacity-25';
+                    div.innerHTML = `
+                        <input type="text" name="requirements[]" class="admin-form-control form-control-sm border-0 bg-transparent text-white" value="${value}" placeholder="Requirement...">
+                        <button type="button" class="btn btn-sm text-danger" onclick="this.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    container.appendChild(div);
+                }
 
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                function editCareer(id) {
+                    const row = document.getElementById('career-row-' + id);
+                    if (!row) return;
+
+                    const career = JSON.parse(row.getAttribute('data-json'));
+                    
+                    resetForm();
+                    
+                    document.getElementById('form-title').innerText = 'Edit Career: ' + career.jobTitle;
+                    document.getElementById('careerId').value = career.id;
+                    document.getElementById('jobTitle').value = career.jobTitle;
+                    document.getElementById('number').value = career.number;
+                    if (career.publishedAt) {
+                        document.getElementById('publishedAt').value = career.publishedAt;
+                    }
+                    
+                    const trixEditor = document.querySelector("trix-editor");
+                    if (trixEditor && trixEditor.editor) {
+                        trixEditor.editor.loadHTML(career.description || '');
+                    }
+                    
+                    if (career.requirements && Array.isArray(career.requirements)) {
+                        const checkboxes = document.querySelectorAll('.lang-checkbox');
+                        career.requirements.forEach(req => {
+                            let found = false;
+                            checkboxes.forEach(cb => {
+                                if (cb.value === req) {
+                                    cb.checked = true;
+                                    found = true;
+                                }
+                            });
+                            
+                            if (!found) {
+                                addCustomRequirement(req);
+                            }
+                        });
+                    }
+
+                    document.getElementById('formContainer').scrollIntoView({ behavior: 'smooth' });
+                }
+
+                function resetForm() {
+                    document.getElementById('careerForm').reset();
+                    document.getElementById('careerId').value = '';
+                    document.getElementById('form-title').innerText = 'Add / Edit Career Position';
+                    
+                    const trixEditor = document.querySelector("trix-editor");
+                    if (trixEditor && trixEditor.editor) {
+                        trixEditor.editor.loadHTML('');
+                    }
+                    
+                    document.getElementById('custom-reqs-list').innerHTML = '';
+                    document.querySelectorAll('.lang-checkbox').forEach(cb => cb.checked = false);
                 }
             </script>
 
+            <style>
+                .custom-check .form-check-input {
+                    background-color: #111417;
+                    border-color: var(--admin-border);
+                }
+                .custom-check .form-check-input:checked {
+                    background-color: var(--admin-accent);
+                    border-color: var(--admin-accent);
+                }
+                .text-accent { color: var(--admin-accent); }
+            </style>
         {% endblock %}
 
     {% endembed %}

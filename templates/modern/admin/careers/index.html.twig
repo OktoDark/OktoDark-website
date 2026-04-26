@@ -1,0 +1,87 @@
+{% extends '@theme/base.html.twig' %}
+{% block title %}Career Applications – Admin{% endblock %}
+{% block body_id 'admin' %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
+
+    {% block admin_content %}
+        <div class="section-title">
+            <h2>Career Applications</h2>
+            <p>Review and manage all incoming job applications and technical portfolios.</p>
+        </div>
+
+        <section>
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success border-0 shadow-sm mb-4">
+                    <i class="fas fa-check-circle me-2"></i> {{ message }}
+                </div>
+            {% endfor %}
+
+            <div class="admin-table-container">
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Date Received</th>
+                                <th>Applicant Details</th>
+                                <th>Desired Position</th>
+                                <th>Process Status</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for app in applications %}
+                            <tr class="{{ not app.isRead ? 'bg-white bg-opacity-5' : '' }}">
+                                <td>
+                                    <div class="small text-white">{{ app.createdAt|date('M j, Y') }}</div>
+                                    <div class="small text-muted">{{ app.createdAt|date('H:i') }}</div>
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-white">{{ app.name }}</div>
+                                    <div class="small text-muted">{{ app.email }}</div>
+                                </td>
+                                <td>
+                                    <span class="admin-badge admin-badge-info">{{ app.jobTitle }}</span>
+                                </td>
+                                <td>
+                                    {% if app.repliedAt %}
+                                        <span class="admin-badge admin-badge-success">Replied</span>
+                                    {% elseif app.isRead %}
+                                        <span class="admin-badge admin-badge-secondary">Reviewed</span>
+                                    {% else %}
+                                        <span class="admin-badge admin-badge-danger">New / Unread</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <a href="{{ path('admin_careers_applications_show', {id: app.id}) }}" 
+                                           class="admin-btn admin-btn-secondary admin-btn-sm" title="View Application">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <form method="post" action="{{ path('admin_careers_applications_delete', {id: app.id}) }}" 
+                                              onsubmit="return confirm('Permanently delete this application?');">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ app.id) }}">
+                                            <button type="submit" class="admin-btn admin-btn-danger admin-btn-sm" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-5">
+                                    <i class="fas fa-file-invoice d-block mb-3 fs-2 opacity-25"></i>
+                                    No career applications received yet.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    {% endblock %}
+    {% endembed %}
+{% endblock %}
