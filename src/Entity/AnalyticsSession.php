@@ -58,6 +58,21 @@ class AnalyticsSession
     #[ORM\Column(length: 45, nullable: true)]
     private ?string $ip = null;
 
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private ?string $countryName = null;
+
+    public function getCountryName(): ?string
+    {
+        return $this->countryName;
+    }
+
+    public function setCountryName(?string $countryName): self
+    {
+        $this->countryName = $countryName;
+
+        return $this;
+    }
+
     // -------------------------
     // Getters / Setters
     // -------------------------

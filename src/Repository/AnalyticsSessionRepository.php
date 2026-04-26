@@ -22,14 +22,15 @@ class AnalyticsSessionRepository extends ServiceEntityRepository
         parent::__construct($registry, AnalyticsSession::class);
     }
 
-    public function countActiveSessions(int $minutes = 15): int
+    public function countActiveSessions(): int
     {
-        $since = new \DateTimeImmutable("-{$minutes} minutes");
+        // Heartbeat every 10 seconds → allow 20 seconds grace
+        $threshold = new \DateTimeImmutable('-20 seconds');
 
         return $this->createQueryBuilder('s')
             ->select('COUNT(s.id)')
-            ->andWhere('s.lastSeenAt >= :since')
-            ->setParameter('since', $since)
+            ->andWhere('s.lastSeenAt >= :t')
+            ->setParameter('t', $threshold)
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -37,9 +38,9 @@ class AnalyticsSessionRepository extends ServiceEntityRepository
     public function countByCountry(): array
     {
         return $this->createQueryBuilder('s')
-            ->select('s.country AS country, COUNT(s.id) AS total')
+            ->select('s.country AS country, s.countryName AS countryName, COUNT(DISTINCT s.ip) AS total')
             ->andWhere('s.country IS NOT NULL')
-            ->groupBy('s.country')
+            ->groupBy('s.country, s.countryName')
             ->orderBy('total', 'DESC')
             ->getQuery()
             ->getArrayResult();
@@ -79,10 +80,12 @@ class AnalyticsSessionRepository extends ServiceEntityRepository
             ->getArrayResult();
     }
 
-    public function findRecentSessions(int $limit = 10): array
+    public function findRecentSessions(int $limit = 20): array
     {
         return $this->createQueryBuilder('s')
-            ->orderBy('s.lastSeenAt', 'DESC')
+            ->select('s')
+            ->groupBy('s.ip, s.browser, s.browserVersion, s.os, s.osVersion, s.device, s.deviceModel, s.country')
+            ->orderBy('MAX(s.lastSeenAt)', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();

@@ -31,6 +31,7 @@ class GeoIpService
         if (!isset($this->cache[$ip])) {
             $this->cache[$ip] = [
                 'country' => null,
+                'country_name' => null,
                 'city' => null,
                 'continent' => null,
             ];
@@ -55,6 +56,31 @@ class GeoIpService
             return $this->cache[$ip]['country'] = $record->country->isoCode;
         } catch (\Exception $e) {
             return $this->cache[$ip]['country'] = null;
+        }
+    }
+
+    public function getCountryName(?string $ip): ?string
+    {
+        if (!$ip) {
+            return null;
+        }
+
+        $this->initCache($ip);
+
+        if (null !== $this->cache[$ip]['country_name']) {
+            return $this->cache[$ip]['country_name'];
+        }
+
+        try {
+            $record = $this->countryReader->country($ip);
+
+            $name = $record->country->names['en']
+                ?? $record->country->name
+                ?? null;
+
+            return $this->cache[$ip]['country_name'] = $name;
+        } catch (\Exception $e) {
+            return $this->cache[$ip]['country_name'] = null;
         }
     }
 

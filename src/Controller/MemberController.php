@@ -11,12 +11,17 @@
 
 namespace App\Controller;
 
+use App\Entity\TrustedDevice;
+use App\Entity\User;
 use App\Form\AvatarUploadType;
 use App\Form\ChangePasswordType;
+use App\Form\ForumProfileSettingsType;
 use App\Form\PreferencesType;
 use App\Form\ProfileType;
-use App\Form\UserType;
+use App\Repository\AccountActivityRepository;
 use App\Repository\OurGamesRepository;
+use App\Service\SocialLinkParser;
+use App\Service\TrustedDeviceService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -32,7 +37,7 @@ final class MemberController extends AbstractController
 {
     #[Route('/', name: 'member_area', methods: ['GET'])]
     #[Cache(smaxage: 10)]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('IS_AUTHENTICATED_REMEMBERED')]
     public function member(OurGamesRepository $ourGames): Response
     {
         return $this->render('@theme/member/member.html.twig', [
@@ -40,30 +45,8 @@ final class MemberController extends AbstractController
         ]);
     }
 
-    #[Route('/profile', name: 'profile_area', methods: ['GET', 'POST'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function editProfile(EntityManagerInterface $em, Request $request): Response
-    {
-        $user = $this->getUser();
-
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
-            $this->addFlash('success', 'user.updated_successfully');
-
-            return $this->redirectToRoute('profile_area');
-        }
-
-        return $this->render('@theme/member/profile.html.twig', [
-            'users' => $user,
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/play_online', name: 'play_online', methods: ['GET'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('ROLE_USER')]
     public function memberGames(OurGamesRepository $ourGames): Response
     {
         $games = $ourGames->findAll();
@@ -75,26 +58,80 @@ final class MemberController extends AbstractController
     }
 
     #[Route('/settings', name: 'settings_area', methods: ['GET', 'POST'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('ROLE_USER')]
     public function settings(
         Request $request,
         EntityManagerInterface $em,
         UserPasswordHasherInterface $hasher,
+        SocialLinkParser $parser,
+        AccountActivityRepository $activityRepo,
+        TrustedDeviceService $trustedDeviceService,
     ): Response {
+        /** @var User $user */
         $user = $this->getUser();
 
-        // PROFILE FORM
+        $normalized = [];
+
+        foreach ($user->getSocialLinks() as $key => $value) {
+            if (is_int($key) && is_string($value)) {
+                $detected = $parser->detectAndBuild($value);
+                $username = ltrim(parse_url($detected['url'], PHP_URL_PATH), '/@');
+
+                $normalized[] = [
+                    'network' => $detected['network'],
+                    'username' => $username,
+                ];
+                continue;
+            }
+
+            if (is_string($key) && is_string($value)) {
+                $username = ltrim(parse_url($value, PHP_URL_PATH), '/@');
+
+                $normalized[] = [
+                    'network' => $key,
+                    'username' => $username,
+                ];
+                continue;
+            }
+
+            if (is_array($value) && isset($value['network'], $value['username'])) {
+                $normalized[] = $value;
+            }
+        }
+
+        $user->setSocialLinks($normalized);
+
         $profileForm = $this->createForm(ProfileType::class, $user);
         $profileForm->handleRequest($request);
 
         if ($profileForm->isSubmitted() && $profileForm->isValid()) {
+            $rawLinks = $profileForm->get('socialLinks')->getData();
+            $clean = [];
+
+            foreach ($rawLinks as $entry) {
+                $network = $entry['network'] ?? null;
+                $username = ltrim($entry['username'] ?? '', '@/');
+
+                if (!$network || !$username) {
+                    continue;
+                }
+
+                $clean[] = [
+                    'network' => $network,
+                    'username' => $username,
+                ];
+            }
+
+            $user->setSocialLinks($clean);
+
             $em->flush();
             $this->addFlash('success', 'Your profile was updated.');
 
-            return $this->redirectToRoute('settings_area');
+            return $this->redirectToRoute('settings_area', [
+                'tab' => 'profile',
+            ]);
         }
 
-        // PASSWORD FORM
         $passwordForm = $this->createForm(ChangePasswordType::class);
         $passwordForm->handleRequest($request);
 
@@ -102,13 +139,15 @@ final class MemberController extends AbstractController
             $user->setPassword(
                 $hasher->hashPassword($user, $passwordForm->get('newPassword')->getData())
             );
+
             $em->flush();
             $this->addFlash('success', 'Password changed successfully.');
 
-            return $this->redirectToRoute('settings_area');
+            return $this->redirectToRoute('settings_area', [
+                'tab' => 'security',
+            ]);
         }
 
-        // PREFERENCES FORM
         $preferencesForm = $this->createForm(PreferencesType::class, $user);
         $preferencesForm->handleRequest($request);
 
@@ -116,10 +155,37 @@ final class MemberController extends AbstractController
             $em->flush();
             $this->addFlash('success', 'Preferences saved.');
 
-            return $this->redirectToRoute('settings_area');
+            return $this->redirectToRoute('settings_area', [
+                'tab' => 'preferences',
+            ]);
         }
 
-        // AVATAR UPLOAD
+        $forumForm = $this->createForm(ForumProfileSettingsType::class, $user);
+        $forumForm->handleRequest($request);
+
+        if ($forumForm->isSubmitted() && $forumForm->isValid()) {
+            $em->flush();
+            $this->addFlash('success', 'Forum settings updated.');
+
+            return $this->redirectToRoute('settings_area', [
+                'tab' => 'forum',
+            ]);
+        }
+
+        if ($request->isMethod('POST') && 'security_settings' === $request->request->get('form_id')) {
+            $user->setLoginAlertsEnabled($request->request->has('login_alerts_enabled'));
+            $user->setTrustedDevicesEnabled($request->request->has('trusted_devices_enabled'));
+            $user->setTwofaResendEnabled($request->request->has('twofa_resend_enabled'));
+
+            $em->flush();
+
+            $this->addFlash('success', 'Security settings updated.');
+
+            return $this->redirectToRoute('settings_area', [
+                'tab' => 'security',
+            ]);
+        }
+
         $avatarForm = $this->createForm(AvatarUploadType::class);
         $avatarForm->handleRequest($request);
 
@@ -131,7 +197,7 @@ final class MemberController extends AbstractController
 
                 try {
                     $file->move($this->getParameter('avatars_directory'), $newFilename);
-                } catch (FileException $e) {
+                } catch (FileException) {
                     $this->addFlash('error', 'Upload failed.');
                 }
 
@@ -140,16 +206,76 @@ final class MemberController extends AbstractController
 
                 $this->addFlash('success', 'Avatar updated.');
 
-                return $this->redirectToRoute('settings_area');
+                return $this->redirectToRoute('settings_area', [
+                    'tab' => 'profile',
+                ]);
             }
         }
+
+        $activities = $activityRepo->findRecentForUser($user);
+        $currentFingerprint = $trustedDeviceService->getCurrentFingerprint($request);
 
         return $this->render('@theme/member/settings.html.twig', [
             'profileForm' => $profileForm->createView(),
             'passwordForm' => $passwordForm->createView(),
             'preferencesForm' => $preferencesForm->createView(),
             'avatarForm' => $avatarForm->createView(),
+            'forumForm' => $forumForm->createView(),
             'user' => $user,
+            'activities' => $activities,
+            'currentFingerprint' => $currentFingerprint,
         ]);
+    }
+
+    #[Route('/settings/activity/clear', name: 'settings_activity_clear', methods: ['POST'])]
+    public function clearActivity(
+        AccountActivityRepository $repo,
+    ): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $repo->deleteAllForUser($user);
+
+        $this->addFlash('success', 'Your recent activity has been cleared.');
+
+        return $this->redirectToRoute('settings_area', ['tab' => 'security']);
+    }
+
+    #[Route('/settings/trusted-devices/delete/{id}', name: 'trusted_device_delete')]
+    public function deleteDevice(
+        TrustedDevice $device,
+        TrustedDeviceService $service,
+    ): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if ($device->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $service->removeTrustedDevice($device);
+
+        $this->addFlash('success', 'Device removed.');
+
+        return $this->redirectToRoute('settings_area', ['tab' => 'security']);
+    }
+
+    #[Route('/settings/devices/remove/{id}', name: 'settings_devices_remove')]
+    public function removeDevice(
+        TrustedDevice $device,
+        TrustedDeviceService $service,
+    ): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if ($device->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $service->removeTrustedDevice($device);
+
+        $this->addFlash('success', 'Trusted device removed.');
+
+        return $this->redirectToRoute('settings_area', ['tab' => 'security']);
     }
 }

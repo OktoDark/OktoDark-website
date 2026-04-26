@@ -1,15 +1,15 @@
 twig:
     auto_reload: true
 
-    paths:
-        # Templates
-        # uncomment if you use or comment if not use 'default'
-        # '%kernel.project_dir%/templates/default': 'theme'
-        '%kernel.project_dir%/templates/modern': 'theme'
-
     form_themes:
-        # - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+        - 'form/trix_editor_widget.html.twig'
+
     file_name_pattern: '*.twig'
+
+    globals:
+        social_icons: '%social_icons%'
+        social_base_urls: '%social_base_urls%'
+        social_colors: '%social_colors%'
 
 when@test:
     twig:

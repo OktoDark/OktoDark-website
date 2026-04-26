@@ -39,7 +39,9 @@ class AnalyticsTracker
             ?? $request->headers->get('X-Forwarded-For')
             ?? $request->getClientIp();
 
-        $country = $this->geoIp->getCountryCode($ip);
+        $countryCode = $this->geoIp->getCountryCode($ip);
+        $countryName = $this->geoIp->getCountryName($ip);
+
         $ua = $request->headers->get('User-Agent');
         $platform = $request->headers->get('Sec-CH-UA-Platform');
         $platformVersion = $request->headers->get('Sec-CH-UA-Platform-Version');
@@ -55,9 +57,9 @@ class AnalyticsTracker
         $device = $this->detectDevice($ua);
         $deviceModel = $this->detectDeviceModel($ua);
 
-        $today = (new \DateTimeImmutable('today'));
+        $today = new \DateTimeImmutable('today');
 
-        // one session per day per sessionId
+        // One session per day per sessionId
         $sessionRepo = $this->em->getRepository(AnalyticsSession::class);
         $session = $sessionRepo->createQueryBuilder('s')
             ->where('s.sessionId = :sid')
@@ -82,7 +84,8 @@ class AnalyticsTracker
         $session->setDevice($device);
         $session->setDeviceModel($deviceModel);
         $session->setIp($ip);
-        $session->setCountry($country);
+        $session->setCountry($countryCode);
+        $session->setCountryName($countryName);
         $session->setLastSeenAt(new \DateTimeImmutable());
 
         $this->em->persist($session);

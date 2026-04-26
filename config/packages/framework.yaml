@@ -5,26 +5,20 @@ framework:
     http_method_override: false
     handle_all_throwables: true
     enabled_locales: ['en', 'ro']
-    
-    # Enables session support. Note that the session will ONLY be started if you read or write from it.
-    # Remove or comment this section to explicitly disable session support.
+
     session:
         handler_id: null
+        name: OKTODARKSESSID
         cookie_secure: auto
         cookie_samesite: lax
+        gc_maxlifetime: 2592000 
+        cookie_lifetime: 2592000
+        storage_factory_id: session.storage.factory.native
 
-    # When using the HTTP Cache, ESI allows to render page fragments separately
-    # and with different cache configurations for each fragment
-    # https://symfony.com/doc/current/http_cache/esi.html
     esi: true
     fragments: true
-
     php_errors:
         log: true
-    # The 'ide' option turns all of the file paths in an exception page
-    # into clickable links that open the given file using your favorite IDE.
-    # When 'ide' is set to null the file is opened in your web browser.
-    # See https://symfony.com/doc/current/reference/configuration/framework.html#ide
     ide: null
 
     property_info:

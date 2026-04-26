@@ -13,6 +13,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Repository\BadgeRepository;
+use App\Service\TrustedDeviceService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,7 +56,7 @@ class UsersController extends AbstractController
 
             // Remove badges no longer selected
             foreach ($currentBadges as $badgeId) {
-                if (!\in_array($badgeId, $selectedBadgeIds)) {
+                if (!\in_array($badgeId, $selectedBadgeIds, true)) {
                     $badgeToRemove = $badgeRepo->find($badgeId);
                     if ($badgeToRemove) {
                         $user->getBadges()->removeElement($badgeToRemove);
@@ -65,7 +66,7 @@ class UsersController extends AbstractController
 
             // Add newly selected badges
             foreach ($selectedBadgeIds as $badgeId) {
-                if (!\in_array($badgeId, $currentBadges)) {
+                if (!\in_array($badgeId, $currentBadges, true)) {
                     $badgeToAdd = $badgeRepo->find($badgeId);
                     if ($badgeToAdd) {
                         $user->addBadge($badgeToAdd);
@@ -83,7 +84,7 @@ class UsersController extends AbstractController
 
         // DELETE
         if ($request->query->get('delete')) {
-            $user = $repo->find($request->query->get('delete'));
+            $user = $userRepo->find($request->query->get('delete'));
             if ($user) {
                 $em->remove($user);
                 $em->flush();
@@ -94,7 +95,30 @@ class UsersController extends AbstractController
         }
 
         return $this->render('@theme/admin/users.html.twig', [
-            'users' => $repo->findAll(),
+            'users' => $userRepo->findAll(),
+            'allBadges' => $badgeRepo->findAll(),
         ]);
+    }
+
+    #[Route('/{id}/view', name: 'admin_user_view')]
+    public function view(User $user): Response
+    {
+        return $this->render('@theme/admin/user_view.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    #[Route('/{id}/trusted-devices/clear', name: 'admin_clear_trusted_devices')]
+    public function adminClearTrustedDevices(
+        User $user,
+        TrustedDeviceService $service,
+    ): Response {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $service->removeAllForUser($user);
+
+        $this->addFlash('success', 'All trusted devices removed for this user.');
+
+        return $this->redirectToRoute('admin_user_view', ['id' => $user->getId()]);
     }
 }
