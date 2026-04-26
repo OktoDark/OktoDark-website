@@ -1,0 +1,124 @@
+{% set icons = social_icons %}
+{% set colors = social_colors %}
+
+{# Mark the field as rendered to prevent form_end from displaying it again at the bottom #}
+{% do form.socialLinks.setRendered %}
+
+<div class="social-links-form"
+     data-collection-holder
+     data-index="{{ form.socialLinks|length }}"
+     data-prototype="{{ include('@theme/components/_social_prototype.html.twig', {
+         prototype: form.socialLinks.vars.prototype,
+         icons: icons,
+         colors: colors
+     })|e('html_attr') }}">
+
+    {% for entry in form.socialLinks %}
+        <div class="social-entry d-flex align-items-center mb-2">
+
+            <div class="dropdown me-2 social-dropdown-wrapper">
+                <button class="btn btn-light dropdown-toggle social-dropdown-btn"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    <i class="{{ icons[entry.network.vars.value] ?? icons.custom }} me-1 social-icon-preview"
+                       style="color: {{ colors[entry.network.vars.value] ?? colors.custom }}"></i>
+                    <span class="social-label">
+                        {{ entry.network.vars.value ? entry.network.vars.value|capitalize : 'Select' }}
+                    </span>
+                </button>
+
+                <div class="dropdown-menu social-dropdown-menu">
+                    {% for network, icon in icons %}
+                        <button class="dropdown-item social-option"
+                                type="button"
+                                data-value="{{ network }}">
+                            <i class="{{ icon }} me-2"
+                               style="color: {{ colors[network] }}"></i>
+                            {{ network|capitalize }}
+                        </button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {{ form_widget(entry.network, {
+                attr: { class: 'social-network-input d-none' }
+            }) }}
+
+            <div class="flex-grow-1">
+                {{ form_widget(entry.username, {
+                    attr: { class: 'form-control' }
+                }) }}
+            </div>
+
+            <button type="button" class="btn btn-danger btn-sm remove-social ms-2">−</button>
+        </div>
+    {% endfor %}
+</div>
+
+<button type="button" id="add-social" class="btn btn-primary btn-sm mt-2">
+    + Add Social Link
+</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const holder = document.querySelector('[data-collection-holder]');
+        const addBtn = document.getElementById('add-social');
+
+        if (!holder || !addBtn) return;
+
+        function initDropdown(entry) {
+            const dropdownBtn = entry.querySelector('.dropdown-toggle');
+            if (dropdownBtn) new bootstrap.Dropdown(dropdownBtn);
+
+            const label = entry.querySelector('.social-label');
+            const iconPreview = entry.querySelector('.social-icon-preview');
+            const hiddenInput = entry.querySelector('.social-network-input');
+
+            entry.querySelectorAll('.social-option').forEach(option => {
+                option.addEventListener('click', function () {
+                    const value = this.dataset.value;
+                    const icon = this.querySelector('i').className;
+                    const color = this.querySelector('i').style.color;
+
+                    label.textContent = value.charAt(0).toUpperCase() + value.slice(1);
+                    iconPreview.className = icon + ' me-1 social-icon-preview';
+                    iconPreview.style.color = color;
+
+                    hiddenInput.value = value;
+                });
+            });
+        }
+
+        function initRemove(entry) {
+            const btn = entry.querySelector('.remove-social');
+            if (btn) btn.addEventListener('click', () => entry.remove());
+        }
+
+        // Existing entries
+        document.querySelectorAll('.social-entry').forEach(entry => {
+            initDropdown(entry);
+            initRemove(entry);
+        });
+
+        // Add new entry
+        addBtn.addEventListener('click', function () {
+            const prototype = holder.dataset.prototype;
+            const index = holder.dataset.index;
+
+            const html = prototype.replace(/__name__/g, index);
+            holder.dataset.index = parseInt(index) + 1;
+
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = html.trim();
+            const entry = wrapper.firstElementChild;
+
+            holder.insertAdjacentElement('beforeend', entry);
+
+            initDropdown(entry);
+            initRemove(entry);
+        });
+
+    });
+</script>

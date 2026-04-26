@@ -1,0 +1,69 @@
+/* Social Links Row */
+.social-entry {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+/* Dropdown wrapper */
+.social-dropdown-wrapper {
+    width: 180px; /* fixed width for perfect alignment */
+    position: relative;
+}
+
+/* Dropdown button */
+.social-dropdown-btn {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+}
+
+/* Icon inside dropdown button */
+.social-dropdown-btn i {
+    margin-right: 6px;
+    font-size: 1.1rem;
+}
+
+/* Dropdown menu same width as button */
+.social-dropdown-menu {
+    width: 100%;
+}
+
+/* Username input */
+.social-entry .form-control {
+    flex: 1; /* take remaining space */
+    min-width: 0; /* prevents overflow */
+}
+
+/* Remove button */
+.social-entry .btn-danger {
+    padding: 4px 10px;
+}
+
+/* Icon preview inside button */
+.social-icon-preview {
+    margin-right: 6px;
+}
+
+.social-dropdown-wrapper .dropdown-menu {
+    background-color: #ffffff !important;
+    border: 1px solid #ddd !important;
+    color: #333 !important;
+}
+
+.social-dropdown-wrapper .dropdown-item {
+    color: #333 !important;
+}
+
+.social-dropdown-wrapper .dropdown-item:hover {
+    background-color: #f0f0f0 !important;
+    color: #000 !important;
+}
+
+.dropdown-menu.show {
+    display: block !important;
+}

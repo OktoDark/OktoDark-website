@@ -5,14 +5,17 @@
 
 {% block main %}
 
-    <section class="section section-page-title context-dark text-center py-5">
+    {% set activeTab = app.request.query.get('tab') ?? 'profile' %}
+    {% set devices = app.user.trustedDevices %}
+
+    <section class="section section-page-title bg-default text-center py-5">
         <div class="container">
             <h2 class="display-5 fw-bold">{{ 'title.settings'|trans({}, 'titles') }}</h2>
             <p class="lead text-muted mt-2">{{ 'settings.text_1'|trans({}, 'settings') }}</p>
         </div>
     </section>
 
-    <section class="section-lg bg-default">
+    <section class="section section-lg bg-default pt-0">
         <div class="container">
             <div class="row">
 
@@ -20,24 +23,29 @@
                 <div class="col-lg-3 mb-4">
 
                     <div class="text-center mb-4">
-                        <img
-                                src="{{ app.user.avatarUrl ?? asset('images/default-avatar.png') }}"
-                                class="rounded-circle img-fluid shadow-sm mb-3"
-                                alt="{{ app.user.firstName }} {{ app.user.lastName }}"
-                                width="140" height="140"
-                        >
+                        {% if app.user.avatarUrl %}
+                            <img src="{{ app.user.avatarUrl }}"
+                                 class="rounded-circle img-fluid shadow-sm mb-3"
+                                 alt="{{ app.user.firstName }} {{ app.user.lastName }}"
+                                 width="140" height="140">
+                        {% else %}
+                            <div class="avatar-settings-fallback rounded-circle shadow-sm mb-3 d-flex align-items-center justify-content-center">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                        {% endif %}
+
                         <h5 class="fw-bold">{{ app.user.firstName }} {{ app.user.lastName }}</h5>
 
                         {{ form_start(avatarForm) }}
                         {{ form_widget(avatarForm.avatar, { attr: { class: 'form-control mt-2' } }) }}
                         <button class="btn btn-primary btn-sm mt-2 px-3">
-                            <i class="fas fa-upload me-1"></i>{{ 'action.upload'|trans }}
+                            <i class="fas fa-upload me-1"></i>{{ 'action.upload'|trans({}, 'actions') }}
                         </button>
                         {{ form_end(avatarForm) }}
                     </div>
 
                     <div class="card shadow-sm mb-3">
-                        <div class="card-header fw-semibold">{{ 'title.activity'|trans }}</div>
+                        <div class="card-header fw-semibold">{{ 'title.activity'|trans({}, 'titles') }}</div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>{{ 'label.shares'|trans({}, 'labels') }}</span> <strong>125</strong>
@@ -57,10 +65,19 @@
                     <div class="card shadow-sm">
                         <div class="card-header fw-semibold">{{ 'title.social_media'|trans({}, 'titles') }}</div>
                         <div class="card-body text-center">
-                            <i class="fab fa-facebook fa-2x mx-2 text-primary"></i>
-                            <i class="fab fa-github fa-2x mx-2"></i>
-                            <i class="fab fa-twitter fa-2x mx-2 text-info"></i>
-                            <i class="fab fa-instagram fa-2x mx-2 text-danger"></i>
+                            {% if app.user.socialLinks is not empty %}
+                                {% for entry in app.user.socialLinks %}
+                                    <a href="{{ social_url(entry.network, entry.username) }}"
+                                       target="_blank"
+                                       rel="noopener"
+                                       class="mx-2"
+                                       title="{{ entry.network|capitalize }}">
+                                        <i class="{{ entry.network|icon }} fa-2x"></i>
+                                    </a>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-muted small">{{ 'settings.no_social_links'|trans({}, 'settings') }}</p>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -71,30 +88,44 @@
 
                     <ul class="nav nav-tabs mb-4" id="settingsTabs" role="tablist">
                         <li class="nav-item">
-                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile">
+                            <button class="nav-link {% if activeTab == 'profile' %}active{% endif %}"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#profile">
                                 <i class="fas fa-user me-1"></i>{{ 'title.profile'|trans({}, 'titles') }}
                             </button>
                         </li>
+
                         <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#security">
+                            <button class="nav-link {% if activeTab == 'security' %}active{% endif %}"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#security">
                                 <i class="fas fa-lock me-1"></i>{{ 'title.security'|trans({}, 'titles') }}
                             </button>
                         </li>
+
                         <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#preferences">
+                            <button class="nav-link {% if activeTab == 'preferences' %}active{% endif %}"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#preferences">
                                 <i class="fas fa-sliders-h me-1"></i>{{ 'title.preferences'|trans({}, 'titles') }}
+                            </button>
+                        </li>
+
+                        <li class="nav-item">
+                            <button class="nav-link {% if activeTab == 'forum' %}active{% endif %}"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#forum">
+                                <i class="fas fa-comments me-1"></i>Forum
                             </button>
                         </li>
                     </ul>
 
                     <div class="tab-content">
 
-                        <!-- Profile -->
-                        <div class="tab-pane fade show active" id="profile">
+                        <!-- PROFILE TAB -->
+                        <div class="tab-pane fade {% if activeTab == 'profile' %}show active{% endif %}" id="profile">
                             <div class="card shadow-sm border-0">
                                 <div class="card-body p-4">
-
-                                    <h4 class="mb-4 fw-bold">{{ 'title.profile_info'|trans({}, 'titles') }}</h4>
 
                                     {{ form_start(profileForm, { attr: { class: 'row g-3' } }) }}
 
@@ -118,9 +149,14 @@
                                         {{ form_widget(profileForm.location, { attr: { class: 'form-control form-control-lg' } }) }}
                                     </div>
 
+                                    <div class="col-12 mt-4">
+                                        <label class="form-label fw-semibold">{{ 'settings.social_links'|trans({}, 'settings') }}</label>
+                                        {{ include('@theme/components/social_links.html.twig', { form: profileForm }) }}
+                                    </div>
+
                                     <div class="col-12 mt-3">
-                                        <button class="btn btn-success btn-lg px-4">
-                                            <i class="fas fa-save me-2"></i>{{ 'action.save'|trans({}, 'buttons') }}
+                                        <button name="tab" value="profile" class="btn btn-success btn-lg px-4">
+                                            <i class="fas fa-save me-2"></i>{{ 'action.save'|trans({}, 'actions') }}
                                         </button>
                                     </div>
 
@@ -130,66 +166,241 @@
                             </div>
                         </div>
 
-                        <!-- Security -->
-                        <div class="tab-pane fade" id="security">
+                        <!-- SECURITY TAB -->
+                        <div class="tab-pane fade {% if activeTab == 'security' %}show active{% endif %}" id="security">
                             <div class="card shadow-sm border-0">
                                 <div class="card-body p-4">
 
-                                    <h4 class="mb-4 fw-bold">{{ 'title.change_password'|trans }}</h4>
-
+                                    <!-- PASSWORD FORM -->
                                     {{ form_start(passwordForm, { attr: { class: 'row g-3' } }) }}
 
                                     <div class="col-md-6">
-                                        <label class="form-label fw-semibold">{{ 'label.password'|trans }}</label>
-                                        {{ form_widget(passwordForm.currentPassword, {
-                                            attr: { class: 'form-control form-control-lg' }
-                                        }) }}
+                                        <label class="form-label fw-semibold">{{ 'label.password'|trans({}, 'labels') }}</label>
+                                        {{ form_widget(passwordForm.currentPassword, { attr: { class: 'form-control form-control-lg' } }) }}
                                     </div>
 
                                     <div class="col-md-6"></div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label fw-semibold">{{ 'label.new_password'|trans }}</label>
-                                        {{ form_widget(passwordForm.newPassword.first, {
-                                            attr: { class: 'form-control form-control-lg' }
-                                        }) }}
+                                        <label class="form-label fw-semibold">{{ 'label.new_password'|trans({}, 'labels') }}</label>
+                                        {{ form_widget(passwordForm.newPassword.first, { attr: { class: 'form-control form-control-lg' } }) }}
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label fw-semibold">{{ 'label.new_password_confirm'|trans }}</label>
-                                        {{ form_widget(passwordForm.newPassword.second, {
-                                            attr: { class: 'form-control form-control-lg' }
-                                        }) }}
+                                        <label class="form-label fw-semibold">{{ 'label.new_password_confirm'|trans({}, 'labels') }}</label>
+                                        {{ form_widget(passwordForm.newPassword.second, { attr: { class: 'form-control form-control-lg' } }) }}
                                     </div>
 
                                     <div class="col-12 mt-3">
-                                        <button class="btn btn-success btn-lg px-4">
-                                            <i class="fas fa-save me-2"></i>{{ 'action.save'|trans }}
+                                        <button name="tab" value="security" class="btn btn-success btn-lg px-4">
+                                            <i class="fas fa-save me-2"></i>{{ 'action.save'|trans({}, 'actions') }}
                                         </button>
                                     </div>
 
                                     {{ form_end(passwordForm) }}
 
+                                    <h2 class="mt-5 mb-3">{{ 'settings.trusted_devices'|trans({}, 'settings') }}</h2>
+
+                                    {% if devices is empty %}
+                                        <p class="text-muted">{{ 'settings.no_trusted_devices'|trans({}, 'settings') }}</p>
+                                    {% else %}
+                                        <div class="row g-3">
+
+                                            {% for device in devices %}
+                                                <div class="col-md-6 col-lg-4">
+                                                    <div class="card shadow-sm border-0 h-100 trusted-device-card
+                                                        {% if device.isCurrentDevice(currentFingerprint) %} border-success {% endif %}
+                                                    ">
+
+                                                        <div class="card-body">
+
+                                                            {# Device Label + Icon #}
+                                                            <div class="d-flex align-items-center mb-2">
+                                                                <i class="{{ device.icon }} me-2 text-warning fs-5"></i>
+                                                                <strong>{{ device.label }}</strong>
+
+                                                                {% if device.isCurrentDevice(currentFingerprint) %}
+                                                                    <span class="badge bg-success ms-2">{{ 'settings.current_device'|trans({}, 'settings') }}</span>
+                                                                {% endif %}
+                                                            </div>
+
+                                                            {# Added At #}
+                                                            <div class="text-muted small mb-2">
+                                                                <i class="fa-regular fa-calendar-plus me-1"></i>
+                                                                {{ 'settings.added'|trans({}, 'settings') }}: {{ device.createdAt|date('Y-m-d H:i') }}
+                                                            </div>
+
+                                                            {# Last Used #}
+                                                            <div class="text-muted small mb-3">
+                                                                <i class="fa-solid fa-clock-rotate-left me-1"></i>
+                                                                {{ 'settings.last_used'|trans({}, 'settings') }}:
+                                                                {% if device.lastUsedAt %}
+                                                                    {{ device.lastUsedAt|date('Y-m-d H:i') }}
+                                                                {% else %}
+                                                                    {{ 'settings.never'|trans({}, 'settings') }}
+                                                                {% endif %}
+                                                            </div>
+
+                                                            {# Tooltip with full details #}
+                                                            <div class="mb-3">
+                                                                <span
+                                                                        class="text-info small"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="top"
+                                                                        title="
+                                                                            {{ 'settings.fingerprint'|trans({}, 'settings') }}: {{ device.fingerprint }}
+                                                                            {{ 'settings.user_agent'|trans({}, 'settings') }}: {{ device.userAgent ?? '—' }}
+                                                                            {{ 'settings.country'|trans({}, 'settings') }}: {{ device.country ?? '—' }}
+                                                                            {{ 'settings.city'|trans({}, 'settings') }}: {{ device.city ?? '—' }}
+                                                                                                            "
+                                                                >
+                                                                    {{ 'settings.more_details'|trans({}, 'settings') }}
+                                                                    <i class="fa-solid fa-circle-info ms-1"></i>
+                                                                </span>
+                                                            </div>
+
+                                                            {# Remove Button #}
+                                                            <a href="{{ path('settings_devices_remove', {id: device.id}) }}"
+                                                               class="btn btn-danger text-bg-danger btn-sm w-100">
+                                                                <i class="fa-solid fa-trash me-1"></i> {{ 'action.remove'|trans({}, 'actions') }}
+                                                            </a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    {% endif %}
+
+                                    <h2 class="mt-5 mb-3 d-flex justify-content-between align-items-center">
+                                        {{ 'settings.recent_account_activity'|trans({}, 'settings') }}
+
+                                        {% if activities is not empty %}
+                                            <form action="{{ path('settings_activity_clear') }}" method="post" class="m-0 p-0">
+                                                <button class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('{{ 'settings.confirm_clear_activity'|trans({}, 'settings') }}');">
+                                                    <i class="fa-solid fa-trash"></i> {{ 'action.clear_activity'|trans({}, 'actions') }}
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </h2>
+
+                                    {% if activities is empty %}
+                                        <p class="text-muted">{{ 'settings.no_recent_activity'|trans({}, 'settings') }}</p>
+                                    {% else %}
+
+                                        <div class="row g-3">
+
+                                            {% for a in activities %}
+                                                {% set meta = a.meta ?? {} %}
+
+                                                <div class="col-md-6 col-lg-4">
+                                                    <div class=" card shadow-sm border-0 h-100 activity-card">
+
+                                                        <div class="card-body">
+
+                                                            {# Header: Event Type + Icon #}
+                                                            <div class="d-flex align-items-center mb-2">
+                                                                <i class="fa-solid fa-shield-halved me-2 text-primary"></i>
+                                                                <strong class="text-uppercase small">{{ a.type|replace({'_':' '}) }}</strong>
+                                                            </div>
+
+                                                            {# Time #}
+                                                            <div class="text-muted small mb-2">
+                                                                <i class="fa-regular fa-clock me-1"></i>
+                                                                {{ a.createdAt|date('Y-m-d H:i:s') }}
+                                                            </div>
+
+                                                            {# IP #}
+                                                            <div class="mb-2">
+                                                                <i class="fa-solid fa-globe me-1 text-info"></i>
+                                                                <span class="fw-semibold">{{ a.ip ?: '—' }}</span>
+
+                                                                {% if meta.country %}
+                                                                    <span class="text-muted small ms-1">({{ meta.country }})</span>
+                                                                {% endif %}
+                                                            </div>
+
+                                                            {# Device #}
+                                                            <div>
+                                                                <i class="{{ meta.icon ?? 'fa-solid fa-desktop' }} me-1 text-warning"></i>
+
+                                                                <span
+                                                                        class="fw-semibold"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="top"
+                                                                        title="
+                                                                        {{ 'settings.device'|trans({}, 'settings') }}: {{ meta.device ?? 'settings.unknown'|trans({}, 'settings') }}
+                                                                        {{ 'settings.user_agent'|trans({}, 'settings') }}: {{ a.userAgent ?? '—' }}
+                                                                        {{ 'settings.country'|trans({}, 'settings') }}: {{ meta.country ?? '—' }}
+                                                                        {{ 'settings.city'|trans({}, 'settings') }}: {{ meta.city ?? '—' }}
+                                                                        {{ 'settings.continent'|trans({}, 'settings') }}: {{ meta.continent ?? '—' }}
+                                                                    "
+                                                                >
+                                                                    {{ meta.device ?? 'settings.unknown_device'|trans({}, 'settings') }}
+                                                                    <br>
+                                                                    {{ 'settings.more_details'|trans({}, 'settings') }}
+                                                                    <i class="fa-solid fa-circle-info ms-1"></i>
+                                                                </span>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            {% endfor %}
+
+                                        </div>
+                                    {% endif %}
+
+                                    <!-- SECURITY SETTINGS -->
+                                    <h2 class="mt-4">{{ 'settings.security_settings'|trans({}, 'settings') }}</h2>
+
+                                    <form method="post" class="mt-3">
+                                        <input type="hidden" name="form_id" value="security_settings">
+
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" class="form-check-input"
+                                                   name="login_alerts_enabled"
+                                                   {% if user.loginAlertsEnabled %}checked{% endif %}>
+                                            <label class="form-check-label">{{ 'settings.login_alerts'|trans({}, 'settings') }}</label>
+                                        </div>
+
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" class="form-check-input"
+                                                   name="trusted_devices_enabled"
+                                                   {% if user.trustedDevicesEnabled %}checked{% endif %}>
+                                            <label class="form-check-label">{{ 'settings.trusted_devices_toggle'|trans({}, 'settings') }}</label>
+                                        </div>
+
+                                        <div class="form-check mb-3">
+                                            <input type="checkbox" class="form-check-input"
+                                                   name="twofa_resend_enabled"
+                                                   {% if user.twofaResendEnabled %}checked{% endif %}>
+                                            <label class="form-check-label">{{ 'settings.allow_resend_code'|trans({}, 'settings') }}</label>
+                                        </div>
+
+                                        <button class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i>{{ 'action.save_security_settings'|trans({}, 'actions') }}
+                                        </button>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Preferences -->
-                        <div class="tab-pane fade" id="preferences">
+                        <!-- PREFERENCES TAB -->
+                        <div class="tab-pane fade {% if activeTab == 'preferences' %}show active{% endif %}" id="preferences">
                             <div class="card shadow-sm border-0">
                                 <div class="card-body p-4">
-
-                                    <h4 class="mb-3 fw-bold">{{ 'title.preferences'|trans({}, 'titles') }}</h4>
-                                    <p class="text-muted mb-4">{{ 'text.preferences_info'|trans({}, 'titles') }}</p>
 
                                     {{ form_start(preferencesForm, { attr: { class: 'row g-4' } }) }}
 
                                     <div class="col-md-6">
                                         <div class="form-check form-switch">
-                                            {{ form_widget(preferencesForm.newsletter, {
-                                                attr: { class: 'form-check-input' }
-                                            }) }}
-                                            <label class="form-check-label fw-semibold" title="{{ 'tooltip.newsletter'|trans }}">
+                                            {{ form_widget(preferencesForm.newsletter, { attr: { class: 'form-check-input' } }) }}
+                                            <label class="form-check-label fw-semibold">
                                                 {{ 'label.newsletter'|trans({}, 'labels') }}
                                             </label>
                                         </div>
@@ -197,23 +408,128 @@
 
                                     <div class="col-md-6">
                                         <div class="form-check form-switch">
-                                            {{ form_widget(preferencesForm.darkMode, {
-                                                attr: { class: 'form-check-input' }
-                                            }) }}
-                                            <label class="form-check-label fw-semibold" title="{{ 'tooltip.dark_mode'|trans }}">
-                                                {{ 'label.dark_mode'|trans }}
+                                            {{ form_widget(preferencesForm.darkMode, { attr: { class: 'form-check-input' } }) }}
+                                            <label class="form-check-label fw-semibold">
+                                                {{ 'label.dark_mode'|trans({}, 'labels') }}
                                             </label>
                                         </div>
                                     </div>
 
+                                    <!-- Privacy Settings -->
+                                    <div class="col-12">
+                                        <div class="card mt-4 border-0 shadow-sm">
+                                            <div class="card-header fw-bold bg-light">{{ 'settings.privacy_settings'|trans({}, 'settings') }}</div>
+                                            <div class="card-body">
+                                                <div class="row g-3">
+
+                                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                                        <span>{{ 'settings.public_profile'|trans({}, 'settings') }}</span>
+                                                        {{ form_widget(preferencesForm.privacy.profilePublic, { attr: { class: 'privacy-toggle' } }) }}
+                                                    </div>
+
+                                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                                        <span>{{ 'settings.show_first_name'|trans({}, 'settings') }}</span>
+                                                        {{ form_widget(preferencesForm.privacy.showFirstName, { attr: { class: 'privacy-toggle' } }) }}
+                                                    </div>
+
+                                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                                        <span>{{ 'settings.show_last_name'|trans({}, 'settings') }}</span>
+                                                        {{ form_widget(preferencesForm.privacy.showLastName, { attr: { class: 'privacy-toggle' } }) }}
+                                                    </div>
+
+                                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                                        <span>{{ 'settings.show_email'|trans({}, 'settings') }}</span>
+                                                        {{ form_widget(preferencesForm.privacy.showEmail, { attr: { class: 'privacy-toggle' } }) }}
+                                                    </div>
+
+                                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                                        <span>{{ 'settings.show_location'|trans({}, 'settings') }}</span>
+                                                        {{ form_widget(preferencesForm.privacy.showLocation, { attr: { class: 'privacy-toggle' } }) }}
+                                                    </div>
+
+                                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                                        <span>{{ 'settings.show_social_links'|trans({}, 'settings') }}</span>
+                                                        {{ form_widget(preferencesForm.privacy.showSocialLinks, { attr: { class: 'privacy-toggle' } }) }}
+                                                    </div>
+
+                                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                                        <span>{{ 'settings.show_roles'|trans({}, 'settings') }}</span>
+                                                        {{ form_widget(preferencesForm.privacy.showRoles, { attr: { class: 'privacy-toggle' } }) }}
+                                                    </div>
+
+                                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                                        <span>{{ 'settings.show_member_since'|trans({}, 'settings') }}</span>
+                                                        {{ form_widget(preferencesForm.privacy.showMemberSince, { attr: { class: 'privacy-toggle' } }) }}
+                                                    </div>
+
+                                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                                        <span>{{ 'settings.show_account_status'|trans({}, 'settings') }}</span>
+                                                        {{ form_widget(preferencesForm.privacy.showAccountStatus, { attr: { class: 'privacy-toggle' } }) }}
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-12 mt-3">
-                                        <button class="btn btn-success btn-lg px-4">
-                                            <i class="fas fa-save me-2"></i>{{ 'action.save'|trans }}
+                                        <button name="tab" value="preferences" class="btn btn-success btn-lg px-4">
+                                            <i class="fas fa-save me-2"></i>{{ 'action.save'|trans({}, 'actions') }}
                                         </button>
                                     </div>
 
                                     {{ form_end(preferencesForm) }}
 
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FORUM TAB -->
+                        <div class="tab-pane fade {% if activeTab == 'forum' %}show active{% endif %}" id="forum">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body p-4">
+                                    {{ form_start(forumForm) }}
+                                        <h4 class="mb-4 fw-bold text-success"><i class="fa-solid fa-comments me-2"></i>Forum Preferences</h4>
+
+                                        {# Signature Field (Modern Look) #}
+                                        {% if settings.forumSignaturesEnabled %}
+                                            <div class="col-12 mb-4">
+                                                <label class="form-label fw-semibold">Signature</label>
+                                                <div class="p-3 border rounded bg-light bg-opacity-10 border-start border-4 border-success shadow-sm">
+                                                    {{ form_widget(forumForm.signature, { attr: { class: 'form-control border-0 bg-white shadow-none', rows: 4, placeholder: 'Write something cool...' } }) }}
+                                                </div>
+                                                <div class="form-text mt-2 text-muted small">This signature will appear at the bottom of all your forum posts.</div>
+                                            </div>
+                                        {% endif %}
+
+                                        {# Forum Settings (Like Privacy Settings) #}
+                                        <div class="col-12">
+                                            <div class="card border-0 shadow-sm bg-light bg-opacity-25">
+                                                <div class="card-body">
+                                                    <div class="row g-3">
+                                                        <div class="col-12 d-flex justify-content-between align-items-center">
+                                                            <span class="small fw-semibold">Show my signature in posts</span>
+                                                            {{ form_widget(forumForm.forumSettings.showSignature, { attr: { class: 'privacy-toggle' } }) }}
+                                                        </div>
+                                                        <div class="col-12 d-flex justify-content-between align-items-center">
+                                                            <span class="small fw-semibold">Show signatures from other members</span>
+                                                            {{ form_widget(forumForm.forumSettings.showOtherSignatures, { attr: { class: 'privacy-toggle' } }) }}
+                                                        </div>
+                                                        <div class="col-12 d-flex justify-content-between align-items-center">
+                                                            <span class="small fw-semibold">Keep me hidden from "Who is online"</span>
+                                                            {{ form_widget(forumForm.forumSettings.stayHidden, { attr: { class: 'privacy-toggle' } }) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 mt-4 d-flex justify-content-end">
+                                            <button name="tab" value="forum" class="btn btn-success btn-lg px-5 shadow-sm">
+                                                <i class="fas fa-save me-2"></i>Save Forum Settings
+                                            </button>
+                                        </div>
+                                    {{ form_end(forumForm) }}
                                 </div>
                             </div>
                         </div>
@@ -224,6 +540,26 @@
 
             </div>
         </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const tab = urlParams.get("tab");
+                const targetTab = tab ? tab : "profile";
+                const trigger = document.querySelector(`[data-bs-target="#${targetTab}"]`);
+                if (trigger) {
+                    const tabObj = new bootstrap.Tab(trigger);
+                    tabObj.show();
+                }
+            });
+        </script>
+
+        <script>
+            if (window.location.hash) {
+                history.replaceState(null, '', window.location.pathname);
+            }
+        </script>
+
     </section>
 
 {% endblock %}

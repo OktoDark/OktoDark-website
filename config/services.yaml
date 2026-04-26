@@ -8,7 +8,13 @@ parameters:
     php_bin: '%env(PHP_BIN)%'
     composer_bin: '%env(COMPOSER_BIN)%'
     avatars_directory: '%kernel.project_dir%/public/uploads/avatars'
+    cv_directory: '%kernel.project_dir%/public/uploads/cvs'
     symfonycasts_reset_password.throttle_limit: 600
+
+    # MAILERS
+    mailer.from.jobs: '%env(MAILER_FROM_JOBS)%'
+    mailer.from.contact: '%env(MAILER_FROM_CONTACT)%'
+    mailer.from.no_reply: '%env(MAILER_FROM_NOREPLY)%'
 
 services:
     _defaults:
@@ -22,10 +28,27 @@ services:
     App\:
       resource: '../src/'
 
+    App\Service\EmailIdentityService:
+        arguments:
+            $jobs: '%mailer.from.jobs%'
+            $contact: '%mailer.from.contact%'
+            $noreply: '%mailer.from.no_reply%'
+
     App\Service\GeoIpService:
         arguments:
             $countryDbPath: '%kernel.project_dir%/var/geoip/GeoLite2-Country.mmdb'
             $cityDbPath: '%kernel.project_dir%/var/geoip/GeoLite2-City.mmdb'
+
+    App\Service\SocialLinkParser:
+        arguments:
+            $social_base_urls: '%social_base_urls%'
+
+    App\Twig\SocialExtension:
+        arguments:
+            $social_base_urls: '%social_base_urls%'
+            $social_icons: '%social_icons%'
+            $social_colors: '%social_colors%'
+        tags: ['twig.extension']
 
     App\EventListener\ClientHintsListener:
         tags:
@@ -60,17 +83,13 @@ services:
   # THEME SYSTEM SERVICES
   #######################################################################
 
-    # Loads settings from DB once per request
     App\Service\SettingsProvider: ~
 
-    # Makes settings + theme available in ALL Twig templates
     App\Twig\SettingsExtension:
         tags: ['twig.extension']
 
-    # Reads theme from DB and exposes it to ThemeLoader
     App\Service\ThemeResolver: ~
 
-    # Dynamically registers @theme namespace based on DB theme
     App\Twig\ThemeLoader:
         tags: ['twig.loader']
 

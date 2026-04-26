@@ -34,22 +34,25 @@ class UserType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label' => 'label.username',
-                'attr' => [
-                    'class' => 'form-input',
-                ],
+                'attr' => ['class' => 'form-input'],
                 'disabled' => true,
             ])
             ->add('firstName', TextType::class, [
                 'label' => 'label.firstName',
-                'attr' => [
-                    'class' => 'form-input',
-                ],
+                'attr' => ['class' => 'form-input'],
+            ])
+            ->add('lastName', TextType::class, [
+                'label' => 'label.lastName',
+                'attr' => ['class' => 'form-input'],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'label.email',
-                'attr' => [
-                    'class' => 'form-input',
-                ],
+                'attr' => ['class' => 'form-input'],
+            ])
+            ->add('location', TextType::class, [
+                'label' => 'label.location',
+                'required' => false,
+                'attr' => ['class' => 'form-input'],
             ])
         ;
     }

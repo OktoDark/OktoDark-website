@@ -5,159 +5,224 @@
 
 {% block main %}
 
-    <section class="section section-page-title context-dark text-center py-5">
-        <div class="container">
-            <h2 class="display-5 fw-bold">{{ 'title.profile'|trans({}, 'titles') }}</h2>
-        </div>
-    </section>
+    {# PRIVATE PROFILE MODE #}
+    {% if is_privateView %}
 
-    <section class="py-5 bg-light">
-        <div class="container">
-            <div class="row">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
 
-                <!-- Sidebar -->
-                <div class="col-lg-3 mb-4">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body text-center py-5">
 
-                    <div class="card shadow-sm border-0 mb-4">
-                        <div class="card-body text-center">
+                            <i class="fas fa-lock fa-4x text-muted mb-4"></i>
 
-                            <img
-                                    src="{{ app.user.avatarUrl ?? asset('images/default-avatar.png') }}"
-                                    class="rounded-circle img-fluid shadow-sm mb-3"
-                                    width="140" height="140"
-                                    alt="{{ users.username }}"
-                            >
+                            <h3 class="fw-bold mb-3">
+                                {{ 'profile.private_profile_title'|trans({}, 'profile') }}
+                            </h3>
 
-                            <h4 class="fw-bold">{{ users.username }}</h4>
-                            <p class="text-muted">{{ users.firstName }} {{ users.lastName }}</p>
-
-                            <div class="list-group mt-4">
-                                <a href="{{ path('profile_area') }}" class="list-group-item list-group-item-action active">
-                                    <i class="fas fa-user me-2"></i>{{ 'title.profile'|trans({}, 'titles') }}
-                                </a>
-                                <a href="{{ path('settings_area') }}" class="list-group-item list-group-item-action">
-                                    <i class="fas fa-cog me-2"></i>{{ 'title.settings'|trans({}, 'titles') }}
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Main Content -->
-                <div class="col-lg-9">
-
-                    <!-- Profile Overview -->
-                    <div class="card shadow-sm border-0 mb-4">
-                        <div class="card-body p-4">
-
-                            <h3 class="fw-bold mb-3 text-success">{{ users.username }}</h3>
-
-                            <div class="row g-3">
-
-                                <div class="col-md-6">
-                                    <strong>{{ 'label.name'|trans({}, 'labels') }}:</strong>
-                                    <p>{{ users.firstName }} {{ users.lastName }}</p>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <strong>{{ 'label.email'|trans({}, 'labels') }}:</strong>
-                                    <p>{{ users.email }}</p>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <strong>{{ 'label.roles'|trans({}, 'labels') }}:</strong>
-                                    <p>{% include("@theme/member/parts/roles.html.twig") %}</p>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <strong>{{ 'label.member_since'|trans({}, 'labels') }}:</strong>
-                                    <p>{{ users.agreedTerms|format_datetime('medium', 'short', '', 'UTC') }}</p>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <strong>{{ 'label.account_status'|trans({}, 'labels') }}:</strong>
-                                    <p>{% include("@theme/member/parts/active.html.twig") %}</p>
-                                </div>
-
-                            </div>
-
-                            <hr class="my-4">
-
-                            <p class="text-muted fst-italic">
-                                {{ 'profile.rules_note'|trans({
-                                    '%settings_link%': path('settings_area')
-                                }, 'profile')|raw }}
+                            <p class="text-muted mb-4">
+                                {{ users.username }} {{ 'profile.hidden_profile_text'|trans({}, 'profile') }}
                             </p>
 
-                        </div>
-                    </div>
+                            <a href="{{ path('home_index', { _locale: app.request.locale }) }}"
+                               class="btn btn-dark px-4">
+                                {{ 'profile.go_back_home'|trans({}, 'profile') }}
+                            </a>
 
-                    <!-- Social Information -->
-                    <div class="card shadow-sm border-0 mb-4">
-                        <div class="card-header bg-white fw-bold">
-                            <i class="fas fa-comments me-2"></i>{{ 'social.social_info'|trans({}, 'titles') }}
-                        </div>
-                        <div class="card-body">
-
-                            <ul class="list-unstyled fs-5">
-                                <li class="mb-2">
-                                    <i class="fas fa-archive me-2"></i>
-                                    <a href="https://forum.truckersmp.com/index.php?/profile/189416-Viruzzz/" target="_blank">
-                                        Forum Profile
-                                    </a>
-                                </li>
-                                <li class="mb-2">
-                                    <i class="fab fa-twitter me-2 text-info"></i>
-                                    <a href="https://twitter.com/mvt3am" target="_blank">Twitter</a>
-                                </li>
-                                <li class="mb-2">
-                                    <i class="fab fa-twitch me-2 text-purple"></i>
-                                    <a href="https://twitch.tv/mvt3am" target="_blank">Twitch</a>
-                                </li>
-                                <li class="mb-2">
-                                    <i class="fas fa-truck me-2"></i>
-                                    <a href="https://worldoftrucks.com/en/online_profile.php?id=4025088" target="_blank">
-                                        World of Trucks
-                                    </a>
-                                </li>
-                                <li class="mb-2">
-                                    <i class="fab fa-youtube me-2 text-danger"></i>
-                                    <a href="https://www.youtube.com/channel/UCzPfw3b7L4oVr9C4BykM-8w" target="_blank">
-                                        YouTube
-                                    </a>
-                                </li>
-                            </ul>
-
-                        </div>
-                    </div>
-
-                    <!-- Player History -->
-                    <div class="card shadow-sm border-0 mb-4">
-                        <div class="card-header bg-white fw-bold">
-                            <i class="fas fa-briefcase me-2"></i>{{ 'title.player_history'|trans({}, 'titles') }}
-                        </div>
-                        <div class="card-body text-center py-5">
-                            <h4 class="text-muted">{{ 'profile.no_history'|trans({}, 'titles') }}</h4>
-                        </div>
-                    </div>
-
-                    <!-- Punishment History -->
-                    <div class="card shadow-sm border-0">
-                        <div class="card-header bg-white fw-bold">
-                            <i class="fas fa-graduation-cap me-2"></i>{{ 'title.punishment_history'|trans }}
-                            <small class="text-success ms-2">{{ 'label.public'|trans }}</small>
-                        </div>
-                        <div class="card-body text-center py-5">
-                            <h4 class="text-muted">{{ 'profile.no_penalties'|trans }}</h4>
                         </div>
                     </div>
 
                 </div>
-
             </div>
         </div>
-    </section>
+
+    {% else %}
+
+        {# NORMAL PUBLIC / OWNER PROFILE #}
+
+        <section class="section section-page-title context-dark text-center py-5">
+            <div class="container">
+                <h2 class="display-5 fw-bold d-inline-flex align-items-center gap-2">
+                    {{ users.username }}
+                    {% if users.isVerified %}
+                        <span class="verified-badge" title="{{ 'profile.verified_account'|trans({}, 'profile') }}">
+                            <i class="bi bi-patch-check-fill"></i>
+                        </span>
+                    {% endif %}
+                </h2>
+            </div>
+        </section>
+
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="row">
+
+                    <!-- Sidebar -->
+                    <div class="col-lg-3 mb-4">
+
+                        <div class="card shadow-sm border-0 mb-4">
+                            <div class="card-body text-center">
+
+                                {% if users.avatarUrl %}
+                                    <img src="{{ users.avatarUrl }}" class="rounded-circle img-fluid shadow-sm mb-3" width="140" height="140" alt="{{ users.username }}">
+                                {% else %}
+                                    <div class="avatar-profile-fallback rounded-circle shadow-sm mb-3 d-flex align-items-center justify-content-center">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                {% endif %}
+
+                                {% if is_public %}
+                                    <span class="badge bg-success">{{ 'label.public'|trans({}, 'labels') }}</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">{{ 'label.private'|trans({}, 'labels') }}</span>
+                                {% endif %}
+
+                                <h4 class="fw-bold">{{ users.username }}</h4>
+
+                                {% if privacy.showFirstName or privacy.showLastName %}
+                                    <p class="text-muted">{{ users.firstName }} {{ users.lastName }}</p>
+                                {% endif %}
+
+                                {% if viewer and viewer.id == users.id %}
+                                    <div class="list-group mt-4">
+                                        <a href="{{ path('profile_view', { username: app.user.username }) }}" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-user me-2"></i>{{ 'title.profile'|trans({}, 'titles') }}
+                                        </a>
+                                        <a href="{{ path('settings_area') }}" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-cog me-2"></i>{{ 'title.settings'|trans({}, 'titles') }}
+                                        </a>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="col-lg-9">
+
+                        <!-- Profile Overview -->
+                        <div class="card shadow-sm border-0 mb-4">
+                            <div class="card-body p-4">
+
+                                <h3 class="fw-bold mb-3 text-success">{{ users.username }}</h3>
+
+                                <div class="row g-3">
+
+                                    {% if privacy.showFirstName or privacy.showLastName %}
+                                        <div class="col-md-6">
+                                            <strong>{{ 'label.name'|trans({}, 'labels') }}:</strong>
+                                            <p>{{ users.firstName }} {{ users.lastName }}</p>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if privacy.showEmail %}
+                                        <div class="col-md-6">
+                                            <strong>{{ 'label.email'|trans({}, 'labels') }}:</strong>
+                                            <p>{{ users.email }}</p>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if privacy.showRoles %}
+                                        <div class="col-md-6">
+                                            <strong>{{ 'label.roles'|trans({}, 'labels') }}:</strong>
+                                            <p>{% include("@theme/member/parts/roles.html.twig") %}</p>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if privacy.showMemberSince %}
+                                        <div class="col-md-6">
+                                            <strong>{{ 'label.member_since'|trans({}, 'labels') }}:</strong>
+                                            <p>{{ users.agreedTerms|format_datetime('medium', 'short', '', 'UTC') }}</p>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if privacy.showAccountStatus %}
+                                        <div class="col-md-6">
+                                            <strong>{{ 'label.account_status'|trans({}, 'labels') }}:</strong>
+                                            <p>{% include "@theme/member/parts/active.html.twig" with { user: app.user } %}</p>
+                                        </div>
+                                    {% endif %}
+
+                                </div>
+
+                                <hr class="my-4">
+
+                                {% if viewer and viewer.id == users.id %}
+                                    <p class="text-muted fst-italic">
+                                        {{ 'profile.rules_note'|trans({
+                                            '%settings_link%': path('settings_area')
+                                        }, 'profile')|raw }}
+                                    </p>
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                        <!-- Social Information -->
+                        <div class="card shadow-sm border-0 mb-4">
+                            <div class="card-header bg-white fw-bold">
+                                <i class="fas fa-comments me-2"></i>{{ 'social.social_info'|trans({}, 'social') }}
+                            </div>
+                            <div class="card-body">
+
+                                {% if privacy.showSocialLinks and users.socialLinks is not empty %}
+                                    {% for link in users.socialLinks %}
+
+                                        {% if link is iterable %}
+                                            {% set network = link.network %}
+                                            {% set url = social_url(network, link.username) %}
+                                        {% else %}
+                                            {% set url = link %}
+                                            {% set network = link|social_detect %}
+                                        {% endif %}
+
+                                        <a href="{{ url }}"
+                                           target="_blank"
+                                           rel="noopener"
+                                           class="mx-2"
+                                           title="{{ social_label(network) }}">
+                                            <i class="{{ network|icon }} fa-2x"
+                                               style="color: {{ social_color(network) }}"></i>
+                                        </a>
+
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="text-muted small">{{ 'profile.no_social_links'|trans({}, 'profile') }}</p>
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                        <!-- Player History -->
+                        <div class="card shadow-sm border-0 mb-4">
+                            <div class="card-header bg-white fw-bold">
+                                <i class="fas fa-briefcase me-2"></i>{{ 'title.player_history'|trans({}, 'profile') }}
+                            </div>
+                            <div class="card-body text-center py-5">
+                                <h4 class="text-muted">{{ 'profile.no_history'|trans({}, 'profile') }}</h4>
+                            </div>
+                        </div>
+
+                        <!-- Punishment History -->
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-white fw-bold">
+                                <i class="fas fa-graduation-cap me-2"></i>{{ 'title.punishment_history'|trans({}, 'profile') }}
+                                <small class="text-success ms-2">{{ 'label.public'|trans({}, 'labels') }}</small>
+                            </div>
+                            <div class="card-body text-center py-5">
+                                <h4 class="text-muted">{{ 'profile.no_penalties'|trans({}, 'profile') }}</h4>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    {% endif %}
 
 {% endblock %}

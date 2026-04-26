@@ -1,0 +1,36 @@
+<div class="social-entry d-flex align-items-center mb-2">
+
+    <div class="dropdown me-2 social-dropdown-wrapper">
+        <button class="btn btn-light dropdown-toggle social-dropdown-btn"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+            <i class="fa-solid fa-link me-1 social-icon-preview"></i>
+            <span class="social-label">Select</span>
+        </button>
+
+        <div class="dropdown-menu social-dropdown-menu">
+            {% for network, icon in icons %}
+                <button class="dropdown-item social-option"
+                        type="button"
+                        data-value="{{ network }}">
+                    <i class="{{ icon }} me-2"
+                       style="color: {{ colors[network] }}"></i>
+                    {{ network|capitalize }}
+                </button>
+            {% endfor %}
+        </div>
+    </div>
+
+    {{ form_widget(prototype.network, {
+        attr: { class: 'social-network-input d-none' }
+    }) }}
+
+    <div class="flex-grow-1">
+        {{ form_widget(prototype.username, {
+            attr: { class: 'form-control' }
+        }) }}
+    </div>
+
+    <button type="button" class="btn btn-danger btn-sm remove-social ms-2">−</button>
+</div>
