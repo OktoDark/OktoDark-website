@@ -1,0 +1,96 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}Contact Messages – Admin{% endblock %}
+{% block body_id 'admin' %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
+
+        {% block admin_content %}
+            <div class="section-title">
+                <h2>Contact Inbox</h2>
+                <p>Manage all incoming messages from your website's contact form.</p>
+            </div>
+
+            <section>
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success border-0 shadow-sm mb-4">
+                        <i class="fas fa-check-circle me-2"></i> {{ message }}
+                    </div>
+                {% endfor %}
+
+                <div class="admin-table-container">
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Sender</th>
+                                <th>Department</th>
+                                <th>Subject</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for m in messages %}
+                                <tr class="{{ not m.isRead ? 'fw-bold' : '' }}">
+                                    <td>
+                                        {% if m.repliedAt %}
+                                            <span class="admin-badge admin-badge-success">Replied</span>
+                                        {% elseif m.isRead %}
+                                            <span class="admin-badge admin-badge-secondary">Read</span>
+                                        {% else %}
+                                            <span class="admin-badge admin-badge-info">New</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <div class="small">{{ m.createdAt|date('M j, Y') }}</div>
+                                        <div class="small text-muted">{{ m.createdAt|date('H:i') }}</div>
+                                    </td>
+
+                                    <td>
+                                        <div class="fw-bold text-white">{{ m.name }}</div>
+                                        <div class="small text-muted">{{ m.email }}</div>
+                                    </td>
+
+                                    <td>
+                                        <span class="admin-badge admin-badge-info">{{ m.department }}</span>
+                                    </td>
+
+                                    <td>{{ m.subject }}</td>
+
+                                    <td class="text-end">
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <a href="{{ path('admin_contact_show', {id: m.id}) }}"
+                                               class="admin-btn admin-btn-secondary admin-btn-sm" title="View Message">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <form method="post" action="{{ path('admin_contact_delete', {'id': m.id}) }}" onsubmit="return confirm('Are you sure you want to delete this message?');" style="display: inline-block;">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ m.id) }}">
+                                                <button type="submit" class="admin-btn admin-btn-danger admin-btn-sm" title="Delete Message">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-5">
+                                        <i class="fas fa-inbox d-block mb-3 fs-2 opacity-25"></i>
+                                        No contact messages found.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </section>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
