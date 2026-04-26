@@ -25,7 +25,7 @@ class SocialLinkParser
      */
     public function build(string $network, string $username): array
     {
-        $username = ltrim($username, '@/');
+        $username = mb_ltrim($username, '@/');
 
         // Custom link → return raw
         if ('custom' === $network) {
@@ -55,7 +55,7 @@ class SocialLinkParser
      */
     public function detectAndBuild(string $input): array
     {
-        $input = trim($input);
+        $input = mb_trim($input);
 
         // Full URL
         if (str_contains($input, 'http')) {
@@ -67,7 +67,7 @@ class SocialLinkParser
             if ($this->matches($network, $input)) {
                 return [
                     'network' => $network,
-                    'url' => $base.ltrim($input, '@/'),
+                    'url' => $base.mb_ltrim($input, '@/'),
                 ];
             }
         }

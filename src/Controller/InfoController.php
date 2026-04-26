@@ -42,7 +42,7 @@ final class InfoController extends AbstractController
             $num1 = random_int(1, 9);
             $num2 = random_int(1, 9);
             $session->set('captcha_result', $num1 + $num2);
-            $session->set('captcha_question', sprintf('%d + %d = ?', $num1, $num2));
+            $session->set('captcha_question', \sprintf('%d + %d = ?', $num1, $num2));
         }
 
         $form = $this->createForm(ContactType::class, null, [

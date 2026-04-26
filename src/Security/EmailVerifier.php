@@ -43,6 +43,8 @@ class EmailVerifier
 
         $email->context($context);
 
+        $email->getHeaders()->addTextHeader('X-Transport', 'no_reply');
+
         $this->mailer->send($email);
     }
 

@@ -55,7 +55,7 @@ final class CareersController extends AbstractController
                 $application->setMessage($messageContent);
 
                 // Handle CV Upload
-                $originalFilename = pathinfo($cvFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $originalFilename = pathinfo($cvFile->getClientOriginalName(), \PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$cvFile->guessExtension();
 

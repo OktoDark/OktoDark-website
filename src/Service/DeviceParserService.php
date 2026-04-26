@@ -28,7 +28,7 @@ class DeviceParserService
 
     private function detectBrowser(string $ua): string
     {
-        $ua = strtolower($ua);
+        $ua = mb_strtolower($ua);
 
         return match (true) {
             str_contains($ua, 'edg') => 'Edge',
@@ -43,7 +43,7 @@ class DeviceParserService
 
     private function detectOS(string $ua): string
     {
-        $ua = strtolower($ua);
+        $ua = mb_strtolower($ua);
 
         return match (true) {
             str_contains($ua, 'windows') => 'Windows',

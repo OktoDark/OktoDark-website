@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * For the full copyright and license information, please view the LICENSE.
+ */
+
 namespace App\Twig;
 
 use Twig\Extension\AbstractExtension;
@@ -49,7 +58,7 @@ class SocialExtension extends AbstractExtension
 
     public function buildUrl(string $network, string $username): string
     {
-        $username = ltrim($username, '@/');
+        $username = mb_ltrim($username, '@/');
 
         if ('custom' === $network) {
             return $username;

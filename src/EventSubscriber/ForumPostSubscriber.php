@@ -67,7 +67,7 @@ class ForumPostSubscriber implements EventSubscriberInterface
                     $notification = new Notification();
                     $notification->setUser($user);
                     $notification->setTitle('You were mentioned!');
-                    $notification->setMessage(sprintf('%s mentioned you in a forum post.', $post->getAuthor()->getUsername()));
+                    $notification->setMessage(\sprintf('%s mentioned you in a forum post.', $post->getAuthor()->getUsername()));
                     $notification->setLink($this->urlGenerator->generate('forum_thread_view', ['slug' => $post->getThread()->getSlug()]));
 
                     $this->em->persist($notification);
