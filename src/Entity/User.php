@@ -587,6 +587,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
+    public function removeBadge(Badge $badge): self
+    {
+        $this->badges->removeElement($badge);
+
+        return $this;
+    }
+
     // RELATIONS
     public function getTrustedDevices(): Collection
     {

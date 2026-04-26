@@ -11,11 +11,12 @@
 
 namespace App\Entity;
 
+use App\Repository\BadgeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: BadgeRepository::class)]
 class Badge
 {
     #[ORM\Id]
@@ -24,13 +25,13 @@ class Badge
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private string $name;
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private string $icon;
+    private ?string $icon = null;
 
     #[ORM\Column(length: 255)]
-    private string $description;
+    private ?string $description = null;
 
     #[ORM\Column(length: 7)]
     private string $color = '#16a34a'; // HEX Color
@@ -44,8 +45,7 @@ class Badge
     #[ORM\Column]
     private bool $isPermanent = false; // Cannot be removed if auto-awarded (for staff etc)
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'badges')]
-    #[ORM\JoinTable(name: 'user_badges')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'badges')]
     private Collection $users;
 
     public function __construct()
@@ -58,7 +58,7 @@ class Badge
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -70,7 +70,7 @@ class Badge
         return $this;
     }
 
-    public function getIcon(): string
+    public function getIcon(): ?string
     {
         return $this->icon;
     }
@@ -82,7 +82,7 @@ class Badge
         return $this;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -142,6 +142,9 @@ class Badge
         return $this;
     }
 
+    /**
+     * @return Collection<int, User>
+     */
     public function getUsers(): Collection
     {
         return $this->users;
@@ -159,8 +162,8 @@ class Badge
 
     public function removeUser(User $user): self
     {
-        if ($this->children->removeElement($user)) {
-            // User side is managed in entity or externally
+        if ($this->users->removeElement($user)) {
+            $user->removeBadge($this);
         }
 
         return $this;

@@ -63,16 +63,14 @@ class BadgeService
      */
     public function ensurePermanentBadges(User $user): void
     {
-        // Example: If user is ADMIN, they should have the Admin badge
-        // Logic depends on your badge naming or specific IDs
-        $specialBadges = [
-            'ROLE_ADMIN' => 'Administrator',
-            'ROLE_MODERATOR' => 'Moderator',
+        $roleBadgeMap = [
+            'ROLE_ADMIN' => 'role_admin',
+            'ROLE_MODERATOR' => 'role_moderator',
         ];
 
-        foreach ($specialBadges as $role => $badgeName) {
+        foreach ($roleBadgeMap as $role => $actionType) {
             if (\in_array($role, $user->getRoles(), true)) {
-                $badge = $this->badgeRepo->findOneBy(['name' => $badgeName, 'isPermanent' => true]);
+                $badge = $this->badgeRepo->findOneBy(['actionType' => $actionType, 'isPermanent' => true]);
                 if ($badge && !$user->getBadges()->contains($badge)) {
                     $user->addBadge($badge);
                 }

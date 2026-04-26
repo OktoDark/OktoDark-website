@@ -14,8 +14,12 @@ namespace App\Repository;
 use App\Entity\ForumThread;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Order;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<ForumThread>
+ */
 class ForumThreadRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -29,8 +33,8 @@ class ForumThreadRepository extends ServiceEntityRepository
     public function findLatest(int $limit = 10): array
     {
         return $this->createQueryBuilder('t')
-            ->orderBy('t.updatedAt', 'DESC')
-            ->addOrderBy('t.createdAt', 'DESC')
+            ->orderBy('t.updatedAt', Order::Descending->value)
+            ->addOrderBy('t.createdAt', Order::Descending->value)
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
@@ -45,7 +49,7 @@ class ForumThreadRepository extends ServiceEntityRepository
             ->leftJoin('t.author', 'a')
             ->where('t.title LIKE :query OR t.content LIKE :query OR a.username LIKE :query')
             ->setParameter('query', '%'.$query.'%')
-            ->orderBy('t.updatedAt', 'DESC')
+            ->orderBy('t.updatedAt', Order::Descending->value)
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
@@ -59,7 +63,7 @@ class ForumThreadRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
             ->where('t.author = :user')
             ->setParameter('user', $user)
-            ->orderBy('t.createdAt', 'DESC')
+            ->orderBy('t.createdAt', Order::Descending->value)
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();

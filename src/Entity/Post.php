@@ -181,4 +181,14 @@ class Post
     {
         $this->tags->removeElement($tag);
     }
+
+    /**
+     * Estimated reading time in minutes based on 200 words per minute.
+     */
+    public function getEstimatedReadingTime(): int
+    {
+        $wordCount = str_word_count(strip_tags($this->content));
+
+        return (int) ceil($wordCount / 200);
+    }
 }
