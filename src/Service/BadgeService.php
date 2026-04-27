@@ -11,7 +11,6 @@
 
 namespace App\Service;
 
-use App\Entity\Badge;
 use App\Entity\User;
 use App\Repository\BadgeRepository;
 use Doctrine\ORM\EntityManagerInterface;

@@ -28,7 +28,7 @@ class ForumThread
     #[ORM\JoinColumn(nullable: false)]
     private ForumCategory $category;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'forumThreads')]
     #[ORM\JoinColumn(nullable: false)]
     private User $author;
 

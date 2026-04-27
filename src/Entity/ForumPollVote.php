@@ -14,9 +14,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'forum_poll_vote', uniqueConstraints: [
-    new ORM\UniqueConstraint(name: 'user_poll_unique', columns: ['user_id', 'poll_id']),
-])]
+#[ORM\Table(name: 'forum_poll_vote')]
+#[ORM\UniqueConstraint(name: 'user_poll_unique', columns: ['user_id', 'poll_id'])]
 class ForumPollVote
 {
     #[ORM\Id]

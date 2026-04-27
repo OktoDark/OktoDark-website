@@ -27,7 +27,7 @@ class ForumThreadRead
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(targetEntity: ForumThread::class)]
+    #[ORM\ManyToOne(targetEntity: ForumThread::class, inversedBy: 'reads')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?ForumThread $thread = null;
 

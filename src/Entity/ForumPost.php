@@ -28,7 +28,7 @@ class ForumPost
     #[ORM\JoinColumn(nullable: false)]
     private ForumThread $thread;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'forumPosts')]
     #[ORM\JoinColumn(nullable: false)]
     private User $author;
 

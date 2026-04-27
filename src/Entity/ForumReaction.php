@@ -22,7 +22,7 @@ class ForumReaction
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: ForumPost::class)]
+    #[ORM\ManyToOne(targetEntity: ForumPost::class, inversedBy: 'reactions')]
     #[ORM\JoinColumn(nullable: false)]
     private ForumPost $post;
 
