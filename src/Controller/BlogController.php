@@ -62,9 +62,11 @@ final class BlogController extends AbstractController
     #[Route('/posts/{slug}', name: 'blog_post', methods: ['GET'])]
     public function postShow(
         #[MapEntity(mapping: ['slug' => 'slug'])] Post $post,
+        PostRepository $posts,
     ): Response {
         return $this->render('@theme/blog/post_show.html.twig', [
             'post' => $post,
+            'relatedPosts' => $posts->findRelated($post),
         ]);
     }
 

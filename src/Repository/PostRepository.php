@@ -46,6 +46,47 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
+     * Finds related posts based on common tags.
+     *
+     * @return Post[]
+     */
+    public function findRelated(Post $post, int $limit = 3): array
+    {
+        $tagIds = [];
+        foreach ($post->getTags() as $tag) {
+            $tagIds[] = $tag->getId();
+        }
+
+        if (empty($tagIds)) {
+            // If no tags, just find latest posts excluding current one
+            return $this->createQueryBuilder('p')
+                ->where('p.id != :id')
+                ->andWhere('p.publishedAt <= :now')
+                ->setParameter('id', $post->getId())
+                ->setParameter('now', new \DateTime())
+                ->orderBy('p.publishedAt', 'DESC')
+                ->setMaxResults($limit)
+                ->getQuery()
+                ->getResult();
+        }
+
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.tags', 't')
+            ->where('t.id IN (:tagIds)')
+            ->andWhere('p.id != :id')
+            ->andWhere('p.publishedAt <= :now')
+            ->setParameter('tagIds', $tagIds)
+            ->setParameter('id', $post->getId())
+            ->setParameter('now', new \DateTime())
+            ->groupBy('p.id')
+            ->orderBy('COUNT(t.id)', 'DESC')
+            ->addOrderBy('p.publishedAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * @return Post[]
      */
     public function findBySearchQuery(string $query, int $limit = Paginator::PAGE_SIZE): array
