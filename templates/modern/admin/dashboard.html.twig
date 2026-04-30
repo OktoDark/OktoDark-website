@@ -1,35 +1,37 @@
 {% extends '@theme/base.html.twig' %}
 
-{% block title %}Dashboard – Admin{% endblock %}
+{% block title %}{{ 'admin.dashboard.title'|trans({}, 'admin') }} – Admin{% endblock %}
 {% block body_id 'admin' %}
 
 {% block main %}
-    {% embed '@theme/admin/partials/_layout.html.twig' %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
 
         {% block admin_content %}
 
-            <section class="section-page-title text-center py-4 fade-in">
-                <h2 class="fw-bold">Admin Dashboard</h2>
-                <p class="text-muted">Real‑time analytics for your OktoDark platform.</p>
-            </section>
+            <div class="section-title">
+                <h2>{{ 'admin.dashboard.title'|trans({}, 'admin') }}</h2>
+                <p>{{ 'admin.dashboard.subtitle'|trans({}, 'admin') }}</p>
+            </div>
 
             <section class="py-3">
 
                 {# TOP STAT CARDS #}
-                <div class="row g-3 fade-in">
+                <div class="row g-4 mb-4">
                     {% set cards = [
-                        {'label': 'Users', 'value': stats.users, 'id': 'countUsers'},
-                        {'label': 'Page Views Today', 'value': stats.page_views_today, 'id': 'countViews'},
-                        {'label': 'Active Sessions', 'value': stats.active_sessions, 'id': 'countActive'},
-                        {'label': 'Errors Today', 'value': stats.errors_today, 'danger': true, 'id': 'countErrors'}
+                        {'label': 'admin.dashboard.total_users'|trans({}, 'admin'), 'value': stats.users, 'id': 'countUsers', 'icon': 'fa-users'},
+                        {'label': 'admin.dashboard.page_views'|trans({}, 'admin'), 'value': stats.page_views_today, 'id': 'countViews', 'icon': 'fa-eye'},
+                        {'label': 'admin.dashboard.active_sessions'|trans({}, 'admin'), 'value': stats.active_sessions, 'id': 'countActive', 'icon': 'fa-bolt'},
+                        {'label': 'admin.dashboard.errors_today'|trans({}, 'admin'), 'value': stats.errors_today, 'danger': true, 'id': 'countErrors', 'icon': 'fa-triangle-exclamation'}
                     ] %}
 
                     {% for c in cards %}
                         <div class="col-md-3 col-6">
-                            <div class="card neon-card p-3 shadow-sm text-center">
-                                <h5>{{ c.label }}</h5>
-                                <p class="fs-3 fw-bold mb-1 {{ c.danger is defined and c.danger ? 'text-danger' : '' }}"
-                                   id="{{ c.id }}">
+                            <div class="admin-card">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div class="card-label">{{ c.label }}</div>
+                                    <i class="fas {{ c.icon }} text-muted"></i>
+                                </div>
+                                <p class="card-value {{ c.danger is defined and c.danger ? 'text-danger' : '' }}" id="{{ c.id }}">
                                     {{ c.value }}
                                 </p>
                             </div>
@@ -37,175 +39,151 @@
                     {% endfor %}
                 </div>
 
-                {# TRAFFIC + DEVICES #}
-                <div class="row g-3 mt-4 fade-in">
-                    <div class="col-md-8">
-                        <div class="card neon-card p-3 shadow-sm">
-                            <h5 class="mb-3">Traffic – Last 7 Days</h5>
-                            <canvas id="trafficChart"></canvas>
+                {# TRAFFIC + LIVE + DEVICES #}
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-8">
+                        <div class="admin-card mb-4">
+                            <h5 class="mb-4">{{ 'admin.dashboard.traffic_7d'|trans({}, 'admin') }}</h5>
+                            <canvas id="trafficChart" style="max-height: 350px;"></canvas>
                         </div>
 
-                        <div class="card neon-card p-3 shadow-sm mt-4">
-                            <h5 class="mb-3">Live Traffic</h5>
-                            <canvas id="liveTrafficChart" height="120"></canvas>
+                        <div class="admin-card">
+                            <h5 class="mb-4">{{ 'admin.dashboard.live_activity'|trans({}, 'admin') }}</h5>
+                            <div class="d-flex align-items-center">
+                                <div class="me-4 text-center">
+                                    <div class="display-6 fw-bold text-accent" id="liveCount">0</div>
+                                    <div class="small text-muted text-uppercase" style="font-size: 0.7rem; letter-spacing: 1px;">Active</div>
+                                </div>
+                                <div class="flex-grow-1" style="min-height: 120px;">
+                                    <canvas id="liveTrafficChart"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <div class="card neon-card p-3 shadow-sm">
-                            <h5 class="mb-3">Devices</h5>
-                            <canvas id="deviceChart"></canvas>
+                    <div class="col-lg-4">
+                        <div class="admin-card">
+                            <h5 class="mb-4">{{ 'admin.dashboard.device_dist'|trans({}, 'admin') }}</h5>
+                            <div style="position: relative; height: 300px;">
+                                <canvas id="deviceChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 {# BROWSERS + COUNTRIES #}
-                <div class="row g-3 mt-4 fade-in">
+                <div class="row g-4 mb-4">
 
                     <div class="col-md-6">
-                        <div class="card neon-card p-3 shadow-sm">
-                            <h5 class="mb-3">Browsers</h5>
-                            <ul class="list-group list-group-flush">
+                        <div class="admin-card">
+                            <h5 class="mb-4">{{ 'admin.dashboard.top_browsers'|trans({}, 'admin') }}</h5>
+                            <div class="admin-list-group">
                                 {% for b in stats.browsers %}
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="admin-list-group-item d-flex justify-content-between align-items-center">
                                         <div>
+                                            <i class="fas fa-globe me-2 text-muted"></i>
                                             <strong>{{ b.browser ?? 'Unknown' }}</strong>
                                             {% if b.version is defined and b.version %}
                                                 <span class="text-muted small ms-1">v{{ b.version }}</span>
                                             {% endif %}
                                         </div>
-                                        <span class="fw-bold">{{ b.total }}</span>
-                                    </li>
+                                        <span class="badge bg-dark">{{ b.total }}</span>
+                                    </div>
                                 {% else %}
-                                    <li class="list-group-item text-muted">No browser data yet.</li>
+                                    <div class="admin-list-group-item text-muted">No browser data yet.</div>
                                 {% endfor %}
-                            </ul>
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-md-6">
-                        <div class="card neon-card p-3 shadow-sm">
-                            <h5 class="mb-3">Countries</h5>
-                            <canvas id="countryChart" style="height: 260px;"></canvas>
+                        <div class="admin-card">
+                            <h5 class="mb-4">{{ 'admin.dashboard.geo_dist'|trans({}, 'admin') }}</h5>
+                            <canvas id="countryChart" style="max-height: 260px;"></canvas>
+                            <div id="countryLegend" class="mt-4 d-flex flex-wrap gap-3"></div>
                         </div>
                     </div>
 
                 </div>
 
-                {# HOURLY HEATMAP + REFERRERS #}
-                <div class="row g-3 mt-4 fade-in">
+                {# ROUTES + IPS #}
+                <div class="row g-4 mb-4">
                     <div class="col-md-6">
-                        <div class="card neon-card p-3 shadow-sm">
-                            <h5 class="mb-3">Active Hours</h5>
-                            <canvas id="hourlyChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card neon-card p-3 shadow-sm">
-                            <h5 class="mb-3">Top Referrers</h5>
-                            <canvas id="referrerChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                {# TOP ROUTES + TOP NEWS #}
-                <div class="row g-3 mt-4 fade-in">
-                    <div class="col-md-6">
-                        <div class="card neon-card p-3 shadow-sm">
-                            <h5 class="mb-3">Top Routes</h5>
-                            <ul class="list-group">
+                        <div class="admin-card">
+                            <h5 class="mb-4">{{ 'admin.dashboard.top_routes'|trans({}, 'admin') }}</h5>
+                            <div class="admin-list-group">
                                 {% for route in stats.top_routes %}
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span>{{ route.route }}</span>
-                                        <span class="fw-bold">{{ route.total }}</span>
-                                    </li>
+                                    <div class="admin-list-group-item d-flex justify-content-between">
+                                        <span class="text-truncate" title="{{ route.route }}">{{ route.route }}</span>
+                                        <span class="fw-bold text-accent">{{ route.total }}</span>
+                                    </div>
                                 {% else %}
-                                    <li class="list-group-item text-muted">No data yet.</li>
+                                    <div class="admin-list-group-item text-muted">No data yet.</div>
                                 {% endfor %}
-                            </ul>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card neon-card p-3 shadow-sm">
-                            <h5 class="mb-3">Top News</h5>
-                            <ul class="list-group">
-                                {% for item in stats.top_news %}
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span>News #{{ item.contentId }}</span>
-                                        <span class="fw-bold">{{ item.total }}</span>
-                                    </li>
-                                {% else %}
-                                    <li class="list-group-item text-muted">No data yet.</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
 
-                {# TOP IPs + IP DISTRIBUTION #}
-                <div class="row g-3 mt-4 fade-in">
                     <div class="col-md-6">
-                        <div class="card neon-card p-3 shadow-sm">
-                            <h5 class="mb-3">Top IPs</h5>
-                            <ul class="list-group">
+                        <div class="admin-card">
+                            <h5 class="mb-4">{{ 'admin.dashboard.top_ips'|trans({}, 'admin') }}</h5>
+                            <div class="admin-list-group">
                                 {% for ip in stats.top_ips %}
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span class="top-ip-left">
+                                    <div class="admin-list-group-item d-flex justify-content-between">
+                                        <span>
+                                            <i class="fas fa-network-wired me-2 text-muted"></i>
                                             {{ ip.ip ?? 'Unknown' }}
-                                            <span class="text-muted small">({{ ip.country is defined and ip.country ? ip.country : '??' }})</span>
+                                            <span class="text-muted small ms-1">({{ ip.country ?? '??' }})</span>
                                         </span>
                                         <span class="fw-bold">{{ ip.total }}</span>
-                                    </li>
+                                    </div>
                                 {% else %}
-                                    <li class="list-group-item text-muted">No IP data yet.</li>
+                                    <div class="admin-list-group-item text-muted">No IP data yet.</div>
                                 {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="card neon-card p-3 shadow-sm">
-                            <h5 class="mb-3">IP Distribution</h5>
-                            <canvas id="ipChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 {# RECENT SESSIONS #}
-                <div class="row g-3 mt-4 fade-in">
+                <div class="row g-4">
                     <div class="col-12">
-                        <div class="card neon-card p-3 shadow-sm">
-                            <h5 class="mb-3">Recent Sessions</h5>
-                            <ul class="list-group">
-                                {% for s in stats.recent_sessions %}
-                                    <li class="list-group-item session-item">
-                                        <strong>{{ s.ip ?? 'Unknown IP' }}</strong>
-                                        <div class="details">
-                                            {{ s.browser ?? 'Unknown' }}
-                                            {% if s.browserVersion is defined and s.browserVersion %}
-                                                v{{ s.browserVersion }}
-                                            {% endif %}
-                                            /
-                                            {{ s.os ?? 'Unknown' }}
-                                            {% if s.osVersion is defined and s.osVersion %}
-                                                {{ s.osVersion }}
-                                            {% endif %}
-                                            /
-                                            {{ s.device ?? 'Unknown' }}
-                                            {% if s.deviceModel is defined and s.deviceModel %}
-                                                ({{ s.deviceModel }})
-                                            {% endif %}
-                                            /
-                                            {{ s.country ?? '??' }}
-                                        </div>
-                                        <span class="timestamp">
-                                            {{ s.lastSeenAt|date('Y-m-d H:i') }}
-                                        </span>
-                                    </li>
-                                {% else %}
-                                    <li class="list-group-item text-muted">No sessions yet.</li>
-                                {% endfor %}
-                            </ul>
+                        <div class="admin-card">
+                            <h5 class="mb-4">{{ 'admin.dashboard.recent_sessions'|trans({}, 'admin') }}</h5>
+                            <div class="table-responsive">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>IP Address</th>
+                                            <th>Device / OS</th>
+                                            <th>Browser</th>
+                                            <th>Location</th>
+                                            <th>Last Seen</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for s in stats.recent_sessions %}
+                                            <tr>
+                                                <td><code class="text-accent">{{ s.ip ?? 'Unknown' }}</code></td>
+                                                <td>
+                                                    {{ s.os ?? 'Unknown' }} {{ s.osVersion }}
+                                                    <div class="small text-muted">{{ s.device ?? 'Unknown' }} {{ s.deviceModel }}</div>
+                                                </td>
+                                                <td>{{ s.browser ?? 'Unknown' }} <span class="small text-muted">v{{ s.browserVersion }}</span></td>
+                                                <td>
+                                                    <span class="fi fi-{{ s.country|lower }} me-2" title="{{ s.countryName ?? s.country ?? 'Unknown' }}" style="cursor: help;"></span>
+                                                    {{ s.country ?? '??' }}
+                                                </td>
+                                                <td class="text-muted small">{{ s.lastSeenAt|date('Y-m-d H:i') }}</td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="5" class="text-center text-muted py-4">{{ 'admin.dashboard.no_sessions'|trans({}, 'admin') }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -215,188 +193,207 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
             <script>
-                const tooltipStyle = {
-                    backgroundColor: '#111',
-                    titleColor: '#0cc5b6',
-                    bodyColor: '#fff',
-                    borderColor: '#0cc5b6',
-                    borderWidth: 1,
-                    padding: 10,
-                    displayColors: false
-                };
-
-                function animateCounter(el, to) {
-                    const duration = 800;
-                    const start = parseInt(el.innerText.replace(/,/g, ''), 10) || 0;
-                    const startTime = performance.now();
-
-                    function frame(now) {
-                        const progress = Math.min((now - startTime) / duration, 1);
-                        const value = Math.floor(start + (to - start) * progress);
-                        el.innerText = value.toLocaleString();
-                        if (progress < 1) requestAnimationFrame(frame);
-                    }
-                    requestAnimationFrame(frame);
-                }
-
                 document.addEventListener('DOMContentLoaded', () => {
-                    document.querySelectorAll('.neon-card p.fs-3').forEach(el => {
+                    const accentColor = '#0cc5b6';
+                    const gridColor = 'rgba(255, 255, 255, 0.05)';
+                    const textColor = '#8a949b';
+
+                    Chart.defaults.color = textColor;
+                    Chart.defaults.borderColor = gridColor;
+
+                    /* -----------------------------
+                       COUNTER ANIMATION
+                    ------------------------------ */
+                    function animateCounter(el, to) {
+                        const duration = 800;
+                        const start = parseInt(el.innerText.replace(/,/g, ''), 10) || 0;
+                        const startTime = performance.now();
+
+                        function frame(now) {
+                            const progress = Math.min((now - startTime) / duration, 1);
+                            const value = Math.floor(start + (to - start) * progress);
+                            el.innerText = value.toLocaleString();
+                            if (progress < 1) requestAnimationFrame(frame);
+                        }
+                        requestAnimationFrame(frame);
+                    }
+
+                    document.querySelectorAll('.card-value').forEach(el => {
                         animateCounter(el, parseInt(el.innerText.replace(/,/g, ''), 10) || 0);
-                });
+                    });
+
+                    /* -----------------------------
+                       TRAFFIC – LAST 7 DAYS
+                    ------------------------------ */
+                    new Chart(document.getElementById('trafficChart'), {
+                        type: 'line',
+                        data: {
+                            labels: {{ stats.traffic_last_7_days|map(d => d.date)|json_encode|raw }},
+                            datasets: [{
+                                label: 'Page Views',
+                                data: {{ stats.traffic_last_7_days|map(d => d.total)|json_encode|raw }},
+                                borderColor: accentColor,
+                                backgroundColor: 'rgba(12, 197, 182, 0.1)',
+                                tension: 0.4,
+                                fill: true,
+                                pointBackgroundColor: accentColor,
+                                pointRadius: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                y: { beginAtZero: true, grid: { color: gridColor } },
+                                x: { grid: { display: false } }
+                            }
+                        }
+                    });
+
+                    /* -----------------------------
+                       DEVICES
+                    ------------------------------ */
+                    new Chart(document.getElementById('deviceChart'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: {{ stats.devices|map(d => (d.device ?? 'Unknown'))|json_encode|raw }},
+                            datasets: [{
+                                data: {{ stats.devices|map(d => d.total)|json_encode|raw }},
+                                backgroundColor: [accentColor, '#5c6bc0', '#66bb6a', '#ffa726'],
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true } }
+                            },
+                            cutout: '70%'
+                        }
+                    });
+
+                    /* -----------------------------
+                       COUNTRIES
+                    ------------------------------ */
+                    const countryData = {{ stats.countries|json_encode|raw }};
+                    const countryLabels = countryData.map(c => (c.country ?? '??'));
+                    const countryValues = countryData.map(c => c.total);
+                    const countryNames = countryData.map(c => (c.countryName ?? c.country ?? 'Unknown'));
+
+                    new Chart(document.getElementById('countryChart'), {
+                        type: 'bar',
+                        data: {
+                            labels: countryLabels,
+                            datasets: [{
+                                label: 'Visitors',
+                                data: countryValues,
+                                backgroundColor: accentColor,
+                                borderRadius: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                y: { beginAtZero: true, grid: { color: gridColor } },
+                                x: { grid: { display: false } }
+                            }
+                        }
+                    });
+
+                    const legend = document.getElementById('countryLegend');
+                    countryLabels.forEach((code, i) => {
+                    const div = document.createElement('div');
+                    const flagCode = code.toLowerCase();
+                    const countryName = countryNames[i];
+
+                    div.innerHTML = `
+                        <span class="badge bg-light border text-dark d-flex align-items-center gap-2 py-2 px-3">
+                            <span class="fi fi-${flagCode} rounded-1" title="${countryName}" style="cursor: help;"></span>
+                            <span class="fw-bold">${countryValues[i]}</span>
+                            <span class="text-muted">${code}</span>
+                        </span>
+                    `;
+
+                    legend.appendChild(div);
                 });
 
-                /* TRAFFIC – LAST 7 DAYS */
-                new Chart(document.getElementById('trafficChart'), {
-                    type: 'line',
-                    data: {
-                        labels: {{ stats.traffic_last_7_days|map(d => d.date)|json_encode|raw }},
+
+                    /* -----------------------------
+                       LIVE TRAFFIC – ACTIVE USERS
+                    ------------------------------ */
+                    const liveTrafficCtx = document.getElementById('liveTrafficChart').getContext('2d');
+                    const liveTrafficData = {
+                        labels: [],
                         datasets: [{
-                            label: 'Page Views',
-                            data: {{ stats.traffic_last_7_days|map(d => d.total)|json_encode|raw }},
-                            borderColor: '#0cc5b6',
-                            backgroundColor: 'rgba(12,197,182,0.15)',
-                            tension: 0.3,
-                            fill: true
+                            label: 'Active Users',
+                            data: [],
+                            borderColor: accentColor,
+                            backgroundColor: 'rgba(12, 197, 182, 0.05)',
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 0
                         }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { tooltip: tooltipStyle, legend: { display: false } }
+                    };
+
+                    const liveTrafficChart = new Chart(liveTrafficCtx, {
+                        type: 'line',
+                        data: liveTrafficData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                y: { 
+                                    beginAtZero: true, 
+                                    display: true,
+                                    grid: { color: gridColor },
+                                    ticks: { precision: 0, stepSize: 1 }
+                                },
+                                x: { 
+                                    display: true,
+                                    grid: { display: false },
+                                    ticks: { maxTicksLimit: 5, maxRotation: 0 }
+                                }
+                            }
+                        }
+                    });
+
+                    function updateLiveUsers() {
+                        fetch('{{ path('live_users') }}')
+                            .then(res => res.json())
+                            .then(json => {
+                                const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                                liveTrafficData.labels.push(now);
+                                liveTrafficData.datasets[0].data.push((json.active ?? 0));
+                                if (liveTrafficData.labels.length > 20) {
+                                    liveTrafficData.labels.shift();
+                                    liveTrafficData.datasets[0].data.shift();
+                                }
+                                
+                                const liveCountEl = document.getElementById('liveCount');
+                                if (liveCountEl) animateCounter(liveCountEl, json.active);
+
+                                const activeEl = document.getElementById('countActive');
+                                if (activeEl) animateCounter(activeEl, json.active);
+                                
+                                liveTrafficChart.update();
+                            })
+                            .catch(err => console.error('Live traffic error:', err));
                     }
+
+                    setInterval(updateLiveUsers, 5000);
+                    updateLiveUsers();
                 });
-
-                /* DEVICES */
-                new Chart(document.getElementById('deviceChart'), {
-                    type: 'doughnut',
-                    data: {
-                        labels: {{ stats.devices|map(d => d.device ?? 'Unknown')|json_encode|raw }},
-                        datasets: [{
-                            data: {{ stats.devices|map(d => d.total)|json_encode|raw }},
-                            backgroundColor: ['#0cc5b6', '#0aa39a', '#066f68', '#044f4a'],
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { tooltip: tooltipStyle, legend: { position: 'bottom' } }
-                    }
-                });
-
-                /* COUNTRIES */
-                new Chart(document.getElementById('countryChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: {{ stats.countries|map(c => c.country ?? '??')|json_encode|raw }},
-                        datasets: [{
-                            label: 'Visitors',
-                            data: {{ stats.countries|map(c => c.total)|json_encode|raw }},
-                            backgroundColor: '#0cc5b6'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { tooltip: tooltipStyle, legend: { display: false } }
-                    }
-                });
-
-                /* HOURLY */
-                new Chart(document.getElementById('hourlyChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: {{ stats.hourly_heatmap|map(h => h.hour)|json_encode|raw }},
-                        datasets: [{
-                            label: 'Page Views',
-                            data: {{ stats.hourly_heatmap|map(h => h.total)|json_encode|raw }},
-                            backgroundColor: '#0aa39a'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { tooltip: tooltipStyle, legend: { display: false } }
-                    }
-                });
-
-                /* REFERRERS */
-                new Chart(document.getElementById('referrerChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: {{ stats.referrers|map(r => r.referrer)|json_encode|raw }},
-                        datasets: [{
-                            label: 'Visits',
-                            data: {{ stats.referrers|map(r => r.total)|json_encode|raw }},
-                            backgroundColor: '#0cc5b6'
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        plugins: { tooltip: tooltipStyle, legend: { display: false } }
-                    }
-                });
-
-                /* IP DISTRIBUTION */
-                new Chart(document.getElementById('ipChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: {{ stats.top_ips|map(i => i.ip ?? 'Unknown')|json_encode|raw }},
-                        datasets: [{
-                            label: 'Requests',
-                            data: {{ stats.top_ips|map(i => i.total)|json_encode|raw }},
-                            backgroundColor: '#0cc5b6'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { tooltip: tooltipStyle, legend: { display: false } }
-                    }
-                });
-
-                /* LIVE TRAFFIC CHART */
-                const liveTrafficCtx = document.getElementById('liveTrafficChart').getContext('2d');
-                let liveTrafficData = {
-                    labels: [],
-                    datasets: [{
-                        label: 'Live Views',
-                        data: [],
-                        borderColor: '#0cc5b6',
-                        backgroundColor: 'rgba(12,197,182,0.15)',
-                        tension: 0.3,
-                        fill: true
-                    }]
-                };
-
-                const liveTrafficChart = new Chart(liveTrafficCtx, {
-                    type: 'line',
-                    data: liveTrafficData,
-                    options: {
-                        responsive: true,
-                        plugins: { tooltip: tooltipStyle, legend: { display: false } },
-                        animation: { duration: 300 }
-                    }
-                });
-
-                /* SSE REAL-TIME STREAM */
-                const evtSource = new EventSource('{{ path('admin_live_stream') }}');
-
-                evtSource.onmessage = function (event) {
-                    const data = JSON.parse(event.data);
-
-                    const activeEl = document.getElementById('countActive');
-                    if (activeEl && typeof data.active !== 'undefined') {
-                        animateCounter(activeEl, data.active);
-                    }
-
-                    const now = data.time || new Date().toLocaleTimeString();
-                    liveTrafficData.labels.push(now);
-                    liveTrafficData.datasets[0].data.push(data.views ?? 0);
-
-                    if (liveTrafficData.labels.length > 20) {
-                        liveTrafficData.labels.shift();
-                        liveTrafficData.datasets[0].data.shift();
-                    }
-
-                    liveTrafficChart.update();
-                };
             </script>
+
+            <style>
+                .text-accent { color: var(--admin-accent); }
+            </style>
 
         {% endblock %}
 

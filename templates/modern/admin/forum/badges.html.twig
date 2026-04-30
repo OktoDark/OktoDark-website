@@ -1,6 +1,6 @@
 {% extends '@theme/base.html.twig' %}
 
-{% block title %}Manage Badges - Admin{% endblock %}
+{% block title %}{{ 'admin.forum.badges.title'|trans({}, 'admin') }} - Admin{% endblock %}
 {% block body_id 'admin' %}
 
 {% block main %}
@@ -8,8 +8,8 @@
 
 {% block admin_content %}
     <div class="section-title">
-        <h2 class="fw-bold"><i class="fa-solid fa-award me-2 text-accent"></i> Badge Management</h2>
-        <p class="text-muted">Create and manage awards for your community members.</p>
+        <h2 class="fw-bold"><i class="fa-solid fa-award me-2 text-accent"></i> {{ 'admin.forum.badges.title'|trans({}, 'admin') }}</h2>
+        <p class="text-muted">{{ 'admin.forum.badges.subtitle'|trans({}, 'admin') }}</p>
     </div>
 
     {% for message in app.flashes('success') %}
@@ -20,27 +20,27 @@
 
     {# ADD / EDIT FORM #}
     <div class="admin-card mb-5" id="badgeFormContainer">
-        <h4 class="mb-4" id="formTitle">Add / Edit Badge</h4>
+        <h4 class="mb-4" id="formTitle">{{ 'admin.forum.badges.add_edit'|trans({}, 'admin') }}</h4>
 
         <form method="post" id="badgeForm">
             <input type="hidden" name="id" id="badgeId">
 
             <div class="row g-4">
                 <div class="col-md-3">
-                    <label class="admin-form-label">Badge Name</label>
-                    <input type="text" name="name" id="badgeName" class="admin-form-control" required placeholder="e.g. Early Adopter">
+                    <label class="admin-form-label">{{ 'admin.forum.badges.name'|trans({}, 'admin') }}</label>
+                    <input type="text" name="name" id="badgeName" class="admin-form-control" required placeholder="{{ 'admin.forum.badges.name_placeholder'|trans({}, 'admin') }}">
                 </div>
 
                 <div class="col-md-3">
-                    <label class="admin-form-label">FontAwesome Icon</label>
+                    <label class="admin-form-label">{{ 'admin.forum.badges.icon'|trans({}, 'admin') }}</label>
                     <div class="input-group">
                         <span class="input-group-text bg-white border-end-0"><i id="iconPreview" class="fa-solid fa-award"></i></span>
-                        <input type="text" name="icon" id="badgeIcon" class="admin-form-control border-start-0" required placeholder="fa-solid fa-award" oninput="updateIconPreview(this.value)">
+                        <input type="text" name="icon" id="badgeIcon" class="admin-form-control border-start-0" required placeholder="{{ 'admin.forum.badges.icon_placeholder'|trans({}, 'admin') }}" oninput="updateIconPreview(this.value)">
                     </div>
                 </div>
 
                 <div class="col-md-2">
-                    <label class="admin-form-label">Badge Color</label>
+                    <label class="admin-form-label">{{ 'admin.forum.badges.color'|trans({}, 'admin') }}</label>
                     <div class="input-group">
                         <input type="color" name="color" id="badgeColor" class="form-control form-control-color border-0 p-0" style="height: 44px; width: 44px; cursor: pointer;" value="#16a34a" oninput="updateColorPreview(this.value)">
                         <input type="text" id="badgeColorHex" class="admin-form-control border-start-0" value="#16A34A" readonly style="background: #f8f9fa;">
@@ -48,39 +48,38 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label class="admin-form-label">Description</label>
-                    <input type="text" name="description" id="badgeDescription" class="admin-form-control" required placeholder="e.g. Joined during beta phase">
+                    <label class="admin-form-label">{{ 'admin.forum.badges.description'|trans({}, 'admin') }}</label>
+                    <input type="text" name="description" id="badgeDescription" class="admin-form-control" required placeholder="{{ 'admin.forum.badges.description_placeholder'|trans({}, 'admin') }}">
                 </div>
 
                 {# AUTOMATION SETTINGS #}
                 <div class="col-md-4">
-                    <label class="admin-form-label">Auto-Award Type</label>
+                    <label class="admin-form-label">{{ 'admin.forum.badges.auto_award'|trans({}, 'admin') }}</label>
                     <select name="actionType" id="badgeActionType" class="admin-form-control">
-                        <option value="">None (Manual)</option>
-                        <option value="posts">Post Count</option>
-                        <option value="threads">Thread Count</option>
-                        <option value="reputation">Reputation Score</option>
+                        <option value="">{{ 'admin.forum.badges.auto_award_none'|trans({}, 'admin') }}</option>
+                        <option value="posts">{{ 'admin.forum.badges.auto_award_posts'|trans({}, 'admin') }}</option>
+                        <option value="threads">{{ 'admin.forum.badges.auto_award_threads'|trans({}, 'admin') }}</option>
+                        <option value="reputation">{{ 'admin.forum.badges.auto_award_reputation'|trans({}, 'admin') }}</option>
                     </select>
                 </div>
 
                 <div class="col-md-4">
-                    <label class="admin-form-label">Threshold (Target Number)</label>
-                    <input type="number" name="threshold" id="badgeThreshold" class="admin-form-control" placeholder="e.g. 100">
+                    <label class="admin-form-label">{{ 'admin.forum.badges.threshold'|trans({}, 'admin') }}</label>
+                    <input type="number" name="threshold" id="badgeThreshold" class="admin-form-control" placeholder="{{ 'admin.forum.badges.threshold_placeholder'|trans({}, 'admin') }}">
                 </div>
 
                 <div class="col-md-4">
-                    <label class="admin-form-label">Type</label>
+                    <label class="admin-form-label">{{ 'admin.forum.badges.is_permanent'|trans({}, 'admin') }}</label>
                     <div class="form-check form-switch mt-2">
                         <input class="form-check-input" type="checkbox" name="isPermanent" value="1" id="badgeIsPermanent">
-                        <label class="form-check-label" for="badgeIsPermanent">Staff/Permanent Badge</label>
+                        <label class="form-check-label" for="badgeIsPermanent">{{ 'admin.forum.badges.is_permanent_label'|trans({}, 'admin') }}</label>
                     </div>
-                    <small class="text-muted">Permanent badges won't be removed if stats drop.</small>
                 </div>
             </div>
 
             <div class="d-flex justify-content-end gap-2 mt-4">
-                <button type="reset" class="admin-btn admin-btn-secondary" onclick="resetBadgeForm()">Clear</button>
-                <button type="submit" class="admin-btn admin-btn-primary">Save Badge</button>
+                <button type="reset" class="admin-btn admin-btn-secondary" onclick="resetBadgeForm()">{{ 'admin.common.clear'|trans({}, 'admin') }}</button>
+                <button type="submit" class="admin-btn admin-btn-primary">{{ 'admin.common.save'|trans({}, 'admin') }}</button>
             </div>
         </form>
     </div>
@@ -88,19 +87,19 @@
     {# BADGES LIST #}
     <div class="admin-table-container">
         <div class="p-4 border-bottom border-secondary border-opacity-10 d-flex justify-content-between align-items-center">
-            <h4 class="mb-0">Existing Badges</h4>
-            <span class="badge bg-dark">{{ badges|length }} Total</span>
+            <h4 class="mb-0">{{ 'admin.forum.badges.existing'|trans({}, 'admin') }}</h4>
+            <span class="badge bg-dark">{{ badges|length }} {{ 'admin.forum.badges.total'|trans({}, 'admin') }}</span>
         </div>
 
         <div class="table-responsive">
             <table class="admin-table">
                 <thead>
                 <tr>
-                    <th class="ps-4">Visual</th>
-                    <th>Name / Description</th>
-                    <th>Auto-Award Criteria</th>
-                    <th>Status</th>
-                    <th class="text-end pe-4">Actions</th>
+                    <th class="ps-4">{{ 'admin.forum.badges.visual'|trans({}, 'admin') }}</th>
+                    <th>{{ 'admin.forum.badges.name'|trans({}, 'admin') }} / {{ 'admin.forum.badges.description'|trans({}, 'admin') }}</th>
+                    <th>{{ 'admin.forum.badges.criteria'|trans({}, 'admin') }}</th>
+                    <th>{{ 'admin.forum.badges.status'|trans({}, 'admin') }}</th>
+                    <th class="text-end pe-4">{{ 'admin.forum.categories.actions'|trans({}, 'admin') }}</th>
                 </tr>
                 </thead>
 
@@ -122,14 +121,14 @@
                                     {{ badge.actionType|capitalize }}: {{ badge.threshold }}
                                 </span>
                             {% else %}
-                                <span class="text-muted small">Manual Only</span>
+                                <span class="text-muted small">{{ 'admin.forum.badges.manual_only'|trans({}, 'admin') }}</span>
                             {% endif %}
                         </td>
                         <td>
                             {% if badge.isPermanent %}
-                                <span class="badge bg-warning-subtle text-warning border border-warning-subtle">Staff/Permanent</span>
+                                <span class="badge bg-warning-subtle text-warning border border-warning-subtle">{{ 'admin.forum.badges.is_permanent'|trans({}, 'admin') }}</span>
                             {% else %}
-                                <span class="badge bg-light text-muted border">Standard</span>
+                                <span class="badge bg-light text-muted border">{{ 'admin.forum.badges.standard'|trans({}, 'admin') }}</span>
                             {% endif %}
                         </td>
                         <td class="text-end pe-4">
@@ -144,12 +143,12 @@
                                             '{{ badge.threshold }}',
                                             '{{ badge.isPermanent ? 1 : 0 }}',
                                             '{{ badge.color|e('js') }}'
-                                        )" title="Edit">
+                                        )" title="{{ 'admin.common.edit'|trans({}, 'admin') }}">
                                     <i class="fas fa-edit text-primary"></i>
                                 </button>
                                 <a href="{{ path('admin_badges', { delete: badge.id }) }}"
                                    class="btn btn-sm btn-white border shadow-sm"
-                                   onclick="return confirm('Delete this badge? This will remove it from all users.')" title="Delete">
+                                   onclick="return confirm('{{ 'admin.forum.badges.delete_confirm'|trans({}, 'admin') }}')" title="{{ 'admin.common.delete'|trans({}, 'admin') }}">
                                     <i class="fas fa-trash text-danger"></i>
                                 </a>
                             </div>
@@ -157,7 +156,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-5">No badges created yet.</td>
+                        <td colspan="5" class="text-center text-muted py-5">{{ 'admin.forum.badges.no_badges'|trans({}, 'admin') }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -176,7 +175,7 @@
         }
 
         function editBadge(id, name, icon, description, actionType, threshold, isPermanent, color) {
-            document.getElementById('formTitle').innerText = 'Edit Badge: ' + name;
+            document.getElementById('formTitle').innerText = '{{ 'admin.common.edit'|trans({}, 'admin') }}: ' + name;
             document.getElementById('badgeId').value = id;
             document.getElementById('badgeName').value = name;
             document.getElementById('badgeIcon').value = icon;
@@ -192,7 +191,7 @@
         }
 
         function resetBadgeForm() {
-            document.getElementById('formTitle').innerText = 'Add / Edit Badge';
+            document.getElementById('formTitle').innerText = '{{ 'admin.forum.badges.add_edit'|trans({}, 'admin') }}';
             document.getElementById('badgeId').value = '';
             document.getElementById('badgeIsPermanent').checked = false;
             document.getElementById('badgeColor').value = '#16a34a';

@@ -1,5 +1,5 @@
 {% extends '@theme/base.html.twig' %}
-{% block title %}Application Details: {{ application.name }} – Admin{% endblock %}
+{% block title %}{{ 'admin.careers.show.application_details_title'|trans({'%name%': application.name}, 'admin') }} – Admin{% endblock %}
 {% block body_id 'admin' %}
 
 {% block main %}
@@ -8,11 +8,11 @@
         {% block admin_content %}
             <div class="mb-4">
                 <a href="{{ path('admin_careers_applications_index') }}" class="admin-btn admin-btn-secondary admin-btn-sm mb-3">
-                    <i class="fas fa-arrow-left"></i> Back to Applications
+                    <i class="fas fa-arrow-left"></i> {{ 'admin.careers.show.back_to_applications'|trans({}, 'admin') }}
                 </a>
                 <div class="section-title">
-                    <h2>Application Profile</h2>
-                    <p>Reviewing submission from <strong>{{ application.name }}</strong> for the <strong>{{ application.jobTitle }}</strong> position.</p>
+                    <h2>{{ 'admin.careers.show.application_profile_heading'|trans({}, 'admin') }}</h2>
+                    <p>{{ 'admin.careers.show.application_profile_description'|trans({'%name%': application.name, '%jobTitle%': application.jobTitle}, 'admin') }}</p>
                 </div>
             </div>
 
@@ -20,29 +20,29 @@
                 <div class="col-lg-8">
                     <div class="admin-card mb-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="mb-0 text-white">Application Content</h5>
-                            <span class="text-muted small">Submitted on {{ application.createdAt|date('M j, Y, H:i') }}</span>
+                            <h5 class="mb-0 text-white">{{ 'admin.careers.show.application_content_heading'|trans({}, 'admin') }}</h5>
+                            <span class="text-muted small">{{ 'admin.careers.show.submitted_on'|trans({}, 'admin') }} {{ application.createdAt|date('M j, Y, H:i') }}</span>
                         </div>
 
                         <div class="row g-4 mb-4">
                             <div class="col-md-6">
-                                <label class="admin-form-label">Applicant Email</label>
+                                <label class="admin-form-label">{{ 'admin.careers.show.applicant_email_label'|trans({}, 'admin') }}</label>
                                 <a href="mailto:{{ application.email }}" class="text-accent fw-bold text-decoration-none">{{ application.email }}</a>
                             </div>
                             <div class="col-md-6 text-md-end">
-                                <label class="admin-form-label mb-2 d-block">Curriculum Vitae (CV)</label>
+                                <label class="admin-form-label mb-2 d-block">{{ 'admin.careers.show.cv_label'|trans({}, 'admin') }}</label>
                                 {% if application.cvFilename %}
                                     <a href="{{ asset('uploads/cvs/' ~ application.cvFilename) }}" class="admin-btn admin-btn-primary" target="_blank">
-                                        <i class="fas fa-file-pdf"></i> View / Download Document
+                                        <i class="fas fa-file-pdf"></i> {{ 'admin.careers.show.view_download_document_button'|trans({}, 'admin') }}
                                     </a>
                                 {% else %}
-                                    <span class="admin-badge admin-badge-secondary">No Document Provided</span>
+                                    <span class="admin-badge admin-badge-secondary">{{ 'admin.careers.show.no_document_provided_badge'|trans({}, 'admin') }}</span>
                                 {% endif %}
                             </div>
                         </div>
 
                         <div class="p-4 rounded-3 border border-secondary border-opacity-10 bg-black bg-opacity-25">
-                            <label class="admin-form-label mb-2 text-white opacity-75">Cover Message / Introduction</label>
+                            <label class="admin-form-label mb-2 text-white opacity-75">{{ 'admin.careers.show.cover_message_label'|trans({}, 'admin') }}</label>
                             <div class="text-white" style="white-space: pre-wrap; line-height: 1.6;">{{ application.message }}</div>
                         </div>
                     </div>
@@ -50,23 +50,23 @@
                     {% if application.replyMessage %}
                         <div class="admin-card border-success border-opacity-25 mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="mb-0 text-success"><i class="fas fa-reply me-2"></i>Our Response</h5>
-                                <small class="text-muted">Replied on {{ application.repliedAt|date('M j, Y H:i') }}</small>
+                                <h5 class="mb-0 text-success"><i class="fas fa-reply me-2"></i>{{ 'admin.careers.show.our_response_heading'|trans({}, 'admin') }}</h5>
+                                <small class="text-muted">{{ 'admin.careers.show.replied_on'|trans({}, 'admin') }} {{ application.repliedAt|date('M j, Y H:i') }}</small>
                             </div>
                             <div class="p-3 rounded-3 bg-success bg-opacity-10 text-white" style="white-space: pre-wrap;">{{ application.replyMessage }}</div>
                         </div>
                     {% else %}
                         <div class="admin-card">
-                            <h5 class="mb-4 text-white"><i class="fas fa-pen-nib me-2"></i>Respond to Applicant</h5>
+                            <h5 class="mb-4 text-white"><i class="fas fa-pen-nib me-2"></i>{{ 'admin.careers.show.respond_to_applicant_heading'|trans({}, 'admin') }}</h5>
                             <form method="post">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token('admin_reply_career') }}">
                                 <div class="mb-4">
-                                    <label class="admin-form-label">Your Response</label>
-                                    <textarea name="reply_message" class="admin-form-control" rows="6" required placeholder="Type your response to {{ application.name }} here..."></textarea>
+                                    <label class="admin-form-label">{{ 'admin.careers.show.your_response_label'|trans({}, 'admin') }}</label>
+                                    <textarea name="reply_message" class="admin-form-control" rows="6" required placeholder="{{ 'admin.careers.show.response_placeholder'|trans({'%name%': application.name}, 'admin') }}"></textarea>
                                 </div>
                                 <div class="d-flex justify-content-end">
                                     <button type="submit" class="admin-btn admin-btn-primary px-5">
-                                        <i class="fas fa-paper-plane"></i> Send Official Reply
+                                        <i class="fas fa-paper-plane"></i> {{ 'admin.careers.show.send_official_reply_button'|trans({}, 'admin') }}
                                     </button>
                                 </div>
                             </form>
@@ -76,37 +76,37 @@
 
                 <div class="col-lg-4">
                     <div class="admin-card">
-                        <h5 class="mb-4 text-white">Application Status</h5>
+                        <h5 class="mb-4 text-white">{{ 'admin.careers.show.application_status_heading'|trans({}, 'admin') }}</h5>
                         
                         <div class="admin-list-group">
                             <div class="admin-list-group-item d-flex justify-content-between align-items-center">
-                                <span>Current Status</span>
+                                <span>{{ 'admin.careers.show.current_status_label'|trans({}, 'admin') }}</span>
                                 {% if application.repliedAt %}
-                                    <span class="admin-badge admin-badge-success">Replied</span>
+                                    <span class="admin-badge admin-badge-success">{{ 'admin.careers.show.status_replied_badge'|trans({}, 'admin') }}</span>
                                 {% else %}
-                                    <span class="admin-badge admin-badge-danger">Pending Review</span>
+                                    <span class="admin-badge admin-badge-danger">{{ 'admin.careers.show.status_pending_review_badge'|trans({}, 'admin') }}</span>
                                 {% endif %}
                             </div>
                             <div class="admin-list-group-item d-flex justify-content-between align-items-center">
-                                <span>Desired Position</span>
+                                <span>{{ 'admin.careers.show.desired_position_label'|trans({}, 'admin') }}</span>
                                 <span class="admin-badge admin-badge-info">{{ application.jobTitle }}</span>
                             </div>
                             {% if application.repliedAt %}
                                 <div class="admin-list-group-item">
-                                    <label class="admin-form-label small">Replied At</label>
+                                    <label class="admin-form-label small">{{ 'admin.careers.show.replied_at_label'|trans({}, 'admin') }}</label>
                                     <div class="text-white">{{ application.repliedAt|date('F j, Y, H:i') }}</div>
                                 </div>
                             {% endif %}
                         </div>
 
                         <div class="mt-5 pt-4 border-top border-secondary border-opacity-10">
-                            <h6 class="text-muted small text-uppercase fw-bold mb-3">Administrative Actions</h6>
+                            <h6 class="text-muted small text-uppercase fw-bold mb-3">{{ 'admin.careers.show.administrative_actions_heading'|trans({}, 'admin') }}</h6>
                             <div class="d-grid gap-2">
                                 <form method="post" action="{{ path('admin_careers_applications_delete', {id: application.id}) }}" 
-                                      onsubmit="return confirm('Permanently delete this application? This action cannot be undone.');">
+                                      onsubmit="return confirm('{{ 'admin.careers.show.delete_confirm_message'|trans({}, 'admin') }}');">
                                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ application.id) }}">
                                     <button type="submit" class="admin-btn admin-btn-danger w-100 justify-content-center">
-                                        <i class="fas fa-trash"></i> Delete Application Record
+                                        <i class="fas fa-trash"></i> {{ 'admin.careers.show.delete_application_record_button'|trans({}, 'admin') }}
                                     </button>
                                 </form>
                             </div>

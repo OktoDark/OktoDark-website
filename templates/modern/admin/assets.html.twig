@@ -1,116 +1,130 @@
 {% extends '@theme/base.html.twig' %}
-{% block title %}Assets Library{% endblock %}
-{% block body_id 'admin_assets' %}
+{% block title %}{{ 'admin.assets.title'|trans({}, 'admin') }} – Admin{% endblock %}
+{% block body_id 'admin' %}
 
 {% block main %}
-    {% embed '@theme/admin/partials/_layout.html.twig' %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
 
         {% block admin_content %}
+            <div class="section-title">
+                <h2>{{ 'admin.assets.title'|trans({}, 'admin') }}</h2>
+                <p>{{ 'admin.assets.subtitle'|trans({}, 'admin') }}</p>
+            </div>
 
-            <section class="section-page-title text-center py-4 fade-in">
-                <h2 class="fw-bold">Assets Library</h2>
-                <p class="text-muted">Manage your 3D assets, metadata, and compatibility tags.</p>
-            </section>
-
-            <section class="py-3 fade-in">
-
+            <section>
                 {% for message in app.flashes('success') %}
-                    <div class="alert alert-success">{{ message }}</div>
+                    <div class="alert alert-success border-0 shadow-sm mb-4">
+                        <i class="fas fa-check-circle me-2"></i> {{ message }}
+                    </div>
                 {% endfor %}
 
                 {# ADD / EDIT FORM #}
-                <div class="card neon-card p-4 shadow-sm mb-4">
-                    <h4 class="mb-3">Add / Edit Asset</h4>
+                <div class="admin-card mb-5" id="assetFormContainer">
+                    <h4 class="mb-4" id="formTitle">{{ 'admin.assets.add_edit'|trans({}, 'admin') }}</h4>
 
                     <form method="post">
-
                         <input type="hidden" name="id" id="assetId">
 
-                        <div class="row g-3">
-
+                        <div class="row g-4">
                             <div class="col-md-6">
-                                <label class="form-label fw-bold">Name</label>
-                                <input type="text" name="name" id="name" class="form-control" required>
+                                <label class="admin-form-label">{{ 'admin.assets.name'|trans({}, 'admin') }}</label>
+                                <input type="text" name="name" id="name" class="admin-form-control" required placeholder="e.g. Cyberpunk Outfit Pack">
                             </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">SKU</label>
-                                <input type="number" name="sku" id="sku" class="form-control" required>
-                            </div>
-
-                            <div class="col-12">
-                                <label class="form-label fw-bold">Description</label>
-                                <textarea name="description" id="description" class="form-control" rows="5"></textarea>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Website</label>
-                                <input type="text" name="website" id="website" class="form-control">
-                            </div>
-
-                            <hr class="my-3">
-
-                            <h5 class="fw-bold">Compatibility & Metadata</h5>
-
-                            {% set jsonFields = [
-                                'brand', 'hairtype', 'clothing', 'misc',
-                                'requirement', 'softwarecompatible',
-                                'figurecompatible', 'genre'
-                            ] %}
-
-                            {% for field in jsonFields %}
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">{{ field|capitalize }}</label>
-                                    <textarea name="{{ field }}" id="{{ field }}" class="form-control" rows="3"
-                                              placeholder='["value1", "value2"]'></textarea>
-                                </div>
-                            {% endfor %}
 
                             <div class="col-md-4">
-                                <label class="form-label fw-bold">Bundle</label>
-                                <select name="bundle" id="bundle" class="form-control">
-                                    <option value="0">No</option>
-                                    <option value="1">Yes</option>
+                                <label class="admin-form-label">SKU / Identifier</label>
+                                <input type="number" name="sku" id="sku" class="admin-form-control" required placeholder="1001">
+                            </div>
+
+                            <div class="col-md-2">
+                                <label class="admin-form-label">Bundle Status</label>
+                                <select name="bundle" id="bundle" class="admin-form-control">
+                                    <option value="0">Standalone</option>
+                                    <option value="1">Bundle Pack</option>
                                 </select>
                             </div>
 
+                            <div class="col-12">
+                                <label class="admin-form-label">{{ 'admin.team.bio'|trans({}, 'admin') }}</label>
+                                <textarea name="description" id="description" class="admin-form-control" rows="4" placeholder="Detailed technical description of the asset..."></textarea>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="admin-form-label">Website URL</label>
+                                <input type="text" name="website" id="website" class="admin-form-control" placeholder="https://store.oktodark.com/...">
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <h5 class="text-white mb-3"><i class="fas fa-tags me-2 text-muted"></i>Compatibility & Metadata</h5>
+                                <div class="row g-4">
+                                    {% set jsonFields = [
+                                        'brand', 'hairtype', 'clothing', 'misc',
+                                        'requirement', 'softwarecompatible',
+                                        'figurecompatible', 'genre'
+                                    ] %}
+
+                                    {% for field in jsonFields %}
+                                        <div class="col-md-6 col-lg-3">
+                                            <label class="admin-form-label small text-uppercase">{{ field|replace({'compatible': ' compatibility'})|capitalize }}</label>
+                                            <textarea name="{{ field }}" id="{{ field }}" class="admin-form-control" rows="3"
+                                                      placeholder='["value1", "value2"]' style="font-family: monospace; font-size: 0.8rem;"></textarea>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="text-end mt-4">
-                            <button class="btn btn-success px-4">Save Asset</button>
+                        <div class="d-flex justify-content-end gap-2 mt-5">
+                            <button type="reset" class="admin-btn admin-btn-secondary" onclick="resetForm()">{{ 'admin.common.clear'|trans({}, 'admin') }}</button>
+                            <button type="submit" class="admin-btn admin-btn-primary px-5">{{ 'admin.common.save'|trans({}, 'admin') }}</button>
                         </div>
-
                     </form>
                 </div>
 
                 {# ASSETS LIST #}
-                <div class="card neon-card p-4 shadow-sm">
-                    <h4 class="mb-3">Assets</h4>
+                <div class="admin-table-container">
+                    <div class="p-4 border-bottom border-secondary border-opacity-10 d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">{{ 'admin.assets.current'|trans({}, 'admin') }}</h4>
+                        <span class="badge bg-dark">{{ assets|length }} Total</span>
+                    </div>
 
                     <div class="table-responsive">
-                        <table class="table table-dark table-striped align-middle">
+                        <table class="admin-table">
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
+                                <th style="width: 80px;"># ID</th>
+                                <th>{{ 'admin.assets.name'|trans({}, 'admin') }}</th>
                                 <th>SKU</th>
                                 <th>Website</th>
-                                <th>Bundle</th>
-                                <th class="text-end">Actions</th>
+                                <th>Status</th>
+                                <th class="text-end">{{ 'admin.forum.categories.actions'|trans({}, 'admin') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for a in assets %}
-                                <tr>
-                                    <td>{{ a.id }}</td>
-                                    <td>{{ a.name }}</td>
-                                    <td>{{ a.sku }}</td>
-                                    <td>{{ a.website ?: '-' }}</td>
-                                    <td>{{ a.bundle ? 'Yes' : 'No' }}</td>
+                                <tr id="asset-row-{{ a.id }}">
+                                    <td><code class="text-accent small">#{{ a.id }}</code></td>
+                                    <td><span class="fw-bold text-white">{{ a.name }}</span></td>
+                                    <td><span class="text-muted small">{{ a.sku }}</span></td>
+                                    <td>
+                                        {% if a.website %}
+                                            <a href="{{ a.website }}" target="_blank" class="text-accent small"><i class="fas fa-external-link-alt"></i> Store Link</a>
+                                        {% else %}
+                                            <span class="text-muted small">—</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if a.bundle %}
+                                            <span class="admin-badge admin-badge-info">Bundle</span>
+                                        {% else %}
+                                            <span class="admin-badge admin-badge-secondary">Standalone</span>
+                                        {% endif %}
+                                    </td>
 
                                     <td class="text-end">
-                                        <button class="btn btn-sm btn-primary"
-                                                onclick="editAsset({{ a.id }},
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <button class="admin-btn admin-btn-secondary admin-btn-sm"
+                                                    onclick="editAsset({{ a.id }},
                                                         '{{ a.name|e('js') }}',
                                                         '{{ a.sku }}',
                                                         `{{ a.description|e('js') }}`,
@@ -124,28 +138,30 @@
                                                         `{{ a.figurecompatible|json_encode|e('js') }}`,
                                                         `{{ a.genre|json_encode|e('js') }}`,
                                                         '{{ a.bundle ? 1 : 0 }}'
-                                                        )">
-                                            Edit
-                                        </button>
+                                                    )" title="{{ 'admin.common.edit'|trans({}, 'admin') }}">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
 
-                                        <a href="{{ path('admin_assets', { delete: a.id }) }}"
-                                           class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Delete this asset?')">
-                                            Delete
-                                        </a>
+                                            <a href="{{ path('admin_assets', { delete: a.id }) }}"
+                                               class="admin-btn admin-btn-danger admin-btn-sm"
+                                               onclick="return confirm('Permanently remove this asset?')" title="{{ 'admin.common.delete'|trans({}, 'admin') }}">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <td colspan="6" class="text-center text-muted">No assets yet.</td>
+                                    <td colspan="6" class="text-center text-muted py-5">
+                                        <i class="fas fa-boxes-stacked d-block mb-3 fs-2 opacity-25"></i>
+                                        {{ 'admin.assets.no_assets'|trans({}, 'admin') }}
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
                     </div>
-
                 </div>
-
             </section>
 
             <script>
@@ -153,7 +169,8 @@
                                    brand, hairtype, clothing, misc,
                                    requirement, softwarecompatible,
                                    figurecompatible, genre, bundle) {
-
+                    
+                    document.getElementById('formTitle').innerText = '{{ 'admin.common.edit'|trans({}, 'admin') }}: ' + name;
                     document.getElementById('assetId').value = id;
                     document.getElementById('name').value = name;
                     document.getElementById('sku').value = sku;
@@ -171,10 +188,14 @@
 
                     document.getElementById('bundle').value = bundle;
 
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    document.getElementById('assetFormContainer').scrollIntoView({ behavior: 'smooth' });
+                }
+
+                function resetForm() {
+                    document.getElementById('formTitle').innerText = '{{ 'admin.assets.add_edit'|trans({}, 'admin') }}';
+                    document.getElementById('assetId').value = '';
                 }
             </script>
-
         {% endblock %}
 
     {% endembed %}

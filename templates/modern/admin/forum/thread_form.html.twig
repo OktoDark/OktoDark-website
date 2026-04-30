@@ -10,7 +10,7 @@
         {% block admin_content %}
             <div class="admin-section-title mb-4">
                 <h2 class="text-neon-blue fw-bold"><i class="fas fa-plus-circle me-2"></i>{{ title }}</h2>
-                <p class="text-muted">Create a new community discussion from the admin panel.</p>
+                <p class="text-muted">{{ 'admin.forum.thread_form.subtitle'|trans({}, 'admin') }}</p>
             </div>
 
             <div class="admin-card p-4 shadow-sm">
@@ -18,15 +18,15 @@
                     <div class="row g-4">
                         <div class="col-md-8">
                             <div class="form-group mb-4">
-                                <label class="form-label small text-uppercase fw-bold text-muted mb-2">Thread Title</label>
-                                {{ form_widget(form.title, {'attr': {'class': 'admin-form-control', 'placeholder': 'Enter thread title'}}) }}
+                                <label class="form-label small text-uppercase fw-bold text-muted mb-2">{{ 'admin.forum.thread_form.thread_title'|trans({}, 'admin') }}</label>
+                                {{ form_widget(form.title, {'attr': {'class': 'admin-form-control', 'placeholder': 'admin.forum.thread_form.thread_title_placeholder'|trans({}, 'admin')}}) }}
                                 {{ form_errors(form.title, {'attr': {'class': 'text-danger small mt-1'}}) }}
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group mb-4">
-                                <label class="form-label small text-uppercase fw-bold text-muted mb-2">Category</label>
+                                <label class="form-label small text-uppercase fw-bold text-muted mb-2">{{ 'admin.forum.thread_form.category'|trans({}, 'admin') }}</label>
                                 {{ form_widget(form.category, {'attr': {'class': 'admin-form-control'}}) }}
                                 {{ form_errors(form.category, {'attr': {'class': 'text-danger small mt-1'}}) }}
                             </div>
@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="form-group mb-4">
-                        <label class="form-label small text-uppercase fw-bold text-muted mb-2">Detailed Content</label>
+                        <label class="form-label small text-uppercase fw-bold text-muted mb-2">{{ 'admin.forum.thread_form.detailed_content'|trans({}, 'admin') }}</label>
                         {# This will now render the <trix-editor> thanks to the form_theme #}
                         <div class="editor-wrapper shadow-sm" style="width: 100%;">
                             {{ form_widget(form.content) }}
@@ -44,10 +44,10 @@
 
                     <div class="d-flex justify-content-between mt-5 pt-3 border-top border-light">
                         <a href="{{ path('admin_forum_threads') }}" class="admin-btn admin-btn-secondary">
-                            <i class="fas fa-arrow-left me-1"></i> Back to List
+                            <i class="fas fa-arrow-left me-1"></i> {{ 'admin.forum.thread_form.back_to_list'|trans({}, 'admin') }}
                         </a>
                         <button type="submit" class="admin-btn admin-btn-primary shadow-neon">
-                            <i class="fas fa-save me-1"></i> Save Thread
+                            <i class="fas fa-save me-1"></i> {{ 'admin.forum.thread_form.save_thread'|trans({}, 'admin') }}
                         </button>
                     </div>
                 {{ form_end(form) }}

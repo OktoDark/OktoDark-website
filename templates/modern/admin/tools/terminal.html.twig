@@ -1,154 +1,164 @@
 {% extends '@theme/base.html.twig' %}
-
-{% block title %}Admin Terminal{% endblock %}
+{% block title %}Admin Terminal – Admin{% endblock %}
+{% block body_id 'admin' %}
 
 {% block main %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
 
-    <section class="section section-page-title bg-default text-center py-5">
-        <div class="container">
-            <h2 class="display-5 fw-bold">Admin Terminal</h2>
-            <p class="lead text-muted mt-2">Run Composer & Symfony commands with live output</p>
-        </div>
-    </section>
-
-    <style>
-        .command-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .cmd-btn {
-            background: #2d3748;
-            color: #fff;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .cmd-btn:hover {
-            background: #4a5568;
-        }
-
-        .terminal-window {
-            background: #000;
-            color: #00ff6a;
-            padding: 15px;
-            height: 450px;
-            overflow-y: auto;
-            font-family: "JetBrains Mono", monospace;
-            font-size: 14px;
-            border-radius: 0 0 6px 6px;
-            white-space: pre-wrap;
-        }
-    </style>
-
-    <section class="section-lg bg-default">
-        <div class="container">
-
-            <!-- Shortcut Buttons -->
-            <div class="command-buttons">
-                {% for item in allowedCommands %}
-                    <button
-                            class="cmd-btn"
-                            data-command="{{ item.cmd }}"
-                    >
-                        {{ item.label }}
-                    </button>
-                {% endfor %}
+        {% block admin_content %}
+            <div class="section-title">
+                <h2>Admin Terminal</h2>
+                <p>Execute system commands and view real‑time output directly from the dashboard.</p>
             </div>
 
-            <!-- Manual Command Input -->
-            <input type="text" id="command" class="form-control mt-3" placeholder="Enter command manually">
-
-            <button id="runBtn" class="btn btn-primary mt-2">Run Command</button>
-
-            <!-- Progress Bar -->
-            <div class="progress mb-3" style="height: 20px;">
-                <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated"
-                     style="width: 0%">0%
+            <section>
+                <div class="admin-card mb-4">
+                    <div class="row g-4 align-items-end">
+                        <div class="col-md-8">
+                            <label class="admin-form-label">Available Commands</label>
+                            <select id="command-select" class="admin-form-control">
+                                <option value="">-- Select a predefined operation --</option>
+                                {% for item in allowedCommands %}
+                                    <option value="{{ item.cmd }}">{{ item.label }} ({{ item.cmd }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button id="runBtn" class="admin-btn admin-btn-primary w-100 justify-content-center">
+                                <i class="fas fa-play"></i> Run Operation
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Terminal Output -->
-            <div class="card shadow-sm">
-                <div class="card-header bg-dark text-white">
-                    <strong>Live Output</strong>
+                <div class="mb-4">
+                    <div class="progress" style="height: 8px; background-color: var(--admin-border);">
+                        <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%; background-color: var(--admin-accent);"></div>
+                    </div>
+                    <div id="progress-text" class="small text-muted mt-2 text-end">Ready to execute.</div>
                 </div>
-                <div id="terminal" class="terminal-window"></div>
-            </div>
 
-        </div>
-    </section>
+                <div class="admin-table-container">
+                    <div class="p-3 border-bottom border-secondary border-opacity-10 d-flex justify-content-between align-items-center bg-black bg-opacity-25">
+                        <span class="small fw-bold text-muted text-uppercase"><i class="fas fa-terminal me-2"></i> Console Output</span>
+                        <button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="clearTerminal()">
+                            <i class="fas fa-eraser"></i> Clear Output
+                        </button>
+                    </div>
+                    <div id="terminal" class="terminal-window p-4"></div>
+                </div>
+            </section>
 
-    <!-- JS: Shortcut Buttons -->
-    <script>
-        document.querySelectorAll('.cmd-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const cmd = btn.dataset.command;
-                document.getElementById('command').value = cmd;
-            });
-        });
-    </script>
+            <style>
+                .terminal-window {
+                    background: #000;
+                    color: #d4d4d4;
+                    min-height: 450px;
+                    max-height: 600px;
+                    overflow-y: auto;
+                    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+                    font-size: 0.85rem;
+                    line-height: 1.5;
+                    white-space: pre-wrap;
+                    scrollbar-width: thin;
+                    scrollbar-color: var(--admin-border) transparent;
+                }
+                .cmd-prefix { color: var(--admin-accent); font-weight: bold; }
+                .status-running { color: var(--admin-warning); }
+                .status-finished { color: var(--admin-success); }
+                .status-failed { color: var(--admin-danger); }
+            </style>
 
-    <!-- JS: Run Command -->
-    <script>
-        document.getElementById('runBtn').addEventListener('click', function () {
-            const cmd = document.getElementById('command').value;
-            const terminal = document.getElementById('terminal');
-            const progress = document.getElementById('progress-bar');
+            <script>
+                function clearTerminal() {
+                    document.getElementById('terminal').innerHTML = "";
+                    const progress = document.getElementById('progress-bar');
+                    progress.style.width = "0%";
+                    document.getElementById('progress-text').innerText = "Ready to execute.";
+                }
 
-            terminal.innerHTML = "";
-            progress.style.width = "0%";
-            progress.innerText = "0%";
+                document.getElementById('runBtn').addEventListener('click', function () {
+                    const cmdSelect = document.getElementById('command-select');
+                    const cmd = cmdSelect.value;
+                    const terminal = document.getElementById('terminal');
+                    const progress = document.getElementById('progress-bar');
+                    const progressText = document.getElementById('progress-text');
+                    const runBtn = this;
 
-            fetch('{{ path("admin_tools_terminal_run") }}', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: 'command=' + encodeURIComponent(cmd)
-            })
-                .then(r => r.json())
-                .then(data => {
-                    if (data.error) {
-                        terminal.innerHTML = "[ERROR] " + data.error;
-                        return;
-                    }
+                    if (!cmd) return;
 
-                    watchJob(data.jobId);
-                });
-        });
+                    terminal.innerHTML = "<span class='cmd-prefix'>$ " + cmd + "</span>\n<span class='status-running'>Initializing job...</span>\n";
+                    progress.style.width = "5%";
+                    progressText.innerText = "Job started...";
+                    runBtn.disabled = true;
 
-        function watchJob(jobId) {
-            const terminal = document.getElementById('terminal');
-            const progress = document.getElementById('progress-bar');
+                    const formData = new URLSearchParams();
+                    formData.append('command', cmd);
+                    formData.append('_token', '{{ csrf_token("terminal-run") }}');
 
-            const interval = setInterval(() => {
-                fetch('{{ path("admin_tools_terminal_status", {id: "REPLACE"}) }}'.replace("REPLACE", jobId))
+                    fetch('{{ path("admin_tools_terminal_run") }}', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                        body: formData.toString()
+                    })
                     .then(r => r.json())
                     .then(data => {
-
-                        if (data.output) {
-                            terminal.innerHTML = data.output.replace(/\n/g, "<br>");
-                            terminal.scrollTop = terminal.scrollHeight;
-
-                            const match = data.output.match(/(\d+)%/);
-                            if (match) {
-                                const percent = match[1];
-                                progress.style.width = percent + "%";
-                                progress.innerText = percent + "%";
-                            }
+                        if (data.error) {
+                            terminal.innerHTML += "\n<span class='status-failed'>[FATAL ERROR] " + data.error + "</span>";
+                            runBtn.disabled = false;
+                            progressText.innerText = "Execution failed.";
+                            return;
                         }
-
-                        if (data.status === 'finished' || data.status === 'failed') {
-                            clearInterval(interval);
-                            progress.classList.remove("progress-bar-animated");
-                        }
+                        watchJob(data.jobId);
+                    })
+                    .catch(err => {
+                        terminal.innerHTML += "\n<span class='status-failed'>[FATAL ERROR] Failed to reach the server.</span>";
+                        runBtn.disabled = false;
                     });
-            }, 1000);
-        }
-    </script>
+                });
 
+                function watchJob(jobId) {
+                    const terminal = document.getElementById('terminal');
+                    const progress = document.getElementById('progress-bar');
+                    const progressText = document.getElementById('progress-text');
+                    const runBtn = document.getElementById('runBtn');
+
+                    const interval = setInterval(() => {
+                        const url = '{{ path("admin_tools_terminal_status", {id: "REPLACE"}) }}'.replace("REPLACE", jobId);
+                        
+                        fetch(url)
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.output) {
+                                terminal.innerText = data.output;
+                                terminal.scrollTop = terminal.scrollHeight;
+
+                                const match = data.output.match(/(\d+)%/);
+                                if (match) {
+                                    const percent = match[1];
+                                    progress.style.width = percent + "%";
+                                    progressText.innerText = "Processing: " + percent + "%";
+                                }
+                            }
+
+                            if (data.status === 'finished' || data.status === 'failed') {
+                                clearInterval(interval);
+                                runBtn.disabled = false;
+                                
+                                if (data.status === 'finished') {
+                                    progress.style.width = "100%";
+                                    progress.style.backgroundColor = "var(--admin-success)";
+                                    progressText.innerText = "Operation completed successfully.";
+                                } else {
+                                    progress.style.backgroundColor = "var(--admin-danger)";
+                                    progressText.innerText = "Operation failed.";
+                                }
+                            }
+                        });
+                    }, 1000);
+                }
+            </script>
+        {% endblock %}
+
+    {% endembed %}
 {% endblock %}

@@ -1,125 +1,133 @@
 {% extends '@theme/base.html.twig' %}
-{% block title %}Services Management{% endblock %}
-{% block body_id 'admin_services' %}
+{% block title %}{{ 'admin.services.title'|trans({}, 'admin') }} – Admin{% endblock %}
+{% block body_id 'admin' %}
 
 {% block main %}
-    {% embed '@theme/admin/partials/_layout.html.twig' %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
 
         {% block admin_content %}
+            <div class="section-title">
+                <h2>{{ 'admin.services.title'|trans({}, 'admin') }}</h2>
+                <p>{{ 'admin.services.subtitle'|trans({}, 'admin') }}</p>
+            </div>
 
-            <section class="section-page-title text-center py-4 fade-in">
-                <h2 class="fw-bold">Services Management</h2>
-                <p class="text-muted">Manage the services offered by OktoDark Studios.</p>
-            </section>
-
-            <section class="py-3 fade-in">
-
+            <section>
                 {% for message in app.flashes('success') %}
-                    <div class="alert alert-success">{{ message }}</div>
+                    <div class="alert alert-success border-0 shadow-sm mb-4">
+                        <i class="fas fa-check-circle me-2"></i> {{ message }}
+                    </div>
                 {% endfor %}
 
                 {# ADD / EDIT FORM #}
-                <div class="card neon-card p-4 shadow-sm mb-4">
-                    <h4 class="mb-3">Add / Edit Service</h4>
+                <div class="admin-card mb-5" id="formContainer">
+                    <h4 class="mb-4" id="formTitle">{{ 'admin.services.add_edit'|trans({}, 'admin') }}</h4>
 
                     <form method="post">
-
                         <input type="hidden" name="id" id="serviceId">
 
-                        <div class="row g-3">
-
+                        <div class="row g-4">
                             <div class="col-md-6">
-                                <label class="form-label fw-bold">Service Name</label>
-                                <input type="text" name="serviceName" id="serviceName" class="form-control" required>
+                                <label class="admin-form-label">Service Name</label>
+                                <input type="text" name="serviceName" id="serviceName" class="admin-form-control" required placeholder="e.g. Custom Web Development">
                             </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Price</label>
-                                <input type="text" name="servicePrice" id="servicePrice" class="form-control" required>
+                            <div class="col-md-3">
+                                <label class="admin-form-label">Starting Price</label>
+                                <input type="text" name="servicePrice" id="servicePrice" class="admin-form-control" required placeholder="e.g. $499">
                             </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Work Days</label>
-                                <input type="text" name="serviceWorkDays" id="serviceWorkDays" class="form-control" required>
+                            <div class="col-md-3">
+                                <label class="admin-form-label">Turnaround Time</label>
+                                <input type="text" name="serviceWorkDays" id="serviceWorkDays" class="admin-form-control" required placeholder="e.g. 5-7 Business Days">
                             </div>
 
                             <div class="col-12">
-                                <label class="form-label fw-bold">Service Description</label>
-                                <textarea name="serviceToDo" id="serviceToDo" class="form-control" rows="6"></textarea>
+                                <label class="admin-form-label">Service Details & Scope</label>
+                                <textarea name="serviceToDo" id="serviceToDo" class="admin-form-control" rows="5" placeholder="Outline what is included in this service..."></textarea>
                             </div>
-
                         </div>
 
-                        <div class="text-end mt-4">
-                            <button class="btn btn-success px-4">Save Service</button>
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="reset" class="admin-btn admin-btn-secondary" onclick="resetForm()">{{ 'admin.common.clear'|trans({}, 'admin') }}</button>
+                            <button type="submit" class="admin-btn admin-btn-primary px-5">{{ 'admin.common.save'|trans({}, 'admin') }}</button>
                         </div>
-
                     </form>
                 </div>
 
                 {# SERVICES LIST #}
-                <div class="card neon-card p-4 shadow-sm">
-                    <h4 class="mb-3">Services</h4>
+                <div class="admin-table-container">
+                    <div class="p-4 border-bottom border-secondary border-opacity-10 d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">{{ 'admin.services.current'|trans({}, 'admin') }}</h4>
+                        <span class="badge bg-dark">{{ services|length }} Active</span>
+                    </div>
 
                     <div class="table-responsive">
-                        <table class="table table-dark table-striped align-middle">
+                        <table class="admin-table">
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Work Days</th>
-                                <th>Description</th>
-                                <th class="text-end">Actions</th>
+                                <th># ID</th>
+                                <th>Service Name</th>
+                                <th>Pricing</th>
+                                <th>Delivery</th>
+                                <th>Scope Preview</th>
+                                <th class="text-end">{{ 'admin.forum.categories.actions'|trans({}, 'admin') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for s in services %}
                                 <tr>
-                                    <td>{{ s.id }}</td>
-                                    <td>{{ s.serviceName }}</td>
-                                    <td>{{ s.servicePrice }}</td>
-                                    <td>{{ s.serviceWorkDays }}</td>
-                                    <td>{{ s.serviceToDo }}</td>
+                                    <td><code class="text-accent small">#{{ s.id }}</code></td>
+                                    <td><span class="fw-bold text-white">{{ s.serviceName }}</span></td>
+                                    <td><span class="text-white">{{ s.servicePrice }}</span></td>
+                                    <td><span class="admin-badge admin-badge-secondary">{{ s.serviceWorkDays }}</span></td>
+                                    <td><div class="small text-muted text-truncate" style="max-width: 250px;" title="{{ s.serviceToDo }}">{{ s.serviceToDo }}</div></td>
 
                                     <td class="text-end">
-                                        <button class="btn btn-sm btn-primary"
-                                                onclick="editService({{ s.id }}, '{{ s.serviceName|e('js') }}', '{{ s.servicePrice|e('js') }}', '{{ s.serviceWorkDays|e('js') }}', `{{ s.serviceToDo|e('js') }}`)">
-                                            Edit
-                                        </button>
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <button class="admin-btn admin-btn-secondary admin-btn-sm"
+                                                    onclick="editService({{ s.id }}, '{{ s.serviceName|e('js') }}', '{{ s.servicePrice|e('js') }}', '{{ s.serviceWorkDays|e('js') }}', `{{ s.serviceToDo|e('js') }}`)" title="{{ 'admin.common.edit'|trans({}, 'admin') }}">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
 
-                                        <a href="{{ path('admin_services', { delete: s.id }) }}"
-                                           class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Delete this service?')">
-                                            Delete
-                                        </a>
+                                            <a href="{{ path('admin_services', { delete: s.id }) }}"
+                                               class="admin-btn admin-btn-danger admin-btn-sm"
+                                               onclick="return confirm('Permanently remove this service offering?')" title="{{ 'admin.common.delete'|trans({}, 'admin') }}">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <td colspan="6" class="text-center text-muted">No services added yet.</td>
+                                    <td colspan="6" class="text-center text-muted py-5">
+                                        <i class="fas fa-concierge-bell d-block mb-3 fs-2 opacity-25"></i>
+                                        No services configured. Start by creating one above.
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
                     </div>
-
                 </div>
-
             </section>
 
             <script>
                 function editService(id, name, price, days, todo) {
+                    document.getElementById('formTitle').innerText = '{{ 'admin.common.edit'|trans({}, 'admin') }}: ' + name;
                     document.getElementById('serviceId').value = id;
                     document.getElementById('serviceName').value = name;
                     document.getElementById('servicePrice').value = price;
                     document.getElementById('serviceWorkDays').value = days;
                     document.getElementById('serviceToDo').value = todo;
 
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    document.getElementById('formContainer').scrollIntoView({ behavior: 'smooth' });
+                }
+
+                function resetForm() {
+                    document.getElementById('formTitle').innerText = '{{ 'admin.services.add_edit'|trans({}, 'admin') }}';
+                    document.getElementById('serviceId').value = '';
                 }
             </script>
-
         {% endblock %}
 
     {% endembed %}

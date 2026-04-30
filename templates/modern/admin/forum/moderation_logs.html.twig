@@ -1,6 +1,6 @@
 {% extends '@theme/base.html.twig' %}
 
-{% block title %}Moderation Logs - Forum Admin{% endblock %}
+{% block title %}{{ 'admin.forum.logs.title'|trans({}, 'admin') }} - Forum Admin{% endblock %}
 {% block body_id 'admin' %}
 
 {% block main %}
@@ -8,19 +8,19 @@
 
         {% block admin_content %}
 <div class="section-title">
-    <h2 class="fw-bold"><i class="fa-solid fa-list-check me-2 text-accent"></i> Moderation Logs</h2>
-    <p class="text-muted">Audit trail of all administrative actions in the forum.</p>
+    <h2 class="fw-bold"><i class="fa-solid fa-list-check me-2 text-accent"></i> {{ 'admin.forum.logs.title'|trans({}, 'admin') }}</h2>
+    <p class="text-muted">{{ 'admin.forum.logs.subtitle'|trans({}, 'admin') }}</p>
 </div>
 
 <div class="admin-table-container">
     <table class="admin-table">
         <thead>
             <tr>
-                <th class="ps-4">Moderator</th>
-                <th>Action</th>
-                <th>Target</th>
-                <th>Details</th>
-                <th class="text-end pe-4">Date</th>
+                <th class="ps-4">{{ 'admin.forum.logs.moderator'|trans({}, 'admin') }}</th>
+                <th>{{ 'admin.forum.logs.action'|trans({}, 'admin') }}</th>
+                <th>{{ 'admin.forum.logs.target'|trans({}, 'admin') }}</th>
+                <th>{{ 'admin.news.details'|trans({}, 'admin') }}</th>
+                <th class="text-end pe-4">{{ 'admin.common.date'|trans({}, 'admin') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -54,7 +54,7 @@
             </tr>
             {% else %}
             <tr>
-                <td colspan="5" class="text-center py-5 text-muted">No moderation logs found.</td>
+                <td colspan="5" class="text-center py-5 text-muted">{{ 'admin.forum.logs.no_logs'|trans({}, 'admin') }}</td>
             </tr>
             {% endfor %}
         </tbody>

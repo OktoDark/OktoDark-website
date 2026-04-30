@@ -1,61 +1,82 @@
 {% extends '@theme/base.html.twig' %}
+{% block title %}{{ 'admin.news.title'|trans({}, 'admin') }} – Admin{% endblock %}
 {% block body_id 'admin' %}
 
 {% block main %}
-    {% embed '@theme/admin/partials/_layout.html.twig' %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
 
         {% block admin_content %}
 
-            <section class="section-page-title py-4">
-                <h2 class="display-6 fw-bold">News Management</h2>
-                <p class="text-muted">Manage all news articles published on OktoDark.</p>
-            </section>
-
-            <div class="mb-3">
-                <a href="{{ path('admin_news_new') }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Create News Article
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="section-title mb-0">
+                    <h2>{{ 'admin.news.title'|trans({}, 'admin') }}</h2>
+                    <p>{{ 'admin.news.subtitle'|trans({}, 'admin') }}</p>
+                </div>
+                <a href="{{ path('admin_news_new') }}" class="admin-btn admin-btn-primary">
+                    <i class="fas fa-plus"></i> {{ 'admin.news.create'|trans({}, 'admin') }}
                 </a>
             </div>
 
-            <div class="card shadow-sm">
-                <div class="table-responsive">
-                    <table class="table table-dark table-striped mb-0">
-                        <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Author</th>
-                            <th>Created At</th>
-                            <th style="width: 150px;">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for item in news %}
+            <section>
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success border-0 shadow-sm mb-4">
+                        <i class="fas fa-check-circle me-2"></i> {{ message }}
+                    </div>
+                {% endfor %}
+
+                <div class="admin-table-container">
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
                             <tr>
-                                <td>{{ item.title }}</td>
-                                <td>{{ item.author }}</td>
-                                <td>{{ item.createdAt|date('Y-m-d H:i') }}</td>
-                                <td>
-                                    <a href="{{ path('admin_news_edit', {id: item.id}) }}" class="btn btn-sm btn-outline-info">
-                                        Edit
-                                    </a>
-                                    <a href="{{ path('admin_news_delete', {id: item.id}) }}"
-                                       class="btn btn-sm btn-outline-danger"
-                                       onclick="return confirm('Delete this article?');">
-                                        Delete
-                                    </a>
-                                </td>
+                                <th>{{ 'admin.news.details'|trans({}, 'admin') }}</th>
+                                <th>{{ 'admin.news.author'|trans({}, 'admin') }}</th>
+                                <th>{{ 'admin.news.published'|trans({}, 'admin') }}</th>
+                                <th class="text-end">{{ 'admin.forum.categories.actions'|trans({}, 'admin') }}</th>
                             </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="4" class="text-center text-muted py-3">
-                                    No news articles found.
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            {% for item in news %}
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold text-white">{{ item.title }}</div>
+                                        <div class="small text-muted text-truncate" style="max-width: 300px;">
+                                            {{ item.description|default('No description provided.') }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="admin-badge admin-badge-info">{{ item.author }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="small">{{ item.createdAt|date('M j, Y') }}</div>
+                                        <div class="small text-muted">{{ item.createdAt|date('H:i') }}</div>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <a href="{{ path('admin_news_edit', {id: item.id}) }}" class="admin-btn admin-btn-secondary admin-btn-sm" title="{{ 'admin.common.edit'|trans({}, 'admin') }}">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{{ path('admin_news_delete', {id: item.id}) }}"
+                                               class="admin-btn admin-btn-danger admin-btn-sm"
+                                               onclick="return confirm('Permanently delete this article? This action cannot be undone.');" title="{{ 'admin.common.delete'|trans({}, 'admin') }}">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted py-5">
+                                        <i class="fas fa-newspaper d-block mb-3 fs-2 opacity-25"></i>
+                                        {{ 'admin.news.no_articles'|trans({}, 'admin') }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </section>
 
         {% endblock %}
 

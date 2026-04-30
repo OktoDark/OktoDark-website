@@ -1,63 +1,96 @@
 {% extends '@theme/base.html.twig' %}
-{% block title %}Website Settings{% endblock %}
-{% block body_id 'admin_settings' %}
+{% block title %}{{ 'admin.settings.title'|trans({}, 'admin') }} - Admin{% endblock %}
+{% block body_id 'admin' %}
 
 {% block main %}
-    {% embed '@theme/admin/partials/_layout.html.twig' %}
-
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
         {% block admin_content %}
+    <div class="section-title">
+        <h2 class="fw-bold"><i class="fa-solid fa-gear me-2 text-accent"></i> {{ 'admin.settings.title'|trans({}, 'admin') }}</h2>
+        <p class="text-muted">{{ 'admin.settings.subtitle'|trans({}, 'admin') }}</p>
+    </div>
 
-            <section class="section-page-title text-center py-4 fade-in">
-                <h2 class="fw-bold">Website Settings</h2>
-                <p class="text-muted">Manage global configuration for OktoDark.</p>
-            </section>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success border-0 shadow-sm mb-4" role="alert">
+            <i class="fas fa-check-circle me-2"></i> {{ message }}
+        </div>
+    {% endfor %}
 
-            <section class="py-3 fade-in">
-
-                {% for message in app.flashes('success') %}
-                    <div class="alert alert-success">{{ message }}</div>
-                {% endfor %}
-
-                <form method="post" class="card neon-card p-4 shadow-sm">
-
-                    <h4 class="mb-3">General Settings</h4>
-
-                    <div class="row g-3">
-
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Site Name</label>
-                            <input type="text" name="siteName" class="form-control"
-                                   value="{{ settings.siteName }}">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Job Email</label>
-                            <input type="text" name="jobmail" class="form-control"
-                                   value="{{ settings.jobmail }}">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">CDN URL</label>
-                            <input type="text" name="siteCDN" class="form-control"
-                                   value="{{ settings.siteCDN }}">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Logo Filename</label>
-                            <input type="text" name="logoName" class="form-control"
-                                   value="{{ settings.logoName }}">
-                        </div>
-
+    <form method="post">
+        {# General Settings #}
+        <div class="admin-card mb-4">
+            <h4 class="mb-4">{{ 'admin.settings.general'|trans({}, 'admin') }}</h4>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label for="siteName" class="admin-form-label">{{ 'admin.settings.site_name'|trans({}, 'admin') }}</label>
+                    <input type="text" name="siteName" id="siteName" class="admin-form-control" value="{{ settings.siteName }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="jobmail" class="admin-form-label">{{ 'admin.settings.job_mail'|trans({}, 'admin') }}</label>
+                    <input type="email" name="jobmail" id="jobmail" class="admin-form-control" value="{{ settings.jobMail }}">
+                </div>
+                <div class="col-md-6">
+                    <label for="siteCDN" class="admin-form-label">{{ 'admin.settings.site_cdn'|trans({}, 'admin') }}</label>
+                    <input type="text" name="siteCDN" id="siteCDN" class="admin-form-control" value="{{ settings.siteCDN }}">
+                </div>
+                <div class="col-md-6">
+                    <label for="logoName" class="admin-form-label">{{ 'admin.settings.logo_name'|trans({}, 'admin') }}</label>
+                    <input type="text" name="logoName" id="logoName" class="admin-form-control" value="{{ settings.logoName }}">
+                </div>
+                <div class="col-md-6">
+                    <label class="admin-form-label">{{ 'admin.users.status'|trans({}, 'admin')|replace({'Status': 'Registration'}) }}</label>
+                    <div class="form-check form-switch mt-2">
+                        <input class="form-check-input" type="checkbox" name="register_enabled" value="1" id="register_enabled" {% if settings.registerEnabled %}checked{% endif %}>
+                        <label class="form-check-label" for="register_enabled">{{ 'admin.settings.registration_enable'|trans({}, 'admin') }}</label>
                     </div>
+                </div>
+            </div>
+        </div>
 
-                    <div class="text-end mt-4">
-                        <button class="btn btn-success px-4">Save Settings</button>
+        {# Forum Settings #}
+        <div class="admin-card mb-4">
+            <h4 class="mb-4">{{ 'admin.settings.forum'|trans({}, 'admin') }}</h4>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label class="admin-form-label">{{ 'admin.settings.signatures'|trans({}, 'admin') }}</label>
+                    <div class="form-check form-switch mt-2">
+                        <input class="form-check-input" type="checkbox" name="forum_signatures_enabled" value="1" id="forum_signatures_enabled" {% if settings.isForumSignaturesEnabled %}checked{% endif %}>
+                        <label class="form-check-label" for="forum_signatures_enabled">{{ 'admin.settings.signatures_desc'|trans({}, 'admin') }}</label>
                     </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="admin-form-label">{{ 'admin.settings.uploads'|trans({}, 'admin') }}</label>
+                    <div class="form-check form-switch mt-2">
+                        <input class="form-check-input" type="checkbox" name="forum_image_uploads_enabled" value="1" id="forum_image_uploads_enabled" {% if settings.isForumImageUploadsEnabled %}checked{% endif %}>
+                        <label class="form-check-label" for="forum_image_uploads_enabled">{{ 'admin.settings.uploads_desc'|trans({}, 'admin') }}</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="admin-form-label">{{ 'admin.settings.polls'|trans({}, 'admin') }}</label>
+                    <div class="form-check form-switch mt-2">
+                        <input class="form-check-input" type="checkbox" name="forum_polls_enabled" value="1" id="forum_polls_enabled" {% if settings.isForumPollsEnabled %}checked{% endif %}>
+                        <label class="form-check-label" for="forum_polls_enabled">{{ 'admin.settings.polls_desc'|trans({}, 'admin') }}</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="admin-form-label">{{ 'admin.settings.embeds'|trans({}, 'admin') }}</label>
+                    <div class="form-check form-switch mt-2">
+                        <input class="form-check-input" type="checkbox" name="forum_rich_embeds_enabled" value="1" id="forum_rich_embeds_enabled" {% if settings.isForumRichEmbedsEnabled %}checked{% endif %}>
+                        <label class="form-check-label" for="forum_rich_embeds_enabled">{{ 'admin.settings.embeds_desc'|trans({}, 'admin') }}</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="forum_post_rate_limit" class="admin-form-label">{{ 'admin.settings.rate_limit'|trans({}, 'admin') }}</label>
+                    <input type="number" name="forum_post_rate_limit" id="forum_post_rate_limit" class="admin-form-control" value="{{ settings.forumPostRateLimit }}" min="0">
+                    <small class="text-muted mt-1 d-block">{{ 'admin.settings.rate_limit_hint'|trans({}, 'admin') }}</small>
+                </div>
+            </div>
+        </div>
 
-                </form>
-
-            </section>
-
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="admin-btn admin-btn-primary">{{ 'admin.common.save'|trans({}, 'admin') }}</button>
+        </div>
+    </form>
         {% endblock %}
 
     {% endembed %}

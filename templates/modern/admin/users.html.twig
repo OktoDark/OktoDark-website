@@ -1,152 +1,225 @@
 {% extends '@theme/base.html.twig' %}
-{% block title %}User Management{% endblock %}
-{% block body_id 'admin_users' %}
+{% block title %}{{ 'admin.users.title'|trans({}, 'admin') }} – Admin{% endblock %}
+{% block body_id 'admin' %}
 
 {% block main %}
-    {% embed '@theme/admin/partials/_layout.html.twig' %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
 
         {% block admin_content %}
 
-            <section class="section-page-title text-center py-4 fade-in">
-                <h2 class="fw-bold">User Management</h2>
-                <p class="text-muted">Manage all registered users on OktoDark.</p>
-            </section>
+            <div class="section-title">
+                <h2>{{ 'admin.users.title'|trans({}, 'admin') }}</h2>
+                <p>{{ 'admin.users.subtitle'|trans({}, 'admin') }}</p>
+            </div>
 
-            <section class="py-3 fade-in">
+            <section>
 
                 {% for message in app.flashes('success') %}
-                    <div class="alert alert-success">{{ message }}</div>
+                    <div class="alert alert-success border-0 shadow-sm mb-4" role="alert">
+                        <i class="fas fa-check-circle me-2"></i> {{ message }}
+                    </div>
                 {% endfor %}
 
                 {# ADD / EDIT FORM #}
-                <div class="card neon-card p-4 shadow-sm mb-4">
-                    <h4 class="mb-3">Add / Edit User</h4>
+                <div class="admin-card mb-5" id="userFormContainer">
+                    <h4 class="mb-4" id="formTitle">{{ 'admin.users.add_edit'|trans({}, 'admin') }}</h4>
 
                     <form method="post">
-
                         <input type="hidden" name="id" id="userId">
 
-                        <div class="row g-3">
-
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold">Active</label>
-                                <select name="active" id="active" class="form-control">
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
+                        <div class="row g-4">
+                            <div class="col-md-3">
+                                <label class="admin-form-label">{{ 'admin.users.status'|trans({}, 'admin') }}</label>
+                                <select name="active" id="active" class="admin-form-control">
+                                    <option value="1">{{ 'admin.users.active'|trans({}, 'admin') }}</option>
+                                    <option value="0">{{ 'admin.users.suspended'|trans({}, 'admin') }}</option>
                                 </select>
                             </div>
 
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold">Username</label>
-                                <input type="text" name="username" id="username" class="form-control" required>
+                            <div class="col-md-3">
+                                <label class="admin-form-label">{{ 'admin.users.username'|trans({}, 'admin') }}</label>
+                                <input type="text" name="username" id="username" class="admin-form-control" required placeholder="johndoe">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="admin-form-label">{{ 'admin.users.first_name'|trans({}, 'admin') }}</label>
+                                <input type="text" name="firstName" id="firstName" class="admin-form-control" placeholder="John">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="admin-form-label">{{ 'admin.users.last_name'|trans({}, 'admin') }}</label>
+                                <input type="text" name="lastName" id="lastName" class="admin-form-control" placeholder="Doe">
                             </div>
 
                             <div class="col-md-4">
-                                <label class="form-label fw-bold">Full Name</label>
-                                <input type="text" name="fullName" id="fullName" class="form-control">
+                                <label class="admin-form-label">{{ 'admin.users.email'|trans({}, 'admin') }}</label>
+                                <input type="email" name="email" id="email" class="admin-form-control" required placeholder="john@example.com">
                             </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" required>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Roles</label>
-                                <select name="roles[]" id="roles" class="form-control" multiple>
-                                    <option value="ROLE_USER">User</option>
-                                    <option value="ROLE_MODERATOR">Moderator</option>
-                                    <option value="ROLE_ADMIN">Admin</option>
-                                    <option value="ROLE_SUPER_ADMIN">Super Admin</option>
+                            <div class="col-md-3">
+                                <label class="admin-form-label">{{ 'admin.users.roles'|trans({}, 'admin') }}</label>
+                                <select name="roles[]" id="roles" class="admin-form-control" multiple style="height: 100px;">
+                                    <option value="ROLE_USER">{{ 'admin.users.role_user'|trans({}, 'admin') }}</option>
+                                    <option value="ROLE_MODERATOR">{{ 'admin.users.role_moderator'|trans({}, 'admin') }}</option>
+                                    <option value="ROLE_ADMIN">{{ 'admin.users.role_admin'|trans({}, 'admin') }}</option>
+                                    <option value="ROLE_SUPER_ADMIN">{{ 'admin.users.role_super_admin'|trans({}, 'admin') }}</option>
                                 </select>
-                                <small class="text-muted">Hold CTRL to select multiple roles.</small>
                             </div>
 
+                            <div class="col-md-3">
+                                <label class="admin-form-label">{{ 'admin.users.badges'|trans({}, 'admin') }}</label>
+                                <select name="badges[]" id="badges" class="admin-form-control" multiple style="height: 100px;">
+                                    {% for b in allBadges %}
+                                        <option value="{{ b.id }}">{{ b.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label class="admin-form-label">{{ 'admin.users.verification'|trans({}, 'admin') }}</label>
+                                <select name="isVerified" id="isVerified" class="admin-form-control">
+                                    <option value="1">{{ 'admin.users.verified'|trans({}, 'admin') }}</option>
+                                    <option value="0">{{ 'admin.users.unverified'|trans({}, 'admin') }}</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="text-end mt-4">
-                            <button class="btn btn-success px-4">Save User</button>
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="reset" class="admin-btn admin-btn-secondary" onclick="resetForm()">{{ 'admin.common.clear'|trans({}, 'admin') }}</button>
+                            <button type="submit" class="admin-btn admin-btn-primary">{{ 'admin.common.save'|trans({}, 'admin') }}</button>
                         </div>
-
                     </form>
                 </div>
 
                 {# USERS LIST #}
-                <div class="card neon-card p-4 shadow-sm">
-                    <h4 class="mb-3">Users</h4>
+                <div class="admin-table-container">
+                    <div class="p-4 border-bottom border-secondary border-opacity-10 d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">{{ 'admin.users.registered'|trans({}, 'admin') }}</h4>
+                        <span class="badge bg-dark">{{ users|length }} {{ 'admin.common.total'|trans({}, 'admin') }}</span>
+                    </div>
 
                     <div class="table-responsive">
-                        <table class="table table-dark table-striped align-middle">
+                        <table class="admin-table">
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Active</th>
-                                <th>Username</th>
-                                <th>Full Name</th>
-                                <th>Email</th>
-                                <th>Roles</th>
-                                <th class="text-end">Actions</th>
+                                <th>{{ 'admin.common.user'|trans({}, 'admin') }}</th>
+                                <th>{{ 'admin.users.status'|trans({}, 'admin') }}</th>
+                                <th>{{ 'admin.common.email'|trans({}, 'admin') }}</th>
+                                <th>{{ 'admin.users.badges'|trans({}, 'admin') }}</th>
+                                <th class="text-end">{{ 'admin.forum.categories.actions'|trans({}, 'admin') }}</th>
                             </tr>
                             </thead>
+
                             <tbody>
                             {% for u in users %}
                                 <tr>
-                                    <td>{{ u.id }}</td>
-                                    <td>{{ u.active ? 'Yes' : 'No' }}</td>
-                                    <td>{{ u.username }}</td>
-                                    <td>{{ u.fullName ?: '-' }}</td>
-                                    <td>{{ u.email }}</td>
-                                    <td>{{ u.roles|join(', ') }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm me-3 bg-secondary rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" style="width: 32px; height: 32px; font-size: 0.8rem;">
+                                                {{ u.username|slice(0, 1)|upper }}
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">
+                                                    {{ u.username }}
+                                                    {% if u.isVerified %}
+                                                        <i class="fas fa-check-circle text-info ms-1" title="{{ 'admin.users.verified'|trans({}, 'admin') }}" style="font-size: 0.75rem;"></i>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="small text-muted">{{ u.firstName }} {{ u.lastName }}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        {% if u.active %}
+                                            <span class="admin-badge admin-badge-success">{{ 'admin.users.active'|trans({}, 'admin') }}</span>
+                                        {% else %}
+                                            <span class="admin-badge admin-badge-secondary">{{ 'admin.users.suspended'|trans({}, 'admin') }}</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td><span class="small">{{ u.email }}</span></td>
+
+                                    <td>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            {% for b in u.badges %}
+                                                <span class="badge bg-success-subtle text-success border border-success-subtle" style="font-size: 0.65rem;" title="{{ b.description }}"><i class="{{ b.icon }} me-1"></i>{{ b.name }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </td>
 
                                     <td class="text-end">
-                                        <button class="btn btn-sm btn-primary"
-                                                onclick="editUser(
-                                                {{ u.id }},
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <a href="{{ path('admin_user_view', {id: u.id}) }}" class="admin-btn admin-btn-secondary admin-btn-sm" title="{{ 'admin.common.view'|trans({}, 'admin') }}">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <button class="admin-btn admin-btn-secondary admin-btn-sm"
+                                                    onclick="editUser(
+                                                        {{ u.id }},
                                                         '{{ u.active ? 1 : 0 }}',
                                                         '{{ u.username|e('js') }}',
-                                                        '{{ u.fullName|e('js') }}',
+                                                        '{{ u.firstName|e('js') }}',
+                                                        '{{ u.lastName|e('js') }}',
                                                         '{{ u.email|e('js') }}',
-                                                        `{{ u.roles|json_encode|e('js') }}`
-                                                        )">
-                                            Edit
-                                        </button>
-
-                                        <a href="{{ path('admin_users', { delete: u.id }) }}"
-                                           class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Delete this user?')">
-                                            Delete
-                                        </a>
+                                                        `{{ u.roles|json_encode|e('js') }}`,
+                                                        '{{ u.isVerified ? 1 : 0 }}',
+                                                        `{{ u.badges|map(b => b.id)|json_encode|e('js') }}`
+                                                    )" title="{{ 'admin.common.edit'|trans({}, 'admin') }}">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <a href="{{ path('admin_users', { delete: u.id }) }}"
+                                               class="admin-btn admin-btn-danger admin-btn-sm"
+                                               onclick="return confirm('{{ 'admin.users.delete_confirm_user'|trans({}, 'admin') }}')" title="{{ 'admin.common.delete'|trans({}, 'admin') }}">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <td colspan="7" class="text-center text-muted">No users found.</td>
+                                    <td colspan="5" class="text-center text-muted py-5">
+                                        <i class="fas fa-users-slash d-block mb-3 fs-2 opacity-25"></i>
+                                        {{ 'admin.users.no_users_found'|trans({}, 'admin') }}
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
                     </div>
-
                 </div>
 
             </section>
 
             <script>
-                function editUser(id, active, username, fullName, email, rolesJson) {
+                function editUser(id, active, username, firstName, lastName, email, rolesJson, isVerified, badgesJson) {
+                    document.getElementById('formTitle').innerText = '{{ 'admin.common.edit'|trans({}, 'admin') }}: ' + username;
                     document.getElementById('userId').value = id;
                     document.getElementById('active').value = active;
                     document.getElementById('username').value = username;
-                    document.getElementById('fullName').value = fullName;
+                    document.getElementById('firstName').value = firstName;
+                    document.getElementById('lastName').value = lastName;
                     document.getElementById('email').value = email;
 
                     const roles = JSON.parse(rolesJson);
                     const rolesSelect = document.getElementById('roles');
-
                     for (let option of rolesSelect.options) {
                         option.selected = roles.includes(option.value);
                     }
 
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    const badgeIds = JSON.parse(badgesJson || '[]');
+                    const badgesSelect = document.getElementById('badges');
+                    for (let option of badgesSelect.options) {
+                        option.selected = badgeIds.includes(parseInt(option.value));
+                    }
+
+                    document.getElementById('isVerified').value = isVerified;
+
+                    document.getElementById('userFormContainer').scrollIntoView({ behavior: 'smooth' });
+                }
+
+                function resetForm() {
+                    document.getElementById('formTitle').innerText = '{{ 'admin.users.add_edit'|trans({}, 'admin') }}';
+                    document.getElementById('userId').value = '';
                 }
             </script>
 

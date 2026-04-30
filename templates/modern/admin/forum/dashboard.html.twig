@@ -1,6 +1,6 @@
 {% extends '@theme/base.html.twig' %}
 
-{% block title %}Forum Dashboard - Admin{% endblock %}
+{% block title %}{{ 'admin.forum.dashboard.page_title'|trans({}, 'admin') }}{% endblock %}
 {% block body_id 'admin' %}
 
 {% block main %}
@@ -8,8 +8,8 @@
 
         {% block admin_content %}
     <div class="section-title">
-        <h2 class="fw-bold"><i class="fa-solid fa-gauge-high me-2 text-accent"></i> Forum Dashboard</h2>
-        <p class="text-muted">Overview of your community activity.</p>
+        <h2 class="fw-bold"><i class="fa-solid fa-gauge-high me-2 text-accent"></i> {{ 'admin.forum.dashboard.title'|trans({}, 'admin') }}</h2>
+        <p class="text-muted">{{ 'admin.forum.dashboard.subtitle'|trans({}, 'admin') }}</p>
     </div>
 
     <div class="row g-4 mb-5">
@@ -19,7 +19,7 @@
                     <i class="fa-solid fa-comments fa-2x opacity-50"></i>
                     <span class="fs-4 fw-bold">{{ stats.total_threads }}</span>
                 </div>
-                <h6 class="text-uppercase mb-0 opacity-75">Total Threads</h6>
+                <h6 class="text-uppercase mb-0 opacity-75">{{ 'admin.forum.dashboard.total_threads'|trans({}, 'admin') }}</h6>
             </div>
         </div>
         <div class="col-md-3">
@@ -28,7 +28,7 @@
                     <i class="fa-solid fa-reply-all fa-2x opacity-50"></i>
                     <span class="fs-4 fw-bold">{{ stats.total_posts }}</span>
                 </div>
-                <h6 class="text-uppercase mb-0 opacity-75">Total Posts</h6>
+                <h6 class="text-uppercase mb-0 opacity-75">{{ 'admin.forum.dashboard.total_posts'|trans({}, 'admin') }}</h6>
             </div>
         </div>
         <div class="col-md-3">
@@ -37,7 +37,7 @@
                     <i class="fa-solid fa-users fa-2x opacity-50"></i>
                     <span class="fs-4 fw-bold">{{ stats.total_users }}</span>
                 </div>
-                <h6 class="text-uppercase mb-0 opacity-75">Total Users</h6>
+                <h6 class="text-uppercase mb-0 opacity-75">{{ 'admin.forum.dashboard.total_users'|trans({}, 'admin') }}</h6>
             </div>
         </div>
         <div class="col-md-3">
@@ -46,7 +46,7 @@
                     <i class="fa-solid fa-triangle-exclamation fa-2x opacity-50"></i>
                     <span class="fs-4 fw-bold">{{ stats.reported_posts }}</span>
                 </div>
-                <h6 class="text-uppercase mb-0 opacity-75">Reported Posts</h6>
+                <h6 class="text-uppercase mb-0 opacity-75">{{ 'admin.forum.dashboard.reported_posts'|trans({}, 'admin') }}</h6>
             </div>
         </div>
     </div>
@@ -55,16 +55,16 @@
         <div class="col-lg-8">
             <div class="admin-card p-0 overflow-hidden">
                 <div class="p-4 border-bottom">
-                    <h5 class="mb-0 fw-bold">Latest Threads</h5>
+                    <h5 class="mb-0 fw-bold">{{ 'admin.forum.dashboard.latest_threads'|trans({}, 'admin') }}</h5>
                 </div>
                 <div class="admin-table-container border-0 shadow-none">
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th>Date</th>
-                                <th class="text-end">Action</th>
+                                <th>{{ 'admin.forum.dashboard.thread_title'|trans({}, 'admin') }}</th>
+                                <th>{{ 'admin.forum.dashboard.thread_author'|trans({}, 'admin') }}</th>
+                                <th>{{ 'admin.forum.dashboard.thread_date'|trans({}, 'admin') }}</th>
+                                <th class="text-end">{{ 'admin.forum.dashboard.thread_action'|trans({}, 'admin') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,7 +77,7 @@
                                 <td>{{ thread.author.username }}</td>
                                 <td>{{ thread.createdAt|date('M d, H:i') }}</td>
                                 <td class="text-end">
-                                    <a href="{{ path('forum_thread_view', {slug: thread.slug}) }}" class="admin-btn admin-btn-primary py-1 px-3" style="font-size: 0.8rem;">View</a>
+                                    <a href="{{ path('forum_thread_view', {slug: thread.slug}) }}" class="admin-btn admin-btn-primary py-1 px-3" style="font-size: 0.8rem;">{{ 'admin.forum.dashboard.view_button'|trans({}, 'admin') }}</a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -89,7 +89,7 @@
         <div class="col-lg-4">
             <div class="admin-card p-0 overflow-hidden">
                 <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 fw-bold text-danger">Pending Reports</h5>
+                    <h5 class="mb-0 fw-bold text-danger">{{ 'admin.forum.dashboard.pending_reports'|trans({}, 'admin') }}</h5>
                     <span class="badge bg-danger rounded-pill">{{ stats.reported_posts }}</span>
                 </div>
                 <div class="list-group list-group-flush">
@@ -100,12 +100,12 @@
                             <small class="text-muted">{{ post.createdAt|date('M d') }}</small>
                         </div>
                         <p class="small text-muted mb-3 text-truncate">{{ post.content|striptags }}</p>
-                        <a href="{{ path('forum_thread_view', {slug: post.thread.slug}) }}#post-{{ post.id }}" class="admin-btn admin-btn-secondary w-100 justify-content-center py-1 px-3" style="font-size: 0.8rem; background-color: #dc3545;">Review</a>
+                        <a href="{{ path('forum_thread_view', {slug: post.thread.slug}) }}#post-{{ post.id }}" class="admin-btn admin-btn-secondary w-100 justify-content-center py-1 px-3" style="font-size: 0.8rem; background-color: #dc3545;">{{ 'admin.forum.dashboard.review_button'|trans({}, 'admin') }}</a>
                     </div>
                     {% else %}
                     <div class="p-5 text-center text-muted">
                         <i class="fa-solid fa-check-circle fa-3x mb-3 text-success opacity-25"></i>
-                        <p class="mb-0">No pending reports!</p>
+                        <p class="mb-0">{{ 'admin.forum.dashboard.no_pending_reports'|trans({}, 'admin') }}</p>
                     </div>
                     {% endfor %}
                 </div>

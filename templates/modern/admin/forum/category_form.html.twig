@@ -8,11 +8,11 @@
         {% block admin_content %}
             <div class="mb-4">
                 <a href="{{ path('admin_forum_categories') }}" class="admin-btn admin-btn-secondary admin-btn-sm mb-3">
-                    <i class="fas fa-arrow-left"></i> Back to Categories
+                    <i class="fas fa-arrow-left"></i> {{ 'admin.forum.category_form.back_to_categories'|trans({}, 'admin') }}
                 </a>
                 <div class="section-title">
                     <h2>{{ title }}</h2>
-                    <p>Configure forum category properties and accessibility.</p>
+                    <p>{{ 'admin.forum.category_form.subtitle'|trans({}, 'admin') }}</p>
                 </div>
             </div>
 
@@ -26,28 +26,28 @@
 
                 <div class="row g-4 mb-4">
                     <div class="col-md-6">
-                        <label class="admin-form-label">Category Name</label>
-                        {{ form_widget(form.name, { attr: { class: 'admin-form-control', placeholder: 'e.g. General Discussion' } }) }}
+                        <label class="admin-form-label">{{ 'admin.forum.category_form.name'|trans({}, 'admin') }}</label>
+                        {{ form_widget(form.name, { attr: { class: 'admin-form-control', placeholder: 'admin.forum.category_form.name_placeholder'|trans({}, 'admin') } }) }}
                         {{ form_errors(form.name) }}
                     </div>
 
                     <div class="col-md-6">
-                        <label class="admin-form-label">Parent Category</label>
+                        <label class="admin-form-label">{{ 'admin.forum.category_form.parent'|trans({}, 'admin') }}</label>
                         {{ form_widget(form.parent, { attr: { class: 'admin-form-control' } }) }}
-                        <small class="text-muted">Leave empty to make this a main (top-level) category.</small>
+                        <small class="text-muted">{{ 'admin.forum.category_form.parent_help'|trans({}, 'admin') }}</small>
                         {{ form_errors(form.parent) }}
                     </div>
                 </div>
 
                 <div class="mb-4">
-                    <label class="admin-form-label">Description</label>
-                    {{ form_widget(form.description, { attr: { class: 'admin-form-control', rows: 3, placeholder: 'Briefly describe what this category is for...' } }) }}
+                    <label class="admin-form-label">{{ 'admin.forum.category_form.description'|trans({}, 'admin') }}</label>
+                    {{ form_widget(form.description, { attr: { class: 'admin-form-control', rows: 3, placeholder: 'admin.forum.category_form.description_placeholder'|trans({}, 'admin') } }) }}
                     {{ form_errors(form.description) }}
                 </div>
 
                 <div class="row g-4 mb-4">
                     <div class="col-md-4">
-                        <label class="admin-form-label">Display Order Position</label>
+                        <label class="admin-form-label">{{ 'admin.forum.category_form.position'|trans({}, 'admin') }}</label>
                         {{ form_widget(form.position, { attr: { class: 'admin-form-control' } }) }}
                         {{ form_errors(form.position) }}
                     </div>
@@ -55,7 +55,7 @@
 
                 <div class="d-flex justify-content-end mt-4">
                     <button type="submit" class="admin-btn admin-btn-primary px-5 shadow-sm fw-bold">
-                        <i class="fas fa-save me-2"></i> Save Category
+                        <i class="fas fa-save me-2"></i> {{ 'admin.forum.category_form.save_category'|trans({}, 'admin') }}
                     </button>
                 </div>
 

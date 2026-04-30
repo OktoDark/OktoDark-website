@@ -1,42 +1,43 @@
 {% extends '@theme/base.html.twig' %}
 
-{% block title %}Registration Panel – Admin{% endblock %}
+{% block title %}{{ 'admin.registration.title'|trans({}, 'admin') }} – Admin{% endblock %}
 
 {% block body_id 'admin' %}
 
 {% block main %}
-    {% embed '@theme/admin/partials/_layout.html.twig' %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
 
-    {% block admin_content %}
-    <section class="section-page-title text-center py-4">
-        <h2 class="display-6 fw-bold">Registration Control</h2>
-        <p class="text-muted">Manage public registration and waitlist.</p>
-    </section>
-
-    <section class="py-3">
-        <div class="card shadow-sm border-0">
-            <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
-                <div>
-                    <h5 class="mb-1">Status</h5>
-                    {% if registration_enabled %}
-                        <p class="mb-0 text-success">Registration is <strong>ONLINE</strong>.</p>
-                    {% else %}
-                        <p class="mb-0 text-danger">Registration is <strong>OFFLINE</strong>.</p>
-                    {% endif %}
-                    <p class="small text-muted mb-0">
-                        Waitlist entries: <strong>{{ waitlist_count }}</strong>
-                    </p>
-                </div>
-
-                <form method="post" action="{{ path('admin_registration_toggle') }}">
-                    <button class="btn {{ registration_enabled ? 'btn-danger' : 'btn-success' }}">
-                        {{ registration_enabled ? 'Disable Registration' : 'Enable Registration' }}
-                    </button>
-                </form>
+        {% block admin_content %}
+            <div class="section-title">
+                <h2>{{ 'admin.registration.title'|trans({}, 'admin') }}</h2>
+                <p>{{ 'admin.registration.subtitle'|trans({}, 'admin') }}</p>
             </div>
-        </div>
-    </section>
-            {% endblock %}
+
+            <section>
+                <div class="admin-card">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <div>
+                            <h5 class="mb-1 text-white">{{ 'admin.registration.status'|trans({}, 'admin') }}</h5>
+                            {% if registration_enabled %}
+                                <p class="mb-0 text-success"><i class="fas fa-check-circle me-2"></i>{{ 'admin.registration.online'|trans({}, 'admin') }}</p>
+                            {% else %}
+                                <p class="mb-0 text-danger"><i class="fas fa-times-circle me-2"></i>{{ 'admin.registration.offline'|trans({}, 'admin') }}</p>
+                            {% endif %}
+                            <p class="small text-muted mb-0 mt-2">
+                                {{ 'admin.registration.entries'|trans({}, 'admin') }}: <strong>{{ waitlist_count }}</strong>
+                            </p>
+                        </div>
+
+                        <form method="post" action="{{ path('admin_registration_toggle') }}">
+                            <button type="submit" class="admin-btn {{ registration_enabled ? 'admin-btn-danger' : 'admin-btn-primary' }}">
+                                <i class="fas {{ registration_enabled ? 'fa-ban' : 'fa-check' }} me-2"></i>
+                                {{ registration_enabled ? 'admin.registration.disable'|trans({}, 'admin') : 'admin.registration.enable'|trans({}, 'admin') }}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        {% endblock %}
 
     {% endembed %}
 
