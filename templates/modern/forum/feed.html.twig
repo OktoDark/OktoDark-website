@@ -1,12 +1,12 @@
 {% extends '@theme/base.html.twig' %}
 
-{% block title %}Activity Feed — Forum{% endblock %}
+{% block title %}{{ 'forum.feed.title'|trans({}, 'forum') }}{% endblock %}
 
 {% block body %}
     <section class="section section-page-title bg-default text-center py-5">
         <div class="container">
-            <h2 class="display-5 fw-bold">Personalized Feed</h2>
-            <p class="lead text-muted mt-2">Latest activity from your circle.</p>
+            <h2 class="display-5 fw-bold">{{ 'forum.feed.personalized_feed'|trans({}, 'forum') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'forum.feed.latest_activity'|trans({}, 'forum') }}</p>
         </div>
     </section>
 
@@ -16,12 +16,12 @@
                 
                 <!-- Followed Users Activity -->
                 <div class="col-lg-6">
-                    <h4 class="fw-bold mb-4"><i class="fa-solid fa-users me-2 text-success"></i> Following</h4>
+                    <h4 class="fw-bold mb-4"><i class="fa-solid fa-users me-2 text-success"></i> {{ 'forum.feed.following'|trans({}, 'forum') }}</h4>
                     
                     {% if followed_threads is empty %}
                         <div class="card border-0 shadow-sm p-5 text-center bg-light">
                             <i class="fa-solid fa-user-plus fa-3x text-muted opacity-25 mb-3"></i>
-                            <p class="mb-0">Follow more users to see their new discussions here.</p>
+                            <p class="mb-0">{{ 'forum.feed.follow_more_users'|trans({}, 'forum') }}</p>
                         </div>
                     {% else %}
                         {% for thread in followed_threads %}
@@ -54,12 +54,12 @@
 
                 <!-- Subscribed Threads Activity -->
                 <div class="col-lg-6">
-                    <h4 class="fw-bold mb-4"><i class="fa-solid fa-bell me-2 text-warning"></i> Subscriptions</h4>
+                    <h4 class="fw-bold mb-4"><i class="fa-solid fa-bell me-2 text-warning"></i> {{ 'forum.feed.subscriptions'|trans({}, 'forum') }}</h4>
                     
                     {% if subscribed_replies is empty %}
                         <div class="card border-0 shadow-sm p-5 text-center bg-light">
                             <i class="fa-solid fa-bookmark fa-3x text-muted opacity-25 mb-3"></i>
-                            <p class="mb-0">Subscribe to threads to get updates on new replies.</p>
+                            <p class="mb-0">{{ 'forum.feed.subscribe_to_threads'|trans({}, 'forum') }}</p>
                         </div>
                     {% else %}
                         {% for post in subscribed_replies %}
@@ -77,11 +77,11 @@
                                         </div>
                                         <div class="flex-grow-1 overflow-hidden">
                                             <div class="x-small text-muted mb-1">
-                                                New reply in <a href="{{ path('forum_thread_view', {slug: post.thread.slug}) }}" class="text-dark fw-bold text-decoration-none">{{ post.thread.title|slice(0, 40) }}...</a>
+                                                {{ 'forum.feed.new_reply_in'|trans({}, 'forum') }} <a href="{{ path('forum_thread_view', {slug: post.thread.slug}) }}" class="text-dark fw-bold text-decoration-none">{{ post.thread.title|slice(0, 40) }}...</a>
                                             </div>
                                             <p class="small text-muted mb-0 text-truncate">"{{ post.content|striptags }}"</p>
                                             <div class="x-small text-muted mt-1">
-                                                By <span class="fw-bold">{{ post.author.username }}</span> &bull; {{ post.createdAt|date('M d, H:i') }}
+                                                {{ 'forum.feed.by'|trans({}, 'forum') }} <span class="fw-bold">{{ post.author.username }}</span> &bull; {{ post.createdAt|date('M d, H:i') }}
                                             </div>
                                         </div>
                                     </div>

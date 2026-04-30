@@ -1,13 +1,13 @@
 {% extends '@theme/base.html.twig' %}
 
-{% block title %}Start a Discussion in {{ category.name }} — Forum{% endblock %}
+{% block title %}{{ 'forum.thread.create_title'|trans({}, 'forum') }} — {{ category.name }}{% endblock %}
 
 {% block body %}
     <!-- Hero Section -->
     <section class="section section-page-title bg-default text-center py-5">
         <div class="container">
-            <h2 class="display-5 fw-bold">New Discussion</h2>
-            <p class="lead text-muted mt-2">Sharing your thoughts with the community in <strong>{{ category.name }}</strong></p>
+            <h2 class="display-5 fw-bold">{{ 'forum.thread.create_title'|trans({}, 'forum') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'forum.thread.create_subtitle'|trans({}, 'forum') }} <strong>{{ category.name }}</strong></p>
         </div>
     </section>
 
@@ -16,9 +16,9 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb" class="mb-5">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ path('forum') }}" class="text-success">Forum</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('forum') }}" class="text-success">{{ 'forum.title'|trans({}, 'forum') }}</a></li>
                     <li class="breadcrumb-item"><a href="{{ path('forum_category_view', { slug: category.slug }) }}" class="text-success">{{ category.name }}</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Create Thread</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ 'forum.category.create_new'|trans({}, 'forum') }}</li>
                 </ol>
             </nav>
 
@@ -35,22 +35,22 @@
                             <div class="row g-4 mb-4">
                                 <div class="col-lg-8">
                                     <div class="form-group">
-                                        <label class="form-label fw-bold text-dark">Thread Title</label>
-                                        {{ form_widget(form.title, { attr: { class: 'form-control form-control-lg border-0 bg-light shadow-none', placeholder: 'What do you want to talk about?' } }) }}
-                                        <div class="small text-muted mt-1">Make it clear and descriptive.</div>
+                                        <label class="form-label fw-bold text-dark">{{ 'forum.thread.title_label'|trans({}, 'forum') }}</label>
+                                        {{ form_widget(form.title, { attr: { class: 'form-control form-control-lg border-0 bg-light shadow-none', placeholder: 'forum.thread.title_placeholder'|trans({}, 'forum') } }) }}
+                                        <div class="small text-muted mt-1">{{ 'forum.thread.title_help'|trans({}, 'forum') }}</div>
                                         {{ form_errors(form.title) }}
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <label class="form-label fw-bold text-dark">Discussion Type</label>
+                                        <label class="form-label fw-bold text-dark">{{ 'forum.thread.type_label'|trans({}, 'forum') }}</label>
                                         {{ form_widget(form.type, { attr: { class: 'form-select form-select-lg border-0 bg-light shadow-none', onchange: 'applyTemplate(this.value)' } }) }}
                                     </div>
                                 </div>
                             </div>
 
                             <div class="mb-5">
-                                <label class="form-label fw-bold text-dark">Content Description</label>
+                                <label class="form-label fw-bold text-dark">{{ 'forum.thread.description_label'|trans({}, 'forum') }}</label>
                                 <div class="editor-wrapper rounded border bg-white">
                                     {{ form_widget(form.content) }}
                                 </div>
@@ -62,8 +62,8 @@
                                 <div class="card-body p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-0">
                                         <div>
-                                            <h5 class="fw-bold mb-1"><i class="fa-solid fa-square-poll-vertical text-success me-2"></i>Create a Poll</h5>
-                                            <p class="small text-muted mb-0">Include a community vote with this discussion.</p>
+                                            <h5 class="fw-bold mb-1"><i class="fa-solid fa-square-poll-vertical text-success me-2"></i>{{ 'forum.poll.create_title'|trans({}, 'forum') }}</h5>
+                                            <p class="small text-muted mb-0">{{ 'forum.poll.create_subtitle'|trans({}, 'forum') }}</p>
                                         </div>
                                         <div class="form-check form-switch fs-4">
                                             <input class="form-check-input" type="checkbox" id="togglePoll" onchange="togglePollSection(this.checked)">
@@ -73,13 +73,13 @@
                                     <div class="mt-4 pt-4 border-top d-none" id="pollSection">
                                         <div class="row g-4">
                                             <div class="col-12">
-                                                <label class="form-label fw-bold">Poll Question</label>
-                                                {{ form_widget(form.poll.question, { attr: { class: 'form-control border-0 shadow-sm', placeholder: 'What is your question?' } }) }}
+                                                <label class="form-label fw-bold">{{ 'forum.poll.question_label'|trans({}, 'forum') }}</label>
+                                                {{ form_widget(form.poll.question, { attr: { class: 'form-control border-0 shadow-sm', placeholder: 'forum.poll.question_placeholder'|trans({}, 'forum') } }) }}
                                                 {{ form_errors(form.poll.question) }}
                                             </div>
                                             
                                             <div class="col-lg-7">
-                                                <label class="form-label fw-bold">Poll Options</label>
+                                                <label class="form-label fw-bold">{{ 'forum.poll.options_label'|trans({}, 'forum') }}</label>
                                                 <div id="poll-options-list" 
                                                      data-prototype="{{ form_widget(form.poll.options.vars.prototype)|e('html_attr') }}"
                                                      data-index="{{ form.poll.options|length }}">
@@ -90,12 +90,12 @@
                                                     {% endfor %}
                                                 </div>
                                                 <button type="button" class="btn btn-white btn-sm mt-2 border shadow-sm" onclick="addPollOption()">
-                                                    <i class="fa-solid fa-plus me-1 text-success"></i> Add Option
+                                                    <i class="fa-solid fa-plus me-1 text-success"></i> {{ 'forum.poll.add_option'|trans({}, 'forum') }}
                                                 </button>
                                             </div>
 
                                             <div class="col-lg-5">
-                                                <label class="form-label fw-bold">Ends On (Optional)</label>
+                                                <label class="form-label fw-bold">{{ 'forum.poll.ends_on'|trans({}, 'forum') }}</label>
                                                 {{ form_widget(form.poll.expiresAt, { attr: { class: 'form-control border-0 shadow-sm' } }) }}
                                             </div>
                                         </div>
@@ -105,10 +105,10 @@
 
                             <div class="d-flex justify-content-between align-items-center pt-4 border-top">
                                 <a href="{{ path('forum_category_view', {slug: category.slug}) }}" class="text-muted text-decoration-none">
-                                    <i class="fa-solid fa-arrow-left me-1"></i> Back to Category
+                                    <i class="fa-solid fa-arrow-left me-1"></i> {{ 'admin.common.back'|trans({}, 'admin')|replace({'Back': 'Back to Category'}) }}
                                 </a>
                                 <button class="btn btn-success btn-lg px-5 shadow-sm text-bg-success fw-bold">
-                                    Launch Discussion <i class="fa-solid fa-paper-plane ms-2"></i>
+                                    {{ 'forum.thread.launch_btn'|trans({}, 'forum') }} <i class="fa-solid fa-paper-plane ms-2"></i>
                                 </button>
                             </div>
 
@@ -164,12 +164,4 @@
             list.dataset.index = counter + 1;
         }
     </script>
-
-    <style>
-        .btn-xs { padding: .25rem .5rem; font-size: .75rem; }
-        .trix-content { border-radius: 8px; }
-        trix-toolbar { border-bottom: 1px solid #eee !important; padding: 10px !important; }
-        trix-toolbar .trix-button-group { border: 1px solid #eee !important; }
-        .editor-wrapper trix-editor { min-height: 400px; border: none !important; padding: 20px !important; outline: none !important; }
-    </style>
 {% endblock %}

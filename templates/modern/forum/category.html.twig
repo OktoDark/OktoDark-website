@@ -1,6 +1,6 @@
 {% extends '@theme/base.html.twig' %}
 
-{% block title %}{{ category.name }} — Forum{% endblock %}
+{% block title %}{{ category.name }} — {{ 'forum.title'|trans({}, 'forum') }}{% endblock %}
 
 {% block body %}
     <!-- Hero Section consistent with Blog -->
@@ -16,9 +16,9 @@
     <section class="section section-lg bg-default pt-0">
         <div class="container">
             <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb" class="mb-4">
+            <nav aria-label="{{ 'forum.category.breadcrumb_label'|trans({}, 'forum') }}" class="mb-4">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ path('forum') }}" class="text-success">Forum</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('forum') }}" class="text-success">{{ 'forum.title'|trans({}, 'forum') }}</a></li>
                     
                     {# HIERARCHICAL BREADCRUMBS #}
                     {% if category.parent %}
@@ -33,7 +33,7 @@
             {% if category.children|length > 0 %}
                 <div class="card shadow-sm border-0 mb-5 overflow-hidden">
                     <div class="card-header bg-white border-bottom py-3">
-                        <h5 class="mb-0 fw-bold text-dark"><i class="fa-solid fa-folder-tree text-success me-2 opacity-50"></i> Sub-categories in {{ category.name }}</h5>
+                        <h5 class="mb-0 fw-bold text-dark"><i class="fa-solid fa-folder-tree text-success me-2 opacity-50"></i> {{ 'forum.category.subcategories_in'|trans({'%category_name%': category.name}, 'forum') }}</h5>
                     </div>
                     <div class="list-group list-group-flush">
                         {% for sub in category.children %}
@@ -41,7 +41,7 @@
                                 <div class="d-flex align-items-center p-3 px-4 text-decoration-none transition-all hover-bg-light">
                                     <div class="flex-grow-1">
                                         <a href="{{ path('forum_category_view', {slug: sub.slug}) }}" class="fw-bold text-dark text-decoration-none hover-success">{{ sub.name }}</a>
-                                        <div class="x-small text-muted">{{ sub.threads|length }} discussions</div>
+                                        <div class="x-small text-muted">{{ sub.threads|length }} {{ 'forum.category.discussions'|trans({}, 'forum') }}</div>
                                     </div>
                                     
                                     <div class="d-none d-md-block text-end flex-shrink-0" style="min-width: 200px;">
@@ -51,10 +51,10 @@
                                                 <a href="{{ path('forum_thread_view', {slug: lastThread.slug}) }}" class="text-dark text-decoration-none">{{ lastThread.title }}</a>
                                             </div>
                                             <div class="x-small text-muted">
-                                                by <span class="fw-medium text-success">{{ lastThread.author.username }}</span> &bull; {{ lastThread.updatedAt|date('M d, H:i') }}
+                                                {{ 'forum.by'|trans({}, 'forum') }} <span class="fw-medium text-success">{{ lastThread.author.username }}</span> &bull; {{ lastThread.updatedAt|date('M d, H:i') }}
                                             </div>
                                         {% else %}
-                                            <span class="x-small text-muted italic">No posts</span>
+                                            <span class="x-small text-muted italic">{{ 'forum.category.no_posts'|trans({}, 'forum') }}</span>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -67,21 +67,21 @@
             <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
                 <div class="dropdown">
                     <button class="btn btn-white btn-sm border shadow-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="fa-solid fa-sort me-1 text-success"></i> Sort: {{ currentSort|capitalize }}
+                        <i class="fa-solid fa-sort me-1 text-success"></i> {{ 'forum.category.sort'|trans({}, 'forum') }}: {{ currentSort|capitalize }}
                     </button>
                     <ul class="dropdown-menu shadow border-0">
-                        <li><a class="dropdown-item {% if currentSort == 'updated' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'updated'}) }}">Recently Updated</a></li>
-                        <li><a class="dropdown-item {% if currentSort == 'newest' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'newest'}) }}">Newest Threads</a></li>
-                        <li><a class="dropdown-item {% if currentSort == 'oldest' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'oldest'}) }}">Oldest Threads</a></li>
-                        <li><a class="dropdown-item {% if currentSort == 'views' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'views'}) }}">Most Viewed</a></li>
-                        <li><a class="dropdown-item {% if currentSort == 'replies' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'replies'}) }}">Most Replies</a></li>
+                        <li><a class="dropdown-item {% if currentSort == 'updated' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'updated'}) }}">{{ 'forum.category.sort_updated'|trans({}, 'forum') }}</a></li>
+                        <li><a class="dropdown-item {% if currentSort == 'newest' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'newest'}) }}">{{ 'forum.category.sort_newest'|trans({}, 'forum') }}</a></li>
+                        <li><a class="dropdown-item {% if currentSort == 'oldest' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'oldest'}) }}">{{ 'forum.category.sort_oldest'|trans({}, 'forum') }}</a></li>
+                        <li><a class="dropdown-item {% if currentSort == 'views' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'views'}) }}">{{ 'forum.category.sort_views'|trans({}, 'forum') }}</a></li>
+                        <li><a class="dropdown-item {% if currentSort == 'replies' %}active bg-success{% endif %}" href="{{ path('forum_category_view', {slug: category.slug, sort: 'replies'}) }}">{{ 'forum.category.sort_replies'|trans({}, 'forum') }}</a></li>
                     </ul>
                 </div>
 
                 {% if is_granted('ROLE_USER') %}
                     <a href="{{ path('forum_thread_create', { category: category.id }) }}"
                        class="btn btn-success text-bg-success px-4 shadow-sm">
-                        <i class="fa-solid fa-plus-circle me-2"></i> Start a Discussion
+                        <i class="fa-solid fa-plus-circle me-2"></i> {{ 'forum.category.start_discussion'|trans({}, 'forum') }}
                     </a>
                 {% endif %}
             </div>
@@ -91,11 +91,11 @@
                 <div class="card shadow-sm border-0 py-5 text-center">
                     <div class="card-body">
                         <i class="fa-solid fa-comments fa-4x text-light mb-3"></i>
-                        <h4 class="text-muted">No discussions yet</h4>
-                        <p class="text-muted mb-4">Be the first one to start a conversation in {{ category.name }}!</p>
+                        <h4 class="text-muted">{{ 'forum.category.no_discussions_yet'|trans({}, 'forum') }}</h4>
+                        <p class="text-muted mb-4">{{ 'forum.category.be_the_first'|trans({'%category_name%': category.name}, 'forum') }}</p>
                         {% if is_granted('ROLE_USER') %}
                             <a href="{{ path('forum_thread_create', { category: category.id }) }}" class="btn btn-success text-bg-success shadow-sm">
-                                Create New Thread
+                                {{ 'forum.category.create_new_thread'|trans({}, 'forum') }}
                             </a>
                         {% endif %}
                     </div>
@@ -126,12 +126,12 @@
                                                     </a>
                                                 </h5>
                                                 <div class="small text-muted">
-                                                    Started by <span class="text-dark fw-medium">{{ thread.author.username }}</span> &bull; {{ thread.createdAt|date('M d, Y') }}
+                                                    {{ 'forum.category.started_by'|trans({}, 'forum') }} <span class="text-dark fw-medium">{{ thread.author.username }}</span> &bull; {{ thread.createdAt|date('M d, Y') }}
                                                 </div>
                                                 {% set last = thread.getLastPost() %}
                                                 {% if last %}
                                                     <div class="x-small text-muted mt-2 bg-light d-inline-block px-2 py-1 rounded">
-                                                        <i class="fa-solid fa-reply me-1"></i> Latest reply by <strong>{{ last.author.username }}</strong> &bull; {{ last.createdAt|date('M d, H:i') }}
+                                                        <i class="fa-solid fa-reply me-1"></i> {{ 'forum.category.latest_reply_by'|trans({'%username%': last.author.username}, 'forum') }} &bull; {{ last.createdAt|date('M d, H:i') }}
                                                     </div>
                                                 {% endif %}
                                             </div>
@@ -141,11 +141,11 @@
                                         <div class="d-flex justify-content-lg-end gap-4 text-center">
                                             <div>
                                                 <span class="d-block fw-bold text-dark">{{ thread.views }}</span>
-                                                <span class="x-small text-muted text-uppercase">Views</span>
+                                                <span class="x-small text-muted text-uppercase">{{ 'forum.category.views'|trans({}, 'forum') }}</span>
                                             </div>
                                             <div>
                                                 <span class="d-block fw-bold text-success">{{ thread.posts|length }}</span>
-                                                <span class="x-small text-muted text-uppercase">Replies</span>
+                                                <span class="x-small text-muted text-uppercase">{{ 'forum.category.replies'|trans({}, 'forum') }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -157,7 +157,7 @@
 
                 <!-- Pagination -->
                 {% if paginator.hasToPaginate %}
-                    <nav aria-label="Forum pagination" class="mt-4">
+                    <nav aria-label="{{ 'forum.category.pagination_label'|trans({}, 'forum') }}" class="mt-4">
                         <ul class="pagination justify-content-center">
                             <li class="page-item {{ not paginator.hasPreviousPage ? 'disabled' }}">
                                 <a class="page-link"

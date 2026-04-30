@@ -1,13 +1,13 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}Search Results - Forum{% endblock %}
+{% block title %}{{ 'forum.search.results_title'|trans({}, 'forum') }} - {{ 'forum.title'|trans({}, 'forum') }}{% endblock %}
 
 {% block body %}
     <!-- Hero Section consistent with Blog -->
     <section class="section section-page-title bg-default text-center py-5">
         <div class="container">
-            <h2 class="display-5 fw-bold">Search the Community</h2>
-            <p class="lead text-muted mt-2">Find discussions, answers, and community contributions</p>
+            <h2 class="display-5 fw-bold">{{ 'forum.search.hero_title'|trans({}, 'forum') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'forum.search.hero_subtitle'|trans({}, 'forum') }}</p>
         </div>
     </section>
 
@@ -19,8 +19,8 @@
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb" class="mb-4">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ path('forum') }}" class="text-success">Forum</a></li>
-                            <li class="breadcrumb-item active">Search</li>
+                            <li class="breadcrumb-item"><a href="{{ path('forum') }}" class="text-success">{{ 'forum.title'|trans({}, 'forum') }}</a></li>
+                            <li class="breadcrumb-item active">{{ 'forum.search.title'|trans({}, 'forum') }}</li>
                         </ol>
                     </nav>
 
@@ -30,13 +30,13 @@
                             <form action="{{ path('forum_search') }}" method="get" class="d-flex gap-2">
                                 <div class="input-group input-group-lg">
                                     <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-search"></i></span>
-                                    <input type="text" name="q" class="form-control border-start-0 ps-0" placeholder="Keywords or usernames..." value="{{ query }}" required>
-                                    <button class="btn btn-success text-bg-success px-5 fw-bold">Search</button>
+                                    <input type="text" name="q" class="form-control border-start-0 ps-0" placeholder="{{ 'forum.search_placeholder'|trans({}, 'forum') }}" value="{{ query }}" required>
+                                    <button class="btn btn-success text-bg-success px-5 fw-bold">{{ 'forum.search.title'|trans({}, 'forum') }}</button>
                                 </div>
                             </form>
                             {% if query %}
                                 <div class="mt-3 d-flex align-items-center gap-2">
-                                    <span class="text-muted small">Showing results for:</span>
+                                    <span class="text-muted small">{{ 'forum.search.showing_results_for'|trans({}, 'forum') }}:</span>
                                     <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 fs-6">"{{ query }}"</span>
                                 </div>
                             {% endif %}
@@ -52,9 +52,9 @@
                                         <div class="mb-4">
                                             <i class="fa-solid fa-magnifying-glass fa-4x text-light"></i>
                                         </div>
-                                        <h3 class="fw-bold">No results found</h3>
-                                        <p class="text-muted mb-4">We couldn't find any discussions matching "<strong>{{ query }}</strong>".<br>Try using broader keywords or check for typos.</p>
-                                        <a href="{{ path('forum') }}" class="btn btn-outline-success px-5">Back to Forum</a>
+                                        <h3 class="fw-bold">{{ 'forum.search.no_results'|trans({}, 'forum') }}</h3>
+                                        <p class="text-muted mb-4">{{ 'forum.search.no_results_help'|trans({'%query%': query}, 'forum')|raw }}<br>{{ 'forum.search.no_results_try_again'|trans({}, 'forum') }}</p>
+                                        <a href="{{ path('forum') }}" class="btn btn-outline-success px-5">{{ 'forum.search.back_to_forum'|trans({}, 'forum') }}</a>
                                     </div>
                                 </div>
                             {% endif %}
@@ -71,7 +71,7 @@
                                                     </h5>
                                                     <div class="small text-muted mb-3">
                                                         <span class="badge bg-light text-success border border-success-subtle me-2">{{ thread.category.name }}</span>
-                                                        By <span class="text-dark fw-medium">{{ thread.author.username }}</span> &bull; {{ thread.createdAt|date('M d, Y') }}
+                                                        {{ 'forum.by'|trans({}, 'forum') }} <span class="text-dark fw-medium">{{ thread.author.username }}</span> &bull; {{ thread.createdAt|date('M d, Y') }}
                                                     </div>
                                                     <p class="mb-0 text-muted small">
                                                         {{ thread.content|striptags|slice(0, 180) }}...
@@ -81,11 +81,11 @@
                                                     <div class="d-flex d-md-block justify-content-between">
                                                         <div class="mb-md-2">
                                                             <span class="h5 mb-0 fw-bold text-success d-block">{{ thread.posts|length }}</span>
-                                                            <span class="x-small text-muted text-uppercase">Replies</span>
+                                                            <span class="x-small text-muted text-uppercase">{{ 'forum.replies'|trans({}, 'forum') }}</span>
                                                         </div>
                                                         <div>
                                                             <span class="h6 mb-0 fw-bold text-dark d-block">{{ thread.views }}</span>
-                                                            <span class="x-small text-muted text-uppercase">Views</span>
+                                                            <span class="x-small text-muted text-uppercase">{{ 'forum.views'|trans({}, 'forum') }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -97,7 +97,7 @@
 
                             <!-- Pagination -->
                             {% if paginator.hasToPaginate %}
-                                <nav aria-label="Search results pagination" class="mt-5">
+                                <nav aria-label="{{ 'forum.search.pagination_label'|trans({}, 'forum') }}" class="mt-5">
                                     <ul class="pagination justify-content-center">
                                         <li class="page-item {{ not paginator.hasPreviousPage ? 'disabled' }}">
                                             <a class="page-link shadow-sm"

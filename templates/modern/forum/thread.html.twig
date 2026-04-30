@@ -1,6 +1,6 @@
 {% extends '@theme/base.html.twig' %}
 
-{% block title %}{{ thread.title }} — Forum{% endblock %}
+{% block title %}{{ thread.title }} — {{ 'forum.title'|trans({}, 'forum') }}{% endblock %}
 
 {% block body %}
     <!-- Hero Section consistent with Blog -->
@@ -9,10 +9,10 @@
             <h2 class="display-5 fw-bold">{{ thread.title }}</h2>
             <div class="d-flex justify-content-center gap-2 mt-3">
                 {% if thread.pinned %}
-                    <span class="badge bg-warning text-dark"><i class="fa-solid fa-thumbtack me-1"></i> Pinned</span>
+                    <span class="badge bg-warning text-dark"><i class="fa-solid fa-thumbtack me-1"></i> {{ 'forum.thread.pinned'|trans({}, 'forum') }}</span>
                 {% endif %}
                 {% if thread.locked %}
-                    <span class="badge bg-danger"><i class="fa-solid fa-lock me-1"></i> Locked</span>
+                    <span class="badge bg-danger"><i class="fa-solid fa-lock me-1"></i> {{ 'forum.thread.locked'|trans({}, 'forum') }}</span>
                 {% endif %}
                 <span class="badge bg-light text-success border border-success-subtle px-3">{{ thread.category.name }}</span>
             </div>
@@ -22,9 +22,9 @@
     <section class="section section-lg bg-default pt-0">
         <div class="container">
             <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb" class="mb-4">
+            <nav aria-label="{{ 'forum.thread.breadcrumb_label'|trans({}, 'forum') }}" class="mb-4">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ path('forum') }}" class="text-success">Forum</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('forum') }}" class="text-success">{{ 'forum.title'|trans({}, 'forum') }}</a></li>
                     <li class="breadcrumb-item"><a href="{{ path('forum_category_view', { slug: thread.category.slug }) }}" class="text-success">{{ thread.category.name }}</a></li>
                     <li class="breadcrumb-item active" aria-current="page">
                         {% if thread.title|length > 30 %}
@@ -42,7 +42,8 @@
                         <form action="{{ path('forum_thread_subscribe', {id: thread.id}) }}" method="post" class="d-inline">
                             {% set isSubscribed = app.user.subscribedThreads.contains(thread) %}
                             <button type="submit" class="btn btn-sm {{ isSubscribed ? 'btn-warning' : 'btn-outline-warning' }} shadow-sm">
-                                <i class="fa-solid {{ isSubscribed ? 'fa-bell-slash' : 'fa-bell' }} me-1"></i> {{ isSubscribed ? 'Unsubscribe' : 'Subscribe' }}
+                                <i class="fa-solid {{ isSubscribed ? 'fa-bell-slash' : 'fa-bell' }} me-1"></i> 
+                                {{ isSubscribed ? 'forum.thread.unsubscribe'|trans({}, 'forum') : 'forum.thread.subscribe'|trans({}, 'forum') }}
                             </button>
                         </form>
                     {% endif %}
@@ -52,10 +53,10 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <div class="btn-group btn-group-sm shadow-sm">
                         <a href="{{ path('admin_forum_thread_pin', { id: thread.id }) }}" class="btn btn-white border">
-                            {{ thread.pinned ? 'Unpin' : 'Pin' }}
+                            {{ thread.pinned ? 'forum.thread.unpin'|trans({}, 'forum') : 'forum.thread.pin'|trans({}, 'forum') }}
                         </a>
                         <a href="{{ path('admin_forum_thread_lock', { id: thread.id }) }}" class="btn btn-white border">
-                            {{ thread.locked ? 'Unlock' : 'Lock' }}
+                            {{ thread.locked ? 'forum.thread.unlock'|trans({}, 'forum') : 'forum.thread.lock'|trans({}, 'forum') }}
                         </a>
                     </div>
                 {% endif %}
@@ -78,13 +79,13 @@
                             {% endif %}
                         </div>
                         <h6 class="fw-bold mb-1">{{ thread.author.username }}</h6>
-                        <div class="small text-success fw-bold mb-3">{{ thread.author.reputation }} rep</div>
+                        <div class="small text-success fw-bold mb-3">{{ thread.author.reputation }} {{ 'forum.thread.rep'|trans({}, 'forum') }}</div>
                         
                         {% if is_granted('ROLE_USER') and thread.author != app.user %}
                             <form action="{{ path('forum_user_follow', {id: thread.author.id}) }}" method="post" class="mb-3">
                                 {% set isFollowing = app.user.following.contains(thread.author) %}
                                 <button type="submit" class="btn btn-xs {{ isFollowing ? 'btn-secondary' : 'btn-outline-success' }} w-100">
-                                    {{ isFollowing ? 'Unfollow' : 'Follow' }}
+                                    {{ isFollowing ? 'forum.thread.unfollow'|trans({}, 'forum') : 'forum.thread.follow'|trans({}, 'forum') }}
                                 </button>
                             </form>
                         {% endif %}
@@ -106,8 +107,8 @@
                             {% if thread.author.privacy.showLocation and thread.author.location %}
                                 <div><i class="fa-solid fa-location-dot me-1"></i> {{ thread.author.location }}</div>
                             {% endif %}
-                            <div><i class="fa-solid fa-calendar-alt me-1"></i> Joined {{ thread.author.createdAt|date('M Y') }}</div>
-                            <div><i class="fa-solid fa-comment-dots me-1"></i> Posts: {{ thread.author.postCount }}</div>
+                            <div><i class="fa-solid fa-calendar-alt me-1"></i> {{ 'member.member_since'|trans({}, 'member') }} {{ thread.author.createdAt|date('M Y') }}</div>
+                            <div><i class="fa-solid fa-comment-dots me-1"></i> {{ 'member.posts'|trans({}, 'member') }}: {{ thread.author.postCount }}</div>
                         </div>
                     </div>
                     <div class="col-lg-10">
@@ -118,7 +119,7 @@
                             </div>
                             {% if thread.author == app.user or is_granted('ROLE_ADMIN') %}
                                 <a href="{{ path('forum_thread_edit', { id: thread.id }) }}" class="btn btn-link btn-sm text-warning text-decoration-none py-0">
-                                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                                    <i class="fa-solid fa-pen-to-square"></i> {{ 'forum.thread.edit'|trans({}, 'forum') }}
                                 </a>
                             {% endif %}
                         </div>
@@ -143,13 +144,13 @@
                                 <a class="btn btn-outline-secondary btn-xs rounded-circle share-btn" target="_blank" href="https://twitter.com/intent/tweet?url={{ app.request.uri|url_encode }}&text={{ thread.title|url_encode }}"><i class="fa-brands fa-x-twitter"></i></a>
                                 <button class="btn btn-outline-secondary btn-xs rounded-circle share-btn" onclick="copyToClipboard('{{ app.request.uri }}')"><i class="fa-solid fa-link"></i></button>
                             </div>
-                            <span class="x-small text-muted text-uppercase fw-bold">Original Post</span>
+                            <span class="x-small text-muted text-uppercase fw-bold">{{ 'forum.thread.original_post'|trans({}, 'forum') }}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <h5 class="fw-bold mb-4 border-bottom pb-3"><i class="fa-solid fa-comments me-2 text-success"></i> Community Replies ({{ paginator.numResults }})</h5>
+            <h5 class="fw-bold mb-4 border-bottom pb-3"><i class="fa-solid fa-comments me-2 text-success"></i> {{ 'forum.thread.replies_title'|trans({}, 'forum') }} ({{ paginator.numResults }})</h5>
 
             <!-- Replies -->
             <div class="reply-list mb-5">
@@ -168,13 +169,13 @@
                                     {% endif %}
                                 </div>
                                 <h6 class="small fw-bold mb-1">{{ post.author.username }}</h6>
-                                <div class="x-small text-success fw-bold mb-3">{{ post.author.reputation }} rep</div>
+                                <div class="x-small text-success fw-bold mb-3">{{ post.author.reputation }} {{ 'forum.thread.rep'|trans({}, 'forum') }}</div>
                                 
                                 {% if is_granted('ROLE_USER') and post.author != app.user %}
                                     <form action="{{ path('forum_user_follow', {id: post.author.id}) }}" method="post" class="mb-3">
                                         {% set isFollowing = app.user.following.contains(post.author) %}
                                         <button type="submit" class="btn btn-xs {{ isFollowing ? 'btn-secondary' : 'btn-outline-success' }} w-100">
-                                            {{ isFollowing ? 'Unfollow' : 'Follow' }}
+                                            {{ isFollowing ? 'forum.thread.unfollow'|trans({}, 'forum') : 'forum.thread.follow'|trans({}, 'forum') }}
                                         </button>
                                     </form>
                                 {% endif %}
@@ -196,8 +197,8 @@
                                     {% if post.author.privacy.showLocation and post.author.location %}
                                         <div><i class="fa-solid fa-location-dot me-1"></i> {{ post.author.location }}</div>
                                     {% endif %}
-                                    <div><i class="fa-solid fa-calendar-alt me-1"></i> Joined {{ post.author.createdAt|date('M Y') }}</div>
-                                    <div><i class="fa-solid fa-comment-dots me-1"></i> Posts: {{ post.author.postCount }}</div>
+                                    <div><i class="fa-solid fa-calendar-alt me-1"></i> {{ 'member.member_since'|trans({}, 'member') }} {{ post.author.createdAt|date('M Y') }}</div>
+                                    <div><i class="fa-solid fa-comment-dots me-1"></i> {{ 'member.posts'|trans({}, 'member') }}: {{ post.author.postCount }}</div>
                                 </div>
 
                                 <!-- Post Reaction/Score block -->
@@ -206,20 +207,20 @@
                                         {% set userReact = post.getUserReaction(app.user) %}
                                         <div class="d-flex flex-column align-items-center gap-1">
                                             <form action="{{ path('forum_post_react', {id: post.id, type: 'upvote'}) }}" method="post">
-                                                <button type="submit" class="btn btn-link p-0 {{ userReact == 'upvote' ? 'text-success' : 'text-muted opacity-50' }}" title="Upvote">
+                                                <button type="submit" class="btn btn-link p-0 {{ userReact == 'upvote' ? 'text-success' : 'text-muted opacity-50' }}" title="{{ 'forum.thread.upvote'|trans({}, 'forum') }}">
                                                     <i class="fa-solid fa-circle-chevron-up fa-2xl"></i>
                                                 </button>
                                             </form>
                                             <span class="fw-bold {{ post.getScore > 0 ? 'text-success' : (post.getScore < 0 ? 'text-danger' : 'text-muted') }}">{{ post.getScore }}</span>
                                             <form action="{{ path('forum_post_react', {id: post.id, type: 'downvote'}) }}" method="post">
-                                                <button type="submit" class="btn btn-link p-0 {{ userReact == 'downvote' ? 'text-danger' : 'text-muted opacity-50' }}" title="Downvote">
+                                                <button type="submit" class="btn btn-link p-0 {{ userReact == 'downvote' ? 'text-danger' : 'text-muted opacity-50' }}" title="{{ 'forum.thread.downvote'|trans({}, 'forum') }}">
                                                     <i class="fa-solid fa-circle-chevron-down fa-2xl"></i>
                                                 </button>
                                             </form>
                                         </div>
                                     {% else %}
                                         <div class="text-center">
-                                            <div class="small text-muted mb-1">Score</div>
+                                            <div class="small text-muted mb-1">{{ 'forum.thread.score'|trans({}, 'forum') }}</div>
                                             <span class="h5 mb-0 fw-bold {{ post.getScore > 0 ? 'text-success' : (post.getScore < 0 ? 'text-danger' : 'text-muted') }}">{{ post.getScore }}</span>
                                         </div>
                                     {% endif %}
@@ -233,18 +234,18 @@
                                         <span class="text-muted small post-created-at" data-created-at="{{ post.createdAt|date('M d, Y H:i') }}"><i class="fa-regular fa-clock me-1"></i> {{ post.createdAt|date('M d, Y H:i') }}</span>
                                         
                                         {% if post.isAcceptedAnswer %}
-                                            <span class="badge bg-success ms-2 shadow-sm"><i class="fa-solid fa-check-circle me-1"></i> Accepted Solution</span>
+                                            <span class="badge bg-success ms-2 shadow-sm"><i class="fa-solid fa-check-circle me-1"></i> {{ 'forum.thread.accepted_solution'|trans({}, 'forum') }}</span>
                                         {% endif %}
                                     </div>
                                     <div class="d-flex gap-3">
                                         <button class="btn btn-link btn-sm text-decoration-none py-0 text-success" onclick="quotePost('{{ post.author.username }}', 'post-{{ post.id }}')">
-                                            <i class="fa-solid fa-quote-left"></i> Quote
+                                            <i class="fa-solid fa-quote-left"></i> {{ 'forum.thread.quote'|trans({}, 'forum') }}
                                         </button>
 
                                         {% if thread.type == 'question' and thread.author == app.user and not post.isAcceptedAnswer and post.author != app.user %}
                                             <form action="{{ path('forum_post_accept', {id: post.id}) }}" method="post" class="d-inline">
-                                                <button type="submit" class="btn btn-link btn-sm text-decoration-none py-0 text-primary" title="Mark as solution">
-                                                    <i class="fa-solid fa-circle-check"></i> Accept
+                                                <button type="submit" class="btn btn-link btn-sm text-decoration-none py-0 text-primary" title="{{ 'forum.thread.mark_solution'|trans({}, 'forum') }}">
+                                                    <i class="fa-solid fa-circle-check"></i> {{ 'forum.thread.accept_action'|trans({}, 'forum') }}
                                                 </button>
                                             </form>
                                         {% endif %}
@@ -255,11 +256,11 @@
                                                     <i class="fa-solid fa-ellipsis-vertical"></i>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                                                    <li><a href="{{ path('forum_post_edit', { id: post.id }) }}" class="dropdown-item small text-warning"><i class="fa-solid fa-pen me-2"></i> Edit Post</a></li>
+                                                    <li><a href="{{ path('forum_post_edit', { id: post.id }) }}" class="dropdown-item small text-warning"><i class="fa-solid fa-pen me-2"></i> {{ 'forum.thread.edit'|trans({}, 'forum') }}</a></li>
                                                     <li><hr class="dropdown-divider"></li>
                                                     <li>
-                                                        <form action="{{ path('forum_post_delete', { id: post.id }) }}" method="post" onsubmit="return confirm('Permanently delete this reply?');">
-                                                            <button class="dropdown-item small text-danger"><i class="fa-solid fa-trash me-2"></i> Delete Post</button>
+                                                        <form action="{{ path('forum_post_delete', { id: post.id }) }}" method="post" onsubmit="return confirm('{{ 'forum.thread.delete_confirm'|trans({}, 'forum') }}');">
+                                                            <button class="dropdown-item small text-danger"><i class="fa-solid fa-trash me-2"></i> {{ 'forum.thread.delete'|trans({}, 'forum') }}</button>
                                                         </form>
                                                     </li>
                                                 </ul>
@@ -289,7 +290,7 @@
 
                 <!-- Pagination -->
                 {% if paginator.hasToPaginate %}
-                    <nav aria-label="Thread pagination" class="mt-4">
+                    <nav aria-label="{{ 'forum.thread.pagination_label'|trans({}, 'forum') }}" class="mt-4">
                         <ul class="pagination justify-content-center">
                             <li class="page-item {{ not paginator.hasPreviousPage ? 'disabled' }}">
                                 <a class="page-link"
@@ -328,7 +329,7 @@
                     {% if not thread.locked %}
                         <div class="card shadow border-0 overflow-hidden">
                             <div class="card-header bg-success text-bg-success py-3">
-                                <h5 class="mb-0 fw-bold reply-post"><i class="fa-solid fa-reply me-2"></i> Post your reply</h5>
+                                <h5 class="mb-0 fw-bold reply-post"><i class="fa-solid fa-reply me-2"></i> {{ 'forum.thread.post_reply'|trans({}, 'forum') }}</h5>
                             </div>
                             <div class="card-body p-4 p-lg-5">
                                 {{ form_start(form, { 'enctype': 'multipart/form-data' }) }}
@@ -341,7 +342,7 @@
                                     </div>
 
                                     <button class="btn btn-success text-bg-success px-5 py-2 fw-bold shadow-sm">
-                                        Submit Reply <i class="fa-solid fa-paper-plane ms-2"></i>
+                                        {{ 'forum.thread.submit_reply'|trans({}, 'forum') }} <i class="fa-solid fa-paper-plane ms-2"></i>
                                     </button>
                                 {{ form_end(form) }}
                             </div>
@@ -349,16 +350,16 @@
                     {% else %}
                         <div class="alert alert-warning border-0 shadow-sm text-center py-4">
                             <i class="fa-solid fa-lock fa-2x mb-3 d-block"></i>
-                            <h5 class="fw-bold">Discussion Locked</h5>
-                            <p class="mb-0">Replies are currently disabled for this discussion.</p>
+                            <h5 class="fw-bold">{{ 'forum.thread.discussion_locked_title'|trans({}, 'forum') }}</h5>
+                            <p class="mb-0">{{ 'forum.thread.discussion_locked_text'|trans({}, 'forum') }}</p>
                         </div>
                     {% endif %}
                 {% else %}
                     <div class="card shadow-sm border-0 bg-light text-center py-5">
                         <div class="card-body">
-                            <h5 class="fw-bold mb-3">Join the Conversation</h5>
-                            <p class="text-muted mb-4">You need to be logged in to participate in our community discussions.</p>
-                            <a href="{{ path('security_login') }}" class="btn btn-success text-bg-success px-5">Login / Sign Up</a>
+                            <h5 class="fw-bold mb-3">{{ 'forum.thread.join_convo'|trans({}, 'forum') }}</h5>
+                            <p class="text-muted mb-4">{{ 'forum.thread.login_to_participate'|trans({}, 'forum') }}</p>
+                            <a href="{{ path('security_login') }}" class="btn btn-success text-bg-success px-5">{{ 'forum.thread.login_signup'|trans({}, 'forum') }}</a>
                         </div>
                     </div>
                 {% endif %}
@@ -376,13 +377,17 @@
             const createdAt = createdAtElement ? createdAtElement.dataset.createdAt : '';
 
             const editor = document.querySelector("trix-editor").editor;
-            editor.insertHTML(`<blockquote><strong>${username}</strong> <span class="text-muted small">on ${createdAt} wrote:</span><br>${content}</blockquote><p><br></p>`);
+            
+            // Translate the "wrote on" text
+            const wroteText = "{{ 'forum.thread.wrote_on'|trans({'%date%': 'DATE_PLACEHOLDER'}, 'forum') }}".replace('DATE_PLACEHOLDER', createdAt);
+            
+            editor.insertHTML(`<blockquote><strong>${username}</strong> <span class="text-muted small">${wroteText}</span><br>${content}</blockquote><p><br></p>`);
             document.querySelector('.reply-box').scrollIntoView({ behavior: 'smooth' });
         }
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
-                alert('Link copied to clipboard!');
+                alert('{{ 'forum.thread.link_copied'|trans({}, 'forum') }}');
             });
         }
     </script>
