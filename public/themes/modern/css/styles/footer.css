@@ -7,28 +7,10 @@
  * For the full copyright and license information, please view the LICENSE.
  */
 
-/* --------------------------------------------------
-   FOOTER — OktoDark Modern Edition
-   -------------------------------------------------- */
-
 .footer {
-    background: #111;
-    padding: 60px 0;
+    background: #14161a !important;
     color: #ccc;
     font-family: "Roboto Slab", serif;
-}
-
-.footer .row {
-    justify-content: center;
-}
-
-.footer .footer-column {
-    margin-bottom: 30px;
-    text-align: left;
-}
-
-.footer .footer-column:nth-child(2) {
-    text-align: center;
 }
 
 .footer h5 {
@@ -37,92 +19,281 @@
     font-weight: 700;
     color: #fff;
     margin-bottom: 15px;
-    letter-spacing: -0.01em;
 }
+
+/* --------------------------------------------------
+   LINKS (NO EFFECTS)
+-------------------------------------------------- */
 
 .footer a {
     color: #0cc5b6;
     text-decoration: none;
-    transition: color .25s ease, transform .25s ease;
 }
 
 .footer a:hover {
     color: #fff;
-    transform: translateX(4px);
 }
 
-.footer p {
-    color: #aaa;
-    font-size: .95rem;
-    margin-bottom: 10px;
+/* Inline footer links (FAQ, Services, Contact, etc.) */
+.footer-inline-link {
+    color: #bbb;
+    text-decoration: none;
 }
 
-.footer-divider {
-    border-top: 1px solid rgba(255,255,255,0.08);
-    margin: 30px 0;
+.footer-inline-link:hover {
+    color: #fff;
 }
 
-.footer-bottom {
-    text-align: center;
-    padding-top: 20px;
-    color: #777;
-    font-size: .85rem;
+.separator {
+    color: #666;
+    font-weight: bold;
 }
+
+/* --------------------------------------------------
+   SOCIAL ICONS (ONLY THESE HAVE EFFECT)
+-------------------------------------------------- */
 
 .footer .social-icons {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 16px;
-    margin: 15px 0 10px;
-    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .footer .social-icons a i {
     font-size: 1.45rem;
-    color: #bfbfbf;
-    transition: transform .25s ease, color .25s ease;
 }
 
-.footer .social-icons a:hover i {
+/* Square outline hover effect ONLY for icons */
+.footer .social-icons a {
+    position: relative;
+    padding: 2px 4px;
+}
+
+.footer .social-icons a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: border-color .25s ease;
+}
+
+.footer .social-icons a:hover::after {
+    border-color: #0cc5b6;
+}
+
+/* Brand colors */
+.footer .social-x i { color: #000; }
+.footer .social-youtube i { color: #FF0000; }
+.footer .social-discord i { color: #5865F2; }
+.footer .social-twitch i { color: #9146FF; }
+.footer .social-patreon i { color: #FF424D; }
+.footer .social-bitbucket i { color: #2684FF; }
+.footer .social-gitlab i { color: #FC6D26; }
+.footer .social-github i { color: #fff; }
+
+.footer-bottom {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* Divider */
+.footer-divider {
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+/* --------------------------------------------------
+   LAYOUT FIXES
+-------------------------------------------------- */
+
+.footer .row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: center;
+    gap: 40px;
+}
+
+.footer .footer-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Language dropdown must NOT stretch full width */
+.footer .dropdown {
+    width: auto;
+    display: inline-block;
+}
+
+/* --------------------------------------------------
+   LANGUAGE DROPDOWN (EFFECTS ALLOWED)
+-------------------------------------------------- */
+
+/* Dropdown toggle (NO effect) */
+.footer .dropdown-toggle {
+    /*
+    color: #ccc !important;
+    font-weight: 600;
+     */
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.footer .dropdown-toggle:hover {
+    color: #fff !important;
+    border-color: rgba(255,255,255,0.15); /* no accent border */
+}
+
+/* Dropdown menu same width as selector */
+.footer .dropdown-menu {
+    background: #1c1e22;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 6px 0;
+    width: 100%;              /* match toggle width */
+    min-width: unset;         /* remove Bootstrap default */
+    max-width: none;          /* prevent auto-expansion */
+}
+
+.footer .dropdown {
+    width: auto;
+    display: inline-block;
+    position: relative;       /* required for width inheritance */
+}
+
+/* Dropdown items (effects remain) */
+.footer .dropdown-item {
+    color: #ccc;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+}
+
+.footer .dropdown-item:hover {
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+}
+
+.footer .dropdown-item.active {
+    background: rgba(12,197,182,0.15);
     color: #0cc5b6;
-    transform: scale(1.25);
-    text-shadow: 0 0 8px rgba(12, 197, 182, 0.6);
+    font-weight: 600;
 }
 
-.footer .lang {
-    padding-left: 150px;
+/* Socials Links */
+/* Square outline hover effect ONLY for icons */
+.footer .social-icons a {
+    position: relative;
+    display: inline-flex;          /* ensures perfect centering */
+    align-items: center;
+    justify-content: center;
+    width: 32px;                   /* fixed square size */
+    height: 32px;
+    padding: 0;                    /* remove old padding */
 }
 
+.footer .social-icons a i {
+    font-size: 1.25rem;            /* adjust icon size to fit square */
+}
+
+.footer .social-icons a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: border-color .25s ease;
+}
+
+.footer .social-icons a:hover::after {
+    border-color: #0cc5b6;
+}
+
+/* --------------------------------------------------
+   MOBILE (≤768px)
+-------------------------------------------------- */
 @media (max-width: 768px) {
-    .footer {
+
+    /* Center all footer columns */
+    .footer .footer-column {
+        text-align: center !important;
+        align-items: center;
+    }
+
+    /* Follow Us row spacing */
+    .footer .social-icons {
+        justify-content: center;
+        gap: 12px; /* slightly smaller gap for mobile */
+    }
+
+    /* Icon square size for mobile */
+    .footer .social-icons a {
+        width: 28px;
+        height: 28px;
+    }
+
+    .footer .social-icons a i {
+        font-size: 1.15rem;
+    }
+
+    /* Language dropdown alignment */
+    .footer .dropdown {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    /* Dropdown toggle full width on mobile */
+    .footer .dropdown-toggle {
+        width: 100%;
+        text-align: center;
+        padding: 8px 12px;
+    }
+
+    /* Dropdown menu matches toggle width */
+    .footer .dropdown-menu {
+        width: 100% !important;
+        min-width: unset !important;
+        max-width: none !important;
+        box-sizing: border-box;
         text-align: center;
     }
-    .footer .social-icons a {
-        margin-right: 8px;
+
+    /* Footer links stack cleanly */
+    .footer a {
+        display: block;
+        padding: 6px 0;
+        font-size: 14px;
+    }
+
+    /* Copyright spacing */
+    .footer-bottom {
+        margin-top: 12px;
+        text-align: center;
     }
 }
 
-/** CO **/
+/* ---------------------------------------------------------
+   CO > Do not Delete Below the Lines
+--------------------------------------------------------- */
 
-/* Overlay */
 .a9f2 {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-
     background: rgba(0,0,0,0.65);
-
     display: none;
     align-items: center;
     justify-content: center;
-
     z-index: 999999;
     pointer-events: auto;
 }
 
-/* Box */
 .b7kq {
     position: relative;
     background: #1f1f1f;
@@ -136,7 +307,6 @@
     pointer-events: auto;
 }
 
-/* Close button */
 .c1z0 {
     position: absolute;
     top: 12px;
@@ -147,14 +317,12 @@
     font-size: 1.6rem;
     cursor: pointer;
     opacity: .7;
-    transition: opacity .2s ease;
 }
 
 .c1z0:hover {
     opacity: 1;
 }
 
-/* Options */
 .d8p1 {
     display: flex;
     align-items: center;
@@ -162,13 +330,11 @@
     margin: 12px 0;
 }
 
-/* Actions */
 .e4m9 {
     margin-top: 20px;
     text-align: right;
 }
 
-/* Animation */
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(.95); }
     to { opacity: 1; transform: scale(1); }

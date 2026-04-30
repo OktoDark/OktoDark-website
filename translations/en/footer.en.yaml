@@ -1,6 +1,7 @@
 language.selector: "Language"
 
 privacy_policy.text: "Privacy Policy"
+site_preferences.text: "Site Preferences"
 information.text: "Information"
 
 footer.information_text: "Information"
@@ -12,4 +13,3 @@ footer.support_us_text: "Support us"
 footer.all_rights_reserved_text: "All rights reserved."
 
 title.follow: "Follow Us"
-title.links: "Links"

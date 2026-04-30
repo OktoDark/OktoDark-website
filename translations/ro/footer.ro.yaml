@@ -1,6 +1,7 @@
 language.selector: "Limbă"
 
 privacy_policy.text: "Politica de Confidențialitate"
+site_preferences.text: "Preferințe Site"
 information.text: "Informații"
 
 footer.information_text: "Informații"
@@ -11,4 +12,4 @@ footer.discourse_text: "Discuții"
 footer.support_us_text: "Susține-ne"
 footer.all_rights_reserved_text: "Toate drepturile rezervate."
 
-title.links: "Linkuri"
+title.follow: "Urmărește-ne"
