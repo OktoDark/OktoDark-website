@@ -179,6 +179,6 @@ final class AdminSystemController extends AbstractController
         $unit = preg_replace('/[^bkmgt]/i', '', $size);
         $size = preg_replace('/[^0-9\.]/', '', $size);
 
-        return round($unit ? $size * pow(1024, mb_stripos('bkmgt', $unit[0])) : $size);
+        return round($unit ? $size * 1024 ** mb_stripos('bkmgt', $unit[0]) : $size);
     }
 }
