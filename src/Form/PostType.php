@@ -14,8 +14,8 @@ namespace App\Form;
 use App\Entity\Post;
 use App\Form\Type\DateTimePickerType;
 use App\Form\Type\TagsInputType;
+use App\Form\Type\TrixEditorType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -35,42 +35,34 @@ class PostType extends AbstractType
         $builder
             // Title
             ->add('title', TextType::class, [
-                'label' => 'label.post_title',
+                'label' => 'blog.label.title',
                 'attr' => [
-                    'class' => 'form-input form-input-circle form-input-gray',
+                    'class' => 'form-control form-control-lg',
                     'autofocus' => true,
                 ],
             ])
 
             // Summary
-            ->add('summary', TextareaType::class, [
-                'label' => 'label.post_summary',
-                'help' => 'help.post_summary',
-                'attr' => [
-                    'class' => 'form-input form-input-circle form-input-gray',
-                    'rows' => 4,
-                ],
+            ->add('summary', TrixEditorType::class, [
+                'label' => 'blog.label.summary',
+                'help' => 'blog.help.post_summary',
             ])
 
             // Content
-            ->add('content', TextareaType::class, [
-                'label' => 'label.post_content',
-                'help' => 'help.post_content',
-                'attr' => [
-                    'class' => 'form-input form-input-circle form-input-gray',
-                    'rows' => 20,
-                ],
+            ->add('content', TrixEditorType::class, [
+                'label' => 'blog.label.content',
+                'help' => 'blog.help.post_content',
             ])
 
             // Publication date
             ->add('publishedAt', DateTimePickerType::class, [
-                'label' => 'label.published_at',
-                'help' => 'help.post_publication',
+                'label' => 'blog.label.published_at',
+                'help' => 'blog.help.post_publication',
             ])
 
             // Tags
             ->add('tags', TagsInputType::class, [
-                'label' => 'label.tags',
+                'label' => 'blog.label.tags',
                 'required' => false,
             ])
 
@@ -84,6 +76,15 @@ class PostType extends AbstractType
                         $this->slugger->slug($postTitle)->lower()
                     );
                 }
+            })
+            
+            // Set default publishedAt if empty
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+                /** @var Post|null $post */
+                $post = $event->getData();
+                if (!$post || null === $post->getPublishedAt()) {
+                    $post?->setPublishedAt(new \DateTimeImmutable());
+                }
             });
     }
 
@@ -91,7 +92,7 @@ class PostType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Post::class,
-            'translation_domain' => 'labels',
+            'translation_domain' => 'blog', // Changed from 'labels' to 'blog'
         ]);
     }
 }

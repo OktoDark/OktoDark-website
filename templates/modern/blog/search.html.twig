@@ -1,6 +1,6 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'title.blog'|trans({}, 'titles') }}{% endblock %}
+{% block title %}{{ 'blog.title'|trans({}, 'blog') }}{% endblock %}
 
 {% block body_id 'blog_search' %}
 
@@ -27,11 +27,11 @@
                             <div class="input-group input-group-lg shadow-sm">
                                 <input name="q"
                                        class="form-control search-field"
-                                       placeholder="{{ 'post.search_for'|trans({}, 'blog') }}"
+                                       placeholder="{{ 'blog.search_placeholder'|trans({}, 'blog') }}"
                                        autocomplete="off"
                                        value="{{ query }}"
                                        autofocus
-                                       data-no-results-message="{{ 'post.search_no_results'|trans({}, 'blog') }}"
+                                       data-no-results-message="{{ 'blog.search_no_results'|trans({}, 'blog') }}"
                                 >
                                 <button class="btn btn-primary px-4" type="submit">
                                     <i class="fas fa-search"></i>
@@ -72,7 +72,7 @@
                                             </div>
                                             <div>
                                                 <span class="far fa-comments"></span>
-                                                {{ post.comments|length }}
+                                                {{ post.comments|length }} {{ 'blog.comments_count'|trans({}, 'blog') }}
                                             </div>
                                         </div>
 
@@ -90,14 +90,14 @@
                                         <div class="blog-actions">
                                             <a class="btn btn-success text-bg-success"
                                                href="{{ path('blog_post', { slug: post.slug }) }}">
-                                                {{ 'action.read_more'|trans({}, 'actions') }}
+                                                {{ 'common.read_more'|trans({}, 'common') }}
                                             </a>
                                         </div>
                                     </div>
                                 </article>
                             {% else %}
                                 <div class="alert alert-info text-center">
-                                    {{ 'post.search_no_results'|trans({}, 'blog') }}
+                                    {{ 'blog.search_no_results'|trans({}, 'blog') }}
                                 </div>
                             {% endfor %}
                         {% endif %}
@@ -133,8 +133,6 @@
             $input.on('keyup', function() {
                 var query = $(this).val();
                 if (query.length < 1) {
-                    // If we have initial results (from server), don't clear them if the field is just empty on focus
-                    // But if user typed and then deleted, we might want to clear or restore.
                     return;
                 }
 
@@ -147,7 +145,7 @@
                     },
                     success: function(items) {
                         if (items.length === 0) {
-                            $results.html('<div class="alert alert-info text-center">{{ 'post.search_no_results'|trans({}, 'blog') }}</div>');
+                            $results.html('<div class="alert alert-info text-center">{{ 'blog.search_no_results'|trans({}, 'blog') }}</div>');
                         } else {
                             $results.empty();
                             $.each(items, function(index, item) {
@@ -159,7 +157,7 @@
                                     '<h2 class="blog-title"><a href="' + item.url + '">' + item.title + '</a></h2>' +
                                     '<p class="blog-summary">' + item.summary + '</p>' +
                                     '<div class="blog-actions">' +
-                                    '<a class="btn btn-success text-bg-success" href="' + item.url + '">{{ 'action.read_more'|trans({}, 'actions') }}</a>' +
+                                        '<a class="btn btn-success text-bg-success" href="' + item.url + '">{{ 'common.read_more'|trans({}, 'common') }}</a>' +
                                     '</div>' +
                                     '</div>' +
                                     '</article>';

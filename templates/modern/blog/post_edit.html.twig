@@ -1,74 +1,86 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'title.edit_post'|trans({}, 'titles') }} - {{ post.title }}{% endblock %}
+{% form_theme form 'form/trix_editor_widget.html.twig' %}
+
+{% block title %}{{ 'blog.edit_post'|trans({}, 'blog') }}{% endblock %}
 {% block body_id %}post_edit{% endblock %}
 
 {% block main %}
     <section class="section section-lg bg-default py-5">
         <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-9">
 
-            <!-- Page Title + Back Button -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="fw-bold">
-                    {{ 'title.edit_post'|trans({}, 'titles') }}: {{ post.title }}
-                </h1>
+                    <!-- Page Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="fw-bold">{{ 'blog.edit_post'|trans({}, 'blog') }}</h4>
 
-                <a href="{{ path('blog_post', { slug: post.slug }) }}" class="btn btn-outline-secondary">
-                    <i class="fas fa-arrow-left"></i> {{ 'action.back'|trans({}, 'actions') }}
-                </a>
-            </div>
-
-            <!-- Edit Form Card -->
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-
-                    {{ form_start(form) }}
-
-                    <!-- Title -->
-                    <div class="mb-4">
-                        {{ form_label(form.title, null, { label_attr: { class: 'form-label fw-semibold' } }) }}
-                        {{ form_widget(form.title, { attr: { class: 'form-control form-control-lg' } }) }}
-                        <div class="text-danger small">{{ form_errors(form.title) }}</div>
+                        <a href="{{ path('blog_post', { slug: post.slug }) }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>{{ 'common.back'|trans({}, 'common') }}
+                        </a>
                     </div>
 
-                    <!-- Summary -->
-                    <div class="mb-4">
-                        {{ form_label(form.summary, null, { label_attr: { class: 'form-label fw-semibold' } }) }}
-                        {{ form_widget(form.summary, { attr: { class: 'form-control' } }) }}
-                        <div class="text-danger small">{{ form_errors(form.summary) }}</div>
+                    <!-- Form Card -->
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4">
+
+                            {{ form_start(form) }}
+
+                            <!-- Title -->
+                            <div class="mb-4">
+                                {{ form_label(form.title, null, { label_attr: { class: 'form-label fw-semibold' } }) }}
+                                {{ form_widget(form.title) }}
+                                <div class="text-danger small mt-1">{{ form_errors(form.title) }}</div>
+                            </div>
+
+                            <!-- Summary -->
+                            <div class="mb-4">
+                                {{ form_label(form.summary, null, { label_attr: { class: 'form-label fw-semibold' } }) }}
+                                {{ form_widget(form.summary) }}
+                                <div class="form-text mt-1 text-muted">{{ form_help(form.summary) }}</div>
+                                <div class="text-danger small mt-1">{{ form_errors(form.summary) }}</div>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="mb-4">
+                                {{ form_label(form.content, null, { label_attr: { class: 'form-label fw-semibold' } }) }}
+                                {{ form_widget(form.content) }}
+                                <div class="form-text mt-1 text-muted">{{ form_help(form.content) }}</div>
+                                <div class="text-danger small mt-1">{{ form_errors(form.content) }}</div>
+                            </div>
+
+                            <!-- Publication Info -->
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    {{ form_label(form.publishedAt, null, { label_attr: { class: 'form-label fw-semibold' } }) }}
+                                    {{ form_widget(form.publishedAt, { attr: { class: 'form-control' } }) }}
+                                    <div class="form-text mt-1 text-muted">{{ form_help(form.publishedAt) }}</div>
+                                    <div class="text-danger small mt-1">{{ form_errors(form.publishedAt) }}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.tags, null, { label_attr: { class: 'form-label fw-semibold' } }) }}
+                                    {{ form_widget(form.tags, { attr: { class: 'form-control' } }) }}
+                                    <div class="text-danger small mt-1">{{ form_errors(form.tags) }}</div>
+                                </div>
+                            </div>
+
+                            <!-- Form Actions -->
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-warning btn-lg px-4">
+                                    <i class="fas fa-edit me-2"></i>{{ 'blog.update'|trans({}, 'blog') }}
+                                </button>
+                                <a href="{{ path('blog_post', { slug: post.slug }) }}" class="btn btn-link text-secondary text-decoration-none py-2 px-3">
+                                    {{ 'common.cancel'|trans({}, 'common') }}
+                                </a>
+                            </div>
+
+                            {{ form_end(form) }}
+
+                        </div>
                     </div>
-
-                    <!-- Content -->
-                    <div class="mb-4">
-                        {{ form_label(form.content, null, { label_attr: { class: 'form-label fw-semibold' } }) }}
-                        {{ form_widget(form.content, { attr: { class: 'form-control', rows: 12 } }) }}
-                        <div class="text-danger small">{{ form_errors(form.content) }}</div>
-                    </div>
-
-                    <!-- Published At -->
-                    <div class="mb-4">
-                        {{ form_label(form.publishedAt, null, { label_attr: { class: 'form-label fw-semibold' } }) }}
-                        {{ form_widget(form.publishedAt, { attr: { class: 'form-control' } }) }}
-                        <div class="text-danger small">{{ form_errors(form.publishedAt) }}</div>
-                    </div>
-
-                    <!-- Tags -->
-                    <div class="mb-4">
-                        {{ form_label(form.tags, null, { label_attr: { class: 'form-label fw-semibold' } }) }}
-                        {{ form_widget(form.tags, { attr: { class: 'form-control' } }) }}
-                        <div class="text-danger small">{{ form_errors(form.tags) }}</div>
-                    </div>
-
-                    <!-- Submit -->
-                    <button class="btn btn-warning btn-lg px-4">
-                        <i class="fas fa-edit"></i> {{ 'action.update'|trans({}, 'actions') }}
-                    </button>
-
-                    {{ form_end(form) }}
 
                 </div>
             </div>
-
         </div>
     </section>
 {% endblock %}

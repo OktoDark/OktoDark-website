@@ -11,7 +11,6 @@
 
 namespace App\Form\Type;
 
-use App\Utils\MomentFormatConverter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormInterface;
@@ -22,14 +21,10 @@ use function Symfony\Component\String\u;
 
 class DateTimePickerType extends AbstractType
 {
-    public function __construct(
-        private MomentFormatConverter $formatConverter,
-    ) {
-    }
-
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        $view->vars['attr']['data-date-format'] = $this->formatConverter->convert($options['format']);
+        // Flatpickr uses 'Y-m-d H:i' for date and time
+        $view->vars['attr']['data-date-format'] = 'Y-m-d H:i';
         $view->vars['attr']['data-date-locale'] = u(\Locale::getDefault())->replace('_', '-')->lower();
     }
 
@@ -40,6 +35,8 @@ class DateTimePickerType extends AbstractType
             // if true, the browser will display the native date picker widget
             // however, this app uses a custom JavaScript widget, so it must be set to false
             'html5' => false,
+            // Set the format for Symfony's DateTimeType to match Flatpickr's expected input
+            'format' => 'yyyy-MM-dd HH:mm',
         ]);
     }
 

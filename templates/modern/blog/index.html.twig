@@ -1,6 +1,6 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'title.blog'|trans({}, 'titles') }}{% endblock %}
+{% block title %}{{ 'blog.title'|trans({}, 'blog') }}{% endblock %}
 
 {% block body_id 'blog' %}
 
@@ -9,8 +9,8 @@
     <!-- Hero -->
     <section class="section section-page-title bg-default text-center py-5">
         <div class="container">
-            <h2 class="display-5 fw-bold">{{ 'title.blog'|trans({}, 'titles') }}</h2>
-            <p class="lead text-muted mt-2">{{ 'blog.subtitle'|trans }}</p>
+            <h2 class="display-5 fw-bold">{{ 'blog.title'|trans({}, 'blog') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'blog.subtitle'|trans({}, 'blog') }}</p>
         </div>
     </section>
 
@@ -55,7 +55,7 @@
 
                                     <div>
                                         <span class="far fa-comments"></span>
-                                        {{ post.comments|length }}
+                                        {{ post.comments|length }} {{ 'blog.comments_count'|trans({}, 'blog') }}
                                     </div>
                                 </div>
 
@@ -73,19 +73,19 @@
                                 <div class="blog-actions">
                                     <a class="btn btn-success text-bg-success"
                                        href="{{ path('blog_post', { slug: post.slug }) }}">
-                                        {{ 'action.read_more'|trans({}, 'actions') }}
+                                        {{ 'common.read_more'|trans({}, 'common') }}
                                     </a>
 
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <a href="{{ path('blog_edit', { slug: post.slug }) }}"
                                            class="btn btn-warning text-bg-warning btn-sm">
-                                            <i class="fas fa-edit"></i> {{ 'action.edit'|trans({}, 'actions') }}
+                                            <i class="fas fa-edit"></i> {{ 'common.edit'|trans({}, 'common') }}
                                         </a>
 
                                         <a href="{{ path('blog_delete', { slug: post.slug }) }}"
                                            class="btn btn-danger text-bg-danger btn-sm"
-                                           onclick="return confirm('{{ 'action.confirm_delete'|trans({}, 'actions') }}');">
-                                            <i class="fas fa-trash"></i> {{ 'action.delete'|trans({}, 'actions') }}
+                                           onclick="return confirm('{{ 'common.confirm_delete'|trans({}, 'common') }}');">
+                                            <i class="fas fa-trash"></i> {{ 'common.delete'|trans({}, 'common') }}
                                         </a>
                                     {% endif %}
                                 </div>
@@ -95,13 +95,13 @@
 
                     {% else %}
                         <div class="alert alert-info text-center">
-                            {{ 'post.no_posts_found'|trans({}, 'blog') }}
+                            {{ 'blog.no_posts_found'|trans({}, 'blog') }}
                         </div>
                     {% endfor %}
 
                     <!-- Pagination -->
                     {% if paginator.hasToPaginate %}
-                        <nav aria-label="Blog pagination" class="mt-4">
+                        <nav aria-label="{{ 'blog.pagination_label'|trans({}, 'blog') }}" class="mt-4">
                             <ul class="pagination justify-content-center">
 
                                 <li class="page-item {{ not paginator.hasPreviousPage ? 'disabled' }}">
@@ -144,7 +144,7 @@
                         {% if is_granted('ROLE_ADMIN') %}
                             <div class="text-end mb-4">
                                 <a href="{{ path('blog_new') }}" class="btn btn-success text-bg-success">
-                                    <i class="fas fa-plus"></i> {{ 'action.new_post'|trans({}, 'actions') }}
+                                    <i class="fas fa-plus"></i> {{ 'blog.new_post'|trans({}, 'blog') }}
                                 </a>
                             </div>
                         {% endif %}
@@ -155,7 +155,7 @@
                             <form action="{{ path('blog_search') }}" method="get">
                                 <div class="input-group">
                                     <input class="form-control" name="q" type="text"
-                                           placeholder="{{ 'search.placeholder'|trans({}, 'blog') }}">
+                                           placeholder="{{ 'blog.search_placeholder'|trans({}, 'blog') }}">
                                     <button class="btn btn-primary" type="submit">
                                         <i class="bi bi-search"></i>
                                     </button>

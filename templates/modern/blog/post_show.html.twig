@@ -1,6 +1,17 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'navbar.blog'|trans }} - {{ post.title }}{% endblock %}
+{% block title %}{{ post.title }} - {{ 'blog.title'|trans({}, 'blog') }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+    <meta name="description" content="{{ post.summary }}">
+    <meta property="og:title" content="{{ post.title }}">
+    <meta property="og:description" content="{{ post.summary }}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ app.request.uri }}">
+    <meta name="twitter:card" content="summary_large_image">
+{% endblock %}
+
 {% block body_id %}post_show{% endblock %}
 
 {% block main %}
@@ -21,15 +32,20 @@
                             <!-- Meta -->
                             <div class="d-flex flex-wrap gap-4 text-muted small mb-4">
                                 <div class="d-flex align-items-center gap-2">
-                                    <i class="far fa-clock"></i>
+                                    <i class="fa-regular fa-clock"></i>
                                     <time datetime="{{ post.publishedAt|date('c') }}">
                                         {{ post.publishedAt|format_datetime('long', 'medium') }}
                                     </time>
                                 </div>
 
                                 <div class="d-flex align-items-center gap-2">
-                                    <i class="far fa-user"></i>
+                                    <i class="fa-regular fa-user"></i>
                                     {{ post.author.firstName }}
+                                </div>
+
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-hourglass-half"></i>
+                                    {{ post.estimatedReadingTime }} {{ 'blog.min_read'|trans({}, 'blog') }}
                                 </div>
                             </div>
 
@@ -38,13 +54,13 @@
                                 <div class="d-flex gap-2 mb-4">
                                     <a href="{{ path('blog_edit', { slug: post.slug }) }}"
                                        class="btn btn-warning text-bg-warning btn-sm">
-                                        <i class="fas fa-edit"></i> {{ 'action.edit'|trans({}, 'actions') }}
+                                        <i class="fa-solid fa-pen-to-square"></i> {{ 'common.edit'|trans({}, 'common') }}
                                     </a>
 
                                     <a href="{{ path('blog_delete', { slug: post.slug }) }}"
                                        class="btn btn-danger text-bg-danger btn-sm"
-                                       onclick="return confirm('{{ 'action.confirm_delete'|trans({}, 'actions') }}');">
-                                        <i class="fas fa-trash"></i> {{ 'action.delete'|trans({}, 'actions') }}
+                                       onclick="return confirm('{{ 'common.confirm_delete'|trans({}, 'common') }}');">
+                                        <i class="fa-solid fa-trash-can"></i> {{ 'common.delete'|trans({}, 'common') }}
                                     </a>
                                 </div>
                             {% endif %}
@@ -55,21 +71,33 @@
                             </div>
 
                             <!-- Share -->
-                            <div class="mt-4">
-                                <h5 class="fw-semibold mb-3">{{ 'post.share'|trans({}, 'blog') }}</h5>
-                                <div class="d-flex gap-3">
+                            <div class="mt-4 border-top pt-4">
+                                <h5 class="fw-semibold mb-3">{{ 'blog.share'|trans({}, 'blog') }}</h5>
+                                <div class="d-flex gap-3 flex-wrap">
 
                                     <a class="btn btn-primary btn-sm"
                                        target="_blank"
-                                       href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost }}{{ path('blog_post', {slug: post.slug}) }}">
-                                        <i class="fab fa-facebook-square"></i> Facebook
+                                       href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri|url_encode }}">
+                                        <i class="fa-brands fa-facebook"></i> {{ 'blog.share_facebook'|trans({}, 'blog') }}
                                     </a>
 
-                                    <a class="btn btn-info btn-sm text-white"
+                                    <a class="btn btn-dark btn-sm text-white"
                                        target="_blank"
-                                       href="https://twitter.com/share?url={{ app.request.schemeAndHttpHost }}{{ path('blog_post', {slug: post.slug}) }}">
-                                        <i class="fab fa-twitter-square"></i> Twitter
+                                       style="background-color: #0077b5; border-color: #0077b5;"
+                                       href="https://twitter.com/intent/tweet?url={{ app.request.uri|url_encode }}&text={{ post.title|url_encode }}">
+                                        <i class="fa-brands fa-x-twitter"></i> {{ 'blog.share_twitter'|trans({}, 'blog') }}
                                     </a>
+
+                                    <a class="btn btn-primary btn-sm"
+                                       target="_blank"
+                                       style="background-color: #0077b5; border-color: #0077b5;"
+                                       href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri|url_encode }}">
+                                        <i class="fa-brands fa-linkedin"></i> {{ 'blog.share_linkedin'|trans({}, 'blog') }}
+                                    </a>
+
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="copyToClipboard('{{ app.request.uri }}')">
+                                        <i class="fa-solid fa-link"></i> {{ 'blog.copy_link'|trans({}, 'blog') }}
+                                    </button>
 
                                 </div>
                             </div>
@@ -82,21 +110,29 @@
                         <div class="card-body p-4">
 
                             <h3 class="fw-bold mb-4">
-                                {{ post.comments|length }} {{ 'post.comments'|trans({}, 'blog') }}
+                                {{ post.comments|length }} {{ 'blog.comments_count'|trans({}, 'blog') }}
                             </h3>
 
                             {% for comment in post.comments %}
                                 <div class="d-flex gap-3 mb-4">
-                                    <img src="{{ asset('images/default-avatar.png') }}"
-                                         class="rounded-circle"
-                                         width="64" height="64"
-                                         alt="avatar">
+                                    <div class="avatar-container">
+                                        {% if comment.author.avatarUrl %}
+                                            <img src="{{ comment.author.avatarUrl }}"
+                                                 class="rounded-circle shadow-sm"
+                                                 width="64" height="64"
+                                                 alt="{{ comment.author.username }}">
+                                        {% else %}
+                                            <div class="avatar-profile-fallback rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 64px; height: 64px; background: #f8f9fa; border: 1px solid #dee2e6;">
+                                                <i class="fa-solid fa-user text-muted"></i>
+                                            </div>
+                                        {% endif %}
+                                    </div>
 
                                     <div class="flex-grow-1">
                                         <div class="d-flex justify-content-between">
                                             <strong>{{ comment.author.fullName }}</strong>
                                             <small class="text-muted">
-                                                <i class="far fa-clock"></i>
+                                                <i class="fa-regular fa-clock"></i>
                                                 {{ comment.publishedAt|format_datetime('long', 'medium') }}
                                             </small>
                                         </div>
@@ -107,7 +143,7 @@
                                     </div>
                                 </div>
                             {% else %}
-                                <p class="text-muted">{{ 'post.no_comments'|trans({}, 'blog') }}</p>
+                                <p class="text-muted">{{ 'blog.no_comments'|trans({}, 'blog') }}</p>
                             {% endfor %}
 
                         </div>
@@ -122,7 +158,34 @@
 
                 </div>
 
+                <!-- Sidebar -->
+                <div class="col-lg-4 col-xl-3">
+                    {% if relatedPosts is not empty %}
+                        <div class="card shadow-sm border-0 mb-4">
+                            <div class="card-body p-4">
+                                <h5 class="fw-bold mb-3">{{ 'blog.related_posts'|trans({}, 'blog') }}</h5>
+                                <div class="list-group list-group-flush">
+                                    {% for related in relatedPosts %}
+                                        <a href="{{ path('blog_post', {slug: related.slug}) }}" class="list-group-item list-group-item-action px-0 py-3">
+                                            <div class="small text-muted mb-1">{{ related.publishedAt|date('M d, Y') }}</div>
+                                            <h6 class="mb-0 fw-bold">{{ related.title }}</h6>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
             </div>
         </div>
     </section>
+
+    <script>
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert('{{ 'blog.link_copied'|trans({}, 'blog') }}');
+        });
+    }
+    </script>
 {% endblock %}
