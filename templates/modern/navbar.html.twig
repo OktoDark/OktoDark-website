@@ -60,7 +60,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ path('forum') }}">{{ 'navbar.forum'|trans({}, 'navbar') }}</a></li>
                             <li><a class="dropdown-item" href="{{ path('blog') }}">{{ 'navbar.blog'|trans({}, 'navbar') }}</a></li>
-                            <li><a class="dropdown-item" href="https://discord.gg/UmfZPvF">Discord</a></li>
+                            <li><a class="dropdown-item" href="https://discord.gg/UmfZPvF">{{ 'navbar.discord'|trans({}, 'navbar') }}</a></li>
                         </ul>
                     </li>
 
@@ -100,7 +100,7 @@
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{{ path('admin_dashboard') }}">{{ 'navbar.admin'|trans({}, 'navbar') }}</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('assets_index') }}">{{ 'navbar.assets'|trans({}, 'navbar') }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('admin_assets') }}">{{ 'navbar.assets'|trans({}, 'navbar') }}</a></li>
                                 {% endif %}
 
                                 <li><hr class="dropdown-divider"></li>

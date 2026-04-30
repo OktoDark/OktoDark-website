@@ -1,0 +1,13 @@
+common:
+    edit: "Editează"
+    delete: "Șterge"
+    save: "Salvează"
+    upload: "Încarcă"
+    remove: "Elimină"
+    clear: "Curăță"
+    back: "Înapoi"
+    cancel: "Anulează"
+    search: "Caută"
+    confirm_delete: "Ești sigur că vrei să ștergi acest element?"
+    send_reset_link: "Trimite link-ul de resetare"
+    read_more: "Citește mai mult"

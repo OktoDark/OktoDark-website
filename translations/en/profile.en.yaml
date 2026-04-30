@@ -1,12 +1,31 @@
-profile.rules_note: >
-  I respect the Rules. You can do the same!
-  If you have courage, set from site settings, 'Display your bans on your profile and API' to public. :-)
-title.player_history: "Player History"
-profile.no_history: "No player history available"
-profile.private_profile_title: "This profile is private"
-profile.hidden_profile_text: "has chosen to keep their profile hidden."
-profile.go_back_home: "Go back home"
-profile.verified_account: "Verified Account"
-profile.no_social_links: "No social links available."
-title.punishment_history: "Punishment History"
-profile.no_penalties: "No penalties on record"
+# English Profile Translations
+label:
+    firstName: "First Name"
+    lastName: "Last Name"
+    fullname: "Full Name"
+    email: "Email Address"
+    location: "Location"
+    password: "Password"
+    current_password: "Current Password"
+    new_password: "New Password"
+    new_password_confirm: "Confirm New Password"
+    roles: "Roles"
+    member_since: "Member Since"
+    account_status: "Account Status"
+    public: "Public"
+    private: "Private"
+    active: "Active"
+    disabled: "Disabled"
+
+profile:
+    private_profile_title: "Private Profile"
+    hidden_profile_text: "has chosen to keep their profile private."
+    go_back_home: "Go Back Home"
+    verified_account: "Verified Account"
+    rules_note: "Your profile information is displayed according to your <a href='%settings_link%'>Privacy Settings</a>."
+    no_social_links: "No social links shared on this profile."
+    player_history: "Player History"
+    no_history: "No historical data available for this player."
+    punishment_history: "Punishment History"
+    no_penalties: "This member has no recorded penalties."
+    hidden_profile: "Hidden Profile"

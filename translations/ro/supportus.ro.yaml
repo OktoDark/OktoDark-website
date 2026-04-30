@@ -1,5 +1,24 @@
-supportus.subtitle: ""
-supportus.subscribe: "Subscribe acum"
-supportus.compare_plans: "Compara Planuri"
-supportus.note: "Nota:"
-supportus.choose_tier: "Compara Tier"
+# Traduceri Susține-ne Română
+supportus:
+    subtitle: "Ajută studioul nostru să crească și deblochează recompense exclusive pentru comunitate."
+    choose_tier: "Alege-ți planul de membru"
+    subscribe: "Abonare prin PayPal"
+    compare_plans: "Compară Beneficiile Abonamentelor"
+    note: "* Suportul rapid și cererile personalizate sunt supuse disponibilității echipei."
+    
+    discord:
+        title: "Comunitatea Discord"
+        special_title: "Titlu Special pentru tine"
+        private_channels: "Acces la Canale Private"
+        fast_support: "Suport rapid pentru tine*"
+
+    models:
+        title: "Modele 3D și Resurse"
+        access: "Acces Modele"
+        unlimited: "Descărcări nelimitate"
+        sharing: "Permisiune de Partajare"
+
+    streaming:
+        title: "Beneficii Streaming"
+        ask_anything: "Cerere/Întrebare Prioritară*"
+        vip_status: "Status VIP"

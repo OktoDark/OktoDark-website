@@ -1,6 +1,6 @@
 {% extends '@theme/base.html.twig' %}
 
-{% block title %}{{ 'title.reset_email_sent'|trans({}, 'titles') }}{% endblock %}
+{% block title %}{{ 'title.reset_email_sent'|trans({}, 'reset_password') }}{% endblock %}
 
 {% block body_id 'reset-password-check-email' %}
 
@@ -8,8 +8,8 @@
 
     <section class="section section-page-title context-dark text-center py-5">
         <div class="container">
-            <h2 class="display-5 fw-bold">{{ 'title.reset_email_sent'|trans({}, 'titles') }}</h2>
-            <p class="lead text-muted mt-2">{{ 'text.reset_email_sent_intro'|trans({}, 'messages') }}</p>
+            <h2 class="display-5 fw-bold">{{ 'title.reset_email_sent'|trans({}, 'reset_password') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'text.reset_email_sent_intro'|trans({}, 'reset_password') }}</p>
         </div>
     </section>
 
@@ -22,45 +22,46 @@
                     <fieldset>
                         <legend class="text-center mb-4">
                             <i class="fa fa-envelope-open me-2"></i>
-                            {{ 'title.reset_email_sent'|trans({}, 'titles') }}
+                            {{ 'title.reset_email_sent'|trans({}, 'reset_password') }}
                         </legend>
 
                         <p class="mb-3 text-start">
                             {{ 'text.reset_email_expire'|trans({
                                 '%hours%': (tokenLifetime / 3600)|round(0, 'floor')
-                            }, 'messages') }}
+                            }, 'reset_password') }}
                         </p>
 
-                        <p class="small mb-4 text-light">
-                            {{ 'text.reset_email_spam'|trans({}, 'messages') }}
+                        <p class="small mb-4 text-light text-start">
+                            {{ 'text.reset_email_spam'|trans({}, 'reset_password') }}
                         </p>
 
                         <a href="{{ path('app_forgot_password_request') }}"
                            class="btn btn-info text-bg-info w-100 py-2 shadow-sm">
                             <i class="fa fa-redo me-2"></i>
-                            {{ 'title.try_again'|trans({}, 'titles') }}
+                            {{ 'button.try_again'|trans({}, 'reset_password') }}
                         </a>
 
                         {% if remainingSeconds|default(0) > 0 %}
                             <div id="cooldown-box" class="alert alert-warning text-center mt-3 border-0 shadow-sm">
-                                {{ 'reset.throttle_friendly'|trans({}, 'messages') }}
+                                {{ 'text.throttle_friendly'|trans({}, 'reset_password') }}
                                 <div id="cooldown-timer" class="mt-2 fw-bold"></div>
                             </div>
 
                             <script>
                                 let remaining = {{ remainingSeconds }};
                                 const timer = document.getElementById('cooldown-timer');
+                                const readyMessage = "{{ 'text.can_try_again_now'|trans({}, 'reset_password') }}";
 
                                 const interval = setInterval(() => {
                                     if (remaining <= 0) {
-                                    timer.innerHTML = "You can try again now.";
-                                    clearInterval(interval);
-                                    return;
-                                }
-                                const minutes = Math.floor(remaining / 60);
-                                const seconds = remaining % 60;
-                                timer.innerHTML = minutes + "m " + seconds + "s remaining";
-                                remaining--;
+                                        timer.innerHTML = readyMessage;
+                                        clearInterval(interval);
+                                        return;
+                                    }
+                                    const minutes = Math.floor(remaining / 60);
+                                    const seconds = remaining % 60;
+                                    timer.innerHTML = minutes + "m " + seconds + "s remaining";
+                                    remaining--;
                                 }, 1000);
                             </script>
                         {% endif %}

@@ -1,6 +1,6 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'title.streaming'|trans }}{% endblock %}
+{% block title %}{{ 'streaming.title'|trans({}, 'streaming') }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -12,7 +12,7 @@
 
     <section class="section section-page-title context-dark">
         <div class="container">
-            <h2>{{ 'title.streaming'|trans }}</h2>
+            <h2>{{ 'streaming.title'|trans({}, 'streaming') }}</h2>
         </div>
     </section>
 
@@ -27,7 +27,7 @@
                         </div>
                         <div>
                             <h3 class="fs-2">Twitch</h3>
-                            <p>The main channel for streaming.</p>
+                            <p>{{ 'streaming.twitch_desc'|trans({}, 'streaming') }}</p>
                         </div>
                     </div>
                     <div class="col d-flex align-items-start">
@@ -36,7 +36,7 @@
                         </div>
                         <div>
                             <h3 class="fs-2">Discord</h3>
-                            <p>Suggestions/Bugs report and other discussion, Discord it is the best solution for communication voice and non voice.</p>
+                            <p>{{ 'streaming.discord_desc'|trans({}, 'streaming') }}</p>
                         </div>
                     </div>
                     <div class="col d-flex align-items-start">
@@ -45,74 +45,42 @@
                         </div>
                         <div>
                             <h3 class="fs-2">X</h3>
-                            <p>Fast and clean messages for all viewers and followers</p>
+                            <p>{{ 'streaming.x_desc'|trans({}, 'streaming') }}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <h5>{{ 'content.streamingFAQ'|trans|raw }} </h5>
-            <section class="section section-lg bg-gray-100">
+            <h5 class="mb-4">{{ 'streaming.faq.title'|trans({}, 'streaming') }}</h5>
+            
+            <section class="section section-sm bg-gray-100 mb-4 rounded shadow-xs border">
                 <div class="container">
-                    <h4>What you can see on Streaming and where can see</h4>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="text-decoration">
-                                <p>In our Streaming you can see 3D modeling, game creation and more only on our Twitch Channel.</p>
-                            </div>
-                        </div>
-                    </div>
+                    <h5 class="fw-bold">{{ 'streaming.faq.q1'|trans({}, 'streaming') }}</h5>
+                    <p>{{ 'streaming.faq.a1'|trans({}, 'streaming') }}</p>
                 </div>
             </section>
 
-            <section class="section section-lg bg-default">
+            <section class="section section-sm bg-default mb-4 rounded shadow-xs border">
                 <div class="container">
-                    <h4>It's free to watch?</h4>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="text-decoration">
-                                <p>Yes. It's free watching.</p>
-                            </div>
-                        </div>
-                    </div>
+                    <h5 class="fw-bold">{{ 'streaming.faq.q2'|trans({}, 'streaming') }}</h5>
+                    <p>{{ 'streaming.faq.a2'|trans({}, 'streaming') }}</p>
                 </div>
             </section>
 
-            <section class="section section-lg bg-gray-100">
+            <section class="section section-sm bg-gray-100 mb-4 rounded shadow-xs border">
                 <div class="container">
-                    <h4>When starting the streaming and in which days?</h4>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="text-decoration">
-                                <p>The streaming right now is not have fixed days for streaming.</p>
-                            </div>
-                        </div>
-                    </div>
+                    <h5 class="fw-bold">{{ 'streaming.faq.q3'|trans({}, 'streaming') }}</h5>
+                    <p>{{ 'streaming.faq.a3'|trans({}, 'streaming') }}</p>
                 </div>
             </section>
 
-            <section class="section section-lg bg-default">
+            <section class="section section-sm bg-default mb-4 rounded shadow-xs border">
                 <div class="container">
-                    <h4>We must to donate or something else?</h4>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="text-decoration">
-                                <p>Everybody can donate if you want with subscription (see Support us menu link) or other method to pay to help the channel, but is at your latitude.</p>
-                            </div>
-                        </div>
-                    </div>
+                    <h5 class="fw-bold">{{ 'streaming.faq.q4'|trans({}, 'streaming') }}</h5>
+                    <p>{{ 'streaming.faq.a4'|trans({}, 'streaming') }}</p>
                 </div>
             </section>
 
-            <div class="row">
-                <b>What you can see on Streaming and where can see.</b>In our Streaming you can see 3D modeling, game creation and more only on our Twitch Channel.
-                <br>
-                <b>It's free to watch?</b>Yes. It's free watching.
-                <br>
-                <b>When starting the streaming and in which days?</b>The streaming right now is not have fixed days for streaming.
-                <br>
-                <b>We must to donate or something else?</b>Everybody can donate if you want with subscription (see Support us menu link) or other method to pay to help the channel, but is at your latitude.
-            </div>
         </div>
     </section>
 

@@ -1,6 +1,6 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'title.games'|trans({}, 'titles') }}{% endblock %}
+{% block title %}{{ 'title.games'|trans({}, 'base') }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -12,7 +12,7 @@
 
     <section class="section section-page-title bg-default text-center py-5">
         <div class="container">
-            <h2 class="display-5 fw-bold">{{ 'title.games'|trans({}, 'titles') }}</h2>
+            <h2 class="display-5 fw-bold">{{ 'title.games'|trans({}, 'games') }}</h2>
             <p class="lead text-muted mt-2">{{ 'games.subtitle'|trans({}, 'games') }}</p>
         </div>
     </section>
@@ -21,7 +21,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <p>{{ 'content.gamesPage'|trans|raw }}</p>
+                    <p>{{ 'content.gamesPage'|trans({}, 'games')|raw }}</p>
                 </div>
             </div>
         </div>

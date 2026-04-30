@@ -1,9 +1,9 @@
 {% if user.isActive %}
     <span class="badge bg-success">
-        <i class="fa-solid fa-circle-check me-1"></i> Active
+        <i class="fa-solid fa-circle-check me-1"></i> {{ 'label.active'|trans({}, 'profile') }}
     </span>
 {% else %}
     <span class="badge bg-danger">
-        <i class="fa-solid fa-circle-xmark me-1"></i> Disabled
+        <i class="fa-solid fa-circle-xmark me-1"></i> {{ 'label.disabled'|trans({}, 'profile') }}
     </span>
 {% endif %}

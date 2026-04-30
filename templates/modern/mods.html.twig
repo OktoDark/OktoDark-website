@@ -1,6 +1,6 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'title.mods'|trans({}, 'titles') }}{% endblock %}
+{% block title %}{{ 'title.mods'|trans({}, 'base') }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -13,12 +13,12 @@
     <!-- Page Title -->
     <section class="section section-page-title bg-default text-center py-5">
         <div class="container">
-            <h2 class="display-5 fw-bold">{{ 'title.mods'|trans({}, 'titles') }}</h2>
-            <p class="lead text-muted mt-2">{{ 'subtitle.mods.text'|trans }}</p>
+            <h2 class="display-5 fw-bold">{{ 'title.mods'|trans({}, 'base') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'mods.subtitle'|trans({}, 'mods') }}</p>
         </div>
     </section>
 
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% if is_granted('ROLE_USER') %}
 
         <!-- Mods Categories -->
         <section class="section section-lg bg-gray-100">
@@ -31,7 +31,7 @@
                                 <a href="#thesims4">
                                     <img src="{{ asset('images/thesims4_img.png') }}" alt="The Sims 4">
                                 </a>
-                                <p class="mt-2">Mods and custom content for The Sims 4</p>
+                                <p class="mt-2">{{ 'mods.sims4_desc'|trans({}, 'mods') }}</p>
                             </div>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                         <div class="col-12 col-sm-6 col-lg-3">
                             <div class="icon-box text-center">
                                 <div class="icon-box-text">
-                                    <p>Soon</p>
+                                    <p>{{ 'mods.soon'|trans({}, 'mods') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -87,7 +87,7 @@
                                     </div>
 
                                     <a class="button button-gradient" href="{{ m.download }}">
-                                        <i class="fas fa-download"></i> Download
+                                        <i class="fas fa-download"></i> {{ 'mods.download'|trans({}, 'mods') }}
                                     </a>
                                 </div>
 

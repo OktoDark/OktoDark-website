@@ -7,3 +7,11 @@ careers.description: |
 
 careers.available: "Available"
 careers.apply_now: "Apply Now"
+careers.published: "Published"
+careers.requirements: "Requirements"
+careers.description_title: "Description"
+careers.no_requirements: "No specific requirements listed."
+careers.apply_title: "Apply for this position"
+careers.upload_cv: "Upload CV (PDF, DOCX - Max 5MB)"
+careers.tell_us: "Tell us about yourself and your experience..."
+careers.submit: "Submit Application"

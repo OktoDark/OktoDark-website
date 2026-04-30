@@ -1,0 +1,13 @@
+label:
+    name: "Nume"
+    email: "E-mail"
+    content: "Conținut"
+    category: "Categorie"
+    subject: "Subiect"
+    message: "Mesaj"
+    choice_department: "Alege departamentul"
+    department_staff: "Personal"
+    department_webmaster: "Webmaster"
+    department_services: "Servicii"
+    secure_sign_in: "Autentificare securizată"
+    send: "Trimite"

@@ -1,0 +1,16 @@
+# Traduceri Streaming Română
+streaming:
+    title: "Streaming Live"
+    twitch_desc: "Canalul principal pentru streaming."
+    discord_desc: "Sugestii/Raportare erori și alte discuții, Discord este cea mai bună soluție pentru comunicare."
+    x_desc: "Mesaje rapide și clare pentru toți spectatorii și urmăritorii."
+    faq:
+        title: "Întrebări Frecvente"
+        q1: "Ce poți vedea pe Streaming și unde?"
+        a1: "În Streaming-ul nostru poți vedea modelare 3D, creare de jocuri și multe altele doar pe canalul nostru de Twitch."
+        q2: "Este gratuit de vizionat?"
+        a2: "Da. Vizionarea este gratuită."
+        q3: "Când începe streaming-ul și în ce zile?"
+        a3: "În acest moment, streaming-ul nu are zile fixe."
+        q4: "Trebuie să donăm sau altceva?"
+        a4: "Toată lumea poate dona dacă dorește printr-un abonament (vezi link-ul meniului Susține-ne) sau altă metodă pentru a ajuta canalul, dar este la latitudinea voastră."

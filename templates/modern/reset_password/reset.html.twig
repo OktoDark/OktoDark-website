@@ -2,17 +2,17 @@
 
 {% block body_id 'reset-password-form' %}
 
-{% block title %}{{ 'title.reset_your_password'|trans({}, 'titles') }}{% endblock %}
+{% block title %}{{ 'title.reset_your_password'|trans({}, 'reset_password') }}{% endblock %}
 
 {% block body %}
 
     <section class="section section-page-title context-dark text-center py-5">
         <div class="container">
             <h2 class="display-5 fw-bold">
-                {{ 'title.reset_your_password'|trans({}, 'titles') }}
+                {{ 'title.reset_your_password'|trans({}, 'reset_password') }}
             </h2>
             <p class="lead text-muted mt-2">
-                {{ 'text.reset_password'|trans({}, 'messages') }}
+                {{ 'text.reset_password_intro'|trans({}, 'reset_password') }}
             </p>
         </div>
     </section>
@@ -31,15 +31,15 @@
                             }
                         }) }}
 
-                        <div class="form-wrap-modern">
+                        <div class="form-wrap-modern text-start">
                             {{ form_row(resetForm.plainPassword, {
-                                label: 'label.password_new'|trans({}, 'messages'),
-                                attr: { class: 'form-input-modern' }
+                                label: 'label.password_new'|trans({}, 'reset_password'),
+                                attr: { class: 'form-input-modern form-control' }
                             }) }}
                         </div>
 
-                        <button class="button button-gradient reset-button">
-                            {{ 'button.reset_password'|trans({}, 'messages') }}
+                        <button class="button button-gradient reset-button w-100 mt-4">
+                            {{ 'button.reset_password'|trans({}, 'reset_password') }}
                         </button>
 
                         {{ form_end(resetForm) }}

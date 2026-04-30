@@ -1,6 +1,6 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'title.home'|trans({}, 'titles') }}{% endblock %}
+{% block title %}{{ 'title.home'|trans({}, 'home') }}{% endblock %}
 
 {% block main %}
 
@@ -12,8 +12,8 @@
             <div class="carousel-item active">
                 <div class="container">
                     <div class="hero-content text-center">
-                        <h5>{{ 'slider_one.text'|trans({}, 'slider') }}</h5>
-                        <h1>{{ 'slider_one_row.text'|trans({}, 'slider') }}</h1>
+                        <h5>{{ 'slider_one.text'|trans({}, 'home') }}</h5>
+                        <h1>{{ 'slider_one_row.text'|trans({}, 'home') }}</h1>
                     </div>
                 </div>
             </div>
@@ -21,8 +21,8 @@
             <div class="carousel-item">
                 <div class="container">
                     <div class="hero-content text-center">
-                        <h5>{{ 'slider_two.text'|trans({}, 'slider') }}</h5>
-                        <h1>{{ 'slider_two_row.text'|trans({}, 'slider') }}</h1>
+                        <h5>{{ 'slider_two.text'|trans({}, 'home') }}</h5>
+                        <h1>{{ 'slider_two_row.text'|trans({}, 'home') }}</h1>
                     </div>
                 </div>
             </div>
@@ -30,8 +30,8 @@
             <div class="carousel-item">
                 <div class="container">
                     <div class="hero-content text-center">
-                        <h5>{{ 'slider_three.text'|trans({}, 'slider') }}</h5>
-                        <h1>{{ 'slider_three_row.text'|trans({}, 'slider') }}</h1>
+                        <h5>{{ 'slider_three.text'|trans({}, 'home') }}</h5>
+                        <h1>{{ 'slider_three_row.text'|trans({}, 'home') }}</h1>
                     </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@
         <div class="container">
 
             <div class="section-title text-center fade-in">
-                <h3>{{ 'title.news'|trans({}, 'titles') }}</h3>
+                <h3>{{ 'title.news'|trans({}, 'home') }}</h3>
             </div>
 
             <div class="row g-4">
@@ -97,7 +97,7 @@
 
                             <div class="post-classic-meta">
                                 <ul class="list list-inline">
-                                    <li>{{ 'by.news'|trans }} {{ n.author }}</li>
+                                    <li>{{ 'by.news'|trans({}, 'home') }} {{ n.author }}</li>
                                     <li><span class="icon-news-time far fa-clock"></span> {{ n.createdAt|format_datetime('medium', 'short', '', 'UTC') }}</li>
                                 </ul>
                             </div>
@@ -116,7 +116,7 @@
         <div class="container">
 
             <div class="section-title fade-in">
-                <h3>{{ 'title.our_clients'|trans({}, 'titles') }}</h3>
+                <h3>{{ 'title.our_clients'|trans({}, 'home') }}</h3>
             </div>
 
             <div class="row justify-content-center align-items-center g-4">

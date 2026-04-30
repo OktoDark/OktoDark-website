@@ -1,0 +1,16 @@
+# English Streaming Translations
+streaming:
+    title: "Live Streaming"
+    twitch_desc: "The main channel for streaming."
+    discord_desc: "Suggestions/Bugs report and other discussion, Discord is the best solution for communication."
+    x_desc: "Fast and clean messages for all viewers and followers."
+    faq:
+        title: "Frequently Asked Questions"
+        q1: "What can you see on Streaming and where?"
+        a1: "In our Streaming you can see 3D modeling, game creation and more only on our Twitch Channel."
+        q2: "Is it free to watch?"
+        a2: "Yes. It's free watching."
+        q3: "When does the streaming start and on which days?"
+        a3: "The streaming right now does not have fixed days."
+        q4: "Do we have to donate or something else?"
+        a4: "Everybody can donate if you want with a subscription (see Support us menu link) or other method to help the channel, but it is at your latitude."

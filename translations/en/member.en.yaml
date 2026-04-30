@@ -1,16 +1,15 @@
-member.download_alpha_text: "Download Alpha"
-member.download_beta_text: "Download Beta"
-member.upgrade_now_text: "Upgrade your Tier to gain access"
-member.settings: "Settings"
-
-action.edit_user: "Edit user"
-action.change_password: "Change password"
-
-menu.user: "Account"
-
-user.updated_successfully: "User updated successfully!"
-
-info.change_password: >
-  After changing your password, you will be logged out of the application.
-
-info.unable_change_username: "You are unable to change your username."
+# English Member Translations
+member:
+    subtitle: "In this area you choose what you want to do."
+    tier_upgrade_notice: "If you have a blocked Tier you must upgrade your Tier to higher."
+    tiers_rewards: "Tiers Rewards"
+    download_beta_text: "Download Beta Version"
+    download_alpha_text: "Download Alpha Version"
+    upgrade_now_text: "Upgrade your tier to unlock this content."
+    credits_request: "Request to add your name to Game Credits"
+    tier_4_content: "Exclusive Tier IV Content"
+    download_source: "Download Studio Source Code"
+    member_since: "Member Since"
+    posts: "Posts"
+    edit_user: "Edit user"
+    change_password: "Change password"

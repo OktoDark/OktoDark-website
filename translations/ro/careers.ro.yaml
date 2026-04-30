@@ -7,3 +7,11 @@ careers.description: |
 
 careers.available: "Disponibil"
 careers.apply_now: "Aplică acum"
+careers.published: "Publicat"
+careers.requirements: "Cerințe"
+careers.description_title: "Descriere"
+careers.no_requirements: "Nu există cerințe specifice enumerate."
+careers.apply_title: "Aplică pentru această poziție"
+careers.upload_cv: "Încarcă CV (PDF, DOCX - Max 5MB)"
+careers.tell_us: "Povestește-ne despre tine și experiența ta..."
+careers.submit: "Trimite Aplicația"

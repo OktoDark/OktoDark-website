@@ -1,6 +1,6 @@
 {% extends '@theme/base.html.twig' %}
 
-{% block title %}{{ 'title.login'|trans({}, 'titles') }}{% endblock %}
+{% block title %}{{ 'login.title'|trans({}, 'login') }}{% endblock %}
 
 {% block body_id 'login' %}
 
@@ -8,8 +8,8 @@
 
     <section class="section section-page-title context-dark text-center py-5">
         <div class="container">
-            <h2 class="display-5 fw-bold">{{ 'title.login'|trans({}, 'titles') }}</h2>
-            <p class="lead text-muted mt-2">{{ 'content.login_subtitle'|trans({}, 'titles') }}</p>
+            <h2 class="display-5 fw-bold">{{ 'login.title'|trans({}, 'login') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'login.subtitle'|trans({}, 'login') }}</p>
         </div>
     </section>
 
@@ -31,12 +31,12 @@
                         <fieldset>
 
                             <div class="form-wrap-modern">
-                                <label for="email">{{ 'label.email'|trans|trans({}, 'labels') }}</label>
+                                <label for="email">{{ 'label.email'|trans({}, 'profile') }}</label>
                                 <input type="text" id="email" name="email" value="{{ last_username }}" required autofocus>
                             </div>
 
                             <div class="form-wrap-modern">
-                                <label for="password">{{ 'label.password'|trans({}, 'labels') }}</label>
+                                <label for="password">{{ 'label.password'|trans({}, 'profile') }}</label>
                                 <input type="password" id="password" name="password" required>
                             </div>
 

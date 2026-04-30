@@ -1,3 +1,31 @@
+text.check_email_intro: "Am trimis un link de confirmare la adresa ta de email."
+text.check_email_instructions: "Te rugăm să apeși pe link-ul din acel email pentru a-ți verifica contul și a continua."
+text.check_email_spam: "Dacă nu vezi email-ul, verifică folderul de spam sau junk."
+step.register: "Creează cont"
+step.verify_email: "Confirmă email-ul"
+step.complete_profile: "Completează profilul"
+text.email_sent_ago: "Email de verificare trimis acum %minutes% minute."
+title.troubleshooting: "Nu ai primit email-ul?"
+help.check_spam: "Verifică folderul de spam sau junk."
+help.wait_few_minutes: "Așteaptă câteva minute — uneori livrarea email-ului este întârziată."
+help.correct_email: "Asigură-te că ai introdus adresa de email corectă."
+help.whitelist_domain: "Adaugă %domain% la lista albă de email-uri."
+text.reset_email_sent_intro: "Dacă există un cont cu email-ul introdus, un link de resetare a parolei a fost trimis."
+text.reset_email_expire: "Acest link va expira în %hours% oră(e)."
+text.reset_email_spam: "Dacă nu vezi email-ul, verifică folderul de spam sau junk."
+
+label.captcha_challenge: "Provocare Anti-Spam"
+
+reset:
+  subtitle: "Introdu adresa ta de email pentru a primi un link de resetare a parolei."
+  throttle_error: "Ai solicitat recent o resetare a parolei. Te rugăm să aștepți %minutes% minut(e) înainte de a încerca din nou."
+  throttle_error_seconds: "Te rugăm să aștepți %seconds% secund(e) înainte de a încerca din nou."
+  throttle_friendly: "Pentru securitatea ta, poți solicita un nou link de resetare doar o dată pe oră."
+  email_sent_intro: "Dacă există un cont cu email-ul introdus, un link de resetare a parolei a fost trimis."
+  email_expire: "Acest link va expira în %hours% oră(e)."
+  email_spam: "Dacă nu vezi email-ul, verifică folderul de spam sau junk."
+  token_invalid: "Link-ul tău de resetare este invalid sau a expirat. Te rugăm să soliciți unul nou."
+
 validation:
   password:
     not_blank: "Te rugăm să introduci o parolă."
@@ -8,9 +36,16 @@ label:
   password_new: "Parolă nouă"
   password_repeat: "Repetă parola"
 
-maintenance:
-  title: "Mod de întreținere"
-  appear: "Revenim în curând"
-  under: "Sistemul nostru trece printr-o mentenanță programată. Vă mulțumim pentru răbdare."
-  countdown_label: "Timp rămas estimat"
+title:
+  reset_your_password: "Resetează-ți parola"
 
+text:
+  reset_password: "Introdu noua ta parolă mai jos pentru a finaliza procesul de resetare."
+
+button:
+  reset_password: "Resetează Parola"
+
+maintenance.title: "Mod de întreținere"
+maintenance.appear: "Revenim în curând"
+maintenance.under: "Sistemul nostru trece printr-o mentenanță programată. Vă mulțumim pentru răbdare."
+maintenance.countdown_label: "Timp rămas estimat"

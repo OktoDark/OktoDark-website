@@ -45,26 +45,26 @@
 
             <button class="c1z0" id="a9f2-close">&times;</button>
 
-            <h3>Site Preferences</h3>
-            <p>You can choose which options you want to allow.</p>
+            <h3>{{ 'base.site_preferences.title'|trans({}, 'base') }}</h3>
+            <p>{{ 'base.site_preferences.subtitle'|trans({}, 'base') }}</p>
 
             <label class="d8p1">
                 <input type="checkbox" checked disabled>
-                <strong>Necessary</strong>
+                <strong>{{ 'base.site_preferences.necessary'|trans({}, 'base') }}</strong>
             </label>
 
             <label class="d8p1">
                 <input type="checkbox" id="opt-a1">
-                <strong>Analytics</strong>
+                <strong>{{ 'base.site_preferences.analytics'|trans({}, 'base') }}</strong>
             </label>
 
             <label class="d8p1">
                 <input type="checkbox" id="opt-a2">
-                <strong>Marketing</strong>
+                <strong>{{ 'base.site_preferences.marketing'|trans({}, 'base') }}</strong>
             </label>
 
             <div class="e4m9">
-                <button id="a9f2-save" class="button button-gradient button-circle">Save</button>
+                <button id="a9f2-save" class="button button-gradient button-circle">{{ 'base.site_preferences.save'|trans({}, 'base') }}</button>
             </div>
         </div>
     </div>

@@ -1,10 +1,14 @@
-subtitle.mods.text: "Moduri și Conținut pentru jocuri"
-restriction.mods.text: "Doar pentru Membri"
-
-rescontent.mods.text: |
-  <p>Cu 1&euro; poți descărca orice, în fiecare zi, fără restricții.</p>
-  <p><b>De ce să plătești 1&euro;?</b>
-  <ul><li>Cu plata ta vom avea mai mult spațiu de găzduire pentru moduri.</li></ul></p>
-  <p><b>În fiecare lună?</b>
-  <ul><li>Da, este un abonament lunar.</li></ul></p>
-  <p>Pentru abonament vizitează pagina noastră de <a href="https://www.patreon.com/OktoDark">Patreon</a> și alege ce îți dorești.</p>
+# Traduceri Moduri Română
+mods:
+    subtitle: "Moduri și Conținut pentru jocuri"
+    restriction: "Doar pentru Membri"
+    sims4_desc: "Moduri și conținut personalizat pentru The Sims 4"
+    soon: "În curând"
+    download: "Descarcă"
+    rescontent: |
+        <p>Cu 1&euro; poți descărca orice, în fiecare zi, fără restricții.</p>
+        <p><b>De ce să plătești 1&euro;?</b>
+        <ul><li>Cu plata ta vom avea mai mult spațiu de găzduire pentru moduri.</li></ul></p>
+        <p><b>În fiecare lună?</b>
+        <ul><li>Da, este un abonament lunar.</li></ul></p>
+        <p>Pentru abonament vizitează pagina noastră de <a href="https://www.patreon.com/OktoDark">Patreon</a> și alege ce îți dorești.</p>

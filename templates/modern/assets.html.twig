@@ -1,6 +1,6 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'title.contact'|trans }}{% endblock %}
+{% block title %}{{ 'title.assets'|trans({}, 'base') }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -12,7 +12,7 @@
 
     <section class="section section-page-title context-dark">
         <div class="container">
-            <h2>{{ 'title.assets'|trans }}</h2>
+            <h2>{{ 'title.assets'|trans({}, 'base') }}</h2>
         </div>
     </section>
 
@@ -23,16 +23,16 @@
                 <div class="col-3">
                     <h5 class="text-primary">{{ '' }}</h5>
                     <p>
-                        <a href="/admin/?entity=Assets">{{ 'assets.add_assets'|trans }}</a>
+                        <a href="/admin/?entity=Assets">{{ 'assets.add_assets'|trans({}, 'assets') }}</a>
                         <br>
-                        Category List:
+                        {{ 'assets.category_list'|trans({}, 'assets') }}:
                         <br>
                         {% for c in assets %}
                             <a href="assets/category/{{ c.figurecompatible|json_encode()|raw }}">{{ c.figurecompatible|json_encode|raw }}</a>
                     </p>
                 </div>
                 <div class="col-9">
-                    <h5 class="text-primary">{{ 'assets.products'|trans }}</h5>
+                    <h5 class="text-primary">{{ 'assets.products'|trans({}, 'assets') }}</h5>
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                         <div class="card h-100">
                             <h4 class="card-title">

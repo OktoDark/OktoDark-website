@@ -1,6 +1,6 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'title.settings'|trans({}, 'titles') }}{% endblock %}
+{% block title %}{{ 'settings.titles.settings'|trans({}, 'settings') }}{% endblock %}
 {% block body_id 'settings' %}
 
 {% block main %}
@@ -10,7 +10,7 @@
 
     <section class="section section-page-title bg-default text-center py-5">
         <div class="container">
-            <h2 class="display-5 fw-bold">{{ 'title.settings'|trans({}, 'titles') }}</h2>
+            <h2 class="display-5 fw-bold">{{ 'settings.titles.settings'|trans({}, 'settings') }}</h2>
             <p class="lead text-muted mt-2">{{ 'settings.text_1'|trans({}, 'settings') }}</p>
         </div>
     </section>
@@ -45,25 +45,25 @@
                     </div>
 
                     <div class="card shadow-sm mb-3">
-                        <div class="card-header fw-semibold">{{ 'title.activity'|trans({}, 'titles') }}</div>
+                        <div class="card-header fw-semibold">{{ 'settings.titles.activity'|trans({}, 'settings') }}</div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>{{ 'label.shares'|trans({}, 'labels') }}</span> <strong>125</strong>
+                                <span>{{ 'settings.activity.shares'|trans({}, 'settings') }}</span> <strong>125</strong>
                             </li>
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>{{ 'label.likes'|trans({}, 'labels') }}</span> <strong>13</strong>
+                                <span>{{ 'settings.activity.likes'|trans({}, 'settings') }}</span> <strong>13</strong>
                             </li>
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>{{ 'label.posts'|trans({}, 'labels') }}</span> <strong>37</strong>
+                                <span>{{ 'settings.activity.posts'|trans({}, 'settings') }}</span> <strong>37</strong>
                             </li>
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>{{ 'label.followers'|trans({}, 'labels') }}</span> <strong>78</strong>
+                                <span>{{ 'settings.activity.followers'|trans({}, 'settings') }}</span> <strong>78</strong>
                             </li>
                         </ul>
                     </div>
 
                     <div class="card shadow-sm">
-                        <div class="card-header fw-semibold">{{ 'title.social_media'|trans({}, 'titles') }}</div>
+                        <div class="card-header fw-semibold">{{ 'settings.titles.social_media'|trans({}, 'settings') }}</div>
                         <div class="card-body text-center">
                             {% if app.user.socialLinks is not empty %}
                                 {% for entry in app.user.socialLinks %}
@@ -91,7 +91,7 @@
                             <button class="nav-link {% if activeTab == 'profile' %}active{% endif %}"
                                     data-bs-toggle="tab"
                                     data-bs-target="#profile">
-                                <i class="fas fa-user me-1"></i>{{ 'title.profile'|trans({}, 'titles') }}
+                                <i class="fas fa-user me-1"></i>{{ 'settings.tabs.profile'|trans({}, 'settings') }}
                             </button>
                         </li>
 
@@ -99,7 +99,7 @@
                             <button class="nav-link {% if activeTab == 'security' %}active{% endif %}"
                                     data-bs-toggle="tab"
                                     data-bs-target="#security">
-                                <i class="fas fa-lock me-1"></i>{{ 'title.security'|trans({}, 'titles') }}
+                                <i class="fas fa-lock me-1"></i>{{ 'settings.tabs.security'|trans({}, 'settings') }}
                             </button>
                         </li>
 
@@ -107,7 +107,7 @@
                             <button class="nav-link {% if activeTab == 'preferences' %}active{% endif %}"
                                     data-bs-toggle="tab"
                                     data-bs-target="#preferences">
-                                <i class="fas fa-sliders-h me-1"></i>{{ 'title.preferences'|trans({}, 'titles') }}
+                                <i class="fas fa-sliders-h me-1"></i>{{ 'settings.tabs.preferences'|trans({}, 'settings') }}
                             </button>
                         </li>
 
@@ -115,7 +115,7 @@
                             <button class="nav-link {% if activeTab == 'forum' %}active{% endif %}"
                                     data-bs-toggle="tab"
                                     data-bs-target="#forum">
-                                <i class="fas fa-comments me-1"></i>Forum
+                                <i class="fas fa-comments me-1"></i>{{ 'settings.tabs.forum'|trans({}, 'settings') }}
                             </button>
                         </li>
                     </ul>
@@ -130,27 +130,26 @@
                                     {{ form_start(profileForm, { attr: { class: 'row g-3' } }) }}
 
                                     <div class="col-md-6">
-                                        <label class="form-label fw-semibold">{{ 'label.first_name'|trans({}, 'labels') }}</label>
+                                        <label class="form-label fw-semibold">{{ 'label.firstName'|trans({}, 'profile') }}</label>
                                         {{ form_widget(profileForm.firstName, { attr: { class: 'form-control form-control-lg' } }) }}
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label fw-semibold">{{ 'label.last_name'|trans({}, 'labels') }}</label>
+                                        <label class="form-label fw-semibold">{{ 'label.lastName'|trans({}, 'profile') }}</label>
                                         {{ form_widget(profileForm.lastName, { attr: { class: 'form-control form-control-lg' } }) }}
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label fw-semibold">{{ 'label.email'|trans({}, 'labels') }}</label>
+                                        <label class="form-label fw-semibold">{{ 'label.email'|trans({}, 'profile') }}</label>
                                         {{ form_widget(profileForm.email, { attr: { class: 'form-control form-control-lg' } }) }}
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label fw-semibold">{{ 'label.location'|trans({}, 'labels') }}</label>
+                                        <label class="form-label fw-semibold">{{ 'label.location'|trans({}, 'profile') }}</label>
                                         {{ form_widget(profileForm.location, { attr: { class: 'form-control form-control-lg' } }) }}
                                     </div>
 
                                     <div class="col-12 mt-4">
-                                        <label class="form-label fw-semibold">{{ 'settings.social_links'|trans({}, 'settings') }}</label>
                                         {{ include('@theme/components/social_links.html.twig', { form: profileForm }) }}
                                     </div>
 
@@ -175,19 +174,19 @@
                                     {{ form_start(passwordForm, { attr: { class: 'row g-3' } }) }}
 
                                     <div class="col-md-6">
-                                        <label class="form-label fw-semibold">{{ 'label.password'|trans({}, 'labels') }}</label>
+                                        <label class="form-label fw-semibold">{{ 'label.password'|trans({}, 'profile') }}</label>
                                         {{ form_widget(passwordForm.currentPassword, { attr: { class: 'form-control form-control-lg' } }) }}
                                     </div>
 
                                     <div class="col-md-6"></div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label fw-semibold">{{ 'label.new_password'|trans({}, 'labels') }}</label>
+                                        <label class="form-label fw-semibold">{{ 'label.new_password'|trans({}, 'profile') }}</label>
                                         {{ form_widget(passwordForm.newPassword.first, { attr: { class: 'form-control form-control-lg' } }) }}
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label fw-semibold">{{ 'label.new_password_confirm'|trans({}, 'labels') }}</label>
+                                        <label class="form-label fw-semibold">{{ 'label.new_password_confirm'|trans({}, 'profile') }}</label>
                                         {{ form_widget(passwordForm.newPassword.second, { attr: { class: 'form-control form-control-lg' } }) }}
                                     </div>
 
@@ -382,7 +381,7 @@
                                         </div>
 
                                         <button class="btn btn-primary">
-                                            <i class="fas fa-save me-2"></i>{{ 'action.save_security_settings'|trans({}, 'actions') }}
+                                            <i class="fas fa-save me-2"></i>{{ 'action.save'|trans({}, 'actions') }}
                                         </button>
                                     </form>
 
@@ -489,16 +488,16 @@
                             <div class="card shadow-sm border-0">
                                 <div class="card-body p-4">
                                     {{ form_start(forumForm) }}
-                                        <h4 class="mb-4 fw-bold text-success"><i class="fa-solid fa-comments me-2"></i>Forum Preferences</h4>
+                                        <h4 class="mb-4 fw-bold text-success"><i class="fa-solid fa-comments me-2"></i>{{ 'settings.forum.title'|trans({}, 'settings') }}</h4>
 
                                         {# Signature Field (Modern Look) #}
                                         {% if settings.forumSignaturesEnabled %}
                                             <div class="col-12 mb-4">
-                                                <label class="form-label fw-semibold">Signature</label>
+                                                <label class="form-label fw-semibold">{{ 'settings.forum.signature'|trans({}, 'settings') }}</label>
                                                 <div class="p-3 border rounded bg-light bg-opacity-10 border-start border-4 border-success shadow-sm">
                                                     {{ form_widget(forumForm.signature, { attr: { class: 'form-control border-0 bg-white shadow-none', rows: 4, placeholder: 'Write something cool...' } }) }}
                                                 </div>
-                                                <div class="form-text mt-2 text-muted small">This signature will appear at the bottom of all your forum posts.</div>
+                                                <div class="form-text mt-2 text-muted small">{{ 'settings.forum.signature_help'|trans({}, 'settings') }}</div>
                                             </div>
                                         {% endif %}
 
@@ -508,15 +507,15 @@
                                                 <div class="card-body">
                                                     <div class="row g-3">
                                                         <div class="col-12 d-flex justify-content-between align-items-center">
-                                                            <span class="small fw-semibold">Show my signature in posts</span>
+                                                            <span class="small fw-semibold">{{ 'settings.forum.show_my_sig'|trans({}, 'settings') }}</span>
                                                             {{ form_widget(forumForm.forumSettings.showSignature, { attr: { class: 'privacy-toggle' } }) }}
                                                         </div>
                                                         <div class="col-12 d-flex justify-content-between align-items-center">
-                                                            <span class="small fw-semibold">Show signatures from other members</span>
+                                                            <span class="small fw-semibold">{{ 'settings.forum.show_others_sig'|trans({}, 'settings') }}</span>
                                                             {{ form_widget(forumForm.forumSettings.showOtherSignatures, { attr: { class: 'privacy-toggle' } }) }}
                                                         </div>
                                                         <div class="col-12 d-flex justify-content-between align-items-center">
-                                                            <span class="small fw-semibold">Keep me hidden from "Who is online"</span>
+                                                            <span class="small fw-semibold">{{ 'settings.forum.stay_hidden'|trans({}, 'settings') }}</span>
                                                             {{ form_widget(forumForm.forumSettings.stayHidden, { attr: { class: 'privacy-toggle' } }) }}
                                                         </div>
                                                     </div>
@@ -526,7 +525,7 @@
 
                                         <div class="col-12 mt-4 d-flex justify-content-end">
                                             <button name="tab" value="forum" class="btn btn-success btn-lg px-5 shadow-sm">
-                                                <i class="fas fa-save me-2"></i>Save Forum Settings
+                                                <i class="fas fa-save me-2"></i>{{ 'settings.forum.save'|trans({}, 'settings') }}
                                             </button>
                                         </div>
                                     {{ form_end(forumForm) }}

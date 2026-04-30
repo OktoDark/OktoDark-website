@@ -1,3 +1,19 @@
-action.sign_in: "Autentificare"
-checkbox.remember_me: "Ține-mă logat"
-action.forgot_password: "Ți-ai uitat parola?"
+# Traduceri Autentificare Română
+login:
+    title: "Autentificare Membru"
+    subtitle: "Este timpul să te autentifici"
+    verify_title: "Verifică autentificarea"
+    verify_subtitle: "Am trimis un cod de 6 cifre la %email%. Introdu-l mai jos pentru a continua."
+    code_label: "Cod de autentificare"
+    code_placeholder: "Introdu codul de 6 cifre"
+    trust_device: "Încredere în acest dispozitiv pentru 30 de zile"
+    continue_btn: "Continuă"
+    resend_code: "Nu ai primit codul?"
+    resend_btn: "Retrimite codul"
+
+# Aceste chei sunt folosite în special în login.html.twig
+checkbox:
+    remember_me: "Ține-mă logat"
+action:
+    sign_in: "Autentificare"
+    forgot_password: "Ți-ai uitat parola?"

@@ -1,0 +1,23 @@
+# English Register Translations
+title.register: "Create Account"
+title.check_email: "Check your email"
+title.reg_check_mail: "Check Mail"
+title.resend_verification: "Resend verification email"
+title.email_verified: "Email Verified!"
+text.email_verified_intro: "Your email has been successfully verified. You can now complete your profile."
+title.complete_profile: "Complete your profile"
+
+register:
+    subtitle: "Join the community and start your journey with OktoDark Studios."
+    weak_pass: "Weak password"
+    medium_pass: "Medium strength"
+    strong_pass: "Strong password"
+    user_taken: "Username already taken"
+    user_ok: "Username available"
+    email_taken: "Email already registered"
+    email_ok: "Email available"
+    progress:
+        register: "Register"
+        verify: "Verify Email"
+        complete: "Complete Profile"
+    agree_terms: "I agree to the terms"

@@ -1,16 +1,15 @@
-member.download_alpha_text: "Descarcă Alpha"
-member.download_beta_text: "Descarcă Beta"
-member.upgrade_now_text: "Upgradează-ți nivelul pentru a avea acces"
-member.settings: "Setări"
-
-action.edit_user: "Editează utilizator"
-action.change_password: "Schimbă parola"
-
-menu.user: "Cont"
-
-user.updated_successfully: "Utilizator actualizat cu succes!"
-
-info.change_password: >
-  După schimbarea parolei, vei fi deconectat automat din aplicație.
-
-info.unable_change_username: "Nu poți schimba numele de utilizator."
+# Traduceri Membru Română
+member:
+    subtitle: "În această zonă alegi ce vrei să faci."
+    tier_upgrade_notice: "Dacă ai un Tier blocat, trebuie să-ți upgradezi Tier-ul la unul superior."
+    tiers_rewards: "Recompense Tier-uri"
+    download_beta_text: "Descarcă Versiunea Beta"
+    download_alpha_text: "Descarcă Versiunea Alpha"
+    upgrade_now_text: "Upgradează-ți tier-ul pentru a debloca acest conținut."
+    credits_request: "Solicită adăugarea numelui tău în Creditele Jocului"
+    tier_4_content: "Conținut Exclusiv Tier IV"
+    download_source: "Descarcă Codul Sursă al Studioului"
+    member_since: "Membru din"
+    posts: "Postări"
+    edit_user: "Editează utilizator"
+    change_password: "Schimbă parola"

@@ -1,6 +1,6 @@
 {% extends '@theme/base.html.twig' %}
 
-{% block title %}{{ 'title.register'|trans({}, 'titles') }}{% endblock %}
+{% block title %}{{ 'title.register'|trans({}, 'register') }}{% endblock %}
 
 {% block body_id 'register' %}
 
@@ -8,8 +8,8 @@
 
     <section class="section section-page-title bg-default text-center py-5">
         <div class="container">
-            <h2 class="display-5 fw-bold">{{ 'title.register'|trans({}, 'titles') }}</h2>
-            <p class="lead text-muted mt-2">{{ 'content.register_subtitle'|trans({}, 'content') }}</p>
+            <h2 class="display-5 fw-bold">{{ 'title.register'|trans({}, 'register') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'register.subtitle'|trans({}, 'register') }}</p>
         </div>
     </section>
 
@@ -107,7 +107,7 @@
                         <button type="submit"
                                 class="button button-block button-gradient button-circle w-100 mt-3"
                                 formnovalidate>
-                            {{ 'title.register'|trans({}, 'titles') }}
+                            {{ 'title.register'|trans({}, 'register') }}
                         </button>
 
                         {{ form_end(registrationForm) }}
@@ -163,17 +163,17 @@
 
                 if (strength <= 1) {
                     strengthBar.classList.add("weak");
-                    strengthText.textContent = "Weak password";
+                    strengthText.textContent = "{{ 'register.weak_pass'|trans({}, 'register') }}";
                     strengthText.style.color = "#d9534f";
                 }
                 else if (strength <= 3) {
                     strengthBar.classList.add("medium");
-                    strengthText.textContent = "Medium strength";
+                    strengthText.textContent = "{{ 'register.medium_pass'|trans({}, 'register') }}";
                     strengthText.style.color = "#f0ad4e";
                 }
                 else {
                     strengthBar.classList.add("strong");
-                    strengthText.textContent = "Strong password";
+                    strengthText.textContent = "{{ 'register.strong_pass'|trans({}, 'register') }}";
                     strengthText.style.color = "#0cc5b6";
                 }
             });
@@ -208,10 +208,10 @@
                 msg.classList.remove('text-danger', 'text-success');
 
                 if (data.exists) {
-                msg.textContent = 'Username already taken';
+                msg.textContent = "{{ 'register.user_taken'|trans({}, 'register') }}";
                 msg.classList.add('text-danger');
             } else {
-                msg.textContent = 'Username available';
+                msg.textContent = "{{ 'register.user_ok'|trans({}, 'register') }}";
                 msg.classList.add('text-success');
             }
         });
@@ -228,10 +228,10 @@
                 msg.classList.remove('text-danger', 'text-success');
 
                 if (data.exists) {
-                msg.textContent = 'Email already registered';
+                msg.textContent = "{{ 'register.email_taken'|trans({}, 'register') }}";
                 msg.classList.add('text-danger');
             } else {
-                msg.textContent = 'Email available';
+                msg.textContent = "{{ 'register.email_ok'|trans({}, 'register') }}";
                 msg.classList.add('text-success');
             }
         });

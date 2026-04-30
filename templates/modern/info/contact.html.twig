@@ -50,7 +50,7 @@
 
                             <div class="form-group mt-3">
                                 <label for="{{ form.captcha_answer.vars.id }}" class="form-label">
-                                    {{ 'Anti-Spam Challenge'|trans }}: <strong>{{ captcha_question }}</strong>
+                                    {{ 'label.captcha_challenge'|trans({}, 'messages') }}: <strong>{{ captcha_question }}</strong>
                                 </label>
                                 {{ form_widget(form.captcha_answer) }}
                                 {{ form_errors(form.captcha_answer) }}

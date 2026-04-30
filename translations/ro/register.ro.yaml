@@ -1,0 +1,23 @@
+# Traduceri Înregistrare Română
+title.register: "Creează Cont"
+title.check_email: "Verifică email-ul"
+title.reg_check_mail: "Verificare Mail"
+title.resend_verification: "Retrimite email de verificare"
+title.email_verified: "Email verificat!"
+text.email_verified_intro: "Adresa ta de email a fost verificată cu succes. Acum îți poți completa profilul."
+title.complete_profile: "Completează-ți profilul"
+
+register:
+    subtitle: "Alătură-te comunității și începe-ți călătoria cu OktoDark Studios."
+    weak_pass: "Parolă slabă"
+    medium_pass: "Putere medie"
+    strong_pass: "Parolă puternică"
+    user_taken: "Numele de utilizator este deja luat"
+    user_ok: "Nume de utilizator disponibil"
+    email_taken: "Email-ul este deja înregistrat"
+    email_ok: "Email disponibil"
+    progress:
+        register: "Înregistrare"
+        verify: "Verificare Email"
+        complete: "Finalizare Profil"
+    agree_terms: "Sunt de acord cu termenii"

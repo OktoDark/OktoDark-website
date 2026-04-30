@@ -1,11 +1,1 @@
-old_browser.text: >
-  Folosești un browser învechit. Pentru o experiență mai rapidă și mai sigură,
-  actualizează-l gratuit chiar astăzi.
-
-loading.text: "Se încarcă..."
-by.news: "De"
-
-note.reset_password: >
-  Introdu adresa ta de e-mail și îți vom trimite un link pentru resetarea parolei.
-
-button.reset_password: "Trimite e-mail de resetare a parolei"
+loading.text: "Se încarcă"

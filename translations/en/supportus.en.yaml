@@ -1,5 +1,24 @@
-supportus.subtitle: ""
-supportus.subscribe: "Subscribe now"
-supportus.compare_plans: "Compare Plans"
-supportus.note: "Note:"
-supportus.choose_tier: "Choose your Tier"
+# English Support Us Translations
+supportus:
+    subtitle: "Help our studio grow and unlock exclusive community rewards."
+    choose_tier: "Choose your membership plan"
+    subscribe: "Subscribe via PayPal"
+    compare_plans: "Compare Membership Benefits"
+    note: "* Fast support and custom requests are subject to team availability."
+    
+    discord:
+        title: "Discord Community"
+        special_title: "Special Title for you"
+        private_channels: "Access to Private Channels"
+        fast_support: "Fast support for you*"
+
+    models:
+        title: "3D Models & Assets"
+        access: "Models Access"
+        unlimited: "Unlimited downloads"
+        sharing: "Sharing Permission"
+
+    streaming:
+        title: "Streaming Benefits"
+        ask_anything: "Priority Request/Question*"
+        vip_status: "VIP Status"

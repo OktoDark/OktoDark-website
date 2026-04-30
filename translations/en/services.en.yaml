@@ -3,3 +3,4 @@ services.contact_us: "Contact us"
 services.notes: >
   Note: A certain service can be completed in more than a week or less,
   depending on the difficulty required to complete the desired project.
+services.subtitle: "Our comprehensive range of services"

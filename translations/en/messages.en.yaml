@@ -13,9 +13,10 @@ help.whitelist_domain: "Add %domain% to your email whitelist."
 text.reset_email_sent_intro: "If an account exists with the email you entered, a password reset link has been sent."
 text.reset_email_expire: "This link will expire in %hours% hour(s)."
 text.reset_email_spam: "If you don't see the email, please check your spam or junk folder."
+
+label.captcha_challenge: "Anti-Spam Challenge"
+
 reset:
-  reset.throttle_error: "You recently requested a password reset. Please wait %minutes% minute(s) before trying again."
-  reset.throttle_error_seconds: "Please wait %seconds% second(s) before trying again."
   subtitle: "Enter your email address to receive a password reset link."
   throttle_error: "You recently requested a password reset. Please wait %minutes% minute(s) before trying again."
   throttle_error_seconds: "Please wait %seconds% second(s) before trying again."
@@ -24,6 +25,7 @@ reset:
   email_expire: "This link will expire in %hours% hour(s)."
   email_spam: "If you don't see the email, please check your spam or junk folder."
   token_invalid: "Your reset link is invalid or has expired. Please request a new one."
+
 validation:
   password:
     not_blank: "Please enter a password."

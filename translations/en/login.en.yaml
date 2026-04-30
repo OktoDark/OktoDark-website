@@ -1,5 +1,19 @@
-action.sign_in: "Sign in"
-checkbox.remember_me: "Keep me logged in"
-text.back_to_login: "Back to login"
-itstime.subtitle: "It's time to sign in"
-action.forgot_password: "Forgot your password?"
+# English Login Translations
+login:
+    title: "Member Login"
+    subtitle: "It's time to sign in"
+    verify_title: "Verify your login"
+    verify_subtitle: "We’ve sent a 6‑digit code to %email%. Enter it below to continue."
+    code_label: "Login code"
+    code_placeholder: "Enter 6‑digit code"
+    trust_device: "Trust this device for 30 days"
+    continue_btn: "Continue"
+    resend_code: "Didn't receive a code?"
+    resend_btn: "Resend code"
+
+# These keys are specifically used in login.html.twig
+checkbox:
+    remember_me: "Keep me logged in"
+action:
+    sign_in: "Sign in"
+    forgot_password: "Forgot your password?"

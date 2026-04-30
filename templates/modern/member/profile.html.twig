@@ -1,6 +1,6 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'title.member'|trans({}, 'titles') }}{% endblock %}
+{% block title %}{{ 'base.member'|trans({}, 'base') }}{% endblock %}
 {% block body_id 'profile' %}
 
 {% block main %}
@@ -25,7 +25,7 @@
                                 {{ users.username }} {{ 'profile.hidden_profile_text'|trans({}, 'profile') }}
                             </p>
 
-                            <a href="{{ path('home_index', { _locale: app.request.locale }) }}"
+                            <a href="{{ path('home') }}"
                                class="btn btn-dark px-4">
                                 {{ 'profile.go_back_home'|trans({}, 'profile') }}
                             </a>
@@ -73,9 +73,9 @@
                                 {% endif %}
 
                                 {% if is_public %}
-                                    <span class="badge bg-success">{{ 'label.public'|trans({}, 'labels') }}</span>
+                                    <span class="badge bg-success">{{ 'label.public'|trans({}, 'profile') }}</span>
                                 {% else %}
-                                    <span class="badge bg-secondary">{{ 'label.private'|trans({}, 'labels') }}</span>
+                                    <span class="badge bg-secondary">{{ 'label.private'|trans({}, 'profile') }}</span>
                                 {% endif %}
 
                                 <h4 class="fw-bold">{{ users.username }}</h4>
@@ -87,10 +87,10 @@
                                 {% if viewer and viewer.id == users.id %}
                                     <div class="list-group mt-4">
                                         <a href="{{ path('profile_view', { username: app.user.username }) }}" class="list-group-item list-group-item-action">
-                                            <i class="fas fa-user me-2"></i>{{ 'title.profile'|trans({}, 'titles') }}
+                                            <i class="fas fa-user me-2"></i>{{ 'base.profile'|trans({}, 'base') }}
                                         </a>
                                         <a href="{{ path('settings_area') }}" class="list-group-item list-group-item-action">
-                                            <i class="fas fa-cog me-2"></i>{{ 'title.settings'|trans({}, 'titles') }}
+                                            <i class="fas fa-cog me-2"></i>{{ 'base.settings'|trans({}, 'base') }}
                                         </a>
                                     </div>
                                 {% endif %}
@@ -113,35 +113,35 @@
 
                                     {% if privacy.showFirstName or privacy.showLastName %}
                                         <div class="col-md-6">
-                                            <strong>{{ 'label.name'|trans({}, 'labels') }}:</strong>
+                                            <strong>{{ 'label.fullname'|trans({}, 'profile') }}:</strong>
                                             <p>{{ users.firstName }} {{ users.lastName }}</p>
                                         </div>
                                     {% endif %}
 
                                     {% if privacy.showEmail %}
                                         <div class="col-md-6">
-                                            <strong>{{ 'label.email'|trans({}, 'labels') }}:</strong>
+                                            <strong>{{ 'label.email'|trans({}, 'profile') }}:</strong>
                                             <p>{{ users.email }}</p>
                                         </div>
                                     {% endif %}
 
                                     {% if privacy.showRoles %}
                                         <div class="col-md-6">
-                                            <strong>{{ 'label.roles'|trans({}, 'labels') }}:</strong>
+                                            <strong>{{ 'label.roles'|trans({}, 'profile') }}:</strong>
                                             <p>{% include("@theme/member/parts/roles.html.twig") %}</p>
                                         </div>
                                     {% endif %}
 
                                     {% if privacy.showMemberSince %}
                                         <div class="col-md-6">
-                                            <strong>{{ 'label.member_since'|trans({}, 'labels') }}:</strong>
+                                            <strong>{{ 'label.member_since'|trans({}, 'profile') }}:</strong>
                                             <p>{{ users.agreedTerms|format_datetime('medium', 'short', '', 'UTC') }}</p>
                                         </div>
                                     {% endif %}
 
                                     {% if privacy.showAccountStatus %}
                                         <div class="col-md-6">
-                                            <strong>{{ 'label.account_status'|trans({}, 'labels') }}:</strong>
+                                            <strong>{{ 'label.account_status'|trans({}, 'profile') }}:</strong>
                                             <p>{% include "@theme/member/parts/active.html.twig" with { user: app.user } %}</p>
                                         </div>
                                     {% endif %}
@@ -164,7 +164,7 @@
                         <!-- Social Information -->
                         <div class="card shadow-sm border-0 mb-4">
                             <div class="card-header bg-white fw-bold">
-                                <i class="fas fa-comments me-2"></i>{{ 'social.social_info'|trans({}, 'social') }}
+                                <i class="fas fa-comments me-2"></i>{{ 'settings.titles.social_media'|trans({}, 'settings') }}
                             </div>
                             <div class="card-body">
 
@@ -199,7 +199,7 @@
                         <!-- Player History -->
                         <div class="card shadow-sm border-0 mb-4">
                             <div class="card-header bg-white fw-bold">
-                                <i class="fas fa-briefcase me-2"></i>{{ 'title.player_history'|trans({}, 'profile') }}
+                                <i class="fas fa-briefcase me-2"></i>{{ 'profile.player_history'|trans({}, 'profile') }}
                             </div>
                             <div class="card-body text-center py-5">
                                 <h4 class="text-muted">{{ 'profile.no_history'|trans({}, 'profile') }}</h4>
@@ -209,8 +209,8 @@
                         <!-- Punishment History -->
                         <div class="card shadow-sm border-0">
                             <div class="card-header bg-white fw-bold">
-                                <i class="fas fa-graduation-cap me-2"></i>{{ 'title.punishment_history'|trans({}, 'profile') }}
-                                <small class="text-success ms-2">{{ 'label.public'|trans({}, 'labels') }}</small>
+                                <i class="fas fa-graduation-cap me-2"></i>{{ 'profile.punishment_history'|trans({}, 'profile') }}
+                                <small class="text-success ms-2">{{ 'label.public'|trans({}, 'profile') }}</small>
                             </div>
                             <div class="card-body text-center py-5">
                                 <h4 class="text-muted">{{ 'profile.no_penalties'|trans({}, 'profile') }}</h4>
