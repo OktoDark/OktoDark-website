@@ -1,6 +1,6 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'title.contact'|trans({}, 'titles') }}{% endblock %}
+{% block title %}{{ 'title.contact'|trans({}, 'contact') }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -12,8 +12,8 @@
 
     <section class="section section-page-title context-dark text-center py-5">
         <div class="container">
-            <h2 class="display-5 fw-bold">{{ 'title.contact'|trans({}, 'titles') }}</h2>
-            <p class="lead text-muted mt-2">{{ 'content.contact_subtitle'|trans({}, 'content') }}</p>
+            <h2 class="display-5 fw-bold">{{ 'title.contact'|trans({}, 'contact') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'content.contact_subtitle'|trans({}, 'contact') }}</p>
         </div>
     </section>
 
@@ -21,7 +21,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <p>{{ 'content.contact'|trans({}, 'content') }}</p>
+                    <p>{{ 'content.contact'|trans({}, 'contact') }}</p>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
 
                             <div class="form-group mt-3">
                                 <label for="{{ form.captcha_answer.vars.id }}" class="form-label">
-                                    {{ 'label.captcha_challenge'|trans({}, 'messages') }}: <strong>{{ captcha_question }}</strong>
+                                    {{ 'label.captcha_question'|trans({}, 'contact') }}: <strong>{{ captcha_question }}</strong>
                                 </label>
                                 {{ form_widget(form.captcha_answer) }}
                                 {{ form_errors(form.captcha_answer) }}

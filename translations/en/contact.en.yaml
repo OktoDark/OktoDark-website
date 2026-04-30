@@ -1,13 +1,19 @@
+title.contact: "Contact"
+content.contact_subtitle: "Contact us if you have any questions"
+content.contact: >
+  If you have questions about our products, problems or anything else,
+  we will answer your question in a short time.
 label:
-    name: "Name"
-    email: "E-mail"
-    content: "Content"
-    category: "Category"
-    subject: "Subject"
-    message: "Message"
+    contact_name: "Name"
+    contact_email: "E-mail"
+    contact_content: "Content"
+    contact_category: "Category"
+    contact_subject: "Subject"
+    contact_message: "Message"
     choice_department: "Choose your department"
     department_staff: "Staff"
     department_webmaster: "Webmaster"
     department_services: "Services"
     secure_sign_in: "Secure Sign in"
     send: "Send"
+    captcha_question: "Captcha Question"

@@ -64,7 +64,7 @@ class ContactType extends AbstractType
                 'required' => true,
                 'placeholder' => 'label.choice_department',
                 'empty_data' => null,
-                'choice_translation_domain' => 'labels',
+                'choice_translation_domain' => 'contact',
             ])
 
             ->add('subject', TextType::class, [
@@ -132,7 +132,7 @@ class ContactType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Contact::class,
-            'translation_domain' => 'labels',
+            'translation_domain' => 'contact',
         ]);
     }
 }

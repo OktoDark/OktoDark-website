@@ -1,13 +1,19 @@
+title.contact: "Contactează-ne"
+content.contact_subtitle: "Contactează-ne dacă ai întrebări"
+content.contact: >
+  Dacă ai întrebări despre produsele noastre, probleme sau orice altceva,
+  îți vom răspunde într-un timp scurt.
 label:
-    name: "Nume"
-    email: "E-mail"
-    content: "Conținut"
-    category: "Categorie"
-    subject: "Subiect"
-    message: "Mesaj"
+    contact_name: "Nume"
+    contact_email: "E-mail"
+    contact_content: "Conținut"
+    contact_category: "Categorie"
+    contact_subject: "Subiect"
+    contact_message: "Mesaj"
     choice_department: "Alege departamentul"
     department_staff: "Personal"
     department_webmaster: "Webmaster"
     department_services: "Servicii"
     secure_sign_in: "Autentificare securizată"
     send: "Trimite"
+    captcha_question: "Întrebare Captcha"
