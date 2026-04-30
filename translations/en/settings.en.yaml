@@ -14,6 +14,7 @@ settings:
     city: "City"
     more_details: "More Details"
     recent_account_activity: "Recent Account Activity"
+    clear_activity: "Clear Activity"
     confirm_clear_activity: "Are you sure you want to clear your activity history?"
     no_recent_activity: "No recent activity found."
     device: "Device"

@@ -14,6 +14,7 @@ settings:
     city: "Oraș"
     more_details: "Mai multe Detalii"
     recent_account_activity: "Activitate Recentă a Contului"
+    clear_activity: "Șterge Activitatea"
     confirm_clear_activity: "Ești sigur că vrei să ștergi istoricul activității?"
     no_recent_activity: "Nu a fost găsită activitate recentă."
     device: "Dispozitiv"
