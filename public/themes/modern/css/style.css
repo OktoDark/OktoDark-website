@@ -10,6 +10,7 @@
 @import url("styles/about.css");
 @import url("styles/admin.css");
 @import url("styles/animations.css");
+@import url("styles/blog.css");
 @import url("styles/buttons.css");
 @import url("styles/cards.css");
 @import url("styles/careers.css");
@@ -18,6 +19,7 @@
 @import url("styles/faq.css");
 @import url("styles/footer.css");
 @import url("styles/forget-pass.css");
+@import url("styles/forum.css");
 @import url("styles/hero.css");
 @import url("styles/icon-boxes.css");
 @import url("styles/login.css");
@@ -27,6 +29,7 @@
 @import url("styles/preloader.css");
 @import url("styles/privacy.css");
 @import url("styles/register.css");
+@import url("styles/settings.css");
 @import url("styles/shadows.css");
 @import url("styles/social.css");
 @import url("styles/spacing.css");

@@ -77,9 +77,9 @@ class PostType extends AbstractType
                     );
                 }
             })
-            
+
             // Set default publishedAt if empty
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event) {
                 /** @var Post|null $post */
                 $post = $event->getData();
                 if (!$post || null === $post->getPublishedAt()) {

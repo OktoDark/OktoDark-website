@@ -68,7 +68,8 @@
 /* Navbar height like demo */
 .modern-nav {
     padding: 0.3rem 0;
-    background: rgba(0,0,0,0.65);
+    /* background: rgba(0,0,0,0.65);*/
+    background: #373a3f !important;
     backdrop-filter: blur(10px);
 }
 

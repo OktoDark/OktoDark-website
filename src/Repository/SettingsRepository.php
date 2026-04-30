@@ -28,15 +28,21 @@ class SettingsRepository extends ServiceEntityRepository
         parent::__construct($registry, Settings::class);
     }
 
+    public function save(Settings $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     public function selectSettings(): array
     {
-        $conn = $this->getEntityManager()->getConnection();
-
-        $sql = 'SELECT * FROM settings';
-
-        $stmt = $conn->prepare($sql);
-        $result = $stmt->executeQuery();
-
-        return $result->fetchAllAssociative();
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getArrayResult()[0] ?? [];
     }
 }

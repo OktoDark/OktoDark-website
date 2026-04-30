@@ -111,3 +111,85 @@ a {
 a:hover {
     color: var(--color-heading);
 }
+
+/* Avatar */
+.avatar-blog-fallback {
+    width: 64px;
+    height: 64px;
+    background: #2c2c2c; /* or your theme color */
+    color: #fff;
+    font-size: 28px; /* icon size */
+}
+
+.avatar-profile-fallback {
+    width: 140px;
+    height: 140px;
+    background: #2c2c2c; /* or your theme color */
+    color: #fff;
+    font-size: 28px; /* icon size */
+    margin: auto;
+}
+
+.avatar-settings-fallback {
+    width: 140px;
+    height: 140px;
+    background: #2c2c2c; /* or your theme color */
+    color: #fff;
+    font-size: 28px; /* icon size */
+    margin: auto;
+}
+
+/* Privacy */
+.privacy-toggle {
+    width: 50px;
+    height: 24px;
+    appearance: none;
+    background: #dc3545; /* red */
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.privacy-toggle:checked {
+    background: #28a745; /* green */
+}
+
+.privacy-toggle::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s ease;
+}
+
+.privacy-toggle:checked::before {
+    transform: translateX(26px);
+}
+
+/* flags */
+.country-legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+    color: #fff;
+}
+
+.country-legend-item .fi {
+    width: 22px;
+    height: 16px;
+    border-radius: 3px;
+    box-shadow: 0 0 4px rgba(0,0,0,0.4);
+}
+
+.verified-badge i {
+    color: #1DA1F2; /* X blue */
+    font-size: 1.2rem;
+    vertical-align: middle;
+    line-height: 1;
+}

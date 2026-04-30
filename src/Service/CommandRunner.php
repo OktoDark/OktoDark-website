@@ -39,8 +39,6 @@ final class CommandRunner
         stream_set_blocking($pipes[1], false);
         stream_set_blocking($pipes[2], false);
 
-        $buffer = '';
-
         while (true) {
             $stdout = fgets($pipes[1]);
             $stderr = fgets($pipes[2]);
@@ -50,7 +48,9 @@ final class CommandRunner
             }
 
             if (false !== $stderr) {
-                $callback('[stderr] '.$stderr);
+                if (!$this->isNoise($stderr)) {
+                    $callback('[stderr] '.$stderr);
+                }
             }
 
             $status = proc_get_status($process);
@@ -62,9 +62,39 @@ final class CommandRunner
             usleep(200000); // 200ms
         }
 
+        // Read remaining output
+        while ($stdout = fgets($pipes[1])) {
+            $callback($stdout);
+        }
+        while ($stderr = fgets($pipes[2])) {
+            if (!$this->isNoise($stderr)) {
+                $callback('[stderr] '.$stderr);
+            }
+        }
+
         fclose($pipes[1]);
         fclose($pipes[2]);
 
         return proc_close($process);
+    }
+
+    /**
+     * Filters out PHP environment noise (Plesk startup warnings, etc.).
+     */
+    private function isNoise(string $line): bool
+    {
+        $noisePatterns = [
+            'PHP Startup: Unable to load dynamic library',
+            'is already loaded in Unknown on line 0',
+            'PHP Warning:  Module',
+        ];
+
+        foreach ($noisePatterns as $pattern) {
+            if (str_contains($line, $pattern)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

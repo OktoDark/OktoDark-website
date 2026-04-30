@@ -29,10 +29,13 @@ class SettingsController extends AbstractController
 
         // Handle form submit
         if ($request->isMethod('POST')) {
-            $settings->setSiteName($request->request->get('siteName'));
-            $settings->setJobmail($request->request->get('jobmail'));
-            $settings->setSiteCDN($request->request->get('siteCDN'));
-            $settings->setLogoName($request->request->get('logoName'));
+            // General Settings
+            $settings->setSiteName($request->request->get('siteName', 'OktoDark'));
+            $settings->setJobmail($request->request->get('jobmail', ''));
+            $settings->setSiteCDN($request->request->get('siteCDN', ''));
+            $settings->setLogoName($request->request->get('logoName', 'logo.png'));
+            $settings->setRegisterEnabled((bool) $request->request->get('register_enabled'));
+
             // Forum Settings
             $settings->setForumSignaturesEnabled((bool) $request->request->get('forum_signatures_enabled'));
             $settings->setForumImageUploadsEnabled((bool) $request->request->get('forum_image_uploads_enabled'));

@@ -13,6 +13,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\RegistrationWaitlist;
 use App\Repository\RegistrationWaitlistRepository;
+use App\Service\InviteMailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -26,6 +27,7 @@ class WaitlistController extends AbstractController
     public function __construct(
         private RegistrationWaitlistRepository $waitlistRepo,
         private EntityManagerInterface $em,
+        private InviteMailer $inviteMailer,
     ) {
     }
 
@@ -37,6 +39,19 @@ class WaitlistController extends AbstractController
         return $this->render('@theme/admin/waitlist.html.twig', [
             'entries' => $entries,
         ]);
+    }
+
+    #[Route('/admin/waitlist/invite/{id}', name: 'admin_waitlist_invite', methods: ['POST'])]
+    public function invite(RegistrationWaitlist $entry): RedirectResponse
+    {
+        $this->inviteMailer->sendInvite($entry->getEmail());
+
+        $this->em->remove($entry);
+        $this->em->flush();
+
+        $this->addFlash('success', 'Invite sent and waitlist entry removed.');
+
+        return $this->redirectToRoute('admin_waitlist_index');
     }
 
     #[Route('/admin/waitlist/delete/{id}', name: 'admin_waitlist_delete', methods: ['POST'])]

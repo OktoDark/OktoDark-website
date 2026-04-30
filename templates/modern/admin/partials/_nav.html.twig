@@ -1,0 +1,109 @@
+<div id="admin">
+
+    <script>
+        function toggleAdminMenu() {
+            document.querySelector('#admin .admin-nav-wrapper').classList.toggle('active');
+        }
+    </script>
+
+    <header class="admin-top-nav">
+        <div class="container-fluid d-flex align-items-center justify-content-center px-4 position-relative">
+            
+            <button class="admin-mobile-toggle d-lg-none" onclick="toggleAdminMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="admin-nav-wrapper">
+                <ul class="admin-main-menu">
+                    {% set current_route = app.request.attributes.get('_route') %}
+
+                    <li>
+                        <a href="{{ path('admin_dashboard') }}" class="{{ current_route == 'admin_dashboard' ? 'active' : '' }}">
+                            <i class="fas fa-gauge-high"></i> {{ 'admin.nav.dashboard'|trans({}, 'admin') }}
+                        </a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="{{ (current_route starts with 'admin_users' or current_route starts with 'admin_registration' or current_route starts with 'admin_waitlist') ? 'active' : '' }}">
+                            <i class="fas fa-users-gear"></i> {{ 'admin.nav.users'|trans({}, 'admin') }} <i class="fas fa-chevron-down ms-1 small"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('admin_users') }}">{{ 'admin.nav.user_management'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_registration_panel') }}">{{ 'admin.nav.registration_control'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_waitlist_index') }}">{{ 'admin.nav.waitlist'|trans({}, 'admin') }}</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="{{ (current_route starts with 'admin_contact' or current_route starts with 'admin_careers_applications') ? 'active' : '' }}">
+                            <i class="fas fa-envelope-open-text"></i> {{ 'admin.nav.inbox'|trans({}, 'admin') }} <i class="fas fa-chevron-down ms-1 small"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('admin_contact_index') }}">{{ 'admin.nav.contact_messages'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_careers_applications_index') }}">{{ 'admin.nav.career_applications'|trans({}, 'admin') }}</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="{{ (
+                            current_route starts with 'admin_news' or 
+                            current_route starts with 'admin_team' or 
+                            (current_route starts with 'admin_careers' and not (current_route starts with 'admin_careers_applications')) or 
+                            current_route starts with 'admin_services' or 
+                            current_route starts with 'admin_assets'
+                        ) ? 'active' : '' }}">
+                            <i class="fas fa-layer-group"></i> {{ 'admin.nav.content'|trans({}, 'admin') }} <i class="fas fa-chevron-down ms-1 small"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('admin_news_index') }}">{{ 'admin.nav.news_articles'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_team') }}">{{ 'admin.nav.team_members'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_careers') }}">{{ 'admin.nav.job_positions'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_services') }}">{{ 'admin.nav.services'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_assets') }}">{{ 'admin.nav.asset_library'|trans({}, 'admin') }}</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="{{ current_route starts with 'admin_forum' ? 'active' : '' }}">
+                            <i class="fas fa-comments"></i> {{ 'admin.nav.forum.title'|trans({}, 'admin') }} <i class="fas fa-chevron-down ms-1 small"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('admin_forum_dashboard') }}">{{ 'admin.nav.dashboard'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_forum_categories') }}">{{ 'admin.nav.forum.categories'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_forum_threads') }}">{{ 'admin.nav.forum.threads'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_forum_posts') }}">{{ 'admin.nav.forum.posts'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_forum_reports') }}">{{ 'admin.nav.forum.reports'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_forum_moderation_logs') }}">{{ 'admin.nav.forum.moderation_logs'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_badges') }}">{{ 'admin.nav.badges'|trans({}, 'admin') }}</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="{{ (current_route starts with 'admin_settings' or current_route starts with 'admin_system_health' or current_route starts with 'admin_tools_terminal' or current_route starts with 'admin_email_preview') ? 'active' : '' }}">
+                            <i class="fas fa-screwdriver-wrench"></i> {{ 'admin.nav.system.title'|trans({}, 'admin') }} <i class="fas fa-chevron-down ms-1 small"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('admin_settings') }}">{{ 'admin.nav.system.website_settings'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_system_health') }}">{{ 'admin.nav.system.system_health'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_tools_terminal') }}">{{ 'admin.nav.system.terminal'|trans({}, 'admin') }}</a></li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header text-muted px-3 py-1 small text-uppercase">{{ 'admin.nav.system.email_previews'|trans({}, 'admin') }}</li>
+                            <li><a href="{{ path('admin_email_preview', { templateName: 'login_alert' }) }}">{{ 'admin.nav.email.login_alert'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_email_preview', { templateName: 'login_code' }) }}">{{ 'admin.nav.email.login_code'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_email_preview', { templateName: 'invite_waitlist' }) }}">{{ 'admin.nav.email.invite_waitlist'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_email_preview', { templateName: 'confirmation' }) }}">{{ 'admin.nav.email.confirmation'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_email_preview', { templateName: 'reset' }) }}">{{ 'admin.nav.email.reset'|trans({}, 'admin') }}</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="admin-content-wrapper">
+        <main class="admin-content">
+            {% block admin_content %}{% endblock %}
+        </main>
+    </div>
+
+</div>

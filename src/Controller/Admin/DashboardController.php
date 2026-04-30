@@ -16,6 +16,7 @@ use App\Repository\AnalyticsContentViewRepository;
 use App\Repository\AnalyticsEventRepository;
 use App\Repository\AnalyticsPageViewRepository;
 use App\Repository\AnalyticsSessionRepository;
+use App\Repository\CareerApplicationRepository;
 use App\Repository\NewsRepository;
 use App\Repository\RegistrationWaitlistRepository;
 use App\Repository\ServicesRepository;
@@ -37,6 +38,7 @@ class DashboardController extends AbstractController
         private NewsRepository $newsRepo,
         private ServicesRepository $servicesRepo,
         private RegistrationWaitlistRepository $waitlistRepo,
+        private CareerApplicationRepository $careerRepo,
         private SettingsProvider $settingsProvider,
     ) {
     }
@@ -48,11 +50,41 @@ class DashboardController extends AbstractController
         AnalyticsEventRepository $eventRepo,
         AnalyticsContentViewRepository $contentRepo,
     ): Response {
+        $rawSessions = $sessionRepo->findRecentSessions();
+
+        $unique = [];
+
+        foreach ($rawSessions as $s) {
+
+            // Build unique signature from entity getters
+            $key = implode('|', [
+                $s->getIp() ?? '',
+                $s->getBrowser() ?? '',
+                $s->getBrowserVersion() ?? '',
+                $s->getOs() ?? '',
+                $s->getOsVersion() ?? '',
+                $s->getDevice() ?? '',
+                $s->getDeviceModel() ?? '',
+                $s->getCountry() ?? '',
+            ]);
+
+            // Keep only the most recent timestamp
+            if (!isset($unique[$key]) || $s->getLastSeenAt() > $unique[$key]->getLastSeenAt()) {
+                $unique[$key] = $s;
+            }
+        }
+
+        $dedupedSessions = array_values($unique);
+
+        // -----------------------------------------
+        // BUILD DASHBOARD STATS
+        // -----------------------------------------
         $stats = [
             'users' => $this->userRepo->count([]),
             'news' => $this->newsRepo->count([]),
             'services' => $this->servicesRepo->count([]),
             'waitlist' => $this->waitlistRepo->count([]),
+            'career_apps_new' => $this->careerRepo->count(['isRead' => false]),
             'registration_enabled' => $this->settingsProvider->isRegistrationEnabled(),
 
             'active_sessions' => $sessionRepo->countActiveSessions(),
@@ -68,7 +100,8 @@ class DashboardController extends AbstractController
             'top_routes' => $pageRepo->topRoutes(8),
             'top_news' => $contentRepo->topContent('news', 8),
             'top_ips' => $sessionRepo->findTopIps(),
-            'recent_sessions' => $sessionRepo->findRecentSessions(),
+
+            'recent_sessions' => $dedupedSessions,
         ];
 
         return $this->render('admin/dashboard.html.twig', [

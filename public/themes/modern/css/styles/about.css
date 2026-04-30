@@ -15,7 +15,7 @@
 /* Team grid spacing */
 #about .box-team-modern {
     padding: 25px;
-    background: #4e4d4d;
+    background: #f9f6f6;
     border-radius: 12px;
     transition: transform .25s ease, box-shadow .25s ease;
 }
@@ -34,6 +34,33 @@
     box-shadow: 0 0 12px rgba(12,197,182,0.4);
 }
 
+/* Real avatar */
+.team-avatar {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #0cc5b6;
+    box-shadow: 0 0 12px rgba(12,197,182,0.4);
+}
+
+/* Default icon avatar */
+.team-avatar-default {
+    font-size: 160px;
+    color: #212323;
+    display: inline-block;
+    width: 160px;
+    height: 160px;
+    line-height: 160px;
+    text-align: center;
+    border-radius: 50%;
+    /*
+    border: 4px solid #0cc5b6;
+    box-shadow: 0 0 12px rgba(12,197,182,0.4);
+    background: rgba(0,0,0,0.2);
+    */
+}
+
 /* Team text */
 #about .team-modern-title {
     margin-top: 10px;
@@ -46,6 +73,7 @@
     font-size: .95rem;
     margin-bottom: 5px;
 }
+
 #about .section-page-title {
     padding-top: 70px;
     padding-bottom: 70px;

@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Uid\Uuid;
 
 #[Route('/admin/tools'), IsGranted('ROLE_ADMIN')]
 final class AdminToolsController extends AbstractController
@@ -36,17 +35,20 @@ final class AdminToolsController extends AbstractController
     private function getAllowedCommands(): array
     {
         $php = $this->getParameter('php_bin');
-        $composer = $php.' '.$this->getParameter('composer_bin');
+        $composer = $this->getParameter('composer_bin');
+
+        // Ensure we run composer through the specific PHP binary
+        $composerCmd = $php.' '.$composer;
 
         return [
-            ['label' => 'Validate',     'cmd' => "$composer validate"],
-            ['label' => 'Install',      'cmd' => "$composer install"],
-            ['label' => 'Update',       'cmd' => "$composer update"],
-            ['label' => 'Outdated',     'cmd' => "$composer outdated"],
-            ['label' => 'Cache Clear',  'cmd' => "$php bin/console cache:clear"],
-            ['label' => 'Cache Warmup', 'cmd' => "$php bin/console cache:warmup"],
-            ['label' => 'About',        'cmd' => "$php bin/console about"],
-            ['label' => 'PHP Info',     'cmd' => "$php -i"],
+            ['label' => 'Composer Validate',     'cmd' => "$composerCmd validate"],
+            ['label' => 'Composer Install',      'cmd' => "$composerCmd install"],
+            ['label' => 'Composer Update',       'cmd' => "$composerCmd update"],
+            ['label' => 'Composer Outdated',     'cmd' => "$composerCmd outdated"],
+            ['label' => 'Symfony Cache Clear',  'cmd' => "$php bin/console cache:clear"],
+            ['label' => 'Symfony Cache Warmup', 'cmd' => "$php bin/console cache:warmup"],
+            ['label' => 'Symfony About',        'cmd' => "$php bin/console about"],
+            ['label' => 'PHP Info',              'cmd' => "$php -i"],
         ];
     }
 
@@ -61,6 +63,10 @@ final class AdminToolsController extends AbstractController
     #[Route('/terminal/run', name: 'admin_tools_terminal_run', methods: ['POST'])]
     public function terminalRun(Request $request, EntityManagerInterface $em): Response
     {
+        if (!$this->isCsrfTokenValid('terminal-run', $request->request->get('_token'))) {
+            return $this->json(['error' => 'Invalid CSRF token'], 400);
+        }
+
         // Extract only the command strings
         $allowedCommands = array_column($this->getAllowedCommands(), 'cmd');
         $command = $request->request->get('command');
@@ -70,10 +76,12 @@ final class AdminToolsController extends AbstractController
         }
 
         $job = new CommandJob();
-        $job->setId(Uuid::v4());
+        // Use a safe ID generation method since symfony/uid is not in composer.json
+        $job->setId(bin2hex(random_bytes(16)));
         $job->setCommand($command);
         $job->setStatus(CommandJob::STATUS_PENDING);
         $job->setCreatedAt(new \DateTimeImmutable());
+        $job->setOutput("Job queued...\n");
 
         $em->persist($job);
         $em->flush();

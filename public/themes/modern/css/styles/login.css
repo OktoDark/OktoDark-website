@@ -72,3 +72,122 @@
     font-size: 2.4rem;
     letter-spacing: -0.5px;
 }
+
+/*
+    l2h
+ */
+.od-auth-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.od-auth-card {
+    width: 100%;
+    max-width: 420px;
+    background: #0f0f12;
+    padding: 35px;
+    border-radius: 14px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.45);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.od-auth-title {
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.od-auth-subtitle {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.od-alert {
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.od-alert-error {
+    background: rgba(255, 60, 60, 0.15);
+    border: 1px solid rgba(255, 60, 60, 0.4);
+    color: #ff6b6b;
+}
+
+.od-form-group {
+    margin-bottom: 20px;
+}
+
+.od-label {
+    display: block;
+    margin-bottom: 6px;
+    color: #ccc;
+    font-size: 14px;
+}
+
+.od-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #1a1a1f;
+    color: #fff;
+    font-size: 16px;
+}
+
+.od-input:focus {
+    border-color: #7a3cff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(122, 60, 255, 0.3);
+}
+
+.od-form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    color: #bbb;
+    font-size: 14px;
+}
+
+.od-btn {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.od-btn-primary {
+    background: linear-gradient(135deg, #7a3cff, #9b5bff);
+    color: #fff;
+}
+
+.od-btn-primary:hover {
+    background: linear-gradient(135deg, #8b4dff, #b06cff);
+}
+
+.od-btn-link {
+    background: none;
+    border: none;
+    color: #7a3cff;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 10px;
+}
+
+.od-btn-link:hover {
+    color: #b06cff;
+}
+
+.od-resend {
+    text-align: center;
+    margin-top: 10px;
+}

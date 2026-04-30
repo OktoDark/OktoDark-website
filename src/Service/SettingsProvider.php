@@ -72,10 +72,19 @@ class SettingsProvider
             return $default;
         }
 
-        $method = 'get'.str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
+        // Convert snake_case to CamelCase
+        $camelCaseKey = str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
 
-        if (method_exists($this->settings, $method)) {
-            return $this->settings->$method();
+        // Try get method first
+        $getMethod = 'get'.$camelCaseKey;
+        if (method_exists($this->settings, $getMethod)) {
+            return $this->settings->$getMethod();
+        }
+
+        // If it's a boolean-like key, try is method
+        $isMethod = 'is'.$camelCaseKey;
+        if (method_exists($this->settings, $isMethod)) {
+            return $this->settings->$isMethod();
         }
 
         return $default;
@@ -84,5 +93,15 @@ class SettingsProvider
     public function isRegistrationEnabled(): bool
     {
         return (bool) $this->get('register_enabled', true);
+    }
+
+    public function setRegistrationEnabled(bool $enabled): void
+    {
+        $this->load();
+
+        if ($this->settings && method_exists($this->settings, 'setRegisterEnabled')) {
+            $this->settings->setRegisterEnabled($enabled);
+            $this->repo->save($this->settings, true);
+        }
     }
 }

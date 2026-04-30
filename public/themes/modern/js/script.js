@@ -149,6 +149,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // --------------------------------------------------
+    // Flatpickr Date Picker Initialization
+    // --------------------------------------------------
+    if (typeof flatpickr !== 'undefined') {
+        const datePickers = document.querySelectorAll('[data-date-format]');
+        datePickers.forEach(picker => {
+            const format = picker.getAttribute('data-date-format') || 'Y-m-d H:i';
+            const locale = picker.getAttribute('data-date-locale') || 'en';
+            
+            flatpickr(picker, {
+                enableTime: true,
+                dateFormat: format,
+                time_24hr: true,
+                locale: locale,
+                altInput: true,
+                altFormat: "F j, Y H:i",
+                allowInput: true
+            });
+        });
+    }
+
 });
 
 // ------------------------------------------------------
