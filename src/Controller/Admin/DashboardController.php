@@ -55,7 +55,6 @@ class DashboardController extends AbstractController
         $unique = [];
 
         foreach ($rawSessions as $s) {
-
             // Build unique signature from entity getters
             $key = implode('|', [
                 $s->getIp() ?? '',

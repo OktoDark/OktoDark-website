@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -42,13 +43,13 @@ final class AdminSystemController extends AbstractController
             'disk' => $this->getDiskUsage(),
             'memory' => $this->getMemoryUsage(),
             'php' => [
-                'version' => PHP_VERSION,
-                'memory_limit' => ini_get('memory_limit'),
-                'upload_max_filesize' => ini_get('upload_max_filesize'),
+                'version' => \PHP_VERSION,
+                'memory_limit' => \ini_get('memory_limit'),
+                'upload_max_filesize' => \ini_get('upload_max_filesize'),
             ],
             'env' => $this->parameterBag->get('kernel.environment'),
             'debug' => $this->parameterBag->get('kernel.debug'),
-            'symfony_version' => \Symfony\Component\HttpKernel\Kernel::VERSION,
+            'symfony_version' => Kernel::VERSION,
         ];
 
         return $this->render('@theme/admin/system_health.html.twig', [
@@ -151,12 +152,12 @@ final class AdminSystemController extends AbstractController
     private function getMemoryUsage(): array
     {
         $usage = memory_get_usage(true);
-        $limit = $this->parseSize(ini_get('memory_limit'));
+        $limit = $this->parseSize(\ini_get('memory_limit'));
         $percentage = ($limit > 0) ? round(($usage / $limit) * 100, 2) : 0;
 
         return [
             'used' => $this->formatBytes($usage),
-            'limit' => ini_get('memory_limit'),
+            'limit' => \ini_get('memory_limit'),
             'percentage' => $percentage,
             'status' => $percentage > 80 ? 'warning' : 'ok',
         ];
@@ -167,7 +168,7 @@ final class AdminSystemController extends AbstractController
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
         $bytes = max($bytes, 0);
         $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
-        $pow = min($pow, count($units) - 1);
+        $pow = min($pow, \count($units) - 1);
         $bytes /= (1 << (10 * $pow));
 
         return round($bytes, $precision).' '.$units[$pow];
@@ -178,6 +179,6 @@ final class AdminSystemController extends AbstractController
         $unit = preg_replace('/[^bkmgt]/i', '', $size);
         $size = preg_replace('/[^0-9\.]/', '', $size);
 
-        return round($unit ? $size * pow(1024, stripos('bkmgt', $unit[0])) : $size);
+        return round($unit ? $size * pow(1024, mb_stripos('bkmgt', $unit[0])) : $size);
     }
 }
