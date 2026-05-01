@@ -238,7 +238,7 @@
                                         {% endif %}
                                     </div>
                                     <div class="d-flex gap-3">
-                                        <button class="btn btn-link btn-sm text-decoration-none py-0 text-success" onclick="quotePost('{{ post.author.username }}', 'post-{{ post.id }}')">
+                                        <button class="btn btn-link btn-sm text-decoration-none py-0 text-success" onclick="quotePost('{{ post.author.username|escape('js') }}', 'post-{{ post.id }}')">
                                             <i class="fa-solid fa-quote-left"></i> {{ 'forum.thread.quote'|trans({}, 'forum') }}
                                         </button>
 
@@ -379,15 +379,20 @@
             const editor = document.querySelector("trix-editor").editor;
             
             // Translate the "wrote on" text
-            const wroteText = "{{ 'forum.thread.wrote_on'|trans({'%date%': 'DATE_PLACEHOLDER'}, 'forum') }}".replace('DATE_PLACEHOLDER', createdAt);
+            const wroteText = "{{ 'forum.thread.wrote_on'|trans({'%date%': 'DATE_PLACEHOLDER'}, 'forum')|escape('js') }}".replace('DATE_PLACEHOLDER', createdAt);
             
-            editor.insertHTML(`<blockquote><strong>${username}</strong> <span class="text-muted small">${wroteText}</span><br>${content}</blockquote><p><br></p>`);
+            // Sanitize content before inserting into Trix editor
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(content, 'text/html');
+            const sanitizedContent = doc.body.textContent; // Get plain text content
+
+            editor.insertHTML(`<blockquote><strong>${username}</strong> <span class="text-muted small">${wroteText}</span><br>${sanitizedContent}</blockquote><p><br></p>`);
             document.querySelector('.reply-box').scrollIntoView({ behavior: 'smooth' });
         }
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
-                alert('{{ 'forum.thread.link_copied'|trans({}, 'forum') }}');
+                alert('{{ 'forum.thread.link_copied'|trans({}, 'forum')|escape('js') }}');
             });
         }
     </script>

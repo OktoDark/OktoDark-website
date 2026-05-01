@@ -84,10 +84,10 @@
                                                 <input type="hidden" name="_token" value="{{ csrf_token('career_apply') }}">
                                                 
                                                 <div class="mb-3">
-                                                    <input class="form-control" type="text" name="name" placeholder="{{ 'label.fullname'|trans({}, 'labels')|default('Full Name') }}" required>
+                                                    <input class="form-control" type="text" name="name" placeholder="{{ 'label.fullname'|trans({}, 'profile')|default('Full Name') }}" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <input class="form-control" type="email" name="email" placeholder="{{ 'label.contact_email'|trans({}, 'labels') }}" required>
+                                                    <input class="form-control" type="email" name="email" placeholder="{{ 'label.email'|trans({}, 'profile') }}" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label small">{{ 'careers.upload_cv'|trans({}, 'careers') }}</label>

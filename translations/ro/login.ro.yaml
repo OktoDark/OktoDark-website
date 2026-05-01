@@ -10,7 +10,7 @@ login:
     continue_btn: "Continuă"
     resend_code: "Nu ai primit codul?"
     resend_btn: "Retrimite codul"
-
+    content.note: "Prin autentificare, ești de acord cu termenii și condițiile noastre."
 # Aceste chei sunt folosite în special în login.html.twig
 checkbox:
     remember_me: "Ține-mă logat"

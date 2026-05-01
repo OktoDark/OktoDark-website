@@ -10,7 +10,8 @@ login:
     continue_btn: "Continue"
     resend_code: "Didn't receive a code?"
     resend_btn: "Resend code"
-
+    # content.note: "Note: You must to be a patron or donor to have access here.<br>If you are patron or a donor please ask for login information from contact form."
+    content.note: "By logging in, you agree to our terms and conditions"
 # These keys are specifically used in login.html.twig
 checkbox:
     remember_me: "Keep me logged in"
