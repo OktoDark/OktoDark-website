@@ -1,0 +1,731 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{'kanban.board_dashboard.title'|trans({'%board_title%': board.title}, 'kanban')}}{% endblock %}
+
+{% block main %}
+{% form_theme boardForm 'bootstrap_5_layout.html.twig' %} {# Explicitly set form theme for boardForm #}
+<div class="kanban-container container-fluid py-4" {% if game %}data-game-slug="{{ game.shortNameSlug }}"{% endif %}> {# Added data-game-slug #}
+    <div class="board-header d-flex justify-content-between align-items-center mb-4">
+        <div class="header-left">
+            <h1 class="mb-0">{{ board.title }}</h1> {# Removed default margin-bottom #}
+            <p class="text-muted mb-0">{{ board.description }}</p> {# Added text-muted and mb-0 #}
+        </div>
+        <div class="header-right d-flex align-items-center"> {# Use flex for buttons #}
+            {# Board Members Dropdown #}
+            <div class="dropdown me-2">
+                <button class="btn btn-info dropdown-toggle" type="button" id="boardMembersDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-users me-1"></i>{{'kanban.board_dashboard.members_dropdown.header'|trans({}, 'kanban')}}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="boardMembersDropdown" style="min-width: 200px;">
+                    <li><h6 class="dropdown-header">{{'kanban.board_dashboard.members_dropdown.header'|trans({}, 'kanban')}}</h6></li>
+                    <li><div id="boardMembersDisplayList" class="list-group list-group-flush">
+                        {# Members will be loaded here by JS #}
+                    </div></li>
+                </ul>
+            </div>
+
+            {% if is_granted('board_edit', board) %}
+                <button class="btn btn-secondary me-2" data-bs-toggle="modal" data-bs-target="#editBoardModal">
+                    <i class="bi bi-pencil me-1"></i>{{'kanban.board_dashboard.buttons.edit'|trans({}, 'kanban')}}
+                </button>
+            {% endif %}
+            {# New Report Bug Button #}
+            <button class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#reportBugModal">
+                <i class="bi bi-bug me-1"></i>{{'kanban.board_dashboard.buttons.report_bug'|trans({}, 'kanban')}}
+            </button>
+            {# New Add Column Button #}
+            <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#addColumnModal">
+                <i class="bi bi-plus-lg me-1"></i>{{'kanban.board_dashboard.buttons.add_column'|trans({}, 'kanban')}}
+            </button>
+            {% if is_granted('board_delete', board) %}
+                <button class="btn btn-danger" onclick="if(confirm('{{'kanban.board_dashboard.buttons.confirm_delete_board'|trans({}, 'kanban')}}')) deleteBoard({{ board.id }})">
+                    <i class="bi bi-trash me-1"></i>{{'kanban.board_dashboard.buttons.delete'|trans({}, 'kanban')}}
+                </button>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="board-content d-flex flex-grow-1 overflow-auto"> {# Make board content flexible and horizontally scrollable #}
+        <div class="columns-container d-flex flex-nowrap h-100"> {# Ensure columns stay in a row and scroll #}
+            {% for column in board.columns %}
+                <div class="column flex-shrink-0 me-3" data-column-id="{{ column.id }}" style="width: 280px;" draggable="true"> {# Fixed width for columns, flex-shrink-0 to prevent shrinking #}
+                    <div class="card h-100 shadow-sm"> {# Column as a Bootstrap card #}
+                        <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                            <h5 class="mb-0 text-truncate column-title-display" data-column-id="{{ column.id }}">
+                                <span class="column-title-text">{{ column.title }}</span>
+                                <input type="text" class="form-control form-control-sm column-title-input d-none" value="{{ column.title }}" data-column-id="{{ column.id }}">
+                                {% set columnBugCount = 0 %}
+                                {% for card in column.cards %}
+                                    {% if card.bugs is defined %}
+                                        {% for bug in card.bugs %}
+                                            {% if bug.status not in ['resolved', 'closed', 'wont_fix'] %}
+                                                {% set columnBugCount = columnBugCount + 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if columnBugCount > 0 %}
+                                    <span class="badge bg-danger ms-2" title="{{ 'kanban.board_dashboard.column.bug_count_unresolved_plural'|trans({'%count%': columnBugCount}, 'kanban') }}">{{ columnBugCount }}</span>
+                                {% endif %}
+                            </h5>
+                            <button class="btn btn-sm btn-outline-primary" onclick="addCardModal({{ column.id }})" title="{{'kanban.board_dashboard.column.add_card_button'|trans({}, 'kanban')}}">
+                                <i class="bi bi-plus"></i> {# Plus icon #}
+                            </button>
+                        </div>
+                        <div class="cards card-body overflow-y-auto" style="min-height: 100px;"> {# Cards container as card-body, vertically scrollable #}
+                            {% for card in column.cards %}
+                                <div class="card draggable mb-2 shadow-sm" data-card-id="{{ card.id }}" draggable="true"> {# Individual card as Bootstrap card #}
+                                    <div class="card-body p-2">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <span class="badge rounded-pill bg-info text-dark type-{{ card.type }}">{{ card.type }}</span>
+                                            <span class="badge rounded-pill bg-warning text-dark priority-{{ card.priority }}">{{ card.priority }}</span>
+                                        </div>
+                                        <h6 class="card-title mb-1 text-truncate">{{ card.title|default('kanban.board_dashboard.card.no_title'|trans({}, 'kanban')) }}</h6>
+                                        <p class="card-text text-muted text-truncate" style="font-size: 0.85rem;">{{ card.description | default('kanban.board_dashboard.card.no_description'|trans({}, 'kanban')) }}</p>
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <div class="assignees d-flex">
+                                                {% for assignee in card.assignees %}
+                                                    <span class="avatar rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-1"
+                                                          style="width: 24px; height: 24px; font-size: 0.75rem;"
+                                                          title="{{ assignee.assignee.username }}">
+                                                        {{ assignee.assignee.username | first | upper }}
+                                                    </span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="card-badges d-flex align-items-center gap-1">
+                                                {% if card.bugs is defined and card.bugs|length > 0 %}
+                                                    {% set unresolvedCount = 0 %}
+                                                    {% for bug in card.bugs %}
+                                                        {% if bug.status not in ['resolved', 'closed', 'wont_fix'] %}
+                                                            {% set unresolvedCount = unresolvedCount + 1 %}
+                                                        {% endif %} 
+                                                    {% endfor %}
+                                                    {% if unresolvedCount > 0 %}
+                                                        <span class="badge bg-warning text-dark" title="{{ 'kanban.board_dashboard.column.bug_count_unresolved_plural'|trans({'%count%': unresolvedCount}, 'kanban') }}">
+                                                            <i class="fas fa-exclamation-triangle me-1"></i>{{ unresolvedCount }}
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="badge bg-success" title="{{'kanban.board_dashboard.column.bug_count_all_resolved'|trans({}, 'kanban')}}">
+                                                            <i class="fas fa-check-circle me-1"></i>
+                                                        </span>
+                                                    {% endif %}
+                                                {% endif %}
+                                                {% if card.dueDate %}
+                                                    <small class="text-muted"><i class="bi bi-calendar me-1"></i>{{ card.dueDate | date('M d') }}</small>
+                                                {% endif %}
+                                            </div>
+                                            <button class="btn btn-sm btn-outline-info" onclick="openCardModal({{ card.id }})">
+                                                <i class="bi bi-eye"></i> {# Eye icon for details #}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Activity Sidebar -->
+<div class="activity-sidebar position-fixed end-0 top-0 h-100 bg-light shadow-lg p-3" style="width: 300px; z-index: 1050; transform: translateX(100%); transition: transform 0.3s ease-in-out;"> {# Modernized sidebar #}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mb-0">{{'kanban.board_dashboard.activity_sidebar.title'|trans({}, 'kanban')}}</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.modals.common.close_button_aria'|trans({}, 'kanban')}}" onclick="toggleActivitySidebar()"></button> {# Close button #}
+    </div>
+    <div id="activityFeed" class="overflow-y-auto" style="max-height: calc(100% - 60px);"></div>
+</div>
+{# Button to toggle activity sidebar #}
+<button class="btn btn-info position-fixed end-0 bottom-0 m-3 shadow" onclick="toggleActivitySidebar()" style="z-index: 1060;">
+    <i class="bi bi-activity"></i> {{'kanban.board_dashboard.activity_sidebar.toggle_button'|trans({}, 'kanban')}}
+</button>
+
+<!-- Modals -->
+<div class="modal fade" id="cardDetailsModal" tabindex="-1" aria-labelledby="cardDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cardDetailsModalLabel">{{'kanban.board_dashboard.modals.card_details.title'|trans({}, 'kanban')}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
+            </div>
+            <div class="modal-body" id="cardDetailsContent">
+                {% include 'modern/kanban/card-details-modal.html.twig' %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editBoardModal" tabindex="-1" aria-labelledby="editBoardModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editBoardModalLabel">{{'kanban.board_dashboard.modals.edit_board.title'|trans({}, 'kanban')}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
+            </div>
+            <div class="modal-body">
+                {# Manual rendering of boardForm fields #}
+                {{ form_start(boardForm, {'attr': {'id': 'editBoardForm'}}) }}
+                    <div class="mb-3">
+                        {{ form_label(boardForm.title) }}
+                        {{ form_widget(boardForm.title) }}
+                        {{ form_errors(boardForm.title) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(boardForm.description) }}
+                        {{ form_widget(boardForm.description) }}
+                        {{ form_errors(boardForm.description) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(boardForm.backgroundColor) }}
+                        {{ form_widget(boardForm.backgroundColor) }}
+                        {{ form_errors(boardForm.backgroundColor) }}
+                    </div>
+                    <div class="form-check mb-3">
+                        {{ form_widget(boardForm.isPublic, {'attr': {'class': 'form-check-input'}}) }}
+                        {{ form_label(boardForm.isPublic, null, {'label_attr': {'class': 'form-check-label'}}) }}
+                        {{ form_errors(boardForm.isPublic) }}
+                    </div>
+                    {{ form_row(boardForm.ourGame) }} {# Re-added ourGame field #}
+                    <button type="submit" class="btn btn-primary mt-3">{{'kanban.board_dashboard.modals.edit_board.save_changes'|trans({}, 'kanban')}}</button>
+                {{ form_end(boardForm, {'render_rest': false}) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{# New Report Bug Modal #}
+<div class="modal fade" id="reportBugModal" tabindex="-1" aria-labelledby="reportBugModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header"> 
+                <h5 class="modal-title" id="reportBugModalLabel">{{'kanban.board_dashboard.modals.report_bug.title'|trans({}, 'kanban')}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
+            </div>
+            <div class="modal-body">
+                <form id="reportBugForm">
+                    <div class="mb-3">
+                        <label for="bugTitle" class="form-label">{{'kanban.board_dashboard.modals.report_bug.form.title_label'|trans({}, 'kanban')}}</label>
+                        <input type="text" class="form-control" id="bugTitle" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="bugDescription" class="form-label">{{'kanban.board_dashboard.modals.report_bug.form.description_label'|trans({}, 'kanban')}}</label>
+                        <textarea class="form-control" id="bugDescription" name="description" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">{{'kanban.board_dashboard.modals.report_bug.form.submit_button'|trans({}, 'kanban')}}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# New Add Column Modal #}
+<div class="modal fade" id="addColumnModal" tabindex="-1" aria-labelledby="addColumnModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header"> 
+                <h5 class="modal-title" id="addColumnModalLabel">{{'kanban.board_dashboard.modals.add_column.title'|trans({}, 'kanban')}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addColumnForm">
+                    <div class="mb-3">
+                        <label for="columnTitle" class="form-label">{{'kanban.board_dashboard.modals.add_column.form.title_label'|trans({}, 'kanban')}}</label>
+                        <input type="text" class="form-control" id="columnTitle" name="title" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">{{'kanban.board_dashboard.modals.add_column.form.create_button'|trans({}, 'kanban')}}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ settings.siteCDN }}/kanban/js/api-client.js"></script> {# Corrected path #}
+    <script src="{{ settings.siteCDN }}/kanban/js/board-manager.js"></script> {# Corrected path #}
+    <script src="{{ settings.siteCDN }}/kanban/js/card-manager.js"></script> {# Corrected path #}
+    <script src="{{ settings.siteCDN }}/kanban/js/drag-drop.js"></script> {# Corrected path #}
+    <script src="{{ settings.siteCDN }}/kanban/js/activity-log.js"></script> {# Corrected path #}
+    <script>
+        var kanbanContainer = document.querySelector('.kanban-container');
+        var gameSlug = kanbanContainer.dataset.gameSlug || '';
+
+        // Initialize ApiClient with the correct base URL (API routes don't include /workspace/{gameSlug})
+        var apiClient = new ApiClient('/{{ app.request.locale }}/kanban/api');
+        var boardManager = new BoardManager(apiClient, '{{ app.request.locale }}', gameSlug); // Pass locale and gameSlug
+        var cardManager = new CardManager(apiClient);
+        var dragDropManager = new DragDropManager(cardManager);
+        var activityLogger = new ActivityLog(apiClient);
+
+        // Function to toggle activity sidebar
+        function toggleActivitySidebar() {
+            var sidebar = document.querySelector('.activity-sidebar');
+            if (sidebar) {
+                var isHidden = sidebar.style.transform === 'translateX(100%)' || sidebar.style.transform === '';
+                sidebar.style.transform = isHidden ? 'translateX(0)' : 'translateX(100%)';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            activityLogger.loadEntityActivity('Board', {{ board.id }}).then(function(activities) {
+                activityLogger.renderActivityFeed(document.getElementById('activityFeed'));
+            });
+            
+            // Handle editBoardForm submission
+            var editBoardForm = document.getElementById('editBoardForm');
+            if (editBoardForm) {
+                editBoardForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+
+                    var formData = new FormData(editBoardForm);
+                    var data = {};
+                    for (var pair of formData.entries()) {
+                        data[pair[0]] = pair[1];
+                    }
+
+                    boardManager.updateBoard({{ board.id }}, data.title, data.description, data.isPublic === 'on', data.backgroundColor, data.ourGame)
+                        .then(function(updatedBoard) {
+                            console.log('Board updated:', updatedBoard);
+                            var editBoardModal = bootstrap.Modal.getInstance(document.getElementById('editBoardModal'));
+                            if (editBoardModal) {
+                                editBoardModal.hide();
+                            }
+                            location.reload();
+                            alert('{{'kanban.board_dashboard.modals.edit_board.success_message'|trans({}, 'kanban')}}');
+                        })
+                        .catch(function(error) {
+                            console.error('Error updating board:', error);
+                            var errorMessage = '{{'kanban.board_dashboard.modals.edit_board.failed_message'|trans({}, 'kanban')}}' + (error.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}');
+                            if (error.errors) {
+                                errorMessage += '\n\n{{'kanban.modals.common.details_prefix'|trans({}, 'kanban')}}';
+                                if (Array.isArray(error.errors)) {
+                                    errorMessage += '\n- ' + error.errors.join('\n- ');
+                                } else {
+                                    for (var field in error.errors) {
+                                        if (error.errors.hasOwnProperty(field)) {
+                                            errorMessage += '\n- ' + field + ': ' + error.errors[field].join(', '); // Field names are not translated here
+                                        }
+                                    }
+                                }
+                            }
+                            alert(errorMessage);
+                        });
+                });
+            }
+
+            // Handle Report Bug Form submission
+            var reportBugForm = document.getElementById('reportBugForm');
+            if (reportBugForm) {
+                reportBugForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+
+                    var formData = new FormData(reportBugForm);
+                    var data = {};
+                    for (var pair of formData.entries()) {
+                        data[pair[0]] = pair[1];
+                    }
+
+                    apiClient.request('POST', '/boards/{{ board.id }}/report-bug', {
+                            title: data.title,
+                            description: data.description,
+                            boardId: {{ board.id }}
+                        })
+                        .then(function(response) {
+                            if (response.success) {
+                                alert('{{'kanban.board_dashboard.modals.report_bug.success_message'|trans({}, 'kanban')}}');
+                                var reportBugModal = bootstrap.Modal.getInstance(document.getElementById('reportBugModal'));
+                                if (reportBugModal) {
+                                    reportBugModal.hide();
+                                }
+                                reportBugForm.reset(); // Clear the form
+                                location.reload(); // Reload to show the new bug card
+                            } else { 
+                                console.log('API Response (Report Bug):', response); // Added console.log
+                                var errorMessage = '{{'kanban.board_dashboard.modals.report_bug.failed_message'|trans({}, 'kanban')}}' + (response.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}');
+                                if (response.errors) {
+                                    errorMessage += '\n\n{{'kanban.modals.common.details_prefix'|trans({}, 'kanban')}}';
+                                    if (Array.isArray(response.errors)) {
+                                        errorMessage += '\n- ' + response.errors.join('\n- ');
+                                    } else { // Assume it's an object with field-specific errors
+                                        for (var field in response.errors) {
+                                            if (response.errors.hasOwnProperty(field)) {
+                                                errorMessage += '\n- ' + field + ': ' + error.errors[field].join(', ');
+                                            }
+                                        }
+                                    }
+                                }
+                                alert(errorMessage);
+                            }
+                        })
+                        .catch(function(error) {
+                            console.error('Error reporting bug:', error);
+                            alert('{{'kanban.board_dashboard.modals.report_bug.failed_message'|trans({}, 'kanban')}}' + (error.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}'));
+                        });
+                });
+            }
+
+            // Handle Add Column Form submission
+            var addColumnForm = document.getElementById('addColumnForm');
+            if (addColumnForm) {
+                addColumnForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+
+                    var formData = new FormData(addColumnForm);
+                    var data = {};
+                    for (var pair of formData.entries()) {
+                        data[pair[0]] = pair[1];
+                    }
+
+                    apiClient.request('POST', '/boards/{{ board.id }}/columns', {
+                            title: data.title
+                        })
+                        .then(function(response) {
+                            if (response.success) {
+                                alert('{{'kanban.board_dashboard.modals.add_column.success_message'|trans({}, 'kanban')}}');
+                                var addColumnModal = bootstrap.Modal.getInstance(document.getElementById('addColumnModal'));
+                                if (addColumnModal) {
+                                    addColumnModal.hide();
+                                }
+                                addColumnForm.reset(); // Clear the form
+                                location.reload(); // Reload to show the new column
+                            } else { 
+                                console.log('API Response (Add Column):', response); // Added console.log
+                                var errorMessage = '{{'kanban.board_dashboard.modals.add_column.failed_message'|trans({}, 'kanban')}}' + (response.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}');
+                                if (response.errors) {
+                                    errorMessage += '\n\n{{'kanban.modals.common.details_prefix'|trans({}, 'kanban')}}';
+                                    if (Array.isArray(response.errors)) {
+                                        errorMessage += '\n- ' + response.errors.join('\n- ');
+                                    } else { // Assume it's an object with field-specific errors
+                                        for (var field in response.errors) {
+                                            if (response.errors.hasOwnProperty(field)) {
+                                                errorMessage += '\n- ' + field + ': ' + error.errors[field].join(', ');
+                                            }
+                                        }
+                                    }
+                                }
+                                alert(errorMessage);
+                            }
+                        })
+                        .catch(function(error) {
+                            console.error('Error creating column:', error);
+                            alert('{{'kanban.board_dashboard.modals.add_column.failed_message'|trans({}, 'kanban')}}' + (error.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}'));
+                        });
+                });
+            }
+
+            // --- Column Title Inline Editing Logic ---
+            document.querySelectorAll('.column-title-display').forEach(function(titleElement) {
+                var columnId = titleElement.dataset.columnId;
+                var titleTextSpan = titleElement.querySelector('.column-title-text');
+                var titleInput = titleElement.querySelector('.column-title-input');
+
+                var originalTitle = titleTextSpan.textContent;
+
+                // Enter edit mode on click
+                titleTextSpan.addEventListener('click', function() {
+                    titleTextSpan.classList.add('d-none');
+                    titleInput.classList.remove('d-none');
+                    titleInput.value = originalTitle; // Ensure input has current text
+                    titleInput.focus();
+                });
+
+                // Exit edit mode and save on blur or Enter key
+                var saveColumnTitle = function() {
+                    var newTitle = titleInput.value.trim();
+                    if (newTitle === originalTitle) {
+                        // No change, just revert to display mode
+                        titleTextSpan.classList.remove('d-none');
+                        titleInput.classList.add('d-none');
+                        return;
+                    }
+
+                    if (newTitle === '') {
+                        alert('{{'kanban.board_dashboard.column.title_cannot_be_empty'|trans({}, 'kanban')}}');
+                        titleInput.value = originalTitle; // Revert input to original
+                        titleInput.focus();
+                        return;
+                    }
+
+                    apiClient.request('PATCH', '/columns/' + columnId, { title: newTitle })
+                        .then(function(response) {
+                            if (response.success) {
+                                titleTextSpan.textContent = response.column.title;
+                                originalTitle = response.column.title; // Update original title
+                                alert('{{'kanban.board_dashboard.column.title_updated_success'|trans({}, 'kanban')}}');
+                            } else {
+                                alert('{{'kanban.board_dashboard.column.update_title_failed'|trans({}, 'kanban')}}' + (response.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}'));
+                                titleTextSpan.textContent = originalTitle; // Revert display text
+                            }
+                        })
+                        .catch(function(error) {
+                            console.error('Error updating column title:', error);
+                            alert('{{'kanban.board_dashboard.column.update_title_error'|trans({}, 'kanban')}}' + (error.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}'));
+                            titleTextSpan.textContent = originalTitle; // Revert display text
+                        })
+                        .finally(function() {
+                            titleTextSpan.classList.remove('d-none');
+                            titleInput.classList.add('d-none');
+                        });
+                };
+                titleInput.addEventListener('blur', saveColumnTitle);
+                titleInput.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault(); // Prevent form submission if input is part of a form
+                        titleInput.blur(); // Trigger blur to save
+                    }
+                    });
+            });
+            // --- End Column Title Inline Editing Logic ---
+
+            // --- Column Drag and Drop Logic ---
+            var currentDraggingColumn = null;
+
+            document.querySelectorAll('.column').forEach(function(column) {
+                column.addEventListener('dragstart', function(e) {
+                    currentDraggingColumn = column;
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', column.dataset.columnId);
+                    setTimeout(function() { column.classList.add('dragging'); }, 0); // Add 'dragging' class after a short delay
+                });
+
+                column.addEventListener('dragover', function(e) {
+                    e.preventDefault(); // Allow drop
+                    var boundingBox = column.getBoundingClientRect();
+                    var offset = e.clientX - boundingBox.left;
+
+                    if (currentDraggingColumn !== column) {
+                        if (offset > boundingBox.width / 2) {
+                            column.classList.add('drag-right');
+                            column.classList.remove('drag-left');
+                        } else {
+                            column.classList.add('drag-left');
+                            column.classList.remove('drag-right');
+                        }
+                    }
+                });
+
+                column.addEventListener('dragleave', function() {
+                    column.classList.remove('drag-left', 'drag-right');
+                });
+
+                column.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    column.classList.remove('drag-left', 'drag-right');
+
+                    if (currentDraggingColumn && currentDraggingColumn !== column) {
+                        var draggedColumnId = e.dataTransfer.getData('text/plain');
+                        var draggedColumn = document.querySelector('.column[data-column-id="' + draggedColumnId + '"]');
+
+                        if (draggedColumn) {
+                            var columnsContainer = document.querySelector('.columns-container');
+                            var boundingBox = column.getBoundingClientRect();
+                            var offset = e.clientX - boundingBox.left;
+
+                            if (offset > boundingBox.width / 2) {
+                                // Drop to the right of the target column
+                                columnsContainer.insertBefore(draggedColumn, column.nextSibling);
+                            } else {
+                                // Drop to the left of the target column
+                                columnsContainer.insertBefore(draggedColumn, column);
+                            }
+                            saveColumnOrder();
+                        }
+                    }
+                });
+
+                column.addEventListener('dragend', function() {
+                    column.classList.remove('dragging');
+                    document.querySelectorAll('.column').forEach(function(col) { col.classList.remove('drag-left', 'drag-right'); });
+                    currentDraggingColumn = null;
+                });
+            });
+
+            function saveColumnOrder() {
+                var columnsContainer = document.querySelector('.columns-container');
+                var columnElements = Array.prototype.slice.call(columnsContainer.querySelectorAll('.column'));
+                var columnIds = columnElements.map(function(col) { return parseInt(col.dataset.columnId); });
+
+                apiClient.reorderColumns({{ board.id }}, columnIds)
+                    .then(function(response) {
+                        if (response.success) {
+                            console.log('{{'kanban.board_dashboard.column.order_updated_success'|trans({}, 'kanban')}}', response.columns);
+                            // Optionally, update UI if needed, but a simple reorder might not require it beyond visual
+                        } else {
+                            console.error('{{'kanban.board_dashboard.column.order_updated_failed'|trans({}, 'kanban')}}', response.message);
+                            alert('{{'kanban.board_dashboard.column.order_updated_failed'|trans({}, 'kanban')}}' + (response.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}'));
+                            location.reload(); // Reload to revert to previous state
+                        }
+                    })
+                    .catch(function(error) {
+                        console.error('{{'kanban.board_dashboard.column.order_reordering_error'|trans({}, 'kanban')}}', error);
+                        alert('{{'kanban.board_dashboard.column.order_reordering_error'|trans({}, 'kanban')}}' + (error.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}'));
+                        location.reload(); // Reload to revert to previous state
+                    });
+            }
+            // --- End Column Drag and Drop Logic ---
+        });
+
+        // --- Member Display Logic ---
+        var boardMembersDropdown = document.getElementById('boardMembersDropdown');
+        var boardMembersDisplayList = document.getElementById('boardMembersDisplayList');
+
+        if (boardMembersDropdown) {
+            boardMembersDropdown.addEventListener('show.bs.dropdown', function() {
+                loadBoardMembers({{ board.id }});
+            });
+        }
+
+        function loadBoardMembers(boardId) {
+            boardMembersDisplayList.innerHTML = '<li class="list-group-item text-center text-muted">{{'kanban.board_dashboard.members_dropdown.loading'|trans({}, 'kanban')}}</li>';
+            apiClient.request('GET', '/boards/' + boardId + '/members/current')
+                .then(function(response) {
+                    boardMembersDisplayList.innerHTML = ''; // Clear list
+
+                    if (response.success && response.members.length > 0) {
+                        response.members.forEach(function(member) {
+                            var li = document.createElement('li');
+                            li.className = 'list-group-item d-flex align-items-center';
+                            li.innerHTML = '' +
+                                '<span class="avatar rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-2"' +
+                                '      style="width: 30px; height: 30px; font-size: 0.85rem;"' +
+                                '      title="' + member.username + '">' +
+                                member.username.charAt(0).toUpperCase() + // Username is not translated
+                                '</span>' +
+                                '<span>' + member.username + (member.isOwner ? ' {{'kanban.board_dashboard.members_dropdown.owner_label'|trans({}, 'kanban')}}' : '') + '</span>';
+                            boardMembersDisplayList.appendChild(li);
+                        });
+                    } else {
+                        boardMembersDisplayList.innerHTML = '<li class="list-group-item text-center text-muted">{{'kanban.board_dashboard.members_dropdown.no_members'|trans({}, 'kanban')}}</li>';
+                    }
+                })
+                .catch(function(error) {
+                    console.error('{{'kanban.board_dashboard.members_dropdown.error_loading'|trans({}, 'kanban')}}', error);
+                    boardMembersDisplayList.innerHTML = '<li class="list-group-item text-danger text-center">{{'kanban.board_dashboard.members_dropdown.error_loading'|trans({}, 'kanban')}}</li>';
+                });
+        }
+        // --- End Member Display Logic ---
+
+
+        function openCardModal(cardId) {
+            cardManager.getCard(cardId).then(function(card) {
+                // Populate card details in the modal
+                document.getElementById('cardTitle').textContent = card.title;
+                document.getElementById('cardType').textContent = card.type;
+                document.getElementById('cardType').className = 'badge bg-info text-dark type-' + card.type; // Card type is not translated
+                document.getElementById('cardPriority').textContent = card.priority;
+                document.getElementById('cardPriority').className = 'badge bg-warning text-dark priority-' + card.priority; // Card priority is not translated
+                document.getElementById('cardDescription').textContent = card.description || '{{'kanban.board_dashboard.card.no_description'|trans({}, 'kanban')}}';
+                document.getElementById('cardDueDate').textContent = card.dueDate ? new Date(card.dueDate).toLocaleDateString() : '{{'kanban.board_dashboard.card.due_date_none'|trans({}, 'kanban')}}';
+                document.getElementById('cardCreatedAt').textContent = new Date(card.createdAt).toLocaleDateString();
+
+                // Load linked bugs
+                loadCardBugs(cardId);
+
+                // Show modal
+                var modalElement = document.getElementById('cardDetailsModal');
+                var cardDetailsModal = new bootstrap.Modal(modalElement);
+                cardDetailsModal.show();
+            });
+        }
+
+        function getStatusBadgeClass(status) {
+            var statusConfig = {
+                'open': 'bg-info',
+                'in_progress': 'bg-warning text-dark',
+                'resolved': 'bg-success',
+                'closed': 'bg-secondary',
+                'wont_fix': 'bg-dark'
+            };
+            return statusConfig[status] || 'bg-secondary';
+        }
+
+        function getSeverityBadgeClass(severity) {
+            var severityConfig = {
+                'low': 'bg-primary',
+                'medium': 'bg-warning text-dark',
+                'high': 'bg-orange text-dark',
+                'critical': 'bg-danger'
+            };
+            return severityConfig[severity] || 'bg-secondary';
+        }
+
+        function formatStatusName(status) {
+            var statusNames = {
+                'open': '{{'kanban.bug_status.open'|trans({}, 'kanban')}}',
+                'in_progress': '{{'kanban.bug_status.in_progress'|trans({}, 'kanban')}}',
+                'resolved': '{{'kanban.bug_status.resolved'|trans({}, 'kanban')}}',
+                'closed': '{{'kanban.bug_status.closed'|trans({}, 'kanban')}}',
+                'wont_fix': '{{'kanban.bug_status.wont_fix'|trans({}, 'kanban')}}'
+            };
+            return statusNames[status] || status;
+        }
+
+        function formatSeverityName(severity) {
+            var severityNames = {
+                'low': '{{'kanban.bug_severity.low'|trans({}, 'kanban')}}',
+                'medium': '{{'kanban.bug_severity.medium'|trans({}, 'kanban')}}',
+                'high': '{{'kanban.bug_severity.high'|trans({}, 'kanban')}}',
+                'critical': '{{'kanban.bug_severity.critical'|trans({}, 'kanban')}}'
+            };
+            return severityNames[severity] || severity;
+        }
+
+        function loadCardBugs(cardId) {
+            apiClient.getCardBugs(cardId)
+                .then(function(response) {
+                    var bugsList = document.getElementById('cardBugsList');
+                    bugsList.innerHTML = '';
+
+                    if (response.success && response.bugs && response.bugs.length > 0) {
+                        response.bugs.forEach(function(bug) { // Bug title is not translated
+                            var bugDiv = document.createElement('div');
+                            bugDiv.className = 'd-flex align-items-center justify-content-between mb-2 p-2 border rounded';
+                            var statusBadgeClass = getStatusBadgeClass(bug.status); // Bug status is translated via JS function
+                            var severityBadgeClass = getSeverityBadgeClass(bug.severity);
+                            var statusName = formatStatusName(bug.status);
+                            var severityName = formatSeverityName(bug.severity);
+                            bugDiv.innerHTML = '' +
+                                '<div>' +
+                                '<a href="#" onclick="viewBug(' + bug.id + ')" class="text-decoration-none">' +
+                                '<strong>#' + bug.id + '</strong> - ' + bug.title +
+                                '</a>' +
+                                '<span class="badge ' + statusBadgeClass + ' ms-2">' + statusName + '</span>' +
+                                '<span class="badge ' + severityBadgeClass + ' ms-1">' + severityName + '</span>' +
+                                '</div>';
+                            bugsList.appendChild(bugDiv);
+                        });
+                    } else {
+                        bugsList.innerHTML = '<p class="text-muted">{{'kanban.board_dashboard.modals.card_details.no_bugs_linked'|trans({}, 'kanban')}}</p>';
+                    }
+                })
+                .catch(function(error) {
+                    console.error('{{'kanban.board_dashboard.modals.card_details.error_loading_bugs'|trans({}, 'kanban')}}', error);
+                    document.getElementById('cardBugsList').innerHTML = '<p class="text-danger">{{'kanban.board_dashboard.modals.card_details.error_loading_bugs'|trans({}, 'kanban')}}</p>';
+                });
+        }
+
+        function createBugForCard() {
+            // Get current card ID from modal (we'll need to store it when opening modal)
+            var cardTitle = document.getElementById('cardTitle').textContent;
+            // Open bug creation modal with pre-filled card information 
+            var createBugModal = new bootstrap.Modal(document.getElementById('reportBugModal')); // Assuming reportBugModal is used for creating bugs
+            // Pre-fill the bug form with card title as bug title 
+            document.getElementById('bugTitle').value = '{{'kanban.bug_related_to'|trans({}, 'kanban')}}' + cardTitle;
+            createBugModal.show();
+        }
+
+        function viewBug(bugId) {
+            var bugDetailsBaseUrl = gameSlug ? '/{{ app.request.locale }}/workspace/' + gameSlug + '/bugs/details/' : '/{{ app.request.locale }}/workspace/bugs/details/';
+            window.location.href = bugDetailsBaseUrl + bugId;
+        }
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/kanban/board.css') }}">
+{% endblock %}

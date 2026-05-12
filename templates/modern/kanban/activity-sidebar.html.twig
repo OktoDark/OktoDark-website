@@ -1,0 +1,81 @@
+<!-- Activity Sidebar -->
+<div class="activity-sidebar-panel">
+    <div class="sidebar-header">
+        <h4>{{'kanban.activity_sidebar_panel.title'|trans({}, 'kanban') }}</h4>
+    </div>
+    <div id="activityLogContainer" class="activity-log">
+        <!-- Activity loaded dynamically -->
+    </div>
+</div>
+
+<style>
+.activity-sidebar-panel {
+    background: #f8f9fa;
+    border-left: 1px solid #dee2e6;
+    padding: 1rem;
+    overflow-y: auto;
+    max-height: calc(100vh - 100px);
+}
+
+.sidebar-header {
+    margin-bottom: 1rem;
+}
+
+.sidebar-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.activity-log {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.activity-item {
+    padding: 0.75rem;
+    background: white;
+    border-radius: 0.25rem;
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.activity-avatar {
+    width: 32px;
+    height: 32px;
+    background: #007bff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.activity-content {
+    flex: 1;
+    overflow: hidden;
+}
+
+.activity-content strong {
+    display: block;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.activity-content p {
+    margin: 0.25rem 0 0 0;
+    color: #666;
+    white-space: wrap;
+}
+
+.activity-content small {
+    color: #999;
+}
+</style>
+

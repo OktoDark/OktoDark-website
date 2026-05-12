@@ -1,0 +1,345 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ pageTitle }}{% endblock %}
+
+{% block main %}
+    {% form_theme bugForm 'bootstrap_5_layout.html.twig' 'form/trix_editor_widget.html.twig' %} {# Explicitly set form themes #}
+    <div class="bug-tracker-container"
+         {% if game %}data-game-slug="{{ game.shortNameSlug }}"{% endif %}
+         data-board-id="{{ board.id ?? '' }}"
+         data-api-base-url="{{ path('kanban_api_base') }}" {# Use the direct API base route #}
+         data-bug-details-base-url="{{ path('kanban_bug_details', {'id': 0}) | replace({'/0': ''}) }}" {# Corrected: Pass a dummy '0' for 'id' and then remove it to get the base path #}
+         data-team="{{ team | json_encode }}"> {# Pass the team data as a JSON string #}
+        <div class="tracker-header d-flex justify-content-between align-items-center py-3 px-3 mb-4 bg-dark text-light rounded-3 shadow-sm border border-secondary">
+            <div class="d-flex align-items-center gap-3">
+                {% if game %}
+                    <a href="{{ path('app_game_show', {'slug': game.shortNameSlug}) }}"
+                       class="btn btn-outline-secondary d-flex align-items-center gap-1 px-3 py-2">
+                        <i class="ti ti-arrow-left"></i>
+                        <span>{{ game.name }}</span>
+                    </a>
+                {% endif %}
+
+                <h1 class="h4 fw-bold mb-0">{{ pageTitle }}</h1>
+            </div>
+
+            <button class="btn btn-warning d-flex align-items-center gap-1 px-3 py-2"
+                    data-bs-toggle="modal" data-bs-target="#createBugModal" title="{{'kanban.bug_tracker.header.report_bug_button'|trans({}, 'kanban')}}">
+                <i class="ti ti-bug"></i>
+                <span>{{'kanban.bug_tracker.header.report_bug_button'|trans({}, 'kanban')}}</span>
+            </button>
+        </div>
+
+        <div class="row tracker-filters mb-3">
+            <div class="col-md-3 mb-3">
+                <label class="form-label">{{'kanban.bug_tracker.filters.status_label'|trans({}, 'kanban')}}</label>
+                <select id="statusFilter" class="form-select" onchange="filterBugs()">
+                    <option value="">{{'kanban.bug_tracker.filters.status_all'|trans({}, 'kanban')}}</option>
+                    <option value="open">{{'kanban.bug_tracker.filters.status_open'|trans({}, 'kanban')}}</option>
+                    <option value="in_progress">{{'kanban.bug_tracker.filters.status_in_progress'|trans({}, 'kanban')}}</option>
+                    <option value="resolved">{{'kanban.bug_tracker.filters.status_resolved'|trans({}, 'kanban')}}</option>
+                    <option value="closed">{{'kanban.bug_tracker.filters.status_closed'|trans({}, 'kanban')}}</option>
+                    <option value="wont_fix">{{'kanban.bug_tracker.filters.status_wont_fix'|trans({}, 'kanban')}}</option>
+                </select>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label class="form-label">{{'kanban.bug_tracker.filters.severity_label'|trans({}, 'kanban')}}</label>
+                <select id="severityFilter" class="form-select" onchange="filterBugs()">
+                    <option value="">{{'kanban.bug_tracker.filters.severity_all'|trans({}, 'kanban')}}</option>
+                    <option value="low">{{'kanban.bug_tracker.filters.severity_low'|trans({}, 'kanban')}}</option>
+                    <option value="medium">{{'kanban.bug_tracker.filters.severity_medium'|trans({}, 'kanban')}}</option>
+                    <option value="high">{{'kanban.bug_tracker.filters.severity_high'|trans({}, 'kanban')}}</option>
+                    <option value="critical">{{'kanban.bug_tracker.filters.severity_critical'|trans({}, 'kanban')}}</option>
+                </select>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label class="form-label">{{'kanban.bug_tracker.filters.board_label'|trans({}, 'kanban')}}</label>
+                <select id="boardFilter" class="form-select" onchange="filterBugs()">
+                    <option value="">{{'kanban.bug_tracker.filters.board_all'|trans({}, 'kanban')}}</option>
+                    {% for availableBoard in availableBoards %}
+                        <option value="{{ availableBoard.id }}" {% if board and board.id == availableBoard.id %}selected{% endif %}>{{ availableBoard.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label class="form-label">{{'kanban.bug_tracker.filters.card_label'|trans({}, 'kanban')}}</label>
+                <select id="cardFilter" class="form-select" onchange="filterBugs()">
+                    <option value="">{{'kanban.bug_tracker.filters.card_all'|trans({}, 'kanban')}}</option>
+                    <option value="linked">{{'kanban.bug_tracker.filters.card_linked'|trans({}, 'kanban')}}</option>
+                    <option value="unlinked">{{'kanban.bug_tracker.filters.card_unlinked'|trans({}, 'kanban')}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="bugs-table">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>{{'kanban.bug_tracker.table.id'|trans({}, 'kanban')}}</th>
+                    <th>{{'kanban.bug_tracker.table.title'|trans({}, 'kanban')}}</th>
+                    <th>{{'kanban.bug_tracker.table.status'|trans({}, 'kanban')}}</th>
+                    <th>{{'kanban.bug_tracker.table.severity'|trans({}, 'kanban')}}</th>
+                    <th>{{'kanban.bug_tracker.table.os'|trans({}, 'kanban')}}</th>
+                    <th>{{'kanban.bug_tracker.table.linked_card'|trans({}, 'kanban')}}</th>
+                    <th>{{'kanban.bug_tracker.table.assignee'|trans({}, 'kanban')}}</th>
+                    <th>{{'kanban.bug_tracker.table.reporter'|trans({}, 'kanban')}}</th>
+                    <th>{{'kanban.bug_tracker.table.actions'|trans({}, 'kanban')}}</th>
+                </tr>
+                </thead>
+                <tbody id="bugsList">
+                {# Bugs will be rendered dynamically by JavaScript #}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Create Bug Modal -->
+    <div class="modal fade" id="createBugModal" tabindex="-1" role="dialog" aria-labelledby="createBugModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createBugModalLabel">{{'kanban.bug_tracker.create_bug_modal.title'|trans({}, 'kanban')}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(bugForm, {'attr': {'id': 'createBugForm'}}) }}
+                    {# Hidden fields for gameSlug and boardId #}
+                    {% if board %}
+                        <input type="hidden" name="boardId" value="{{ board.id }}">
+                    {% endif %} 
+                    {% if game and game.id %}
+                        <input type="hidden" name="ourGame" value="{{ game.id }}">
+                    {% endif %}
+
+                    <div class="mb-3">
+                        {{ form_label(bugForm.title, 'kanban.bug_tracker.create_bug_modal.form.title_label'|trans({}, 'kanban')) }}
+                        {{ form_widget(bugForm.title) }}
+                        {{ form_errors(bugForm.title) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(bugForm.description, 'kanban.bug_tracker.create_bug_modal.form.description_label'|trans({}, 'kanban')) }}
+                        {{ form_widget(bugForm.description) }}
+                        {{ form_errors(bugForm.description) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(bugForm.severity, 'kanban.bug_tracker.create_bug_modal.form.severity_label'|trans({}, 'kanban')) }}
+                        {{ form_widget(bugForm.severity) }}
+                        {{ form_errors(bugForm.severity) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(bugForm.operatingSystem, 'kanban.bug_tracker.create_bug_modal.form.os_label'|trans({}, 'kanban')) }}
+                        {{ form_widget(bugForm.operatingSystem) }}
+                        {{ form_errors(bugForm.operatingSystem) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(bugForm.operatingSystemVersion, 'kanban.bug_tracker.create_bug_modal.form.os_version_label'|trans({}, 'kanban')) }}
+                        {{ form_widget(bugForm.operatingSystemVersion) }}
+                        {{ form_errors(bugForm.operatingSystemVersion) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(bugForm.reproduction_steps, 'kanban.bug_tracker.create_bug_modal.form.reproduction_steps_label'|trans({}, 'kanban')) }}
+                        {{ form_widget(bugForm.reproduction_steps) }}
+                        {{ form_errors(bugForm.reproduction_steps) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(bugForm.expected_result, 'kanban.bug_tracker.create_bug_modal.form.expected_result_label'|trans({}, 'kanban')) }}
+                        {{ form_widget(bugForm.expected_result) }}
+                        {{ form_errors(bugForm.expected_result) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(bugForm.actual_result, 'kanban.bug_tracker.create_bug_modal.form.actual_result_label'|trans({}, 'kanban')) }}
+                        {{ form_widget(bugForm.actual_result) }}
+                        {{ form_errors(bugForm.actual_result) }}
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">{{'kanban.bug_tracker.create_bug_modal.form.submit_button'|trans({}, 'kanban')}}</button>
+                    {{ form_end(bugForm, {'render_rest': false}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Bug Details Modal #}
+    <div class="modal fade" id="bugDetailsModal" tabindex="-1" aria-labelledby="bugDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bugDetailsModalLabel">{{'kanban.bug_tracker.bug_details_modal.title'|trans({}, 'kanban')}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
+                </div>
+                <div class="modal-body" id="bugDetailsModalBody">
+                    {# Content will be loaded dynamically by JavaScript #}
+                    {{'kanban.bug_tracker.bug_details_modal.loading'|trans({}, 'kanban')}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{'kanban.bug_tracker.bug_details_modal.close_button'|trans({}, 'kanban')}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ settings.siteCDN }}/kanban/js/api-client.js"></script>
+    <script src="{{ settings.siteCDN }}/kanban/js/bug-tracker.js"></script>
+    <script>
+        var bugTrackerContainer = document.querySelector('.bug-tracker-container');
+        var gameSlug = bugTrackerContainer.dataset.gameSlug || '';
+        var boardId = bugTrackerContainer.dataset.boardId || null;
+        var apiBaseUrl = bugTrackerContainer.dataset.apiBaseUrl; // Get the API base URL from the data attribute
+        var bugDetailsBaseUrl = bugTrackerContainer.dataset.bugDetailsBaseUrl; // Get the bug details base URL
+        var teamData = JSON.parse(bugTrackerContainer.dataset.team); // Parse the team data
+
+        // Set API base URL based on locale (gameSlug is passed as a query parameter, not in the path)
+        apiBaseUrl = '/{{ app.request.locale }}/kanban/api';
+
+        // Adjust bug details base URL if gameSlug is present
+        if (gameSlug) {
+            bugDetailsBaseUrl = '/{{ app.request.locale }}/workspace/' + gameSlug + '/bugs/details/';
+        } else {
+            bugDetailsBaseUrl = '/{{ app.request.locale }}/workspace/bugs/details/';
+        }
+
+        console.log('bugDetailsBaseUrl from Twig:', bugDetailsBaseUrl); // Add this line for debugging
+        console.log('Initializing ApiClient with base URL:', apiBaseUrl);
+
+        // Initialize ApiClient with the correct base URL
+        var apiClient = new ApiClient(apiBaseUrl); // Use the generated API base URL
+        var bugTracker = new BugTracker(apiClient, teamData, bugDetailsBaseUrl); // Pass teamData and bugDetailsBaseUrl to BugTracker
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBugs();
+
+            var createBugForm = document.getElementById('createBugForm');
+            if (createBugForm) {
+                createBugForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+
+                    var formData = new FormData(createBugForm);
+                    var data = {};
+                    var iterator = formData.entries();
+                    var next = iterator.next();
+                    while (!next.done) {
+                        var pair = next.value
+                        data[pair[0]] = pair[1];
+                        next = iterator.next();
+                    }
+                    console.log('Form data extracted (raw):', data); // <-- ADDED THIS LOG
+
+                    var requestPromise;
+                    if (boardId) {
+                        var payload = { // Create a separate payload object for clarity
+                            title: data.title, // Corrected to flat key
+                            description: data.description, // Corrected to flat key
+                            severity: data.severity, // Corrected to flat key
+                            reproductionSteps: data.reproduction_steps, // Corrected to flat key
+                            expectedResult: data.expected_result, // Corrected to flat key
+                            actualResult: data.actual_result, // Corrected to flat key
+                            operatingSystem: data.operatingSystem, // Corrected to flat key
+                            operatingSystemVersion: data.operatingSystemVersion, // Corrected to flat key
+                            ourGame: data.ourGame ? parseInt(data.ourGame) : null // Pass ourGame if present, convert to int
+                        };
+                        console.log('Payload sent to API (board-specific):', payload); // <-- ADDED THIS LOG
+                        requestPromise = apiClient.request('POST', '/boards/' + boardId + '/report-bug', payload);
+                    } else {
+                        // For general bug creation, ensure ourGame is passed if available from the form
+                        // If gameSlug is present, we must pass the ourGame ID to maintain project context
+                        if (gameSlug && data.ourGame) {
+                            // ourGame is already in data from the form, ensure it's a number
+                            data.ourGame = parseInt(data.ourGame) || null;
+                        } else if (gameSlug && !data.ourGame) {
+                            // Game is set but no ourGame in form data (shouldn't happen but fallback)
+                            console.warn('Warning: gameSlug present but ourGame not in form data');
+                        }
+                        console.log('Payload sent to API (general bug):', data); // <-- ADDED THIS LOG
+                        requestPromise = apiClient.request('POST', '/bugs', data);
+                    }
+
+                    requestPromise
+                        .then(function(response) {
+                            if (response.success) {
+                                alert('{{'kanban.bug_tracker.create_bug_modal.success_message'|trans({}, 'kanban')}}');
+                                var createBugModal = bootstrap.Modal.getInstance(document.getElementById('createBugModal'));
+                                if (createBugModal) {
+                                    createBugModal.hide();
+                                }
+                                createBugForm.reset();
+                                loadBugs(); // Reload bugs list
+                            } else {
+                                console.error('API Response (Report Bug):', response);
+                                var errorMessage = '{{'kanban.bug_tracker.create_bug_modal.failed_message'|trans({}, 'kanban')}}' + (response.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}');
+                                if (response.errors) {
+                                    errorMessage += '\n\n{{'kanban.modals.common.details_prefix'|trans({}, 'kanban')}}';
+                                    if (Array.isArray(response.errors)) {
+                                        errorMessage += '\n- ' + response.errors.join('\n- ');
+                                    } else {
+                                        for (var field in response.errors) {
+                                            if (response.errors.hasOwnProperty(field)) {
+                                                errorMessage += '\n- ' + field + ': ' + error.errors[field].join(', ');
+                                            }
+                                        }
+                                    }
+                                }
+                                alert(errorMessage);
+                            }
+                        })
+                        .catch(function(error) {
+                            console.error('Error reporting bug:', error);
+                            alert('{{'kanban.bug_tracker.create_bug_modal.failed_message'|trans({}, 'kanban')}}' + (error.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}'));
+                        });
+                });
+            }
+        });
+
+        function loadBugs() {
+            var filters = {};
+            if (gameSlug) {
+                filters.gameSlug = gameSlug;
+            }
+            bugTracker.loadBugs(filters).then(function(bugs) {
+                bugTracker.renderBugsList(document.getElementById('bugsList'));
+            });
+        }
+
+        function filterBugs() {
+            var filters = {
+                status: document.getElementById('statusFilter').value,
+                severity: document.getElementById('severityFilter').value,
+                assigneeId: document.getElementById('assigneeFilter') ? document.getElementById('assigneeFilter').value : null, // Check if element exists
+            };
+
+            // Add boardId and card filters
+            var boardIdFilter = document.getElementById('boardFilter').value;
+            var cardFilter = document.getElementById('cardFilter').value;
+
+            if (boardIdFilter) {
+                filters.boardId = boardIdFilter;
+            }
+            if (cardFilter) {
+                filters.cardFilter = (cardFilter === 'linked') ? 'true' : 'false';
+            }
+            if (gameSlug) {
+                filters.gameSlug = gameSlug;
+            }
+
+            Object.keys(filters).forEach(function(key) {
+                if (!filters[key]) {
+                    delete filters[key];
+                }
+            });
+
+            bugTracker.loadBugs(filters).then(function() {
+                bugTracker.renderBugsList(document.getElementById('bugsList'));
+            });
+        }
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/kanban/bug-tracker.css') }}">
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ pageTitle }}{% endblock %}
+
+{% block main %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="card-title h3 mb-0">{{ pageTitle }}</h1>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <strong>{{'kanban.bug_details.id'|trans({}, 'kanban')}}</strong> #{{ bug.id }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>{{'kanban.bug_details.title'|trans({}, 'kanban')}}</strong> {{ bug.title }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>{{'kanban.bug_details.description'|trans({}, 'kanban')}}</strong>
+                        <p>{{ bug.description|raw }}</p>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>{{'kanban.bug_details.status'|trans({}, 'kanban')}}</strong> <span class="badge bg-{{ bug.status == 'open' ? 'info' : (bug.status == 'resolved' ? 'success' : 'secondary') }}">{{ bug.status|capitalize }}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>{{'kanban.bug_details.severity'|trans({}, 'kanban')}}</strong> <span class="badge bg-{{ bug.severity == 'critical' ? 'danger' : (bug.severity == 'high' ? 'warning' : 'primary') }}">{{ bug.severity|capitalize }}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>{{'kanban.bug_details.reporter'|trans({}, 'kanban')}}</strong> {{ bug.reporter ? bug.reporter.username : 'N/A' }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>{{'kanban.bug_details.assignee'|trans({}, 'kanban')}}</strong> {{ bug.assignee ? bug.assignee.username : 'kanban.bug_details.assignee_unassigned'|trans({}, 'kanban') }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <strong>{{'kanban.bug_details.reported_at'|trans({}, 'kanban')}}</strong> {{ bug.reportedAt|date('F j, Y H:i') }}
+                    </div>
+                    {% if bug.updatedAt %}
+                    <div class="mb-3">
+                        <strong>{{'kanban.bug_details.last_updated'|trans({}, 'kanban')}}</strong> {{ bug.updatedAt|date('F j, Y H:i') }}
+                    </div>
+                    {% endif %}
+                    {% if bug.resolvedAt %}
+                    <div class="mb-3">
+                        <strong>{{'kanban.bug_details.resolved_at'|trans({}, 'kanban')}}</strong> {{ bug.resolvedAt|date('F j, Y H:i') }}
+                    </div>
+                    {% endif %}
+
+                    {% if bug.reproductionSteps %}
+                    <div class="mb-3">
+                        <strong>{{'kanban.bug_details.reproduction_steps'|trans({}, 'kanban')}}</strong>
+                        <p>{{ bug.reproductionSteps|raw }}</p>
+                    </div>
+                    {% endif %}
+                    {% if bug.expectedResult %}
+                    <div class="mb-3">
+                        <strong>{{'kanban.bug_details.expected_result'|trans({}, 'kanban')}}</strong>
+                        <p>{{ bug.expectedResult|raw }}</p>
+                    </div>
+                    {% endif %}
+                    {% if bug.actualResult %}
+                    <div class="mb-3">
+                        <strong>{{'kanban.bug_details.actual_result'|trans({}, 'kanban')}}</strong>
+                        <p>{{ bug.actualResult|raw }}</p>
+                    </div>
+                    {% endif %}
+                    {% if bug.kanbanCard %}
+                    <div class="mb-3">
+                        <strong>{{'kanban.bug_details.linked_kanban_card'|trans({}, 'kanban')}}</strong>
+                        <a href="#" onclick="window._callGlobalOpenCardModal({{ bug.kanbanCard.id }})" class="text-decoration-none">
+                            <span class="badge bg-primary">{{ bug.kanbanCard.title }}</span>
+                        </a>
+                        <small class="text-muted">{{'kanban.bug_details.click_to_view_card'|trans({}, 'kanban')}}</small>
+                    </div>
+                    {% endif %}
+
+                    <hr>
+                    <a href="{{ path('kanban_bugs', {'gameId': gameId}) }}" class="btn btn-secondary">{{'kanban.bug_details.back_to_tracker'|trans({}, 'kanban')}}</a>
+                    {# You might add edit/delete buttons here based on user roles #}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

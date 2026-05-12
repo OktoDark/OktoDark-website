@@ -1,0 +1,78 @@
+<!-- Card Details Modal Content -->
+<div class="card-details">
+    <div class="row">
+        <div class="col-md-8">
+            <h4 id="cardTitle"></h4>
+            <div class="card-meta">
+                <span class="badge" id="cardType"></span>
+                <span class="badge" id="cardPriority"></span>
+            </div>
+
+            <div class="card-description-section">
+                <h5>{{'kanban.board_dashboard.modals.card_details.description_heading'|trans({}, 'kanban')}}</h5>
+                <p id="cardDescription"></p>
+            </div>
+
+            <div class="card-assignees-section">
+                <h5>{{'kanban.board_dashboard.modals.card_details.assignees_heading'|trans({}, 'kanban')}}</h5>
+                <div id="cardAssignees"></div>
+                <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#assignUserModal"> {# Updated Bootstrap 5 attributes #}
+                    {{'kanban.board_dashboard.modals.card_details.assign_user_button'|trans({}, 'kanban')}}
+                </button>
+            </div>
+
+            <div class="card-labels-section">
+                <h5>{{'kanban.board_dashboard.modals.card_details.labels_heading'|trans({}, 'kanban')}}</h5>
+                <div id="cardLabels"></div>
+            </div>
+
+            <div class="card-dates-section">
+                <h5>{{'kanban.board_dashboard.modals.card_details.dates_heading'|trans({}, 'kanban')}}</h5>
+                <p>{{'kanban.board_dashboard.modals.card_details.due_date_label'|trans({}, 'kanban')}} <span id="cardDueDate">{{'kanban.board_dashboard.card.due_date_none'|trans({}, 'kanban')}}</span></p>
+                <p>{{'kanban.board_dashboard.modals.card_details.created_date_label'|trans({}, 'kanban')}} <span id="cardCreatedAt"></span></p>
+            </div>
+
+            <div class="card-comments-section">
+                <h5>{{'kanban.board_dashboard.modals.card_details.comments_heading'|trans({}, 'kanban')}}</h5>
+                <div id="commentsContainer"></div>
+                <textarea id="newComment" class="form-control" placeholder="{{'kanban.board_dashboard.modals.card_details.add_comment_placeholder'|trans({}, 'kanban')}}"></textarea>
+                <button class="btn btn-primary mt-2" onclick="addComment()">{{'kanban.board_dashboard.modals.card_details.add_comment_button'|trans({}, 'kanban')}}</button>
+            </div>
+
+            <div class="card-bugs-section">
+                <h5>{{'kanban.board_dashboard.modals.card_details.bugs_heading'|trans({}, 'kanban')}}</h5>
+                <div id="cardBugsList">
+                    <!-- Bugs will be loaded here -->
+                </div>
+                <button class="btn btn-sm btn-warning mt-2" onclick="createBugForCard()">
+                    <i class="fas fa-bug me-1"></i>{{'kanban.board_dashboard.modals.card_details.create_bug_button'|trans({}, 'kanban')}}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-sidebar">
+                <h5>{{'kanban.board_dashboard.modals.card_details.activity_heading'|trans({}, 'kanban')}}</h5>
+                <div id="cardActivity"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Assign User Modal -->
+<div class="modal fade" id="assignUserModal" tabindex="-1" aria-labelledby="assignUserModalLabel" aria-hidden="true"> {# Updated Bootstrap 5 attributes #}
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignUserModalLabel">{{'kanban.board_dashboard.modals.assign_user.title'|trans({}, 'kanban')}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button> {# Updated Bootstrap 5 attributes #}
+            </div>
+            <div class="modal-body">
+                <select id="assignUserSelect" class="form-control">
+                    <option value="">{{'kanban.board_dashboard.modals.assign_user.select_placeholder'|trans({}, 'kanban')}}</option>
+                </select>
+                <button class="btn btn-primary mt-3" onclick="assignUserToCard()">{{'kanban.board_dashboard.modals.assign_user.assign_button'|trans({}, 'kanban')}}</button>
+            </div>
+        </div>
+    </div>
+</div>

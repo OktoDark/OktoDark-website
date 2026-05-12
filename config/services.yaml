@@ -79,6 +79,14 @@ services:
 
     Symfony\Component\Security\Http\Logout\LogoutUrlGenerator: '@security.logout_url_generator'
 
+    App\EventListener\WorkflowSyncListener:
+        tags:
+            - { name: doctrine.event_listener, event: postUpdate }
+
+    App\EventListener\BugAutomationListener:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+
   #######################################################################
   # THEME SYSTEM SERVICES
   #######################################################################

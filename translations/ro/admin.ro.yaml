@@ -2,6 +2,7 @@
 admin:
     nav:
         dashboard: "Panou Control"
+        kanban: "Kanban"
         users: "Utilizatori"
         user_management: "Gestionare Utilizatori"
         registration_control: "Control Înregistrare"
@@ -367,3 +368,8 @@ admin:
         email: "Adresă Email"
         total: "Total"
         user: "Utilizator"
+    kanban:
+        create_board: "Creează Panou Kanban Nou"
+        edit_board: "Editează Panou Kanban"
+        delete_board: "Șterge Panou Kanban"
+        view_public_board: "Vezi Panoul Public"

@@ -2,6 +2,7 @@
 admin:
     nav:
         dashboard: "Dashboard"
+        kanban: "Kanban"
         users: "Users"
         user_management: "User Management"
         registration_control: "Registration Control"
@@ -367,3 +368,8 @@ admin:
         email: "Email Address"
         total: "Total"
         user: "User"
+    kanban:
+        create_board: "Create New Board"
+        edit_board: "Edit Board"
+        delete_board: "Delete Board"
+        view_public_board: "View Public Board"
