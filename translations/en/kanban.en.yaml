@@ -76,6 +76,8 @@ kanban:
             edit_board:
                 title: "Edit Board"
                 save_changes: "Save Changes"
+                success_message: "Board updated successfully!"
+                failed_message: "Failed to update board: "
             report_bug:
                 title: "Report a Bug"
                 form:

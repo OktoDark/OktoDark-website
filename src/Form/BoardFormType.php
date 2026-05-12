@@ -86,6 +86,7 @@ class BoardFormType extends AbstractType
             'csrf_protection' => false, // Disable CSRF for API forms
             // Removed 'block_prefix' => '', to allow default form naming (e.g., 'board_form')
             'allow_extra_fields' => true, // Allow extra fields to be ignored
+            'translation_domain' => 'kanban',
         ]);
     }
 }

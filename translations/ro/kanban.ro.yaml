@@ -76,6 +76,8 @@ kanban:
             edit_board:
                 title: "Editează Tabloul"
                 save_changes: "Salvează Modificările"
+                success_message: "Tablou actualizat cu succes!"
+                failed_message: "Eșec la actualizarea tabloului: "
             report_bug:
                 title: "Raportează o Eroare"
                 form:
