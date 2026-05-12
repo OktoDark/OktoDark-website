@@ -63,7 +63,7 @@ class BoardsController extends AbstractController
 
         $boards = $this->boardRepository->findFiltered($filters);
 
-        return $this->render('modern/kanban/board-list.html.twig', [
+        return $this->render('@theme/kanban/board-list.html.twig', [
             'createBoardForm' => $this->createForm(BoardFormType::class)->createView(),
             'boards' => $boards,
             'game' => null,
@@ -114,7 +114,7 @@ class BoardsController extends AbstractController
             throw $this->createNotFoundException('Board not found');
         }
 
-        return $this->render('modern/kanban/board-dashboard.html.twig', [
+        return $this->render('@theme/kanban/board-dashboard.html.twig', [
             'board' => $board,
             'boardForm' => $this->createForm(BoardFormType::class, $board)->createView(),
             'game' => $game,

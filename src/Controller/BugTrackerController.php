@@ -94,7 +94,7 @@ class BugTrackerController extends AbstractController
         }
         $availableBoards = $this->boardRepository->findFiltered($boardFilters);
 
-        return $this->render('modern/kanban/bug-tracker.html.twig', [
+        return $this->render('@theme/kanban/bug-tracker.html.twig', [
             'pageTitle' => $game ? 'Bug Tracker for '.$game->getName() : 'Bug Tracker',
             'team' => $teamData,
             'bugForm' => $bugForm->createView(),
@@ -115,7 +115,7 @@ class BugTrackerController extends AbstractController
             throw $this->createNotFoundException('Bug not found for this context.');
         }
 
-        return $this->render('modern/kanban/bug-details.html.twig', [
+        return $this->render('@theme/kanban/bug-details.html.twig', [
             'bug' => $bug,
             'pageTitle' => 'Bug #'.$bug->getId().': '.$bug->getTitle(),
             'game' => $game, // Pass game to Twig

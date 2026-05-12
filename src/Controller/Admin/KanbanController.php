@@ -51,7 +51,7 @@ class KanbanController extends AbstractController
         $createForm = $this->createForm(BoardFormType::class, new Board());
         $ourGames = $this->ourGamesRepository->findAll();
 
-        return $this->render('modern/admin/kanban/index.html.twig', [
+        return $this->render('@theme/admin/kanban/index.html.twig', [
             'boards' => $boards,
             'createForm' => $createForm->createView(),
             'ourGames' => $ourGames,
