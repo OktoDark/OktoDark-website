@@ -135,9 +135,9 @@ readonly class CardService
 
     private function isDoneColumn(BoardColumn $column): bool
     {
-        $title = strtolower($column->getTitle());
+        $title = mb_strtolower($column->getTitle());
 
-        return in_array($title, ['done', 'completed', 'closed']);
+        return \in_array($title, ['done', 'completed', 'closed'], true);
     }
 
     public function deleteCard(Card $card): void

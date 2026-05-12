@@ -14,8 +14,8 @@ namespace App\Security\Voter;
 use App\Entity\Board;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class BoardVoter extends Voter
 {
@@ -26,7 +26,7 @@ class BoardVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::VIEW, self::EDIT, self::DELETE, self::MANAGE_MEMBERS])
+        return \in_array($attribute, [self::VIEW, self::EDIT, self::DELETE, self::MANAGE_MEMBERS], true)
             && $subject instanceof Board;
     }
 
@@ -53,7 +53,7 @@ class BoardVoter extends Voter
     private function canView(Board $board, User $user): bool
     {
         // Admins can view any board
-        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+        if (\in_array('ROLE_ADMIN', $user->getRoles(), true)) {
             return true;
         }
 

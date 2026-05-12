@@ -86,7 +86,7 @@ class KanbanController extends AbstractController
 
                 // Validate the default column after it has been associated with the board
                 $columnErrors = $this->validator->validate($defaultColumn);
-                if (count($columnErrors) > 0) {
+                if (\count($columnErrors) > 0) {
                     $errorMessages = [];
                     foreach ($columnErrors as $error) {
                         $errorMessages[] = $error->getMessage().' (Property: '.$error->getPropertyPath().')';
@@ -213,7 +213,7 @@ class KanbanController extends AbstractController
 
             $highRankRoles = ['ROLE_ADMIN', 'ROLE_DEVELOPER']; // Define high-rank roles
 
-            $existingMemberIds = array_map(fn (User $m) => $m->getId(), $board->getMembers()->toArray());
+            $existingMemberIds = array_map(static fn (User $m) => $m->getId(), $board->getMembers()->toArray());
             if ($board->getOwner()) {
                 $existingMemberIds[] = $board->getOwner()->getId();
             }
@@ -239,7 +239,7 @@ class KanbanController extends AbstractController
 
             return new JsonResponse([
                 'success' => true,
-                'members' => array_map(fn (User $u) => [
+                'members' => array_map(static fn (User $u) => [
                     'id' => $u->getId(),
                     'username' => $u->getUsername(),
                 ], $availableUsers),

@@ -336,7 +336,7 @@ class CardApiController extends AbstractController
 
             return $this->json([
                 'success' => true,
-                'bugs' => array_map(fn ($bug) => [
+                'bugs' => array_map(static fn ($bug) => [
                     'id' => $bug->getId(),
                     'title' => $bug->getTitle(),
                     'status' => $bug->getStatus(),
@@ -376,12 +376,12 @@ class CardApiController extends AbstractController
     private function getCardDetailData(Card $card): array
     {
         return array_merge($this->getCardData($card), [
-            'assignees' => array_map(fn ($assignee) => [
+            'assignees' => array_map(static fn ($assignee) => [
                 'id' => $assignee->getAssignee()->getId(),
                 'username' => $assignee->getAssignee()->getUsername(),
                 'role' => $assignee->getRole(),
             ], $card->getAssignees()->toArray()),
-            'labels' => array_map(fn ($label) => [
+            'labels' => array_map(static fn ($label) => [
                 'id' => $label->getId(),
                 'name' => $label->getName(),
                 'color' => $label->getColor(),

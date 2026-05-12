@@ -26,7 +26,7 @@ class ActivityLogRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find activity for specific entity
+     * Find activity for specific entity.
      */
     public function findByEntity(string $entityType, int $entityId): array
     {
@@ -41,7 +41,7 @@ class ActivityLogRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find recent activity
+     * Find recent activity.
      */
     public function findRecent(int $limit = 50): array
     {
@@ -53,4 +53,3 @@ class ActivityLogRepository extends ServiceEntityRepository
         ;
     }
 }
-

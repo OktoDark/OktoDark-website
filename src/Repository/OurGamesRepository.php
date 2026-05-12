@@ -34,7 +34,6 @@ class OurGamesRepository extends ServiceEntityRepository
 
         $sql = '
             SELECT * FROM our_games g
-            WHERE g.id
             ORDER BY g.id ASC
         ';
 
@@ -48,8 +47,8 @@ class OurGamesRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            SELECT our_game_play_online_id FROM our_games p
-            WHERE p.our_game_play_online_id
+            SELECT play_online_id FROM our_games p
+            WHERE p.play_online_id IS NOT NULL AND p.play_online_id != ""
             ORDER BY p.id ASC
         ';
 

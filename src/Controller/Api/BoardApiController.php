@@ -31,7 +31,7 @@ class BoardApiController extends AbstractController
         private readonly BoardService $boardService,
         private readonly BoardRepository $boardRepository,
         private readonly UserRepository $userRepository,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -234,11 +234,11 @@ class BoardApiController extends AbstractController
     private function getBoardDetailData(Board $board): array
     {
         return array_merge($this->getBoardData($board), [
-            'columns' => array_map(fn ($col) => [
+            'columns' => array_map(static fn ($col) => [
                 'id' => $col->getId(),
                 'title' => $col->getTitle(),
                 'position' => $col->getPosition(),
-                'cards' => array_map(fn ($card) => [
+                'cards' => array_map(static fn ($card) => [
                     'id' => $card->getId(),
                     'title' => $card->getTitle(),
                     'position' => $card->getPosition(),
@@ -246,7 +246,7 @@ class BoardApiController extends AbstractController
                     'type' => $card->getType(),
                 ], $col->getCards()->toArray()),
             ], $board->getColumns()->toArray()),
-            'members' => array_map(fn ($member) => [
+            'members' => array_map(static fn ($member) => [
                 'id' => $member->getId(),
                 'username' => $member->getUsername(),
                 'firstName' => $member->getFirstName(),

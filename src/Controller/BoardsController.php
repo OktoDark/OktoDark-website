@@ -168,7 +168,7 @@ class BoardsController extends AbstractController
         $card->setUpdatedAt(new \DateTimeImmutable());
 
         $errors = $this->validator->validate($card);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             $errorMessages = [];
             foreach ($errors as $error) {
                 $errorMessages[] = $error->getMessage();
@@ -209,7 +209,7 @@ class BoardsController extends AbstractController
         $bug->setOurGame($ourGame);
 
         $errors = $this->validator->validate($bug);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             $errorMessages = [];
             foreach ($errors as $error) {
                 $errorMessages[] = $error->getMessage();
@@ -272,7 +272,7 @@ class BoardsController extends AbstractController
         $column->setPosition($board->getColumns()->count());
 
         $errors = $this->validator->validate($column);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             $errorMessages = [];
             foreach ($errors as $error) {
                 $errorMessages[] = $error->getMessage();
@@ -325,7 +325,7 @@ class BoardsController extends AbstractController
         $column->setUpdatedAt(new \DateTimeImmutable());
 
         $errors = $this->validator->validate($column);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             $errorMessages = [];
             foreach ($errors as $error) {
                 $errorMessages[] = $error->getMessage();
@@ -364,7 +364,7 @@ class BoardsController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $columnIds = $data['columnIds'] ?? null;
 
-        if (!is_array($columnIds)) {
+        if (!\is_array($columnIds)) {
             return new JsonResponse(['success' => false, 'message' => 'Invalid column IDs provided'], Response::HTTP_BAD_REQUEST);
         }
 
@@ -389,7 +389,7 @@ class BoardsController extends AbstractController
             return new JsonResponse([
                 'success' => true,
                 'message' => 'Column order updated successfully!',
-                'columns' => array_map(fn ($col) => ['id' => $col->getId(), 'position' => $col->getPosition()], array_values($columnMap)),
+                'columns' => array_map(static fn ($col) => ['id' => $col->getId(), 'position' => $col->getPosition()], array_values($columnMap)),
             ]);
         } catch (\Exception $e) {
             return $this->handleDatabaseException($e);
@@ -430,7 +430,7 @@ class BoardsController extends AbstractController
             return new JsonResponse(['success' => false, 'message' => 'Target column does not belong to the same board'], Response::HTTP_BAD_REQUEST);
         }
 
-        if ('done' === strtolower($newColumn->getTitle()) || 'completed' === strtolower($newColumn->getTitle()) || 'closed' === strtolower($newColumn->getTitle())) {
+        if ('done' === mb_strtolower($newColumn->getTitle()) || 'completed' === mb_strtolower($newColumn->getTitle()) || 'closed' === mb_strtolower($newColumn->getTitle())) {
             if ($this->syncService->hasUnresolvedBugs($card)) {
                 $unresolvedCount = $this->syncService->getUnresolvedBugCount($card);
                 $this->syncService->notifyCannotCloseCardWithBugs($card, $user);
@@ -584,7 +584,7 @@ class BoardsController extends AbstractController
                 $board->addColumn($defaultColumn);
 
                 $columnErrors = $this->validator->validate($defaultColumn);
-                if (count($columnErrors) > 0) {
+                if (\count($columnErrors) > 0) {
                     $errorMessages = [];
                     foreach ($columnErrors as $error) {
                         $errorMessages[] = $error->getMessage().' (Property: '.$error->getPropertyPath().')';

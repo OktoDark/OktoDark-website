@@ -27,7 +27,7 @@ class ActivityApiController extends AbstractController
 {
     public function __construct(
         private readonly ActivityService $activityService,
-        private readonly ActivityLogRepository $activityRepository
+        private readonly ActivityLogRepository $activityRepository,
     ) {
     }
 

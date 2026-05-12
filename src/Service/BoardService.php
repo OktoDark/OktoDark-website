@@ -152,6 +152,6 @@ readonly class BoardService
         $members = $board->getMembers()->toArray();
         array_unshift($members, $board->getOwner());
 
-        return array_unique($members, SORT_REGULAR);
+        return array_unique($members, \SORT_REGULAR);
     }
 }

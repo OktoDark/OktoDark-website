@@ -26,7 +26,7 @@ class CardVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::VIEW, self::EDIT, self::DELETE, self::ASSIGN])
+        return \in_array($attribute, [self::VIEW, self::EDIT, self::DELETE, self::ASSIGN], true)
             && $subject instanceof Card;
     }
 

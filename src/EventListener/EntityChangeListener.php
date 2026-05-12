@@ -58,7 +58,7 @@ class EntityChangeListener
             // Filter out internal fields we don't need to log
             $filteredChanges = [];
             foreach ($changes as $field => $values) {
-                if (!in_array($field, ['updatedAt', 'createdAt'])) {
+                if (!\in_array($field, ['updatedAt', 'createdAt'], true)) {
                     $filteredChanges[$field] = [
                         'old' => $values[0],
                         'new' => $values[1],
@@ -124,7 +124,7 @@ class EntityChangeListener
         } elseif ($entity instanceof Bug) {
             return $entity->getTitle();
         } elseif ($entity instanceof CardComment) {
-            return substr($entity->getContent(), 0, 50).'...';
+            return mb_substr($entity->getContent(), 0, 50).'...';
         }
 
         return 'Unknown';

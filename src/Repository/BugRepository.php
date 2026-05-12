@@ -231,7 +231,6 @@ class BugRepository extends ServiceEntityRepository
             }
         }
 
-
         return $qb->getQuery()->getResult();
     }
 

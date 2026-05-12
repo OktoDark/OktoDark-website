@@ -67,7 +67,7 @@ class WorkflowSyncListener
                 $this->syncService->syncBugsOnCardMove($card);
 
                 // Check if card was moved due to bug resolution and notify
-                if ('review' === strtolower($newColumn->getTitle()) || 'done' === strtolower($newColumn->getTitle())) {
+                if ('review' === mb_strtolower($newColumn->getTitle()) || 'done' === mb_strtolower($newColumn->getTitle())) {
                     $this->syncService->notifyCardMovedToReview($card);
                 }
 

@@ -93,7 +93,7 @@ class BugApiController extends AbstractController
 
             // Validate the created bug entity
             $errors = $this->validator->validate($bug);
-            if (count($errors) > 0) {
+            if (\count($errors) > 0) {
                 $errorMessages = [];
                 foreach ($errors as $error) {
                     $errorMessages[] = $error->getPropertyPath().': '.$error->getMessage();

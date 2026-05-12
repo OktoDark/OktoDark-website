@@ -20,7 +20,7 @@ class ActivityService
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly ActivityLogRepository $activityLogRepository
+        private readonly ActivityLogRepository $activityLogRepository,
     ) {
     }
 
@@ -30,7 +30,7 @@ class ActivityService
         string $entityType,
         int $entityId,
         ?string $description = null,
-        ?array $changes = null
+        ?array $changes = null,
     ): ActivityLog {
         $log = new ActivityLog();
         $log->setUser($user);
@@ -70,4 +70,3 @@ class ActivityService
         return $count;
     }
 }
-

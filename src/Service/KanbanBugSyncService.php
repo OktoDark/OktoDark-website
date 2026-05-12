@@ -74,7 +74,7 @@ class KanbanBugSyncService
                 $bug->setStatus($newBugStatus);
 
                 // Set resolved date if moving to resolved/closed status
-                if (in_array($newBugStatus, [Bug::STATUS_RESOLVED, Bug::STATUS_CLOSED]) && null === $bug->getResolvedAt()) {
+                if (\in_array($newBugStatus, [Bug::STATUS_RESOLVED, Bug::STATUS_CLOSED], true) && null === $bug->getResolvedAt()) {
                     $bug->setResolvedAt(new \DateTimeImmutable());
                 }
 
@@ -99,7 +99,7 @@ class KanbanBugSyncService
         // Check if all bugs on this card are resolved
         $allBugsResolved = true;
         foreach ($card->getBugs() as $cardBug) {
-            if (!in_array($cardBug->getStatus(), [Bug::STATUS_RESOLVED, Bug::STATUS_CLOSED, Bug::STATUS_WONT_FIX])) {
+            if (!\in_array($cardBug->getStatus(), [Bug::STATUS_RESOLVED, Bug::STATUS_CLOSED, Bug::STATUS_WONT_FIX], true)) {
                 $allBugsResolved = false;
                 break;
             }
@@ -112,9 +112,9 @@ class KanbanBugSyncService
             $doneColumn = null;
 
             foreach ($board->getColumns() as $column) {
-                if ('review' === strtolower($column->getTitle())) {
+                if ('review' === mb_strtolower($column->getTitle())) {
                     $reviewColumn = $column;
-                } elseif ('done' === strtolower($column->getTitle())) {
+                } elseif ('done' === mb_strtolower($column->getTitle())) {
                     $doneColumn = $column;
                 }
             }
@@ -135,7 +135,7 @@ class KanbanBugSyncService
      */
     private function getBugStatusForColumn(string $columnTitle): ?string
     {
-        $normalizedTitle = strtolower(trim($columnTitle));
+        $normalizedTitle = mb_strtolower(mb_trim($columnTitle));
 
         // Direct mapping
         if (isset(self::STATUS_MAPPING[$columnTitle])) {
@@ -144,7 +144,7 @@ class KanbanBugSyncService
 
         // Case-insensitive mapping
         foreach (self::STATUS_MAPPING as $kanbanStatus => $bugStatus) {
-            if (strtolower($kanbanStatus) === $normalizedTitle) {
+            if (mb_strtolower($kanbanStatus) === $normalizedTitle) {
                 return $bugStatus;
             }
         }
@@ -158,7 +158,7 @@ class KanbanBugSyncService
     public function hasUnresolvedBugs(Card $card): bool
     {
         foreach ($card->getBugs() as $bug) {
-            if (!in_array($bug->getStatus(), [Bug::STATUS_RESOLVED, Bug::STATUS_CLOSED, Bug::STATUS_WONT_FIX])) {
+            if (!\in_array($bug->getStatus(), [Bug::STATUS_RESOLVED, Bug::STATUS_CLOSED, Bug::STATUS_WONT_FIX], true)) {
                 return true;
             }
         }
@@ -173,7 +173,7 @@ class KanbanBugSyncService
     {
         $count = 0;
         foreach ($card->getBugs() as $bug) {
-            if (!in_array($bug->getStatus(), [Bug::STATUS_RESOLVED, Bug::STATUS_CLOSED, Bug::STATUS_WONT_FIX])) {
+            if (!\in_array($bug->getStatus(), [Bug::STATUS_RESOLVED, Bug::STATUS_CLOSED, Bug::STATUS_WONT_FIX], true)) {
                 ++$count;
             }
         }
@@ -201,7 +201,7 @@ class KanbanBugSyncService
         // Find the "To Do" column
         $todoColumn = null;
         foreach ($board->getColumns() as $column) {
-            if ('to do' === strtolower($column->getTitle()) || 'backlog' === strtolower($column->getTitle())) {
+            if ('to do' === mb_strtolower($column->getTitle()) || 'backlog' === mb_strtolower($column->getTitle())) {
                 $todoColumn = $column;
                 break;
             }
@@ -243,7 +243,7 @@ class KanbanBugSyncService
         // Try to find an existing "Bug Tracker" board
         $boards = $this->boardRepository->findBy(['owner' => $user]);
         foreach ($boards as $board) {
-            if ('bug tracker' === strtolower($board->getTitle())) {
+            if ('bug tracker' === mb_strtolower($board->getTitle())) {
                 return $board;
             }
         }
@@ -320,7 +320,7 @@ class KanbanBugSyncService
 
         // Notify card creator if different from reporter
         $creator = $card->getCreatedBy();
-        if ($creator && $creator !== $bug->getReporter() && !$card->getAssignees()->exists(fn ($key, $a) => $a->getUser() === $creator)) {
+        if ($creator && $creator !== $bug->getReporter() && !$card->getAssignees()->exists(static fn ($key, $a) => $a->getUser() === $creator)) {
             $this->notificationService->notify(
                 $creator,
                 'New Bug Added to Your Card',
@@ -350,7 +350,7 @@ class KanbanBugSyncService
 
         // Notify card creator
         $creator = $card->getCreatedBy();
-        if ($creator && !$card->getAssignees()->exists(fn ($key, $a) => $a->getUser() === $creator)) {
+        if ($creator && !$card->getAssignees()->exists(static fn ($key, $a) => $a->getUser() === $creator)) {
             $this->notificationService->notify(
                 $creator,
                 'Card Moved to Review',
