@@ -166,7 +166,7 @@
 
     <script>
         function updateIconPreview(val) {
-            const preview = document.getElementById('iconPreview');
+            var preview = document.getElementById('iconPreview');
             preview.className = val || 'fa-solid fa-award';
         }
         
@@ -182,12 +182,12 @@
             document.getElementById('badgeDescription').value = description;
             document.getElementById('badgeActionType').value = actionType;
             document.getElementById('badgeThreshold').value = threshold;
-            document.getElementById('badgeIsPermanent').checked = isPermanent == '1';
+            document.getElementById('badgeIsPermanent').checked = (isPermanent === '1');
             document.getElementById('badgeColor').value = color;
             document.getElementById('badgeColorHex').value = color.toUpperCase();
             
             updateIconPreview(icon);
-            document.getElementById('badgeFormContainer').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('badgeFormContainer').scrollIntoView(true);
         }
 
         function resetBadgeForm() {

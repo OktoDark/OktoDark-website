@@ -93,17 +93,17 @@
 {% endblock %}
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', function() {
 
         /* -----------------------------
            PAGE DURATION TRACKING
         ------------------------------ */
-        const start = Date.now();
+        var start = Date.now();
 
-        window.addEventListener('beforeunload', () => {
-            const duration = Math.round((Date.now() - start) / 1000);
+        window.addEventListener('beforeunload', function() {
+            var duration = Math.round((Date.now() - start) / 1000);
 
-            const payload = new Blob([
+            var payload = new Blob([
                 JSON.stringify({
                     duration: duration,
                     url: window.location.href
@@ -117,16 +117,16 @@
     /* -----------------------------
        HEARTBEAT PINGS (ACTIVE USERS)
     ------------------------------ */
-    let isActive = true;
+    var isActive = true;
 
-    document.addEventListener('visibilitychange', () => {
+    document.addEventListener('visibilitychange', function() {
         isActive = !document.hidden;
     });
 
-    setInterval(() => {
+    setInterval(function() {
         if (!isActive) return;
 
-    const payload = new Blob([
+    var payload = new Blob([
         JSON.stringify({
             url: window.location.pathname,
             ts: Date.now()
@@ -141,8 +141,8 @@
 </script>
 
 <script>
-    window.addEventListener("load", () => {
-        const preloader = document.getElementById("preloader");
+    window.addEventListener("load", function() {
+        var preloader = document.getElementById("preloader");
         if (preloader) preloader.classList.add("hidden");
     });
 </script>

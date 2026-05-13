@@ -193,10 +193,10 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
             <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    const accentColor = '#0cc5b6';
-                    const gridColor = 'rgba(255, 255, 255, 0.05)';
-                    const textColor = '#8a949b';
+                document.addEventListener('DOMContentLoaded', function() {
+                    var accentColor = '#0cc5b6';
+                    var gridColor = 'rgba(255, 255, 255, 0.05)';
+                    var textColor = '#8a949b';
 
                     Chart.defaults.color = textColor;
                     Chart.defaults.borderColor = gridColor;
@@ -205,20 +205,21 @@
                        COUNTER ANIMATION
                     ------------------------------ */
                     function animateCounter(el, to) {
-                        const duration = 800;
-                        const start = parseInt(el.innerText.replace(/,/g, ''), 10) || 0;
-                        const startTime = performance.now();
+                        var duration = 800;
+                        var start = parseInt(el.innerText.replace(/,/g, ''), 10) || 0;
+                        var startTime = performance.now();
 
                         function frame(now) {
-                            const progress = Math.min((now - startTime) / duration, 1);
-                            const value = Math.floor(start + (to - start) * progress);
+                            var progress = Math.min((now - startTime) / duration, 1);
+                            var value = Math.floor(start + (to - start) * progress);
                             el.innerText = value.toLocaleString();
                             if (progress < 1) requestAnimationFrame(frame);
                         }
                         requestAnimationFrame(frame);
                     }
 
-                    document.querySelectorAll('.card-value').forEach(el => {
+                    // ES5 equivalent forEach
+                    Array.prototype.forEach.call(document.querySelectorAll('.card-value'), function(el) {
                         animateCounter(el, parseInt(el.innerText.replace(/,/g, ''), 10) || 0);
                     });
 
@@ -259,9 +260,23 @@
                     new Chart(document.getElementById('deviceChart'), {
                         type: 'doughnut',
                         data: {
-                            labels: {{ stats.devices|map(d => (d.device ?? 'Unknown'))|json_encode|raw }},
+                            labels: (function() {
+                                var labels = [];
+                                var devices = {{ stats.devices|json_encode|raw }};
+                                for (var i = 0; i < devices.length; i++) {
+                                    labels.push(devices[i].device || 'Unknown');
+                                }
+                                return labels;
+                            })(),
                             datasets: [{
-                                data: {{ stats.devices|map(d => d.total)|json_encode|raw }},
+                                data: (function() {
+                                    var data = [];
+                                    var devices = {{ stats.devices|json_encode|raw }};
+                                    for (var i = 0; i < devices.length; i++) {
+                                        data.push(devices[i].total);
+                                    }
+                                    return data;
+                                })(),
                                 backgroundColor: [accentColor, '#5c6bc0', '#66bb6a', '#ffa726'],
                                 borderWidth: 0
                             }]
@@ -279,10 +294,28 @@
                     /* -----------------------------
                        COUNTRIES
                     ------------------------------ */
-                    const countryData = {{ stats.countries|json_encode|raw }};
-                    const countryLabels = countryData.map(c => (c.country ?? '??'));
-                    const countryValues = countryData.map(c => c.total);
-                    const countryNames = countryData.map(c => (c.countryName ?? c.country ?? 'Unknown'));
+                    var countryData = {{ stats.countries|json_encode|raw }};
+                    var countryLabels = (function() {
+                        var labels = [];
+                        for (var i = 0; i < countryData.length; i++) {
+                            labels.push(countryData[i].country || '??');
+                        }
+                        return labels;
+                    })();
+                    var countryValues = (function() {
+                        var values = [];
+                        for (var i = 0; i < countryData.length; i++) {
+                            values.push(countryData[i].total);
+                        }
+                        return values;
+                    })();
+                    var countryNames = (function() {
+                        var names = [];
+                        for (var i = 0; i < countryData.length; i++) {
+                            names.push(countryData[i].countryName || countryData[i].country || 'Unknown');
+                        }
+                        return names;
+                    })();
 
                     new Chart(document.getElementById('countryChart'), {
                         type: 'bar',
@@ -305,29 +338,30 @@
                         }
                     });
 
-                    const legend = document.getElementById('countryLegend');
-                    countryLabels.forEach((code, i) => {
-                    const div = document.createElement('div');
-                    const flagCode = code.toLowerCase();
-                    const countryName = countryNames[i];
+                    var legend = document.getElementById('countryLegend');
+                    // ES5 forEach equivalent
+                    for (var i = 0; i < countryLabels.length; i++) {
+                        var code = countryLabels[i];
+                        var div = document.createElement('div');
+                        var flagCode = code.toLowerCase();
+                        var countryName = countryNames[i];
 
-                    div.innerHTML = `
-                        <span class="badge bg-light border text-dark d-flex align-items-center gap-2 py-2 px-3">
-                            <span class="fi fi-${flagCode} rounded-1" title="${countryName}" style="cursor: help;"></span>
-                            <span class="fw-bold">${countryValues[i]}</span>
-                            <span class="text-muted">${code}</span>
-                        </span>
-                    `;
+                        div.innerHTML = '' +
+                            '<span class="badge bg-light border text-dark d-flex align-items-center gap-2 py-2 px-3">' +
+                            '<span class="fi fi-' + flagCode + ' rounded-1" title="' + countryName + '" style="cursor: help;"></span>' +
+                            '<span class="fw-bold">' + countryValues[i] + '</span>' +
+                            '<span class="text-muted">' + code + '</span>' +
+                            '</span>';
 
-                    legend.appendChild(div);
-                });
+                        legend.appendChild(div);
+                    }
 
 
                     /* -----------------------------
                        LIVE TRAFFIC – ACTIVE USERS
                     ------------------------------ */
-                    const liveTrafficCtx = document.getElementById('liveTrafficChart').getContext('2d');
-                    const liveTrafficData = {
+                    var liveTrafficCtx = document.getElementById('liveTrafficChart').getContext('2d');
+                    var liveTrafficData = {
                         labels: [],
                         datasets: [{
                             label: 'Active Users',
@@ -340,7 +374,7 @@
                         }]
                     };
 
-                    const liveTrafficChart = new Chart(liveTrafficCtx, {
+                    var liveTrafficChart = new Chart(liveTrafficCtx, {
                         type: 'line',
                         data: liveTrafficData,
                         options: {
@@ -364,26 +398,34 @@
                     });
 
                     function updateLiveUsers() {
-                        fetch('{{ path('live_users') }}')
-                            .then(res => res.json())
-                            .then(json => {
-                                const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('GET', '{{ path('live_users') }}', true);
+                        xhr.onload = function() {
+                            if (xhr.status >= 200 && xhr.status < 300) {
+                                var json = JSON.parse(xhr.responseText);
+                                var now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                                 liveTrafficData.labels.push(now);
-                                liveTrafficData.datasets[0].data.push((json.active ?? 0));
+                                liveTrafficData.datasets[0].data.push((json.active || 0));
                                 if (liveTrafficData.labels.length > 20) {
                                     liveTrafficData.labels.shift();
                                     liveTrafficData.datasets[0].data.shift();
                                 }
                                 
-                                const liveCountEl = document.getElementById('liveCount');
+                                var liveCountEl = document.getElementById('liveCount');
                                 if (liveCountEl) animateCounter(liveCountEl, json.active);
 
-                                const activeEl = document.getElementById('countActive');
+                                var activeEl = document.getElementById('countActive');
                                 if (activeEl) animateCounter(activeEl, json.active);
                                 
                                 liveTrafficChart.update();
-                            })
-                            .catch(err => console.error('Live traffic error:', err));
+                            } else {
+                                console.error('Live traffic error:', xhr.statusText);
+                            }
+                        };
+                        xhr.onerror = function() {
+                            console.error('Live traffic network error');
+                        };
+                        xhr.send();
                     }
 
                     setInterval(updateLiveUsers, 5000);

@@ -2,15 +2,15 @@
 // OktoDark Modern Script (Bootstrap 5)
 // ------------------------------------------------------
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function() {
 
     // --------------------------------------------------
     // Smooth scroll for internal links (exclude modal link)
     // --------------------------------------------------
     document.querySelectorAll('a[href^="#"]:not([data-bs-toggle]):not([id="open-x1"])')
-        .forEach(anchor => {
+        .forEach(function(anchor) {
             anchor.addEventListener("click", function (e) {
-                const target = document.querySelector(this.getAttribute("href"));
+                var target = document.querySelector(this.getAttribute("href"));
                 if (target) {
                     e.preventDefault();
                     target.scrollIntoView({ behavior: "smooth" });
@@ -21,36 +21,36 @@ document.addEventListener("DOMContentLoaded", () => {
     // --------------------------------------------------
     // Bootstrap tooltips
     // --------------------------------------------------
-    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
         new bootstrap.Tooltip(el);
     });
 
     // --------------------------------------------------
     // Bootstrap popovers
     // --------------------------------------------------
-    document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el => {
+    document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function(el) {
         new bootstrap.Popover(el);
     });
 
     // --------------------------------------------------
     // Fade-in animation on scroll
     // --------------------------------------------------
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
             if (entry.isIntersecting) {
                 entry.target.classList.add("visible");
             }
         });
     });
 
-    document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+    document.querySelectorAll(".fade-in").forEach(function(el) { observer.observe(el); });
 
     // --------------------------------------------------
     // Preloader
     // --------------------------------------------------
-    const preloader = document.getElementById("preloader");
+    var preloader = document.getElementById("preloader");
     if (preloader) {
-        setTimeout(() => {
+        setTimeout(function() {
             preloader.classList.add("hidden");
         }, 300);
     }
@@ -58,19 +58,19 @@ document.addEventListener("DOMContentLoaded", () => {
     // --------------------------------------------------
     // Hover dropdowns (desktop only)
     // --------------------------------------------------
-    const dropdowns = document.querySelectorAll(".navbar .dropdown");
+    var dropdowns = document.querySelectorAll(".navbar .dropdown");
 
-    dropdowns.forEach(drop => {
-        drop.addEventListener("mouseenter", () => {
+    dropdowns.forEach(function(drop) {
+        drop.addEventListener("mouseenter", function() {
             if (window.innerWidth > 992) {
-                const menu = drop.querySelector(".dropdown-menu");
+                var menu = drop.querySelector(".dropdown-menu");
                 if (menu) menu.classList.add("show");
             }
         });
 
-        drop.addEventListener("mouseleave", () => {
+        drop.addEventListener("mouseleave", function() {
             if (window.innerWidth > 992) {
-                const menu = drop.querySelector(".dropdown-menu");
+                var menu = drop.querySelector(".dropdown-menu");
                 if (menu) menu.classList.remove("show");
             }
         });
@@ -79,20 +79,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // --------------------------------------------------
     // Hero Slider (auto-slide)
     // --------------------------------------------------
-    const slides = document.querySelectorAll(".hero-slider .slide");
+    var slides = document.querySelectorAll(".hero-slider .slide");
     console.log("Slides found:", slides.length);
 
     if (slides.length > 1) {
-        let index = 0;
+        var index = 0;
 
         function showSlide(i) {
-            slides.forEach(slide => slide.classList.remove("active"));
+            slides.forEach(function(slide) { slide.classList.remove("active"); });
             slides[i].classList.add("active");
         }
 
         showSlide(0);
 
-        setInterval(() => {
+        setInterval(function() {
             index = (index + 1) % slides.length;
             showSlide(index);
         }, 5000);
@@ -101,16 +101,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // --------------------------------------------------
     // STEALTH PREFERENCES BOX
     // --------------------------------------------------
-    const box = document.getElementById("a9f2");
-    const boxSave = document.getElementById("a9f2-save");
-    const boxOpen = document.getElementById("open-x1");
-    const boxClose = document.getElementById("a9f2-close");
+    var box = document.getElementById("a9f2");
+    var boxSave = document.getElementById("a9f2-save");
+    var boxOpen = document.getElementById("open-x1");
+    var boxClose = document.getElementById("a9f2-close");
 
     // Load saved preferences
-    const savedPrefs = localStorage.getItem("prefsA1");
+    var savedPrefs = localStorage.getItem("prefsA1");
 
     if (savedPrefs) {
-        const prefs = JSON.parse(savedPrefs);
+        var prefs = JSON.parse(savedPrefs);
         document.getElementById("opt-a1").checked = prefs.a1;
         document.getElementById("opt-a2").checked = prefs.a2;
     }
@@ -122,28 +122,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Open from footer link
     if (boxOpen) {
-        boxOpen.addEventListener("click", (e) => {
+        boxOpen.addEventListener("click", function(e) {
             e.preventDefault();
             box.style.display = "flex";
         });
     }
 
     // Save preferences
-    boxSave.addEventListener("click", () => {
-        const a1 = document.getElementById("opt-a1").checked;
-        const a2 = document.getElementById("opt-a2").checked;
+    boxSave.addEventListener("click", function() {
+        var a1 = document.getElementById("opt-a1").checked;
+        var a2 = document.getElementById("opt-a2").checked;
 
-        localStorage.setItem("prefsA1", JSON.stringify({ a1, a2 }));
+        localStorage.setItem("prefsA1", JSON.stringify({ a1: a1, a2: a2 }));
         box.style.display = "none";
     });
 
     // Close with X
-    boxClose.addEventListener("click", () => {
+    boxClose.addEventListener("click", function() {
         box.style.display = "none";
     });
 
     // Close when clicking outside
-    box.addEventListener("click", (e) => {
+    box.addEventListener("click", function(e) {
         if (e.target === box) {
             box.style.display = "none";
         }
@@ -153,10 +153,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Flatpickr Date Picker Initialization
     // --------------------------------------------------
     if (typeof flatpickr !== 'undefined') {
-        const datePickers = document.querySelectorAll('[data-date-format]');
-        datePickers.forEach(picker => {
-            const format = picker.getAttribute('data-date-format') || 'Y-m-d H:i';
-            const locale = picker.getAttribute('data-date-locale') || 'en';
+        var datePickers = document.querySelectorAll('[data-date-format]');
+        datePickers.forEach(function(picker) {
+            var format = picker.getAttribute('data-date-format') || 'Y-m-d H:i';
+            var locale = picker.getAttribute('data-date-locale') || 'en';
             
             flatpickr(picker, {
                 enableTime: true,
@@ -175,8 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // ------------------------------------------------------
 // Navbar scroll effect
 // ------------------------------------------------------
-document.addEventListener("scroll", () => {
-    const nav = document.querySelector(".modern-nav");
+document.addEventListener("scroll", function() {
+    var nav = document.querySelector(".modern-nav");
     if (!nav) return;
 
     if (window.scrollY > 50) {

@@ -157,24 +157,24 @@
 
             <script src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
             <script>
-                function addCustomRequirement(value = '') {
-                    const container = document.getElementById('custom-reqs-list');
-                    const div = document.createElement('div');
+                function addCustomRequirement(value) {
+                    value = value || ''; // Handle default parameter
+                    var container = document.getElementById('custom-reqs-list');
+                    var div = document.createElement('div');
                     div.className = 'd-flex align-items-center bg-dark p-1 rounded border border-secondary border-opacity-25';
-                    div.innerHTML = `
-                        <input type="text" name="requirements[]" class="admin-form-control form-control-sm border-0 bg-transparent text-white" value="${value}" placeholder="Requirement...">
-                        <button type="button" class="btn btn-sm text-danger" onclick="this.parentElement.remove()">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    `;
+                    div.innerHTML = '' +
+                        '<input type="text" name="requirements[]" class="admin-form-control form-control-sm border-0 bg-transparent text-white" value="' + value + '" placeholder="Requirement...">' +
+                        '<button type="button" class="btn btn-sm text-danger" onclick="this.parentElement.parentNode.removeChild(this.parentElement)">' +
+                        '<i class="fas fa-times"></i>' +
+                        '</button>';
                     container.appendChild(div);
                 }
 
                 function editCareer(id) {
-                    const row = document.getElementById('career-row-' + id);
+                    var row = document.getElementById('career-row-' + id);
                     if (!row) return;
 
-                    const career = JSON.parse(row.getAttribute('data-json'));
+                    var career = JSON.parse(row.getAttribute('data-json'));
                     
                     resetForm();
                     
@@ -186,29 +186,33 @@
                         document.getElementById('publishedAt').value = career.publishedAt;
                     }
                     
-                    const trixEditor = document.querySelector("trix-editor");
+                    var trixEditor = document.querySelector("trix-editor");
                     if (trixEditor && trixEditor.editor) {
                         trixEditor.editor.loadHTML(career.description || '');
                     }
                     
                     if (career.requirements && Array.isArray(career.requirements)) {
-                        const checkboxes = document.querySelectorAll('.lang-checkbox');
-                        career.requirements.forEach(req => {
-                            let found = false;
-                            checkboxes.forEach(cb => {
+                        var checkboxes = document.querySelectorAll('.lang-checkbox');
+
+                        for (var i = 0; i < career.requirements.length; i++) {
+                            var req = career.requirements[i];
+                            var found = false;
+                            for (var j = 0; j < checkboxes.length; j++) {
+                                var cb = checkboxes[j];
                                 if (cb.value === req) {
                                     cb.checked = true;
                                     found = true;
+                                    break;
                                 }
-                            });
+                            }
                             
                             if (!found) {
                                 addCustomRequirement(req);
                             }
-                        });
+                        }
                     }
 
-                    document.getElementById('formContainer').scrollIntoView({ behavior: 'smooth' });
+                    document.getElementById('formContainer').scrollIntoView(true);
                 }
 
                 function resetForm() {
@@ -216,13 +220,17 @@
                     document.getElementById('careerId').value = '';
                     document.getElementById('form-title').innerText = '{{ 'admin.careers.add_edit'|trans({}, 'admin') }}';
                     
-                    const trixEditor = document.querySelector("trix-editor");
+                    var trixEditor = document.querySelector("trix-editor");
                     if (trixEditor && trixEditor.editor) {
                         trixEditor.editor.loadHTML('');
                     }
                     
                     document.getElementById('custom-reqs-list').innerHTML = '';
-                    document.querySelectorAll('.lang-checkbox').forEach(cb => cb.checked = false);
+                    var checkboxes = document.querySelectorAll('.lang-checkbox');
+
+                    for (var i = 0; i < checkboxes.length; i++) {
+                        checkboxes[i].checked = false;
+                    }
                 }
             </script>
         {% endblock %}
