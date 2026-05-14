@@ -24,10 +24,11 @@
         <!-- Theme CSS -->
         <link rel="stylesheet" href="{{ settings.siteCDN }}/themes/{{ theme }}/css/style.css?v={{ css_version }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> {# Flatpickr CSS #}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js"></script>
+        {# TRIX #}
+        <link rel="stylesheet" href="https://unpkg.com/trix@2.1.18/dist/trix.css">
+        <script type="text/javascript" src="https://unpkg.com/trix@2.1.18/dist/trix.umd.min.js"></script>
     {% endblock %}
 </head>
 
