@@ -27,23 +27,23 @@
 
                         <div class="row g-4">
                             <div class="col-md-6">
-                                <label class="admin-form-label">Service Name</label>
-                                <input type="text" name="serviceName" id="serviceName" class="admin-form-control" required placeholder="e.g. Custom Web Development">
+                                <label class="admin-form-label">{{ 'admin.services.name'|trans({}, 'admin') }}</label>
+                                <input type="text" name="serviceName" id="serviceName" class="admin-form-control" required placeholder="{{ 'admin.services.placeholder_name'|trans({}, 'admin') }}">
                             </div>
 
                             <div class="col-md-3">
-                                <label class="admin-form-label">Starting Price</label>
-                                <input type="text" name="servicePrice" id="servicePrice" class="admin-form-control" required placeholder="e.g. $499">
+                                <label class="admin-form-label">{{ 'admin.services.price'|trans({}, 'admin') }}</label>
+                                <input type="text" name="servicePrice" id="servicePrice" class="admin-form-control" required placeholder="{{ 'admin.services.placeholder_price'|trans({}, 'admin') }}">
                             </div>
 
                             <div class="col-md-3">
-                                <label class="admin-form-label">Turnaround Time</label>
-                                <input type="text" name="serviceWorkDays" id="serviceWorkDays" class="admin-form-control" required placeholder="e.g. 5-7 Business Days">
+                                <label class="admin-form-label">{{ 'admin.services.delivery'|trans({}, 'admin') }}</label>
+                                <input type="text" name="serviceWorkDays" id="serviceWorkDays" class="admin-form-control" required placeholder="{{ 'admin.services.placeholder_delivery'|trans({}, 'admin') }}">
                             </div>
 
                             <div class="col-12">
-                                <label class="admin-form-label">Service Details & Scope</label>
-                                <textarea name="serviceToDo" id="serviceToDo" class="admin-form-control" rows="5" placeholder="Outline what is included in this service..."></textarea>
+                                <label class="admin-form-label">{{ 'admin.services.scope'|trans({}, 'admin') }}</label>
+                                <textarea name="serviceToDo" id="serviceToDo" class="admin-form-control" rows="5" placeholder="{{ 'admin.services.placeholder_scope'|trans({}, 'admin') }}"></textarea>
                             </div>
                         </div>
 
@@ -58,19 +58,19 @@
                 <div class="admin-table-container">
                     <div class="p-4 border-bottom border-secondary border-opacity-10 d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">{{ 'admin.services.current'|trans({}, 'admin') }}</h4>
-                        <span class="badge bg-dark">{{ services|length }} Active</span>
+                        <span class="badge bg-dark">{{ services|length }} {{ 'admin.services.active'|trans({}, 'admin') }}</span>
                     </div>
 
                     <div class="table-responsive">
                         <table class="admin-table">
                             <thead>
                             <tr>
-                                <th># ID</th>
-                                <th>Service Name</th>
-                                <th>Pricing</th>
-                                <th>Delivery</th>
-                                <th>Scope Preview</th>
-                                <th class="text-end">{{ 'admin.forum.categories.actions'|trans({}, 'admin') }}</th>
+                                <th>{{ 'admin.services.id'|trans({}, 'admin') }}</th>
+                                <th>{{ 'admin.services.name'|trans({}, 'admin') }}</th>
+                                <th>{{ 'admin.services.pricing'|trans({}, 'admin') }}</th>
+                                <th>{{ 'admin.services.delivery'|trans({}, 'admin') }}</th>
+                                <th>{{ 'admin.services.scope_preview'|trans({}, 'admin') }}</th>
+                                <th class="text-end">{{ 'admin.common.actions'|trans({}, 'admin') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -91,7 +91,7 @@
 
                                             <a href="{{ path('admin_services', { delete: s.id }) }}"
                                                class="admin-btn admin-btn-danger admin-btn-sm"
-                                               onclick="return confirm('Permanently remove this service offering?')" title="{{ 'admin.common.delete'|trans({}, 'admin') }}">
+                                               onclick="return confirm('{{ 'admin.services.confirm_delete'|trans({}, 'admin')|e('js') }}')" title="{{ 'admin.common.delete'|trans({}, 'admin') }}">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </div>
@@ -101,7 +101,7 @@
                                 <tr>
                                     <td colspan="6" class="text-center text-muted py-5">
                                         <i class="fas fa-concierge-bell d-block mb-3 fs-2 opacity-25"></i>
-                                        No services configured. Start by creating one above.
+                                        {{ 'admin.services.empty'|trans({}, 'admin') }}
                                     </td>
                                 </tr>
                             {% endfor %}

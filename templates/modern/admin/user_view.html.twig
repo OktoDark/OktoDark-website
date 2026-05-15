@@ -34,22 +34,22 @@
                             <div class="row g-4">
                                 <div class="col-md-6">
                                     <div class="mb-4">
-                                        <label class="admin-form-label">{{ 'admin.users.full_name'|trans({}, 'admin') }}</label>
-                                        <div class="fs-5 fw-bold text-white">{{ user.firstName ?: 'Not provided' }} {{ user.lastName }}</div>
+                                        <label class="admin-form-label fw-bold">{{ 'admin.users.full_name'|trans({}, 'admin') }}</label>
+                                        <div class="fs-5 text-dark">{{ user.firstName ?: 'Not provided' }} {{ user.lastName }}</div>
                                     </div>
                                     <div class="mb-4">
-                                        <label class="admin-form-label">{{ 'admin.common.email'|trans({}, 'admin') }}</label>
-                                        <div class="text-white">{{ user.email }}</div>
+                                        <label class="admin-form-label fw-bold">{{ 'admin.common.email'|trans({}, 'admin') }}</label>
+                                        <div class="text-dark">{{ user.email }}</div>
                                     </div>
                                     <div class="mb-0">
-                                        <label class="admin-form-label">{{ 'admin.users.user_id'|trans({}, 'admin') }}</label>
+                                        <label class="admin-form-label fw-bold">{{ 'admin.users.user_id'|trans({}, 'admin') }}</label>
                                         <code class="text-accent">#{{ user.id }}</code>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-4">
-                                        <label class="admin-form-label">{{ 'admin.users.username'|trans({}, 'admin') }}</label>
-                                        <div class="text-white d-flex align-items-center">
+                                        <label class="admin-form-label fw-bold">{{ 'admin.users.username'|trans({}, 'admin') }}</label>
+                                        <div class="text-dark d-flex align-items-center">
                                             {{ user.username }}
                                             {% if user.isVerified %}
                                                 <i class="fas fa-check-circle text-info ms-2" title="Verified Account"></i>
@@ -57,12 +57,12 @@
                                         </div>
                                     </div>
                                     <div class="mb-4">
-                                        <label class="admin-form-label">{{ 'admin.users.account_created'|trans({}, 'admin') }}</label>
-                                        <div class="text-white">{{ user.createdAt|date('F j, Y, g:i a')|default('N/A') }}</div>
+                                        <label class="admin-form-label fw-bold">{{ 'admin.users.account_created'|trans({}, 'admin') }}</label>
+                                        <div class="text-dark">{{ user.createdAt|date('F j, Y, g:i a')|default('N/A') }}</div>
                                     </div>
                                     <div class="mb-0">
-                                        <label class="admin-form-label">{{ 'admin.users.last_login'|trans({}, 'admin') }}</label>
-                                        <div class="text-white">{{ user.lastLoginAt|date('F j, Y, g:i a')|default('Never') }}</div>
+                                        <label class="admin-form-label fw-bold">{{ 'admin.users.last_login'|trans({}, 'admin') }}</label>
+                                        <div class="text-dark">{{ user.lastLoginAt|date('F j, Y, g:i a')|default('Never') }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                             </div>
                         </div>
 
-                        <div class="admin-card">
+                        <div class="admin-card mb-4">
                             <h5 class="mb-4 text-warning"><i class="fas fa-shield-halved me-2"></i>{{ 'admin.users.security_controls'|trans({}, 'admin') }}</h5>
                             <p class="small text-muted mb-4">{{ 'admin.users.security_subtitle'|trans({}, 'admin') }}</p>
                             
@@ -129,6 +129,22 @@
                                 </button>
                             </div>
                         </div>
+
+                        {# New Tracking Preferences Card #}
+                        <div class="admin-card mb-4">
+                            <h5 class="mb-4">{{ 'admin.users.tracking_preferences'|trans({}, 'admin') }}</h5>
+
+                            <form action="{{ path('admin_user_toggle_tracking', {id: user.id}) }}" method="post">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label class="admin-form-label mb-0" for="tracking_enabled">{{ 'admin.users.allow_tracking'|trans({}, 'admin') }}</label>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="tracking_enabled" name="tracking_enabled" {% if user.trackingEnabled %}checked{% endif %} onchange="this.form.submit()">
+                                    </div>
+                                </div>
+                                <input type="hidden" name="_token" value="{{ csrf_token('toggle_tracking_' ~ user.id) }}">
+                            </form>
+                        </div>
+
                     </div>
                 </div>
 

@@ -12,85 +12,102 @@
                 <p>{{ 'admin.contact.inbox_subtitle'|trans({}, 'admin') }}</p>
             </div>
 
-            <section>
-                {% for message in app.flashes('success') %}
-                    <div class="alert alert-success border-0 shadow-sm mb-4">
-                        <i class="fas fa-check-circle me-2"></i> {{ message }}
-                    </div>
-                {% endfor %}
+            <!-- Search Bar -->
+            <form method="get" action="{{ path('admin_contact_index') }}" class="mb-4">
+                <input type="text" name="search" value="{{ app.request.get('search') }}" placeholder="{{ 'admin.contact.search'|trans({}, 'admin') }}" class="form-control">
+                <button type="submit" class="btn btn-primary mt-2">{{ 'admin.common.search'|trans({}, 'admin') }}</button>
+            </form>
 
-                <div class="admin-table-container">
-                    <div class="table-responsive">
-                        <table class="admin-table">
-                            <thead>
-                            <tr>
-                                <th>{{ 'admin.contact.status'|trans({}, 'admin') }}</th>
-                                <th>{{ 'admin.contact.date'|trans({}, 'admin') }}</th>
-                                <th>{{ 'admin.contact.sender'|trans({}, 'admin') }}</th>
-                                <th>{{ 'admin.contact.department'|trans({}, 'admin') }}</th>
-                                <th>{{ 'admin.contact.subject'|trans({}, 'admin') }}</th>
-                                <th class="text-end">{{ 'admin.common.actions'|trans({}, 'admin') }}</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            {% for m in messages %}
-                                <tr class="{{ not m.isRead ? 'fw-bold' : '' }}">
-                                    <td>
-                                        {% if m.repliedAt %}
-                                            <span class="admin-badge admin-badge-success">{{ 'admin.contact.replied'|trans({}, 'admin') }}</span>
-                                        {% elseif m.isRead %}
-                                            <span class="admin-badge admin-badge-secondary">{{ 'admin.contact.read'|trans({}, 'admin') }}</span>
-                                        {% else %}
-                                            <span class="admin-badge admin-badge-info">{{ 'admin.contact.new'|trans({}, 'admin') }}</span>
-                                        {% endif %}
-                                    </td>
-
-                                    <td>
-                                        <div class="small">{{ m.createdAt|date('M j, Y') }}</div>
-                                        <div class="small text-muted">{{ m.createdAt|date('H:i') }}</div>
-                                    </td>
-
-                                    <td>
-                                        <div class="fw-bold text-white">{{ m.name }}</div>
-                                        <div class="small text-muted">{{ m.email }}</div>
-                                    </td>
-
-                                    <td>
-                                        <span class="admin-badge admin-badge-info">{{ m.department }}</span>
-                                    </td>
-
-                                    <td>{{ m.subject }}</td>
-
-                                    <td class="text-end">
-                                        <div class="d-flex justify-content-end gap-2">
-                                            <a href="{{ path('admin_contact_show', {id: m.id}) }}"
-                                               class="admin-btn admin-btn-secondary admin-btn-sm" title="{{ 'admin.contact.view_message'|trans({}, 'admin') }}">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <form method="post" action="{{ path('admin_contact_delete', {'id': m.id}) }}" onsubmit="return confirm('Are you sure you want to delete this message?');" style="display: inline-block;">
-                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ m.id) }}">
-                                                <button type="submit" class="admin-btn admin-btn-danger admin-btn-sm" title="{{ 'admin.contact.delete_message'|trans({}, 'admin') }}">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% else %}
-                                <tr>
-                                    <td colspan="6" class="text-center text-muted py-5">
-                                        <i class="fas fa-inbox d-block mb-3 fs-2 opacity-25"></i>
-                                        {{ 'admin.contact.no_messages'|trans({}, 'admin') }}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-
-                        </table>
-                    </div>
+            <!-- Flash Messages -->
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success border-0 shadow-sm mb-4">
+                    <i class="fas fa-check-circle me-2"></i> {{ message }}
                 </div>
-            </section>
+            {% endfor %}
+
+            <div class="admin-table-container">
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>{{ 'admin.contact.status'|trans({}, 'admin') }}</th>
+                            <th><a href="{{ path('admin_contact_index', {'sort': 'date', 'order': app.request.get('order') == 'asc' ? 'desc' : 'asc'}) }}">{{ 'admin.contact.date'|trans({}, 'admin') }}</a></th>
+                            <th><a href="{{ path('admin_contact_index', {'sort': 'sender', 'order': app.request.get('order') == 'asc' ? 'desc' : 'asc'}) }}">{{ 'admin.contact.sender'|trans({}, 'admin') }}</a></th>
+                            <th>{{ 'admin.contact.department'|trans({}, 'admin') }}</th>
+                            <th><a href="{{ path('admin_contact_index', {'sort': 'subject', 'order': app.request.get('order') == 'asc' ? 'desc' : 'asc'}) }}">{{ 'admin.contact.subject'|trans({}, 'admin') }}</a></th>
+                            <th class="text-end">{{ 'admin.common.actions'|trans({}, 'admin') }}</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for m in messages %}
+                            <tr class="{{ not m.isRead ? 'fw-bold' : '' }}">
+                                <td>
+                                    {% if m.repliedAt %}
+                                        <span class="admin-badge admin-badge-success">{{ 'admin.contact.replied'|trans({}, 'admin') }}</span>
+                                    {% elseif m.isRead %}
+                                        <span class="admin-badge admin-badge-secondary">{{ 'admin.contact.read'|trans({}, 'admin') }}</span>
+                                    {% else %}
+                                        <span class="admin-badge admin-badge-info">{{ 'admin.contact.new'|trans({}, 'admin') }}</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    <div class="small">{{ m.createdAt|date('M j, Y') }}</div>
+                                    <div class="small text-muted">{{ m.createdAt|date('H:i') }}</div>
+                                </td>
+
+                                <td>
+                                    <div class="fw-bold text-white">{{ m.name }}</div>
+                                    <div class="small text-muted">{{ m.email }}</div>
+                                </td>
+
+                                <td>
+                                    <span class="admin-badge admin-badge-info">{{ m.department }}</span>
+                                </td>
+
+                                <td>{{ m.subject }}</td>
+
+                                <td class="text-end">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <a href="{{ path('admin_contact_show', {id: m.id}) }}"
+                                           class="admin-btn admin-btn-secondary admin-btn-sm" title="{{ 'admin.contact.view_message'|trans({}, 'admin') }}">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <form method="post" action="{{ path('admin_contact_delete', {'id': m.id}) }}" onsubmit="return confirm('Are you sure you want to delete this message?');" style="display: inline-block;">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ m.id) }}">
+                                            <button type="submit" class="admin-btn admin-btn-danger admin-btn-sm" title="{{ 'admin.contact.delete_message'|trans({}, 'admin') }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-5">
+                                    <i class="fas fa-inbox d-block mb-3 fs-2 opacity-25"></i>
+                                    {{ 'admin.contact.no_messages'|trans({}, 'admin') }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-4">
+                    {% for page in 1..last_page %}
+                        <li class="page-item {{ page == current_page ? 'active' : '' }}">
+                            <a href="{{ path('admin_contact_index', {page: page, search: app.request.get('search'), sort: app.request.get('sort'), order: app.request.get('order')}) }}" class="page-link">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+
         {% endblock %}
     {% endembed %}
 {% endblock %}

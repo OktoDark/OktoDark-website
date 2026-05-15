@@ -56,7 +56,8 @@
                             current_route starts with 'admin_team' or 
                             (current_route starts with 'admin_careers' and not (current_route starts with 'admin_careers_applications')) or 
                             current_route starts with 'admin_services' or 
-                            current_route starts with 'admin_assets'
+                            current_route starts with 'admin_assets' or
+                            current_route starts with 'admin_our_games'
                         ) ? 'active' : '' }}">
                             <i class="fas fa-layer-group"></i> {{ 'admin.nav.content'|trans({}, 'admin') }} <i class="fas fa-chevron-down ms-1 small"></i>
                         </a>
@@ -66,6 +67,7 @@
                             <li><a href="{{ path('admin_careers') }}">{{ 'admin.nav.job_positions'|trans({}, 'admin') }}</a></li>
                             <li><a href="{{ path('admin_services') }}">{{ 'admin.nav.services'|trans({}, 'admin') }}</a></li>
                             <li><a href="{{ path('admin_assets') }}">{{ 'admin.nav.asset_library'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_our_games_index') }}">Our Games</a></li>
                         </ul>
                     </li>
 
@@ -74,7 +76,7 @@
                             <i class="fas fa-comments"></i> {{ 'admin.nav.forum.title'|trans({}, 'admin') }} <i class="fas fa-chevron-down ms-1 small"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ path('admin_forum_dashboard') }}">{{ 'admin.nav.dashboard'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_forum_dashboard') }}">{{ 'admin.nav.forum.dashboard'|trans({}, 'admin') }}</a></li>
                             <li><a href="{{ path('admin_forum_categories') }}">{{ 'admin.nav.forum.categories'|trans({}, 'admin') }}</a></li>
                             <li><a href="{{ path('admin_forum_threads') }}">{{ 'admin.nav.forum.threads'|trans({}, 'admin') }}</a></li>
                             <li><a href="{{ path('admin_forum_posts') }}">{{ 'admin.nav.forum.posts'|trans({}, 'admin') }}</a></li>
