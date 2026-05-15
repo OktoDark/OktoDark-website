@@ -1,0 +1,290 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Our Games Index{% endblock %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
+        {% block admin_content %}
+            <div class="section-title">
+                <h2>Our Games</h2>
+                <p>Manage the games displayed on your website.</p>
+            </div>
+
+            <section class="py-3">
+                <div class="admin-card">
+                    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#ourGameModal" data-action="{{ path('admin_our_games_new') }}">
+                        Create New Game
+                    </button>
+
+                    <div class="table-responsive">
+                        <table class="admin-table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Game Name</th>
+                                    {#
+                                    <th>Short Name</th>
+                                    #}
+                                    {#
+                                    <th>Short Description</th>
+                                    <th>Description</th>
+                                    #}
+                                    <th>Cover</th>
+                                    <th>Images</th>
+                                    <th>Videos</th>
+                                    <th>Stable</th>
+                                    <th>Alpha</th>
+                                    <th>Beta</th>
+                                    <th>Website Link</th>
+                                    <th>Free Link</th>
+                                    <th>Play Online ID</th>
+                                    <th>Play Online Link</th>
+                                    <th>Play Online Text</th>
+                                    <th>Alpha Link</th>
+                                    <th>Beta Link</th>
+                                    <th>Stable Link</th>
+                                    <th>Source Code</th>
+                                    <th>CDN URL</th>
+                                    <th>Bug Link</th>
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for our_game in our_games %}
+                                <tr>
+                                    <td>{{ our_game.id }}</td>
+                                    <td>{{ our_game.name }}</td>
+                                    {#
+                                    <td>{{ our_game.ShortName }}</td>
+                                    #}
+                                    {#
+                                    <td>{{ our_game.shortDescription|length > 50 ? our_game.shortDescription|slice(0, 50) ~ '...' : our_game.shortDescription }}</td>
+                                    <td>{{ our_game.description|length > 50 ? our_game.description|slice(0, 50) ~ '...' : our_game.description }}</td>
+                                    #}
+                                    <td>
+                                        {% if our_game.cover %}
+                                            <img src="{{ asset('uploads/games/' ~ our_game.shortNameSlug ~ '/covers/' ~ our_game.cover) }}" alt="{{ our_game.name }}" style="max-width: 50px; height: auto;">
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ our_game.images|length }}</td>
+                                    <td>{{ our_game.videos|length }}</td>
+                                    <td>{{ our_game.stable ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>' }}</td>
+                                    <td>{{ our_game.isAlpha ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>' }}</td>
+                                    <td>{{ our_game.isBeta ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>' }}</td>
+                                    <td>
+                                        {% if our_game.websiteLink %}
+                                            {% if our_game.websiteLink starts with 'https://' or our_game.websiteLink starts with 'https://' %}
+                                                <a href="{{ our_game.websiteLink }}" target="_blank"><i class="fa-solid fa-globe"></i></a>
+                                            {% else %}
+                                                <a href="{{ path(our_game.websiteLink) }}" target="_blank">Route</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if our_game.freeLink %}
+                                            {% if our_game.freeLink starts with 'https://' or our_game.freeLink starts with 'https://' %}
+                                                <a href="{{ our_game.freeLink }}" target="_blank">Link</a>
+                                            {% else %}
+                                                <a href="{{ path(our_game.freeLink) }}" target="_blank">Route</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ our_game.playOnlineID }}</td>
+                                    <td>
+                                        {% if our_game.playOnline %}
+                                            {% if our_game.playOnline starts with 'https://' or our_game.playOnline starts with 'https://' %}
+                                                <a href="{{ our_game.playOnline }}" target="_blank">Link</a>
+                                            {% else %}
+                                                <a href="{{ path(our_game.playOnline) }}" target="_blank">Route</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ our_game.playOnlineText }}</td>
+                                    <td>
+                                        {% if our_game.alpha %}
+                                            {% if our_game.alpha starts with 'https://' or our_game.alpha starts with 'https://' %}
+                                                <a href="{{ our_game.alpha }}" target="_blank">Link</a>
+                                            {% else %}
+                                                <a href="{{ path(our_game.alpha) }}" target="_blank">Route</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if our_game.beta %}
+                                            {% if our_game.beta starts with 'https://' or our_game.beta starts with 'https://' %}
+                                                <a href="{{ our_game.beta }}" target="_blank">Link</a>
+                                            {% else %}
+                                                <a href="{{ path(our_game.beta) }}" target="_blank">Route</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if our_game.stableLink %}
+                                            {% if our_game.stableLink starts with 'https://' or our_game.stableLink starts with 'https://' %}
+                                                <a href="{{ our_game.stableLink }}" target="_blank">Link</a>
+                                            {% else %}
+                                                <a href="{{ path(our_game.stableLink) }}" target="_blank">Route</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if our_game.sourceCode %}
+                                            {% if our_game.sourceCode starts with 'https://' or our_game.sourceCode starts with 'https://' %}
+                                                <a href="{{ our_game.sourceCode }}" target="_blank">Link</a>
+                                            {% else %}
+                                                <a href="{{ path(our_game.sourceCode) }}" target="_blank">Route</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if our_game.urlCDN %}
+                                            {% if our_game.urlCDN starts with 'https://' or our_game.urlCDN starts with 'https://' %}
+                                                <a href="{{ our_game.urlCDN }}" target="_blank">Link</a>
+                                            {% else %}
+                                                <a href="{{ path(our_game.urlCDN) }}" target="_blank">Route</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if our_game.bugLink %}
+                                            <a href="{{ path('kanban_board', {'shortNameSlug': our_game.shortNameSlug, 'id': our_game.bugLink.id}) }}" target="_blank">
+                                                <i class="fas fa-bug me-1"></i> {# {{ our_game.bugLink.title }} #}
+                                            </a>
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#ourGameModal" data-action="{{ path('admin_our_games_edit', {'id': our_game.id}) }}">
+                                            edit
+                                        </button>
+                                        <form method="post" action="{{ path('admin_our_games_delete', {'id': our_game.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" style="display: inline-block;">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ our_game.id) }}">
+                                            <button class="btn btn-sm btn-danger">delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="23">no records found</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Our Game Modal -->
+            <div class="modal fade" id="ourGameModal" tabindex="-1" aria-labelledby="ourGameModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ourGameModalLabel">Add/Edit Game</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form will be loaded here via AJAX -->
+                            <div id="ourGameFormContent">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ourGameModal = document.getElementById('ourGameModal');
+            var ourGameFormContent = document.getElementById('ourGameFormContent');
+
+            ourGameModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget; // Button that triggered the modal
+                var actionUrl = button.getAttribute('data-action'); // Extract info from data-action attribute
+
+                // Update the modal's content.
+                ourGameFormContent.innerHTML = 'Loading...'; // Show loading message
+
+                fetch(actionUrl, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest' // Identify as AJAX request
+                    }
+                })
+                .then(response => response.text()) // Fetch as text first
+                .then(html => {
+                    ourGameFormContent.innerHTML = html;
+                    // Re-attach event listener for form submission after content is loaded
+                    var form = ourGameFormContent.querySelector('form');
+                    if (form) {
+                        form.addEventListener('submit', function (e) {
+                            e.preventDefault(); // Prevent default form submission
+
+                            fetch(form.action, {
+                                method: 'POST',
+                                body: new FormData(form),
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest' // Identify as AJAX request
+                                }
+                            })
+                            .then(response => {
+                                // Check if the response is JSON
+                                const contentType = response.headers.get("content-type");
+                                if (contentType && contentType.indexOf("application/json") !== -1) {
+                                    return response.json();
+                                } else {
+                                    // If not JSON, assume it's HTML (form with errors)
+                                    return response.text().then(text => {
+                                        // Create a custom error object to pass HTML content
+                                        throw { isHtml: true, htmlContent: text };
+                                    });
+                                }
+                            })
+                            .then(data => {
+                                if (data.success) {
+                                    alert(data.message); // Or use a flash message system
+                                    var modal = bootstrap.Modal.getInstance(ourGameModal);
+                                    modal.hide();
+                                    location.reload(); // Reload the page to see changes
+                                } else {
+                                    // Handle JSON errors
+                                    let errorMessage = data.message || 'An unknown error occurred.';
+                                    if (data.errors && data.errors.length > 0) {
+                                        errorMessage += "\n" + data.errors.join("\n");
+                                    }
+                                    alert('Error: ' + errorMessage);
+                                }
+                            })
+                            .catch(error => {
+                                if (error.isHtml) {
+                                    // If it's HTML content, update the modal body with the form (which now contains errors)
+                                    ourGameFormContent.innerHTML = error.htmlContent;
+                                    // Re-attach the submit listener to the new form if needed
+                                    var newForm = ourGameFormContent.querySelector('form');
+                                    if (newForm) {
+                                        newForm.addEventListener('submit', arguments.callee); // Re-attach this same listener
+                                    }
+                                } else {
+                                    console.error('Error:', error);
+                                    alert('An unexpected error occurred during submission.');
+                                }
+                            });
+                        });
+                    }
+                })
+                .catch(error => {
+                    ourGameFormContent.innerHTML = '<p class="text-danger">Failed to load form.</p>';
+                    console.error('Error loading form:', error);
+                });
+            });
+
+            ourGameModal.addEventListener('hidden.bs.modal', function () {
+                ourGameFormContent.innerHTML = ''; // Clear content when modal is closed
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,278 @@
+{% form_theme form 'bootstrap_5_layout.html.twig' 'form/trix_editor_widget.html.twig' %}
+
+{{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+<ul class="nav nav-tabs mb-3" id="ourGameTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">General Info</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="links-tab" data-bs-toggle="tab" data-bs-target="#links" type="button" role="tab" aria-controls="links" aria-selected="false">Links</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="playonline-tab" data-bs-toggle="tab" data-bs-target="#playonline" type="button" role="tab" aria-controls="playonline" aria-selected="false">Play Online</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="versions-tab" data-bs-toggle="tab" data-bs-target="#versions" type="button" role="tab" aria-controls="versions" aria-selected="false">Versions</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="system-requirements-tab" data-bs-toggle="tab" data-bs-target="#system-requirements" type="button" role="tab" aria-controls="system-requirements" aria-selected="false">System Requirements</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="media-tab" data-bs-toggle="tab" data-bs-target="#media" type="button" role="tab" aria-controls="media" aria-selected="false">Media Gallery</button>
+    </li>
+</ul>
+<div class="tab-content" id="ourGameTabsContent">
+    {# General Info Tab #}
+    <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                {{ form_label(form.Name) }}
+                {{ form_widget(form.Name, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.Name) }}
+            </div>
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.shortDescription) }}
+            {{ form_widget(form.shortDescription, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.shortDescription) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.description) }}
+            <div class="editor-wrapper">
+                {{ form_widget(form.description, {'block_prefix': 'trix_editor', 'attr': {'class': 'trix-editor-modern'}}) }}
+            </div>
+            {{ form_errors(form.description) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.CoverFile) }}
+            {{ form_widget(form.CoverFile, {'attr': {'class': 'form-control', 'onchange': 'previewCoverImage(event)'}}) }}
+            {{ form_errors(form.CoverFile) }}
+            {% if our_game.Cover and our_game.shortNameSlug is not empty %}
+                <div>
+                    <img id="currentCoverPreview" src="{{ asset('uploads/games/' ~ our_game.shortNameSlug ~ '/covers/' ~ our_game.Cover) }}" alt="Current Cover" style="max-width: 150px; height: auto;">
+                </div>
+            {% endif %}
+            <div>
+                <img id="newCoverPreview" src="#" alt="New Cover Preview" style="max-width: 150px; height: auto; display: none;">
+            </div>
+        </div>
+    </div>
+
+    {# Links Tab #}
+    <div class="tab-pane fade" id="links" role="tabpanel" aria-labelledby="links-tab">
+        <div class="mb-3">
+            {{ form_label(form.WebsiteLink) }}
+            {{ form_widget(form.WebsiteLink, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.WebsiteLink) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.FreeLink) }}
+            {{ form_widget(form.FreeLink, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.FreeLink) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.SourceCode) }}
+            {{ form_widget(form.SourceCode, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.SourceCode) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.URLCDN) }}
+            {{ form_widget(form.URLCDN, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.URLCDN) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.bugLink) }}
+            {{ form_widget(form.bugLink, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.bugLink) }}
+        </div>
+    </div>
+
+    {# Play Online Tab #}
+    <div class="tab-pane fade" id="playonline" role="tabpanel" aria-labelledby="playonline-tab">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form_label(form.PlayOnlineID) }}
+                {{ form_widget(form.PlayOnlineID, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.PlayOnlineID) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form_label(form.PlayOnline) }}
+                {{ form_widget(form.PlayOnline, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.PlayOnline) }}
+            </div>
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.PlayOnlineText) }}
+            {{ form_widget(form.PlayOnlineText, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.PlayOnlineText) }}
+        </div>
+    </div>
+
+    {# Versions Tab #}
+    <div class="tab-pane fade" id="versions" role="tabpanel" aria-labelledby="versions-tab">
+        <div class="mb-3 form-check">
+            {{ form_widget(form.isAlpha, {'attr': {'class': 'form-check-input'}}) }}
+            {{ form_label(form.isAlpha, null, {'label_attr': {'class': 'form-check-label'}}) }}
+            {{ form_errors(form.isAlpha) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.Alpha) }}
+            {{ form_widget(form.Alpha, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.Alpha) }}
+        </div>
+
+        <div class="mb-3 form-check">
+            {{ form_widget(form.isBeta, {'attr': {'class': 'form-check-input'}}) }}
+            {{ form_label(form.isBeta, null, {'label_attr': {'class': 'form-check-label'}}) }}
+            {{ form_errors(form.isBeta) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.Beta) }}
+            {{ form_widget(form.Beta, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.Beta) }}
+        </div>
+
+        <div class="mb-3 form-check">
+            {{ form_widget(form.stable, {'attr': {'class': 'form-check-input'}}) }}
+            {{ form_label(form.stable, null, {'label_attr': {'class': 'form-check-label'}}) }}
+            {{ form_errors(form.stable) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.StableLink) }}
+            {{ form_widget(form.StableLink, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.StableLink) }}
+        </div>
+    </div>
+
+    {# System Requirements Tab #}
+    <div class="tab-pane fade" id="system-requirements" role="tabpanel" aria-labelledby="system-requirements-tab">
+        <div class="mb-3">
+            {{ form_label(form.systemRequirements) }}
+            <div class="editor-wrapper">
+                {{ form_widget(form.systemRequirements, {'block_prefix': 'trix_editor', 'attr': {'class': 'trix-editor-modern'}}) }}
+            </div>
+            {{ form_errors(form.systemRequirements) }}
+        </div>
+    </div>
+
+    {# Media Gallery Tab #}
+    <div class="tab-pane fade" id="media" role="tabpanel" aria-labelledby="media-tab">
+        <h5 class="mb-3">Images</h5>
+        <div class="mb-3">
+            {{ form_label(form.ImagesFiles) }}
+            {{ form_widget(form.ImagesFiles, {'attr': {'class': 'form-control', 'multiple': 'multiple', 'onchange': 'previewMultipleImages(event)'}}) }}
+            {{ form_errors(form.ImagesFiles) }}
+            <div id="currentImagesPreview" class="mt-2 d-flex flex-wrap gap-2">
+                {% if our_game.Images is not empty and our_game.shortNameSlug is not empty %}
+                    {% for image in our_game.Images %}
+                        <div class="position-relative">
+                            <img src="{{ asset('uploads/games/' ~ our_game.shortNameSlug ~ '/images/' ~ image) }}" alt="Current Cover" style="max-width: 100px; height: auto;">
+                            {# Placeholder for delete button - actual deletion logic will be added later #}
+                            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0" data-filename="{{ image }}" onclick="removeMediaFile(this, 'image')">X</button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div id="newImagesPreview" class="mt-2 d-flex flex-wrap gap-2"></div>
+        </div>
+
+        <h5 class="mb-3 mt-4">Videos</h5>
+        <div class="mb-3">
+            {{ form_label(form.VideosFiles) }}
+            {{ form_widget(form.VideosFiles, {'attr': {'class': 'form-control', 'multiple': 'multiple', 'onchange': 'previewMultipleVideos(event)'}}) }}
+            {{ form_errors(form.VideosFiles) }}
+            <div id="currentVideosPreview" class="mt-2 d-flex flex-wrap gap-2">
+                {% if our_game.Videos is not empty and our_game.shortNameSlug is not empty %}
+                    {% for video in our_game.Videos %}
+                        <div class="position-relative">
+                            <video src="{{ asset('uploads/games/' ~ our_game.shortNameSlug ~ '/videos/' ~ video) }}" controls style="max-width: 150px; height: auto;"></video>
+                            {# Placeholder for delete button - actual deletion logic will be added later #}
+                            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0" data-filename="{{ video }}" onclick="removeMediaFile(this, 'video')">X</button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div id="newVideosPreview" class="mt-2 d-flex flex-wrap gap-2"></div>
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-success mt-3">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+<script>
+    function previewCoverImage(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('newCoverPreview');
+            output.src = reader.result;
+            output.style.display = 'block';
+            var currentCover = document.getElementById('currentCoverPreview');
+            if (currentCover) {
+                currentCover.style.display = 'none';
+            }
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function previewMultipleImages(event) {
+        var previewContainer = document.getElementById('newImagesPreview');
+        previewContainer.innerHTML = ''; // Clear previous previews
+        // ES5 compliant for loop
+        var files = event.target.files;
+        for (var i = 0; i < files.length; i++) {
+            (function(file) { // IIFE to capture file in closure
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '100px';
+                    img.style.height = 'auto';
+                    img.className = 'me-2 mb-2'; // Use className for ES5
+                    previewContainer.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            })(files[i]);
+        }
+    }
+
+    function previewMultipleVideos(event) {
+        var previewContainer = document.getElementById('newVideosPreview');
+        previewContainer.innerHTML = ''; // Clear previous previews
+        // ES5 compliant for loop
+        var files = event.target.files;
+        for (var i = 0; i < files.length; i++) {
+            (function(file) { // IIFE to capture file in closure
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var video = document.createElement('video');
+                    video.src = e.target.result;
+                    video.controls = true;
+                    video.style.maxWidth = '150px';
+                    video.style.height = 'auto';
+                    video.className = 'me-2 mb-2'; // Use className for ES5
+                    previewContainer.appendChild(video);
+                };
+                reader.readAsDataURL(file);
+            })(files[i]);
+        }
+    }
+
+    // Placeholder for future media file removal logic
+    function removeMediaFile(button, type) {
+        if (confirm('Are you sure you want to remove this ' + type + ' file?')) {
+            // ES5 equivalent of closest
+            var el = button;
+            while (el && el.nodeType === 1) {
+                if (el.className.indexOf('position-relative') > -1) { // Check for class name
+                    el.parentNode.removeChild(el); // ES5 equivalent of .remove()
+                    break;
+                }
+                el = el.parentNode;
+            }
+            alert('File removed from display. Save the form to apply changes permanently.');
+            // You might need to add a hidden input to track files marked for deletion
+            // or re-submit the form to update the entity's JSON array.
+        }
+    }
+</script>
