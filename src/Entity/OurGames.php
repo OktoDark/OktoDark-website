@@ -12,6 +12,8 @@
 namespace App\Entity;
 
 use App\Repository\OurGamesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,163 +31,419 @@ class OurGames
     private ?int $id = null;
 
     #[ORM\Column(type: Types::STRING, length: 100)]
-    private ?string $ourGameName = null;
+    private ?string $name = null;
 
     #[ORM\Column(type: Types::STRING, length: 100)]
-    private ?string $ourGameShortName = null;
+    private ?string $shortNameSlug = null; // New field for slug
 
     #[ORM\Column(type: Types::STRING, length: 100)]
-    private ?string $ourGameWebsiteLink = null;
+    private ?string $websiteLink = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100)]
-    private ?string $ourGameFreeLink = null;
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $freeLink = null;
 
-    #[ORM\Column(type: Types::STRING, length: 10)]
-    private ?string $ourGamePlayOnlineID = null;
+    #[ORM\Column(type: Types::STRING, length: 10, nullable: true)]
+    private ?string $playOnlineID = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100)]
-    private ?string $ourGamePlayOnline = null;
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $playOnline = null;
 
-    #[ORM\Column(type: Types::STRING, length: 500)]
-    private ?string $ourGamePlayOnlineText = null;
+    #[ORM\Column(type: Types::STRING, length: 500, nullable: true)]
+    private ?string $playOnlineText = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100)]
-    private ?string $ourGameAlpha = null;
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $alpha = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100)]
-    private ?string $ourGameBeta = null;
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $beta = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100)]
-    private ?string $ourGameSourceCode = null;
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $sourceCode = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100)]
-    private ?string $ourGameURLCDN = null;
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $urlCDN = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100)]
-    private ?string $ourGameCover = null;
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $cover = null;
+
+    // Changed to unidirectional OneToOne to resolve mapping conflict
+    #[ORM\OneToOne(targetEntity: Board::class)]
+    #[ORM\JoinColumn(name: 'bug_board_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    private ?Board $bugLink = null;
+
+    #[ORM\OneToMany(targetEntity: Board::class, mappedBy: 'ourGame')]
+    private Collection $boards;
+
+    #[ORM\OneToMany(targetEntity: Bug::class, mappedBy: 'ourGame')]
+    private Collection $bugs;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $systemRequirements = null;
+
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private ?bool $stable = false;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $shortDescription = null;
+
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private ?bool $isAlpha = false;
+
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private ?bool $isBeta = false;
+
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $stableLink = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $images = null; // Stores JSON array of image filenames
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $videos = null; // Stores JSON array of video filenames
+
+    public function __construct()
+    {
+        $this->boards = new ArrayCollection();
+        $this->bugs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getOurGameName(): ?string
+    public function getName(): ?string
     {
-        return $this->ourGameName;
+        return $this->name;
     }
 
-    public function setOurGameName(string $ourGameName): void
+    public function setName(string $name): void
     {
-        $this->ourGameName = $ourGameName;
+        $this->name = $name;
     }
 
-    public function getOurGameShortName(): ?string
+    public function getShortNameSlug(): ?string
     {
-        return $this->ourGameShortName;
+        return $this->shortNameSlug;
     }
 
-    public function setOurGameShortName(string $ourGameShortName): void
+    public function setShortNameSlug(string $shortNameSlug): self
     {
-        $this->ourGameShortName = $ourGameShortName;
+        $this->shortNameSlug = $shortNameSlug;
+
+        return $this;
     }
 
-    public function getOurGameWebsiteLink(): ?string
+    public function getWebsiteLink(): ?string
     {
-        return $this->ourGameWebsiteLink;
+        return $this->websiteLink;
     }
 
-    public function setOurGameWebsiteLink(string $ourGameWebsiteLink): void
+    public function setWebsiteLink(string $websiteLink): void
     {
-        $this->ourGameWebsiteLink = $ourGameWebsiteLink;
+        $this->websiteLink = $websiteLink;
     }
 
-    public function getOurGameFreeLink(): ?string
+    public function getFreeLink(): ?string
     {
-        return $this->ourGameFreeLink;
+        return $this->freeLink;
     }
 
-    public function setOurGameFreeLink(string $ourGameFreeLink): void
+    public function setFreeLink(?string $freeLink): self
     {
-        $this->ourGameFreeLink = $ourGameFreeLink;
+        $this->freeLink = $freeLink;
+
+        return $this;
     }
 
-    public function getOurGamePlayOnlineID(): ?string
+    public function getPlayOnlineID(): ?string
     {
-        return $this->ourGamePlayOnlineID;
+        return $this->playOnlineID;
     }
 
-    public function setOurGamePlayOnlineID(string $ourGamePlayOnlineID): void
+    public function setPlayOnlineID(?string $playOnlineID): self
     {
-        $this->ourGamePlayOnlineID = $ourGamePlayOnlineID;
+        $this->playOnlineID = $playOnlineID;
+
+        return $this;
     }
 
-    public function getOurGamePlayOnline(): ?string
+    public function getPlayOnline(): ?string
     {
-        return $this->ourGamePlayOnline;
+        return $this->playOnline;
     }
 
-    public function setOurGamePlayOnline(string $ourGamePlayOnline): void
+    public function setPlayOnline(?string $playOnline): self
     {
-        $this->ourGamePlayOnline = $ourGamePlayOnline;
+        $this->playOnline = $playOnline;
+
+        return $this;
     }
 
-    public function getOurGamePlayOnlineText(): ?string
+    public function getPlayOnlineText(): ?string
     {
-        return $this->ourGamePlayOnlineText;
+        return $this->playOnlineText;
     }
 
-    public function setOurGamePlayOnlineText(string $ourGamePlayOnlineText): void
+    public function setPlayOnlineText(?string $playOnlineText): self
     {
-        $this->ourGamePlayOnlineText = $ourGamePlayOnlineText;
+        $this->playOnlineText = $playOnlineText;
+
+        return $this;
     }
 
-    public function getOurGameAlpha(): ?string
+    public function getAlpha(): ?string
     {
-        return $this->ourGameAlpha;
+        return $this->alpha;
     }
 
-    public function setOurGameAlpha(string $ourGameAlpha): void
+    public function setAlpha(?string $alpha): self
     {
-        $this->ourGameAlpha = $ourGameAlpha;
+        $this->alpha = $alpha;
+
+        return $this;
     }
 
-    public function getOurGameBeta(): ?string
+    public function getBeta(): ?string
     {
-        return $this->ourGameBeta;
+        return $this->beta;
     }
 
-    public function setOurGameBeta(string $ourGameBeta): void
+    public function setBeta(?string $beta): self
     {
-        $this->ourGameBeta = $ourGameBeta;
+        $this->beta = $beta;
+
+        return $this;
     }
 
-    public function getOurGameSourceCode(): ?string
+    public function getSourceCode(): ?string
     {
-        return $this->ourGameSourceCode;
+        return $this->sourceCode;
     }
 
-    public function setOurGameSourceCode(string $ourGameSourceCode): void
+    public function setSourceCode(?string $sourceCode): self
     {
-        $this->ourGameSourceCode = $ourGameSourceCode;
+        $this->sourceCode = $sourceCode;
+
+        return $this;
     }
 
-    public function getOurGameURLCDN(): ?string
+    public function getUrlCDN(): ?string
     {
-        return $this->ourGameURLCDN;
+        return $this->urlCDN;
     }
 
-    public function setOurGameURLCDN(string $ourGameURLCDN): void
+    public function setUrlCDN(?string $urlCDN): self
     {
-        $this->ourGameURLCDN = $ourGameURLCDN;
+        $this->urlCDN = $urlCDN;
+
+        return $this;
     }
 
-    public function getOurGameCover(): ?string
+    public function getCover(): ?string
     {
-        return $this->ourGameCover;
+        return $this->cover;
     }
 
-    public function setOurGameCover(string $ourGameCover): void
+    public function setCover(?string $cover): self
     {
-        $this->ourGameCover = $ourGameCover;
+        $this->cover = $cover;
+
+        return $this;
+    }
+
+    public function getBugLink(): ?Board
+    {
+        return $this->bugLink;
+    }
+
+    public function setBugLink(?Board $bugLink): self
+    {
+        $this->bugLink = $bugLink;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Board>
+     */
+    public function getBoards(): Collection
+    {
+        return $this->boards;
+    }
+
+    public function addBoard(Board $board): self
+    {
+        if (!$this->boards->contains($board)) {
+            $this->boards->add($board);
+            $board->setOurGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBoard(Board $board): self
+    {
+        if ($this->boards->removeElement($board)) {
+            // set the owning side to null (unless already changed)
+            if ($board->getOurGame() === $this) {
+                $board->setOurGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bug>
+     */
+    public function getBugs(): Collection
+    {
+        return $this->bugs;
+    }
+
+    public function addBug(Bug $bug): self
+    {
+        if (!$this->bugs->contains($bug)) {
+            $this->bugs->add($bug);
+            $bug->setOurGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBug(Bug $bug): self
+    {
+        if ($this->bugs->removeElement($bug)) {
+            // set the owning side to null (unless already changed)
+            if ($bug->getOurGame() === $this) {
+                $bug->setOurGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getSystemRequirements(): ?string
+    {
+        return $this->systemRequirements;
+    }
+
+    public function setSystemRequirements(?string $systemRequirements): self
+    {
+        $this->systemRequirements = $systemRequirements;
+
+        return $this;
+    }
+
+    public function isStable(): ?bool
+    {
+        return $this->stable;
+    }
+
+    public function setStable(bool $stable): self
+    {
+        $this->stable = $stable;
+
+        return $this;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->shortDescription;
+    }
+
+    public function setShortDescription(?string $shortDescription): self
+    {
+        $this->shortDescription = $shortDescription;
+
+        return $this;
+    }
+
+    public function isIsAlpha(): ?bool
+    {
+        return $this->isAlpha;
+    }
+
+    public function setIsAlpha(bool $isAlpha): self
+    {
+        $this->isAlpha = $isAlpha;
+
+        return $this;
+    }
+
+    public function isIsBeta(): ?bool
+    {
+        return $this->isBeta;
+    }
+
+    public function setIsBeta(bool $isBeta): self
+    {
+        $this->isBeta = $isBeta;
+
+        return $this;
+    }
+
+    public function getStableLink(): ?string
+    {
+        return $this->stableLink;
+    }
+
+    public function setStableLink(?string $stableLink): self
+    {
+        $this->stableLink = $stableLink;
+
+        return $this;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getImages(): array
+    {
+        return json_decode($this->images ?? '[]', true);
+    }
+
+    /**
+     * @param array<string> $images
+     */
+    public function setImages(array $images): self
+    {
+        $this->images = json_encode($images);
+
+        return $this;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getVideos(): array
+    {
+        return json_decode($this->videos ?? '[]', true);
+    }
+
+    /**
+     * @param array<string> $videos
+     */
+    public function setVideos(array $videos): self
+    {
+        $this->videos = json_encode($videos);
+
+        return $this;
     }
 }

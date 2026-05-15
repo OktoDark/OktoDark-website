@@ -12,6 +12,8 @@
 namespace App\Entity;
 
 use App\Repository\ModsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -31,7 +33,7 @@ class Mods
 
     #[ORM\Column(type: Types::STRING, length: 100)]
     #[Assert\Length(max: 100)]
-    private ?string $slug = null;
+    private ?string $shortNameSlug = null;
 
     #[ORM\Column(type: Types::STRING, length: 5000)]
     #[Assert\Length(max: 5000)]
@@ -44,12 +46,20 @@ class Mods
     #[Assert\Length(max: 500)]
     private ?string $download = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $createdAt = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\OneToMany(targetEntity: Board::class, mappedBy: 'mod')]
+    private Collection $boards;
+
+    #[ORM\OneToMany(targetEntity: Bug::class, mappedBy: 'mod')]
+    private Collection $bugs;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->boards = new ArrayCollection();
+        $this->bugs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,14 +77,14 @@ class Mods
         $this->name = $name;
     }
 
-    public function getSlug(): ?string
+    public function getShortNameSlug(): ?string
     {
-        return $this->slug;
+        return $this->shortNameSlug;
     }
 
-    public function setSlug(?string $slug): void
+    public function setShortNameSlug(?string $shortNameSlug): void
     {
-        $this->slug = $slug;
+        $this->shortNameSlug = $shortNameSlug;
     }
 
     public function getDescription(): ?string
@@ -107,13 +117,73 @@ class Mods
         $this->download = $download;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?\DateTimeInterface $createdAt): void
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return Collection<int, Board>
+     */
+    public function getBoards(): Collection
+    {
+        return $this->boards;
+    }
+
+    public function addBoard(Board $board): self
+    {
+        if (!$this->boards->contains($board)) {
+            $this->boards->add($board);
+            $board->setMod($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBoard(Board $board): self
+    {
+        if ($this->boards->removeElement($board)) {
+            // set the owning side to null (unless already changed)
+            if ($board->getMod() === $this) {
+                $board->setMod(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bug>
+     */
+    public function getBugs(): Collection
+    {
+        return $this->bugs;
+    }
+
+    public function addBug(Bug $bug): self
+    {
+        if (!$this->bugs->contains($bug)) {
+            $this->bugs->add($bug);
+            $bug->setMod($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBug(Bug $bug): self
+    {
+        if ($this->bugs->removeElement($bug)) {
+            // set the owning side to null (unless already changed)
+            if ($bug->getMod() === $this) {
+                $bug->setMod(null);
+            }
+        }
+
+        return $this;
     }
 }

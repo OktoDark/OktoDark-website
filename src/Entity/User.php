@@ -112,6 +112,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $twofaResendEnabled = true;
 
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $trackingEnabled = true;
+
     #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
     private ?bool $newsletter = false;
 
@@ -147,6 +150,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\JoinTable(name: 'user_thread_subscriptions')]
     private Collection $subscribedThreads;
 
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Board::class)]
+    private Collection $ownedBoards;
+
+    #[ORM\ManyToMany(targetEntity: Board::class, mappedBy: 'members')]
+    private Collection $memberBoards;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Card::class)]
+    private Collection $createdCards;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: CardComment::class)]
+    private Collection $cardComments;
+
+    #[ORM\OneToMany(mappedBy: 'reporter', targetEntity: Bug::class)]
+    private Collection $reportedBugs;
+
+    #[ORM\OneToMany(mappedBy: 'assignee', targetEntity: Bug::class)]
+    private Collection $assignedBugs;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ActivityLog::class)]
+    private Collection $activityLogs;
+
     public function __construct()
     {
         $this->trustedDevices = new ArrayCollection();
@@ -156,6 +180,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->following = new ArrayCollection();
         $this->followers = new ArrayCollection();
         $this->subscribedThreads = new ArrayCollection();
+        $this->ownedBoards = new ArrayCollection();
+        $this->memberBoards = new ArrayCollection();
+        $this->createdCards = new ArrayCollection();
+        $this->cardComments = new ArrayCollection();
+        $this->reportedBugs = new ArrayCollection();
+        $this->assignedBugs = new ArrayCollection();
+        $this->activityLogs = new ArrayCollection();
         $this->createdAt = new \DateTime();
     }
 
@@ -525,6 +556,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function setIsTwofaResendEnabled(bool $enabled): self
     {
         $this->twofaResendEnabled = $enabled;
+
+        return $this;
+    }
+
+    public function isTrackingEnabled(): bool
+    {
+        return $this->trackingEnabled;
+    }
+
+    public function setTrackingEnabled(bool $trackingEnabled): self
+    {
+        $this->trackingEnabled = $trackingEnabled;
 
         return $this;
     }
