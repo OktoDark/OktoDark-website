@@ -70,6 +70,9 @@ class Post
     #[Assert\Count(max: 4, maxMessage: 'post.too_many_tags')]
     private Collection $tags;
 
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $featuredImage = null;
+
     public function __construct()
     {
         $this->publishedAt = new \DateTimeImmutable();
@@ -180,6 +183,16 @@ class Post
     public function removeTag(Tag $tag): void
     {
         $this->tags->removeElement($tag);
+    }
+
+    public function getFeaturedImage(): ?string
+    {
+        return $this->featuredImage;
+    }
+
+    public function setFeaturedImage(?string $featuredImage): void
+    {
+        $this->featuredImage = $featuredImage;
     }
 
     /**

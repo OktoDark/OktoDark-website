@@ -24,6 +24,11 @@
 
                     {% for post in paginator.results %}
                         <article class="blog-card">
+                            {% if post.featuredImage %}
+                                <div class="blog-card-image">
+                                    <img src="{{ post.featuredImage }}" alt="{{ post.title }}">
+                                </div>
+                            {% endif %}
 
                             <!-- Author Header -->
                             <header class="blog-card-header">
@@ -56,6 +61,11 @@
                                     <div>
                                         <span class="far fa-comments"></span>
                                         {{ post.comments|length }} {{ 'blog.comments_count'|trans({}, 'blog') }}
+                                    </div>
+
+                                    <div>
+                                        <span class="far fa-hourglass"></span>
+                                        {{ post.estimatedReadingTime }} min read
                                     </div>
                                 </div>
 
@@ -161,6 +171,20 @@
                                     </button>
                                 </div>
                             </form>
+                        </div>
+
+                        {# Sidebar Tags #}
+                        <div class="aside-component card shadow-sm border-0 p-4 mb-4">
+                            <h4 class="component-title mb-3">{{ 'blog.tags'|trans({}, 'blog') }}</h4>
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for tag in tags %}
+                                    <a href="{{ path('blog_index_paginated', { tag: tag.name }) }}" class="badge bg-primary text-decoration-none">
+                                        {{ tag.name }}
+                                    </a>
+                                {% else %}
+                                    <p class="text-muted">{{ 'blog.no_tags_found'|trans({}, 'blog') }}</p>
+                                {% endfor %}
+                            </div>
                         </div>
 
                     </aside>

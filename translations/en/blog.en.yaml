@@ -30,13 +30,17 @@ blog:
     search_no_results: "No articles found matching your search criteria."
     rss: "RSS Feed"
     pagination_label: "Blog pagination"
+    tags: "Tags"
+    no_tags_found: "No tags found."
     label:
         title: "Post Title"
         summary: "Summary"
         content: "Content"
         published_at: "Published At"
         tags: "Tags"
+        featured_image: "Featured Image"
     help:
         post_summary: "Enter a brief summary of your blog post (used for previews)."
         post_content: "Enter the main content of your blog post here."
         post_publication: "Select the date and time when this post should be published."
+        post_featured_image: "URL to the featured image for the post."

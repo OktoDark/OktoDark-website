@@ -1,6 +1,6 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{ 'blog.title'|trans({}, 'blog') }}{% endblock %}
+{% block title %}{{ 'blog.search'|trans({}, 'blog') }} - {{ 'blog.title'|trans({}, 'blog') }}{% endblock %}
 
 {% block body_id 'blog_search' %}
 
@@ -26,14 +26,14 @@
                         <form action="{{ path('blog_search') }}" method="get" id="search-form">
                             <div class="input-group input-group-lg shadow-sm">
                                 <input name="q"
-                                       class="form-control search-field"
+                                       class="form-control search-field border-0"
                                        placeholder="{{ 'blog.search_placeholder'|trans({}, 'blog') }}"
                                        autocomplete="off"
                                        value="{{ query }}"
                                        autofocus
                                        data-no-results-message="{{ 'blog.search_no_results'|trans({}, 'blog') }}"
                                 >
-                                <button class="btn btn-primary px-4" type="submit">
+                                <button class="btn btn-primary px-4 border-0" type="submit">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
@@ -44,6 +44,12 @@
                         {% if posts is not null %}
                             {% for post in posts %}
                                 <article class="blog-card">
+                                    {% if post.featuredImage %}
+                                        <div class="blog-card-image">
+                                            <img src="{{ post.featuredImage }}" alt="{{ post.title }}">
+                                        </div>
+                                    {% endif %}
+
                                     <!-- Author Header -->
                                     <header class="blog-card-header">
                                         {% if post.author.avatarUrl %}
@@ -74,6 +80,10 @@
                                                 <span class="far fa-comments"></span>
                                                 {{ post.comments|length }} {{ 'blog.comments_count'|trans({}, 'blog') }}
                                             </div>
+                                            <div>
+                                                <span class="far fa-hourglass"></span>
+                                                {{ post.estimatedReadingTime }} min read
+                                            </div>
                                         </div>
 
                                         <!-- Title -->
@@ -96,7 +106,8 @@
                                     </div>
                                 </article>
                             {% else %}
-                                <div class="alert alert-info text-center">
+                                <div class="alert alert-info text-center py-5 border-0 shadow-sm">
+                                    <i class="fas fa-search fa-2x mb-3 text-muted d-block"></i>
                                     {{ 'blog.search_no_results'|trans({}, 'blog') }}
                                 </div>
                             {% endfor %}
@@ -109,7 +120,9 @@
                 <div class="col-lg-4 col-xl-3">
                     <aside class="aside-components">
                         <div class="aside-component card shadow-sm border-0 p-4 mb-4 text-center">
-                            <i class="fas fa-info-circle fa-3x text-primary mb-3"></i>
+                            <div class="bg-light rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="fas fa-info-circle fa-2x text-primary"></i>
+                            </div>
                             <p class="mb-0 text-muted">
                                 {{ 'blog.search_info'|trans({}, 'blog') }}
                             </p>
@@ -145,7 +158,7 @@
                     },
                     success: function(items) {
                         if (items.length === 0) {
-                            $results.html('<div class="alert alert-info text-center">{{ 'blog.search_no_results'|trans({}, 'blog') }}</div>');
+                            $results.html('<div class="alert alert-info text-center py-5 border-0 shadow-sm"><i class="fas fa-search fa-2x mb-3 text-muted d-block"></i>{{ 'blog.search_no_results'|trans({}, 'blog') }}</div>');
                         } else {
                             $results.empty();
                             $.each(items, function(index, item) {

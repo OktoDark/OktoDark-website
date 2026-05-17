@@ -30,13 +30,17 @@ blog:
     search_no_results: "Nu au fost găsite articole care să corespundă criteriilor tale de căutare."
     rss: "Flux RSS"
     pagination_label: "Paginație blog"
+    tags: "Etichete" # Added
+    no_tags_found: "Nu au fost găsite etichete." # Added
     label:
         title: "Titlul Postării"
         summary: "Rezumat"
         content: "Conținut"
         published_at: "Publicat la"
         tags: "Etichete"
+        featured_image: "Imagine Reprezentativă" # Added
     help:
         post_summary: "Introduceți un scurt rezumat al postării de blog (folosit pentru previzualizări)."
         post_content: "Introduceți conținutul principal al postării de blog aici."
         post_publication: "Selectați data și ora la care ar trebui publicată această postare."
+        post_featured_image: "URL către imaginea reprezentativă pentru postare." # Changed from featured_image

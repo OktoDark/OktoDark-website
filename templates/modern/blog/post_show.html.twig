@@ -8,6 +8,9 @@
     <meta property="og:title" content="{{ post.title }}">
     <meta property="og:description" content="{{ post.summary }}">
     <meta property="og:type" content="article">
+    {% if post.featuredImage %}
+        <meta property="og:image" content="{{ absolute_url(post.featuredImage) }}">
+    {% endif %}
     <meta property="og:url" content="{{ app.request.uri }}">
     <meta name="twitter:card" content="summary_large_image">
 {% endblock %}
@@ -15,39 +18,42 @@
 {% block body_id %}post_show{% endblock %}
 
 {% block main %}
-    <section class="section section-lg bg-default py-5">
+    <!-- Hero Section -->
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h1 class="display-5 fw-bold">{{ post.title }}</h1>
+            <div class="d-flex justify-content-center flex-wrap gap-4 text-muted mt-3">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fa-regular fa-clock"></i>
+                    {{ post.publishedAt|format_datetime('long', 'medium') }}
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fa-regular fa-user"></i>
+                    {{ post.author.firstName }}
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                    {{ post.estimatedReadingTime }} {{ 'blog.min_read'|trans({}, 'blog') }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-default pt-0">
         <div class="container">
             <div class="row g-5">
 
                 <!-- Main Content -->
                 <div class="col-lg-8 col-xl-9">
 
-                    <!-- Post Header -->
-                    <article class="card shadow-sm border-0 mb-4">
-                        <div class="card-body p-4">
-
-                            <!-- Title -->
-                            <h1 class="fw-bold mb-3">{{ post.title }}</h1>
-
-                            <!-- Meta -->
-                            <div class="d-flex flex-wrap gap-4 text-muted small mb-4">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="fa-regular fa-clock"></i>
-                                    <time datetime="{{ post.publishedAt|date('c') }}">
-                                        {{ post.publishedAt|format_datetime('long', 'medium') }}
-                                    </time>
-                                </div>
-
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="fa-regular fa-user"></i>
-                                    {{ post.author.firstName }}
-                                </div>
-
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="fa-solid fa-hourglass-half"></i>
-                                    {{ post.estimatedReadingTime }} {{ 'blog.min_read'|trans({}, 'blog') }}
-                                </div>
+                    <article class="blog-card overflow-hidden">
+                        {% if post.featuredImage %}
+                            <div class="blog-card-image" style="height: 450px;">
+                                <img src="{{ post.featuredImage }}" alt="{{ post.title }}">
                             </div>
+                        {% endif %}
+
+                        <div class="blog-card-body p-4 p-md-5">
 
                             <!-- Admin Buttons -->
                             {% if is_granted('ROLE_ADMIN') %}
@@ -65,33 +71,30 @@
                                 </div>
                             {% endif %}
 
+                            <!-- Summary -->
+                            <div class="lead text-muted mb-5 font-italic border-start ps-4 py-2">
+                                {{ post.summary }}
+                            </div>
+
                             <!-- Content -->
-                            <div class="post-body mb-4">
+                            <div class="post-body mb-5 blog-summary">
                                 {{ post.content|markdown_to_html|sanitize_html }}
                             </div>
 
                             <!-- Share -->
-                            <div class="mt-4 border-top pt-4">
+                            <div class="mt-5 border-top pt-4">
                                 <h5 class="fw-semibold mb-3">{{ 'blog.share'|trans({}, 'blog') }}</h5>
                                 <div class="d-flex gap-3 flex-wrap">
 
-                                    <a class="btn btn-primary btn-sm"
-                                       target="_blank"
-                                       href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri|url_encode }}">
+                                    <a class="btn btn-primary btn-sm text-bg-primary" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri|url_encode }}">
                                         <i class="fa-brands fa-facebook"></i> {{ 'blog.share_facebook'|trans({}, 'blog') }}
                                     </a>
 
-                                    <a class="btn btn-dark btn-sm text-white"
-                                       target="_blank"
-                                       style="background-color: #0077b5; border-color: #0077b5;"
-                                       href="https://twitter.com/intent/tweet?url={{ app.request.uri|url_encode }}&text={{ post.title|url_encode }}">
+                                    <a class="btn btn-dark btn-sm text-bg-dark" target="_blank" style="background-color: #1DA1F2; border-color: #1DA1F2;" href="https://twitter.com/intent/tweet?url={{ app.request.uri|url_encode }}&text={{ post.title|url_encode }}">
                                         <i class="fa-brands fa-x-twitter"></i> {{ 'blog.share_twitter'|trans({}, 'blog') }}
                                     </a>
 
-                                    <a class="btn btn-primary btn-sm"
-                                       target="_blank"
-                                       style="background-color: #0077b5; border-color: #0077b5;"
-                                       href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri|url_encode }}">
+                                    <a class="btn btn-primary btn-sm text-bg-primary" target="_blank" style="background-color: #0077b5; border-color: #0077b5;" href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri|url_encode }}">
                                         <i class="fa-brands fa-linkedin"></i> {{ 'blog.share_linkedin'|trans({}, 'blog') }}
                                     </a>
 
@@ -105,54 +108,55 @@
                         </div>
                     </article>
 
-                    <!-- Comments -->
-                    <div class="card shadow-sm border-0 mb-4">
-                        <div class="card-body p-4">
+                    <!-- Comments Section -->
+                    <div class="mt-5">
+                        <h3 class="fw-bold mb-4">
+                            <i class="fa-regular fa-comments me-2"></i>
+                            {{ post.comments|length }} {{ 'blog.comments_count'|trans({}, 'blog') }}
+                        </h3>
 
-                            <h3 class="fw-bold mb-4">
-                                {{ post.comments|length }} {{ 'blog.comments_count'|trans({}, 'blog') }}
-                            </h3>
-
-                            {% for comment in post.comments %}
-                                <div class="d-flex gap-3 mb-4">
-                                    <div class="avatar-container">
+                        {% for comment in post.comments %}
+                            <div class="blog-card mb-4">
+                                <div class="blog-card-body">
+                                    <div class="d-flex gap-3 mb-3">
                                         {% if comment.author.avatarUrl %}
                                             <img src="{{ comment.author.avatarUrl }}"
                                                  class="rounded-circle shadow-sm"
-                                                 width="64" height="64"
+                                                 width="50" height="50"
                                                  alt="{{ comment.author.username }}">
                                         {% else %}
-                                            <div class="avatar-profile-fallback rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 64px; height: 64px; background: #f8f9fa; border: 1px solid #dee2e6;">
-                                                <i class="fa-solid fa-user text-muted"></i>
+                                            <div class="blog-avatar-fallback" style="width: 50px; height: 50px;">
+                                                <i class="fa-solid fa-user small"></i>
                                             </div>
                                         {% endif %}
-                                    </div>
 
-                                    <div class="flex-grow-1">
-                                        <div class="d-flex justify-content-between">
-                                            <strong>{{ comment.author.fullName }}</strong>
-                                            <small class="text-muted">
-                                                <i class="fa-regular fa-clock"></i>
-                                                {{ comment.publishedAt|format_datetime('long', 'medium') }}
-                                            </small>
-                                        </div>
-
-                                        <div class="mt-2">
-                                            {{ comment.content|markdown_to_html|sanitize_html }}
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h6 class="mb-0 fw-bold">{{ comment.author.fullName }}</h6>
+                                                <small class="text-muted">
+                                                    {{ comment.publishedAt|format_datetime('long', 'medium') }}
+                                                </small>
+                                            </div>
+                                            <div class="mt-2 text-muted">
+                                                {{ comment.content|markdown_to_html|sanitize_html }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            {% else %}
-                                <p class="text-muted">{{ 'blog.no_comments'|trans({}, 'blog') }}</p>
-                            {% endfor %}
-
-                        </div>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-light border text-center py-4">
+                                <p class="text-muted mb-0">{{ 'blog.no_comments'|trans({}, 'blog') }}</p>
+                            </div>
+                        {% endfor %}
                     </div>
 
                     <!-- Comment Form -->
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body p-4">
-                            {{ render(controller('App\\Controller\\BlogController::commentForm', { id: post.id })) }}
+                    <div class="mt-5">
+                        <div class="blog-card">
+                            <div class="blog-card-body p-4">
+                                {{ render(controller('App\\Controller\\BlogController::commentForm', { id: post.id })) }}
+                            </div>
                         </div>
                     </div>
 
@@ -160,21 +164,35 @@
 
                 <!-- Sidebar -->
                 <div class="col-lg-4 col-xl-3">
-                    {% if relatedPosts is not empty %}
-                        <div class="card shadow-sm border-0 mb-4">
-                            <div class="card-body p-4">
-                                <h5 class="fw-bold mb-3">{{ 'blog.related_posts'|trans({}, 'blog') }}</h5>
+                    <aside class="aside-components">
+                        {% if relatedPosts is not empty %}
+                            <div class="aside-component card shadow-sm border-0 p-4 mb-4">
+                                <h4 class="component-title mb-4">{{ 'blog.related_posts'|trans({}, 'blog') }}</h4>
                                 <div class="list-group list-group-flush">
                                     {% for related in relatedPosts %}
-                                        <a href="{{ path('blog_post', {slug: related.slug}) }}" class="list-group-item list-group-item-action px-0 py-3">
+                                        <a href="{{ path('blog_post', {slug: related.slug}) }}" class="list-group-item list-group-item-action px-0 py-3 border-0 border-bottom">
                                             <div class="small text-muted mb-1">{{ related.publishedAt|date('M d, Y') }}</div>
                                             <h6 class="mb-0 fw-bold">{{ related.title }}</h6>
                                         </a>
                                     {% endfor %}
                                 </div>
                             </div>
+                        {% endif %}
+
+                        {# Tags sidebar - Reusing from index #}
+                        <div class="aside-component card shadow-sm border-0 p-4 mb-4">
+                            <h4 class="component-title mb-3">{{ 'blog.tags'|trans({}, 'blog') }}</h4>
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for tag in post.tags %}
+                                    <a href="{{ path('blog_index_paginated', { tag: tag.name }) }}" class="badge bg-primary text-decoration-none">
+                                        {{ tag.name }}
+                                    </a>
+                                {% else %}
+                                    <p class="text-muted">{{ 'blog.no_tags_found'|trans({}, 'blog') }}</p>
+                                {% endfor %}
+                            </div>
                         </div>
-                    {% endif %}
+                    </aside>
                 </div>
 
             </div>

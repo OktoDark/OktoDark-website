@@ -22,7 +22,10 @@ use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\Cache;
@@ -32,6 +35,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/blog')]
 final class BlogController extends AbstractController
 {
+    public function __construct(private ParameterBagInterface $parameterBag)
+    {
+    }
+
     #[Route('/', name: 'blog', defaults: ['page' => 1, '_format' => 'html'], methods: ['GET'])]
     #[Route('/rss.xml', name: 'blog_rss', defaults: ['page' => 1, '_format' => 'xml'], methods: ['GET'])]
     #[Route('/page/{page<[1-9]\d*>}', name: 'blog_index_paginated', defaults: ['_format' => 'html'], methods: ['GET'])]
@@ -55,6 +62,7 @@ final class BlogController extends AbstractController
         return $this->render("@theme/blog/index.$_format.twig", [
             'paginator' => $latestPosts,
             'tagName' => $tag?->getName(),
+            'tags' => $tags->findAll(),
         ]);
     }
 
@@ -84,6 +92,27 @@ final class BlogController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile|null $featuredImageFile */
+            $featuredImageFile = $form->get('featuredImage')->getData();
+
+            if ($featuredImageFile) {
+                $originalFilename = pathinfo($featuredImageFile->getClientOriginalName(), \PATHINFO_FILENAME);
+                $newFilename = $originalFilename.'-'.uniqid().'.'.$featuredImageFile->guessExtension();
+
+                try {
+                    $featuredImageFile->move(
+                        $this->parameterBag->get('kernel.project_dir').'/public/uploads/blog_images',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                    $this->addFlash('error', 'Could not upload featured image: '.$e->getMessage());
+
+                    return $this->redirectToRoute('blog_new');
+                }
+                $post->setFeaturedImage('/uploads/blog_images/'.$newFilename);
+            }
+
             $post->setAuthor($user);
             $em->persist($post);
             $em->flush();
@@ -103,10 +132,44 @@ final class BlogController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
     ): Response {
+        // Store the old featured image path if it exists
+        $oldFeaturedImage = $post->getFeaturedImage();
+
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile|null $featuredImageFile */
+            $featuredImageFile = $form->get('featuredImage')->getData();
+
+            if ($featuredImageFile) {
+                $originalFilename = pathinfo($featuredImageFile->getClientOriginalName(), \PATHINFO_FILENAME);
+                $newFilename = $originalFilename.'-'.uniqid().'.'.$featuredImageFile->guessExtension();
+
+                try {
+                    $featuredImageFile->move(
+                        $this->parameterBag->get('kernel.project_dir').'/public/uploads/blog_images',
+                        $newFilename
+                    );
+                    // Remove the old file if a new one is uploaded and an old one existed
+                    if ($oldFeaturedImage && file_exists($this->parameterBag->get('kernel.project_dir').'/public'.$oldFeaturedImage)) {
+                        unlink($this->parameterBag->get('kernel.project_dir').'/public'.$oldFeaturedImage);
+                    }
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                    $this->addFlash('error', 'Could not upload featured image: '.$e->getMessage());
+
+                    return $this->redirectToRoute('blog_edit', ['slug' => $post->getSlug()]);
+                }
+                $post->setFeaturedImage('/uploads/blog_images/'.$newFilename);
+            } elseif ($oldFeaturedImage) {
+                // If no new file is uploaded, but there was an old one, keep the old one
+                $post->setFeaturedImage($oldFeaturedImage);
+            } else {
+                // If no new file is uploaded and no old one existed, set to null
+                $post->setFeaturedImage(null);
+            }
+
             $em->flush();
 
             return $this->redirectToRoute('blog_post', ['slug' => $post->getSlug()]);
@@ -124,6 +187,14 @@ final class BlogController extends AbstractController
         #[MapEntity(mapping: ['slug' => 'slug'])] Post $post,
         EntityManagerInterface $em,
     ): Response {
+        // Remove the featured image file if it exists
+        if ($post->getFeaturedImage()) {
+            $imagePath = $this->parameterBag->get('kernel.project_dir').'/public'.$post->getFeaturedImage();
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
         $em->remove($post);
         $em->flush();
 

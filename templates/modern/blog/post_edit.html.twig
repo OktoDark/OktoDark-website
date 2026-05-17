@@ -49,6 +49,20 @@
                                 <div class="text-danger small mt-1">{{ form_errors(form.content) }}</div>
                             </div>
 
+                            <!-- Featured Image -->
+                            <div class="mb-4">
+                                {{ form_label(form.featuredImage, null, { label_attr: { class: 'form-label fw-semibold' } }) }}
+                                {% if post.featuredImage %}
+                                    <div class="mb-3">
+                                        <img src="{{ asset(post.featuredImage) }}" alt="{{ post.title }}" style="max-width: 200px; height: auto;">
+                                        <small class="d-block text-muted mt-1">{{ 'blog.current_featured_image'|trans({}, 'blog') }}</small>
+                                    </div>
+                                {% endif %}
+                                {{ form_widget(form.featuredImage) }}
+                                <div class="form-text mt-1 text-muted">{{ form_help(form.featuredImage) }}</div>
+                                <div class="text-danger small mt-1">{{ form_errors(form.featuredImage) }}</div>
+                            </div>
+
                             <!-- Publication Info -->
                             <div class="row g-4 mb-4">
                                 <div class="col-md-6">

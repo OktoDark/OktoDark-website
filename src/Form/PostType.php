@@ -16,12 +16,14 @@ use App\Form\Type\DateTimePickerType;
 use App\Form\Type\TagsInputType;
 use App\Form\Type\TrixEditorType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Constraints\File;
 
 class PostType extends AbstractType
 {
@@ -52,6 +54,25 @@ class PostType extends AbstractType
             ->add('content', TrixEditorType::class, [
                 'label' => 'blog.label.content',
                 'help' => 'blog.help.post_content',
+            ])
+
+            // Featured Image
+            ->add('featuredImage', FileType::class, [
+                'label' => 'blog.label.featured_image',
+                'help' => 'blog.help.post_featured_image',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File(
+                        maxSize: '1024k',
+                        mimeTypes: [
+                            'image/jpeg',
+                            'image/png',
+                            'image/gif',
+                        ],
+                        mimeTypesMessage: 'Please upload a valid image file (JPG, PNG, GIF)',
+                    ),
+                ],
             ])
 
             // Publication date
