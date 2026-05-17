@@ -70,7 +70,7 @@ class Card
     private Collection $assignees;
 
     #[ORM\ManyToMany(targetEntity: CardLabel::class)]
-    #[ORM\JoinTable(name: 'card_labels')]
+    #[ORM\JoinTable(name: 'card_card_label')]
     #[ORM\JoinColumn(name: 'card_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'label_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private Collection $labels;

@@ -97,6 +97,8 @@ class BoardRepository extends ServiceEntityRepository
             ->addSelect('assignee')
             ->leftJoin('assignee.assignee', 'assigneeUser') // CORRECTED: Join CardAssignee to User via 'assignee' property
             ->addSelect('assigneeUser')
+            ->leftJoin('ca.createdBy', 'cardCreatedBy') // Explicitly fetch card creator
+            ->addSelect('cardCreatedBy')
             ->leftJoin('b.members', 'm')
             ->addSelect('m')
             ->leftJoin('b.labels', 'l')
@@ -105,6 +107,8 @@ class BoardRepository extends ServiceEntityRepository
             ->addSelect('og') // Add this line to select ourGame
             ->leftJoin('b.mod', 'mo') // Add this line to join mod
             ->addSelect('mo') // Add this line to select mod
+            ->leftJoin('b.owner', 'boardOwner') // Explicitly fetch board owner
+            ->addSelect('boardOwner')
             ->orderBy('c.position', 'ASC') // Order columns
             ->addOrderBy('ca.position', 'ASC') // Order cards within columns
             ->where('b.id = :id')

@@ -173,6 +173,7 @@ class AdminOurGamesController extends AbstractController
                     foreach ($boardErrors as $error) {
                         $errorMessages[] = $error->getMessage().' (Property: '.$error->getPropertyPath().')';
                     }
+
                     return new JsonResponse(['success' => false, 'message' => 'Failed to create bug tracker board: '.implode(', ', $errorMessages)], Response::HTTP_INTERNAL_SERVER_ERROR);
                 }
 
@@ -191,6 +192,7 @@ class AdminOurGamesController extends AbstractController
                     foreach ($columnErrors as $error) {
                         $errorMessages[] = $error->getMessage().' (Property: '.$error->getPropertyPath().')';
                     }
+
                     return new JsonResponse(['success' => false, 'message' => 'Failed to create default column for bug tracker: '.implode(', ', $errorMessages)], Response::HTTP_INTERNAL_SERVER_ERROR);
                 }
 

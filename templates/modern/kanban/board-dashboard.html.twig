@@ -133,7 +133,7 @@
 <div class="activity-sidebar position-fixed end-0 top-0 h-100 bg-light shadow-lg p-3" style="width: 300px; z-index: 1050; transform: translateX(100%); transition: transform 0.3s ease-in-out;"> {# Modernized sidebar #}
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="mb-0">{{'kanban.board_dashboard.activity_sidebar.title'|trans({}, 'kanban')}}</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.modals.common.close_button_aria'|trans({}, 'kanban')}}" onclick="toggleActivitySidebar()"></button> {# Close button #}
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.board_dashboard.modals.common.close_button_aria'|trans({}, 'kanban')}}" onclick="toggleActivitySidebar()"></button> {# Close button #}
     </div>
     <div id="activityFeed" class="overflow-y-auto" style="max-height: calc(100% - 60px);"></div>
 </div>
@@ -148,10 +148,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="cardDetailsModalLabel">{{'kanban.board_dashboard.modals.card_details.title'|trans({}, 'kanban')}}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.board_dashboard.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
             </div>
             <div class="modal-body" id="cardDetailsContent">
-                {% include 'modern/kanban/card-details-modal.html.twig' %}
+                {% include '@theme/kanban/card-details-modal.html.twig' %}
             </div>
         </div>
     </div>
@@ -162,7 +162,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editBoardModalLabel">{{'kanban.board_dashboard.modals.edit_board.title'|trans({}, 'kanban')}}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.board_dashboard.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
             </div>
             <div class="modal-body">
                 {# Manual rendering of boardForm fields #}
@@ -201,7 +201,7 @@
         <div class="modal-content">
             <div class="modal-header"> 
                 <h5 class="modal-title" id="reportBugModalLabel">{{'kanban.board_dashboard.modals.report_bug.title'|trans({}, 'kanban')}}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.board_dashboard.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
             </div>
             <div class="modal-body">
                 <form id="reportBugForm">
@@ -226,7 +226,7 @@
         <div class="modal-content">
             <div class="modal-header"> 
                 <h5 class="modal-title" id="addColumnModalLabel">{{'kanban.board_dashboard.modals.add_column.title'|trans({}, 'kanban')}}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.board_dashboard.modals.common.close_button_aria'|trans({}, 'kanban')}}"></button>
             </div>
             <div class="modal-body">
                 <form id="addColumnForm">
@@ -299,9 +299,9 @@
                         })
                         .catch(function(error) {
                             console.error('Error updating board:', error);
-                            var errorMessage = '{{'kanban.board_dashboard.modals.edit_board.failed_message'|trans({}, 'kanban')}}' + (error.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}');
+                            var errorMessage = '{{'kanban.board_dashboard.modals.edit_board.failed_message'|trans({}, 'kanban')}}' + (error.message || '{{'kanban.board_dashboard.modals.common.unknown_error'|trans({}, 'kanban')}}');
                             if (error.errors) {
-                                errorMessage += '\n\n{{'kanban.modals.common.details_prefix'|trans({}, 'kanban')}}';
+                                errorMessage += '\n\n{{'kanban.board_dashboard.modals.common.details_prefix'|trans({}, 'kanban')}}';
                                 if (Array.isArray(error.errors)) {
                                     errorMessage += '\n- ' + error.errors.join('\n- ');
                                 } else {
@@ -345,9 +345,9 @@
                                 location.reload(); // Reload to show the new bug card
                             } else { 
                                 console.log('API Response (Report Bug):', response); // Added console.log
-                                var errorMessage = '{{'kanban.board_dashboard.modals.report_bug.failed_message'|trans({}, 'kanban')}}' + (response.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}');
+                                var errorMessage = '{{'kanban.board_dashboard.modals.report_bug.failed_message'|trans({}, 'kanban')}}' + (response.message || '{{'kanban.board_dashboard.modals.common.unknown_error'|trans({}, 'kanban')}}');
                                 if (response.errors) {
-                                    errorMessage += '\n\n{{'kanban.modals.common.details_prefix'|trans({}, 'kanban')}}';
+                                    errorMessage += '\n\n{{'kanban.board_dashboard.modals.common.details_prefix'|trans({}, 'kanban')}}';
                                     if (Array.isArray(response.errors)) {
                                         errorMessage += '\n- ' + response.errors.join('\n- ');
                                     } else { // Assume it's an object with field-specific errors
@@ -394,9 +394,9 @@
                                 location.reload(); // Reload to show the new column
                             } else { 
                                 console.log('API Response (Add Column):', response); // Added console.log
-                                var errorMessage = '{{'kanban.board_dashboard.modals.add_column.failed_message'|trans({}, 'kanban')}}' + (response.message || '{{'kanban.modals.common.unknown_error'|trans({}, 'kanban')}}');
+                                var errorMessage = '{{'kanban.board_dashboard.modals.add_column.failed_message'|trans({}, 'kanban')}}' + (response.message || '{{'kanban.board_dashboard.modals.common.unknown_error'|trans({}, 'kanban')}}');
                                 if (response.errors) {
-                                    errorMessage += '\n\n{{'kanban.modals.common.details_prefix'|trans({}, 'kanban')}}';
+                                    errorMessage += '\n\n{{'kanban.board_dashboard.modals.common.details_prefix'|trans({}, 'kanban')}}';
                                     if (Array.isArray(response.errors)) {
                                         errorMessage += '\n- ' + response.errors.join('\n- ');
                                     } else { // Assume it's an object with field-specific errors
@@ -653,26 +653,26 @@
             return severityConfig[severity] || 'bg-secondary';
         }
 
-        function formatStatusName(status) {
-            var statusNames = {
-                'open': '{{'kanban.bug_status.open'|trans({}, 'kanban')}}',
-                'in_progress': '{{'kanban.bug_status.in_progress'|trans({}, 'kanban')}}',
-                'resolved': '{{'kanban.bug_status.resolved'|trans({}, 'kanban')}}',
-                'closed': '{{'kanban.bug_status.closed'|trans({}, 'kanban')}}',
-                'wont_fix': '{{'kanban.bug_status.wont_fix'|trans({}, 'kanban')}}'
-            };
-            return statusNames[status] || status;
-        }
+         function formatStatusName(status) {
+             var statusNames = {
+                 'open': '{{'kanban.board_dashboard.bug_status.open'|trans({}, 'kanban')}}',
+                 'in_progress': '{{'kanban.board_dashboard.bug_status.in_progress'|trans({}, 'kanban')}}',
+                 'resolved': '{{'kanban.board_dashboard.bug_status.resolved'|trans({}, 'kanban')}}',
+                 'closed': '{{'kanban.board_dashboard.bug_status.closed'|trans({}, 'kanban')}}',
+                 'wont_fix': '{{'kanban.board_dashboard.bug_status.wont_fix'|trans({}, 'kanban')}}'
+             };
+             return statusNames[status] || status;
+         }
 
-        function formatSeverityName(severity) {
-            var severityNames = {
-                'low': '{{'kanban.bug_severity.low'|trans({}, 'kanban')}}',
-                'medium': '{{'kanban.bug_severity.medium'|trans({}, 'kanban')}}',
-                'high': '{{'kanban.bug_severity.high'|trans({}, 'kanban')}}',
-                'critical': '{{'kanban.bug_severity.critical'|trans({}, 'kanban')}}'
-            };
-            return severityNames[severity] || severity;
-        }
+         function formatSeverityName(severity) {
+             var severityNames = {
+                 'low': '{{'kanban.board_dashboard.bug_severity.low'|trans({}, 'kanban')}}',
+                 'medium': '{{'kanban.board_dashboard.bug_severity.medium'|trans({}, 'kanban')}}',
+                 'high': '{{'kanban.board_dashboard.bug_severity.high'|trans({}, 'kanban')}}',
+                 'critical': '{{'kanban.board_dashboard.bug_severity.critical'|trans({}, 'kanban')}}'
+             };
+             return severityNames[severity] || severity;
+         }
 
         function loadCardBugs(cardId) {
             apiClient.getCardBugs(cardId)
@@ -714,7 +714,7 @@
             // Open bug creation modal with pre-filled card information 
             var createBugModal = new bootstrap.Modal(document.getElementById('reportBugModal')); // Assuming reportBugModal is used for creating bugs
             // Pre-fill the bug form with card title as bug title 
-            document.getElementById('bugTitle').value = '{{'kanban.bug_related_to'|trans({}, 'kanban')}}' + cardTitle;
+            document.getElementById('bugTitle').value = '{{'kanban.board_dashboard.bug_related_to'|trans({}, 'kanban')}}' + cardTitle;
             createBugModal.show();
         }
 

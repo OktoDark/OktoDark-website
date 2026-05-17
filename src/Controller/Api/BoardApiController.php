@@ -41,12 +41,16 @@ class BoardApiController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        $boards = $this->boardRepository->findByUser($user);
+        try {
+            $boards = $this->boardRepository->findByUser($user);
 
-        return $this->json([
-            'success' => true,
-            'boards' => array_map(fn (Board $board) => $this->getBoardData($board), $boards),
-        ]);
+            return $this->json([
+                'success' => true,
+                'boards' => array_map(fn (Board $board) => $this->getBoardData($board), $boards),
+            ]);
+        } catch (\Throwable $e) {
+            return $this->handleServiceException($e, 'Failed to retrieve boards');
+        }
     }
 
     #[Route('', name: 'create', methods: ['POST'])]
@@ -81,18 +85,22 @@ class BoardApiController extends AbstractController
     #[Route('/{id}', name: 'get', methods: ['GET'])]
     public function getBoard(int $id): JsonResponse
     {
-        $board = $this->boardRepository->findBoardWithDetails($id);
+        try {
+            $board = $this->boardRepository->findBoardWithDetails($id);
 
-        if (!$board) {
-            return $this->handleNotFound('Board');
+            if (!$board) {
+                return $this->handleNotFound('Board');
+            }
+
+            $this->denyAccessUnlessGranted('board_view', $board);
+
+            return $this->json([
+                'success' => true,
+                'board' => $this->getBoardDetailData($board),
+            ]);
+        } catch (\Throwable $e) {
+            return $this->handleServiceException($e, 'Failed to retrieve board details');
         }
-
-        $this->denyAccessUnlessGranted('board_view', $board);
-
-        return $this->json([
-            'success' => true,
-            'board' => $this->getBoardDetailData($board),
-        ]);
     }
 
     #[Route('/{id}', name: 'update', methods: ['PUT'])]

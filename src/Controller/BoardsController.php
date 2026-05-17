@@ -522,7 +522,7 @@ class BoardsController extends AbstractController
         $form = $this->createForm(BoardFormType::class, $board, ['method' => 'PUT']);
 
         $data = json_decode($request->getContent(), true);
-        $form->submit($data); // Submit the entire data array to the form
+        $form->submit($data, false); // Submit the entire data array to the form, but don't clear missing fields
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
