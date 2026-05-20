@@ -80,6 +80,9 @@ forum:
         downvote: "Vot negativ"
         score: "Scor"
         pagination_label: "Paginație"
+        status:
+          online: "Online"
+          offline: "Offline"
 
     poll:
         create_title: "Creează un Sondaj"

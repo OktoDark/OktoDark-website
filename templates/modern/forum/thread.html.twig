@@ -79,6 +79,12 @@
                             {% endif %}
                         </div>
                         <h6 class="fw-bold mb-1">{{ thread.author.username }}</h6>
+                        {# Online/Offline Text for Thread Author (Large Screen) #}
+                        {% if thread.author.isOnline() %}
+                            <div class="badge bg-success mt-1">{{ 'forum.thread.status.online'|trans({}, 'forum') }}</div>
+                        {% else %}
+                            <div class="badge bg-secondary mt-1">{{ 'forum.thread.status.offline'|trans({}, 'forum') }}</div>
+                        {% endif %}
                         <div class="small text-success fw-bold mb-3">{{ thread.author.reputation }} {{ 'forum.thread.rep'|trans({}, 'forum') }}</div>
                         
                         {% if is_granted('ROLE_USER') and thread.author != app.user %}
@@ -107,7 +113,7 @@
                             {% if thread.author.privacy.showLocation and thread.author.location %}
                                 <div><i class="fa-solid fa-location-dot me-1"></i> {{ thread.author.location }}</div>
                             {% endif %}
-                            <div><i class="fa-solid fa-calendar-alt me-1"></i> {{ 'member.member_since'|trans({}, 'member') }} {{ thread.author.createdAt|date('M Y') }}</div>
+                            <div><i class="fa-solid fa-calendar-alt me-1"></i> {{ 'member.member_since'|trans({}, 'member') }} {{ thread.author.createdAt|date('j M Y') }}</div>
                             <div><i class="fa-solid fa-comment-dots me-1"></i> {{ 'member.posts'|trans({}, 'member') }}: {{ thread.author.postCount }}</div>
                         </div>
                     </div>
@@ -169,6 +175,12 @@
                                     {% endif %}
                                 </div>
                                 <h6 class="small fw-bold mb-1">{{ post.author.username }}</h6>
+                                {# Online/Offline Text for Reply Author (Large Screen) #}
+                                {% if post.author.isOnline() %}
+                                    <div class="badge bg-success mt-1">{{ 'forum.thread.status.online'|trans({}, 'forum') }}</div>
+                                {% else %}
+                                    <div class="badge bg-secondary mt-1">{{ 'forum.thread.status.offline'|trans({}, 'forum') }}</div>
+                                {% endif %}
                                 <div class="x-small text-success fw-bold mb-3">{{ post.author.reputation }} {{ 'forum.thread.rep'|trans({}, 'forum') }}</div>
                                 
                                 {% if is_granted('ROLE_USER') and post.author != app.user %}
@@ -184,7 +196,7 @@
                                     {% for badge in post.author.badges %}
                                         <div class="text-center" style="width: 50px;">
                                             <span class="badge p-1 mb-1 d-inline-block shadow-xs border border-white" 
-                                                  style="background-color: {{ badge.color }}; color: #fff; font-size: 0.6rem;"
+                                                  style="background-color: {{ badge.color }}; color: #fff;"
                                                   title="{{ badge.description }}" data-bs-toggle="tooltip" data-bs-placement="top">
                                                 <i class="{{ badge.icon }}"></i>
                                             </span>
@@ -197,7 +209,7 @@
                                     {% if post.author.privacy.showLocation and post.author.location %}
                                         <div><i class="fa-solid fa-location-dot me-1"></i> {{ post.author.location }}</div>
                                     {% endif %}
-                                    <div><i class="fa-solid fa-calendar-alt me-1"></i> {{ 'member.member_since'|trans({}, 'member') }} {{ post.author.createdAt|date('M Y') }}</div>
+                                    <div><i class="fa-solid fa-calendar-alt me-1"></i> {{ 'member.member_since'|trans({}, 'member') }} {{ post.author.createdAt|date('j M Y') }}</div>
                                     <div><i class="fa-solid fa-comment-dots me-1"></i> {{ 'member.posts'|trans({}, 'member') }}: {{ post.author.postCount }}</div>
                                 </div>
 

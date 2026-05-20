@@ -80,6 +80,9 @@ forum:
         downvote: "Downvote"
         score: "Score"
         pagination_label: "Pagination"
+        status:
+            online: "Online"
+            offline: "Offline"
 
     poll:
         create_title: "Create a Poll"
