@@ -72,9 +72,9 @@
 
     <script>
         function submitPollVote() {
-            const selected = document.querySelector('input[name="poll_option"]:checked');
+            var selected = document.querySelector('input[name="poll_option"]:checked');
             if (selected) {
-                const form = document.getElementById('pollVoteForm');
+                var form = document.getElementById('pollVoteForm');
                 form.action = "{{ path('forum_poll_vote', {id: 'ID'}) }}".replace('0', selected.value).replace('ID', selected.value);
                 form.submit();
             } else {

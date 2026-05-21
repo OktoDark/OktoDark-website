@@ -122,22 +122,22 @@
     </section>
 
     <script>
-        const templates = {
-            'bug_report': `<h3>Bug Description</h3><p>A clear and concise description of what the bug is.</p><h3>Steps to Reproduce</h3><ol><li>Go to '...'</li><li>Click on '....'</li><li>Scroll down to '....'</li><li>See error</li></ol><h3>Expected Behavior</h3><p>A clear and concise description of what you expected to happen.</p><h3>Screenshots</h3><p>If applicable, add screenshots to help explain your problem.</p>`,
-            'feature_request': `<h3>Is your feature request related to a problem?</h3><p>A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]</p><h3>Describe the solution you'd like</h3><p>A clear and concise description of what you want to happen.</p><h3>Describe alternatives you've considered</h3><p>A clear and concise description of any alternative solutions or features you've considered.</p>`,
-            'question': `<h3>The Problem</h3><p>Describe exactly what you are trying to achieve or what is not working.</p><h3>What I've tried</h3><p>List any solutions or workarounds you've already attempted.</p>`,
+        var templates = {
+            'bug_report': "{{ 'forum.create_thread.template.bug_report'|trans({}, 'forum')|escape('js') }}",
+            'feature_request': "{{ 'forum.create_thread.template.feature_request'|trans({}, 'forum')|escape('js') }}",
+            'question': "{{ 'forum.create_thread.template.question'|trans({}, 'forum')|escape('js') }}",
             'discussion': ''
         };
 
         function applyTemplate(type) {
-            const editor = document.querySelector('trix-editor').editor;
-            if (editor.getDocument().toString().trim() === "" || confirm("This will replace your current content with a template. Continue?")) {
+            var editor = document.querySelector('trix-editor').editor;
+            if (editor.getDocument().toString().trim() === "" || confirm("{{ 'forum.create_thread.template_confirm'|trans({}, 'forum')|escape('js') }}")) {
                 editor.loadHTML(templates[type] || '');
             }
         }
 
         function togglePollSection(show) {
-            const section = document.getElementById('pollSection');
+            var section = document.getElementById('pollSection');
             section.classList.toggle('d-none', !show);
             if(show && document.querySelectorAll('#poll-options-list input').length === 0) {
                 addPollOption();
@@ -146,20 +146,20 @@
         }
 
         function addPollOption() {
-            const list = document.getElementById('poll-options-list');
-            const counter = parseInt(list.dataset.index);
-            const prototype = list.dataset.prototype;
-            const newForm = prototype.replace(/__name__/g, counter);
-            
-            const div = document.createElement('div');
+            var list = document.getElementById('poll-options-list');
+            var counter = parseInt(list.dataset.index);
+            var prototype = list.dataset.prototype;
+            var newForm = prototype.replace(/__name__/g, counter);
+
+            var div = document.createElement('div');
             div.className = 'input-group mb-2 shadow-sm rounded overflow-hidden';
             div.innerHTML = newForm + '<button type="button" class="btn btn-white border-start" onclick="this.parentElement.remove()"><i class="fa-solid fa-times text-danger"></i></button>';
-            
-            const input = div.querySelector('input');
+
+            var input = div.querySelector('input');
             if(input) {
                 input.classList.add('form-control', 'border-0');
             }
-            
+
             list.appendChild(div);
             list.dataset.index = counter + 1;
         }

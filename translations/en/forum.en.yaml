@@ -94,6 +94,14 @@ forum:
         options_label: "Poll Options"
         add_option: "Add Option"
         ends_on: "Ends On (Optional)"
+        community_poll: "Community Poll"
+        closed: "Closed"
+        ends: "Ends"
+        cast_vote: "Cast Vote"
+        votes: "votes"
+        total_participants: "Total Participants"
+        login_to_vote: "Login to vote"
+        select_option_first: "Please select an option first."
 
     category:
         sort: "Sort"
@@ -142,3 +150,21 @@ forum:
         subscribe_to_threads: "Subscribe to discussions to get notified about new replies here!"
         new_reply_in: "New reply in"
         by: "by"
+    edit_post:
+        title: "Edit Post"
+        hero_title: "Edit Post"
+        hero_subtitle: "Update your reply to the discussion."
+        breadcrumb_label: "Edit Post Breadcrumb"
+        breadcrumb_active: "Edit Post"
+        form_title: "Edit Your Reply"
+        content_label: "Content"
+        save_changes: "Save Changes"
+        cancel: "Cancel"
+    categories_subtitle: "Browse our discussion categories"
+    no_categories: "No categories have been created yet."
+    create_thread:
+        template_confirm: "This will replace your current content with a template. Continue?"
+        template:
+            bug_report: "<h3>Bug Description</h3><p>A clear and concise description of what the bug is.</p><h3>Steps to Reproduce</h3><ol><li>Go to '...'</li><li>Click on '....'</li><li>Scroll down to '....'</li><li>See error</li></ol><h3>Expected Behavior</h3><p>A clear and concise description of what you expected to happen.</p><h3>Screenshots</h3><p>If applicable, add screenshots to help explain your problem.</p>"
+            feature_request: "<h3>Is your feature request related to a problem?</h3><p>A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]</p><h3>Describe the solution you'd like</h3><p>A clear and concise description of what you want to happen.</p><h3>Describe alternatives you've considered</h3><p>A clear and concise description of any alternative solutions or features you've considered.</p>"
+            question: "<h3>The Problem</h3><p>Describe exactly what you are trying to achieve or what is not working.</p><h3>What I've tried</h3><p>List any solutions or workarounds you've already attempted.</p>"

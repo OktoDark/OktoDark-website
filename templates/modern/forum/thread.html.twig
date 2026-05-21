@@ -382,28 +382,28 @@
 
     <script>
         function quotePost(username, postId) {
-            const contentElement = document.querySelector(`#${postId} .post-text-content`);
-            const createdAtElement = document.querySelector(`#${postId} .post-created-at`);
-            
-            const content = contentElement ? contentElement.innerHTML : '';
-            const createdAt = createdAtElement ? createdAtElement.dataset.createdAt : '';
+            var contentElement = document.querySelector('#' + postId + ' .post-text-content');
+            var createdAtElement = document.querySelector('#' + postId + ' .post-created-at');
 
-            const editor = document.querySelector("trix-editor").editor;
-            
+            var content = contentElement ? contentElement.innerHTML : '';
+            var createdAt = createdAtElement ? createdAtElement.dataset.createdAt : '';
+
+            var editor = document.querySelector("trix-editor").editor;
+
             // Translate the "wrote on" text
-            const wroteText = "{{ 'forum.thread.wrote_on'|trans({'%date%': 'DATE_PLACEHOLDER'}, 'forum')|escape('js') }}".replace('DATE_PLACEHOLDER', createdAt);
-            
-            // Sanitize content before inserting into Trix editor
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(content, 'text/html');
-            const sanitizedContent = doc.body.textContent; // Get plain text content
+            var wroteText = "{{ 'forum.thread.wrote_on'|trans({'%date%': 'DATE_PLACEHOLDER'}, 'forum')|escape('js') }}".replace('DATE_PLACEHOLDER', createdAt);
 
-            editor.insertHTML(`<blockquote><strong>${username}</strong> <span class="text-muted small">${wroteText}</span><br>${sanitizedContent}</blockquote><p><br></p>`);
+            // Sanitize content before inserting into Trix editor
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(content, 'text/html');
+            var sanitizedContent = doc.body.textContent; // Get plain text content
+
+            editor.insertHTML('<blockquote><strong>' + username + '</strong> <span class="text-muted small">' + wroteText + '</span><br>' + sanitizedContent + '</blockquote><p><br></p>');
             document.querySelector('.reply-box').scrollIntoView({ behavior: 'smooth' });
         }
 
         function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
+            navigator.clipboard.writeText(text).then(function() {
                 alert('{{ 'forum.thread.link_copied'|trans({}, 'forum')|escape('js') }}');
             });
         }
