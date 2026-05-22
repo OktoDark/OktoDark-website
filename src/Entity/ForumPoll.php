@@ -26,7 +26,7 @@ class ForumPoll
 
     #[ORM\OneToOne(targetEntity: ForumThread::class, inversedBy: 'poll')]
     #[ORM\JoinColumn(nullable: false)]
-    private ForumThread $thread;
+    private ?ForumThread $thread = null;
 
     #[ORM\Column(length: 255)]
     private string $question;
@@ -47,12 +47,12 @@ class ForumPoll
         return $this->id;
     }
 
-    public function getThread(): ForumThread
+    public function getThread(): ?ForumThread
     {
         return $this->thread;
     }
 
-    public function setThread(ForumThread $thread): self
+    public function setThread(?ForumThread $thread): self
     {
         $this->thread = $thread;
 
@@ -84,6 +84,17 @@ class ForumPoll
         if (!$this->options->contains($option)) {
             $this->options->add($option);
             $option->setPoll($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOption(ForumPollOption $option): self
+    {
+        if ($this->options->removeElement($option)) {
+            if ($option->getPoll() === $this) {
+                $option->setPoll(null);
+            }
         }
 
         return $this;

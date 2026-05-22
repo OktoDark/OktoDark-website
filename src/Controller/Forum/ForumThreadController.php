@@ -148,6 +148,12 @@ final class ForumThreadController extends AbstractController
                 return $this->redirectToRoute('forum_thread_create', ['category' => $category->getId()]);
             }
 
+            // Associate the poll with the thread if a poll was created
+            $poll = $thread->getPoll();
+            if ($poll) {
+                $poll->setThread($thread);
+            }
+
             $em->persist($thread);
             $em->flush();
 
