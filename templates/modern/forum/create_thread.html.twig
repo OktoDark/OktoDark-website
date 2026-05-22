@@ -52,7 +52,8 @@
                             <div class="mb-5">
                                 <label class="form-label fw-bold text-dark">{{ 'forum.thread.description_label'|trans({}, 'forum') }}</label>
                                 <div class="editor-wrapper rounded border bg-white">
-                                    {{ form_widget(form.content) }}
+                                    {{ form_widget(form.content, { attr: { style: 'display: none;' } }) }}
+                                    <trix-editor input="{{ form.content.vars.id }}"></trix-editor>
                                 </div>
                                 {{ form_errors(form.content) }}
                             </div>

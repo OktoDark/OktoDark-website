@@ -52,7 +52,8 @@
                             <div class="mb-5">
                                 <label class="form-label fw-bold text-dark">{{ 'forum.thread.description_label'|trans({}, 'forum') }}</label>
                                 <div class="editor-wrapper rounded border bg-white mb-2">
-                                    {{ form_widget(form.content) }}
+                                    {{ form_widget(form.content, { attr: { style: 'display: none;' } }) }}
+                                    <trix-editor input="{{ form.content.vars.id }}"></trix-editor>
                                 </div>
                                 {{ form_errors(form.content) }}
                             </div>
@@ -63,7 +64,7 @@
                                     <div class="d-flex justify-content-between align-items-center mb-0">
                                         <div>
                                             <h5 class="fw-bold mb-1"><i class="fa-solid fa-square-poll-vertical text-success me-2"></i>{{ 'forum.poll.mgmt_title'|trans({}, 'forum') }}</h5>
-                                            <p class="small text-muted mb-0">{{ 'forum.poll.mgmt_subtitle'|trans({}, 'forum') }}</p>
+                                            <p class="small text-muted mb-0">{{ 'forum.poll.subtitle'|trans({}, 'forum') }}</p>
                                         </div>
                                         <div class="form-check form-switch fs-4">
                                             <input class="form-check-input" type="checkbox" id="togglePoll" {% if thread.poll %}checked{% endif %} onchange="togglePollSection(this.checked)">

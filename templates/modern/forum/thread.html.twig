@@ -350,7 +350,8 @@
                                     {{ form_errors(form) }}
 
                                     <div class="editor-wrapper rounded border bg-white mb-4">
-                                        {{ form_widget(form.content) }}
+                                        {{ form_widget(form.content, { attr: { style: 'display: none;' } }) }}
+                                        <trix-editor input="{{ form.content.vars.id }}"></trix-editor>
                                     </div>
 
                                     <button class="btn btn-success text-bg-success px-5 py-2 fw-bold shadow-sm">
