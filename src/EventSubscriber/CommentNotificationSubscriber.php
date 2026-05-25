@@ -11,12 +11,16 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Notification;
+use App\Entity\User;
 use App\Event\CommentCreatedEvent;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
  * Notifies post's author about new comments.
@@ -28,6 +32,8 @@ final readonly class CommentNotificationSubscriber implements EventSubscriberInt
         private UrlGeneratorInterface $urlGenerator,
         private TranslatorInterface $translator,
         private string $sender,
+        private EntityManagerInterface $em,
+        private Environment $twig,
     ) {
     }
 
@@ -42,30 +48,47 @@ final readonly class CommentNotificationSubscriber implements EventSubscriberInt
     {
         $comment = $event->getComment();
         $post = $comment->getPost();
+        /** @var User $author */
+        $author = $post->getAuthor();
 
         $linkToPost = $this->urlGenerator->generate('blog_post', [
             'slug' => $post->getSlug(),
             '_fragment' => 'comment_'.$comment->getId(),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $subject = $this->translator->trans('notification.comment_created');
-        $body = $this->translator->trans('notification.comment_created.description', [
-            'title' => $post->getTitle(),
-            'link' => $linkToPost,
-        ]);
+        // --- Email Notification Logic ---
+        if ($author->getNotificationPreference('blog_email')) {
+            $subject = $this->translator->trans('notification.comment_created.email_subject', [], 'notifications');
+            $body = $this->twig->render('emails/notifications/comment_created.html.twig', [
+                'postTitle' => $post->getTitle(),
+                'linkToPost' => $linkToPost,
+                'author' => $author, // The author of the post
+                'commentAuthor' => $comment->getAuthor(), // The author of the comment
+            ]);
 
-        // See https://symfony.com/doc/current/mailer.html
-        $email = (new Email())
-            ->from($this->sender)
-            ->to($post->getAuthor()->getEmail())
-            ->subject($subject)
-            ->html($body)
-        ;
-        $email->getHeaders()->addTextHeader('X-Transport', 'no_reply');
+            $email = (new Email())
+                ->from($this->sender)
+                ->to($author->getEmail())
+                ->subject($subject)
+                ->html($body)
+            ;
+            $email->getHeaders()->addTextHeader('X-Transport', 'no_reply');
+            $this->mailer->send($email);
+        }
 
-        // In config/packages/dev/mailer.yaml the delivery of messages is disable.
-        // That's why in the development environment you won't actually receive any email.
-        // However, you can inspect the contents of those unsent emails using the debug toolbar.
-        $this->mailer->send($email);
+        // --- On-site Notification Logic ---
+        if ($author->getNotificationPreference('blog_onsite')) {
+            $notification = new Notification();
+            $notification->setUser($author);
+            $notification->setTitle($this->translator->trans('notification.comment_created.onsite_title', [], 'notifications'));
+            $notification->setMessage($this->translator->trans('notification.comment_created.onsite_message', [
+                '%comment_author%' => $comment->getAuthor()->getUsername(),
+                '%post_title%' => $post->getTitle(),
+            ], 'notifications'));
+            $notification->setLink($linkToPost);
+
+            $this->em->persist($notification);
+            $this->em->flush(); // Flush immediately to ensure notification is available
+        }
     }
 }

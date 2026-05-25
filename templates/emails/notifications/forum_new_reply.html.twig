@@ -1,0 +1,11 @@
+{% extends 'emails/layout.html.twig' %}
+
+{% block title %}{{ 'notification.forum_new_reply.email_subject'|trans({}, 'notifications') }}{% endblock %}
+
+{% block content %}
+    <h1>Hello {{ threadAuthor.username }},</h1>
+
+    <p>{{ replierUsername }} has replied to your forum thread "{{ threadTitle }}".</p>
+
+    <p>View the reply here: <a href="{{ linkToThread }}">{{ linkToThread }}</a></p>
+{% endblock %}

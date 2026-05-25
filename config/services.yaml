@@ -77,6 +77,16 @@ services:
     App\EventSubscriber\CommentNotificationSubscriber:
         $sender: '%app.notifications.email_sender%'
 
+    # Explicitly configure the $sender argument for ForumSocialController
+    App\Controller\Forum\ForumSocialController:
+        bind:
+            $sender: '%app.notifications.email_sender%'
+
+    # Explicitly configure the $sender argument for ForumThreadController
+    App\Controller\Forum\ForumThreadController:
+        bind:
+            $sender: '%app.notifications.email_sender%'
+
     Symfony\Component\Security\Http\Logout\LogoutUrlGenerator: '@security.logout_url_generator'
 
     App\EventListener\WorkflowSyncListener:

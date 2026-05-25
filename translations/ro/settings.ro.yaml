@@ -53,6 +53,7 @@ settings:
         security: "Securitate"
         preferences: "Preferințe"
         forum: "Forum"
+        notifications: "Notificări"
     titles:
         activity: "Activitate"
         social_media: "Social Media"

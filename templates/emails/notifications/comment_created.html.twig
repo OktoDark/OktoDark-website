@@ -1,0 +1,11 @@
+{% extends 'emails/layout.html.twig' %}
+
+{% block title %}{{ 'notification.comment_created.email_subject'|trans({}, 'notifications') }}{% endblock %}
+
+{% block content %}
+    <h1>Hello {{ author.username }},</h1>
+
+    <p>Your post "{{ postTitle }}" has a new comment from {{ commentAuthor.username }}.</p>
+
+    <p>Read the comment here: <a href="{{ linkToPost }}">{{ linkToPost }}</a></p>
+{% endblock %}

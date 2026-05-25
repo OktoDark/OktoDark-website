@@ -1,0 +1,39 @@
+notification: # New top-level key
+    settings_title: "Setări Notificări"
+    types:
+        blog: "Notificări Blog"
+        forum: "Notificări Forum"
+        follow: "Notificări Urmărire"
+    channels:
+        email: "Email"
+        onsite: "Pe site"
+    new_follower:
+        title: "Urmăritor Nou!"
+        message: "%username% te urmărește acum."
+        email_subject: "Ai un urmăritor nou!"
+        email_body: "Salut %username%,<br><br>%follower_username% te urmărește acum pe OktoDark Studios.<br><br>Vezi profilul lor aici: %link%<br><br>Cu respect,<br>Echipa OktoDark Studios"
+    comment_created:
+        email_subject: "Comentariu Nou la Postarea Ta!"
+        email_body: "Salut %title%,<br><br>Postarea ta \"%title%\" are un comentariu nou.<br><br>Citește comentariul aici: %link%<br><br>Cu respect,<br>Echipa OktoDark Studios"
+        onsite_title: "Comentariu Nou!"
+        onsite_message: "%comment_author% a comentat la postarea ta \"%post_title%\"."
+    forum_new_reply:
+        email_subject: "Răspuns Nou la Discuția Ta de pe Forum!"
+    forum_mention:
+        title: "Ai fost menționat într-o postare pe forum!"
+        message: "%mentioner_username% te-a menționat în discuția de pe forum \"%post_title%\"."
+    # Keys for notifications page
+    page_title: "Notificările Tale"
+    description: "Gestionează și vizualizează toate notificările tale aici."
+    your_notifications: "Notificările Tale"
+    mark_all_read: "Marchează tot ca citit"
+    no_notifications_yet: "Nu ai nicio notificare încă."
+    unread: "Necitit"
+    read: "Citit"
+    ago:
+        year: "{1} acum %count% an|]1,Inf[ acum %count% ani"
+        month: "{1} acum %count% lună|]1,Inf[ acum %count% luni"
+        day: "{1} acum %count% zi|]1,Inf[ acum %count% zile"
+        hour: "{1} acum %count% oră|]1,Inf[ acum %count% ore"
+        minute: "{1} acum %count% minut|]1,Inf[ acum %count% minute"
+        just_now: "chiar acum"

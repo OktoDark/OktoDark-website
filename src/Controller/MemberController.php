@@ -18,6 +18,7 @@ use App\Form\ChangePasswordType;
 use App\Form\ForumProfileSettingsType;
 use App\Form\PreferencesType;
 use App\Form\ProfileType;
+use App\Form\NotificationSettingsType;
 use App\Repository\AccountActivityRepository;
 use App\Repository\OurGamesRepository;
 use App\Service\SocialLinkParser;
@@ -186,6 +187,19 @@ final class MemberController extends AbstractController
             ]);
         }
 
+        // Handle Notification Settings Form
+        $notificationForm = $this->createForm(NotificationSettingsType::class, $user);
+        $notificationForm->handleRequest($request);
+
+        if ($notificationForm->isSubmitted() && $notificationForm->isValid()) {
+            $em->flush();
+            $this->addFlash('success', 'Notification settings updated.');
+
+            return $this->redirectToRoute('settings_area', [
+                'tab' => 'notifications',
+            ]);
+        }
+
         $avatarForm = $this->createForm(AvatarUploadType::class);
         $avatarForm->handleRequest($request);
 
@@ -221,6 +235,7 @@ final class MemberController extends AbstractController
             'preferencesForm' => $preferencesForm->createView(),
             'avatarForm' => $avatarForm->createView(),
             'forumForm' => $forumForm->createView(),
+            'notificationForm' => $notificationForm->createView(), // Pass the new notification form
             'user' => $user,
             'activities' => $activities,
             'currentFingerprint' => $currentFingerprint,

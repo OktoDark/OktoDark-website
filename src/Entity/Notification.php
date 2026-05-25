@@ -21,7 +21,7 @@ class Notification
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false)]
     private User $user;
 
@@ -111,6 +111,13 @@ class Notification
     public function setRead(bool $isRead): self
     {
         $this->isRead = $isRead;
+
+        return $this;
+    }
+
+    public function markAsRead(): self
+    {
+        $this->isRead = true;
 
         return $this;
     }

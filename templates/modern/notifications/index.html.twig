@@ -1,0 +1,100 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'notification.page_title'|trans({}, 'notifications') }}{% endblock %}
+{% block body_id 'notifications_page' %}
+
+{% block main %}
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'notification.page_title'|trans({}, 'notifications') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'notification.description'|trans({}, 'notifications') }}</p>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-default pt-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">{{ 'notification.your_notifications'|trans({}, 'notifications') }}</h5>
+                            {% if notifications is not empty %}
+                                <form action="{{ path('notifications_mark_all_read') }}" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-check-double me-1"></i> {{ 'notification.mark_all_read'|trans({}, 'notifications') }}
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                        <div class="list-group list-group-flush">
+                            {% if notifications is empty %}
+                                <div class="list-group-item text-center text-muted py-4">
+                                    {{ 'notification.no_notifications_yet'|trans({}, 'notifications') }}
+                                </div>
+                            {% else %}
+                                {% for notification in notifications %}
+                                    <a href="{{ notification.link ?? path('notifications_mark_as_read', {id: notification.id}) }}"
+                                       class="list-group-item list-group-item-action {% if not notification.isRead %}list-group-item-light fw-bold{% endif %}"
+                                       {% if not notification.isRead %}data-notification-id="{{ notification.id }}"{% endif %}
+                                    >
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ notification.title }}</h6>
+                                            <small class="text-muted">{{ notification.createdAt|ago }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ notification.message }}</p>
+                                        {% if not notification.isRead %}
+                                            <small class="text-primary">{{ 'notification.unread'|trans({}, 'notifications') }}</small>
+                                        {% else %}
+                                            <small class="text-muted">{{ 'notification.read'|trans({}, 'notifications') }}</small>
+                                        {% endif %}
+                                    </a>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('[data-notification-id]').forEach(item => {
+                item.addEventListener('click', function(event) {
+                    // Prevent default link behavior if it's just marking as read
+                    // If notification.link is set, we want to navigate there after marking as read
+                    if (this.href.includes('mark-read') && !this.href.includes('notifications_index')) {
+                        event.preventDefault();
+                    }
+
+                    const notificationId = this.dataset.notificationId;
+                    fetch(`{{ path('notifications_mark_as_read', {id: 'NOTIFICATION_ID'}) }}`.replace('NOTIFICATION_ID', notificationId), {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            item.classList.remove('list-group-item-light', 'fw-bold');
+                            item.querySelector('small.text-primary').innerText = '{{ 'read'|trans({}, 'notifications') }}';
+                            item.querySelector('small.text-primary').classList.remove('text-primary');
+                            item.querySelector('small.text-muted').classList.add('text-muted');
+
+                            // If there was a specific link, navigate to it now
+                            if (item.href && !item.href.includes('mark-read')) {
+                                window.location.href = item.href;
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Error marking notification as read:', error));
+                });
+            });
+        });
+    </script>
+{% endblock %}

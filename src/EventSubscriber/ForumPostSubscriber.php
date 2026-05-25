@@ -13,6 +13,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\ForumPost;
 use App\Entity\Notification;
+use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\ReputationService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,6 +21,7 @@ use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ForumPostSubscriber implements EventSubscriberInterface
 {
@@ -28,6 +30,7 @@ class ForumPostSubscriber implements EventSubscriberInterface
         private UserRepository $userRepository,
         private EntityManagerInterface $em,
         private UrlGeneratorInterface $urlGenerator,
+        private TranslatorInterface $translator,
     ) {
     }
 
@@ -49,7 +52,7 @@ class ForumPostSubscriber implements EventSubscriberInterface
         // Award reputation
         $this->reputationService->awardPoints($entity->getAuthor(), ReputationService::POINTS_PER_POST);
 
-        // Detect mentions
+        // Detect mentions and send notifications based on user preferences
         $this->handleMentions($entity);
     }
 
@@ -62,12 +65,18 @@ class ForumPostSubscriber implements EventSubscriberInterface
             $usernames = array_unique($matches[1]);
 
             foreach ($usernames as $username) {
+                /** @var User|null $user */
                 $user = $this->userRepository->findOneBy(['username' => $username]);
-                if ($user && $user !== $post->getAuthor()) {
+
+                // Only send notification if user exists, is not the author, and has forum_onsite notifications enabled
+                if ($user && $user !== $post->getAuthor() && $user->getNotificationPreference('forum_onsite')) {
                     $notification = new Notification();
                     $notification->setUser($user);
-                    $notification->setTitle('You were mentioned!');
-                    $notification->setMessage(\sprintf('%s mentioned you in a forum post.', $post->getAuthor()->getUsername()));
+                    $notification->setTitle($this->translator->trans('notification.forum_mention.title', [], 'notifications'));
+                    $notification->setMessage($this->translator->trans('notification.forum_mention.message', [
+                        '%mentioner_username%' => $post->getAuthor()->getUsername(),
+                        '%post_title%' => $post->getThread()->getTitle(),
+                    ], 'notifications'));
                     $notification->setLink($this->urlGenerator->generate('forum_thread_view', ['slug' => $post->getThread()->getSlug()]));
 
                     $this->em->persist($notification);

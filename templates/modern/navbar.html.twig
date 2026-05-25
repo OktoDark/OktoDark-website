@@ -79,6 +79,7 @@
 
                     {# USER MENU #}
                     {% if app.user %}
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                                 {{ 'navbar.member_area'|trans({}, 'navbar') }}
@@ -111,6 +112,45 @@
                             </ul>
                         </li>
                     {% endif %}
+
+                    {# NOTIFICATIONS BELL #}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarNotifications" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bell"></i>
+                            {% if app.user.unreadNotificationsCount > 0 %}
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="padding-top: 20px;">
+                                        {{ app.user.unreadNotificationsCount }}
+                                        <span class="visually-hidden">unread notifications</span>
+                                    </span>
+                            {% endif %}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarNotifications">
+                            {% if app.user.unreadNotificationsCount > 0 %}
+                                {% for notification in app.user.notifications|filter(n => not n.isRead)|slice(0, 5) %} {# Show up to 5 unread notifications #}
+                                    <li>
+                                        <a class="dropdown-item notification-item {% if not notification.isRead %}unread{% endif %}" href="{{ notification.link }}">
+                                            <div class="notification-title">{{ notification.title }}</div>
+                                            <div class="notification-message">{{ notification.message|u.truncate(50, '...') }}</div>
+                                            <div class="notification-time text-muted small">{{ notification.createdAt|ago }}</div>
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                {% endfor %}
+                                <li>
+                                    <form action="{{ path('notifications_mark_all_read') }}" method="post" class="d-inline">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('mark_all_read') }}">
+                                        <button type="submit" class="dropdown-item text-center text-primary" onclick="return confirm('{{ 'navbar.notifications.confirm_mark_all_read'|trans({}, 'navbar') }}');">
+                                            <i class="fas fa-check-double me-1"></i> {{ 'navbar.notifications.mark_all_read'|trans({}, 'navbar') }}
+                                        </button>
+                                    </form>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-center" href="{{ path('notifications_index') }}">{{ 'navbar.notifications.view_all'|trans({}, 'navbar') }}</a></li>
+                            {% else %}
+                                <li><span class="dropdown-item text-muted">{{ 'navbar.notifications.no_new'|trans({}, 'navbar') }}</span></li>
+                            {% endif %}
+                        </ul>
+                    </li>
 
                 </ul>
             </div>

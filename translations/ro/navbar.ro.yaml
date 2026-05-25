@@ -20,3 +20,8 @@ navbar.assets: "Resurse"
 navbar.logout: "Ieșire"
 navbar.login: "Autentificare"
 navbar.register: "Înregistrare"
+navbar.notifications:
+    mark_all_read: "Marchează tot ca citit"
+    view_all: "Vezi toate notificările"
+    no_new: "Nicio notificare nouă"
+    confirm_mark_all_read: "Ești sigur că vrei să marchezi toate notificările ca citite?"

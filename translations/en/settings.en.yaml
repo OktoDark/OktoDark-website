@@ -53,6 +53,7 @@ settings:
         security: "Security"
         preferences: "Preferences"
         forum: "Forum"
+        notifications: "Notifications"
     titles:
         activity: "Activity"
         social_media: "Social Media"

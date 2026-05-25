@@ -1,0 +1,11 @@
+{% extends 'emails/layout.html.twig' %}
+
+{% block title %}{{ 'notification.new_follower.email_subject'|trans({}, 'notifications') }}{% endblock %}
+
+{% block content %}
+    <h1>Hello {{ followedUser.username }},</h1>
+
+    <p>{{ followerUsername }} is now following you on OktoDark Studios.</p>
+
+    <p>Check out their profile here: <a href="{{ followedUserLink }}">{{ followedUserLink }}</a></p>
+{% endblock %}

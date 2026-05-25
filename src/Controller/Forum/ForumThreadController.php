@@ -27,14 +27,28 @@ use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 #[Route('/forum/thread')]
 #[IsGranted('ROLE_USER')]
 final class ForumThreadController extends AbstractController
 {
+    public function __construct(
+        private MailerInterface $mailer,
+        private UrlGeneratorInterface $urlGenerator,
+        private TranslatorInterface $translator,
+        private string $sender,
+        private Environment $twig,
+    ) {
+    }
+
     #[Route('/view/{slug}', name: 'forum_thread_view', methods: ['GET', 'POST'])]
     public function view(
         #[MapEntity(mapping: ['slug' => 'slug'])] ForumThread $thread,
@@ -85,8 +99,38 @@ final class ForumThreadController extends AbstractController
             $thread->setUpdatedAt(new \DateTime());
             $em->flush();
 
-            // Notifications
-            $forumNotifier->notifyNewReply($post);
+            // --- Notification Logic for 'new reply' ---
+            $threadAuthor = $thread->getAuthor();
+            $replier = $post->getAuthor();
+
+            // Only notify if the replier is not the thread author
+            if ($threadAuthor !== $replier && $threadAuthor->getNotificationPreference('forum_email')) {
+                $subject = $this->translator->trans('notification.forum_new_reply.email_subject', [], 'notifications');
+                $linkToThread = $this->urlGenerator->generate('forum_thread_view', [
+                    'slug' => $thread->getSlug(),
+                    '_fragment' => 'post-'.$post->getId(),
+                ], UrlGeneratorInterface::ABSOLUTE_URL);
+
+                $body = $this->twig->render('emails/notifications/forum_new_reply.html.twig', [
+                    'threadTitle' => $thread->getTitle(),
+                    'linkToThread' => $linkToThread,
+                    'threadAuthor' => $threadAuthor,
+                    'replierUsername' => $replier->getUsername(),
+                ]);
+
+                $email = (new Email())
+                    ->from($this->sender)
+                    ->to($threadAuthor->getEmail())
+                    ->subject($subject)
+                    ->html($body)
+                ;
+                $email->getHeaders()->addTextHeader('X-Transport', 'no_reply');
+                $this->mailer->send($email);
+            }
+            // --- End Notification Logic ---
+
+            // Notifications (on-site, mentions)
+            $forumNotifier->notifyNewReply($post); // This will handle on-site notification for new replies
             $this->parseMentions($post->getContent(), $post, $forumNotifier, $userRepository);
 
             // Badges

@@ -124,6 +124,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\Column(type: Types::INTEGER)]
     private int $reputation = 0;
 
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $notificationPreferences = [
+        'blog_email' => true,
+        'blog_onsite' => true,
+        'forum_email' => true,
+        'forum_onsite' => true,
+        'follow_email' => true,
+        'follow_onsite' => true,
+    ];
+
     #[ORM\ManyToMany(targetEntity: Badge::class, inversedBy: 'users')]
     #[ORM\JoinTable(name: 'user_badges')]
     private Collection $badges;
@@ -171,6 +181,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ActivityLog::class)]
     private Collection $activityLogs;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, cascade: ['remove'], orphanRemoval: true)]
+    private Collection $notifications;
+
     public function __construct()
     {
         $this->trustedDevices = new ArrayCollection();
@@ -187,6 +200,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->reportedBugs = new ArrayCollection();
         $this->assignedBugs = new ArrayCollection();
         $this->activityLogs = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
         $this->createdAt = new \DateTime();
     }
 
@@ -616,6 +630,93 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
+    // NOTIFICATION PREFERENCES (Flattened JSON)
+    public function getNotificationPreferences(): ?array
+    {
+        // Define the base default structure inline
+        $baseDefaultPrefs = [
+            'blog_email' => true,
+            'blog_onsite' => true,
+            'forum_email' => true,
+            'forum_onsite' => true,
+            'follow_email' => true,
+            'follow_onsite' => true,
+        ];
+
+        // Ensure $this->notificationPreferences is always an array before merging, or use an empty array if null
+        $currentPrefs = is_array($this->notificationPreferences) ? $this->notificationPreferences : [];
+
+        // Merge stored preferences with the base defaults to ensure all keys exist
+        $merged = array_replace_recursive(
+            $baseDefaultPrefs,
+            $currentPrefs
+        );
+
+        // Ensure all values are booleans
+        array_walk($merged, function (&$value) {
+            $value = filter_var($value, \FILTER_VALIDATE_BOOLEAN, \FILTER_NULL_ON_FAILURE);
+            if (null === $value) {
+                $value = false; // Default to false if validation fails
+            }
+        });
+
+        return $merged;
+    }
+
+    public function setNotificationPreferences(?array $notificationPreferences): self
+    {
+        // Define the base default structure inline
+        $baseDefaultPrefs = [
+            'blog_email' => true,
+            'blog_onsite' => true,
+            'forum_email' => true,
+            'forum_onsite' => true,
+            'follow_email' => true,
+            'follow_onsite' => true,
+        ];
+
+        // If null is passed, set to null
+        if (null === $notificationPreferences) {
+            $this->notificationPreferences = null;
+        } else {
+            // Merge provided preferences with the base defaults to ensure completeness
+            $merged = array_replace_recursive(
+                $baseDefaultPrefs,
+                $notificationPreferences
+            );
+
+            // Ensure all values are booleans
+            array_walk($merged, function (&$value) {
+                $value = filter_var($value, \FILTER_VALIDATE_BOOLEAN, \FILTER_NULL_ON_FAILURE);
+                if (null === $value) {
+                    $value = false; // Default to false if validation fails
+                }
+            });
+
+            $this->notificationPreferences = $merged;
+        }
+
+        return $this;
+    }
+
+    // Helper to get a specific flattened preference
+    public function getNotificationPreference(string $key): bool
+    {
+        $preferences = $this->getNotificationPreferences(); // This will return defaults if $notificationPreferences is null
+        return $preferences[$key] ?? false;
+    }
+
+    // Helper to set a specific flattened preference
+    public function setNotificationPreference(string $key, bool $enabled): self
+    {
+        // Ensure we start with a complete set of preferences (or defaults)
+        $preferences = $this->getNotificationPreferences();
+        $preferences[$key] = $enabled;
+        $this->notificationPreferences = $preferences;
+
+        return $this;
+    }
+
     public function getBadges(): Collection
     {
         return $this->badges;
@@ -720,6 +821,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->subscribedThreads->removeElement($thread);
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getUser() === $this) {
+                $notification->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUnreadNotificationsCount(): int
+    {
+        $count = 0;
+        foreach ($this->notifications as $notification) {
+            if (!$notification->isRead()) {
+                ++$count;
+            }
+        }
+
+        return $count;
     }
 
     public function __serialize(): array

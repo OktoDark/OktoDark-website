@@ -118,6 +118,14 @@
                                 <i class="fas fa-comments me-1"></i>{{ 'settings.tabs.forum'|trans({}, 'settings') }}
                             </button>
                         </li>
+
+                        <li class="nav-item">
+                            <button class="nav-link {% if activeTab == 'notifications' %}active{% endif %}"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#notifications">
+                                <i class="fas fa-bell me-1"></i>{{ 'settings.tabs.notifications'|trans({}, 'settings') }}
+                            </button>
+                        </li>
                     </ul>
 
                     <div class="tab-content">
@@ -529,6 +537,51 @@
                                             </button>
                                         </div>
                                     {{ form_end(forumForm) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NOTIFICATIONS TAB -->
+                        <div class="tab-pane fade {% if activeTab == 'notifications' %}show active{% endif %}" id="notifications">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body p-4">
+                                    <h4 class="mb-4 fw-bold text-info"><i class="fas fa-bell me-2"></i>{{ 'notification.settings_title'|trans({}, 'notifications') }}</h4>
+
+                                    {{ form_start(notificationForm) }}
+                                        <div class="col-12 d-flex justify-content-between align-items-center mb-3">
+                                            <span>{{ 'notification.types.blog'|trans({}, 'notifications') }} {{ 'notification.channels.email'|trans({}, 'notifications') }}</span>
+                                            {{ form_widget(notificationForm.notificationPreferences.blog_email, { attr: { class: 'privacy-toggle' } }) }}
+                                        </div>
+
+                                        <div class="col-12 d-flex justify-content-between align-items-center mb-3">
+                                            <span>{{ 'notification.types.blog'|trans({}, 'notifications') }} {{ 'notification.channels.onsite'|trans({}, 'notifications') }}</span>
+                                            {{ form_widget(notificationForm.notificationPreferences.blog_onsite, { attr: { class: 'privacy-toggle' } }) }}
+                                        </div>
+
+                                        <div class="col-12 d-flex justify-content-between align-items-center mb-3">
+                                            <span>{{ 'notification.types.forum'|trans({}, 'notifications') }} {{ 'notification.channels.email'|trans({}, 'notifications') }}</span>
+                                            {{ form_widget(notificationForm.notificationPreferences.forum_email, { attr: { class: 'privacy-toggle' } }) }}
+                                        </div>
+
+                                        <div class="col-12 d-flex justify-content-between align-items-center mb-3">
+                                            <span>{{ 'notification.types.forum'|trans({}, 'notifications') }} {{ 'notification.channels.onsite'|trans({}, 'notifications') }}</span>
+                                            {{ form_widget(notificationForm.notificationPreferences.forum_onsite, { attr: { class: 'privacy-toggle' } }) }}
+                                        </div>
+
+                                        <div class="col-12 d-flex justify-content-between align-items-center mb-3">
+                                            <span>{{ 'notification.types.follow'|trans({}, 'notifications') }} {{ 'notification.channels.email'|trans({}, 'notifications') }}</span>
+                                            {{ form_widget(notificationForm.notificationPreferences.follow_email, { attr: { class: 'privacy-toggle' } }) }}
+                                        </div>
+
+                                        <div class="col-12 d-flex justify-content-between align-items-center mb-3">
+                                            <span>{{ 'notification.types.follow'|trans({}, 'notifications') }} {{ 'notification.channels.onsite'|trans({}, 'notifications') }}</span>
+                                            {{ form_widget(notificationForm.notificationPreferences.follow_onsite, { attr: { class: 'privacy-toggle' } }) }}
+                                        </div>
+
+                                        <button name="tab" value="notifications" class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i>{{ 'common.save'|trans({}, 'common') }}
+                                        </button>
+                                    {{ form_end(notificationForm) }}
                                 </div>
                             </div>
                         </div>

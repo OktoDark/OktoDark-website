@@ -20,3 +20,8 @@ navbar.assets: "Assets"
 navbar.logout: "Logout"
 navbar.login: "Login"
 navbar.register: "Register"
+navbar.notifications:
+    mark_all_read: "Mark all as read"
+    view_all: "View all notifications"
+    no_new: "No new notifications"
+    confirm_mark_all_read: "Are you sure you want to mark all notifications as read?"

@@ -12,7 +12,9 @@
 namespace App\Twig;
 
 use Symfony\Component\Intl\Locales;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
@@ -20,7 +22,7 @@ class AppExtension extends AbstractExtension
     private array $localeCodes;
     private ?array $locales = null;
 
-    public function __construct(string $locales)
+    public function __construct(string $locales, private TranslatorInterface $translator)
     {
         $localeCodes = explode('|', $locales);
         sort($localeCodes);
@@ -31,6 +33,13 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('locales', [$this, 'getLocales']),
+        ];
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter('ago', [$this, 'agoFilter']),
         ];
     }
 
@@ -51,5 +60,32 @@ class AppExtension extends AbstractExtension
         }
 
         return $this->locales;
+    }
+
+    /**
+     * Converts a DateTime object to a human-readable "time ago" string.
+     */
+    public function agoFilter(\DateTimeInterface $date): string
+    {
+        $now = new \DateTime();
+        $diff = $now->diff($date);
+
+        if ($diff->y > 0) {
+            return $this->translator->trans('notification.ago.year', ['%count%' => $diff->y], 'notifications');
+        }
+        if ($diff->m > 0) {
+            return $this->translator->trans('notification.ago.month', ['%count%' => $diff->m], 'notifications');
+        }
+        if ($diff->d > 0) {
+            return $this->translator->trans('notification.ago.day', ['%count%' => $diff->d], 'notifications');
+        }
+        if ($diff->h > 0) {
+            return $this->translator->trans('notification.ago.hour', ['%count%' => $diff->h], 'notifications');
+        }
+        if ($diff->i > 0) {
+            return $this->translator->trans('notification.ago.minute', ['%count%' => $diff->i], 'notifications');
+        }
+
+        return $this->translator->trans('notification.ago.just_now', [], 'notifications');
     }
 }

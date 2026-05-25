@@ -1,0 +1,39 @@
+notification: # New top-level key
+    settings_title: "Notification Settings"
+    types:
+        blog: "Blog Notifications"
+        forum: "Forum Notifications"
+        follow: "Follow Notifications"
+    channels:
+        email: "Email"
+        onsite: "On-site"
+    new_follower:
+        title: "New Follower!"
+        message: "%username% is now following you."
+        email_subject: "You have a new follower!"
+        email_body: "Hello %username%,<br><br>%follower_username% is now following you on OktoDark Studios.<br><br>Check out their profile here: %link%<br><br>Regards,<br>The OktoDark Studios Team"
+    comment_created:
+        email_subject: "New Comment on Your Post!"
+        email_body: "Hello %title%,<br><br>Your post \"%title%\" has a new comment.<br><br>Read the comment here: %link%<br><br>Regards,<br>The OktoDark Studios Team"
+        onsite_title: "New Comment!"
+        onsite_message: "%comment_author% commented on your post \"%post_title%\"."
+    forum_new_reply:
+        email_subject: "New Reply to Your Forum Thread!"
+    forum_mention:
+        title: "You were mentioned in a forum post!"
+        message: "%mentioner_username% mentioned you in the forum thread \"%post_title%\"."
+    # Keys for notifications page
+    page_title: "Your Notifications"
+    description: "Manage and view all your notifications here."
+    your_notifications: "Your Notifications"
+    mark_all_read: "Mark All As Read"
+    no_notifications_yet: "You don't have any notifications yet."
+    unread: "Unread"
+    read: "Read"
+    ago:
+        year: "{1} %count% year ago|]1,Inf[ %count% years ago"
+        month: "{1} %count% month ago|]1,Inf[ %count% months ago"
+        day: "{1} %count% day ago|]1,Inf[ %count% days ago"
+        hour: "{1} %count% hour ago|]1,Inf[ %count% hours ago"
+        minute: "{1} %count% minute ago|]1,Inf[ %count% minutes ago"
+        just_now: "just now"
