@@ -32,7 +32,7 @@ final class ForumSocialController extends AbstractController
         if ($user === $currentUser) {
             $this->addFlash('error', 'You cannot follow yourself.');
 
-            return $this->redirectToRoute('admin_user_view', ['id' => $user->getId()]); // Or profile view
+            return $this->redirectToRoute('profile_view', ['username' => $user->getUsername()]);
         }
 
         if ($currentUser->getFollowing()->contains($user)) {
@@ -45,7 +45,7 @@ final class ForumSocialController extends AbstractController
 
         $em->flush();
 
-        return $this->redirect($this->generateUrl('admin_user_view', ['id' => $user->getId()])); // Placeholder
+        return $this->redirect($this->generateUrl('profile_view', ['username' => $user->getUsername()]));
     }
 
     #[Route('/subscribe/{id}', name: 'forum_thread_subscribe', methods: ['POST'])]
