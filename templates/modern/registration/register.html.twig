@@ -97,7 +97,12 @@
                         <!-- Terms -->
                         <div class="mb-3 text-start form-check">
                             {{ form_widget(registrationForm.agreeTerms) }}
-                            {{ form_label(registrationForm.agreeTerms) }}
+                            <label class="form-check-label" for="registration_form_agreeTerms">
+                                {{ 'register.agree_terms'|trans({}, 'register') }}
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#termsAndConditionsModal">
+                                    {{ 'title.terms_and_conditions'|trans({}, 'base') }}
+                                </a>
+                            </label>
 
                             {% for error in registrationForm.agreeTerms.vars.errors %}
                                 <div class="form-error-message">{{ error.message }}</div>
@@ -124,6 +129,27 @@
             {% include '@theme/registration/_progress.html.twig' with { current_step: 1 } %}
         </div>
     </section>
+
+    <!-- Terms and Conditions Modal -->
+    <div class="modal fade" id="termsAndConditionsModal" tabindex="-1" aria-labelledby="termsAndConditionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="termsAndConditionsModalLabel">{{ 'title.terms_and_conditions'|trans({}, 'base') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-start">
+                    <dl class="list-terms modern-terms">
+                        {{ 'terms_and_conditions.section'|trans({}, 'terms_and_conditions')|raw }}
+                    </dl>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="button button-sm button-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block javascripts %}

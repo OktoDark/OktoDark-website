@@ -1,0 +1,58 @@
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * For the full copyright and license information, please view the LICENSE.
+ */
+
+/* Modern terms container */
+#terms-and-conditions .terms-modern {
+    background: #1a1a1a;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    color: #ddd;
+    line-height: 1.7;
+}
+
+/* Terms list styling */
+#terms-and-conditions .modern-terms dt {
+    font-weight: 700;
+    margin-top: 20px;
+    color: #0cc5b6;
+}
+
+#terms-and-conditions .modern-terms dd {
+    margin-left: 0;
+    margin-bottom: 15px;
+}
+
+/* Link styling (adjusted for consistency with terms-modern) */
+#terms-and-conditions .terms-modern a {
+    font-weight: 600;
+    color: #0cc5b6;
+    text-decoration: none;
+    transition: color .25s ease;
+}
+
+#terms-and-conditions .terms-modern a:hover {
+    color: #0ee8d4;
+}
+
+/* Title section alignment */
+#terms-and-conditions .section-page-title {
+    padding-top: 70px;
+    padding-bottom: 70px;
+    /* background: #111; */
+}
+
+#terms-and-conditions .section-page-title h2 {
+    font-size: 2.4rem;
+    letter-spacing: -0.5px;
+}
+
+#terms-and-conditions .section-page-title p {
+    font-size: 1.1rem;
+    opacity: .8;
+}

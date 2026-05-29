@@ -1,0 +1,648 @@
+terms_and_conditions.subtitle: "Please read our Terms & Conditions carefully."
+terms_and_conditions.section: |
+  <p class="text-light small mb-4">
+    Last updated: 29.05.2026
+  </p>
+
+  <dt class="heading-4">1. Introduction</dt>
+  Welcome to OktoDark, a digital platform operated by OktoDark Studios. By creating an account, accessing the website, downloading content, or using any feature of the platform (forum, marketplace, installer, updater, notifications, or related services), you agree to these Terms & Conditions. If you do not agree, you must stop using the platform.
+  <br><br>
+
+  <dt class="heading-4">2. Eligibility</dt>
+  To use the platform, you must:
+  <ul class="list-marked">
+      <li>Be at least 13 years old</li>
+      <li>Have legal permission to use online services in your region</li>
+      <li>Agree to these Terms and our <a href="/en/privacy-policy">Privacy Policy</a></li>
+  </ul>
+  We may suspend or terminate accounts that violate these requirements.
+  <br><br>
+
+  <dt class="heading-4">3. Platform Overview</dt>
+  OktoDark provides:
+  <ul class="list-marked">
+      <li>A community forum with boards, threads, and discussions</li>
+      <li>A blog system for publishing and reading posts</li>
+      <li>A follow system for tracking users and content</li>
+      <li>A notification system (email + onsite)</li>
+      <li>A role‑based permission system</li>
+      <li>User profiles, avatars, signatures, and social links</li>
+      <li>A marketplace for digital assets, mods, tools, and downloads</li>
+      <li>A secure download system with versioning</li>
+      <li>An installer and updater for platform deployment</li>
+      <li>Optional AI‑assisted features (moderation, suggestions, summaries)</li>
+  </ul>
+  These Terms apply to all features, present and future.
+  <br><br>
+
+  <dt class="heading-4">4. Account Registration</dt>
+  When creating an account, you agree to:
+  <ul class="list-marked">
+      <li>Provide accurate information</li>
+      <li>Keep your password secure</li>
+      <li>Not share your account</li>
+      <li>Not impersonate others</li>
+      <li>Not create multiple accounts for abuse</li>
+  </ul>
+  You are responsible for all activity performed under your account.
+  <br><br>
+
+  <dt class="heading-4">5. User Content</dt>
+  <dt class="heading-5">5.1 Your Content</dt>
+  You retain ownership of the content you post or upload. By posting on OktoDark, you grant us a non‑exclusive, worldwide, royalty‑free license to:
+  <ul class="list-marked">
+      <li>Display</li>
+      <li>Store</li>
+      <li>Distribute</li>
+      <li>Modify (for moderation or formatting)</li>
+  </ul>
+  This license ends when you delete your content or your account.
+  <br><br>
+  <dt class="heading-5">5.2 Prohibited Content</dt>
+  You may NOT upload or post:
+  <ul class="list-marked">
+      <li>Illegal content</li>
+      <li>Hate speech, harassment, or threats</li>
+      <li>NSFW content (unless explicitly allowed in designated areas)</li>
+      <li>Malware, exploits, or harmful scripts</li>
+      <li>Spam, advertisements, or self‑promotion without permission</li>
+      <li>Copyrighted material you do not own</li>
+      <li>Assets that violate third‑party licenses</li>
+  </ul>
+  We may remove content or restrict access at our discretion.
+  <br><br>
+
+  <dt class="heading-4">6. Marketplace & Downloads</dt>
+  The OktoDark Marketplace allows users to:
+  <ul class="list-marked">
+      <li>Upload digital assets (mods, tools, themes, resources)</li>
+      <li>Download content shared by others</li>
+      <li>Access versioned files and changelogs</li>
+      <li>Follow creators and receive updates</li>
+  </ul>
+  <dt class="heading-5">6.1 Uploading Assets</dt>
+  By uploading to the marketplace, you confirm that:
+  <ul class="list-marked">
+      <li>You own the rights to the content</li>
+      <li>You have permission to distribute it</li>
+      <li>You clearly state the license (MIT, GPL, CC, custom, etc.)</li>
+      <li>Your upload does not contain harmful or malicious code</li>
+      <li>Your content complies with all applicable laws</li>
+  </ul>
+  We may remove or restrict any asset at our discretion.
+  <br><br>
+  <dt class="heading-5">6.2 Downloading Assets</dt>
+  When downloading content:
+  <ul class="list-marked">
+      <li>You agree to follow the license chosen by the creator</li>
+      <li>You understand that downloads are provided “as‑is”</li>
+      <li>You assume all risk associated with installing or using downloaded files</li>
+  </ul>
+  We are not responsible for damage caused by third‑party content.
+  <br><br>
+  <dt class="heading-5">6.3 Paid Content (If Enabled)</dt>
+  If the marketplace includes paid items:
+  <ul class="list-marked">
+      <li>Payments are handled by third‑party payment processors</li>
+      <li>Refunds follow the processor’s policies</li>
+      <li>Chargebacks may result in account restrictions</li>
+  </ul>
+  <br><br>
+  <dt class="heading-5">6.4 Asset Removal</dt>
+  Creators may delete their assets at any time. However:
+  <ul class="list-marked">
+      <li>Previously downloaded versions may remain accessible to users who already downloaded them</li>
+      <li>We may retain backups for security and auditing</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-4">7. Forum & Community Rules</dt>
+  By using the forum, you agree to:
+  <ul class="list-marked">
+      <li>Respect other members</li>
+      <li>Stay on topic within boards</li>
+      <li>Follow moderator instructions</li>
+      <li>Avoid disruptive behavior</li>
+      <li>Not abuse the follow or notification systems</li>
+  </ul>
+  Moderators may edit, move, or delete posts and may issue warnings or bans.
+  <br><br>
+
+  <dt class="heading-4">8. Roles & Permissions</dt>
+  The platform uses a role‑based permission system.
+  <ul class="list-marked">
+      <li>Roles determine what actions you can perform</li>
+      <li>Administrators may assign, modify, or revoke roles</li>
+  </ul>
+  Attempting to bypass permissions is strictly prohibited. Unauthorized access attempts may result in account termination.
+  <br><br>
+
+  <dt class="heading-4">9. Notifications</dt>
+  You may receive:
+  <ul class="list-marked">
+      <li>Email notifications</li>
+      <li>On‑site alerts</li>
+      <li>Security warnings</li>
+      <li>System messages</li>
+      <li>Follow updates</li>
+      <li>Marketplace update alerts</li>
+  </ul>
+  You can manage your preferences in Notification Settings.
+  <br><br>
+
+  <dt class="heading-4">10. AI‑Assisted Features</dt>
+  Some features may use AI for:
+  <ul class="list-marked">
+      <li>Content suggestions</li>
+      <li>Summaries</li>
+      <li>Moderation assistance</li>
+      <li>Automated alerts</li>
+      <li>Marketplace asset analysis</li>
+  </ul>
+  AI outputs may not always be accurate. You agree not to rely on AI features for legal, medical, or financial decisions.
+  <br><br>
+
+  <dt class="heading-4">11. Installer & Updater</dt>
+  If you use the OktoDark installer or updater:
+  <ul class="list-marked">
+      <li>You are responsible for your server environment</li>
+      <li>We are not liable for data loss during installation or updates</li>
+      <li>You must maintain backups before performing updates</li>
+      <li>Modifying system files may void support</li>
+      <li>Auto‑update features may download files from trusted sources</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-4">12. Security</dt>
+  We take reasonable measures to protect your data, but:
+  <ul class="list-marked">
+      <li>No system is completely secure</li>
+      <li>You must protect your device and password</li>
+      <li>You must report suspicious activity immediately</li>
+  </ul>
+  Attempting to hack, exploit, or disrupt the platform is strictly prohibited.
+  <br><br>
+
+  <dt class="heading-4">13. Third‑Party Services</dt>
+  The platform may integrate with third‑party services such as:
+  <ul class="list-marked">
+      <li>Social login</li>
+      <li>Analytics</li>
+      <li>Email providers</li>
+      <li>Payment processors</li>
+      <li>AI providers</li>
+  </ul>
+  We are not responsible for their policies or actions.
+  <br><br>
+
+  <dt class="heading-4">14. Termination</dt>
+  We may suspend or terminate your account if you:
+  <ul class="list-marked">
+      <li>Violate these Terms</li>
+      <li>Abuse the platform</li>
+      <li>Attempt to harm the system or community</li>
+      <li>Upload harmful or illegal content</li>
+      <li>Engage in fraudulent marketplace activity</li>
+  </ul>
+  You may delete your account at any time.
+  <br><br>
+
+  <dt class="heading-4">15. Limitation of Liability</dt>
+  To the maximum extent permitted by law:
+  <ul class="list-marked">
+      <li>We are not liable for data loss</li>
+      <li>We are not liable for downtime or service interruptions</li>
+      <li>We are not liable for user‑generated content</li>
+      <li>We are not liable for damages resulting from downloads or marketplace assets</li>
+      <li>We are not liable for issues caused by third‑party integrations</li>
+  </ul>
+  Use the platform at your own risk.
+  <br><br>
+
+  <dt class="heading-4">16. Changes to These Terms</dt>
+  We may update these Terms at any time. If changes are significant, we will notify users via:
+  <ul class="list-marked">
+      <li>Email</li>
+      <li>On‑site notification</li>
+      <li>System announcement</li>
+  </ul>
+  Continued use of the platform means you accept the updated Terms.
+  <br><br>
+
+  <dt class="heading-4">17. Contact</dt>
+  For questions or concerns, contact us via the <a href="/en/contact">Contact</a> page.
+  <br><br>
+
+  <dt class="heading-4">18. Marketplace Rules (OktoDark Marketplace)</dt>
+  <dt class="heading-5">1. Introduction</dt>
+  The OktoDark Marketplace allows users to upload, share, and download digital assets such as mods, tools, themes, resources, and other creative works. By using the Marketplace, you agree to these rules in addition to the main Terms & Conditions.
+  <br><br>
+
+  <dt class="heading-5">2. Eligibility to Upload</dt>
+  To upload content, you must:
+  <ul class="list-marked">
+      <li>Own the rights to the content</li>
+      <li>Have permission to distribute it</li>
+      <li>Clearly state the license (MIT, GPL, CC, custom, etc.)</li>
+      <li>Ensure the content does not violate third‑party rights</li>
+      <li>Ensure the content does not contain harmful or malicious code</li>
+  </ul>
+  We may request proof of ownership or licensing at any time.
+  <br><br>
+
+  <dt class="heading-5">3. Prohibited Marketplace Content</dt>
+  You may NOT upload:
+  <ul class="list-marked">
+      <li>Pirated or stolen content</li>
+      <li>Assets ripped from commercial games or software</li>
+      <li>Malware, viruses, or harmful scripts</li>
+      <li>AI‑generated content that violates third‑party rights</li>
+      <li>NSFW content unless explicitly allowed in designated categories</li>
+      <li>Content that violates local or international law</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">4. Versioning & Updates</dt>
+  Creators may upload new versions of their assets. Users who downloaded previous versions may continue to access them unless the creator removes them for legal reasons.
+  <br><br>
+
+  <dt class="heading-5">5. Asset Removal</dt>
+  We may remove any asset that:
+  <ul class="list-marked">
+      <li>Violates these rules</li>
+      <li>Receives DMCA complaints</li>
+      <li>Contains harmful code</li>
+      <li>Is abandoned or broken</li>
+      <li>Violates licensing terms</li>
+  </ul>
+  Creators may delete their own assets at any time.
+  <br><br>
+
+  <dt class="heading-5">6. User Responsibilities</dt>
+  Users downloading assets must:
+  <ul class="list-marked">
+      <li>Follow the license chosen by the creator</li>
+      <li>Respect attribution requirements</li>
+      <li>Not redistribute assets without permission</li>
+      <li>Not modify assets in ways prohibited by the license</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">7. Marketplace Moderation</dt>
+  We reserve the right to:
+  <ul class="list-marked">
+      <li>Remove assets</li>
+      <li>Restrict uploads</li>
+      <li>Suspend accounts</li>
+      <li>Ban repeat offenders</li>
+  </ul>
+  Marketplace moderation decisions are final.
+  <br><br>
+
+  <dt class="heading-4">19. Downloads License Policy</dt>
+  <dt class="heading-5">1. Overview</dt>
+  All downloads on OktoDark are governed by the license chosen by the creator. OktoDark does not own user‑uploaded content unless explicitly stated.
+  <br><br>
+
+  <dt class="heading-5">2. License Types</dt>
+  Creators may choose from:
+  <ul class="list-marked">
+      <li>MIT License</li>
+      <li>GPL / LGPL</li>
+      <li>Creative Commons (CC‑BY, CC‑BY‑SA, CC‑BY‑NC, etc.)</li>
+      <li>Custom license</li>
+      <li>All rights reserved</li>
+  </ul>
+  The license must be clearly stated on the asset page.
+  <br><br>
+
+  <dt class="heading-5">3. User Rights</dt>
+  When downloading content, you may:
+  <ul class="list-marked">
+      <li>Use the asset according to its license</li>
+      <li>Modify it if the license allows</li>
+      <li>Redistribute it only if permitted</li>
+  </ul>
+  You may NOT:
+  <ul class="list-marked">
+      <li>Remove copyright notices</li>
+      <li>Claim ownership of someone else’s work</li>
+      <li>Use assets commercially unless allowed</li>
+      <li>Circumvent license restrictions</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">4. Creator Rights</dt>
+  Creators retain:
+  <ul class="list-marked">
+      <li>Copyright</li>
+      <li>Attribution rights</li>
+      <li>The right to update or remove their content</li>
+      <li>The right to enforce their license</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">5. OktoDark’s Role</dt>
+  OktoDark:
+  <ul class="list-marked">
+      <li>Does not claim ownership of user content</li>
+      <li>Does not guarantee the safety or legality of downloads</li>
+      <li>Is not responsible for license violations by users</li>
+      <li>Will comply with valid DMCA requests</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-4">20. DMCA / Copyright Policy</dt>
+  <dt class="heading-5">1. Introduction</dt>
+  OktoDark respects intellectual property rights and complies with the Digital Millennium Copyright Act (DMCA) and equivalent international laws.
+  <br><br>
+
+  <dt class="heading-5">2. Filing a DMCA Takedown Request</dt>
+  If you believe your copyrighted work has been uploaded without permission, you may submit a takedown request including:
+  <ul class="list-marked">
+      <li>Your full name</li>
+      <li>Contact information</li>
+      <li>A description of the copyrighted work</li>
+      <li>The URL(s) of the infringing content</li>
+      <li>A statement of good‑faith belief</li>
+      <li>A statement under penalty of perjury</li>
+      <li>Your physical or digital signature</li>
+  </ul>
+  Requests may be submitted through the <a href="/en/contact">Contact</a> page.
+  <br><br>
+
+  <dt class="heading-5">3. Counter‑Notification</dt>
+  If you believe your content was removed in error, you may submit a counter‑notification including:
+  <ul class="list-marked">
+      <li>Your full name</li>
+      <li>Contact information</li>
+      <li>The URL of the removed content</li>
+      <li>A statement of good‑faith belief</li>
+      <li>A statement consenting to jurisdiction</li>
+      <li>Your physical or digital signature</li>
+  </ul>
+  We may restore the content unless the original complainant files legal action.
+  <br><br>
+
+  <dt class="heading-5">4. Repeat Infringers</dt>
+  Users who repeatedly violate copyright laws may have their accounts suspended or terminated.
+  <br><br>
+
+  <dt class="heading-5">5. Good‑Faith Enforcement</dt>
+  We reserve the right to remove content proactively if we suspect copyright violations.
+  <br><br>
+
+  <dt class="heading-4">21. Refund Policy (For Paid Marketplace Items)</dt>
+  Only applies if you enable paid assets.
+  <br><br>
+
+  <dt class="heading-5">1. Overview</dt>
+  Paid items in the OktoDark Marketplace are handled through third‑party payment processors. Refunds follow both OktoDark rules and the processor’s policies.
+  <br><br>
+
+  <dt class="heading-5">2. Refund Eligibility</dt>
+  Refunds may be granted if:
+  <ul class="list-marked">
+      <li>The asset is broken or non‑functional</li>
+      <li>The asset description was misleading</li>
+      <li>The asset contains malicious code</li>
+      <li>The creator fails to deliver promised updates (if advertised)</li>
+  </ul>
+  Refunds will not be granted for:
+  <ul class="list-marked">
+      <li>Buyer’s remorse</li>
+      <li>Incompatibility with your system</li>
+      <li>Issues caused by user modification</li>
+      <li>Content that was already downloaded and used extensively</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">3. Refund Process</dt>
+  To request a refund:
+  <ul class="list-marked">
+      <li>Contact support via the <a href="/en/contact">Contact</a> page</li>
+      <li>Provide your order ID</li>
+      <li>Describe the issue</li>
+      <li>Provide screenshots or logs if needed</li>
+  </ul>
+  We may contact the creator for verification.
+  <br><br>
+
+  <dt class="heading-5">4. Chargebacks</dt>
+  Unauthorized chargebacks may result in:
+  <ul class="list-marked">
+      <li>Account restrictions</li>
+      <li>Loss of access to purchased items</li>
+      <li>Marketplace suspension</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">5. Creator Revenue</dt>
+  Creators receive payouts according to the marketplace revenue‑share model. Refunds may be deducted from future payouts.
+  <br><br>
+
+  <dt class="heading-4">22. Marketplace Seller Agreement — OktoDark Studios</dt>
+  This Marketplace Seller Agreement (“Agreement”) governs your participation as a seller on the OktoDark Marketplace. By uploading, listing, or selling digital content on the platform, you agree to this Agreement in addition to the Terms & Conditions, Marketplace Rules, Downloads License Policy, Refund Policy, and Privacy Policy.
+  <br><br>
+
+  <dt class="heading-5">1. Definitions</dt>
+  <strong>Seller:</strong> Any user who uploads or distributes digital content on the OktoDark Marketplace.
+  <br>
+  <strong>Buyer:</strong> Any user who downloads or purchases content.
+  <br>
+  <strong>Content:</strong> Any digital asset uploaded by a Seller, including mods, tools, themes, scripts, resources, or documentation.
+  <br>
+  <strong>Platform:</strong> The OktoDark website, marketplace, and related services.
+  <br>
+  <strong>OktoDark Studios:</strong> The operator and owner of the platform.
+  <br><br>
+
+  <dt class="heading-5">2. Eligibility to Sell</dt>
+  <strong>Active account:</strong> You must have an active OktoDark account in good standing.
+  <br>
+  <strong>Legal capacity:</strong> You must be legally allowed to enter into agreements and receive payments in your jurisdiction.
+  <br>
+  <strong>Compliance:</strong> You must comply with all applicable laws, including copyright, tax, and export regulations.
+  <br>
+  OktoDark Studios may approve, limit, or revoke seller status at its discretion.
+  <br><br>
+
+  <dt class="heading-5">3. Ownership and Rights to Content</dt>
+  <strong>Your ownership:</strong> You retain full ownership of the content you upload.
+  <br>
+  <strong>Rights you grant to OktoDark:</strong> By uploading content, you grant OktoDark a non‑exclusive, worldwide, royalty‑free license to:
+  <ul class="list-marked">
+      <li>Host, store, and display your content</li>
+      <li>Distribute it to buyers</li>
+      <li>Use it for promotion of the marketplace and platform</li>
+  </ul>
+  <strong>Third‑party rights:</strong> You confirm that your content:
+  <ul class="list-marked">
+      <li>Does not infringe third‑party copyrights, trademarks, or other rights</li>
+      <li>Complies with any third‑party licenses (e.g., game engines, tools, libraries)</li>
+  </ul>
+  You are fully responsible for any legal claims arising from your content.
+  <br><br>
+
+  <dt class="heading-5">4. Content Requirements</dt>
+  You must NOT upload:
+  <ul class="list-marked">
+      <li>Pirated or stolen content</li>
+      <li>Assets ripped from commercial games or software without permission</li>
+      <li>Malware, backdoors, or harmful code</li>
+      <li>Misleading, fraudulent, or deceptive content</li>
+      <li>Content that violates Marketplace Rules or Terms & Conditions</li>
+  </ul>
+  You must:
+  <ul class="list-marked">
+      <li>Provide accurate descriptions, tags, and screenshots</li>
+      <li>Clearly state the license (MIT, GPL, CC, custom, etc.)</li>
+      <li>Disclose dependencies or required software</li>
+      <li>Indicate if content is experimental or unstable</li>
+  </ul>
+  OktoDark may remove or hide content that violates these requirements.
+  <br><br>
+
+  <dt class="heading-5">5. Pricing and Payments</dt>
+  <strong>Pricing:</strong>
+  <ul class="list-marked">
+      <li>You may set the price of your paid content where the platform supports it.</li>
+      <li>OktoDark may set minimum or maximum price thresholds.</li>
+  </ul>
+  <strong>Revenue share:</strong>
+  <ul class="list-marked">
+      <li>A platform fee or revenue share may be applied to each sale.</li>
+      <li>The current revenue share model will be communicated in the marketplace documentation or seller dashboard.</li>
+  </ul>
+  <strong>Payouts:</strong>
+  <ul class="list-marked">
+      <li>Payouts are processed through supported payment providers.</li>
+      <li>You are responsible for providing accurate payout details.</li>
+      <li>Fees charged by payment processors may be deducted from your earnings.</li>
+  </ul>
+  <strong>Taxes:</strong>
+  <ul class="list-marked">
+      <li>You are responsible for reporting and paying any taxes due in your jurisdiction.</li>
+      <li>OktoDark may withhold amounts if required by law.</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">6. Refunds and Chargebacks</dt>
+  <strong>Refunds:</strong>
+  <ul class="list-marked">
+      <li>Refunds may be granted according to the platform’s Refund Policy (e.g., broken asset, misleading description, malicious content).</li>
+      <li>Refunded amounts may be deducted from your current or future earnings.</li>
+  </ul>
+  <strong>Chargebacks:</strong>
+  <ul class="list-marked">
+      <li>If a buyer initiates a chargeback, OktoDark may:</li>
+      <li>Deduct the amount from your balance</li>
+      <li>Restrict your seller account</li>
+      <li>Limit access to paid features</li>
+  </ul>
+  <strong>Disputes:</strong>
+  <ul class="list-marked">
+      <li>OktoDark may mediate disputes but is not obligated to resolve every conflict.</li>
+      <li>OktoDark’s decision on refunds and chargebacks is final.</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">7. Support and Updates</dt>
+  <strong>Seller responsibilities:</strong>
+  <ul class="list-marked">
+      <li>You are responsible for providing reasonable support for your paid content (bug fixes, clarifications, basic help).</li>
+      <li>If you advertise ongoing updates or long‑term support, you should make a good‑faith effort to honor that.</li>
+  </ul>
+  <strong>End of support:</strong>
+  <ul class="list-marked">
+      <li>You may discontinue support or updates, but you should update the asset description accordingly.</li>
+      <li>Buyers are not automatically entitled to refunds solely because support ends, unless promised otherwise.</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">8. Content Removal and Account Actions</dt>
+  <strong>By you:</strong>
+  <ul class="list-marked">
+      <li>You may unpublish or delete your content at any time.</li>
+  </ul>
+  <strong>By OktoDark:</strong>
+  <ul class="list-marked">
+      <li>We may remove or restrict content that:</li>
+      <li>Violates laws or policies</li>
+      <li>Receives valid DMCA complaints</li>
+      <li>Contains harmful or malicious code</li>
+      <li>Is fraudulent or misleading</li>
+  </ul>
+  We may:
+  <ul class="list-marked">
+      <li>Suspend or terminate your seller privileges</li>
+      <li>Restrict your account</li>
+      <li>Ban you from the marketplace for repeated or severe violations</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">9. Compliance with Laws and Policies</dt>
+  You agree to comply with:
+  <ul class="list-marked">
+      <li>All applicable local and international laws</li>
+  </ul>
+  OktoDark’s:
+  <ul class="list-marked">
+      <li>Terms & Conditions</li>
+      <li>Marketplace Rules</li>
+      <li>Downloads License Policy</li>
+      <li>Refund Policy</li>
+      <li>DMCA / Copyright Policy</li>
+      <li>Privacy Policy</li>
+  </ul>
+  If there is a conflict between this Agreement and other policies, this Agreement governs your role as a seller.
+  <br><br>
+
+  <dt class="heading-5">10. Limitation of Liability</dt>
+  To the maximum extent permitted by law:
+  <ul class="list-marked">
+      <li>OktoDark is not liable for:</li>
+      <li>Loss of earnings</li>
+      <li>Loss of data</li>
+      <li>Downtime or service interruptions</li>
+      <li>Buyer misuse of your content</li>
+      <li>Legal issues arising from your content or licensing</li>
+  </ul>
+  You use the marketplace as a seller at your own risk.
+  <br><br>
+
+  <dt class="heading-5">11. Term and Termination</dt>
+  <strong>Term:</strong>
+  <ul class="list-marked">
+      <li>This Agreement applies as long as you act as a seller on the marketplace.</li>
+  </ul>
+  <strong>Termination by you:</strong>
+  <ul class="list-marked">
+      <li>You may stop selling and remove your content at any time.</li>
+  </ul>
+  <strong>Termination by OktoDark:</strong>
+  <ul class="list-marked">
+      <li>We may suspend or terminate your seller status or account at any time for:</li>
+      <li>Policy violations</li>
+      <li>Legal risks</li>
+      <li>Fraud or abuse</li>
+  </ul>
+  <strong>Survival:</strong>
+  <ul class="list-marked">
+      <li>Certain sections (e.g., liability, ownership, licensing, legal compliance) may continue to apply after termination.</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">12. Changes to This Agreement</dt>
+  We may update this Agreement from time to time. If changes are significant, we may notify you via:
+  <ul class="list-marked">
+      <li>Email</li>
+      <li>On‑site notification</li>
+      <li>Seller dashboard message</li>
+  </ul>
+  Continuing to upload or sell content after changes take effect means you accept the updated Agreement.
+  <br><br>
+
+  <dt class="heading-5">13. Contact</dt>
+  If you have questions about this Marketplace Seller Agreement, you can contact us via the <a href="/en/contact">Contact</a> page.
+  <br>

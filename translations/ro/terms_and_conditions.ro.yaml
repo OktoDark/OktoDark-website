@@ -1,0 +1,648 @@
+terms_and_conditions.subtitle: "Vă rugăm să citiți cu atenție Termenii și Condițiile noastre."
+terms_and_conditions.section: |
+  <p class="text-light small mb-4">
+    Ultima Actualizare: 29.05.2026
+  </p>
+
+  <dt class="heading-4">1. Introducere</dt>
+  Bun venit la OktoDark, o platformă digitală operată de OktoDark Studios. Prin crearea unui cont, accesarea site-ului web, descărcarea de conținut sau utilizarea oricărei funcții a platformei (forum, piață, instalator, actualizator, notificări sau servicii conexe), sunteți de acord cu acești Termeni și Condiții. Dacă nu sunteți de acord, trebuie să încetați imediat utilizarea platformei.
+  <br><br>
+
+  <dt class="heading-4">2. Eligibilitate</dt>
+  Pentru a utiliza platforma, trebuie să:
+  <ul class="list-marked">
+      <li>Aveți cel puțin 13 ani</li>
+      <li>Aveți permisiunea legală de a utiliza servicii online în regiunea dumneavoastră</li>
+      <li>Fiți de acord cu acești Termeni și cu <a href="/ro/privacy-policy">Politica noastră de Confidențialitate</a></li>
+  </ul>
+  Ne rezervăm dreptul de a suspenda sau de a închide conturile care încalcă aceste cerințe.
+  <br><br>
+
+  <dt class="heading-4">3. Prezentare Generală a Platformei</dt>
+  OktoDark oferă:
+  <ul class="list-marked">
+      <li>Un forum comunitar cu categorii, discuții și subiecte</li>
+      <li>Un blog system pentru publicarea și citirea postărilor</li>
+      <li>Un sistem de urmărire pentru utilizatori și conținut</li>
+      <li>Un sistem de notificări (email + pe site)</li>
+      <li>Un sistem de permisiuni bazat pe roluri</li>
+      <li>Profiluri de utilizator, avatare, semnături și linkuri sociale</li>
+      <li>O piață pentru active digitale, moduri, instrumente și descărcări</li>
+      <li>Un sistem de descărcare securizat cu versionare</li>
+      <li>Un instalator și actualizator pentru implementarea platformei</li>
+      <li>Funcții opționale asistate de AI (moderare, sugestii, rezumate)</li>
+  </ul>
+  Acești Termeni se aplică tuturor funcțiilor, prezente și viitoare.
+  <br><br>
+
+  <dt class="heading-4">4. Înregistrarea Contului</dt>
+  La crearea unui cont, sunteți de acord să:
+  <ul class="list-marked">
+      <li>Furnizați informații exacte</li>
+      <li>Păstrați-vă parola în siguranță</li>
+      <li>Nu partajați contul</li>
+      <li>Nu impersonați alte persoane</li>
+      <li>Nu creați mai multe conturi pentru abuz</li>
+  </ul>
+  Sunteți responsabil pentru toate activitățile efectuate sub contul dumneavoastră.
+  <br><br>
+
+  <dt class="heading-4">5. Conținutul Utilizatorului</dt>
+  <dt class="heading-5">5.1 Conținutul Dumneavoastră</dt>
+  Vă păstrați proprietatea asupra conținutului pe care îl publicați sau îl încărcați. Prin publicarea pe OktoDark, ne acordați o licență neexclusivă, la nivel mondial, fără redevențe pentru a:
+  <ul class="list-marked">
+      <li>Afișa</li>
+      <li>Stoca</li>
+      <li>Distribui</li>
+      <li>Modifica (pentru moderare sau formatare)</li>
+  </ul>
+  Această licență se încheie atunci când ștergeți conținutul sau contul dumneavoastră.
+  <br><br>
+  <dt class="heading-5">5.2 Conținut Interzis</dt>
+  NU aveți voie să încărcați sau să publicați:
+  <ul class="list-marked">
+      <li>Conținut ilegal</li>
+      <li>Discurs de ură, hărțuire sau amenințări</li>
+      <li>Conținut NSFW (cu excepția cazurilor permise explicit în zonele desemnate)</li>
+      <li>Malware, exploit-uri sau scripturi dăunătoare</li>
+      <li>Spam, reclame sau auto-promovare fără permisiune</li>
+      <li>Materiale protejate prin drepturi de autor pe care nu le dețineți</li>
+      <li>Active care încalcă licențe terțe</li>
+  </ul>
+  Putem elimina conținutul sau restricționa accesul la discreția noastră.
+  <br><br>
+
+  <dt class="heading-4">6. Piața și Descărcări</dt>
+  Piața OktoDark permite utilizatorilor să:
+  <ul class="list-marked">
+      <li>Încarce active digitale (moduri, instrumente, teme, resurse)</li>
+      <li>Descarce conținut partajat de alții</li>
+      <li>Acceseze fișiere versionate și jurnale de modificări</li>
+      <li>Urmărească creatorii și să primească actualizări</li>
+  </ul>
+  <dt class="heading-5">6.1 Încărcarea Activelor</dt>
+  Prin încărcarea pe piață, confirmați că:
+  <ul class="list-marked">
+      <li>Dețineți drepturile asupra conținutului</li>
+      <li>Aveți permisiunea de a-l distribui</li>
+      <li>Declarați clar licența (MIT, GPL, CC, personalizată etc.)</li>
+      <li>Încărcarea dumneavoastră nu conține cod dăunător sau malițios</li>
+      <li>Conținutul dumneavoastră respectă toate legile aplicabile</li>
+  </ul>
+  Putem elimina sau restricționa orice activ la discreția noastră.
+  <br><br>
+  <dt class="heading-5">6.2 Descărcarea Activelor</dt>
+  La descărcarea conținutului:
+  <ul class="list-marked">
+      <li>Sunteți de acord să respectați licența aleasă de creator</li>
+      <li>Înțelegeți că descărcările sunt furnizate „ca atare”</li>
+      <li>Vă asumați toate riscurile asociate cu instalarea sau utilizarea fișierelor descărcate</li>
+  </ul>
+  Nu suntem responsabili pentru daunele cauzate de conținutul terților.
+  <br><br>
+  <dt class="heading-5">6.3 Conținut Plătit (Dacă este Activat)</dt>
+  Dacă piața include articole plătite:
+  <ul class="list-marked">
+      <li>Plățile sunt gestionate de procesatori terți</li>
+      <li>Rambursările respectă politicile procesatorului</li>
+      <li>Contestațiile de plată pot duce la restricții de cont</li>
+  </ul>
+  <br><br>
+  <dt class="heading-5">6.4 Eliminarea Activelor</dt>
+  Creatorii își pot șterge activele în orice moment. Cu toate acestea:
+  <ul class="list-marked">
+      <li>Versiunile descărcate anterior pot rămâne accesibile utilizatorilor care le-au descărcat deja</li>
+      <li>Putem păstra copii de rezervă pentru securitate și audit</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-4">7. Forum și Reguli Comunitare</dt>
+  Prin utilizarea forumului, sunteți de acord să:
+  <ul class="list-marked">
+      <li>Respectați ceilalți membri</li>
+      <li>Rămâneți la subiect în cadrul categoriilor</li>
+      <li>Urmați instrucțiunile moderatorilor</li>
+      <li>Evitați comportamentul perturbator</li>
+      <li>Nu abuzați de sistemele de urmărire sau notificare</li>
+  </ul>
+  Moderatorii pot edita, muta sau șterge postări și pot emite avertismente sau interdicții.
+  <br><br>
+
+  <dt class="heading-4">8. Roluri și Permisiuni</dt>
+  Platforma utilizează un sistem de permisiuni bazat pe roluri.
+  <ul class="list-marked">
+      <li>Rolurile determină ce acțiuni puteți efectua</li>
+      <li>Administratorii pot atribui, modifica sau revoca roluri</li>
+  </ul>
+  Încercarea de a ocoli permisiunile este strict interzisă. Încercările de acces neautorizat pot duce la închiderea contului.
+  <br><br>
+
+  <dt class="heading-4">9. Notificări</dt>
+  Puteți primi:
+  <ul class="list-marked">
+      <li>Notificări prin email</li>
+      <li>Alerte pe site</li>
+      <li>Avertismente de securitate</li>
+      <li>Mesaje de sistem</li>
+      <li>Actualizări de urmărire</li>
+      <li>Alerte de actualizare a pieței</li>
+  </ul>
+  Vă puteți gestiona preferințele în Setările de Notificări.
+  <br><br>
+
+  <dt class="heading-4">10. Funcții Asistate de AI</dt>
+  Unele funcții pot utiliza AI pentru:
+  <ul class="list-marked">
+      <li>Sugestii de conținut</li>
+      <li>Rezumate</li>
+      <li>Asistență la moderare</li>
+      <li>Alerte automate</li>
+      <li>Analiza activelor din piață</li>
+  </ul>
+  Rezultatele AI pot să nu fie întotdeauna precise. Sunteți de acord să nu vă bazați pe funcțiile AI pentru decizii legale, medicale sau financiare.
+  <br><br>
+
+  <dt class="heading-4">11. Instalator și Actualizator</dt>
+  Dacă utilizați instalatorul sau actualizatorul OktoDark:
+  <ul class="list-marked">
+      <li>Sunteți responsabil pentru mediul dumneavoastră de server</li>
+      <li>Nu suntem responsabili pentru pierderea datelor în timpul instalării sau actualizărilor</li>
+      <li>Trebuie să mențineți copii de rezervă înainte de a efectua actualizări</li>
+      <li>Modificarea fișierelor de sistem poate anula suportul</li>
+      <li>Funcțiile de actualizare automată pot descărca fișiere din surse de încredere</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-4">12. Securitate</dt>
+  Luăm măsuri rezonabile pentru a vă proteja datele, dar:
+  <ul class="list-marked">
+      <li>Niciun sistem nu este complet securizat</li>
+      <li>Trebuie să vă protejați dispozitivul și parola</li>
+      <li>Trebuie să raportați imediat activitatea suspectă</li>
+  </ul>
+  Încercarea de a sparge, exploata sau perturba platforma este strict interzisă.
+  <br><br>
+
+  <dt class="heading-4">13. Servicii Terțe</dt>
+  Platforma se poate integra cu servicii terțe, cum ar fi:
+  <ul class="list-marked">
+      <li>Autentificare socială</li>
+      <li>Analize</li>
+      <li>Furnizori de email</li>
+      <li>Procesatori de plăți</li>
+      <li>Furnizori de AI</li>
+  </ul>
+  Nu suntem responsabili pentru politicile sau acțiunile acestora.
+  <br><br>
+
+  <dt class="heading-4">14. Încetare</dt>
+  Putem suspenda sau închide contul dumneavoastră dacă:
+  <ul class="list-marked">
+      <li>Încălcați acești Termeni</li>
+      <li>Abuzați de platformă</li>
+      <li>Încercați să dăunați sistemului sau comunității</li>
+      <li>Încărcați conținut dăunător sau ilegal</li>
+      <li>Vă angajați în activități frauduloase pe piață</li>
+  </ul>
+  Puteți șterge contul dumneavoastră în orice moment.
+  <br><br>
+
+  <dt class="heading-4">15. Limitarea Răspunderii</dt>
+  În măsura maximă permisă de lege:
+  <ul class="list-marked">
+      <li>Nu suntem responsabili pentru pierderea datelor</li>
+      <li>Nu suntem responsabili pentru întreruperi ale serviciului</li>
+      <li>Nu suntem responsabili pentru conținutul generat de utilizatori</li>
+      <li>Nu suntem responsabili pentru daunele rezultate din descărcări sau activele pieței</li>
+      <li>Nu suntem responsabili pentru problemele cauzate de integrările terțe</li>
+  </ul>
+  Utilizați platforma pe propriul risc.
+  <br><br>
+
+  <dt class="heading-4">16. Modificări ale acestor Termeni</dt>
+  Putem actualiza acești Termeni în orice moment. Dacă modificările sunt semnificative, vom notifica utilizatorii prin:
+  <ul class="list-marked">
+      <li>Email</li>
+      <li>Notificare pe site</li>
+      <li>Anunț de sistem</li>
+  </ul>
+  Utilizarea continuă a platformei înseamnă că acceptați Termenii actualizați.
+  <br><br>
+
+  <dt class="heading-4">17. Contact</dt>
+  Pentru întrebări sau nelămuriri, contactați-ne prin pagina de <a href="/ro/contact">Contact</a>.
+  <br><br>
+
+  <dt class="heading-4">18. Reguli Piață (OktoDark Marketplace)</dt>
+  <dt class="heading-5">1. Introducere</dt>
+  Piața OktoDark permite utilizatorilor să încarce, să partajeze și să descarce active digitale, cum ar fi moduri, instrumente, teme, resurse și alte creații. Prin utilizarea Pieței, sunteți de acord cu aceste reguli, pe lângă Termenii și Condițiile principale.
+  <br><br>
+
+  <dt class="heading-5">2. Eligibilitate pentru Încărcare</dt>
+  Pentru a încărca conținut, trebuie să:
+  <ul class="list-marked">
+      <li>Dețineți drepturile asupra conținutului</li>
+      <li>Aveți permisiunea de a-l distribui</li>
+      <li>Declarați clar licența (MIT, GPL, CC, personalizată etc.)</li>
+      <li>Asigurați-vă că conținutul nu încalcă drepturile terților</li>
+      <li>Asigurați-vă că conținutul nu conține cod dăunător sau malițios</li>
+  </ul>
+  Putem solicita dovada proprietății sau a licenței în orice moment.
+  <br><br>
+
+  <dt class="heading-5">3. Conținut Interzis în Piață</dt>
+  NU aveți voie să încărcați:
+  <ul class="list-marked">
+      <li>Conținut piratat sau furat</li>
+      <li>Active extrase din jocuri sau software comerciale</li>
+      <li>Malware, viruși sau scripturi dăunătoare</li>
+      <li>Conținut generat de AI care încalcă drepturile terților</li>
+      <li>Conținut NSFW, cu excepția cazurilor permise explicit în categorii desemnate</li>
+      <li>Conținut care încalcă legile locale sau internaționale</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">4. Versionare și Actualizări</dt>
+  Creatorii pot încărca noi versiuni ale activelor lor. Utilizatorii care au descărcat versiuni anterioare pot continua să le acceseze, cu excepția cazului în care creatorul le elimină din motive legale.
+  <br><br>
+
+  <dt class="heading-5">5. Eliminarea Activelor</dt>
+  Putem elimina orice activ care:
+  <ul class="list-marked">
+      <li>Încalcă aceste reguli</li>
+      <li>Primește reclamații DMCA</li>
+      <li>Conține cod dăunător</li>
+      <li>Este abandonat sau defect</li>
+      <li>Încalcă termenii licenței</li>
+  </ul>
+  Creatorii își pot șterge propriile active în orice moment.
+  <br><br>
+
+  <dt class="heading-5">6. Responsabilitățile Utilizatorilor</dt>
+  Utilizatorii care descarcă active trebuie să:
+  <ul class="list-marked">
+      <li>Respecte licența aleasă de creator</li>
+      <li>Respecte cerințele de atribuire</li>
+      <li>Nu redistribuie active fără permisiune</li>
+      <li>Nu modifice activele în moduri interzise de licență</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">7. Moderarea Pieței</dt>
+  Ne rezervăm dreptul de a:
+  <ul class="list-marked">
+      <li>Elimina active</li>
+      <li>Restricționa încărcările</li>
+      <li>Suspenda conturile</li>
+      <li>Interzice infractorii repetitivi</li>
+  </ul>
+  Deciziile de moderare a pieței sunt finale.
+  <br><br>
+
+  <dt class="heading-4">19. Politica de Licențiere a Descărcărilor</dt>
+  <dt class="heading-5">1. Prezentare Generală</dt>
+  Toate descărcările de pe OktoDark sunt guvernate de licența aleasă de creator. OktoDark nu deține conținutul încărcat de utilizatori, cu excepția cazurilor explicit menționate.
+  <br><br>
+
+  <dt class="heading-5">2. Tipuri de Licențe</dt>
+  Creatorii pot alege dintre:
+  <ul class="list-marked">
+      <li>Licența MIT</li>
+      <li>GPL / LGPL</li>
+      <li>Creative Commons (CC‑BY, CC‑BY‑SA, CC‑BY‑NC, etc.)</li>
+      <li>Licență personalizată</li>
+      <li>Toate drepturile rezervate</li>
+  </ul>
+  Licența trebuie să fie clar specificată pe pagina activului.
+  <br><br>
+
+  <dt class="heading-5">3. Drepturile Utilizatorilor</dt>
+  La descărcarea conținutului, puteți:
+  <ul class="list-marked">
+      <li>Utiliza activul conform licenței sale</li>
+      <li>Modifica-l dacă licența permite</li>
+      <li>Redistribui-l numai dacă este permis</li>
+  </ul>
+  NU aveți voie să:
+  <ul class="list-marked">
+      <li>Eliminați notificările de copyright</li>
+      <li>Revendicați proprietatea asupra muncii altcuiva</li>
+      <li>Utilizați activele în scopuri comerciale, cu excepția cazurilor permise</li>
+      <li>Ocoliți restricțiile licenței</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">4. Drepturile Creatorilor</dt>
+  Creatorii își păstrează:
+  <ul class="list-marked">
+      <li>Drepturile de autor</li>
+      <li>Drepturile de atribuire</li>
+      <li>Dreptul de a actualiza sau elimina conținutul lor</li>
+      <li>Dreptul de a-și aplica licența</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">5. Rolul OktoDark</dt>
+  OktoDark:
+  <ul class="list-marked">
+      <li>Nu revendică proprietatea asupra conținutului utilizatorilor</li>
+      <li>Nu garantează siguranța sau legalitatea descărcărilor</li>
+      <li>Nu este responsabil pentru încălcările licenței de către utilizatori</li>
+      <li>Va respecta cererile DMCA valide</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-4">20. Politica DMCA / Drepturi de Autor</dt>
+  <dt class="heading-5">1. Introducere</dt>
+  OktoDark respectă drepturile de proprietate intelectuală și se conformează Digital Millennium Copyright Act (DMCA) și legilor internaționale echivalente.
+  <br><br>
+
+  <dt class="heading-5">2. Depunerea unei Cereri de Eliminare DMCA</dt>
+  Dacă credeți că lucrarea dumneavoastră protejată prin drepturi de autor a fost încărcată fără permisiune, puteți depune o cerere de eliminare care să includă:
+  <ul class="list-marked">
+      <li>Numele dumneavoastră complet</li>
+      <li>Informații de contact</li>
+      <li>O descriere a lucrării protejate prin drepturi de autor</li>
+      <li>URL-ul (URL-urile) conținutului care încalcă drepturile</li>
+      <li>O declarație de bună-credință</li>
+      <li>O declarație sub pedeapsa sperjurului</li>
+      <li>Semnătura dumneavoastră fizică sau digitală</li>
+  </ul>
+  Cererile pot fi depuse prin pagina de <a href="/ro/contact">Contact</a>.
+  <br><br>
+
+  <dt class="heading-5">3. Notificare Contra</dt>
+  Dacă credeți că conținutul dumneavoastră a fost eliminat din greșeală, puteți depune o notificare contra care să includă:
+  <ul class="list-marked">
+      <li>Numele dumneavoastră complet</li>
+      <li>Informații de contact</li>
+      <li>URL-ul conținutului eliminat</li>
+      <li>O declarație de bună-credință</li>
+      <li>O declarație de consimțământ la jurisdicție</li>
+      <li>Semnătura dumneavoastră fizică sau digitală</li>
+  </ul>
+  Putem restabili conținutul, cu excepția cazului în care reclamantul inițial depune acțiune în justiție.
+  <br><br>
+
+  <dt class="heading-5">4. Infractori Repetitivi</dt>
+  Utilizatorii care încalcă în mod repetat legile privind drepturile de autor pot avea conturile suspendate sau închise.
+  <br><br>
+
+  <dt class="heading-5">5. Aplicarea de Bună-Credință</dt>
+  Ne rezervăm dreptul de a elimina conținutul în mod proactiv dacă suspectăm încălcări ale drepturilor de autor.
+  <br><br>
+
+  <dt class="heading-4">21. Politica de Rambursare (Pentru Articole Plătite din Piață)</dt>
+  Se aplică numai dacă activați active plătite.
+  <br><br>
+
+  <dt class="heading-5">1. Prezentare Generală</dt>
+  Articolele plătite din Piața OktoDark sunt gestionate prin procesatori de plăți terți. Rambursările respectă atât regulile OktoDark, cât și politicile procesatorului.
+  <br><br>
+
+  <dt class="heading-5">2. Eligibilitate pentru Rambursare</dt>
+  Rambursările pot fi acordate dacă:
+  <ul class="list-marked">
+      <li>Activul este defect sau nefuncțional</li>
+      <li>Descrierea activului a fost înșelătoare</li>
+      <li>Activul conține cod malițios</li>
+      <li>Creatorul nu reușește să livreze actualizările promise (dacă sunt anunțate)</li>
+  </ul>
+  Rambursările nu vor fi acordate pentru:
+  <ul class="list-marked">
+      <li>Regretul cumpărătorului</li>
+      <li>Incompatibilitatea cu sistemul dumneavoastră</li>
+      <li>Probleme cauzate de modificarea de către utilizator</li>
+      <li>Conținut care a fost deja descărcat și utilizat extensiv</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">3. Procesul de Rambursare</dt>
+  Pentru a solicita o rambursare:
+  <ul class="list-marked">
+      <li>Contactați suportul prin pagina de <a href="/ro/contact">Contact</a></li>
+      <li>Furnizați ID-ul comenzii dumneavoastră</li>
+      <li>Descrieți problema</li>
+      <li>Furnizați capturi de ecran sau jurnale, dacă este necesar</li>
+  </ul>
+  Putem contacta creatorul pentru verificare.
+  <br><br>
+
+  <dt class="heading-5">4. Contestații de Plată</dt>
+  Contestațiile de plată neautorizate pot duce la:
+  <ul class="list-marked">
+      <li>Restricții de cont</li>
+      <li>Pierderea accesului la articolele achiziționate</li>
+      <li>Suspendarea pieței</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">5. Veniturile Creatorului</dt>
+  Creatorii primesc plăți conform modelului de partajare a veniturilor din piață. Sumele rambursate pot fi deduse din plățile curente sau viitoare.
+  <br><br>
+
+  <dt class="heading-4">22. Acordul Vânzătorului din Piață — OktoDark Studios</dt>
+  Acest Acord al Vânzătorului din Piață („Acordul”) guvernează participarea dumneavoastră ca vânzător pe Piața OktoDark. Prin încărcarea, listarea sau vânzarea de conținut digital pe platformă, sunteți de acord cu acest Acord, pe lângă Termenii și Condițiile, Regulile Pieței, Politica de Licențiere a Descărcărilor, Politica de Rambursare și Politica de Confidențialitate.
+  <br><br>
+
+  <dt class="heading-5">1. Definiții</dt>
+  <strong>Vânzător:</strong> Orice utilizator care încarcă sau distribuie conținut digital pe Piața OktoDark.
+  <br>
+  <strong>Cumpărător:</strong> Orice utilizator care descarcă sau achiziționează conținut.
+  <br>
+  <strong>Conținut:</strong> Orice activ digital încărcat de un Vânzător, inclusiv moduri, instrumente, teme, scripturi, resurse sau documentație.
+  <br>
+  <strong>Platformă:</strong> Site-ul web OktoDark, piața și serviciile conexe.
+  <br>
+  <strong>OktoDark Studios:</strong> Operatorul și proprietarul platformei.
+  <br><br>
+
+  <dt class="heading-5">2. Eligibilitate pentru Vânzare</dt>
+  <strong>Cont activ:</strong> Trebuie să aveți un cont OktoDark activ și în stare bună.
+  <br>
+  <strong>Capacitate juridică:</strong> Trebuie să aveți permisiunea legală de a încheia acorduri și de a primi plăți în jurisdicția dumneavoastră.
+  <br>
+  <strong>Conformitate:</strong> Trebuie să respectați toate legile aplicabile, inclusiv reglementările privind drepturile de autor, taxele și exportul.
+  <br>
+  OktoDark Studios poate aproba, limita sau revoca statutul de vânzător la discreția sa.
+  <br><br>
+
+  <dt class="heading-5">3. Proprietatea și Drepturile asupra Conținutului</dt>
+  <strong>Proprietatea dumneavoastră:</strong> Vă păstrați proprietatea deplină asupra conținutului pe care îl încărcați.
+  <br>
+  <strong>Drepturi pe care le acordați OktoDark:</strong> Prin încărcarea conținutului, acordați OktoDark o licență neexclusivă, la nivel mondial, fără redevențe pentru a:
+  <ul class="list-marked">
+      <li>Găzdui, stoca și afișa conținutul dumneavoastră</li>
+      <li>Distribui-l cumpărătorilor</li>
+      <li>Utiliza-l pentru promovarea pieței și a platformei</li>
+  </ul>
+  <strong>Drepturile terților:</strong> Confirmați că conținutul dumneavoastră:
+  <ul class="list-marked">
+      <li>Nu încalcă drepturile de autor, mărcile comerciale sau alte drepturi ale terților</li>
+      <li>Respectă orice licențe terțe (de exemplu, motoare de jocuri, instrumente, biblioteci)</li>
+  </ul>
+  Sunteți pe deplin responsabil pentru orice pretenții legale care decurg din conținutul dumneavoastră.
+  <br><br>
+
+  <dt class="heading-5">4. Cerințe de Conținut</dt>
+  NU aveți voie să încărcați:
+  <ul class="list-marked">
+      <li>Conținut piratat sau furat</li>
+      <li>Active extrase din jocuri sau software comerciale fără permisiune</li>
+      <li>Malware, backdoors sau cod dăunător</li>
+      <li>Conținut înșelător, fraudulos sau fals</li>
+      <li>Conținut care încalcă Regulile Pieței sau Termenii și Condițiile</li>
+  </ul>
+  Trebuie să:
+  <ul class="list-marked">
+      <li>Furnizați descrieri, etichete și capturi de ecran precise</li>
+      <li>Declarați clar licența (MIT, GPL, CC, personalizată etc.)</li>
+      <li>Dezvăluiți dependențele sau software-ul necesar</li>
+      <li>Indicați dacă conținutul este experimental sau instabil</li>
+  </ul>
+  OktoDark poate elimina sau ascunde conținutul care încalcă aceste cerințe.
+  <br><br>
+
+  <dt class="heading-5">5. Prețuri și Plăți</dt>
+  <strong>Prețuri:</strong>
+  <ul class="list-marked">
+      <li>Puteți stabili prețul conținutului dumneavoastră plătit acolo unde platforma o permite.</li>
+      <li>OktoDark poate stabili praguri minime sau maxime de preț.</li>
+  </ul>
+  <strong>Partajarea veniturilor:</strong>
+  <ul class="list-marked">
+      <li>O taxă de platformă sau o partajare a veniturilor poate fi aplicată fiecărei vânzări.</li>
+      <li>Modelul actual de partajare a veniturilor va fi comunicat în documentația pieței sau în tabloul de bord al vânzătorului.</li>
+  </ul>
+  <strong>Plăți:</strong>
+  <ul class="list-marked">
+      <li>Plățile sunt procesate prin furnizori de plăți acceptați.</li>
+      <li>Sunteți responsabil pentru furnizarea detaliilor exacte de plată.</li>
+      <li>Taxele percepute de procesatorii de plăți pot fi deduse din câștigurile dumneavoastră.</li>
+  </ul>
+  <strong>Impozite:</strong>
+  <ul class="list-marked">
+      <li>Sunteți responsabil pentru raportarea și plata oricăror taxe datorate în jurisdicția dumneavoastră.</li>
+      <li>OktoDark poate reține sume dacă este cerut de lege.</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">6. Rambursări și Contestații de Plată</dt>
+  <strong>Rambursări:</strong>
+  <ul class="list-marked">
+      <li>Rambursările pot fi acordate conform Politicii de Rambursare a platformei (de exemplu, activ defect, descriere înșelătoare, conținut malițios).</li>
+      <li>Sumele rambursate pot fi deduse din câștigurile dumneavoastră curente sau viitoare.</li>
+  </ul>
+  <strong>Contestații de plată:</strong>
+  <ul class="list-marked">
+      <li>Dacă un cumpărător inițiază o contestație de plată, OktoDark poate:</li>
+      <li>Deduce suma din soldul dumneavoastră</li>
+      <li>Restricționa contul dumneavoastră de vânzător</li>
+      <li>Limita accesul la funcțiile plătite</li>
+  </ul>
+  <strong>Dispute:</strong>
+  <ul class="list-marked">
+      <li>OktoDark poate media disputele, dar nu este obligat să rezolve fiecare conflict.</li>
+      <li>Decizia OktoDark privind rambursările și contestațiile de plată este finală.</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">7. Suport și Actualizări</dt>
+  <strong>Responsabilitățile vânzătorului:</strong>
+  <ul class="list-marked">
+      <li>Sunteți responsabil pentru furnizarea unui suport rezonabil pentru conținutul dumneavoastră plătit (corecții de erori, clarificări, ajutor de bază).</li>
+      <li>Dacă promovați actualizări continue sau suport pe termen lung, ar trebui să depuneți un efort de bună-credință pentru a respecta acest lucru.</li>
+  </ul>
+  <strong>Sfârșitul suportului:</strong>
+  <ul class="list-marked">
+      <li>Puteți întrerupe suportul sau actualizările, dar ar trebui să actualizați descrierea activului în consecință.</li>
+      <li>Cumpărătorii nu au dreptul automat la rambursări doar pentru că suportul se încheie, cu excepția cazului în care s-a promis altfel.</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">8. Eliminarea Conținutului și Acțiuni de Cont</dt>
+  <strong>De către dumneavoastră:</strong>
+  <ul class="list-marked">
+      <li>Puteți anula publicarea sau șterge conținutul dumneavoastră în orice moment.</li>
+  </ul>
+  <strong>De către OktoDark:</strong>
+  <ul class="list-marked">
+      <li>Putem elimina sau restricționa conținutul care:</li>
+      <li>Încalcă legile sau politicile</li>
+      <li>Primește reclamații DMCA valide</li>
+      <li>Conține cod dăunător sau malițios</li>
+      <li>Este fraudulos sau înșelător</li>
+  </ul>
+  Putem:
+  <ul class="list-marked">
+      <li>Suspenda sau închide privilegiile dumneavoastră de vânzător</li>
+      <li>Restricționa contul dumneavoastră</li>
+      <li>Interzice-vă de pe piață pentru încălcări repetate sau grave</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">9. Conformitatea cu Legile și Politicile</dt>
+  Sunteți de acord să respectați:
+  <ul class="list-marked">
+      <li>Toate legile locale și internaționale aplicabile</li>
+  </ul>
+  Ale OktoDark:
+  <ul class="list-marked">
+      <li>Termeni și Condiții</li>
+      <li>Reguli Piață</li>
+      <li>Politica de Licențiere a Descărcărilor</li>
+      <li>Politica de Rambursare</li>
+      <li>Politica DMCA / Drepturi de Autor</li>
+      <li>Politica de Confidențialitate</li>
+  </ul>
+  Dacă există un conflict între acest Acord și alte politici, acest Acord guvernează rolul dumneavoastră de vânzător.
+  <br><br>
+
+  <dt class="heading-5">10. Limitarea Răspunderii</dt>
+  În măsura maximă permisă de lege:
+  <ul class="list-marked">
+      <li>OktoDark nu este responsabil pentru:</li>
+      <li>Pierderea câștigurilor</li>
+      <li>Pierderea datelor</li>
+      <li>Timp de nefuncționare sau întreruperi ale serviciului</li>
+      <li>Utilizarea abuzivă de către cumpărător a conținutului dumneavoastră</li>
+      <li>Probleme juridice care decurg din conținutul sau licențierea dumneavoastră</li>
+  </ul>
+  Utilizați piața ca vânzător pe propriul risc.
+  <br><br>
+
+  <dt class="heading-5">11. Durata și Încetarea</dt>
+  <strong>Durata:</strong>
+  <ul class="list-marked">
+      <li>Acest Acord se aplică atâta timp cât acționați ca vânzător pe piață.</li>
+  </ul>
+  <strong>Încetarea de către dumneavoastră:</strong>
+  <ul class="list-marked">
+      <li>Puteți înceta să vindeți și să eliminați conținutul dumneavoastră în orice moment.</li>
+  </ul>
+  <strong>Încetarea de către OktoDark:</strong>
+  <ul class="list-marked">
+      <li>Putem suspenda sau închide statutul dumneavoastră de vânzător sau contul în orice moment pentru:</li>
+      <li>Încălcări ale politicilor</li>
+      <li>Riscuri legale</li>
+      <li>Fraudă sau abuz</li>
+  </ul>
+  <strong>Supraviețuire:</strong>
+  <ul class="list-marked">
+      <li>Anumite secțiuni (de exemplu, răspunderea, proprietatea, licențierea, conformitatea legală) pot continua să se aplice după încetare.</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">12. Modificări ale Acestui Acord</dt>
+  Putem actualiza acest Acord din când în când. Dacă modificările sunt semnificative, vă putem notifica prin:
+  <ul class="list-marked">
+      <li>Email</li>
+      <li>Notificare pe site</li>
+      <li>Mesaj în tabloul de bord al vânzătorului</li>
+  </ul>
+  Continuarea încărcării sau vânzării conținutului după intrarea în vigoare a modificărilor înseamnă că acceptați Acordul actualizat.
+  <br><br>
+
+  <dt class="heading-5">13. Contact</dt>
+  Dacă aveți întrebări despre acest Acord al Vânzătorului din Piață, ne puteți contacta prin pagina de <a href="/ro/contact">Contact</a>.
+  <br>

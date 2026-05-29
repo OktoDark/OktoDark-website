@@ -1,0 +1,28 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.terms_and_conditions'|trans({}, 'base') }}{% endblock %}
+
+{% block body_id 'terms-and-conditions' %}
+
+{% block main %}
+
+    <!-- Modern Page Title -->
+    <section class="section section-page-title context-dark text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'title.terms_and_conditions'|trans({}, 'base') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'terms_and_conditions.subtitle'|trans({}, 'terms_and_conditions') }}</p>
+        </div>
+    </section>
+
+    <!-- Modern Content Section -->
+    <section class="section section-lg bg-default pt-0">
+        <div class="container">
+            <div class="terms-modern p-4 p-md-5">
+                <dl class="list-terms modern-terms">
+                    {{ 'terms_and_conditions.section'|trans({}, 'terms_and_conditions')|raw }}
+                </dl>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

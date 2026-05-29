@@ -20,4 +20,4 @@ register:
         register: "Register"
         verify: "Verify Email"
         complete: "Complete Profile"
-    agree_terms: "I agree to the terms"
+    agree_terms: "I agree to the"

@@ -20,4 +20,4 @@ register:
         register: "Înregistrare"
         verify: "Verificare Email"
         complete: "Finalizare Profil"
-    agree_terms: "Sunt de acord cu termenii"
+    agree_terms: "Sunt de acord cu"
