@@ -21,3 +21,9 @@ register:
         verify: "Verify Email"
         complete: "Complete Profile"
     agree_terms: "I agree to the"
+
+label:
+    username: "Username"
+    email: "Email"
+    password: "Password"
+    repeatPassword: "Repeat Password"

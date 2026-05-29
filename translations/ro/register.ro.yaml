@@ -21,3 +21,9 @@ register:
         verify: "Verificare Email"
         complete: "Finalizare Profil"
     agree_terms: "Sunt de acord cu"
+
+label:
+    username: "Nume de utilizator"
+    email: "Email"
+    password: "Parolă"
+    repeatPassword: "Repetă Parola"
