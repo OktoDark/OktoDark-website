@@ -138,13 +138,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\JoinTable(name: 'user_badges')]
     private Collection $badges;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: TrustedDevice::class, cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: TrustedDevice::class, mappedBy: 'user', cascade: ['remove'])]
     private Collection $trustedDevices;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: ForumPost::class)]
+    #[ORM\OneToMany(targetEntity: ForumPost::class, mappedBy: 'author')]
     private Collection $forumPosts;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: ForumThread::class)]
+    #[ORM\OneToMany(targetEntity: ForumThread::class, mappedBy: 'author')]
     private Collection $forumThreads;
 
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'followers')]
@@ -160,28 +160,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\JoinTable(name: 'user_thread_subscriptions')]
     private Collection $subscribedThreads;
 
-    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Board::class)]
+    #[ORM\OneToMany(targetEntity: Board::class, mappedBy: 'owner')]
     private Collection $ownedBoards;
 
     #[ORM\ManyToMany(targetEntity: Board::class, mappedBy: 'members')]
     private Collection $memberBoards;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Card::class)]
+    #[ORM\OneToMany(targetEntity: Card::class, mappedBy: 'createdBy')]
     private Collection $createdCards;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: CardComment::class)]
+    #[ORM\OneToMany(targetEntity: CardComment::class, mappedBy: 'author')]
     private Collection $cardComments;
 
-    #[ORM\OneToMany(mappedBy: 'reporter', targetEntity: Bug::class)]
+    #[ORM\OneToMany(targetEntity: Bug::class, mappedBy: 'reporter')]
     private Collection $reportedBugs;
 
-    #[ORM\OneToMany(mappedBy: 'assignee', targetEntity: Bug::class)]
+    #[ORM\OneToMany(targetEntity: Bug::class, mappedBy: 'assignee')]
     private Collection $assignedBugs;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ActivityLog::class)]
+    #[ORM\OneToMany(targetEntity: ActivityLog::class, mappedBy: 'user')]
     private Collection $activityLogs;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, cascade: ['remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user', cascade: ['remove'], orphanRemoval: true)]
     private Collection $notifications;
 
     public function __construct()
@@ -644,7 +644,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         ];
 
         // Ensure $this->notificationPreferences is always an array before merging, or use an empty array if null
-        $currentPrefs = is_array($this->notificationPreferences) ? $this->notificationPreferences : [];
+        $currentPrefs = \is_array($this->notificationPreferences) ? $this->notificationPreferences : [];
 
         // Merge stored preferences with the base defaults to ensure all keys exist
         $merged = array_replace_recursive(
@@ -653,7 +653,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         );
 
         // Ensure all values are booleans
-        array_walk($merged, function (&$value) {
+        array_walk($merged, static function (&$value) {
             $value = filter_var($value, \FILTER_VALIDATE_BOOLEAN, \FILTER_NULL_ON_FAILURE);
             if (null === $value) {
                 $value = false; // Default to false if validation fails
@@ -686,7 +686,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
             );
 
             // Ensure all values are booleans
-            array_walk($merged, function (&$value) {
+            array_walk($merged, static function (&$value) {
                 $value = filter_var($value, \FILTER_VALIDATE_BOOLEAN, \FILTER_NULL_ON_FAILURE);
                 if (null === $value) {
                     $value = false; // Default to false if validation fails
@@ -703,6 +703,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function getNotificationPreference(string $key): bool
     {
         $preferences = $this->getNotificationPreferences(); // This will return defaults if $notificationPreferences is null
+
         return $preferences[$key] ?? false;
     }
 
