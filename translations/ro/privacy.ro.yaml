@@ -189,7 +189,7 @@ privacy.section: |
       <li>Accesa și corecta informațiile personale</li>
       <li>Depune plângeri privind utilizarea abuzivă</li>
   </ul>
-  Pentru a-ți exercita oricare dintre drepturi, contactează-ne prin pagina de <a href="{{ path('contact') }}">Contact</a>.
+  Pentru a-ți exercita oricare dintre drepturi, contactează-ne prin pagina de <a href="/ro/contact">Contact</a>.
   <br><br>
 
   <dt class="heading-4">11. Confidențialitatea copiilor (COPPA)</dt>
@@ -223,5 +223,5 @@ privacy.section: |
   <br><br>
 
   <dt class="heading-4">16. Contactează-ne</dt>
-  Dacă ai întrebări despre această Politică de Confidențialitate, ne poți contacta folosind formularul de <a href="{{ path('contact') }}">Contact</a> de pe site.
+  Dacă ai întrebări despre această Politică de Confidențialitate, ne poți contacta folosind formularul de <a href="/ro/contact">Contact</a> de pe site.
   <br>

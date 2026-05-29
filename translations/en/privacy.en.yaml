@@ -189,7 +189,7 @@ privacy.section: |
       <li>Access and correct personal information</li>
       <li>File complaints regarding misuse</li>
   </ul>
-  To exercise any rights, contact us via the <a href="{{ path('contact') }}">Contact</a> page.
+  To exercise any rights, contact us via the <a href="/en/contact">Contact</a> page.
   <br><br>
 
   <dt class="heading-4">11. Children’s Privacy (COPPA)</dt>
@@ -223,5 +223,5 @@ privacy.section: |
   <br><br>
 
   <dt class="heading-4">16. Contact Us</dt>
-  If you have questions about this Privacy Policy, you may contact us using the <a href="{{ path('contact') }}">Contact</a> form on the website.
+  If you have questions about this Privacy Policy, you may contact us using the <a href="/en/contact">Contact</a> form on the website.
   <br>
