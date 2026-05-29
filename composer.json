@@ -15,6 +15,7 @@
     "php": ">=8.4",
     "ext-ctype": "*",
     "ext-iconv": "*",
+    "ext-zip": "*",
     "babdev/pagerfanta-bundle": "^4.6",
     "beberlei/doctrineextensions": "^1.5",
     "doctrine/dbal": "^4.4",
@@ -45,7 +46,7 @@
     "symfony/messenger": "^8.0",
     "symfony/monolog-bundle": "^4.0",
     "symfony/notifier": "^8.0",
-    "symfony/polyfill-intl-messageformatter": "^1.36",
+    "symfony/polyfill-intl-messageformatter": "^1.38",
     "symfony/rate-limiter": "^8.0",
     "symfony/runtime": "^8.0",
     "symfony/security-bundle": "^8.0",
@@ -60,8 +61,8 @@
     "twig/extra-bundle": "*",
     "twig/intl-extra": "^3.26",
     "twig/markdown-extra": "^3.26",
-    "twig/twig": "^3.26",
-    "ext-zip": "*"
+    "twig/string-extra": "^3.24",
+    "twig/twig": "^3.27"
   },
   "require-dev": {
     "dama/doctrine-test-bundle": "^8.6",
