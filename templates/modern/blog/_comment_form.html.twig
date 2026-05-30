@@ -9,7 +9,10 @@
     <!-- Comment Content -->
     <div class="mb-3">
         {{ form_label(form.content, 'blog.label.content'|trans({}, 'blog'), { label_attr: { class: 'form-label fw-semibold' } }) }}
-        {{ form_widget(form.content, { attr: { class: 'form-control', rows: 4 } }) }}
+        <div class="editor-wrapper rounded border bg-white">
+            {{ form_widget(form.content, { attr: { style: 'display: none;' } }) }}
+            <trix-editor input="{{ form.content.vars.id }}"></trix-editor>
+        </div>
         <div class="text-danger small">{{ form_errors(form.content) }}</div>
     </div>
 

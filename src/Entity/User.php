@@ -883,16 +883,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function isOnline(): bool
     {
-        // If the user has chosen to stay hidden, they are never "online"
         if ($this->getForumSettings()['stayHidden']) {
             return false;
         }
 
-        // A user is considered online if their last activity was within the last 5 minutes
         if ($this->lastActivityAt instanceof \DateTimeInterface) {
             $interval = (new \DateTime())->getTimestamp() - $this->lastActivityAt->getTimestamp();
 
-            return $interval < (5 * 60); // 5 minutes
+            return $interval < (5 * 60);
         }
 
         return false;

@@ -1,0 +1,42 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Comment Error{% endblock %}
+
+{% block body %}
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">Comment Submission Error</h2>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-default pt-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">There was a problem submitting your comment!</h4>
+                        <p>Please review the errors below and try again.</p>
+                        <hr>
+                        {{ form_errors(form) }}
+                    </div>
+
+                    <div class="card shadow-sm border-0 overflow-hidden">
+                        <div class="card-header bg-light py-3">
+                            <h5 class="mb-0 fw-bold">Comment Form</h5>
+                        </div>
+                        <div class="card-body p-4 p-lg-5">
+                            {{ form_start(form) }}
+                                {{ form_widget(form.content) }}
+                                <button type="submit" class="btn btn-success mt-3">Resubmit Comment</button>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{{ path('blog_post', {'slug': post.slug}) }}" class="btn btn-outline-primary">Back to Post</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

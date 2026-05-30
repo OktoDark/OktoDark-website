@@ -111,6 +111,13 @@ final class InfoController extends AbstractController
         ]);
     }
 
+    #[Route('/terms-and-conditions', name: 'terms-and-conditions', methods: ['GET'])]
+    public function termsAndConditions(): Response
+    {
+        return $this->render('@theme/info/terms-and-conditions.html.twig', [
+        ]);
+    }
+
     /**
      * @Route("/services", methods="GET", name="services")
      */

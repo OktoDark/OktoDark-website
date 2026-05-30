@@ -31,16 +31,17 @@ class Comment
     private ?Post $post = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'comment.blank')]
+    #[Assert\NotBlank(message: 'comment.blank', groups: ['comment_form'])]
     #[Assert\Length(
         min: 5,
         max: 10000,
         minMessage: 'comment.too_short',
-        maxMessage: 'comment.too_long'
+        maxMessage: 'comment.too_long',
+        groups: ['comment_form']
     )]
     private ?string $content = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeInterface $publishedAt;
 
     #[ORM\ManyToOne(targetEntity: User::class)]

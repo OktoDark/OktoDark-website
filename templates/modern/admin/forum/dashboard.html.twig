@@ -77,7 +77,7 @@
                                 <td>{{ thread.author.username }}</td>
                                 <td>{{ thread.createdAt|date('M d, H:i') }}</td>
                                 <td class="text-end">
-                                    <a href="{{ path('forum_thread_view', {slug: thread.slug}) }}" class="admin-btn admin-btn-primary py-1 px-3" style="font-size: 0.8rem;">{{ 'admin.forum.dashboard.view_button'|trans({}, 'admin') }}</a>
+                                    <a href="{{ path('forum_thread_view', {slug: thread.slug}) }}" class="admin-btn admin-btn-primary text-bg-success py-1 px-3" style="font-size: 0.8rem;">{{ 'admin.forum.dashboard.view_button'|trans({}, 'admin') }}</a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -100,7 +100,7 @@
                             <small class="text-muted">{{ post.createdAt|date('M d') }}</small>
                         </div>
                         <p class="small text-muted mb-3 text-truncate">{{ post.content|striptags }}</p>
-                        <a href="{{ path('forum_thread_view', {slug: post.thread.slug}) }}#post-{{ post.id }}" class="admin-btn admin-btn-secondary w-100 justify-content-center py-1 px-3" style="font-size: 0.8rem; background-color: #dc3545;">{{ 'admin.forum.dashboard.review_button'|trans({}, 'admin') }}</a>
+                        <a href="{{ path('forum_thread_view', {slug: post.thread.slug}) }}#post-{{ post.id }}" class="admin-btn admin-btn-secondary text-bg-secondary w-100 justify-content-center py-1 px-3" style="font-size: 0.8rem; background-color: #dc3545;">{{ 'admin.forum.dashboard.review_button'|trans({}, 'admin') }}</a>
                     </div>
                     {% else %}
                     <div class="p-5 text-center text-muted">

@@ -222,7 +222,7 @@ final class BlogController extends AbstractController
         $comment = new Comment();
         $comment->setAuthor($user);
         $post->addComment($comment);
-
+        $comment->setPost($post);
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 

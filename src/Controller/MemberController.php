@@ -235,8 +235,8 @@ final class MemberController extends AbstractController
             'preferencesForm' => $preferencesForm->createView(),
             'avatarForm' => $avatarForm->createView(),
             'forumForm' => $forumForm->createView(),
-            'notificationForm' => $notificationForm->createView(), // Pass the new notification form
             'securityForm' => $securityForm->createView(),
+            'notificationForm' => $notificationForm->createView(),
             'user' => $user,
             'activities' => $activities,
             'currentFingerprint' => $currentFingerprint,

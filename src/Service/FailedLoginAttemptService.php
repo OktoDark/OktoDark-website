@@ -34,10 +34,10 @@ class FailedLoginAttemptService
             self::FAILED_ATTEMPT_TIMEFRAME
         );
 
-        if (count($failedAttempts) >= self::FAILED_ATTEMPT_THRESHOLD) {
+        if (\count($failedAttempts) >= self::FAILED_ATTEMPT_THRESHOLD) {
             // Send alert for multiple failed attempts
             $location = $this->geoIpService->getCountryCode($ip);
-            $this->loginAlertService->sendFailedLoginAlert($user, $ip, $userAgent, $location, count($failedAttempts));
+            $this->loginAlertService->sendFailedLoginAlert($user, $ip, $userAgent, $location, \count($failedAttempts));
         }
     }
 }
