@@ -15,9 +15,12 @@ use App\Entity\AccountActivity;
 use App\Entity\User;
 use App\Service\AccountActivityLogger;
 use App\Service\DeviceParserService;
+use App\Service\FailedLoginAttemptService;
 use App\Service\GeoIpService;
 use App\Service\Login2FAService;
+use App\Service\LoginAlertService;
 use App\Service\TrustedDeviceService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +34,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class FormAuthenticator extends AbstractLoginFormAuthenticator
@@ -46,6 +50,9 @@ class FormAuthenticator extends AbstractLoginFormAuthenticator
     private readonly AccountActivityLogger $activityLogger;
     private readonly DeviceParserService $deviceParser;
     private readonly GeoIpService $geoIP;
+    private readonly LoginAlertService $loginAlertService;
+    private readonly FailedLoginAttemptService $failedLoginAttemptService;
+    private readonly EntityManagerInterface $em; // Added
 
     public function __construct(
         UrlGeneratorInterface $urlGenerator,
@@ -55,6 +62,9 @@ class FormAuthenticator extends AbstractLoginFormAuthenticator
         AccountActivityLogger $activityLogger,
         DeviceParserService $deviceParser,
         GeoIpService $geoIP,
+        LoginAlertService $loginAlertService,
+        FailedLoginAttemptService $failedLoginAttemptService,
+        EntityManagerInterface $em, // Added
     ) {
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
@@ -63,6 +73,9 @@ class FormAuthenticator extends AbstractLoginFormAuthenticator
         $this->activityLogger = $activityLogger;
         $this->deviceParser = $deviceParser;
         $this->geoIP = $geoIP;
+        $this->loginAlertService = $loginAlertService;
+        $this->failedLoginAttemptService = $failedLoginAttemptService;
+        $this->em = $em; // Added
     }
 
     public function authenticate(Request $request): Passport
@@ -126,6 +139,9 @@ class FormAuthenticator extends AbstractLoginFormAuthenticator
                 ]
             );
 
+            // Send login alert for trusted devices if enabled
+            $this->loginAlertService->sendLoginAlert($user, $ip, $ua, $country);
+
             // Restore target path
             if ($targetPath = $this->getTargetPath($session, $firewallName)) {
                 return new RedirectResponse($targetPath);
@@ -161,6 +177,9 @@ class FormAuthenticator extends AbstractLoginFormAuthenticator
             ]
         );
 
+        // Send login alert for untrusted device if enabled
+        $this->loginAlertService->sendLoginAlert($user, $ip, $ua, $country);
+
         // Generate + send code
         $code = $this->login2FA->generateCode($user);
         $this->login2FA->sendCodeEmail($user, $code);
@@ -176,6 +195,36 @@ class FormAuthenticator extends AbstractLoginFormAuthenticator
 
         return new RedirectResponse(
             $this->urlGenerator->generate('login_2fa_verify', ['_locale' => $locale])
+        );
+    }
+
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
+    {
+        $request->getSession()->set(SecurityRequestAttributes::AUTHENTICATION_ERROR, $exception);
+
+        $email = $request->request->get('email', '');
+        $ip = $request->getClientIp();
+        $ua = $request->headers->get('User-Agent');
+
+        $userRepository = $this->em->getRepository(User::class);
+        $user = $userRepository->findOneBy(['email' => $email]);
+
+        if ($user) {
+            $this->activityLogger->log(
+                $user,
+                AccountActivity::TYPE_LOGIN_FAILED,
+                [
+                    'reason' => $exception->getMessageKey(),
+                    'ip' => $ip,
+                    'userAgent' => $ua,
+                ]
+            );
+
+            $this->failedLoginAttemptService->checkAndAlert($user, $ip, $ua);
+        }
+
+        return new RedirectResponse(
+            $this->urlGenerator->generate(self::LOGIN_ROUTE, ['_locale' => $request->getLocale()])
         );
     }
 

@@ -40,19 +40,19 @@
 
     <div class="meta">
         <div class="meta-row">
-            <span class="meta-label">Time</span>
+            <span class="meta-label">Time: </span>
             <span class="meta-value">{{ loggedAt|date('Y-m-d H:i:s') }}</span>
         </div>
         <div class="meta-row">
-            <span class="meta-label">IP Address</span>
+            <span class="meta-label">IP Address: </span>
             <span class="meta-value">{{ ip }}</span>
         </div>
         <div class="meta-row">
-            <span class="meta-label">Location</span>
+            <span class="meta-label">Location: </span>
             <span class="meta-value">{{ location ?? 'Unknown' }}</span>
         </div>
         <div class="meta-row">
-            <span class="meta-label">Device</span>
+            <span class="meta-label">Device: </span>
             <span class="meta-value">{{ userAgent }}</span>
         </div>
     </div>

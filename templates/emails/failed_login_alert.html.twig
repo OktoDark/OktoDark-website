@@ -1,0 +1,36 @@
+{% extends 'emails/layout.html.twig' %}
+
+{% block title %}Multiple Failed Login Attempts - {{ settings.getSiteName() }}{% endblock %}
+
+{% block badge %}
+    <span class="badge">Security Alert</span>
+{% endblock %}
+
+{% block content %}
+    <h1>Multiple Failed Login Attempts Detected!</h1>
+    <p>Hello {{ user.firstName }},</p>
+    <p>We've detected multiple failed login attempts to your account (<strong>{{ user.email }}</strong>).</p>
+    <p>
+        There have been <strong>{{ failedAttempts }}</strong> failed attempts within a short period.
+        This activity was detected at <strong>{{ alertedAt|date('Y-m-d H:i:s') }}</strong>.
+    </p>
+
+    <p>Details of the last attempt:</p>
+    <ul>
+        <li><strong>IP Address:</strong> {{ ip }}</li>
+        <li><strong>Location:</strong> {{ location ?: 'Unknown' }}</li>
+        <li><strong>User Agent:</strong> {{ userAgent ?: 'Unknown' }}</li>
+    </ul>
+
+    <p>
+        If this was you, please ensure you are using the correct password.
+        If you did not attempt to log in, we recommend changing your password immediately and reviewing your account activity.
+    </p>
+
+    <div class="cta-container">
+        <a href="{{ url('settings_area', {'tab': 'security'}) }}" class="cta-button">Review Security Settings</a>
+    </div>
+
+    <p>Stay safe,</p>
+    <p>The {{ settings.getSiteName() }} Team</p>
+{% endblock %}

@@ -37,6 +37,25 @@ class AccountActivityRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return AccountActivity[]
+     */
+    public function findRecentFailedLoginAttempts(User $user, string $timeframe): array
+    {
+        $dateTime = new \DateTime($timeframe);
+
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.user = :user')
+            ->andWhere('a.type = :type')
+            ->andWhere('a.createdAt > :dateTime')
+            ->setParameter('user', $user)
+            ->setParameter('type', AccountActivity::TYPE_LOGIN_FAILED)
+            ->setParameter('dateTime', $dateTime)
+            ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function deleteAllForUser(User $user): void
     {
         $this->createQueryBuilder('a')

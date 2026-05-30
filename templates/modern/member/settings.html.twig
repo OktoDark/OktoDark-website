@@ -364,34 +364,26 @@
                                     <!-- SECURITY SETTINGS -->
                                     <h2 class="mt-4">{{ 'settings.security_settings'|trans({}, 'settings') }}</h2>
 
-                                    <form method="post" class="mt-3">
-                                        <input type="hidden" name="form_id" value="security_settings">
-
-                                        <div class="form-check mb-2">
-                                            <input type="checkbox" class="form-check-input"
-                                                   name="login_alerts_enabled"
-                                                   {% if user.loginAlertsEnabled %}checked{% endif %}>
-                                            <label class="form-check-label">{{ 'settings.login_alerts'|trans({}, 'settings') }}</label>
+                                    {{ form_start(securityForm) }}
+                                        <div class="col-12 d-flex justify-content-between align-items-center mb-3">
+                                            <span>{{ form_label(securityForm.loginAlertsEnabled) }}</span>
+                                            {{ form_widget(securityForm.loginAlertsEnabled, { attr: { class: 'privacy-toggle' } }) }}
                                         </div>
 
-                                        <div class="form-check mb-2">
-                                            <input type="checkbox" class="form-check-input"
-                                                   name="trusted_devices_enabled"
-                                                   {% if user.trustedDevicesEnabled %}checked{% endif %}>
-                                            <label class="form-check-label">{{ 'settings.trusted_devices_toggle'|trans({}, 'settings') }}</label>
+                                        <div class="col-12 d-flex justify-content-between align-items-center mb-3">
+                                            <span>{{ form_label(securityForm.trustedDevicesEnabled) }}</span>
+                                            {{ form_widget(securityForm.trustedDevicesEnabled, { attr: { class: 'privacy-toggle' } }) }}
                                         </div>
 
-                                        <div class="form-check mb-3">
-                                            <input type="checkbox" class="form-check-input"
-                                                   name="twofa_resend_enabled"
-                                                   {% if user.twofaResendEnabled %}checked{% endif %}>
-                                            <label class="form-check-label">{{ 'settings.allow_resend_code'|trans({}, 'settings') }}</label>
+                                        <div class="col-12 d-flex justify-content-between align-items-center mb-3">
+                                            <span>{{ form_label(securityForm.twofaResendEnabled) }}</span>
+                                            {{ form_widget(securityForm.twofaResendEnabled, { attr: { class: 'privacy-toggle' } }) }}
                                         </div>
 
-                                        <button class="btn btn-primary">
+                                        <button name="tab" value="security" class="btn btn-primary">
                                             <i class="fas fa-save me-2"></i>{{ 'common.save'|trans({}, 'common') }}
                                         </button>
-                                    </form>
+                                    {{ form_end(securityForm) }}
 
                                 </div>
                             </div>

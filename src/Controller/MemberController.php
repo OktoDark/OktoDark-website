@@ -19,6 +19,7 @@ use App\Form\ForumProfileSettingsType;
 use App\Form\NotificationSettingsType;
 use App\Form\PreferencesType;
 use App\Form\ProfileType;
+use App\Form\SecuritySettingsType;
 use App\Repository\AccountActivityRepository;
 use App\Repository\OurGamesRepository;
 use App\Service\SocialLinkParser;
@@ -173,13 +174,12 @@ final class MemberController extends AbstractController
             ]);
         }
 
-        if ($request->isMethod('POST') && 'security_settings' === $request->request->get('form_id')) {
-            $user->setLoginAlertsEnabled($request->request->has('login_alerts_enabled'));
-            $user->setTrustedDevicesEnabled($request->request->has('trusted_devices_enabled'));
-            $user->setTwofaResendEnabled($request->request->has('twofa_resend_enabled'));
+        // Handle Security Settings Form
+        $securityForm = $this->createForm(SecuritySettingsType::class, $user);
+        $securityForm->handleRequest($request);
 
+        if ($securityForm->isSubmitted() && $securityForm->isValid()) {
             $em->flush();
-
             $this->addFlash('success', 'Security settings updated.');
 
             return $this->redirectToRoute('settings_area', [
@@ -236,6 +236,7 @@ final class MemberController extends AbstractController
             'avatarForm' => $avatarForm->createView(),
             'forumForm' => $forumForm->createView(),
             'notificationForm' => $notificationForm->createView(), // Pass the new notification form
+            'securityForm' => $securityForm->createView(),
             'user' => $user,
             'activities' => $activities,
             'currentFingerprint' => $currentFingerprint,

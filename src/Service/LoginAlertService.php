@@ -46,4 +46,29 @@ class LoginAlertService
 
         $this->mailer->send($email);
     }
+
+    public function sendFailedLoginAlert(User $user, string $ip, string $ua, ?string $location = null, int $failedAttempts = 0): void
+    {
+        if (!$user->isLoginAlertsEnabled()) { // Assuming this setting also covers failed login alerts
+            return;
+        }
+
+        $email = (new TemplatedEmail())
+            ->from($this->emailIdentity->noreply())
+            ->to($user->getEmail())
+            ->subject('Multiple failed login attempts to your OktoDark account')
+            ->htmlTemplate('emails/failed_login_alert.html.twig') // A new template for failed attempts
+            ->context([
+                'user' => $user,
+                'ip' => $ip,
+                'userAgent' => $ua,
+                'location' => $location,
+                'failedAttempts' => $failedAttempts,
+                'alertedAt' => new \DateTime(),
+            ]);
+
+        $email->getHeaders()->addTextHeader('X-Transport', 'no_reply');
+
+        $this->mailer->send($email);
+    }
 }
