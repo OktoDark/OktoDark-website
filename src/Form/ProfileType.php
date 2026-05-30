@@ -15,12 +15,20 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Intl\Countries;
 
 class ProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $countries = Countries::getNames();
+
+        $flippedCountries = array_flip($countries);
+
+        $choices = ['Choose your location' => null] + $flippedCountries;
+
         $builder
             ->add('firstName', TextType::class, [
                 'label' => false,
@@ -31,9 +39,13 @@ class ProfileType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => false,
             ])
-            ->add('location', TextType::class, [
+            ->add('location', ChoiceType::class, [
                 'required' => false,
                 'label' => false,
+                'choices' => $choices,
+                'attr' => [
+                    'class' => 'form-control form-control-lg',
+                ],
             ])
             ->add('socialLinks', CollectionType::class, [
                 'entry_type' => SocialLinkEntryType::class,
