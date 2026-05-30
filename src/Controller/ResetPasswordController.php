@@ -16,6 +16,7 @@ use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
 use App\Repository\ResetPasswordRequestRepository;
 use App\Service\EmailIdentityService;
+use App\Service\SettingsProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,6 +44,7 @@ final class ResetPasswordController extends AbstractController
         private ResetPasswordRequestRepository $resetRepo,
         private int $throttleLimit,
         private EmailIdentityService $emailIdentity,
+        private SettingsProvider $settingsProvider,
     ) {
     }
 
@@ -162,8 +164,10 @@ final class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
+        $siteName = $this->settingsProvider->getSiteName();
+
         $email = (new TemplatedEmail())
-            ->from(new Address($this->emailIdentity->noreply(), 'OktoDark no-reply'))
+            ->from(new Address($this->emailIdentity->noreply(), $siteName))
             ->to($user->getEmail())
             ->subject('Your password reset request')
             ->htmlTemplate('emails/reset_password/reset.html.twig')

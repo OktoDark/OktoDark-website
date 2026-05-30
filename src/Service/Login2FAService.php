@@ -26,6 +26,7 @@ final class Login2FAService
         private LoginCodeRepository $codes,
         private MailerInterface $mailer,
         private EmailIdentityService $emailIdentity,
+        private SettingsProvider $settingsProvider,
     ) {
     }
 
@@ -51,8 +52,10 @@ final class Login2FAService
 
     public function sendCodeEmail(User $user, LoginCode $code): void
     {
+        $siteName = $this->settingsProvider->getSiteName();
+
         $email = (new TemplatedEmail())
-            ->from(new Address($this->emailIdentity->noreply(), 'OktoDark no-reply'))
+            ->from(new Address($this->emailIdentity->noreply(), $siteName))
             ->to($user->getEmail())
             ->subject('Your OktoDark login code')
             ->htmlTemplate('emails/login_code.html.twig')

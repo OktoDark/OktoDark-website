@@ -14,12 +14,14 @@ namespace App\Service;
 use App\Entity\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 
 class LoginAlertService
 {
     public function __construct(
         private MailerInterface $mailer,
         private EmailIdentityService $emailIdentity,
+        private SettingsProvider $settingsProvider,
     ) {
     }
 
@@ -29,8 +31,10 @@ class LoginAlertService
             return;
         }
 
+        $siteName = $this->settingsProvider->getSiteName();
+
         $email = (new TemplatedEmail())
-            ->from($this->emailIdentity->noreply())
+            ->from(new Address($this->emailIdentity->noreply(), $siteName))
             ->to($user->getEmail())
             ->subject('New login to your OktoDark account')
             ->htmlTemplate('emails/login_alert.html.twig')
@@ -49,15 +53,17 @@ class LoginAlertService
 
     public function sendFailedLoginAlert(User $user, string $ip, string $ua, ?string $location = null, int $failedAttempts = 0): void
     {
-        if (!$user->isLoginAlertsEnabled()) { // Assuming this setting also covers failed login alerts
+        if (!$user->isLoginAlertsEnabled()) {
             return;
         }
 
+        $siteName = $this->settingsProvider->getSiteName();
+
         $email = (new TemplatedEmail())
-            ->from($this->emailIdentity->noreply())
+            ->from(new Address($this->emailIdentity->noreply(), $siteName))
             ->to($user->getEmail())
             ->subject('Multiple failed login attempts to your OktoDark account')
-            ->htmlTemplate('emails/failed_login_alert.html.twig') // A new template for failed attempts
+            ->htmlTemplate('emails/failed_login_alert.html.twig')
             ->context([
                 'user' => $user,
                 'ip' => $ip,
