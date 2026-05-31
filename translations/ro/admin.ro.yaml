@@ -71,6 +71,20 @@ admin:
             pending_reports: "Raportări în Așteptare"
             no_pending_reports: "Nu există raportări în așteptare!"
             review_button: "Revizuiește"
+            maintenance:
+                title: "Mentenanță Forum"
+                subtitle: "Efectuează sarcini de mentenanță pentru forum."
+                purge_deleted:
+                    title: "Curăță Elementele Șterse Temporar"
+                    description: "Șterge definitiv mesajele și subiectele de pe forum care au fost șterse temporar acum mai mult de 30 de zile."
+                    confirm: "Ești sigur că vrei să cureți elementele șterse temporar? Această acțiune este ireversibilă."
+                    button: "Curăță Elementele Șterse"
+                full_clear:
+                    title: "Ștergere Completă Forum (EXTREM)"
+                    warning_strong: "ATENȚIE:"
+                    warning_text: "Aceasta va șterge TOATE categoriile, subiectele, mesajele și etichetele de pe forum. Această acțiune este ireversibilă."
+                    confirm: "EȘTI ABSOLUT SIGUR? Aceasta va șterge TOATE datele forumului. Această acțiune este ireversibilă."
+                    button: "Șterge Toate Datele Forumului"
         categories:
             title: "Categorii Forum"
             subtitle: "Organizează și gestionează diferitele secțiuni ale forumului tău."
@@ -408,6 +422,7 @@ admin:
     common:
         save: "Salvează Modificările"
         cancel: "Anulează"
+        close: "Închide"
         delete: "Șterge"
         edit: "Editează"
         view: "Vezi"

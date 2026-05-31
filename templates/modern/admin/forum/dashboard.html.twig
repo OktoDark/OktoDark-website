@@ -112,6 +112,42 @@
             </div>
         </div>
     </div>
+
+    <div class="section-title mt-5">
+        <h2 class="fw-bold"><i class="fa-solid fa-broom me-2 text-accent"></i> {{ 'admin.forum.dashboard.maintenance.title'|trans({}, 'admin') }}</h2>
+        <p class="text-muted">{{ 'admin.forum.dashboard.maintenance.subtitle'|trans({}, 'admin') }}</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="admin-card border-0 shadow-sm h-100">
+                <div class="p-4 border-bottom">
+                    <h5 class="mb-0 fw-bold">{{ 'admin.forum.dashboard.maintenance.purge_deleted.title'|trans({}, 'admin') }}</h5>
+                </div>
+                <div class="p-4">
+                    <p class="text-muted">{{ 'admin.forum.dashboard.maintenance.purge_deleted.description'|trans({}, 'admin') }}</p>
+                    <form action="{{ path('admin_forum_clean') }}" method="post" onsubmit="return confirm('{{ 'admin.forum.dashboard.maintenance.purge_deleted.confirm'|trans({}, 'admin') }}');">
+                        <input type="hidden" name="clean_option" value="purge-deleted">
+                        <button type="submit" class="admin-btn admin-btn-warning w-100">{{ 'admin.forum.dashboard.maintenance.purge_deleted.button'|trans({}, 'admin') }}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="admin-card border-0 shadow-sm h-100">
+                <div class="p-4 border-bottom">
+                    <h5 class="mb-0 fw-bold text-danger">{{ 'admin.forum.dashboard.maintenance.full_clear.title'|trans({}, 'admin') }}</h5>
+                </div>
+                <div class="p-4">
+                    <p class="text-muted"><strong>{{ 'admin.forum.dashboard.maintenance.full_clear.warning_strong'|trans({}, 'admin') }}</strong> {{ 'admin.forum.dashboard.maintenance.full_clear.warning_text'|trans({}, 'admin') }}</p>
+                    <form action="{{ path('admin_forum_clean') }}" method="post" onsubmit="return confirm('{{ 'admin.forum.dashboard.maintenance.full_clear.confirm'|trans({}, 'admin') }}');">
+                        <input type="hidden" name="clean_option" value="full-clear">
+                        <button type="submit" class="admin-btn admin-btn-danger w-100">{{ 'admin.forum.dashboard.maintenance.full_clear.button'|trans({}, 'admin') }}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
         {% endblock %}
 
     {% endembed %}

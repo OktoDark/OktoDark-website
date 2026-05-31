@@ -71,6 +71,20 @@ admin:
             pending_reports: "Pending Reports"
             no_pending_reports: "No pending reports!"
             review_button: "Review"
+            maintenance:
+                title: "Forum Maintenance"
+                subtitle: "Perform maintenance tasks for the forum."
+                purge_deleted:
+                    title: "Purge Soft-Deleted Items"
+                    description: "Permanently delete forum posts and threads that were soft-deleted more than 30 days ago."
+                    confirm: "Are you sure you want to purge soft-deleted items? This action is irreversible."
+                    button: "Purge Deleted Items"
+                full_clear:
+                    title: "Full Forum Clear (EXTREME)"
+                    warning_strong: "WARNING:"
+                    warning_text: "This will delete ALL categories, threads, posts, and tags. This action is irreversible."
+                    confirm: "ARE YOU ABSOLUTELY SURE? This will delete ALL forum data. This action is irreversible."
+                    button: "Clear All Forum Data"
         categories:
             title: "Forum Categories"
             subtitle: "Organize and manage the various sections of your forum."
