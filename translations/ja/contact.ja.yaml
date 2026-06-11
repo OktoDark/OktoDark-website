@@ -1,0 +1,19 @@
+title.contact: "お問い合わせ"
+content.contact_subtitle: "ご質問があればお気軽にお問い合わせください"
+content.contact: >
+  製品、問題、その他についてご質問がございましたら、
+  短時間でお答えします。
+label:
+    contact_name: "名前"
+    contact_email: "メールアドレス"
+    contact_content: "内容"
+    contact_category: "カテゴリ"
+    contact_subject: "件名"
+    contact_message: "メッセージ"
+    choice_department: "部署を選択"
+    department_staff: "スタッフ"
+    department_webmaster: "ウェブマスター"
+    department_services: "サービス"
+    secure_sign_in: "セキュアサインイン"
+    send: "送信"
+    captcha_question: "キャプチャの質問"

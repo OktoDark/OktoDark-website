@@ -1,0 +1,24 @@
+# Spanish Support Us Translations
+supportus:
+    subtitle: "Ayude a que nuestro estudio crezca y desbloquee recompensas comunitarias exclusivas."
+    choose_tier: "Elige tu plan de membresía"
+    subscribe: "Suscribirse a través de PayPal"
+    compare_plans: "Comparar Beneficios de Membresía"
+    note: "* El soporte rápido y las solicitudes personalizadas están sujetos a la disponibilidad del equipo."
+
+    discord:
+        title: "Comunidad de Discord"
+        special_title: "Título Especial para ti"
+        private_channels: "Acceso a Canales Privados"
+        fast_support: "Soporte rápido para ti*"
+
+    models:
+        title: "Modelos 3D y Recursos"
+        access: "Acceso a Modelos"
+        unlimited: "Descargas Ilimitadas"
+        sharing: "Permiso de Uso Compartido"
+
+    streaming:
+        title: "Beneficios de Streaming"
+        ask_anything: "Solicitud/Pregunta Prioritaria*"
+        vip_status: "Estado VIP"

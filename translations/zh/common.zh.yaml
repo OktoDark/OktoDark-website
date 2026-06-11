@@ -1,0 +1,13 @@
+common:
+    edit: "编辑"
+    delete: "删除"
+    save: "保存"
+    upload: "上传"
+    remove: "移除"
+    clear: "清除"
+    back: "返回"
+    cancel: "取消"
+    search: "搜索"
+    confirm_delete: "您确定要删除此项目吗？"
+    send_reset_link: "发送重置链接"
+    read_more: "阅读更多"

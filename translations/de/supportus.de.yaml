@@ -1,0 +1,24 @@
+# German Support Us Translations
+supportus:
+    subtitle: "Helfen Sie unserem Studio zu wachsen und schalten Sie exklusive Community-Belohnungen frei."
+    choose_tier: "Wählen Sie Ihren Mitgliedschaftsplan"
+    subscribe: "Über PayPal abonnieren"
+    compare_plans: "Vergleichen Sie Mitgliedschaftsvorteile"
+    note: "* Schneller Support und benutzerdefinierte Anfragen hängen von der Verfügbarkeit des Teams ab."
+    
+    discord:
+        title: "Discord-Gemeinschaft"
+        special_title: "Spezieller Titel für Sie"
+        private_channels: "Zugriff auf private Kanäle"
+        fast_support: "Schneller Support für Sie*"
+
+    models:
+        title: "3D-Modelle und Assets"
+        access: "Modellzugriff"
+        unlimited: "Unbegrenzte Downloads"
+        sharing: "Freigabeberechtigung"
+
+    streaming:
+        title: "Streaming-Vorteile"
+        ask_anything: "Priorität Anfrage/Frage*"
+        vip_status: "VIP-Status"

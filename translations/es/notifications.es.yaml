@@ -1,0 +1,49 @@
+# Traducciones españolas - Notificaciones
+notification: # Nueva clave de nivel superior
+    settings_title: "Configuración de notificaciones"
+    types:
+        blog: "Notificaciones de blog"
+        forum: "Notificaciones de foro"
+        follow: "Notificaciones de seguimiento"
+    channels:
+        email: "Correo electrónico"
+        onsite: "En el sitio"
+    new_follower:
+        title: "¡Nuevo seguidor!"
+        message: "%username% ahora te sigue."
+        email_subject: "¡Tienes un nuevo seguidor!"
+        email_body: "Hola %username%,<br><br>%follower_username% ahora te sigue en OktoDark Studios.<br><br>Visita su perfil aquí: %link%<br><br>Saludos,<br>El equipo de OktoDark Studios"
+        email_hello: "Hola %username%,"
+        email_content: "%follower_username% ahora te sigue en OktoDark Studios."
+        email_profile_link: "Visita su perfil aquí:"
+    comment_created:
+        email_subject: "¡Nuevo comentario en tu publicación!"
+        email_body: "Hola %title%,<br><br>Tu publicación \"%title%\" tiene un nuevo comentario.<br><br>Lee el comentario aquí: %link%<br><br>Saludos,<br>El equipo de OktoDark Studios"
+        onsite_title: "¡Nuevo comentario!"
+        onsite_message: "%comment_author% comentó tu publicación \"%post_title%\"."
+        email_hello: "Hola %username%,"
+        email_content: "Tu publicación \"%post_title%\" tiene un nuevo comentario de %comment_author%."
+        email_read_link: "Lee el comentario aquí:"
+    forum_new_reply:
+        email_subject: "¡Nueva respuesta a tu hilo de foro!"
+        email_hello: "Hola %username%,"
+        email_content: "%replier_username% ha respondido a tu hilo de foro \"%thread_title%\"."
+        email_view_link: "Ver la respuesta aquí:"
+    forum_mention:
+        title: "¡Te mencionaron en un mensaje del foro!"
+        message: "%mentioner_username% te mencionó en el hilo del foro \"%post_title%\"."
+    # Claves para la página de notificaciones
+    page_title: "Tus notificaciones"
+    description: "Administra y ve todas tus notificaciones aquí."
+    your_notifications: "Tus notificaciones"
+    mark_all_read: "Marcar todo como leído"
+    no_notifications_yet: "Aún no tienes notificaciones."
+    unread: "No leído"
+    read: "Leído"
+    ago:
+        year: "{1} hace %count% año|]1,Inf[ hace %count% años"
+        month: "{1} hace %count% mes|]1,Inf[ hace %count% meses"
+        day: "{1} hace %count% día|]1,Inf[ hace %count% días"
+        hour: "{1} hace %count% hora|]1,Inf[ hace %count% horas"
+        minute: "{1} hace %count% minuto|]1,Inf[ hace %count% minutos"
+        just_now: "justo ahora"

@@ -1,0 +1,17 @@
+# German Member Translations
+member:
+    subtitle: "In dieser Gegend wählen Sie, was Sie tun möchten."
+    tier_upgrade_notice: "Wenn Sie einen gesperrten Tier haben, müssen Sie Ihren Tier auf eine höhere Stufe aktualisieren."
+    tiers_rewards: "Tier-Belohnungen"
+    download_beta_text: "Beta-Version herunterladen"
+    download_alpha_text: "Alpha-Version herunterladen"
+    upgrade_now_text: "Aktualisieren Sie Ihren Tier, um diesen Inhalt freizuschalten."
+    credits_request: "Beantragen Sie, Ihren Namen in den Spielgutschriften hinzuzufügen"
+    tier_4_content: "Exklusiver Tier IV-Inhalt"
+    download_source: "Studio-Quellcode herunterladen"
+    download: "Herunterladen"
+    play_online: "Online spielen"
+    member_since: "Mitglied seit"
+    posts: "Beiträge"
+    edit_user: "Benutzer bearbeiten"
+    change_password: "Passwort ändern"

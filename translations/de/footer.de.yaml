@@ -1,0 +1,16 @@
+language.selector: "Sprache"
+
+privacy_policy.text: "Datenschutzerklärung"
+terms_and_conditions.text: "Geschäftsbedingungen"
+site_preferences.text: "Website-Einstellungen"
+information.text: "Information"
+
+footer.information_text: "Information"
+footer.get_in_touch_text: "Kontaktieren Sie uns"
+footer.source_code_text: "Quellcode"
+footer.live_stream_text: "Live-Streaming"
+footer.discourse_text: "Discourse"
+footer.support_us_text: "Unterstützen Sie uns"
+footer.all_rights_reserved_text: "Alle Rechte vorbehalten."
+
+title.follow: "Folgen Sie Uns"

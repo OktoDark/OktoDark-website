@@ -1,0 +1,19 @@
+title.contact: "문의"
+content.contact_subtitle: "궁금한 사항이 있으시면 문의해 주세요"
+content.contact: >
+  제품, 문제 또는 기타 사항에 대한 질문이 있으시면
+  빠른 시간 내에 답변 드리겠습니다.
+label:
+    contact_name: "이름"
+    contact_email: "이메일"
+    contact_content: "내용"
+    contact_category: "카테고리"
+    contact_subject: "제목"
+    contact_message: "메시지"
+    choice_department: "부서 선택"
+    department_staff: "스태프"
+    department_webmaster: "웹마스터"
+    department_services: "서비스"
+    secure_sign_in: "보안 로그인"
+    send: "전송"
+    captcha_question: "캡차 질문"

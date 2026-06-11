@@ -1,0 +1,16 @@
+language.selector: "语言"
+
+privacy_policy.text: "隐私政策"
+terms_and_conditions.text: "条款和条件"
+site_preferences.text: "网站偏好设置"
+information.text: "信息"
+
+footer.information_text: "信息"
+footer.get_in_touch_text: "联系我们"
+footer.source_code_text: "源代码"
+footer.live_stream_text: "直播"
+footer.discourse_text: "Discourse"
+footer.support_us_text: "支持我们"
+footer.all_rights_reserved_text: "版权所有。"
+
+title.follow: "关注我们"

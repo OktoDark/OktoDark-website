@@ -1,0 +1,47 @@
+notification:
+    settings_title: "알림 설정"
+    types:
+        blog: "블로그 알림"
+        forum: "포럼 알림"
+        follow: "팔로우 알림"
+    channels:
+        email: "이메일"
+        onsite: "사이트 내"
+    new_follower:
+        title: "새 팔로워!"
+        message: "%username%님이 팔로우했습니다."
+        email_subject: "새 팔로워가 생겼습니다!"
+        email_body: "안녕하세요 %username%님,<br><br>%follower_username%님이 OktoDark Studios에서 팔로우했습니다.<br><br>프로필 보기: %link%<br><br>감사합니다,<br>OktoDark Studios 팀"
+        email_hello: "안녕하세요 %username%님,"
+        email_content: "%follower_username%님이 OktoDark Studios에서 팔로우했습니다."
+        email_profile_link: "프로필 보기:"
+    comment_created:
+        email_subject: "게시물에 새 댓글이 달렸습니다!"
+        email_body: "안녕하세요 %title%님,<br><br>게시물 \"%title%\"에 새 댓글이 달렸습니다.<br><br>댓글 읽기: %link%<br><br>감사합니다,<br>OktoDark Studios 팀"
+        onsite_title: "새 댓글!"
+        onsite_message: "%comment_author%님이 게시물 \"%post_title%\"에 댓글을 달았습니다."
+        email_hello: "안녕하세요 %username%님,"
+        email_content: "게시물 \"%post_title%\"에 %comment_author%님의 새 댓글이 달렸습니다."
+        email_read_link: "댓글 읽기:"
+    forum_new_reply:
+        email_subject: "포럼 스레드에 새 답글이 달렸습니다!"
+        email_hello: "안녕하세요 %username%님,"
+        email_content: "%replier_username%님이 포럼 스레드 \"%thread_title%\"에 답글을 달았습니다."
+        email_view_link: "답글 보기:"
+    forum_mention:
+        title: "포럼 게시물에서 언급되었습니다!"
+        message: "%mentioner_username%님이 포럼 스레드 \"%post_title%\"에서 언급했습니다."
+    page_title: "알림"
+    description: "모든 알림을 여기서 관리하고 확인하세요."
+    your_notifications: "내 알림"
+    mark_all_read: "모두 읽음으로 표시"
+    no_notifications_yet: "아직 알림이 없습니다."
+    unread: "읽지 않음"
+    read: "읽음"
+    ago:
+        year: "{1} %count%년 전|]1,Inf[ %count%년 전"
+        month: "{1} %count%개월 전|]1,Inf[ %count%개월 전"
+        day: "{1} %count%일 전|]1,Inf[ %count%일 전"
+        hour: "{1} %count%시간 전|]1,Inf[ %count%시간 전"
+        minute: "{1} %count%분 전|]1,Inf[ %count%분 전"
+        just_now: "방금 전"

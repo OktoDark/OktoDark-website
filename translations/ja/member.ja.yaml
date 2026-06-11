@@ -1,0 +1,17 @@
+# Japanese Member Translations
+member:
+    subtitle: "このエリアでしたいことを選んでください。"
+    tier_upgrade_notice: "ブロックされたティアがある場合は、より高いティアにアップグレードする必要があります。"
+    tiers_rewards: "ティア特典"
+    download_beta_text: "ベータ版をダウンロード"
+    download_alpha_text: "アルファ版をダウンロード"
+    upgrade_now_text: "このコンテンツをアンロックするにはティアをアップグレードしてください。"
+    credits_request: "ゲームクレジットへの名前追加リクエスト"
+    tier_4_content: "限定ティアIVコンテンツ"
+    download_source: "スタジオソースコードをダウンロード"
+    download: "ダウンロード"
+    play_online: "オンラインプレイ"
+    member_since: "メンバー登録日"
+    posts: "投稿"
+    edit_user: "ユーザー編集"
+    change_password: "パスワードを変更"

@@ -1,0 +1,24 @@
+# Korean Support Us Translations
+supportus:
+    subtitle: "스튜디오 성장을 돕고 독점 커뮤니티 혜택을 받으세요."
+    choose_tier: "멤버십 플랜 선택"
+    subscribe: "PayPal로 구독"
+    compare_plans: "멤버십 혜택 비교"
+    note: "* 빠른 지원 및 맞춤 요청은 팀 가용성에 따릅니다."
+
+    discord:
+        title: "Discord 커뮤니티"
+        special_title: "특별 타이틀"
+        private_channels: "전용 채널 접근"
+        fast_support: "빠른 지원*"
+
+    models:
+        title: "3D 모델 & 에셋"
+        access: "모델 접근"
+        unlimited: "무제한 다운로드"
+        sharing: "공유 권한"
+
+    streaming:
+        title: "스트리밍 혜택"
+        ask_anything: "우선 요청/질문*"
+        vip_status: "VIP 상태"

@@ -1,0 +1,76 @@
+# 中文翻译 - 电子邮件
+email.verify.title: "确认您的电子邮件"
+email.verify.intro: "点击下方按钮验证您的电子邮件地址。"
+email.verify.button: "确认我的邮箱"
+email.verify.footer: "此致，"
+
+# 通用问候语
+email.greeting: "您好 %name%，"
+email.greeting_simple: "你好！"
+email.greeting_general: "您好，"
+email.team: "%siteName% 团队"
+
+# 徽章
+email.badge.security_alert: "安全提醒"
+email.badge.verification: "验证"
+email.badge.account_security: "账户安全"
+email.badge.exclusive_invitation: "专属邀请"
+
+# 布局
+email.layout.rights_reserved: "保留所有权利。"
+email.layout.automated_message: "这是一封自动邮件，请勿直接回复此邮件。"
+
+# 登录失败提醒
+email.failed_login.subject: "多次登录失败"
+email.failed_login.h1: "检测到多次登录失败！"
+email.failed_login.body_intro: "我们检测到您的账户 (%email%) 存在多次登录失败的尝试。"
+email.failed_login.body_counts: "在短时间内发生了 %attempts% 次失败尝试。此活动于 %date% 被检测到。"
+email.failed_login.details: "最后一次尝试的详情："
+email.failed_login.advice: "如果这是您本人的操作，请确保您使用了正确的密码。如果您没有尝试登录，建议您立即更改密码并检查账户活动。"
+email.failed_login.button: "查看安全设置"
+email.failed_login.footer_sign: "注意安全，"
+
+# 登录提醒
+email.login_alert.subject: "安全提醒"
+email.login_alert.h1: "检测到新登录"
+email.login_alert.body_intro: "我们检测到您的 %siteName% 账户从新设备或新位置成功登录。"
+email.login_alert.advice_ok: "如果这是您本人的操作，可以安全忽略此邮件。无需进一步操作。"
+email.login_alert.advice_not: "不是您本人？建议您立即更改密码并检查活跃会话以保护账户安全。"
+email.login_alert.button: "保护我的账户"
+email.login_alert.received_reason: "您收到此邮件是因为您的账户启用了登录提醒。"
+email.login_alert.manage_settings: "管理提醒设置"
+
+# 详情
+email.details.time: "时间："
+email.details.ip: "IP 地址："
+email.details.location: "位置："
+email.details.user_agent: "用户代理："
+email.details.device: "设备："
+
+# 登录验证码
+email.login_code.subject: "登录验证"
+email.login_code.h1: "验证您的登录"
+email.login_code.body_intro: "为了完成您在 %siteName% 的登录，请输入以下验证码："
+email.login_code.expiry_note: "此验证码将在 5 分钟后过期。"
+email.login_code.advice: "如果您没有请求此验证码，可以安全忽略此邮件。可能有人误输入了您的电子邮件地址。"
+email.login_code.button: "验证登录"
+email.login_code.warning: "为了您的安全，请勿将此验证码分享给任何人。"
+
+# 重置密码
+email.reset.subject: "重置您的密码"
+email.reset.h1: "密码重置申请"
+email.reset.body_intro: "我们收到了重置您 %siteName% 账户密码的申请。如果您没有提出此申请，可以安全忽略此邮件。"
+email.reset.body_link: "要设置新密码并重新访问您的账户，请点击下方按钮："
+email.reset.button: "重置密码"
+email.reset.expiry: "此链接将在 %hours% 小时后过期。"
+email.reset.backup_url: "如果上方按钮无法使用，请将以下 URL 复制粘贴到您的浏览器中："
+email.reset.footer_sign: "注意安全，"
+
+# 邀请
+email.invite.subject: "您受到邀请！"
+email.invite.h1: "欢迎加入核心圈"
+email.invite.body_intro: "我们很高兴地通知您，您已受邀加入 %siteName%。我们已审核了候补名单，您的位置现已准备好。"
+email.invite.claim: "您现在可以使用下方的专属链接注册账户。此邀请仅适用于您，请勿分享。"
+email.invite.button: "领取我的邀请"
+email.invite.next_steps: "注册后，您将获得我们平台和社区的完整访问权限。我们期待您的加入！"
+email.invite.questions: "如有任何疑问，请随时联系我们的支持团队。"

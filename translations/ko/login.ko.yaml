@@ -1,0 +1,18 @@
+# Korean Login Translations
+login:
+    title: "회원 로그인"
+    subtitle: "로그인할 시간입니다"
+    verify_title: "로그인 확인"
+    verify_subtitle: "%email%로 6자리 코드를 전송했습니다. 계속하려면 아래에 입력하세요."
+    code_label: "로그인 코드"
+    code_placeholder: "6자리 코드 입력"
+    trust_device: "30일 동안 이 기기 신뢰"
+    continue_btn: "계속"
+    resend_code: "코드를 받지 못하셨나요?"
+    resend_btn: "코드 재전송"
+    content.note: "로그인하면 이용약관에 동의하는 것입니다"
+checkbox:
+    remember_me: "로그인 유지"
+action:
+    sign_in: "로그인"
+    forgot_password: "비밀번호를 잊으셨나요?"

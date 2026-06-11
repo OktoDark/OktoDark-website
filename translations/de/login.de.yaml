@@ -1,0 +1,19 @@
+# German Login Translations
+login:
+    title: "Mitglieder-Anmeldung"
+    subtitle: "Es ist Zeit, sich anzumelden"
+    verify_title: "Überprüfen Sie Ihre Anmeldung"
+    verify_subtitle: "Wir haben einen 6-stelligen Code an %email% gesendet. Geben Sie ihn unten ein, um fortzufahren."
+    code_label: "Anmeldecode"
+    code_placeholder: "6-stelligen Code eingeben"
+    trust_device: "Diesem Gerät 30 Tage lang vertrauen"
+    continue_btn: "Fortfahren"
+    resend_code: "Haben Sie keinen Code erhalten?"
+    resend_btn: "Code erneut senden"
+    content.note: "Durch die Anmeldung akzeptieren Sie unsere Geschäftsbedingungen"
+# These keys are specifically used in login.html.twig
+checkbox:
+    remember_me: "Anmeldung speichern"
+action:
+    sign_in: "Anmelden"
+    forgot_password: "Passwort vergessen?"

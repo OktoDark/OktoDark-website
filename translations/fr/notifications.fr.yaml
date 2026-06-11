@@ -1,0 +1,49 @@
+# Traductions françaises - Notifications
+notification: # Nouvelle clé de premier niveau
+    settings_title: "Paramètres de notification"
+    types:
+        blog: "Notifications de blog"
+        forum: "Notifications de forum"
+        follow: "Notifications d'abonnement"
+    channels:
+        email: "E-mail"
+        onsite: "Sur le site"
+    new_follower:
+        title: "Nouvel abonné !"
+        message: "%username% vous suit maintenant."
+        email_subject: "Vous avez un nouvel abonné !"
+        email_body: "Bonjour %username%,<br><br>%follower_username% vous suit maintenant sur OktoDark Studios.<br><br>Consultez son profil ici : %link%<br><br>Cordialement,<br>L'équipe OktoDark Studios"
+        email_hello: "Bonjour %username%,"
+        email_content: "%follower_username% vous suit maintenant sur OktoDark Studios."
+        email_profile_link: "Consultez son profil ici :"
+    comment_created:
+        email_subject: "Nouveau commentaire sur votre publication !"
+        email_body: "Bonjour %title%,<br><br>Votre publication \"%title%\" a reçu un nouveau commentaire.<br><br>Lisez le commentaire ici : %link%<br><br>Cordialement,<br>L'équipe OktoDark Studios"
+        onsite_title: "Nouveau commentaire !"
+        onsite_message: "%comment_author% a commenté votre publication \"%post_title%\"."
+        email_hello: "Bonjour %username%,"
+        email_content: "Votre publication \"%post_title%\" a reçu un nouveau commentaire de %comment_author%."
+        email_read_link: "Lisez le commentaire ici :"
+    forum_new_reply:
+        email_subject: "Nouvelle réponse à votre fil de forum !"
+        email_hello: "Bonjour %username%,"
+        email_content: "%replier_username% a répondu à votre fil de forum \"%thread_title%\"."
+        email_view_link: "Voir la réponse ici :"
+    forum_mention:
+        title: "Vous avez été mentionné dans un message du forum !"
+        message: "%mentioner_username% vous a mentionné dans le fil de forum \"%post_title%\"."
+    # Clés pour la page de notifications
+    page_title: "Vos notifications"
+    description: "Gérez et consultez toutes vos notifications ici."
+    your_notifications: "Vos notifications"
+    mark_all_read: "Tout marquer comme lu"
+    no_notifications_yet: "Vous n'avez pas encore de notifications."
+    unread: "Non lu"
+    read: "Lu"
+    ago:
+        year: "{1} il y a %count% an|]1,Inf[ il y a %count% ans"
+        month: "{1} il y a %count% mois|]1,Inf[ il y a %count% mois"
+        day: "{1} il y a %count% jour|]1,Inf[ il y a %count% jours"
+        hour: "{1} il y a %count% heure|]1,Inf[ il y a %count% heures"
+        minute: "{1} il y a %count% minute|]1,Inf[ il y a %count% minutes"
+        just_now: "à l'instant"

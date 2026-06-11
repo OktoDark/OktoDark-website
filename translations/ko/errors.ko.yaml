@@ -1,0 +1,8 @@
+error.agree_terms: "이용약관에 동의해야 합니다."
+error.password_mismatch: "비밀번호 필드가 일치해야 합니다."
+error.password_blank: "비밀번호를 입력해 주세요."
+error.password_min: "비밀번호는 최소 {{ limit }}자 이상이어야 합니다."
+error.username_taken: "이미 사용 중인 사용자명입니다."
+error.email_taken: "이미 등록된 이메일입니다."
+error.username_blank: "사용자명을 입력해 주세요."
+error.email_blank: "이메일 주소를 입력해 주세요."

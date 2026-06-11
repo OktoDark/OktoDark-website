@@ -1,0 +1,29 @@
+# Korean Register Translations
+title.register: "계정 만들기"
+title.check_email: "이메일을 확인하세요"
+title.reg_check_mail: "메일 확인"
+title.resend_verification: "인증 이메일 재전송"
+title.email_verified: "이메일 인증 완료!"
+text.email_verified_intro: "이메일이 성공적으로 인증되었습니다. 이제 프로필을 완성할 수 있습니다."
+title.complete_profile: "프로필 완성"
+
+register:
+    subtitle: "커뮤니티에 참여하고 OktoDark Studios와 함께 여정을 시작하세요."
+    weak_pass: "취약한 비밀번호"
+    medium_pass: "보통 강도"
+    strong_pass: "강한 비밀번호"
+    user_taken: "이미 사용 중인 사용자명"
+    user_ok: "사용 가능한 사용자명"
+    email_taken: "이미 등록된 이메일"
+    email_ok: "사용 가능한 이메일"
+    progress:
+        register: "회원가입"
+        verify: "이메일 인증"
+        complete: "프로필 완성"
+    agree_terms: "에 동의합니다"
+
+label:
+    username: "사용자명"
+    email: "이메일"
+    password: "비밀번호"
+    repeatPassword: "비밀번호 확인"

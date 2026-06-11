@@ -1,0 +1,14 @@
+# Chinese Mods Translations
+mods:
+    subtitle: "游戏的模组和内容"
+    restriction: "仅限会员"
+    sims4_desc: "The Sims 4的模组和自定义内容"
+    soon: "即将推出"
+    download: "下载"
+    rescontent: |
+        <p>只需1€，您就可以每天下载任何内容，无限制。</p>
+        <p><b>为什么要支付1€？</b>
+        <ul><li>通过您的付款，我们将获得更多mod的托管空间。</li></ul></p>
+        <p><b>每个月？</b>
+        <ul><li>是的，这是一个月度订阅。</li></ul></p>
+        <p>如需订阅，请访问我们的<a href="https://www.patreon.com/OktoDark">Patreon</a>页面并选择您的愿望。</p>

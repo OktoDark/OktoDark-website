@@ -1,0 +1,19 @@
+title.contact: "Kontakt"
+content.contact_subtitle: "Kontaktieren Sie uns, wenn Sie Fragen haben"
+content.contact: >
+  Wenn Sie Fragen zu unseren Produkten, Problemen oder anderen Anliegen haben,
+  beantworten wir Ihre Frage in kurzer Zeit.
+label:
+    contact_name: "Name"
+    contact_email: "E-Mail"
+    contact_content: "Inhalt"
+    contact_category: "Kategorie"
+    contact_subject: "Betreff"
+    contact_message: "Nachricht"
+    choice_department: "Wählen Sie Ihre Abteilung"
+    department_staff: "Personal"
+    department_webmaster: "Webmaster"
+    department_services: "Dienstleistungen"
+    secure_sign_in: "Sichere Anmeldung"
+    send: "Senden"
+    captcha_question: "Captcha-Frage"

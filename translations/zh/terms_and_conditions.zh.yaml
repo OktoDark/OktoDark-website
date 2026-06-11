@@ -1,0 +1,648 @@
+terms_and_conditions.subtitle: "请仔细阅读我们的条款与条件。"
+terms_and_conditions.section: |
+  <p class="text-light small mb-4">
+    最后更新时间：2026年5月29日
+  </p>
+
+  <dt class="heading-4">1. 介绍</dt>
+  欢迎来到 OktoDark，这是一个由 OktoDark Studios 运营的数字平台。通过创建账户、访问网站、下载内容或使用平台的任何功能（论坛、市场、安装程序、更新程序、通知或相关服务），即表示您同意本条款与条件。如果您不同意，您必须停止使用本平台。
+  <br><br>
+
+  <dt class="heading-4">2. 使用资格</dt>
+  要使用本平台，您必须：
+  <ul class="list-marked">
+      <li>年满 13 周岁</li>
+      <li>在您所在地区拥有使用在线服务的法定许可</li>
+      <li>同意本条款以及我们的 <a href="/zh/privacy-policy">隐私政策</a></li>
+  </ul>
+  我们可能会暂停或终止违反这些要求的账户。
+  <br><br>
+
+  <dt class="heading-4">3. 平台概述</dt>
+  OktoDark 提供：
+  <ul class="list-marked">
+      <li>一个包含版块、帖子和讨论的社区论坛</li>
+      <li>一个用于发布和阅读文章的博客系统</li>
+      <li>一个用于关注用户和内容的关注系统</li>
+      <li>一个通知系统（电子邮件 + 站内提醒）</li>
+      <li>一个基于角色的权限系统</li>
+      <li>用户资料、头像、签名和社交链接</li>
+      <li>一个数字资产、模组（mods）、工具和下载的市场</li>
+      <li>一个支持版本控制的安全下载系统</li>
+      <li>一个用于平台部署的安装程序与更新程序</li>
+      <li>可选的 AI 辅助功能（审核、建议、摘要）</li>
+  </ul>
+  本条款适用于所有当前和未来的功能。
+  <br><br>
+
+  <dt class="heading-4">4. 账户注册</dt>
+  在创建账户时，您同意：
+  <ul class="list-marked">
+      <li>提供准确的信息</li>
+      <li>保护您的密码安全</li>
+      <li>不共享您的账户</li>
+      <li>不冒充他人</li>
+      <li>不为了滥用目的而创建多个账户</li>
+  </ul>
+  您对在您的账户下进行的所有活动承担全部责任。
+  <br><br>
+
+  <dt class="heading-4">5. 用户内容</dt>
+  <dt class="heading-5">5.1 您的内容</dt>
+  您保留对自己发布或上传内容的所有权。通过在 OktoDark 上发布内容，您授予我们非独占的、全球性的、免版税的许可，以便：
+  <ul class="list-marked">
+      <li>显示</li>
+      <li>存储</li>
+      <li>分发</li>
+      <li>修改（用于审核或排版格式化）</li>
+  </ul>
+  当您删除自己的内容或注销账户时，此许可即告终止。
+  <br><br>
+  <dt class="heading-5">5.2 禁止的内容</dt>
+  您不得上传或发布：
+  <ul class="list-marked">
+      <li>违法内容</li>
+      <li>仇恨言论、骚扰或威胁</li>
+      <li>NSFW（限制级）内容（除非在指定区域得到明确允许）</li>
+      <li>恶意软件、漏洞利用程序或有害脚本</li>
+      <li>未经许可的垃圾邮件、广告或自我宣传</li>
+      <li>您不拥有版权的受版权保护材料</li>
+      <li>违反第三方许可协议的资产</li>
+  </ul>
+  我们可能会根据自身裁量权删除内容或限制访问。
+  <br><br>
+
+  <dt class="heading-4">6. 市场与下载</dt>
+  OktoDark 市场允许用户：
+  <ul class="list-marked">
+      <li>上传数字资产（模组、工具、主题、资源）</li>
+      <li>下载他人分享的内容</li>
+      <li>访问版本化文件和变更日志</li>
+      <li>关注创作者并接收更新</li>
+  </ul>
+  <dt class="heading-5">6.1 上传资产</dt>
+  通过向市场上传内容，您确认：
+  <ul class="list-marked">
+      <li>您拥有该内容的权利</li>
+      <li>您拥有分发该内容的许可</li>
+      <li>您明确指明了许可协议（MIT、GPL、CC、自定义协议等）</li>
+      <li>您的上传内容不包含任何有害或恶意代码</li>
+      <li>您的内容符合所有适用法律</li>
+  </ul>
+  我们可能会根据自身裁量权删除或限制任何资产。
+  <br><br>
+  <dt class="heading-5">6.2 下载资产</dt>
+  下载内容时：
+  <ul class="list-marked">
+      <li>您同意遵守创作者选择的许可协议</li>
+      <li>您理解下载内容是“按现状”提供的</li>
+      <li>您承担与安装或使用下载文件相关的所有风险</li>
+  </ul>
+  我们对第三方内容造成的损失不承担任何责任。
+  <br><br>
+  <dt class="heading-5">6.3 付费内容（如果启用）</dt>
+  如果市场包含付费项目：
+  <ul class="list-marked">
+      <li>付款由第三方支付服务商处理</li>
+      <li>退款遵循支付服务商的政策</li>
+      <li>恶意退单可能导致账户受到限制</li>
+  </ul>
+  <br><br>
+  <dt class="heading-5">6.4 资产下架</dt>
+  创作者可以随时删除其资产。然而：
+  <ul class="list-marked">
+      <li>以前下载的版本可能仍对已下载它们的用户可用</li>
+      <li>我们可能会出于安全和审计目的保留备份</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-4">7. 论坛与社区规则</dt>
+  通过使用论坛，您同意：
+  <ul class="list-marked">
+      <li>尊重其他成员</li>
+      <li>在版块内保持不跑题</li>
+      <li>服从版主的管理指示</li>
+      <li>避免扰乱社区秩序的行为</li>
+      <li>不滥用关注或通知系统</li>
+  </ul>
+  版主可以编辑、移动或删除帖子，并可能发出警告或执行封禁。
+  <br><br>
+
+  <dt class="heading-4">8. 角色与权限</dt>
+  平台使用基于角色的权限系统。
+  <ul class="list-marked">
+      <li>角色决定了您可以执行的操作</li>
+      <li>管理员可以分配、修改或撤销角色</li>
+  </ul>
+  严禁试图绕过权限限制。未经授权的访问企图可能导致账户终止。
+  <br><br>
+
+  <dt class="heading-4">9. 通知</dt>
+  您可能会收到：
+  <ul class="list-marked">
+      <li>电子邮件通知</li>
+      <li>站内提醒</li>
+      <li>安全警告</li>
+      <li>系统消息</li>
+      <li>关注更新</li>
+      <li>市场更新提醒</li>
+  </ul>
+  您可以在通知设置中管理您的偏好设置。
+  <br><br>
+
+  <dt class="heading-4">10. AI 辅助功能</dt>
+  某些功能可能会使用 AI 来进行：
+  <ul class="list-marked">
+      <li>内容建议</li>
+      <li>生成摘要</li>
+      <li>辅助审核</li>
+      <li>自动提醒</li>
+      <li>市场资产分析</li>
+  </ul>
+  AI 输出的内容可能不总是准确的。您同意不依赖 AI 功能来做出法律、医学或财务决策。
+  <br><br>
+
+  <dt class="heading-4">11. 安装程序与更新程序</dt>
+  如果您使用 OktoDark 安装程序或更新程序：
+  <ul class="list-marked">
+      <li>您对您的服务器环境负有完全责任</li>
+      <li>我们对安装或更新过程中的数据丢失不承担责任</li>
+      <li>在执行更新之前，您必须进行数据备份</li>
+      <li>修改系统文件可能会使技术支持失效</li>
+      <li>自动更新功能可能会从受信任的来源下载文件</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-4">12. 安全性</dt>
+  我们采取合理措施保护您的数据，但是：
+  <ul class="list-marked">
+      <li>没有任何系统是绝对安全的</li>
+      <li>您必须保护您的设备和密码安全</li>
+      <li>您必须立即报告任何可疑活动</li>
+  </ul>
+  严禁企图黑客攻击、利用漏洞或破坏平台的行为。
+  <br><br>
+
+  <dt class="heading-4">13. 第三方服务</dt>
+  平台可能会与以下第三方服务进行集成：
+  <ul class="list-marked">
+      <li>社交登录</li>
+      <li>数据分析</li>
+      <li>电子邮件服务商</li>
+      <li>支付处理商</li>
+      <li>AI 服务商</li>
+  </ul>
+  我们对其政策或行为不承担任何责任。
+  <br><br>
+
+  <dt class="heading-4">14. 终止</dt>
+  如果发生以下情况，我们可能会暂停或终止您的账户：
+  <ul class="list-marked">
+      <li>违反本服务条款</li>
+      <li>滥用本平台</li>
+      <li>企图损害系统或社区</li>
+      <li>上传有害或非法内容</li>
+      <li>参与欺诈性的市场活动</li>
+  </ul>
+  您可以随时删除自己的账户。
+  <br><br>
+
+  <dt class="heading-4">15. 责任限制</dt>
+  在法律允许的最大范围内：
+  <ul class="list-marked">
+      <li>我们对数据丢失不承担责任</li>
+      <li>我们对停机或服务中断不承担责任</li>
+      <li>我们对用户生成的内容不承担责任</li>
+      <li>我们对因下载或市场资产导致的损害不承担责任</li>
+      <li>我们对因第三方集成引起的问题不承担责任</li>
+  </ul>
+  使用该平台产生的风险由您自行承担。
+  <br><br>
+
+  <dt class="heading-4">16. 这些条款的变更</dt>
+  我们可能会随时更新这些条款。如果变更重大，我们将通过以下方式通知用户：
+  <ul class="list-marked">
+      <li>电子邮件</li>
+      <li>站内通知</li>
+      <li>系统公告</li>
+  </ul>
+  继续使用本平台即表示您接受更新后的条款。
+  <br><br>
+
+  <dt class="heading-4">17. 联系</dt>
+  如有任何问题或疑虑，请通过 <a href="/zh/contact">联系我们</a> 页面与我们取得联系。
+  <br><br>
+
+  <dt class="heading-4">18. 市场规则 (OktoDark Marketplace)</dt>
+  <dt class="heading-5">1. 介绍</dt>
+  OktoDark 市场允许用户上传、分享和下载数字资产，如模组、工具、主题、资源和其他创意作品。使用本市场即表示您同意本规则以及主条款与条件。
+  <br><br>
+
+  <dt class="heading-5">2. 上传资格</dt>
+  要上传内容，您必须：
+  <ul class="list-marked">
+      <li>拥有该内容的权利</li>
+      <li>拥有分发该内容的许可</li>
+      <li>清晰地指明许可协议（MIT、GPL、CC、自定义协议等）</li>
+      <li>确保内容不侵犯任何第三方权利</li>
+      <li>确保内容不包含任何有害或恶意代码</li>
+  </ul>
+  我们可能会随时要求您提供所有权或许可证明。
+  <br><br>
+
+  <dt class="heading-5">3. 市场禁止的内容</dt>
+  您不得上传：
+  <ul class="list-marked">
+      <li>盗版或盗用的内容</li>
+      <li>从商业游戏或软件中提取（rip）出来的资产，除非获得许可</li>
+      <li>恶意软件、病毒或有害脚本</li>
+      <li>违反第三方权利的 AI 生成内容</li>
+      <li>NSFW 内容，除非在指定类别中被明确允许</li>
+      <li>违反当地或国际法律的内容</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">4. 版本与更新</dt>
+  创作者可以上传其资产的新版本。下载了以前版本的用户可以继续访问它们，除非创作者出于法律原因将其删除。
+  <br><br>
+
+  <dt class="heading-5">5. 资产下架</dt>
+  我们可能会删除以下任何资产：
+  <ul class="list-marked">
+      <li>违反本规则的资产</li>
+      <li>收到 DMCA 投诉的资产</li>
+      <li>包含有害代码的资产</li>
+      <li>被遗弃或已损坏的资产</li>
+      <li>违反许可条款的资产</li>
+  </ul>
+  创作者可以随时删除自己的资产。
+  <br><br>
+
+  <dt class="heading-5">6. 用户责任</dt>
+  下载资产的用户必须：
+  <ul class="list-marked">
+      <li>遵守创作者选择的许可协议</li>
+      <li>尊重署名要求</li>
+      <li>未经许可不得重新分发资产</li>
+      <li>不得以许可证禁止的方式修改资产</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">7. 市场审核</dt>
+  我们保留以下权利：
+  <ul class="list-marked">
+      <li>下架资产</li>
+      <li>限制上传权限</li>
+      <li>暂停账户</li>
+      <li>封禁屡教不改者</li>
+  </ul>
+  市场审核决定为最终决定。
+  <br><br>
+
+  <dt class="heading-4">19. 下载许可协议政策</dt>
+  <dt class="heading-5">1. 概述</dt>
+  OktoDark 上的所有下载都受创作者选择的许可协议约束。除非明确说明，否则 OktoDark 不拥有用户上传的内容。
+  <br><br>
+
+  <dt class="heading-5">2. 许可协议类型</dt>
+  创作者可以从中选择：
+  <ul class="list-marked">
+      <li>MIT 许可证</li>
+      <li>GPL / LGPL</li>
+      <li>知识共享协议 (CC-BY, CC-BY-SA, CC-BY-NC 等)</li>
+      <li>自定义许可证</li>
+      <li>保留所有权利</li>
+  </ul>
+  许可协议必须在资产页面上明确指明。
+  <br><br>
+
+  <dt class="heading-5">3. 用户权利</dt>
+  下载内容时，您可以：
+  <ul class="list-marked">
+      <li>根据许可协议使用该资产</li>
+      <li>在许可证允许的情况下对其进行修改</li>
+      <li>仅在允许的情况下进行重新分发</li>
+  </ul>
+  您不得：
+  <ul class="list-marked">
+      <li>删除版权声明</li>
+      <li>声称对他人的作品拥有所有权</li>
+      <li>将资产用于商业用途，除非得到允许</li>
+      <li>规避许可证限制</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">4. 创作者权利</dt>
+  创作者保留：
+  <ul class="list-marked">
+      <li>版权</li>
+      <li>署名权</li>
+      <li>更新或删除其内容的权利</li>
+      <li>执行其许可协议的权利</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">5. OktoDark 的角色</dt>
+  OktoDark：
+  <ul class="list-marked">
+      <li>不对用户内容声称所有权</li>
+      <li>不保证下载内容的安全性或合法性</li>
+      <li>不对用户违反许可协议的行为承担责任</li>
+      <li>将遵守有效的 DMCA 请求</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-4">20. DMCA / 版权政策</dt>
+  <dt class="heading-5">1. 介绍</dt>
+  OktoDark 尊重知识产权，并遵守《数字千年版权法》（DMCA）和同等的国际法律。
+  <br><br>
+
+  <dt class="heading-5">2. 提交 DMCA 下架请求</dt>
+  如果您认为您的受版权保护作品在未经许可的情况下被上传，您可以提交下架请求，其中包括：
+  <ul class="list-marked">
+      <li>您的全名</li>
+      <li>联系信息</li>
+      <li>对受版权保护作品的描述</li>
+      <li>侵权内容的 URL 链接</li>
+      <li>诚实信用声明</li>
+      <li>伪证处罚声明</li>
+      <li>您的手写或电子签名</li>
+  </ul>
+  请求可以通过 <a href="/zh/contact">联系我们</a> 页面提交。
+  <br><br>
+
+  <dt class="heading-5">3. 反通知</dt>
+  如果您认为您的内容被错误地删除了，您可以提交反通知，其中包括：
+  <ul class="list-marked">
+      <li>您的全名</li>
+      <li>联系信息</li>
+      <li>已被删除内容的 URL 链接</li>
+      <li>诚实信用声明</li>
+      <li>同意司法管辖权的声明</li>
+      <li>您的手写或电子签名</li>
+  </ul>
+  除非原始投诉人提起法律诉讼，否则我们可能会恢复该内容。
+  <br><br>
+
+  <dt class="heading-5">4. 反复侵权者</dt>
+  屡次违反版权法的用户可能会被暂停或终止其账户。
+  <br><br>
+
+  <dt class="heading-5">5. 善意执行</dt>
+  如果我们怀疑存在版权侵害行为，我们保留主动删除内容的权利。
+  <br><br>
+
+  <dt class="heading-4">21. 退款政策（针对付费市场项目）</dt>
+  仅在启用付费资产时适用。
+  <br><br>
+
+  <dt class="heading-5">1. 概述</dt>
+  OktoDark 市场中的付费项目是通过第三方支付服务商处理的。退款遵循 OktoDark 规则和支付服务商的政策。
+  <br><br>
+
+  <dt class="heading-5">2. 退款资格</dt>
+  符合以下情况的，可以予以退款：
+  <ul class="list-marked">
+      <li>该资产已损坏或无法运行</li>
+      <li>资产描述具有误导性</li>
+      <li>资产包含恶意代码</li>
+      <li>创作者未提供承诺的更新（如打过广告说明）</li>
+  </ul>
+  以下情况不予退款：
+  <ul class="list-marked">
+      <li>买家反悔</li>
+      <li>与您的系统不兼容</li>
+      <li>因用户自行修改造成的问题</li>
+      <li>已被下载并广泛运用的内容</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">3. 退款流程</dt>
+  申请退款：
+  <ul class="list-marked">
+      <li>通过 <a href="/zh/contact">联系我们</a> 页面联系客户服务</li>
+      <li>提供您的订单 ID</li>
+      <li>描述遇到的问题</li>
+      <li>在必要时提供屏幕截图或运行日志</li>
+  </ul>
+  我们可能会与创作者联系以进行核实。
+  <br><br>
+
+  <dt class="heading-5">4. 退单限制</dt>
+  未经授权的恶意退单可能导致：
+  <ul class="list-marked">
+      <li>账户权限受到限制</li>
+      <li>失去对已购项目的访问权限</li>
+      <li>在市场中被封禁</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">5. 创作者收益</dt>
+  创作者根据市场收入分成模型获得收益。退款金额可能会从未来的收益中扣除。
+  <br><br>
+
+  <dt class="heading-4">22. 市场卖家协议 — OktoDark Studios</dt>
+  本市场卖家协议（“本协议”）规范了您作为卖家在 OktoDark 市场的参与行为。通过上传、列出或销售平台上的数字内容，即表示您同意本协议，以及服务条款、市场规则、下载许可协议政策、退款政策和隐私政策。
+  <br><br>
+
+  <dt class="heading-5">1. 定义</dt>
+  <strong>卖家：</strong> 指在 OktoDark 市场上上传或分发数字内容的任何用户。
+  <br>
+  <strong>买家：</strong> 指下载或购买内容的任何用户。
+  <br>
+  <strong>内容：</strong> 指卖家上传的任何数字资产，包括模组、工具、主题、脚本、资源或说明文档。
+  <br>
+  <strong>平台：</strong> 指 OktoDark 网站、市场及相关服务。
+  <br>
+  <strong>OktoDark Studios：</strong> 平台的运营方和所有者。
+  <br><br>
+
+  <dt class="heading-5">2. 销售资格</dt>
+  <strong>活跃账户：</strong> 您必须拥有一个信誉良好的活跃 OktoDark 账户。
+  <br>
+  <strong>法定民事行为能力：</strong> 您必须在您的司法管辖区内合法地被允许签订协议并接收付款。
+  <br>
+  <strong>合规性：</strong> 您必须遵守所有适用法律，包括版权、税务和出口管制条例。
+  <br>
+  OktoDark Studios 可以自行决定批准、限制或撤销您的卖家身份。
+  <br><br>
+
+  <dt class="heading-5">3. 内容的所有权和权利</dt>
+  <strong>您的所有权：</strong> 您保留对您上传内容的完整所有权。
+  <br>
+  <strong>您授予 OktoDark 的权利：</strong> 通过上传内容，您授予 OktoDark 非独占的、全球性的、免版税的许可，以便：
+  <ul class="list-marked">
+      <li>托管、存储和显示您的内容</li>
+      <li>将其分发给买家</li>
+      <li>将其用于宣传市场和平台</li>
+  </ul>
+  <strong>第三方权利：</strong> 您确认您的内容：
+  <ul class="list-marked">
+      <li>不侵犯第三方的版权、商标或其他权利</li>
+      <li>符合任何第三方许可协议（例如游戏引擎、工具、函数库等）</li>
+  </ul>
+  您对因您的内容引发的任何法律索赔承担全部责任。
+  <br><br>
+
+  <dt class="heading-5">4. 内容要求</dt>
+  您不得上传：
+  <ul class="list-marked">
+      <li>盗版或盗用的内容</li>
+      <li>未经许可从商业游戏或软件中提取（rip）出来的资产</li>
+      <li>恶意软件、后门或有害代码</li>
+      <li>具有误导性、欺诈性或虚假的内容</li>
+      <li>违反市场规则或服务条款的内容</li>
+  </ul>
+  您必须：
+  <ul class="list-marked">
+      <li>提供准确的描述、标签和屏幕截图</li>
+      <li>清晰地指明许可协议（MIT、GPL、CC、自定义协议等）</li>
+      <li>公开披露依赖项或所需的软件</li>
+      <li>说明内容是否为实验性或不稳定的</li>
+  </ul>
+  OktoDark 可能会删除或隐藏违反这些要求的内容。
+  <br><br>
+
+  <dt class="heading-5">5. 定价与付款</dt>
+  <strong>定价：</strong>
+  <ul class="list-marked">
+      <li>您可以在平台支持的范围内设定付费内容的价格。</li>
+      <li>OktoDark 可能会设定最低或最高价格阈值。</li>
+  </ul>
+  <strong>收入分成：</strong>
+  <ul class="list-marked">
+      <li>每笔交易可能会收取平台费或采用收入分成模式。</li>
+      <li>目前的收入分成模式将在市场文档或卖家面板中另行公布。</li>
+  </ul>
+  <strong>收益提现：</strong>
+  <ul class="list-marked">
+      <li>提现将通过支持的付款渠道进行处理。</li>
+      <li>您有责任提供准确的收款提现账户详情。</li>
+      <li>支付服务商收取的费用可能会从您的收益中扣除。</li>
+  </ul>
+  <strong>税收：</strong>
+  <ul class="list-marked">
+      <li>您有责任申报并缴纳您司法管辖区内的所有适用税款。</li>
+      <li>如果法律要求，OktoDark 可能会代扣代缴税款。</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">6. 退款与退单</dt>
+  <strong>退款：</strong>
+  <ul class="list-marked">
+      <li>退款可能会根据平台的退款政策进行发放（例如：资产损坏、描述误导、恶意内容）。</li>
+      <li>已退款的金额可能会从您当前或未来的收益中扣除。</li>
+  </ul>
+  <strong>退单：</strong>
+  <ul class="list-marked">
+      <li>如果买家发起拒付或退单，OktoDark 可能会：</li>
+      <li>从您的账户余额中扣除相应金额</li>
+      <li>限制您的卖家账户</li>
+      <li>限制您使用平台付费功能</li>
+  </ul>
+  <strong>争议：</strong>
+  <ul class="list-marked">
+      <li>OktoDark 可能会调解争议，但没有义务解决每一个冲突。</li>
+      <li>OktoDark 对退款和拒付处理作出的决定为最终决定。</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">7. 支持与更新</dt>
+  <strong>卖家的责任：</strong>
+  <ul class="list-marked">
+      <li>您有责任为您所售内容提供合理的技术支持（错误修复、澄清、基本帮助）。</li>
+      <li>如果您在宣传中承诺持续更新或长期支持，您应尽最大诚意来履行这一义务。</li>
+  </ul>
+  <strong>终止支持：</strong>
+  <ul class="list-marked">
+      <li>您可以终止支持或更新，但您应该相应地更新资产描述页面。</li>
+      <li>买家不能仅仅因为技术支持终止而自动获得退款，除非另有承诺。</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">8. 内容下架与账户限制措施</dt>
+  <strong>由您发起：</strong>
+  <ul class="list-marked">
+      <li>您可以随时下架或删除自己的内容。</li>
+  </ul>
+  <strong>由 OktoDark 发起：</strong>
+  <ul class="list-marked">
+      <li>我们可能会删除或限制以下内容：</li>
+      <li>违反法律或平台政策的内容</li>
+      <li>收到有效 DMCA 投诉的内容</li>
+      <li>包含有害或恶意代码的内容</li>
+      <li>存在欺诈或误导性的内容</li>
+  </ul>
+  我们可能会：
+  <ul class="list-marked">
+      <li>暂停或终止您的卖家特权</li>
+      <li>限制您的账户</li>
+      <li>在反复或严重违反规定的情况下禁止您访问市场</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">9. 遵守法律和政策</dt>
+  您同意遵守：
+  <ul class="list-marked">
+      <li>所有适用的本地和国际法律</li>
+  </ul>
+  OktoDark 的：
+  <ul class="list-marked">
+      <li>服务条款</li>
+      <li>市场规则</li>
+      <li>下载许可协议政策</li>
+      <li>退款政策</li>
+      <li>DMCA / 版权政策</li>
+      <li>隐私政策</li>
+  </ul>
+  如果本协议与上述其他政策发生冲突，以规范您作为卖家角色的本协议为准。
+  <br><br>
+
+  <dt class="heading-5">10. 责任限制</dt>
+  在法律允许的最大范围内：
+  <ul class="list-marked">
+      <li>OktoDark 对以下情况不承担责任：</li>
+      <li>收益损失</li>
+      <li>数据丢失</li>
+      <li>系统停机或服务中断</li>
+      <li>买家对您内容的滥用</li>
+      <li>因您的内容或授权协议引起的法律纠纷</li>
+  </ul>
+  您作为卖家使用市场所产生的风险完全由您自身承担。
+  <br><br>
+
+  <dt class="heading-5">11. 协议期限与终止</dt>
+  <strong>协议期限：</strong>
+  <ul class="list-marked">
+      <li>本协议在您作为市场的卖家期间始终有效。</li>
+  </ul>
+  <strong>由您终止：</strong>
+  <ul class="list-marked">
+      <li>您可以随时停止销售并删除您的所有内容。</li>
+  </ul>
+  <strong>由 OktoDark 终止：</strong>
+  <ul class="list-marked">
+      <li>我们可能会随时暂停或终止您的卖家身份或账户，原因包括：</li>
+      <li>违反平台政策</li>
+      <li>存在法律风险</li>
+      <li>欺诈或滥用</li>
+  </ul>
+  <strong>条款效力存续：</strong>
+  <ul class="list-marked">
+      <li>某些条款（例如责任限制、所有权、许可证授权、法律合规等）在协议终止后可能继续有效。</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">12. 本协议的修改</dt>
+  我们可能会不时更新本协议。如果修改重大，我们可能会通过以下方式通知您：
+  <ul class="list-marked">
+      <li>电子邮件</li>
+      <li>站内通知</li>
+      <li>卖家面板消息</li>
+  </ul>
+  在协议修改生效后继续上传或销售内容，即表示您接受修改后的本协议。
+  <br><br>
+
+  <dt class="heading-5">13. 联系</dt>
+  如果您对本市场卖家协议有任何疑问，您可以通过 <a href="/zh/contact">联系我们</a> 页面与我们取得联系。
+  <br>

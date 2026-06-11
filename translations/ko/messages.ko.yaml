@@ -1,0 +1,51 @@
+text.check_email_intro: "이메일 주소로 확인 링크를 전송했습니다."
+text.check_email_instructions: "해당 이메일의 링크를 클릭하여 계정을 확인하고 계속 진행하세요."
+text.check_email_spam: "이메일이 보이지 않으면 스팸 또는 정크 폴더를 확인하세요."
+step.register: "계정 만들기"
+step.verify_email: "이메일 확인"
+step.complete_profile: "프로필 완성"
+text.email_sent_ago: "%minutes%분 전에 인증 이메일을 전송했습니다."
+title.troubleshooting: "이메일을 받지 못하셨나요?"
+help.check_spam: "스팸 또는 정크 폴더를 확인하세요."
+help.wait_few_minutes: "잠시 기다려 주세요 — 이메일 전송이 지연될 수 있습니다."
+help.correct_email: "올바른 이메일 주소를 입력했는지 확인하세요."
+help.whitelist_domain: "이메일 허용 목록에 %domain%을 추가하세요."
+text.reset_email_sent_intro: "입력한 이메일로 계정이 존재하는 경우 비밀번호 재설정 링크가 전송되었습니다."
+text.reset_email_expire: "이 링크는 %hours%시간 후 만료됩니다."
+text.reset_email_spam: "이메일이 보이지 않으면 스팸 또는 정크 폴더를 확인하세요."
+
+label.captcha_challenge: "스팸 방지 확인"
+
+reset:
+  subtitle: "비밀번호 재설정 링크를 받으려면 이메일 주소를 입력하세요."
+  throttle_error: "최근에 비밀번호 재설정을 요청했습니다. %minutes%분 후에 다시 시도하세요."
+  throttle_error_seconds: "%seconds%초 후에 다시 시도하세요."
+  throttle_friendly: "보안을 위해 매 시간마다 한 번씩 새 재설정 링크를 요청할 수 있습니다."
+  email_sent_intro: "입력한 이메일로 계정이 존재하는 경우 비밀번호 재설정 링크가 전송되었습니다."
+  email_expire: "이 링크는 %hours%시간 후 만료됩니다."
+  email_spam: "이메일이 보이지 않으면 스팸 또는 정크 폴더를 확인하세요."
+  token_invalid: "재설정 링크가 유효하지 않거나 만료되었습니다. 새로운 링크를 요청하세요."
+
+validation:
+  password:
+    not_blank: "비밀번호를 입력해 주세요."
+    min_length: "비밀번호는 최소 {{ limit }}자 이상이어야 합니다."
+    mismatch: "비밀번호 필드가 일치해야 합니다."
+
+label:
+  password_new: "새 비밀번호"
+  password_repeat: "비밀번호 확인"
+
+title:
+  reset_your_password: "비밀번호 재설정"
+
+text:
+  reset_password: "아래에 새 비밀번호를 입력하여 재설정 과정을 완료하세요."
+
+button:
+  reset_password: "비밀번호 재설정"
+
+maintenance.title: "점검 모드"
+maintenance.appear: "곧 돌아오겠습니다"
+maintenance.under: "시스템이 예정된 점검 중입니다. 기다려 주셔서 감사합니다."
+maintenance.countdown_label: "예상 남은 시간"

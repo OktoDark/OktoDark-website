@@ -1,0 +1,19 @@
+title.contact: "Contacto"
+content.contact_subtitle: "Contáctenos si tiene alguna pregunta"
+content.contact: >
+  Si tiene preguntas sobre nuestros productos, problemas u otra cosa,
+  responderemos su pregunta en poco tiempo.
+label:
+    contact_name: "Nombre"
+    contact_email: "Correo Electrónico"
+    contact_content: "Contenido"
+    contact_category: "Categoría"
+    contact_subject: "Asunto"
+    contact_message: "Mensaje"
+    choice_department: "Elija su departamento"
+    department_staff: "Personal"
+    department_webmaster: "Webmaster"
+    department_services: "Servicios"
+    secure_sign_in: "Inicio de Sesión Seguro"
+    send: "Enviar"
+    captcha_question: "Pregunta Captcha"

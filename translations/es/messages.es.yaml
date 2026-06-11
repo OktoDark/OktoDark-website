@@ -1,0 +1,43 @@
+text.check_email_intro: "Hemos enviado un enlace de confirmación a su dirección de correo electrónico."
+text.check_email_instructions: "Por favor, haga clic en el enlace en ese correo electrónico para verificar su cuenta y continuar."
+text.check_email_spam: "Si no ve el correo electrónico, revise su carpeta de spam o basura."
+step.register: "Crear cuenta"
+step.verify_email: "Confirmar correo electrónico"
+step.complete_profile: "Completar perfil"
+text.email_sent_ago: "Correo de verificación enviado hace %minutes% minutos."
+title.troubleshooting: "¿No recibió el correo electrónico?"
+help.check_spam: "Revise su carpeta de spam o basura."
+help.wait_few_minutes: "Espere unos minutos — a veces la entrega de correo se retrasa."
+help.correct_email: "Asegúrese de haber ingresado la dirección de correo electrónico correcta."
+help.whitelist_domain: "Agregue %domain% a su lista blanca de correo electrónico."
+text.reset_email_sent_intro: "Si existe una cuenta con el correo que ingresó, se ha enviado un enlace de restablecimiento de contraseña."
+text.reset_email_expire: "Este enlace expirará en %hours% hora(s)."
+text.reset_email_spam: "Si no ve el correo electrónico, revise su carpeta de spam o basura."
+label.captcha_challenge: "Desafío Anti-Spam"
+reset:
+  subtitle: "Ingrese su dirección de correo electrónico para recibir un enlace de restablecimiento de contraseña."
+  throttle_error: "Recientemente solicitó un restablecimiento de contraseña. Espere %minutes% minuto(s) antes de intentar nuevamente."
+  throttle_error_seconds: "Espere %seconds% segundo(s) antes de intentar nuevamente."
+  throttle_friendly: "Por su seguridad, solo puede solicitar un nuevo enlace de restablecimiento una vez cada hora."
+  email_sent_intro: "Si existe una cuenta con el correo que ingresó, se ha enviado un enlace de restablecimiento de contraseña."
+  email_expire: "Este enlace expirará en %hours% hora(s)."
+  email_spam: "Si no ve el correo electrónico, revise su carpeta de spam o basura."
+  token_invalid: "Su enlace de restablecimiento no es válido o ha expirado. Por favor, solicite uno nuevo."
+validation:
+  password:
+    not_blank: "Por favor, ingrese una contraseña."
+    min_length: "Su contraseña debe tener al menos {{ limit }} caracteres."
+    mismatch: "Los campos de contraseña deben coincidir."
+label:
+  password_new: "Nueva contraseña"
+  password_repeat: "Repetir contraseña"
+title:
+  reset_your_password: "Restablecer contraseña"
+text:
+  reset_password: "Ingrese su nueva contraseña a continuación para completar el proceso de restablecimiento."
+button:
+  reset_password: "Restablecer Contraseña"
+maintenance.title: "Modo Mantenimiento"
+maintenance.appear: "Volveremos pronto"
+maintenance.under: "Nuestro sistema se somete a mantenimiento programado. Gracias por su paciencia."
+maintenance.countdown_label: "Tiempo estimado restante"

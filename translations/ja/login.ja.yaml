@@ -1,0 +1,18 @@
+# Japanese Login Translations
+login:
+    title: "メンバーログイン"
+    subtitle: "ログインしましょう"
+    verify_title: "ログインを確認"
+    verify_subtitle: "%email%に6桁のコードを送信しました。続けるには下に入力してください。"
+    code_label: "ログインコード"
+    code_placeholder: "6桁のコードを入力"
+    trust_device: "30日間このデバイスを信頼する"
+    continue_btn: "続ける"
+    resend_code: "コードが届きませんでしたか？"
+    resend_btn: "コードを再送"
+    content.note: "ログインすることで利用規約に同意したことになります"
+checkbox:
+    remember_me: "ログイン状態を保持"
+action:
+    sign_in: "ログイン"
+    forgot_password: "パスワードをお忘れですか？"

@@ -1,0 +1,43 @@
+﻿text.check_email_intro: "Wir haben einen Bestätigungslink an Ihre E-Mail-Adresse gesendet."
+text.check_email_instructions: "Bitte klicken Sie auf den Link in dieser E-Mail, um Ihr Konto zu überprüfen und fortzufahren."
+text.check_email_spam: "Wenn Sie die E-Mail nicht sehen, überprüfen Sie Ihren Spam- oder Junk-Ordner."
+step.register: "Konto erstellen"
+step.verify_email: "E-Mail bestätigen"
+step.complete_profile: "Profil vervollständigen"
+text.email_sent_ago: "Bestätigungsemail vor %minutes% Minuten gesendet."
+title.troubleshooting: "E-Mail nicht erhalten?"
+help.check_spam: "Überprüfen Sie Ihren Spam- oder Junk-Ordner."
+help.wait_few_minutes: "Warten Sie ein paar Minuten — manchmal verzögert sich die E-Mail-Zustellung."
+help.correct_email: "Stellen Sie sicher, dass Sie die richtige E-Mail-Adresse eingegeben haben."
+help.whitelist_domain: "Fügen Sie %domain% zu Ihrer E-Mail-Whitelist hinzu."
+text.reset_email_sent_intro: "Wenn ein Konto mit der eingegebenen E-Mail existiert, wurde ein Passwort-Zurücksetzen-Link gesendet."
+text.reset_email_expire: "Dieser Link verfällt in %hours% Stunde(n)."
+text.reset_email_spam: "Wenn Sie die E-Mail nicht sehen, überprüfen Sie bitte Ihren Spam- oder Junk-Ordner."
+label.captcha_challenge: "Anti-Spam-Herausforderung"
+reset:
+  subtitle: "Geben Sie Ihre E-Mail-Adresse ein, um einen Passwort-Zurücksetzen-Link zu erhalten."
+  throttle_error: "Sie haben kürzlich ein Passwort-Zurücksetzen angefordert. Bitte warten Sie %minutes% Minute(n), bevor Sie es erneut versuchen."
+  throttle_error_seconds: "Bitte warten Sie %seconds% Sekunde(n), bevor Sie es erneut versuchen."
+  throttle_friendly: "Aus Sicherheitsgründen können Sie nur einmal pro Stunde einen neuen Zurücksetzen-Link anfordern."
+  email_sent_intro: "Wenn ein Konto mit der eingegebenen E-Mail existiert, wurde ein Passwort-Zurücksetzen-Link gesendet."
+  email_expire: "Dieser Link verfällt in %hours% Stunde(n)."
+  email_spam: "Wenn Sie die E-Mail nicht sehen, überprüfen Sie bitte Ihren Spam- oder Junk-Ordner."
+  token_invalid: "Ihr Zurücksetzen-Link ist ungültig oder abgelaufen. Bitte fordern Sie einen neuen an."
+validation:
+  password:
+    not_blank: "Bitte geben Sie ein Passwort ein."
+    min_length: "Ihr Passwort sollte mindestens {{ limit }} Zeichen lang sein."
+    mismatch: "Die Passwortfelder müssen übereinstimmen."
+label:
+  password_new: "Neues Passwort"
+  password_repeat: "Passwort wiederholen"
+title:
+  reset_your_password: "Passwort zurücksetzen"
+text:
+  reset_password: "Geben Sie unten Ihr neues Passwort ein, um den Zurücksetzen-Prozess abzuschließen."
+button:
+  reset_password: "Passwort zurücksetzen"
+maintenance.title: "Wartungsmodus"
+maintenance.appear: "Wir sind bald zurück"
+maintenance.under: "Unser System wird derzeit gewartet. Danke für Ihre Geduld."
+maintenance.countdown_label: "Geschätzte verbleibende Zeit"

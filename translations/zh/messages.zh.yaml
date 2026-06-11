@@ -1,0 +1,43 @@
+﻿text.check_email_intro: "我们已向您的电子邮件地址发送了确认链接。"
+text.check_email_instructions: "请单击该电子邮件中的链接以验证您的账户并继续。"
+text.check_email_spam: "如果您没有看到电子邮件，请检查您的垃圾邮件或垃圾文件夹。"
+step.register: "创建账户"
+step.verify_email: "确认电子邮件"
+step.complete_profile: "完成个人资料"
+text.email_sent_ago: "验证电子邮件已在%minutes%分钟前发送。"
+title.troubleshooting: "没有收到电子邮件？"
+help.check_spam: "检查您的垃圾邮件或垃圾文件夹。"
+help.wait_few_minutes: "等待几分钟——有时电子邮件递交会延迟。"
+help.correct_email: "确保您输入的电子邮件地址正确。"
+help.whitelist_domain: "将%domain%添加到您的电子邮件白名单。"
+text.reset_email_sent_intro: "如果存在具有您输入的电子邮件的账户，则已发送密码重置链接。"
+text.reset_email_expire: "此链接将在%hours%小时内过期。"
+text.reset_email_spam: "如果您没有看到电子邮件，请检查您的垃圾邮件或垃圾文件夹。"
+label.captcha_challenge: "反垃圾邮件挑战"
+reset:
+  subtitle: "输入您的电子邮件地址以接收密码重置链接。"
+  throttle_error: "您最近请求了密码重置。在重试之前，请等待%minutes%分钟。"
+  throttle_error_seconds: "在重试之前，请等待%seconds%秒。"
+  throttle_friendly: "出于安全原因，您每小时只能请求一次新的重置链接。"
+  email_sent_intro: "如果存在具有您输入的电子邮件的账户，则已发送密码重置链接。"
+  email_expire: "此链接将在%hours%小时内过期。"
+  email_spam: "如果您没有看到电子邮件，请检查您的垃圾邮件或垃圾文件夹。"
+  token_invalid: "您的重置链接无效或已过期。请请求一个新的。"
+validation:
+  password:
+    not_blank: "请输入密码。"
+    min_length: "您的密码应至少为{{ limit }}个字符。"
+    mismatch: "密码字段必须匹配。"
+label:
+  password_new: "新密码"
+  password_repeat: "重复密码"
+title:
+  reset_your_password: "重置密码"
+text:
+  reset_password: "在下面输入您的新密码以完成重置过程。"
+button:
+  reset_password: "重置密码"
+maintenance.title: "维护模式"
+maintenance.appear: "我们即将回来"
+maintenance.under: "我们的系统正在进行定期维护。感谢您的耐心。"
+maintenance.countdown_label: "估计剩余时间"

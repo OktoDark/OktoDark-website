@@ -1,0 +1,16 @@
+language.selector: "言語"
+
+privacy_policy.text: "プライバシーポリシー"
+terms_and_conditions.text: "利用規約"
+site_preferences.text: "サイト設定"
+information.text: "情報"
+
+footer.information_text: "情報"
+footer.get_in_touch_text: "お問い合わせ"
+footer.source_code_text: "ソースコード"
+footer.live_stream_text: "ライブストリーミング"
+footer.discourse_text: "Discourse"
+footer.support_us_text: "サポート"
+footer.all_rights_reserved_text: "全著作権所有。"
+
+title.follow: "フォロー"

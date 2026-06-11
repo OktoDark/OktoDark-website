@@ -1,0 +1,17 @@
+# Spanish Member Translations
+member:
+    subtitle: "En esta área elige lo que quieres hacer."
+    tier_upgrade_notice: "Si tiene un Tier bloqueado, debe actualizar su Tier a uno superior."
+    tiers_rewards: "Recompensas de Tier"
+    download_beta_text: "Descargar Versión Beta"
+    download_alpha_text: "Descargar Versión Alpha"
+    upgrade_now_text: "Actualiza tu tier para desbloquear este contenido."
+    credits_request: "Solicitar agregar su nombre a los Créditos del Juego"
+    tier_4_content: "Contenido Exclusivo Tier IV"
+    download_source: "Descargar Código Fuente del Estudio"
+    download: "Descargar"
+    play_online: "Jugar en Línea"
+    member_since: "Miembro Desde"
+    posts: "Mensajes"
+    edit_user: "Editar usuario"
+    change_password: "Cambiar contraseña"

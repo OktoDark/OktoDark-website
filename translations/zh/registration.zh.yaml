@@ -1,0 +1,17 @@
+# Chinese Registration Translations
+registration:
+    disabled:
+        title: "注册不可用"
+        message: "注册暂时禁用。请稍后重试。"
+        support_title: "需要帮助？"
+        support_text: "如果您认为这是一个错误或需要帮助，我们的支持团队就在这里。"
+        contact_support: "联系支持"
+        notify_title: "获得通知"
+        notify_text: "输入您的电子邮件，一旦注册开放，我们会通知您。"
+        notify_placeholder: "您的电子邮件地址"
+        notify_button: "通知我"
+        modal_title: "谢谢！"
+        modal_message: "一旦注册开放，您将获得通知。我们感谢您的兴趣。"
+        modal_close: "关闭"
+        modal_exists_title: "您已在列表中!"
+        modal_exists_message: "不用担心——您已经注册，一旦注册开放，将被通知。"

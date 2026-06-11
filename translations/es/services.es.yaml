@@ -1,0 +1,6 @@
+services.from: "de"
+services.contact_us: "Contáctenos"
+services.notes: >
+  Nota: Un cierto servicio puede completarse en más de una semana o menos,
+  dependiendo de la dificultad requerida para completar el proyecto deseado.
+services.subtitle: "Nuestra amplia gama de servicios"

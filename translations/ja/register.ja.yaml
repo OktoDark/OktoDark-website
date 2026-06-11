@@ -1,0 +1,29 @@
+# Japanese Register Translations
+title.register: "アカウント作成"
+title.check_email: "メールを確認してください"
+title.reg_check_mail: "メール確認"
+title.resend_verification: "確認メールを再送"
+title.email_verified: "メールが確認されました！"
+text.email_verified_intro: "メールが正常に確認されました。プロフィールを完成させることができます。"
+title.complete_profile: "プロフィールを完成させる"
+
+register:
+    subtitle: "コミュニティに参加してOktoDark Studiosとの旅を始めましょう。"
+    weak_pass: "弱いパスワード"
+    medium_pass: "普通の強度"
+    strong_pass: "強いパスワード"
+    user_taken: "ユーザー名はすでに使用されています"
+    user_ok: "ユーザー名は使用可能です"
+    email_taken: "メールはすでに登録されています"
+    email_ok: "メールは使用可能です"
+    progress:
+        register: "登録"
+        verify: "メール確認"
+        complete: "プロフィール完成"
+    agree_terms: "に同意します"
+
+label:
+    username: "ユーザー名"
+    email: "メール"
+    password: "パスワード"
+    repeatPassword: "パスワードの確認"

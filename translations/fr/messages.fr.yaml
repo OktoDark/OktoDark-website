@@ -1,0 +1,43 @@
+﻿text.check_email_intro: "Nous avons envoyé un lien de confirmation à votre adresse e-mail."
+text.check_email_instructions: "Veuillez cliquer sur le lien dans cet e-mail pour vérifier votre compte et continuer."
+text.check_email_spam: "Si vous ne voyez pas l'e-mail, vérifiez votre dossier spam ou indésirables."
+step.register: "Créer un compte"
+step.verify_email: "Confirmer l'e-mail"
+step.complete_profile: "Complétez votre profil"
+text.email_sent_ago: "E-mail de vérification envoyé il y a %minutes% minutes."
+title.troubleshooting: "N'avez-vous pas reçu l'e-mail ?"
+help.check_spam: "Vérifiez votre dossier spam ou indésirables."
+help.wait_few_minutes: "Attendez quelques minutes — parfois la livraison des e-mails est retardée."
+help.correct_email: "Assurez-vous d'avoir entré la bonne adresse e-mail."
+help.whitelist_domain: "Ajoutez %domain% à votre liste blanche e-mail."
+text.reset_email_sent_intro: "Si un compte existe avec l'e-mail que vous avez entré, un lien de réinitialisation de mot de passe a été envoyé."
+text.reset_email_expire: "Ce lien expirera dans %hours% heure(s)."
+text.reset_email_spam: "Si vous ne voyez pas l'e-mail, veuillez vérifier votre dossier spam ou indésirables."
+label.captcha_challenge: "Défi Anti-Spam"
+reset:
+  subtitle: "Entrez votre adresse e-mail pour recevoir un lien de réinitialisation de mot de passe."
+  throttle_error: "Vous avez récemment demandé une réinitialisation de mot de passe. Veuillez attendre %minutes% minute(s) avant de réessayer."
+  throttle_error_seconds: "Veuillez attendre %seconds% seconde(s) avant de réessayer."
+  throttle_friendly: "Pour votre sécurité, vous ne pouvez demander un nouveau lien de réinitialisation qu'une seule fois par heure."
+  email_sent_intro: "Si un compte existe avec l'e-mail que vous avez entré, un lien de réinitialisation de mot de passe a été envoyé."
+  email_expire: "Ce lien expirera dans %hours% heure(s)."
+  email_spam: "Si vous ne voyez pas l'e-mail, veuillez vérifier votre dossier spam ou indésirables."
+  token_invalid: "Votre lien de réinitialisation n'est pas valide ou a expiré. Veuillez en demander un nouveau."
+validation:
+  password:
+    not_blank: "Veuillez entrer un mot de passe."
+    min_length: "Votre mot de passe doit contenir au moins {{ limit }} caractères."
+    mismatch: "Les champs de mot de passe doivent correspondre."
+label:
+  password_new: "Nouveau mot de passe"
+  password_repeat: "Répéter le mot de passe"
+title:
+  reset_your_password: "Réinitialiser votre mot de passe"
+text:
+  reset_password: "Entrez votre nouveau mot de passe ci-dessous pour terminer le processus de réinitialisation."
+button:
+  reset_password: "Réinitialiser le Mot de Passe"
+maintenance.title: "Mode Maintenance"
+maintenance.appear: "Nous serons de retour bientôt"
+maintenance.under: "Notre système subit une maintenance programmée. Merci de votre patience."
+maintenance.countdown_label: "Temps estimé pour terminer"

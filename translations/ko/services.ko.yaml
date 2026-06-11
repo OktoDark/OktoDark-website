@@ -1,0 +1,6 @@
+services.from: "부터"
+services.contact_us: "문의하기"
+services.notes: >
+  참고: 원하는 프로젝트를 완료하는 데 필요한 난이도에 따라
+  특정 서비스는 일주일 이상 또는 그 이하로 완료될 수 있습니다.
+services.subtitle: "종합적인 서비스 범위"

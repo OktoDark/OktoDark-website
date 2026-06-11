@@ -1,0 +1,17 @@
+# Japanese Registration Translations
+registration:
+    disabled:
+        title: "登録は一時停止されています"
+        message: "現在、新規登録は受け付けていません。しばらくしてから、または登録再開のお知らせをご確認ください。"
+        support_title: "サポートが必要ですか？"
+        support_text: "エラーだと思われる場合や助けが必要な場合は、サポートチームにお問い合わせください。"
+        contact_support: "サポートに連絡"
+        notify_title: "通知を受け取る"
+        notify_text: "メールアドレスを入力すると、登録が開始次第お知らせします。"
+        notify_placeholder: "メールアドレス"
+        notify_button: "通知する"
+        modal_title: "ありがとうございます！"
+        modal_message: "登録が開始次第お知らせします。ご関心をお寄せいただきありがとうございます。"
+        modal_close: "閉じる"
+        modal_exists_title: "すでにリストに登録されています！"
+        modal_exists_message: "ご安心ください — 登録が開始された際に通知されるリストにすでに登録されています。"

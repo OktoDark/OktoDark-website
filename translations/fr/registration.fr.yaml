@@ -1,0 +1,17 @@
+# French Registration Translations
+registration:
+    disabled:
+        title: "Inscription Non Disponible"
+        message: "L'inscription est temporairement désactivée. Veuillez réessayer plus tard."
+        support_title: "Besoin d'Aide ?"
+        support_text: "Si vous croyez que c'est une erreur ou si vous avez besoin d'aide, notre équipe de support est là pour vous."
+        contact_support: "Contacter le Support"
+        notify_title: "Recevoir des Notifications"
+        notify_text: "Entrez votre e-mail et nous vous notifierons dès que l'inscription ouvrira."
+        notify_placeholder: "Votre adresse e-mail"
+        notify_button: "Me Notifier"
+        modal_title: "Merci !"
+        modal_message: "Vous serez notifié dès que l'inscription ouvrira. Nous apprécions votre intérêt."
+        modal_close: "Fermer"
+        modal_exists_title: "Vous êtes déjà sur la liste !"
+        modal_exists_message: "Ne vous inquiétez pas — vous êtes déjà enregistré pour être notifié dès que l'inscription ouvrira."

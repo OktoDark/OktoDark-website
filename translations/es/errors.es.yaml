@@ -1,0 +1,8 @@
+error.agree_terms: "Debe aceptar los términos."
+error.password_mismatch: "Los campos de contraseña deben coincidir."
+error.password_blank: "Por favor ingrese una contraseña."
+error.password_min: "Su contraseña debe tener al menos {{ limit }} caracteres."
+error.username_taken: "Este nombre de usuario ya está siendo utilizado."
+error.email_taken: "Este correo electrónico ya está registrado."
+error.username_blank: "Por favor ingrese un nombre de usuario."
+error.email_blank: "Por favor ingrese una dirección de correo electrónico."

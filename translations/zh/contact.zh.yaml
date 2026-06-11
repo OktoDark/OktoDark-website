@@ -1,0 +1,19 @@
+title.contact: "联系"
+content.contact_subtitle: "如果您有任何问题，请与我们联系"
+content.contact: >
+  如果您对我们的产品、问题或任何其他事项有疑问，
+  我们将在短时间内回答您的问题。
+label:
+    contact_name: "名称"
+    contact_email: "电子邮箱"
+    contact_content: "内容"
+    contact_category: "类别"
+    contact_subject: "主题"
+    contact_message: "信息"
+    choice_department: "选择您的部门"
+    department_staff: "员工"
+    department_webmaster: "Webmaster"
+    department_services: "服务"
+    secure_sign_in: "安全登录"
+    send: "发送"
+    captcha_question: "验证码问题"

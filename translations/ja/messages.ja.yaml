@@ -1,0 +1,51 @@
+text.check_email_intro: "メールアドレスに確認リンクを送信しました。"
+text.check_email_instructions: "そのメールのリンクをクリックしてアカウントを確認し、続けてください。"
+text.check_email_spam: "メールが見当たらない場合は、スパムまたは迷惑メールフォルダを確認してください。"
+step.register: "アカウント作成"
+step.verify_email: "メール確認"
+step.complete_profile: "プロフィール完成"
+text.email_sent_ago: "%minutes%分前に確認メールを送信しました。"
+title.troubleshooting: "メールが届きませんでしたか？"
+help.check_spam: "スパムまたは迷惑メールフォルダを確認してください。"
+help.wait_few_minutes: "少し待ってください — メールの配信が遅れる場合があります。"
+help.correct_email: "正しいメールアドレスを入力したか確認してください。"
+help.whitelist_domain: "メールホワイトリストに%domain%を追加してください。"
+text.reset_email_sent_intro: "入力したメールでアカウントが存在する場合、パスワードリセットリンクが送信されました。"
+text.reset_email_expire: "このリンクは%hours%時間後に期限切れになります。"
+text.reset_email_spam: "メールが見当たらない場合は、スパムまたは迷惑メールフォルダを確認してください。"
+
+label.captcha_challenge: "スパム対策チャレンジ"
+
+reset:
+  subtitle: "パスワードリセットリンクを受け取るにはメールアドレスを入力してください。"
+  throttle_error: "最近パスワードリセットをリクエストしました。%minutes%分後に再試行してください。"
+  throttle_error_seconds: "%seconds%秒後に再試行してください。"
+  throttle_friendly: "セキュリティのため、新しいリセットリンクは1時間に1回のみリクエストできます。"
+  email_sent_intro: "入力したメールでアカウントが存在する場合、パスワードリセットリンクが送信されました。"
+  email_expire: "このリンクは%hours%時間後に期限切れになります。"
+  email_spam: "メールが見当たらない場合は、スパムまたは迷惑メールフォルダを確認してください。"
+  token_invalid: "リセットリンクが無効または期限切れです。新しいリンクをリクエストしてください。"
+
+validation:
+  password:
+    not_blank: "パスワードを入力してください。"
+    min_length: "パスワードは少なくとも{{ limit }}文字以上必要です。"
+    mismatch: "パスワードフィールドが一致している必要があります。"
+
+label:
+  password_new: "新しいパスワード"
+  password_repeat: "パスワードの確認"
+
+title:
+  reset_your_password: "パスワードをリセット"
+
+text:
+  reset_password: "以下に新しいパスワードを入力してリセットプロセスを完了してください。"
+
+button:
+  reset_password: "パスワードをリセット"
+
+maintenance.title: "メンテナンスモード"
+maintenance.appear: "まもなく戻ります"
+maintenance.under: "システムは定期メンテナンス中です。ご不便をおかけして申し訳ありません。"
+maintenance.countdown_label: "残り予定時間"

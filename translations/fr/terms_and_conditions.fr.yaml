@@ -1,0 +1,651 @@
+terms_and_conditions.subtitle: "Veuillez lire attentivement nos Conditions Générales d'Utilisation."
+terms_and_conditions.section: |
+  <p class="text-light small mb-4">
+    Dernière mise à jour : 29.05.2026
+  </p>
+
+  <dt class="heading-4">1. Introduction</dt>
+  Bienvenue sur OktoDark, une plateforme numérique exploitée par OktoDark Studios. En créant un compte, en accédant au site web, en téléchargeant du contenu ou en utilisant l'une des fonctionnalités de la plateforme (forum, marketplace, installateur, mise à jour, notifications ou services associés), vous acceptez les présentes Conditions Générales d'Utilisation. Si vous n'êtes pas d'accord, vous devez cesser d'utiliser la plateforme.
+  <br><br>
+
+  <dt class="heading-4">2. Conditions d'éligibilité</dt>
+  Pour utiliser la plateforme, vous devez :
+  <ul class="list-marked">
+      <li>Être âgé d'au moins 13 ans</li>
+      <li>Disposer de l'autorisation légale d'utiliser des services en ligne dans votre région</li>
+      <li>Accepter les présentes Conditions ainsi que notre <a href="/en/privacy-policy">Politique de Confidentialité</a></li>
+  </ul>
+  Nous pouvons suspendre ou supprimer les comptes qui ne respectent pas ces exigences.
+  <br><br>
+
+  <dt class="heading-4">3. Présentation de la plateforme</dt>
+  OktoDark propose :
+  <ul class="list-marked">
+      <li>Un forum communautaire avec catégories, fils de discussion et échanges</li>
+      <li>Un système de blog pour publier et lire des articles</li>
+      <li>Un système d'abonnement pour suivre des utilisateurs et du contenu</li>
+      <li>Un système de notifications (email + sur le site)</li>
+      <li>Un système d'autorisations basé sur les rôles</li>
+      <li>Des profils utilisateurs, avatars, signatures et liens sociaux</li>
+      <li>Une marketplace pour les ressources numériques, mods, outils et téléchargements</li>
+      <li>Un système de téléchargement sécurisé avec gestion des versions</li>
+      <li>Un installateur et un outil de mise à jour</li>
+      <li>Des fonctionnalités optionnelles assistées par IA (modération, suggestions, résumés)</li>
+  </ul>
+  Les présentes Conditions s'appliquent à toutes les fonctionnalités, actuelles et futures.
+  <br><br>
+
+  <dt class="heading-4">4. Création de compte</dt>
+  En créant un compte, vous acceptez de :
+  <ul class="list-marked">
+      <li>Fournir des informations exactes</li>
+      <li>Garder votre mot de passe sécurisé</li>
+      <li>Ne pas partager votre compte</li>
+      <li>Ne pas usurper l'identité d'autrui</li>
+      <li>Ne pas créer plusieurs comptes dans un but abusif</li>
+  </ul>
+  Vous êtes responsable de toute activité effectuée via votre compte.
+  <br><br>
+
+  <dt class="heading-4">5. Contenu utilisateur</dt>
+  <dt class="heading-5">5.1 Votre contenu</dt>
+  Vous conservez la propriété du contenu que vous publiez ou téléchargez. En publiant sur OktoDark, vous nous accordez une licence non exclusive, mondiale et sans redevance pour :
+  <ul class="list-marked">
+      <li>Afficher</li>
+      <li>Stocker</li>
+      <li>Distribuer</li>
+      <li>Modifier (pour la modération ou la mise en forme)</li>
+  </ul>
+  Cette licence prend fin lorsque vous supprimez votre contenu ou votre compte.
+  <br><br>
+  <dt class="heading-5">5.2 Contenu interdit</dt>
+  Vous NE pouvez PAS publier ou téléverser :
+  <ul class="list-marked">
+      <li>Du contenu illégal</li>
+      <li>Des propos haineux, du harcèlement ou des menaces</li>
+      <li>Du contenu NSFW (sauf dans les zones explicitement autorisées)</li>
+      <li>Des malwares, exploits ou scripts nuisibles</li>
+      <li>Du spam, de la publicité ou de l'auto‑promotion non autorisée</li>
+      <li>Du contenu protégé par copyright que vous ne possédez pas</li>
+      <li>Des ressources violant des licences tierces</li>
+  </ul>
+  Nous pouvons supprimer du contenu ou restreindre l'accès à notre discrétion.
+  <br><br>
+
+  <dt class="heading-4">6. Marketplace & Téléchargements</dt>
+  La Marketplace OktoDark permet aux utilisateurs de :
+  <ul class="list-marked">
+      <li>Téléverser des ressources numériques (mods, outils, thèmes, ressources)</li>
+      <li>Télécharger du contenu partagé par d'autres utilisateurs</li>
+      <li>Accéder à des fichiers versionnés et à leurs journaux de modifications</li>
+      <li>Suivre des créateurs et recevoir leurs mises à jour</li>
+  </ul>
+  <dt class="heading-5">6.1 Téléversement d'assets</dt>
+  En téléversant du contenu sur la marketplace, vous confirmez que :
+  <ul class="list-marked">
+      <li>Vous détenez les droits sur le contenu</li>
+      <li>Vous avez l'autorisation de le distribuer</li>
+      <li>Vous indiquez clairement la licence (MIT, GPL, CC, licence personnalisée, etc.)</li>
+      <li>Votre contenu ne contient aucun code nuisible ou malveillant</li>
+      <li>Votre contenu respecte toutes les lois applicables</li>
+  </ul>
+  Nous pouvons supprimer ou restreindre tout asset à notre discrétion.
+  <br><br>
+
+  <dt class="heading-5">6.2 Téléchargement d'assets</dt>
+  En téléchargeant du contenu :
+  <ul class="list-marked">
+      <li>Vous acceptez de respecter la licence choisie par le créateur</li>
+      <li>Vous comprenez que les téléchargements sont fournis « tels quels »</li>
+      <li>Vous assumez tous les risques liés à l'installation ou à l'utilisation des fichiers téléchargés</li>
+  </ul>
+  Nous ne sommes pas responsables des dommages causés par du contenu tiers.
+  <br><br>
+
+  <dt class="heading-5">6.3 Contenu payant (si activé)</dt>
+  Si la marketplace inclut des éléments payants :
+  <ul class="list-marked">
+      <li>Les paiements sont gérés par des prestataires tiers</li>
+      <li>Les remboursements suivent les politiques du prestataire</li>
+      <li>Les rétrofacturations peuvent entraîner des restrictions de compte</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">6.4 Suppression d'assets</dt>
+  Les créateurs peuvent supprimer leurs assets à tout moment. Cependant :
+  <ul class="list-marked">
+      <li>Les versions déjà téléchargées peuvent rester accessibles aux utilisateurs qui les possèdent</li>
+      <li>Nous pouvons conserver des sauvegardes à des fins de sécurité ou d'audit</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-4">7. Règles du forum et de la communauté</dt>
+  En utilisant le forum, vous acceptez de :
+  <ul class="list-marked">
+      <li>Respecter les autres membres</li>
+      <li>Rester dans le thème des catégories</li>
+      <li>Suivre les instructions des modérateurs</li>
+      <li>Éviter les comportements perturbateurs</li>
+      <li>Ne pas abuser des systèmes d'abonnement ou de notifications</li>
+  </ul>
+  Les modérateurs peuvent modifier, déplacer ou supprimer des messages et émettre des avertissements ou des bannissements.
+  <br><br>
+
+  <dt class="heading-4">8. Rôles et permissions</dt>
+  La plateforme utilise un système d'autorisations basé sur les rôles.
+  <ul class="list-marked">
+      <li>Les rôles déterminent les actions que vous pouvez effectuer</li>
+      <li>Les administrateurs peuvent attribuer, modifier ou révoquer des rôles</li>
+  </ul>
+  Toute tentative de contourner les permissions est strictement interdite. Les tentatives d'accès non autorisé peuvent entraîner la suppression du compte.
+  <br><br>
+
+  <dt class="heading-4">9. Notifications</dt>
+  Vous pouvez recevoir :
+  <ul class="list-marked">
+      <li>Des notifications par email</li>
+      <li>Des alertes sur le site</li>
+      <li>Des avertissements de sécurité</li>
+      <li>Des messages système</li>
+      <li>Des mises à jour liées aux abonnements</li>
+      <li>Des alertes de mise à jour de la marketplace</li>
+  </ul>
+  Vous pouvez gérer vos préférences dans les paramètres de notifications.
+  <br><br>
+
+  <dt class="heading-4">10. Fonctionnalités assistées par IA</dt>
+  Certaines fonctionnalités peuvent utiliser l'IA pour :
+  <ul class="list-marked">
+      <li>Proposer du contenu</li>
+      <li>Générer des résumés</li>
+      <li>Aider à la modération</li>
+      <li>Envoyer des alertes automatiques</li>
+      <li>Analyser des assets de la marketplace</li>
+  </ul>
+  Les résultats fournis par l'IA peuvent ne pas être exacts. Vous acceptez de ne pas vous appuyer sur ces fonctionnalités pour des décisions juridiques, médicales ou financières.
+  <br><br>
+
+  <dt class="heading-4">11. Installateur & Outil de mise à jour</dt>
+  Si vous utilisez l'installateur ou l'outil de mise à jour OktoDark :
+  <ul class="list-marked">
+      <li>Vous êtes responsable de votre environnement serveur</li>
+      <li>Nous ne sommes pas responsables des pertes de données survenant lors de l'installation ou des mises à jour</li>
+      <li>Vous devez effectuer des sauvegardes avant toute mise à jour</li>
+      <li>Modifier les fichiers système peut annuler votre droit au support</li>
+      <li>Les fonctionnalités de mise à jour automatique peuvent télécharger des fichiers depuis des sources fiables</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-4">12. Sécurité</dt>
+  Nous prenons des mesures raisonnables pour protéger vos données, mais :
+  <ul class="list-marked">
+      <li>Aucun système n'est totalement sécurisé</li>
+      <li>Vous devez protéger votre appareil et votre mot de passe</li>
+      <li>Vous devez signaler immédiatement toute activité suspecte</li>
+  </ul>
+  Toute tentative de piratage, d'exploitation ou de perturbation de la plateforme est strictement interdite.
+  <br><br>
+
+  <dt class="heading-4">13. Services tiers</dt>
+  La plateforme peut intégrer des services tiers tels que :
+  <ul class="list-marked">
+      <li>Connexion via réseaux sociaux</li>
+      <li>Outils d'analyse</li>
+      <li>Fournisseurs d'email</li>
+      <li>Prestataires de paiement</li>
+      <li>Fournisseurs de services IA</li>
+  </ul>
+  Nous ne sommes pas responsables de leurs politiques ou de leurs actions.
+  <br><br>
+
+  <dt class="heading-4">14. Résiliation</dt>
+  Nous pouvons suspendre ou résilier votre compte si vous :
+  <ul class="list-marked">
+      <li>Violez les présentes Conditions</li>
+      <li>Abusez de la plateforme</li>
+      <li>Tentez de nuire au système ou à la communauté</li>
+      <li>Téléversez du contenu nuisible ou illégal</li>
+      <li>Participez à des activités frauduleuses sur la marketplace</li>
+  </ul>
+  Vous pouvez supprimer votre compte à tout moment.
+  <br><br>
+
+  <dt class="heading-4">15. Limitation de responsabilité</dt>
+  Dans la mesure maximale permise par la loi :
+  <ul class="list-marked">
+      <li>Nous ne sommes pas responsables des pertes de données</li>
+      <li>Nous ne sommes pas responsables des interruptions ou indisponibilités du service</li>
+      <li>Nous ne sommes pas responsables du contenu généré par les utilisateurs</li>
+      <li>Nous ne sommes pas responsables des dommages résultant de téléchargements ou d'assets de la marketplace</li>
+      <li>Nous ne sommes pas responsables des problèmes causés par des intégrations tierces</li>
+  </ul>
+  Vous utilisez la plateforme à vos propres risques.
+  <br><br>
+
+  <dt class="heading-4">16. Modifications des présentes Conditions</dt>
+  Nous pouvons mettre à jour les présentes Conditions à tout moment. Si les changements sont importants, nous informerons les utilisateurs via :
+  <ul class="list-marked">
+      <li>Email</li>
+      <li>Notification sur le site</li>
+      <li>Annonce système</li>
+  </ul>
+  Le fait de continuer à utiliser la plateforme signifie que vous acceptez les Conditions mises à jour.
+  <br><br>
+
+  <dt class="heading-4">17. Contact</dt>
+  Pour toute question ou préoccupation, veuillez nous contacter via la page <a href="/en/contact">Contact</a>.
+  <br><br>
+
+  <dt class="heading-4">18. Règles de la Marketplace (OktoDark Marketplace)</dt>
+  <dt class="heading-5">1. Introduction</dt>
+  La Marketplace OktoDark permet aux utilisateurs de téléverser, partager et télécharger des ressources numériques telles que des mods, outils, thèmes, ressources et autres créations. En utilisant la Marketplace, vous acceptez ces règles en plus des Conditions Générales d'Utilisation.
+  <br><br>
+
+  <dt class="heading-5">2. Conditions d'éligibilité au téléversement</dt>
+  Pour téléverser du contenu, vous devez :
+  <ul class="list-marked">
+      <li>Détenir les droits sur le contenu</li>
+      <li>Avoir l'autorisation de le distribuer</li>
+      <li>Indiquer clairement la licence (MIT, GPL, CC, licence personnalisée, etc.)</li>
+      <li>Garantir que le contenu ne viole aucun droit tiers</li>
+      <li>Garantir que le contenu ne contient aucun code nuisible ou malveillant</li>
+  </ul>
+  Nous pouvons demander une preuve de propriété ou de licence à tout moment.
+  <br><br>
+
+  <dt class="heading-5">3. Contenu interdit sur la Marketplace</dt>
+  Vous NE pouvez PAS téléverser :
+  <ul class="list-marked">
+      <li>Du contenu piraté ou volé</li>
+      <li>Des assets extraits de jeux ou logiciels commerciaux sans autorisation</li>
+      <li>Des malwares, virus ou scripts nuisibles</li>
+      <li>Du contenu généré par IA violant des droits tiers</li>
+      <li>Du contenu NSFW sauf dans les catégories autorisées</li>
+      <li>Du contenu violant les lois locales ou internationales</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">4. Gestion des versions & mises à jour</dt>
+  Les créateurs peuvent téléverser de nouvelles versions de leurs assets. Les utilisateurs ayant téléchargé des versions précédentes peuvent continuer à y accéder, sauf si le créateur les retire pour des raisons légales.
+  <br><br>
+
+  <dt class="heading-5">5. Suppression d'assets</dt>
+  Nous pouvons supprimer tout asset qui :
+  <ul class="list-marked">
+      <li>Viole ces règles</li>
+      <li>Fait l'objet d'une plainte DMCA</li>
+      <li>Contient du code nuisible</li>
+      <li>Est abandonné ou non fonctionnel</li>
+      <li>Viole les termes d'une licence</li>
+  </ul>
+  Les créateurs peuvent également supprimer leurs assets à tout moment.
+  <br><br>
+
+  <dt class="heading-5">6. Responsabilités des utilisateurs</dt>
+  Les utilisateurs téléchargeant des assets doivent :
+  <ul class="list-marked">
+      <li>Respecter la licence choisie par le créateur</li>
+      <li>Respecter les obligations d'attribution</li>
+      <li>Ne pas redistribuer les assets sans autorisation</li>
+      <li>Ne pas modifier les assets d'une manière interdite par la licence</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">7. Modération de la Marketplace</dt>
+  Nous nous réservons le droit de :
+  <ul class="list-marked">
+      <li>Supprimer des assets</li>
+      <li>Restreindre les téléversements</li>
+      <li>Suspendre des comptes</li>
+      <li>Bannir les récidivistes</li>
+  </ul>
+  Les décisions de modération sont définitives.
+  <br><br>
+
+  <dt class="heading-4">19. Politique de licence des téléchargements</dt>
+  <dt class="heading-5">1. Aperçu</dt>
+  Tous les téléchargements sur OktoDark sont régis par la licence choisie par le créateur. OktoDark ne revendique pas la propriété du contenu téléversé par les utilisateurs, sauf mention explicite.
+  <br><br>
+
+  <dt class="heading-5">2. Types de licences</dt>
+  Les créateurs peuvent choisir parmi :
+  <ul class="list-marked">
+      <li>Licence MIT</li>
+      <li>GPL / LGPL</li>
+      <li>Creative Commons (CC‑BY, CC‑BY‑SA, CC‑BY‑NC, etc.)</li>
+      <li>Licence personnalisée</li>
+      <li>All rights reserved (tous droits réservés)</li>
+  </ul>
+  La licence doit être clairement indiquée sur la page de l'asset.
+  <br><br>
+
+  <dt class="heading-5">3. Droits des utilisateurs</dt>
+  En téléchargeant du contenu, vous pouvez :
+  <ul class="list-marked">
+      <li>Utiliser l'asset conformément à sa licence</li>
+      <li>Le modifier si la licence le permet</li>
+      <li>Le redistribuer uniquement si cela est autorisé</li>
+  </ul>
+  Vous NE pouvez PAS :
+  <ul class="list-marked">
+      <li>Supprimer les mentions de copyright</li>
+      <li>Revendiquer la propriété du travail d'autrui</li>
+      <li>Utiliser l'asset commercialement sans autorisation</li>
+      <li>Contourner les restrictions de licence</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">4. Droits des créateurs</dt>
+  Les créateurs conservent :
+  <ul class="list-marked">
+      <li>Le droit d'auteur</li>
+      <li>Le droit à l'attribution</li>
+      <li>Le droit de mettre à jour ou de supprimer leur contenu</li>
+      <li>Le droit de faire respecter leur licence</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">5. Rôle d'OktoDark</dt>
+  OktoDark :
+  <ul class="list-marked">
+      <li>Ne revendique pas la propriété du contenu utilisateur</li>
+      <li>Ne garantit pas la sécurité ou la légalité des téléchargements</li>
+      <li>N'est pas responsable des violations de licence commises par les utilisateurs</li>
+      <li>Respectera toute demande DMCA valide</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-4">20. Politique DMCA / Droits d'auteur</dt>
+  <dt class="heading-5">1. Introduction</dt>
+  OktoDark respecte les droits de propriété intellectuelle et se conforme au DMCA (Digital Millennium Copyright Act) ainsi qu'aux lois internationales équivalentes.
+  <br><br>
+
+  <dt class="heading-5">2. Dépôt d'une demande de retrait DMCA</dt>
+  Si vous pensez que votre œuvre protégée a été téléversée sans autorisation, vous pouvez soumettre une demande de retrait incluant :
+  <ul class="list-marked">
+      <li>Votre nom complet</li>
+      <li>Vos coordonnées</li>
+      <li>Une description de l'œuvre protégée</li>
+      <li>Les URL du contenu litigieux</li>
+      <li>Une déclaration de bonne foi</li>
+      <li>Une déclaration sous peine de parjure</li>
+      <li>Votre signature physique ou électronique</li>
+  </ul>
+  Les demandes peuvent être envoyées via la page <a href="/en/contact">Contact</a>.
+  <br><br>
+
+  <dt class="heading-5">3. Contre‑notification</dt>
+  Si vous pensez que votre contenu a été retiré par erreur, vous pouvez soumettre une contre‑notification incluant :
+  <ul class="list-marked">
+      <li>Votre nom complet</li>
+      <li>Vos coordonnées</li>
+      <li>L'URL du contenu retiré</li>
+      <li>Une déclaration de bonne foi</li>
+      <li>Une déclaration acceptant la compétence juridictionnelle</li>
+      <li>Votre signature physique ou électronique</li>
+  </ul>
+  Nous pouvons restaurer le contenu sauf si le plaignant d'origine engage une action en justice.
+  <br><br>
+
+  <dt class="heading-5">4. Récidivistes</dt>
+  Les utilisateurs qui violent répétitivement les lois sur le droit d'auteur peuvent voir leurs comptes suspendus ou résiliés.
+  <br><br>
+
+  <dt class="heading-5">5. Application de bonne foi</dt>
+  Nous nous réservons le droit de retirer proactivement du contenu si nous suspections des violations de droits d'auteur.
+  <br><br>
+
+  <dt class="heading-4">21. Politique de remboursement (pour les articles payants de la Marketplace)</dt>
+  Applicable uniquement si vous activez les assets payants.
+  <br><br>
+
+  <dt class="heading-5">1. Aperçu</dt>
+  Les articles payants de la Marketplace OktoDark sont gérés par des prestataires de paiement tiers. Les remboursements sont soumis à la fois aux règles d'OktoDark et aux politiques du prestataire.
+  <br><br>
+
+  <dt class="heading-5">2. Conditions de remboursement</dt>
+  Un remboursement peut être accordé si :
+  <ul class="list-marked">
+      <li>L'asset est défectueux ou non fonctionnel</li>
+      <li>La description de l'asset était trompeuse</li>
+      <li>L'asset contient du code malveillant</li>
+      <li>Le créateur n'a pas fourni les mises à jour promises (si annoncées)</li>
+  </ul>
+  Les remboursements ne seront pas accordés pour :
+  <ul class="list-marked">
+      <li>Un regret d'achat</li>
+      <li>Une incompatibilité avec votre système</li>
+      <li>Des problèmes causés par une modification de l'utilisateur</li>
+      <li>Du contenu déjà téléchargé et largement utilisé</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">3. Procédure de remboursement</dt>
+  Pour demander un remboursement :
+  <ul class="list-marked">
+      <li>Contactez le support via la page <a href="/en/contact">Contact</a></li>
+      <li>Fournissez votre identifiant de commande</li>
+      <li>Décrivez le problème</li>
+      <li>Fournissez des captures d'écran ou des journaux si nécessaire</li>
+  </ul>
+  Nous pouvons contacter le créateur pour vérification.
+  <br><br>
+
+  <dt class="heading-5">4. Rétrofacturations</dt>
+  Les rétrofacturations non autorisées peuvent entraîner :
+  <ul class="list-marked">
+      <li>Des restrictions de compte</li>
+      <li>La perte d'accès aux articles achetés</li>
+      <li>La suspension de la marketplace</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">5. Revenus des créateurs</dt>
+  Les créateurs reçoivent leurs versements conformément au modèle de partage des revenus de la marketplace. Les remboursements peuvent être déduits des versements futurs.
+  <br><br>
+
+  <dt class="heading-4">22. Accord vendeur de la Marketplace — OktoDark Studios</dt>
+  Le présent Accord vendeur de la Marketplace (« Accord ») régit votre participation en tant que vendeur sur la Marketplace OktoDark. En téléversant, listant ou vendant du contenu numérique sur la plateforme, vous acceptez cet Accord en plus des Conditions Générales d'Utilisation, des Règles de la Marketplace, de la Politique de licence des téléchargements, de la Politique de remboursement et de la Politique de confidentialité.
+  <br><br>
+
+  <dt class="heading-5">1. Définitions</dt>
+  <strong>Vendeur :</strong> Tout utilisateur qui téléverse ou distribue du contenu numérique sur la Marketplace OktoDark.
+  <br>
+  <strong>Acheteur :</strong> Tout utilisateur qui télécharge ou achète du contenu.
+  <br>
+  <strong>Contenu :</strong> Tout asset numérique téléversé par un Vendeur, y compris des mods, outils, thèmes, scripts, ressources ou documentations.
+  <br>
+  <strong>Plateforme :</strong> Le site web OktoDark, la marketplace et les services associés.
+  <br>
+  <strong>OktoDark Studios :</strong> L'opérateur et propriétaire de la plateforme.
+  <br><br>
+
+  <dt class="heading-5">2. Conditions d'éligibilité à la vente</dt>
+  <strong>Compte actif :</strong> Vous devez disposer d'un compte OktoDark actif et en règle.
+  <br>
+  <strong>Capacité juridique :</strong> Vous devez être légalement autorisé à conclure des accords et à recevoir des paiements dans votre juridiction.
+  <br>
+  <strong>Conformité :</strong> Vous devez respecter toutes les lois applicables, y compris les réglementations relatives au droit d'auteur, à la fiscalité et aux exportations.
+  <br>
+  OktoDark Studios peut approuver, limiter ou révoquer le statut de vendeur à sa discrétion.
+  <br><br>
+
+  <dt class="heading-5">3. Propriété et droits sur le contenu</dt>
+  <strong>Votre propriété :</strong> Vous conservez la pleine propriété du contenu que vous téléversez.
+  <br>
+  <strong>Droits accordés à OktoDark :</strong> En téléversant du contenu, vous accordez à OktoDark une licence non exclusive, mondiale et sans redevance pour :
+  <ul class="list-marked">
+      <li>Héberger, stocker et afficher votre contenu</li>
+      <li>Le distribuer aux acheteurs</li>
+      <li>L'utiliser pour la promotion de la marketplace et de la plateforme</li>
+  </ul>
+  <strong>Droits des tiers :</strong> Vous confirmez que votre contenu :
+  <ul class="list-marked">
+      <li>Ne porte pas atteinte aux droits d'auteur, marques commerciales ou autres droits de tiers</li>
+      <li>Respecte les licences tierces applicables (ex. : moteurs de jeu, outils, bibliothèques)</li>
+  </ul>
+  Vous êtes entièrement responsable de toute réclamation juridique découlant de votre contenu.
+  <br><br>
+
+  <dt class="heading-5">4. Exigences relatives au contenu</dt>
+  Vous NE devez PAS téléverser :
+  <ul class="list-marked">
+      <li>Du contenu piraté ou volé</li>
+      <li>Des assets extraits de jeux ou logiciels commerciaux sans autorisation</li>
+      <li>Des malwares, portes dérobées ou code malveillant</li>
+      <li>Du contenu trompeur, frauduleux ou mensonger</li>
+      <li>Du contenu violant les Règles de la Marketplace ou les Conditions Générales d'Utilisation</li>
+  </ul>
+  Vous devez :
+  <ul class="list-marked">
+      <li>Fournir des descriptions, tags et captures d'écran exacts</li>
+      <li>Indiquer clairement la licence (MIT, GPL, CC, personnalisée, etc.)</li>
+      <li>Mentionner les dépendances ou logiciels requis</li>
+      <li>Indiquer si le contenu est expérimental ou instable</li>
+  </ul>
+  OktoDark peut supprimer ou masquer tout contenu qui ne respecte pas ces exigences.
+  <br><br>
+
+  <dt class="heading-5">5. Tarification et paiements</dt>
+  <strong>Tarification :</strong>
+  <ul class="list-marked">
+      <li>Vous pouvez fixer le prix de votre contenu payant là où la plateforme le permet.</li>
+      <li>OktoDark peut définir des seuils de prix minimum ou maximum.</li>
+  </ul>
+  <strong>Partage des revenus :</strong>
+  <ul class="list-marked">
+      <li>Des frais de plateforme ou un partage des revenus peuvent s'appliquer à chaque vente.</li>
+      <li>Le modèle de partage des revenus en vigueur sera communiqué dans la documentation de la marketplace ou le tableau de bord vendeur.</li>
+  </ul>
+  <strong>Versements :</strong>
+  <ul class="list-marked">
+      <li>Les versements sont effectués via les prestataires de paiement pris en charge.</li>
+      <li>Vous êtes responsable de fournir des coordonnées de versement exactes.</li>
+      <li>Les frais facturés par les prestataires de paiement peuvent être déduits de vos gains.</li>
+  </ul>
+  <strong>Taxes :</strong>
+  <ul class="list-marked">
+      <li>Vous êtes responsable de la déclaration et du paiement de toute taxe due dans votre juridiction.</li>
+      <li>OktoDark peut retenir des montants si la loi l'exige.</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">6. Remboursements et rétrofacturations</dt>
+  <strong>Remboursements :</strong>
+  <ul class="list-marked">
+      <li>Des remboursements peuvent être accordés conformément à la Politique de remboursement de la plateforme (ex. : asset défectueux, description trompeuse, contenu malveillant).</li>
+      <li>Les montants remboursés peuvent être déduits de vos gains actuels ou futurs.</li>
+  </ul>
+  <strong>Rétrofacturations :</strong>
+  <ul class="list-marked">
+      <li>Si un acheteur initie une rétrofacturation, OktoDark peut :</li>
+      <li>Déduire le montant de votre solde</li>
+      <li>Restreindre votre compte vendeur</li>
+      <li>Limiter l'accès aux fonctionnalités payantes</li>
+  </ul>
+  <strong>Litiges :</strong>
+  <ul class="list-marked">
+      <li>OktoDark peut intervenir comme médiateur dans les litiges, mais n'est pas tenu de résoudre chaque conflit.</li>
+      <li>La décision d'OktoDark en matière de remboursements et de rétrofacturations est définitive.</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">7. Support et mises à jour</dt>
+  <strong>Responsabilités du vendeur :</strong>
+  <ul class="list-marked">
+      <li>Vous êtes responsable de fournir un support raisonnable pour votre contenu payant (corrections de bugs, clarifications, aide de base).</li>
+      <li>Si vous annoncez des mises à jour continues ou un support à long terme, vous devez faire de bonne foi pour le respecter.</li>
+  </ul>
+  <strong>Fin du support :</strong>
+  <ul class="list-marked">
+      <li>Vous pouvez mettre fin au support ou aux mises à jour, mais vous devez mettre à jour la description de l'asset en conséquence.</li>
+      <li>Les acheteurs n'ont pas automatiquement droit à un remboursement uniquement parce que le support prend fin, sauf si cela avait été promis.</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">8. Suppression de contenu et actions sur le compte</dt>
+  <strong>Par vous :</strong>
+  <ul class="list-marked">
+      <li>Vous pouvez dépublier ou supprimer votre contenu à tout moment.</li>
+  </ul>
+  <strong>Par OktoDark :</strong>
+  <ul class="list-marked">
+      <li>Nous pouvons supprimer ou restreindre du contenu qui :</li>
+      <li>Viole les lois ou politiques</li>
+      <li>Fait l'objet de plaintes DMCA valides</li>
+      <li>Contient du code nuisible ou malveillant</li>
+      <li>Est frauduleux ou trompeur</li>
+  </ul>
+  Nous pouvons :
+  <ul class="list-marked">
+      <li>Suspendre ou résilier vos privilèges de vendeur</li>
+      <li>Restreindre votre compte</li>
+      <li>Vous bannir de la marketplace en cas de violations répétées ou graves</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">9. Conformité aux lois et politiques</dt>
+  Vous acceptez de respecter :
+  <ul class="list-marked">
+      <li>Toutes les lois locales et internationales applicables</li>
+  </ul>
+  Les politiques d'OktoDark :
+  <ul class="list-marked">
+      <li>Conditions Générales d'Utilisation</li>
+      <li>Règles de la Marketplace</li>
+      <li>Politique de licence des téléchargements</li>
+      <li>Politique de remboursement</li>
+      <li>Politique DMCA / Droits d'auteur</li>
+      <li>Politique de confidentialité</li>
+  </ul>
+  En cas de conflit entre cet Accord et d'autres politiques, cet Accord régit votre rôle en tant que vendeur.
+  <br><br>
+
+  <dt class="heading-5">10. Limitation de responsabilité</dt>
+  Dans la mesure maximale permise par la loi :
+  <ul class="list-marked">
+      <li>OktoDark n'est pas responsable des :</li>
+      <li>Pertes de revenus</li>
+      <li>Pertes de données</li>
+      <li>Interruptions ou indisponibilités du service</li>
+      <li>Utilisations abusives de votre contenu par des acheteurs</li>
+      <li>Problèmes juridiques découlant de votre contenu ou de votre licence</li>
+  </ul>
+  Vous utilisez la marketplace en tant que vendeur à vos propres risques.
+  <br><br>
+
+  <dt class="heading-5">11. Durée et résiliation</dt>
+  <strong>Durée :</strong>
+  <ul class="list-marked">
+      <li>Cet Accord s'applique aussi longtemps que vous agissez en tant que vendeur sur la marketplace.</li>
+  </ul>
+  <strong>Résiliation par vous :</strong>
+  <ul class="list-marked">
+      <li>Vous pouvez cesser de vendre et retirer votre contenu à tout moment.</li>
+  </ul>
+  <strong>Résiliation par OktoDark :</strong>
+  <ul class="list-marked">
+      <li>Nous pouvons suspendre ou résilier votre statut de vendeur ou votre compte à tout moment pour :</li>
+      <li>Violations de politiques</li>
+      <li>Risques juridiques</li>
+      <li>Fraude ou abus</li>
+  </ul>
+  <strong>Survie :</strong>
+  <ul class="list-marked">
+      <li>Certaines sections (ex. : responsabilité, propriété, licence, conformité légale) peuvent continuer à s'appliquer après la résiliation.</li>
+  </ul>
+  <br><br>
+
+  <dt class="heading-5">12. Modifications du présent Accord</dt>
+  Nous pouvons mettre à jour cet Accord de temps à autre. Si les changements sont importants, nous pouvons vous en informer via :
+  <ul class="list-marked">
+      <li>Email</li>
+      <li>Notification sur le site</li>
+      <li>Message dans le tableau de bord vendeur</li>
+  </ul>
+  Continuer à téléverser ou à vendre du contenu après l'entrée en vigueur des modifications signifie que vous acceptez l'Accord mis à jour.
+  <br><br>
+
+  <dt class="heading-5">13. Contact</dt>
+  Si vous avez des questions concernant cet Accord vendeur de la Marketplace, vous pouvez nous contacter via la page <a href="/en/contact">Contact</a>.
+  <br>

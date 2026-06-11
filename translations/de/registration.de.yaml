@@ -1,0 +1,17 @@
+# German Registration Translations
+registration:
+    disabled:
+        title: "Registrierung nicht verfügbar"
+        message: "Die Registrierung ist vorübergehend deaktiviert. Bitte versuchen Sie es später erneut."
+        support_title: "Benötigen Sie Hilfe?"
+        support_text: "Wenn Sie glauben, dass dies ein Fehler ist oder Hilfe benötigen, ist unser Support-Team für Sie da."
+        contact_support: "Support kontaktieren"
+        notify_title: "Benachrichtigungen erhalten"
+        notify_text: "Geben Sie Ihre E-Mail ein und wir benachrichtigen Sie, sobald die Registrierung geöffnet wird."
+        notify_placeholder: "Ihre E-Mail-Adresse"
+        notify_button: "Benachrichtige mich"
+        modal_title: "Vielen Dank!"
+        modal_message: "Sie werden benachrichtigt, sobald die Registrierung geöffnet wird. Wir schätzen Ihr Interesse."
+        modal_close: "Schließen"
+        modal_exists_title: "Sie stehen bereits auf der Liste!"
+        modal_exists_message: "Keine Panik — Sie sind bereits registriert, um benachrichtigt zu werden, sobald die Registrierung geöffnet wird."

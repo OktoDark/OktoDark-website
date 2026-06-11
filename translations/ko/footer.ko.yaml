@@ -1,0 +1,16 @@
+language.selector: "언어"
+
+privacy_policy.text: "개인정보처리방침"
+terms_and_conditions.text: "이용약관"
+site_preferences.text: "사이트 환경설정"
+information.text: "정보"
+
+footer.information_text: "정보"
+footer.get_in_touch_text: "연락하기"
+footer.source_code_text: "소스 코드"
+footer.live_stream_text: "라이브 스트리밍"
+footer.discourse_text: "디스코스"
+footer.support_us_text: "후원하기"
+footer.all_rights_reserved_text: "모든 권리 보유."
+
+title.follow: "팔로우"

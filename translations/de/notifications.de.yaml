@@ -1,0 +1,49 @@
+# Deutsche Übersetzungen - Benachrichtigungen
+notification: # Neuer Top-Level-Schlüssel
+    settings_title: "Benachrichtigungseinstellungen"
+    types:
+        blog: "Blog-Benachrichtigungen"
+        forum: "Forum-Benachrichtigungen"
+        follow: "Follow-Benachrichtigungen"
+    channels:
+        email: "E-Mail"
+        onsite: "Vor-Ort"
+    new_follower:
+        title: "Neuer Follower!"
+        message: "%username% folgt Ihnen jetzt."
+        email_subject: "Sie haben einen neuen Follower!"
+        email_body: "Hallo %username%,<br><br>%follower_username% folgt Ihnen jetzt auf OktoDark Studios.<br><br>Ihr Profil finden Sie hier: %link%<br><br>Mit freundlichen Grüßen,<br>Das OktoDark Studios Team"
+        email_hello: "Hallo %username%,"
+        email_content: "%follower_username% folgt Ihnen jetzt auf OktoDark Studios."
+        email_profile_link: "Ihr Profil finden Sie hier:"
+    comment_created:
+        email_subject: "Neuer Kommentar zu Ihrem Beitrag!"
+        email_body: "Hallo %title%,<br><br>Ihr Beitrag \"%title%\" hat einen neuen Kommentar.<br><br>Lesen Sie den Kommentar hier: %link%<br><br>Mit freundlichen Grüßen,<br>Das OktoDark Studios Team"
+        onsite_title: "Neuer Kommentar!"
+        onsite_message: "%comment_author% hat Ihren Beitrag \"%post_title%\" kommentiert."
+        email_hello: "Hallo %username%,"
+        email_content: "Ihr Beitrag \"%post_title%\" hat einen neuen Kommentar von %comment_author%."
+        email_read_link: "Lesen Sie den Kommentar hier:"
+    forum_new_reply:
+        email_subject: "Neue Antwort auf Ihren Forum-Thread!"
+        email_hello: "Hallo %username%,"
+        email_content: "%replier_username% hat auf Ihren Forum-Thread \"%thread_title%\" geantwortet."
+        email_view_link: "Sehen Sie die Antwort hier:"
+    forum_mention:
+        title: "Sie wurden in einem Forum-Beitrag erwähnt!"
+        message: "%mentioner_username% hat Sie im Forum-Thread \"%post_title%\" erwähnt."
+    # Schlüssel für die Benachrichtigungsseite
+    page_title: "Ihre Benachrichtigungen"
+    description: "Verwalten und sehen Sie alle Ihre Benachrichtigungen hier."
+    your_notifications: "Ihre Benachrichtigungen"
+    mark_all_read: "Alle als gelesen markieren"
+    no_notifications_yet: "Sie haben noch keine Benachrichtigungen."
+    unread: "Ungelesen"
+    read: "Gelesen"
+    ago:
+        year: "{1} vor %count% Jahr|]1,Inf[ vor %count% Jahren"
+        month: "{1} vor %count% Monat|]1,Inf[ vor %count% Monaten"
+        day: "{1} vor %count% Tag|]1,Inf[ vor %count% Tagen"
+        hour: "{1} vor %count% Stunde|]1,Inf[ vor %count% Stunden"
+        minute: "{1} vor %count% Minute|]1,Inf[ vor %count% Minuten"
+        just_now: "gerade eben"

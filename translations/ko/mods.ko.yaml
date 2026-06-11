@@ -1,0 +1,14 @@
+# Korean Mods Translations
+mods:
+    subtitle: "게임을 위한 모드 및 콘텐츠"
+    restriction: "회원 전용"
+    sims4_desc: "심즈 4용 모드 및 커스텀 콘텐츠"
+    soon: "곧 출시"
+    download: "다운로드"
+    rescontent: |
+        <p>1€로 매일 제한 없이 모든 것을 다운로드할 수 있습니다.</p>
+        <p><b>왜 1€를 내나요?</b>
+        <ul><li>결제 금액으로 모드를 위한 더 많은 호스팅 공간을 확보할 수 있습니다.</li></ul></p>
+        <p><b>매월인가요?</b>
+        <ul><li>네, 월간 구독입니다.</li></ul></p>
+        <p>구독하려면 <a href="https://www.patreon.com/OktoDark">Patreon</a> 페이지를 방문하여 원하는 것을 선택하세요.</p>

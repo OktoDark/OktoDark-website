@@ -1,0 +1,82 @@
+email.verify.title: "이메일 확인"
+email.verify.intro: "아래 버튼을 클릭하여 이메일 주소를 확인하세요."
+email.verify.button: "이메일 확인"
+email.verify.footer: "감사합니다,"
+
+# General Greetings
+email.greeting: "안녕하세요 %name%님,"
+email.greeting_simple: "안녕하세요!"
+email.greeting_general: "안녕하세요!"
+email.team: "%siteName% 팀"
+
+# Badges
+email.badge.security_alert: "보안 알림"
+email.badge.verification: "인증"
+email.badge.account_security: "계정 보안"
+email.badge.exclusive_invitation: "독점 초대"
+
+# Layout
+email.layout.rights_reserved: "모든 권리 보유."
+email.layout.automated_message: "이것은 자동 발송된 메시지입니다. 직접 회신하지 마십시오."
+
+# Failed Login Alert
+email.failed_login.subject: "다수의 로그인 실패 시도"
+email.failed_login.h1: "다수의 로그인 실패 시도 감지!"
+email.failed_login.body_intro: "계정(%email%)에 대한 다수의 로그인 실패 시도가 감지되었습니다."
+email.failed_login.body_counts: "짧은 시간 동안 %attempts%번의 로그인 실패 시도가 있었습니다. 이 활동은 %date%에 감지되었습니다."
+email.failed_login.details: "마지막 시도의 세부 정보:"
+email.failed_login.advice: "이것이 본인의 시도였다면, 올바른 비밀번호를 사용하고 있는지 확인하십시오. 로그인 시도를 하지 않았다면, 즉시 비밀번호를 변경하고 계정 활동을 검토하는 것을 권장합니다."
+email.failed_login.button: "보안 설정 검토"
+email.failed_login.footer_sign: "안전하게,"
+
+# Login Alert
+email.login_alert.subject: "보안 알림"
+email.login_alert.h1: "새 로그인 감지"
+email.login_alert.body_intro: "새로운 기기 또는 위치에서 %siteName% 계정으로 성공적인 로그인이 감지되었습니다."
+email.login_alert.advice_ok: "본인이 시도한 로그인이라면, 이 이메일을 무시하셔도 됩니다. 추가 조치가 필요하지 않습니다."
+email.login_alert.advice_not: "본인이 시도한 로그인이 아니라면, 즉시 비밀번호를 변경하고 활성 세션을 검토하여 계정을 보호하는 것을 권장합니다."
+email.login_alert.button: "내 계정 보호"
+email.login_alert.received_reason: "계정에서 로그인 알림이 활성화되어 있어 이 이메일을 받았습니다."
+email.login_alert.manage_settings: "알림 설정 관리"
+
+# Details
+email.details.time: "시간:"
+email.details.ip: "IP 주소:"
+email.details.location: "위치:"
+email.details.user_agent: "사용자 에이전트:"
+email.details.device: "기기:"
+
+# Login Code Verification
+email.login_code.subject: "로그인 인증"
+email.login_code.h1: "로그인 확인"
+email.login_code.body_intro: "%siteName%으로 로그인을 완료하려면 다음 인증 코드를 입력하십시오:"
+email.login_code.expiry_note: "이 코드는 5분 후에 만료됩니다."
+email.login_code.advice: "이 코드를 요청하지 않았다면 이 이메일을 무시해도 됩니다. 실수로 이메일 주소를 입력했을 수 있습니다."
+email.login_code.button: "로그인 확인"
+email.login_code.warning: "보안을 위해 이 코드를 절대 다른 사람과 공유하지 마십시오."
+
+# Reset Password
+email.reset.subject: "비밀번호 재설정"
+email.reset.h1: "비밀번호 재설정 요청"
+email.reset.body_intro: "%siteName% 계정의 비밀번호 재설정 요청을 받았습니다. 이 요청을 하지 않았다면 이 이메일을 무시해도 됩니다."
+email.reset.body_link: "새 비밀번호를 선택하고 계정에 다시 접속하려면 아래 버튼을 클릭하십시오:"
+email.reset.button: "비밀번호 재설정"
+email.reset.expiry: "이 링크는 %hours% 시간 후에 만료됩니다."
+email.reset.backup_url: "위 버튼이 작동하지 않으면 다음 URL을 복사하여 브라우저에 붙여넣으십시오:"
+email.reset.footer_sign: "안전하게,"
+
+# Claim Invitation
+email.invite.subject: "초대받으셨습니다!"
+email.invite.h1: "비밀스러운 초대"
+email.invite.body_intro: "%siteName%에 초대되셨다는 소식을 전하게 되어 기쁩니다. 대기 명단을 검토한 결과, 이제 귀하의 자리가 마련되었습니다."
+email.invite.claim: "아래의 고유 링크를 사용하여 지금 계정을 등록할 수 있습니다. 이 초대는 귀하만을 위한 것이므로 공유하지 마십시오."
+email.invite.button: "초대 받기"
+email.invite.next_steps: "계정을 등록하면 플랫폼과 커뮤니티에 완전히 접속할 수 있게 됩니다. 귀하의 기여를 기대합니다!"
+email.invite.questions: "궁금한 점이 있으시면 언제든지 지원팀에 문의하십시오."
+
+# Contact Form Confirmation
+email.contact.subject: "문의사항을 접수했습니다"
+email.contact.h1: "문의가 접수되었습니다"
+email.contact.body_intro: "%siteName%에 문의해주셔서 감사합니다. 담당 팀에서 이메일을 검토하고 가능한 한 빨리 연락드리겠습니다."
+email.contact.reference: "귀하의 참조 번호는 %ref%입니다."
+email.contact.receipt: "이 이메일은 문의사항 접수 확인용입니다. 추가 정보가 필요하면 연락드리겠습니다."

@@ -1,0 +1,17 @@
+title.careers: "职业"
+careers.text_1: "我们从哪里工作"
+careers.description: |
+  <li>我们只在世界各地远程工作。</li>
+  <li>您可以在任何时间、想要的时候工作，没有固定的计划。</li>
+  <li>因为我们是一个小团队，您在我们的项目中更加引人注目。</li>
+
+careers.available: "可用"
+careers.apply_now: "立即申请"
+careers.published: "已发布"
+careers.requirements: "要求"
+careers.description_title: "描述"
+careers.no_requirements: "没有列出具体要求。"
+careers.apply_title: "申请此职位"
+careers.upload_cv: "上传简历（PDF、DOCX - 最大5MB）"
+careers.tell_us: "告诉我们关于您和您的经验..."
+careers.submit: "提交申请"

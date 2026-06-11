@@ -1,0 +1,76 @@
+# Deutsche Übersetzungen - E-Mails
+email.verify.title: "E-Mail-Adresse bestätigen"
+email.verify.intro: "Klicken Sie auf den Button unten, um Ihre E-Mail-Adresse zu bestätigen."
+email.verify.button: "Meine E-Mail bestätigen"
+email.verify.footer: "Mit freundlichen Grüßen,"
+
+# Allgemeine Begrüßungen
+email.greeting: "Hallo %name%,"
+email.greeting_simple: "Hallo!"
+email.greeting_general: "Guten Tag,"
+email.team: "Das %siteName%-Team"
+
+# Abzeichen
+email.badge.security_alert: "Sicherheitswarnung"
+email.badge.verification: "Verifizierung"
+email.badge.account_security: "Kontosicherheit"
+email.badge.exclusive_invitation: "Exklusive Einladung"
+
+# Layout
+email.layout.rights_reserved: "Alle Rechte vorbehalten."
+email.layout.automated_message: "Dies ist eine automatische Nachricht. Bitte antworten Sie nicht direkt auf diese E-Mail."
+
+# Fehlgeschlagener Anmeldeversuch
+email.failed_login.subject: "Mehrere fehlgeschlagene Anmeldeversuche"
+email.failed_login.h1: "Mehrere fehlgeschlagene Anmeldeversuche erkannt!"
+email.failed_login.body_intro: "Wir haben mehrere fehlgeschlagene Anmeldeversuche für Ihr Konto (%email%) festgestellt."
+email.failed_login.body_counts: "Es gab %attempts% fehlgeschlagene Versuche in kurzer Zeit. Diese Aktivität wurde am %date% erkannt."
+email.failed_login.details: "Details des letzten Versuchs:"
+email.failed_login.advice: "Wenn Sie das waren, stellen Sie sicher, dass Sie das richtige Passwort verwenden. Falls Sie keinen Anmeldeversuch unternommen haben, empfehlen wir Ihnen, Ihr Passwort sofort zu ändern und Ihre Kontoaktivität zu überprüfen."
+email.failed_login.button: "Sicherheitseinstellungen überprüfen"
+email.failed_login.footer_sign: "Bleiben Sie sicher,"
+
+# Anmeldungswarnung
+email.login_alert.subject: "Sicherheitswarnung"
+email.login_alert.h1: "Neue Anmeldung erkannt"
+email.login_alert.body_intro: "Wir haben eine erfolgreiche Anmeldung bei Ihrem %siteName%-Konto von einem neuen Gerät oder Standort erkannt."
+email.login_alert.advice_ok: "Wenn Sie das waren, können Sie diese E-Mail sicher ignorieren. Es ist keine weitere Aktion erforderlich."
+email.login_alert.advice_not: "War das nicht Sie? Wir empfehlen Ihnen, Ihr Passwort sofort zu ändern und Ihre aktiven Sitzungen zu überprüfen, um Ihr Konto zu sichern."
+email.login_alert.button: "Mein Konto sichern"
+email.login_alert.received_reason: "Sie haben dies erhalten, weil Anmeldungswarnungen für Ihr Konto aktiviert sind."
+email.login_alert.manage_settings: "Warnungseinstellungen verwalten"
+
+# Details
+email.details.time: "Uhrzeit:"
+email.details.ip: "IP-Adresse:"
+email.details.location: "Standort:"
+email.details.user_agent: "Benutzeragent:"
+email.details.device: "Gerät:"
+
+# Login-Code-Verifizierung
+email.login_code.subject: "Anmeldungsverifizierung"
+email.login_code.h1: "Bestätigen Sie Ihre Anmeldung"
+email.login_code.body_intro: "Um Ihre Anmeldung bei %siteName% abzuschließen, geben Sie bitte den folgenden Verifizierungscode ein:"
+email.login_code.expiry_note: "Dieser Code läuft in 5 Minuten ab."
+email.login_code.advice: "Wenn Sie diesen Code nicht angefordert haben, können Sie diese E-Mail sicher ignorieren. Jemand hat möglicherweise versehentlich Ihre E-Mail-Adresse eingegeben."
+email.login_code.button: "Anmeldung bestätigen"
+email.login_code.warning: "Teilen Sie diesen Code aus Sicherheitsgründen niemals mit anderen."
+
+# Passwort zurücksetzen
+email.reset.subject: "Passwort zurücksetzen"
+email.reset.h1: "Anforderung zum Zurücksetzen des Passworts"
+email.reset.body_intro: "Wir haben eine Anfrage zum Zurücksetzen des Passworts für Ihr %siteName%-Konto erhalten. Falls Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail sicher ignorieren."
+email.reset.body_link: "Um ein neues Passwort zu wählen und wieder Zugriff auf Ihr Konto zu erhalten, klicken Sie bitte auf den Button unten:"
+email.reset.button: "Passwort zurücksetzen"
+email.reset.expiry: "Dieser Link läuft in %hours% Stunde(n) ab."
+email.reset.backup_url: "Wenn der Button oben nicht funktioniert, kopieren Sie die folgende URL und fügen Sie sie in Ihren Browser ein:"
+email.reset.footer_sign: "Bleiben Sie sicher,"
+
+# Einladung einlösen
+email.invite.subject: "Sie sind eingeladen!"
+email.invite.h1: "Willkommen im inneren Kreis"
+email.invite.body_intro: "Wir freuen uns, Ihnen mitteilen zu können, dass Sie eingeladen wurden, %siteName% beizutreten. Wir haben unsere Warteliste überprüft und Ihr Platz ist jetzt bereit."
+email.invite.claim: "Sie können sich jetzt über den untenstehenden einzigartigen Link registrieren. Diese Einladung gilt nur für Sie, bitte teilen Sie sie nicht."
+email.invite.button: "Meine Einladung einlösen"
+email.invite.next_steps: "Nach der Registrierung haben Sie vollen Zugriff auf unsere Plattform und Community. Wir sind gespannt, was Sie einbringen werden!"
+email.invite.questions: "Wenn Sie Fragen haben, wenden Sie sich gerne an unser Support-Team."

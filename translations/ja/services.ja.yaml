@@ -1,0 +1,6 @@
+services.from: "から"
+services.contact_us: "お問い合わせ"
+services.notes: >
+  注：特定のサービスは、希望するプロジェクトを完了するために必要な難易度に
+  応じて、1週間以上または以下で完了する場合があります。
+services.subtitle: "幅広いサービスの提供"

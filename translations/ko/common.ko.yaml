@@ -1,0 +1,13 @@
+common:
+    edit: "편집"
+    delete: "삭제"
+    save: "저장"
+    upload: "업로드"
+    remove: "제거"
+    clear: "지우기"
+    back: "뒤로"
+    cancel: "취소"
+    search: "검색"
+    confirm_delete: "이 항목을 삭제하시겠습니까?"
+    send_reset_link: "재설정 링크 보내기"
+    read_more: "더 보기"

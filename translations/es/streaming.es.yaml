@@ -1,0 +1,16 @@
+# Spanish Streaming Translations
+streaming:
+    title: "Transmisión en Vivo"
+    twitch_desc: "El canal principal para transmitir."
+    discord_desc: "Sugerencias/Informe de errores y otras discusiones, Discord es la mejor solución para la comunicación."
+    x_desc: "Mensajes rápidos y limpios para todos los espectadores y seguidores."
+    faq:
+        title: "Preguntas Frecuentes"
+        q1: "¿Qué puedes ver en la transmisión y dónde?"
+        a1: "En nuestra transmisión puedes ver modelado 3D, creación de juegos y mucho más solo en nuestro canal de Twitch."
+        q2: "¿Es gratis ver?"
+        a2: "Sí. Es gratis ver."
+        q3: "¿Cuándo comienza la transmisión y en qué días?"
+        a3: "La transmisión en este momento no tiene días fijos."
+        q4: "¿Tenemos que donar o algo más?"
+        a4: "Todos pueden donar si lo desean con una suscripción (ver enlace del menú Apóyanos) u otro método para ayudar al canal, pero es a su criterio."

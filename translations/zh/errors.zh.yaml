@@ -1,0 +1,8 @@
+error.agree_terms: "您必须同意条款。"
+error.password_mismatch: "密码字段必须匹配。"
+error.password_blank: "请输入密码。"
+error.password_min: "您的密码应至少为{{ limit }}个字符。"
+error.username_taken: "此用户名已被使用。"
+error.email_taken: "此电子邮件已注册。"
+error.username_blank: "请输入用户名。"
+error.email_blank: "请输入电子邮件地址。"

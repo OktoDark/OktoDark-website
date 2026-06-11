@@ -1,0 +1,76 @@
+# Traducciones españolas - Correos electrónicos
+email.verify.title: "Confirma tu correo electrónico"
+email.verify.intro: "Haz clic en el botón de abajo para verificar tu dirección de correo electrónico."
+email.verify.button: "Confirmar mi correo"
+email.verify.footer: "Saludos,"
+
+# Saludos generales
+email.greeting: "Hola %name%,"
+email.greeting_simple: "¡Hola!"
+email.greeting_general: "Buenos días,"
+email.team: "El equipo de %siteName%"
+
+# Insignias
+email.badge.security_alert: "Alerta de seguridad"
+email.badge.verification: "Verificación"
+email.badge.account_security: "Seguridad de la cuenta"
+email.badge.exclusive_invitation: "Invitación exclusiva"
+
+# Diseño
+email.layout.rights_reserved: "Todos los derechos reservados."
+email.layout.automated_message: "Este es un mensaje automatizado, por favor no respondas directamente a este correo."
+
+# Alerta de inicio de sesión fallido
+email.failed_login.subject: "Múltiples intentos de inicio de sesión fallidos"
+email.failed_login.h1: "¡Se detectaron múltiples intentos de inicio de sesión fallidos!"
+email.failed_login.body_intro: "Hemos detectado múltiples intentos de inicio de sesión fallidos en tu cuenta (%email%)."
+email.failed_login.body_counts: "Hubo %attempts% intentos fallidos en un corto período. Esta actividad fue detectada el %date%."
+email.failed_login.details: "Detalles del último intento:"
+email.failed_login.advice: "Si fuiste tú, asegúrate de estar usando la contraseña correcta. Si no intentaste iniciar sesión, te recomendamos cambiar tu contraseña de inmediato y revisar la actividad de tu cuenta."
+email.failed_login.button: "Revisar configuración de seguridad"
+email.failed_login.footer_sign: "Mantente seguro,"
+
+# Alerta de inicio de sesión
+email.login_alert.subject: "Alerta de seguridad"
+email.login_alert.h1: "Nuevo inicio de sesión detectado"
+email.login_alert.body_intro: "Hemos detectado un inicio de sesión exitoso en tu cuenta de %siteName% desde un nuevo dispositivo o ubicación."
+email.login_alert.advice_ok: "Si fuiste tú, puedes ignorar este correo de forma segura. No se requiere ninguna acción adicional."
+email.login_alert.advice_not: "¿No fuiste tú? Te recomendamos cambiar tu contraseña de inmediato y revisar tus sesiones activas para asegurar tu cuenta."
+email.login_alert.button: "Proteger mi cuenta"
+email.login_alert.received_reason: "Recibiste esto porque las alertas de inicio de sesión están habilitadas en tu cuenta."
+email.login_alert.manage_settings: "Administrar configuración de alertas"
+
+# Detalles
+email.details.time: "Hora:"
+email.details.ip: "Dirección IP:"
+email.details.location: "Ubicación:"
+email.details.user_agent: "Agente de usuario:"
+email.details.device: "Dispositivo:"
+
+# Verificación de código de inicio de sesión
+email.login_code.subject: "Verificación de inicio de sesión"
+email.login_code.h1: "Verifica tu inicio de sesión"
+email.login_code.body_intro: "Para completar tu inicio de sesión en %siteName%, por favor ingresa el siguiente código de verificación:"
+email.login_code.expiry_note: "Este código expira en 5 minutos."
+email.login_code.advice: "Si no solicitaste este código, puedes ignorar este correo de forma segura. Alguien pudo haber ingresado tu dirección de correo por error."
+email.login_code.button: "Verificar inicio de sesión"
+email.login_code.warning: "Por tu seguridad, nunca compartas este código con nadie."
+
+# Restablecer contraseña
+email.reset.subject: "Restablecer tu contraseña"
+email.reset.h1: "Solicitud de restablecimiento de contraseña"
+email.reset.body_intro: "Recibimos una solicitud para restablecer la contraseña de tu cuenta de %siteName%. Si no hiciste esta solicitud, puedes ignorar este correo de forma segura."
+email.reset.body_link: "Para elegir una nueva contraseña y recuperar el acceso a tu cuenta, haz clic en el botón de abajo:"
+email.reset.button: "Restablecer contraseña"
+email.reset.expiry: "Este enlace expirará en %hours% hora(s)."
+email.reset.backup_url: "Si el botón de arriba no funciona, copia y pega la siguiente URL en tu navegador:"
+email.reset.footer_sign: "Mantente seguro,"
+
+# Invitación
+email.invite.subject: "¡Estás invitado!"
+email.invite.h1: "Bienvenido al círculo exclusivo"
+email.invite.body_intro: "Nos complace informarte que has sido invitado a unirte a %siteName%. Hemos revisado nuestra lista de espera y tu lugar está ahora listo."
+email.invite.claim: "Ahora puedes registrar tu cuenta usando el enlace único a continuación. Esta invitación es solo para ti, así que por favor no la compartas."
+email.invite.button: "Reclamar mi invitación"
+email.invite.next_steps: "Una vez registrado, tendrás acceso completo a nuestra plataforma y comunidad. ¡Estamos emocionados de ver lo que aportarás!"
+email.invite.questions: "Si tienes alguna pregunta, no dudes en contactar a nuestro equipo de soporte."

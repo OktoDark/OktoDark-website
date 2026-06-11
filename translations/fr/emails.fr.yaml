@@ -1,0 +1,76 @@
+# Traductions françaises - E-mails
+email.verify.title: "Confirmez votre adresse e-mail"
+email.verify.intro: "Cliquez sur le bouton ci-dessous pour vérifier votre adresse e-mail."
+email.verify.button: "Confirmer mon e-mail"
+email.verify.footer: "Cordialement,"
+
+# Salutations générales
+email.greeting: "Bonjour %name%,"
+email.greeting_simple: "Salut !"
+email.greeting_general: "Bonjour,"
+email.team: "L'équipe %siteName%"
+
+# Badges
+email.badge.security_alert: "Alerte de sécurité"
+email.badge.verification: "Vérification"
+email.badge.account_security: "Sécurité du compte"
+email.badge.exclusive_invitation: "Invitation exclusive"
+
+# Mise en page
+email.layout.rights_reserved: "Tous droits réservés."
+email.layout.automated_message: "Ceci est un message automatique, veuillez ne pas répondre directement à cet e-mail."
+
+# Alerte de connexion échouée
+email.failed_login.subject: "Plusieurs tentatives de connexion échouées"
+email.failed_login.h1: "Plusieurs tentatives de connexion échouées détectées !"
+email.failed_login.body_intro: "Nous avons détecté plusieurs tentatives de connexion échouées sur votre compte (%email%)."
+email.failed_login.body_counts: "Il y a eu %attempts% tentatives échouées en peu de temps. Cette activité a été détectée le %date%."
+email.failed_login.details: "Détails de la dernière tentative :"
+email.failed_login.advice: "Si c'était vous, assurez-vous d'utiliser le bon mot de passe. Si vous n'avez pas essayé de vous connecter, nous vous recommandons de changer votre mot de passe immédiatement et de vérifier l'activité de votre compte."
+email.failed_login.button: "Vérifier les paramètres de sécurité"
+email.failed_login.footer_sign: "Restez en sécurité,"
+
+# Alerte de connexion
+email.login_alert.subject: "Alerte de sécurité"
+email.login_alert.h1: "Nouvelle connexion détectée"
+email.login_alert.body_intro: "Nous avons détecté une connexion réussie à votre compte %siteName% depuis un nouvel appareil ou un nouvel emplacement."
+email.login_alert.advice_ok: "Si c'était vous, vous pouvez ignorer cet e-mail en toute sécurité. Aucune autre action n'est requise."
+email.login_alert.advice_not: "Ce n'était pas vous ? Nous vous recommandons de changer votre mot de passe immédiatement et de vérifier vos sessions actives pour sécuriser votre compte."
+email.login_alert.button: "Sécuriser mon compte"
+email.login_alert.received_reason: "Vous avez reçu ceci parce que les alertes de connexion sont activées pour votre compte."
+email.login_alert.manage_settings: "Gérer les paramètres d'alerte"
+
+# Détails
+email.details.time: "Heure :"
+email.details.ip: "Adresse IP :"
+email.details.location: "Emplacement :"
+email.details.user_agent: "Agent utilisateur :"
+email.details.device: "Appareil :"
+
+# Vérification du code de connexion
+email.login_code.subject: "Vérification de connexion"
+email.login_code.h1: "Vérifiez votre connexion"
+email.login_code.body_intro: "Pour compléter votre connexion à %siteName%, veuillez entrer le code de vérification suivant :"
+email.login_code.expiry_note: "Ce code expire dans 5 minutes."
+email.login_code.advice: "Si vous n'avez pas demandé ce code, vous pouvez ignorer cet e-mail en toute sécurité. Quelqu'un a peut-être entré votre adresse e-mail par erreur."
+email.login_code.button: "Vérifier la connexion"
+email.login_code.warning: "Pour votre sécurité, ne partagez jamais ce code avec qui que ce soit."
+
+# Réinitialisation du mot de passe
+email.reset.subject: "Réinitialiser votre mot de passe"
+email.reset.h1: "Demande de réinitialisation du mot de passe"
+email.reset.body_intro: "Nous avons reçu une demande de réinitialisation du mot de passe pour votre compte %siteName%. Si vous n'avez pas fait cette demande, vous pouvez ignorer cet e-mail en toute sécurité."
+email.reset.body_link: "Pour choisir un nouveau mot de passe et retrouver l'accès à votre compte, veuillez cliquer sur le bouton ci-dessous :"
+email.reset.button: "Réinitialiser le mot de passe"
+email.reset.expiry: "Ce lien expirera dans %hours% heure(s)."
+email.reset.backup_url: "Si le bouton ci-dessus ne fonctionne pas, copiez et collez l'URL suivante dans votre navigateur :"
+email.reset.footer_sign: "Restez en sécurité,"
+
+# Invitation à rejoindre
+email.invite.subject: "Vous êtes invité !"
+email.invite.h1: "Bienvenue dans le cercle restreint"
+email.invite.body_intro: "Nous sommes ravis de vous informer que vous avez été invité à rejoindre %siteName%. Nous avons examiné notre liste d'attente et votre place est maintenant prête."
+email.invite.claim: "Vous pouvez maintenant créer votre compte via le lien unique ci-dessous. Cette invitation est uniquement pour vous, veuillez ne pas la partager."
+email.invite.button: "Réclamer mon invitation"
+email.invite.next_steps: "Une fois inscrit, vous aurez un accès complet à notre plateforme et à notre communauté. Nous sommes impatients de voir ce que vous apporterez !"
+email.invite.questions: "Si vous avez des questions, n'hésitez pas à contacter notre équipe de support."

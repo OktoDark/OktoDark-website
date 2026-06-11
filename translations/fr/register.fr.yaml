@@ -1,0 +1,29 @@
+# French Register Translations
+title.register: "Créer un compte"
+title.check_email: "Vérifiez votre e-mail"
+title.reg_check_mail: "Vérifier E-mail"
+title.resend_verification: "Renvoyer l'e-mail de vérification"
+title.email_verified: "E-mail Vérifié !"
+text.email_verified_intro: "Votre e-mail a été vérifié avec succès. Vous pouvez maintenant compléter votre profil."
+title.complete_profile: "Compléter votre profil"
+
+register:
+    subtitle: "Rejoignez la communauté et commencez votre voyage avec OktoDark Studios."
+    weak_pass: "Mot de passe faible"
+    medium_pass: "Force moyenne"
+    strong_pass: "Mot de passe fort"
+    user_taken: "Nom d'utilisateur déjà pris"
+    user_ok: "Nom d'utilisateur disponible"
+    email_taken: "E-mail déjà enregistré"
+    email_ok: "E-mail disponible"
+    progress:
+        register: "S'inscrire"
+        verify: "Vérifier E-mail"
+        complete: "Compléter Profil"
+    agree_terms: "J'accepte les"
+
+label:
+    username: "Nom d'utilisateur"
+    email: "Adresse E-mail"
+    password: "Mot de passe"
+    repeatPassword: "Répéter Mot de passe"

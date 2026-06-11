@@ -1,0 +1,8 @@
+error.agree_terms: "Vous devez accepter les conditions."
+error.password_mismatch: "Les champs de mot de passe doivent correspondre."
+error.password_blank: "Veuillez entrer un mot de passe."
+error.password_min: "Votre mot de passe doit contenir au moins {{ limit }} caractères."
+error.username_taken: "Ce nom d'utilisateur est déjà pris."
+error.email_taken: "Cet e-mail est déjà enregistré."
+error.username_blank: "Veuillez entrer un nom d'utilisateur."
+error.email_blank: "Veuillez entrer une adresse e-mail."

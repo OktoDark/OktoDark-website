@@ -1,0 +1,16 @@
+# French Streaming Translations
+streaming:
+    title: "Streaming en Direct"
+    twitch_desc: "Le canal principal pour le streaming."
+    discord_desc: "Suggestions/Signalement de bugs et autres discussions, Discord est la meilleure solution pour la communication."
+    x_desc: "Messages rapides et clairs pour tous les spectateurs et abonnés."
+    faq:
+        title: "Questions Fréquemment Posées"
+        q1: "Que pouvez-vous voir en Streaming et où ?"
+        a1: "Dans notre Streaming, vous pouvez voir la modélisation 3D, la création de jeux et plus encore uniquement sur notre Chaîne Twitch."
+        q2: "Est-ce gratuit de regarder ?"
+        a2: "Oui. C'est gratuit de regarder."
+        q3: "Quand le streaming commence-t-il et quels jours ?"
+        a3: "Le streaming n'a actuellement pas de jours fixes."
+        q4: "Devons-nous donner ou autre chose ?"
+        a4: "Tout le monde peut donner si vous le souhaitez avec un abonnement (voir le lien du menu Support us) ou une autre méthode pour aider la chaîne, mais c'est à votre discrétion."

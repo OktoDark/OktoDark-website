@@ -1,0 +1,13 @@
+common:
+    edit: "編集"
+    delete: "削除"
+    save: "保存"
+    upload: "アップロード"
+    remove: "削除"
+    clear: "クリア"
+    back: "戻る"
+    cancel: "キャンセル"
+    search: "検索"
+    confirm_delete: "このアイテムを削除してもよろしいですか？"
+    send_reset_link: "リセットリンクを送信"
+    read_more: "続きを読む"

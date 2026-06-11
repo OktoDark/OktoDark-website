@@ -1,0 +1,17 @@
+# Spanish Registration Translations
+registration:
+    disabled:
+        title: "Registro No Disponible"
+        message: "El registro está temporalmente deshabilitado. Por favor, intente más tarde."
+        support_title: "¿Necesita Ayuda?"
+        support_text: "Si cree que esto es un error o necesita ayuda, nuestro equipo de soporte está aquí para usted."
+        contact_support: "Contactar Soporte"
+        notify_title: "Recibir Notificaciones"
+        notify_text: "Ingrese su correo electrónico y le notificaremos tan pronto como se abra el registro."
+        notify_placeholder: "Su dirección de correo electrónico"
+        notify_button: "Notifícame"
+        modal_title: "¡Gracias!"
+        modal_message: "Será notificado tan pronto como se abra el registro. Apreciamos su interés."
+        modal_close: "Cerrar"
+        modal_exists_title: "¡Ya está en la lista!"
+        modal_exists_message: "No se preocupe — ya está registrado para ser notificado tan pronto como se abra el registro."

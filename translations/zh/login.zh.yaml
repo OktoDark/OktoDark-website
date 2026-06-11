@@ -1,0 +1,20 @@
+# 中文翻译 - 登录
+login:
+    title: "会员登录"
+    subtitle: "是时候登录了"
+    verify_title: "验证您的登录"
+    verify_subtitle: "我们已向 %email% 发送了一个 6 位验证码。请在下方输入以继续。"
+    code_label: "登录验证码"
+    code_placeholder: "输入 6 位验证码"
+    trust_device: "信任此设备 30 天"
+    continue_btn: "继续"
+    resend_code: "未收到验证码？"
+    resend_btn: "重新发送验证码"
+    # content.note: "Note: You must to be a patron or donor to have access here.<br>If you are patron or a donor please ask for login information from contact form."
+    content.note: "登录即表示您同意我们的条款和条件"
+# These keys are specifically used in login.html.twig
+checkbox:
+    remember_me: "保持登录状态"
+action:
+    sign_in: "登录"
+    forgot_password: "忘记密码？"

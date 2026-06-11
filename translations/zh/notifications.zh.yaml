@@ -1,0 +1,49 @@
+# 中文翻译 - 通知
+notification: # 新的顶级键
+    settings_title: "通知设置"
+    types:
+        blog: "博客通知"
+        forum: "论坛通知"
+        follow: "关注通知"
+    channels:
+        email: "电子邮件"
+        onsite: "站内"
+    new_follower:
+        title: "新关注者！"
+        message: "%username% 现在关注您了。"
+        email_subject: "您有一位新关注者！"
+        email_body: "您好 %username%，<br><br>%follower_username% 现在在 OktoDark Studios 关注您了。<br><br>在这里查看他们的个人资料：%link%<br><br>此致，<br>OktoDark Studios 团队"
+        email_hello: "您好 %username%，"
+        email_content: "%follower_username% 现在在 OktoDark Studios 关注您了。"
+        email_profile_link: "在这里查看他们的个人资料："
+    comment_created:
+        email_subject: "您的帖子有新评论！"
+        email_body: "您好 %title%，<br><br>您的帖子 \"%title%\" 有一条新评论。<br><br>在这里阅读评论：%link%<br><br>此致，<br>OktoDark Studios 团队"
+        onsite_title: "新评论！"
+        onsite_message: "%comment_author% 评论了您的帖子 \"%post_title%\"。"
+        email_hello: "您好 %username%，"
+        email_content: "您的帖子 \"%post_title%\" 收到了 %comment_author% 的新评论。"
+        email_read_link: "在这里阅读评论："
+    forum_new_reply:
+        email_subject: "您的论坛帖子有新回复！"
+        email_hello: "您好 %username%，"
+        email_content: "%replier_username% 回复了您的论坛帖子 \"%thread_title%\"。"
+        email_view_link: "在这里查看回复："
+    forum_mention:
+        title: "您在论坛帖子中被提及！"
+        message: "%mentioner_username% 在论坛帖子 \"%post_title%\" 中提到了您。"
+    # 通知页面的键
+    page_title: "您的通知"
+    description: "在这里管理和查看您的所有通知。"
+    your_notifications: "您的通知"
+    mark_all_read: "全部标记为已读"
+    no_notifications_yet: "您还没有任何通知。"
+    unread: "未读"
+    read: "已读"
+    ago:
+        year: "{1} %count% 年前|]1,Inf[ %count% 年前"
+        month: "{1} %count% 个月前|]1,Inf[ %count% 个月前"
+        day: "{1} %count% 天前|]1,Inf[ %count% 天前"
+        hour: "{1} %count% 小时前|]1,Inf[ %count% 小时前"
+        minute: "{1} %count% 分钟前|]1,Inf[ %count% 分钟前"
+        just_now: "刚刚"

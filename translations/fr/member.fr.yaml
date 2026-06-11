@@ -1,0 +1,17 @@
+# French Member Translations
+member:
+    subtitle: "Dans cette zone, vous choisissez ce que vous voulez faire."
+    tier_upgrade_notice: "Si vous avez un Tier bloqué, vous devez mettre à niveau votre Tier vers un niveau supérieur."
+    tiers_rewards: "Récompenses de Tier"
+    download_beta_text: "Télécharger la Version Bêta"
+    download_alpha_text: "Télécharger la Version Alpha"
+    upgrade_now_text: "Mettez à niveau votre tier pour déverrouiller ce contenu."
+    credits_request: "Demande d'ajout de votre nom aux Crédits du Jeu"
+    tier_4_content: "Contenu Exclusif Tier IV"
+    download_source: "Télécharger le Code Source du Studio"
+    download: "Télécharger"
+    play_online: "Jouer en Ligne"
+    member_since: "Membre Depuis"
+    posts: "Messages"
+    edit_user: "Modifier l'utilisateur"
+    change_password: "Changer le mot de passe"

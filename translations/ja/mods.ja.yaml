@@ -1,0 +1,14 @@
+# Japanese Mods Translations
+mods:
+    subtitle: "ゲーム用MODとコンテンツ"
+    restriction: "メンバー限定"
+    sims4_desc: "The Sims 4用MODとカスタムコンテンツ"
+    soon: "近日公開"
+    download: "ダウンロード"
+    rescontent: |
+        <p>1€で毎日制限なく何でもダウンロードできます。</p>
+        <p><b>なぜ1€を払うの？</b>
+        <ul><li>お支払いでMOD用のホスティングスペースを増やすことができます。</li></ul></p>
+        <p><b>毎月ですか？</b>
+        <ul><li>はい、月額サブスクリプションです。</li></ul></p>
+        <p>サブスクリプションは<a href="https://www.patreon.com/OktoDark">Patreon</a>ページをご覧ください。</p>

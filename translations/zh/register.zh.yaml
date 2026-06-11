@@ -1,0 +1,29 @@
+# Chinese Register Translations
+title.register: "创建帐户"
+title.check_email: "检查您的电子邮件"
+title.reg_check_mail: "检查邮件"
+title.resend_verification: "重新发送验证电子邮件"
+title.email_verified: "电子邮件已验证！"
+text.email_verified_intro: "您的电子邮件已成功验证。您现在可以完成您的个人资料。"
+title.complete_profile: "完成您的个人资料"
+
+register:
+    subtitle: "加入社区，开始您的OktoDark Studios之旅。"
+    weak_pass: "弱密码"
+    medium_pass: "中等强度"
+    strong_pass: "强密码"
+    user_taken: "用户名已被使用"
+    user_ok: "用户名可用"
+    email_taken: "电子邮件已注册"
+    email_ok: "电子邮件可用"
+    progress:
+        register: "注册"
+        verify: "验证电子邮件"
+        complete: "完成个人资料"
+    agree_terms: "我同意"
+
+label:
+    username: "用户名"
+    email: "电子邮箱"
+    password: "密码"
+    repeatPassword: "重复密码"

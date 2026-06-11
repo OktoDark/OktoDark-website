@@ -1,0 +1,47 @@
+notification:
+    settings_title: "通知設定"
+    types:
+        blog: "ブログ通知"
+        forum: "フォーラム通知"
+        follow: "フォロー通知"
+    channels:
+        email: "メール"
+        onsite: "サイト内"
+    new_follower:
+        title: "新しいフォロワー！"
+        message: "%username%さんがフォローしました。"
+        email_subject: "新しいフォロワーがいます！"
+        email_body: "こんにちは%username%さん、<br><br>%follower_username%さんがOktoDark Studiosでフォローしました。<br><br>プロフィールを確認: %link%<br><br>よろしくお願いします、<br>OktoDark Studiosチーム"
+        email_hello: "こんにちは%username%さん、"
+        email_content: "%follower_username%さんがOktoDark Studiosでフォローしました。"
+        email_profile_link: "プロフィールを確認:"
+    comment_created:
+        email_subject: "投稿に新しいコメントがあります！"
+        email_body: "こんにちは%title%さん、<br><br>投稿\"%title%\"に新しいコメントがあります。<br><br>コメントを読む: %link%<br><br>よろしくお願いします、<br>OktoDark Studiosチーム"
+        onsite_title: "新しいコメント！"
+        onsite_message: "%comment_author%さんが投稿\"%post_title%\"にコメントしました。"
+        email_hello: "こんにちは%username%さん、"
+        email_content: "投稿\"%post_title%\"に%comment_author%さんの新しいコメントがあります。"
+        email_read_link: "コメントを読む:"
+    forum_new_reply:
+        email_subject: "フォーラムスレッドに新しい返信があります！"
+        email_hello: "こんにちは%username%さん、"
+        email_content: "%replier_username%さんがフォーラムスレッド\"%thread_title%\"に返信しました。"
+        email_view_link: "返信を見る:"
+    forum_mention:
+        title: "フォーラム投稿でメンションされました！"
+        message: "%mentioner_username%さんがフォーラムスレッド\"%post_title%\"であなたをメンションしました。"
+    page_title: "通知"
+    description: "すべての通知をここで管理・確認してください。"
+    your_notifications: "あなたの通知"
+    mark_all_read: "すべて既読にする"
+    no_notifications_yet: "まだ通知はありません。"
+    unread: "未読"
+    read: "既読"
+    ago:
+        year: "{1} %count%年前|]1,Inf[ %count%年前"
+        month: "{1} %count%ヶ月前|]1,Inf[ %count%ヶ月前"
+        day: "{1} %count%日前|]1,Inf[ %count%日前"
+        hour: "{1} %count%時間前|]1,Inf[ %count%時間前"
+        minute: "{1} %count%分前|]1,Inf[ %count%分前"
+        just_now: "たった今"

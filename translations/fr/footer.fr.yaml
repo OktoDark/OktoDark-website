@@ -1,0 +1,16 @@
+language.selector: "Langue"
+
+privacy_policy.text: "Politique de Confidentialité"
+terms_and_conditions.text: "Conditions Générales"
+site_preferences.text: "Préférences du Site"
+information.text: "Information"
+
+footer.information_text: "Information"
+footer.get_in_touch_text: "Nous Contacter"
+footer.source_code_text: "Code Source"
+footer.live_stream_text: "Streaming en Direct"
+footer.discourse_text: "Discourse"
+footer.support_us_text: "Nous Soutenir"
+footer.all_rights_reserved_text: "Tous les droits réservés."
+
+title.follow: "Suivez-Nous"

@@ -1,0 +1,24 @@
+# Chinese Support Us Translations
+supportus:
+    subtitle: "帮助我们的工作室成长并解锁独家社区奖励。"
+    choose_tier: "选择您的会员计划"
+    subscribe: "通过PayPal订阅"
+    compare_plans: "比较会员权益"
+    note: "* 快速支持和自定义请求需视团队可用性而定。"
+    
+    discord:
+        title: "Discord社区"
+        special_title: "为您提供特殊头衔"
+        private_channels: "访问私人频道"
+        fast_support: "为您提供快速支持*"
+
+    models:
+        title: "3D模型和资源"
+        access: "模型访问"
+        unlimited: "无限下载"
+        sharing: "共享权限"
+
+    streaming:
+        title: "直播权益"
+        ask_anything: "优先请求/问题*"
+        vip_status: "VIP身份"

@@ -1,0 +1,29 @@
+# German Register Translations
+title.register: "Konto erstellen"
+title.check_email: "Überprüfen Sie Ihre E-Mail"
+title.reg_check_mail: "E-Mail überprüfen"
+title.resend_verification: "Bestätigungsemail erneut senden"
+title.email_verified: "E-Mail bestätigt!"
+text.email_verified_intro: "Ihre E-Mail wurde erfolgreich bestätigt. Sie können jetzt Ihr Profil vervollständigen."
+title.complete_profile: "Profil vervollständigen"
+
+register:
+    subtitle: "Treten Sie der Gemeinschaft bei und beginnen Sie Ihre Reise mit OktoDark Studios."
+    weak_pass: "Schwaches Passwort"
+    medium_pass: "Mittlere Stärke"
+    strong_pass: "Starkes Passwort"
+    user_taken: "Benutzername wird bereits verwendet"
+    user_ok: "Benutzername verfügbar"
+    email_taken: "E-Mail bereits registriert"
+    email_ok: "E-Mail verfügbar"
+    progress:
+        register: "Registrieren"
+        verify: "E-Mail überprüfen"
+        complete: "Profil vervollständigen"
+    agree_terms: "Ich stimme den"
+
+label:
+    username: "Benutzername"
+    email: "E-Mail"
+    password: "Passwort"
+    repeatPassword: "Passwort wiederholen"

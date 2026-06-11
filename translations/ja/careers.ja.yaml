@@ -1,0 +1,17 @@
+title.careers: "採用情報"
+careers.text_1: "勤務場所"
+careers.description: |
+  <li>世界中からフルリモートで勤務します。</li>
+  <li>固定スケジュールなく、できる時、したい時に働けます。</li>
+  <li>小規模チームなのでプロジェクトでより目立つことができます。</li>
+
+careers.available: "募集中"
+careers.apply_now: "今すぐ応募"
+careers.published: "掲載日"
+careers.requirements: "要件"
+careers.description_title: "職務説明"
+careers.no_requirements: "特定の要件はありません。"
+careers.apply_title: "このポジションに応募する"
+careers.upload_cv: "履歴書をアップロード（PDF、DOCX - 最大5MB）"
+careers.tell_us: "あなた自身と経験について教えてください..."
+careers.submit: "応募書類を送信"

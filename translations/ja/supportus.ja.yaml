@@ -1,0 +1,24 @@
+# Japanese Support Us Translations
+supportus:
+    subtitle: "スタジオの成長を助けて、限定コミュニティ特典をアンロックしましょう。"
+    choose_tier: "メンバーシッププランを選択"
+    subscribe: "PayPalで購読"
+    compare_plans: "メンバーシップ特典を比較"
+    note: "* 迅速なサポートとカスタムリクエストはチームの空き状況によります。"
+
+    discord:
+        title: "Discordコミュニティ"
+        special_title: "あなたへの特別なタイトル"
+        private_channels: "プライベートチャンネルへのアクセス"
+        fast_support: "迅速なサポート*"
+
+    models:
+        title: "3Dモデル＆アセット"
+        access: "モデルアクセス"
+        unlimited: "無制限ダウンロード"
+        sharing: "共有許可"
+
+    streaming:
+        title: "ストリーミング特典"
+        ask_anything: "優先リクエスト/質問*"
+        vip_status: "VIPステータス"

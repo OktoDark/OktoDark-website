@@ -1,0 +1,8 @@
+error.agree_terms: "Sie müssen den Bedingungen zustimmen."
+error.password_mismatch: "Die Passwortfelder müssen übereinstimmen."
+error.password_blank: "Bitte geben Sie ein Passwort ein."
+error.password_min: "Ihr Passwort sollte mindestens {{ limit }} Zeichen lang sein."
+error.username_taken: "Dieser Benutzername wird bereits verwendet."
+error.email_taken: "Diese E-Mail ist bereits registriert."
+error.username_blank: "Bitte geben Sie einen Benutzernamen ein."
+error.email_blank: "Bitte geben Sie eine E-Mail-Adresse ein."

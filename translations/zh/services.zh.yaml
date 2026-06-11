@@ -1,0 +1,6 @@
+services.from: "从"
+services.contact_us: "联系我们"
+services.notes: >
+  注：某项服务可在一周多或更短时间内完成，
+  取决于完成所需项目所需的难度。
+services.subtitle: "我们的全面服务范围"

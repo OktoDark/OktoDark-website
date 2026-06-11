@@ -1,0 +1,8 @@
+error.agree_terms: "利用規約に同意する必要があります。"
+error.password_mismatch: "パスワードフィールドが一致している必要があります。"
+error.password_blank: "パスワードを入力してください。"
+error.password_min: "パスワードは少なくとも{{ limit }}文字以上必要です。"
+error.username_taken: "このユーザー名はすでに使用されています。"
+error.email_taken: "このメールアドレスはすでに登録されています。"
+error.username_blank: "ユーザー名を入力してください。"
+error.email_blank: "メールアドレスを入力してください。"

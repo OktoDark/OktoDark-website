@@ -1,0 +1,20 @@
+# Traducciones españolas - Inicio de Sesión
+login:
+    title: "Inicio de Sesión de Miembro"
+    subtitle: "Es hora de iniciar sesión"
+    verify_title: "Verifica tu inicio de sesión"
+    verify_subtitle: "Hemos enviado un código de 6 dígitos a %email%. Ingrésalo a continuación para continuar."
+    code_label: "Código de inicio de sesión"
+    code_placeholder: "Ingresa el código de 6 dígitos"
+    trust_device: "Confiar en este dispositivo durante 30 días"
+    continue_btn: "Continuar"
+    resend_code: "¿No recibiste un código?"
+    resend_btn: "Reenviar código"
+    # content.note: "Note: You must to be a patron or donor to have access here.<br>If you are patron or a donor please ask for login information from contact form."
+    content.note: "Al iniciar sesión, aceptas nuestros términos y condiciones"
+# These keys are specifically used in login.html.twig
+checkbox:
+    remember_me: "Mantenerme conectado"
+action:
+    sign_in: "Iniciar sesión"
+    forgot_password: "¿Olvidaste tu contraseña?"

@@ -1,0 +1,13 @@
+common:
+    edit: "Bearbeiten"
+    delete: "Löschen"
+    save: "Speichern"
+    upload: "Hochladen"
+    remove: "Entfernen"
+    clear: "Löschen"
+    back: "Zurück"
+    cancel: "Abbrechen"
+    search: "Suchen"
+    confirm_delete: "Sind Sie sicher, dass Sie diesen Eintrag löschen möchten?"
+    send_reset_link: "Zurücksetzen-Link senden"
+    read_more: "Mehr lesen"

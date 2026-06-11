@@ -1,0 +1,17 @@
+title.careers: "채용"
+careers.text_1: "근무 장소"
+careers.description: |
+  <li>전 세계 어디서나 원격으로 근무합니다.</li>
+  <li>고정된 프로그램 없이 원할 때, 가능할 때 일합니다.</li>
+  <li>소규모 팀이기 때문에 프로젝트에서 더 눈에 띄게 활동할 수 있습니다.</li>
+
+careers.available: "모집 중"
+careers.apply_now: "지금 지원하기"
+careers.published: "게시일"
+careers.requirements: "요구사항"
+careers.description_title: "직무 설명"
+careers.no_requirements: "특정 요구사항이 없습니다."
+careers.apply_title: "이 직책에 지원하기"
+careers.upload_cv: "이력서 업로드 (PDF, DOCX - 최대 5MB)"
+careers.tell_us: "자신과 경력에 대해 알려주세요..."
+careers.submit: "지원서 제출"

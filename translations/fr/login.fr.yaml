@@ -1,0 +1,20 @@
+# Traductions françaises - Connexion
+login:
+    title: "Connexion Membre"
+    subtitle: "C'est l'heure de se connecter"
+    verify_title: "Vérifiez votre connexion"
+    verify_subtitle: "Nous avons envoyé un code à 6 chiffres à %email%. Entrez-le ci-dessous pour continuer."
+    code_label: "Code de connexion"
+    code_placeholder: "Entrez le code à 6 chiffres"
+    trust_device: "Faire confiance à cet appareil pendant 30 jours"
+    continue_btn: "Continuer"
+    resend_code: "Vous n'avez pas reçu de code ?"
+    resend_btn: "Renvoyer le code"
+    # content.note: "Note: You must to be a patron or donor to have access here.<br>If you are patron or a donor please ask for login information from contact form."
+    content.note: "En vous connectant, vous acceptez nos conditions d'utilisation"
+# These keys are specifically used in login.html.twig
+checkbox:
+    remember_me: "Rester connecté"
+action:
+    sign_in: "Se connecter"
+    forgot_password: "Mot de passe oublié ?"

@@ -1,0 +1,17 @@
+# Chinese Member Translations
+member:
+    subtitle: "在此区域，您选择想要做什么。"
+    tier_upgrade_notice: "如果您有被阻止的Tier，您必须将您的Tier升级到更高的级别。"
+    tiers_rewards: "Tier奖励"
+    download_beta_text: "下载测试版"
+    download_alpha_text: "下载Alpha版本"
+    upgrade_now_text: "升级您的tier以解锁此内容。"
+    credits_request: "请求将您的名字添加到游戏片尾字幕"
+    tier_4_content: "独家Tier IV内容"
+    download_source: "下载工作室源代码"
+    download: "下载"
+    play_online: "在线玩"
+    member_since: "会员自"
+    posts: "帖子"
+    edit_user: "编辑用户"
+    change_password: "更改密码"

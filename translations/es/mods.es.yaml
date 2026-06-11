@@ -1,0 +1,14 @@
+# Spanish Mods Translations
+mods:
+    subtitle: "Mods y Contenido para juegos"
+    restriction: "Solo para Miembros"
+    sims4_desc: "Mods y contenido personalizado para The Sims 4"
+    soon: "Próximamente"
+    download: "Descargar"
+    rescontent: |
+        <p>Con 1€ puedes descargar cualquier cosa, todos los días sin restricciones.</p>
+        <p><b>¿Por qué pagar 1€?</b>
+        <ul><li>Con tu pago tendremos más espacio de alojamiento para mods.</li></ul></p>
+        <p><b>¿Cada mes?</b>
+        <ul><li>Sí, es una suscripción mensual.</li></ul></p>
+        <p>Para suscribirse, visite nuestra página <a href="https://www.patreon.com/OktoDark">Patreon</a> y elija sus deseos.</p>

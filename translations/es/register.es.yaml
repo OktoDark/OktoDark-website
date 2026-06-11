@@ -1,0 +1,29 @@
+# Spanish Register Translations
+title.register: "Crear Cuenta"
+title.check_email: "Verificar su correo electrónico"
+title.reg_check_mail: "Verificar Correo"
+title.resend_verification: "Reenviar correo de verificación"
+title.email_verified: "¡Correo Verificado!"
+text.email_verified_intro: "Su correo electrónico ha sido verificado exitosamente. Ahora puede completar su perfil."
+title.complete_profile: "Completar su perfil"
+
+register:
+    subtitle: "Únase a la comunidad y comience su viaje con OktoDark Studios."
+    weak_pass: "Contraseña débil"
+    medium_pass: "Resistencia media"
+    strong_pass: "Contraseña fuerte"
+    user_taken: "Nombre de usuario ya utilizado"
+    user_ok: "Nombre de usuario disponible"
+    email_taken: "Correo electrónico ya registrado"
+    email_ok: "Correo electrónico disponible"
+    progress:
+        register: "Registrarse"
+        verify: "Verificar Correo"
+        complete: "Completar Perfil"
+    agree_terms: "Acepto los"
+
+label:
+    username: "Nombre de Usuario"
+    email: "Correo Electrónico"
+    password: "Contraseña"
+    repeatPassword: "Repetir Contraseña"
