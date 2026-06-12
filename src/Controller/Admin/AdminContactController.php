@@ -28,10 +28,46 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class AdminContactController extends AbstractController
 {
     #[Route('/', name: 'admin_contact_index', methods: ['GET'])]
-    public function index(ContactRepository $repo): Response
+    public function index(Request $request, ContactRepository $repo): Response
     {
+        // 1. Read query params
+        $search = $request->query->get('search');
+        $sort = $request->query->get('sort', 'date');
+        $order = $request->query->get('order', 'desc');
+        $page = max(1, (int) $request->query->get('page', 1));
+        $limit = 10;
+
+        // 2. Build sorting map
+        $sortMap = [
+            'date' => 'createdAt',
+            'sender' => 'name',
+            'subject' => 'subject',
+        ];
+
+        $sortField = $sortMap[$sort] ?? 'createdAt';
+
+        // 3. Fetch total count (with search)
+        $total = $repo->countSearch($search);
+
+        // 4. Fetch paginated results (with search)
+        $messages = $repo->searchMessages(
+            $search,
+            $sortField,
+            $order,
+            $limit,
+            ($page - 1) * $limit
+        );
+
+        // 5. Compute last page
+        $lastPage = max(1, (int) ceil($total / $limit));
+
         return $this->render('@theme/admin/contact/index.html.twig', [
-            'messages' => $repo->findBy([], ['createdAt' => 'DESC']),
+            'messages' => $messages,
+            'current_page' => $page,
+            'last_page' => $lastPage,
+            'search' => $search,
+            'sort' => $sort,
+            'order' => $order,
         ]);
     }
 

@@ -37,4 +37,38 @@ class ContactRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function searchMessages(
+        ?string $search,
+        string $sortField,
+        string $order,
+        int $limit,
+        int $offset,
+    ): array {
+        $qb = $this->createQueryBuilder('c');
+
+        if ($search) {
+            $qb->andWhere('c.name LIKE :s OR c.email LIKE :s OR c.subject LIKE :s')
+                ->setParameter('s', '%'.$search.'%');
+        }
+
+        return $qb->orderBy('c.'.$sortField, $order)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countSearch(?string $search): int
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)');
+
+        if ($search) {
+            $qb->andWhere('c.name LIKE :s OR c.email LIKE :s OR c.subject LIKE :s')
+                ->setParameter('s', '%'.$search.'%');
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
 }

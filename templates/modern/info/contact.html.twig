@@ -20,7 +20,7 @@
     <section class="section section-lg bg-gray-100">
         <div class="container">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 text-center">
                     <p>{{ 'content.contact'|trans({}, 'contact') }}</p>
                 </div>
             </div>
@@ -50,16 +50,23 @@
 
                             <div class="form-group mt-3">
                                 <label for="{{ form.captcha_answer.vars.id }}" class="form-label">
-                                    {{ 'label.captcha_question'|trans({}, 'contact') }}: <strong>{{ captcha_question }}</strong>
+                                    {{ 'label.captcha_question'|trans({}, 'contact') }}:
+                                    <strong>{{ captcha_question }}</strong>
                                 </label>
                                 {{ form_widget(form.captcha_answer) }}
                                 {{ form_errors(form.captcha_answer) }}
                             </div>
 
-                            {# Hide the honeypot field #}
+                            {# Honeypot #}
                             <div style="display:none !important;">
                                 {{ form_row(form.website) }}
+                                {{ form_row(form.nickname) }}
+                                {{ form_row(form.homepage) }}
                             </div>
+
+                            {# Anti-bot hidden fields #}
+                            {{ form_widget(form.form_timestamp) }}
+                            {{ form_widget(form.form_checksum) }}
 
                             {{ form_row(form.submit) }}
                         </div>

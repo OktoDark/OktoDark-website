@@ -33,11 +33,33 @@ final class InfoController extends AbstractController
     }
 
     #[Route('/contact', name: 'contact', methods: ['GET', 'POST'])]
-    public function contact(Request $request, EntityManagerInterface $em, RateLimiterFactory $contactFormLimiter): Response
-    {
+    public function contact(
+        Request $request,
+        EntityManagerInterface $em,
+        RateLimiterFactory $contactFormLimiter,
+    ): Response {
         $session = $request->getSession();
 
-        // Generate a new math challenge if it doesn't exist or on every GET request
+        // 1. Block POST without session
+        if ($request->isMethod('POST') && !$session->has('captcha_result')) {
+            return new Response('Invalid session.', 400);
+        }
+
+        // 2. Block bots with missing headers
+        if ($request->isMethod('POST')) {
+            $ua = $request->headers->get('User-Agent');
+            $ref = $request->headers->get('Referer');
+
+            if (!$ua || strlen($ua) < 10) {
+                return new Response('Bot UA blocked', 400);
+            }
+
+            if (!$ref || !str_contains($ref, $request->getHost())) {
+                return new Response('Invalid referer', 400);
+            }
+        }
+
+        // 3. Generate captcha
         if ($request->isMethod('GET') || !$session->has('captcha_result')) {
             $num1 = random_int(1, 9);
             $num2 = random_int(1, 9);
@@ -45,22 +67,33 @@ final class InfoController extends AbstractController
             $session->set('captcha_question', \sprintf('%d + %d = ?', $num1, $num2));
         }
 
-        $form = $this->createForm(ContactType::class, null, [
-            // No custom options needed here for now
-        ]);
-
-        // Dynamically set the label for the captcha field
-        $form->get('captcha_answer')->getConfig()->getOption('label'); // Dummy call to ensure config is loaded
-        // Note: Changing options after creation is tricky in Symfony,
-        // so we'll just pass the question to the template instead.
-
+        // 4. Create form
+        $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            // 1. Rate Limiting Check
+            // 5. Honeypot
+            if (!empty($form->get('website')->getData())) {
+                return new Response('OK', 200);
+            }
+
+            // 6. Timestamp validation
+            $timestamp = (int) $form->get('form_timestamp')->getData();
+            if (!$timestamp || (time() - $timestamp) < 3) {
+                return new Response('Too fast', 400);
+            }
+
+            // 7. Checksum validation
+            $checksum = $form->get('form_checksum')->getData();
+            $expected = hash('sha256', $timestamp.$_ENV['APP_SECRET']);
+            if ($checksum !== $expected) {
+                return new Response('Invalid checksum', 400);
+            }
+
+            // 8. Rate limiting
             $limiter = $contactFormLimiter->create($request->getClientIp());
-            if (false === $limiter->consume(1)->isAccepted()) {
-                $this->addFlash('error', 'Too many requests. Please try again later.');
+            if (!$limiter->consume(1)->isAccepted()) {
+                $this->addFlash('error', 'Too many requests. Try again later.');
 
                 return $this->render('@theme/info/contact.html.twig', [
                     'form' => $form,
@@ -68,20 +101,22 @@ final class InfoController extends AbstractController
                 ], new Response(null, Response::HTTP_TOO_MANY_REQUESTS));
             }
 
-            // 2. Math Challenge Verification
+            // 9. Captcha validation
             $userAnswer = $form->get('captcha_answer')->getData();
             $correctAnswer = $session->get('captcha_result');
 
             if ($userAnswer !== $correctAnswer) {
-                $form->get('captcha_answer')->addError(new FormError('Incorrect answer. Please solve the math problem correctly.'));
+                $form->get('captcha_answer')->addError(
+                    new FormError('Incorrect answer. Please solve the math problem.')
+                );
             }
 
+            // 10. Final validation
             if ($form->isValid()) {
                 $contact = $form->getData();
                 $em->persist($contact);
                 $em->flush();
 
-                // Clear captcha after success
                 $session->remove('captcha_result');
                 $session->remove('captcha_question');
 

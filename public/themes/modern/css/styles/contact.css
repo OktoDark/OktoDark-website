@@ -76,3 +76,14 @@
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(12,197,182,0.4);
 }
+
+/* No arrows at captcha */
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.no-spinner {
+    -moz-appearance: textfield;
+}
