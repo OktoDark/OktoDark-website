@@ -28,7 +28,7 @@ class ActivityService
         ?User $user,
         string $action,
         string $entityType,
-        int $entityId,
+        ?int $entityId,
         ?string $description = null,
         ?array $changes = null,
     ): ActivityLog {
@@ -48,7 +48,7 @@ class ActivityService
 
     public function getEntityActivity(string $entityType, int $entityId, int $limit = 50): array
     {
-        return $this->activityLogRepository->findByEntity($entityType, $entityId);
+        return $this->activityLogRepository->findByEntity($entityType, $entityId, $limit);
     }
 
     public function getRecentActivity(int $limit = 50): array

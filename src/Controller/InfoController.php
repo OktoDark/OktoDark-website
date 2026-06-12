@@ -50,7 +50,7 @@ final class InfoController extends AbstractController
             $ua = $request->headers->get('User-Agent');
             $ref = $request->headers->get('Referer');
 
-            if (!$ua || strlen($ua) < 10) {
+            if (!$ua || mb_strlen($ua) < 10) {
                 return new Response('Bot UA blocked', 400);
             }
 

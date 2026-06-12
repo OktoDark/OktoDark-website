@@ -107,7 +107,7 @@ class ActivityLog
         return $this->entityId;
     }
 
-    public function setEntityId(int $entityId): self
+    public function setEntityId(?int $entityId): self
     {
         $this->entityId = $entityId;
 

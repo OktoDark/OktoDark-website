@@ -4,7 +4,7 @@ framework:
     csrf_protection: true
     http_method_override: false
     handle_all_throwables: true
-    enabled_locales: ['en', 'ro']
+    enabled_locales: ['en', 'ro', 'ja', 'ko', 'de', 'fr', 'zh', 'es']
 
     session:
         handler_id: null
