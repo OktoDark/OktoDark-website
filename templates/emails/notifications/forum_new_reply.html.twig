@@ -3,9 +3,9 @@
 {% block title %}{{ 'notification.forum_new_reply.email_subject'|trans({}, 'notifications') }}{% endblock %}
 
 {% block content %}
-    <h1>Hello {{ threadAuthor.username }},</h1>
+    <h1>{{ 'notification.forum_new_reply.email_hello'|trans({'%username%': threadAuthor.username}, 'notifications') }}</h1>
 
-    <p>{{ replierUsername }} has replied to your forum thread "{{ threadTitle }}".</p>
+    <p>{{ 'notification.forum_new_reply.email_content'|trans({'%replier_username%': replierUsername, '%thread_title%': threadTitle}, 'notifications') }}</p>
 
-    <p>View the reply here: <a href="{{ linkToThread }}">{{ linkToThread }}</a></p>
+    <p>{{ 'notification.forum_new_reply.email_view_link'|trans({}, 'notifications') }} <a href="{{ linkToThread }}">{{ linkToThread }}</a></p>
 {% endblock %}

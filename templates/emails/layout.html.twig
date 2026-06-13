@@ -107,7 +107,21 @@
             background: #1f2937;
             margin: 32px 0;
         }
-        {% block extra_styles %}{% endblock %}
+        {% block extra_styles %}
+        .social-links-email {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .social-links-email a {
+            display: inline-block;
+            margin: 0 8px;
+        }
+        .social-links-email img {
+            vertical-align: middle;
+            border: 0;
+        }
+        {% endblock %}
     </style>
 </head>
 <body>
@@ -122,8 +136,65 @@
         </div>
         <div class="footer">
             {% block footer %}
-                <p>&copy; {{ "now"|date("Y") }} {{ settings.getSiteName() }}. All rights reserved.</p>
-                <p>This is an automated message, please do not reply directly to this email.</p>
+                <div style="margin:20px 0; text-align:center;">
+                    <p style="padding-bottom:15px; color:#e5e7eb; font-weight:600; font-size:14px; margin: 0;">
+                        {{ 'title.follow'|trans({}, 'footer') }}:
+                    </p>
+                    <div style="margin-top: 10px;">
+
+                        <a href="https://x.com/OktoDark" style="margin:0 8px; display:inline-block;">
+                            <img src="{{ absolute_url(asset('images/EIcons/x.png')) }}"
+                                 width="24" height="24" alt="X"
+                                 style="border:0; display:inline-block; color-scheme:light dark; supported-color-schemes:light dark; mix-blend-mode:normal;">
+                        </a>
+
+                        <a href="https://youtube.com/@OktoDark" style="margin:0 8px; display:inline-block;">
+                            <img src="{{ absolute_url(asset('images/EIcons/youtube.png')) }}"
+                                 width="24" height="24" alt="YouTube"
+                                 style="border:0; display:inline-block; color-scheme:light dark; supported-color-schemes:light dark; mix-blend-mode:normal;">
+                        </a>
+
+                        <a href="https://discord.gg/UmfZPvF" style="margin:0 8px; display:inline-block;">
+                            <img src="{{ absolute_url(asset('images/EIcons/discord.png')) }}"
+                                 width="24" height="24" alt="Discord"
+                                 style="border:0; display:inline-block; color-scheme:light dark; supported-color-schemes:light dark; mix-blend-mode:normal;">
+                        </a>
+
+                        <a href="https://twitch.tv/OktoDark" style="margin:0 8px; display:inline-block;">
+                            <img src="{{ absolute_url(asset('images/EIcons/twitch.png')) }}"
+                                 width="24" height="24" alt="Twitch"
+                                 style="border:0; display:inline-block; color-scheme:light dark; supported-color-schemes:light dark; mix-blend-mode:normal;">
+                        </a>
+
+                        <a href="https://www.patreon.com/OktoDark" style="margin:0 8px; display:inline-block;">
+                            <img src="{{ absolute_url(asset('images/EIcons/patreon.png')) }}"
+                                 width="24" height="24" alt="Patreon"
+                                 style="border:0; display:inline-block; color-scheme:light dark; supported-color-schemes:light dark; mix-blend-mode:normal;">
+                        </a>
+
+                        <a href="https://bitbucket.org/OktoDark" style="margin:0 8px; display:inline-block;">
+                            <img src="{{ absolute_url(asset('images/EIcons/bitbucket.png')) }}"
+                                 width="24" height="24" alt="Bitbucket"
+                                 style="border:0; display:inline-block; color-scheme:light dark; supported-color-schemes:light dark; mix-blend-mode:normal;">
+                        </a>
+
+                        <a href="https://gitlab.com/oktodark-studios" style="margin:0 8px; display:inline-block;">
+                            <img src="{{ absolute_url(asset('images/EIcons/gitlab.png')) }}"
+                                 width="24" height="24" alt="GitLab"
+                                 style="border:0; display:inline-block; color-scheme:light dark; supported-color-schemes:light dark; mix-blend-mode:normal;">
+                        </a>
+
+                        <a href="https://github.com/OktoDark" style="margin:0 8px; display:inline-block;">
+                            <img src="{{ absolute_url(asset('images/EIcons/github.png')) }}"
+                                 width="24" height="24" alt="GitHub"
+                                 style="border:0; display:inline-block; color-scheme:light dark; supported-color-schemes:light dark; mix-blend-mode:normal;">
+                        </a>
+
+                    </div>
+                </div>
+
+                <p style="margin-top: 20px;">&copy; {{ "now"|date("Y") }} {{ settings.getSiteName() }}. {{ 'email.layout.rights_reserved'|trans({}, 'emails') }}</p>
+                <p>{{ 'email.layout.automated_message'|trans({}, 'emails') }}</p>
             {% endblock %}
         </div>
     </div>

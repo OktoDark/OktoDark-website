@@ -2,3 +2,74 @@ email.verify.title: "Confirmă-ți adresa de email"
 email.verify.intro: "Apasă butonul de mai jos pentru a-ți verifica adresa de email."
 email.verify.button: "Confirmă-mi adresa de email"
 email.verify.footer: "Salutări,"
+
+# General Greetings
+email.greeting: "Salut %name%,"
+email.greeting_simple: "Salut!"
+email.greeting_general: "Salutare,"
+email.team: "Echipa %siteName%"
+
+# Badges
+email.badge.security_alert: "Alertă de Securitate"
+email.badge.verification: "Verificare"
+email.badge.account_security: "Securitate Cont"
+email.badge.exclusive_invitation: "Invitație Exclusivă"
+
+# Layout
+email.layout.rights_reserved: "Toate drepturile rezervate."
+email.layout.automated_message: "Acesta este un mesaj automat, te rugăm să nu răspunzi direct la acest email."
+
+# Failed Login Alert
+email.failed_login.subject: "Tentative Multiple de Conectare Eșuate"
+email.failed_login.h1: "S-au detectat tentative multiple de conectare eșuate!"
+email.failed_login.body_intro: "Am detectat mai multe tentative de conectare nereușite la contul tău (%email%)."
+email.failed_login.body_counts: "Au fost înregistrate %attempts% tentative eșuate într-o perioadă scurtă. Această activitate a fost detectată la %date%."
+email.failed_login.details: "Detalii despre ultima tentativă:"
+email.failed_login.advice: "Dacă ai fost tu, te rugăm să te asiguri că folosești parola corectă. Dacă nu ai încercat să te conectezi, îți recomandăm să îți schimbi parola imediat și să îți revizuiești activitatea contului."
+email.failed_login.button: "Revizuiește Setările de Securitate"
+email.failed_login.footer_sign: "Rămâi în siguranță,"
+
+# Login Alert
+email.login_alert.subject: "Alertă de Securitate"
+email.login_alert.h1: "Conectare nouă detectată"
+email.login_alert.body_intro: "Am detectat o conectare reușită la contul tău %siteName% de pe un dispozitiv nou sau dintr-o locație nouă."
+email.login_alert.advice_ok: "Dacă ai fost tu, poți ignora acest email în siguranță. Nu este necesară nicio altă acțiune."
+email.login_alert.advice_not: "Nu ai fost tu? Îți recomandăm să îți schimbi parola imediat și să îți revizuiești sesiunile active pentru a-ți securiza contul."
+email.login_alert.button: "Securizează contul meu"
+email.login_alert.received_reason: "Ai primit acest mesaj deoarece alertele de conectare sunt activate pentru contul tău."
+email.login_alert.manage_settings: "Gestionează setările de alertă"
+
+# Details
+email.details.time: "Timp:"
+email.details.ip: "Adresă IP:"
+email.details.location: "Locație:"
+email.details.user_agent: "User Agent:"
+email.details.device: "Dispozitiv:"
+
+# Login Code Verification
+email.login_code.subject: "Verificare Conectare"
+email.login_code.h1: "Verifică-ți conectarea"
+email.login_code.body_intro: "Pentru a finaliza conectarea la %siteName%, te rugăm să introduci următorul cod de verificare:"
+email.login_code.expiry_note: "Acest cod expiră în 5 minute."
+email.login_code.advice: "Dacă nu ai solicitat acest cod, poți ignora acest email în siguranță. Este posibil ca cineva să fi introdus adresa ta de email din greșeală."
+email.login_code.button: "Verifică Conectarea"
+email.login_code.warning: "Pentru securitatea ta, nu dezvălui niciodată acest cod nimănui."
+
+# Reset Password
+email.reset.subject: "Resetează-ți Parola"
+email.reset.h1: "Solicitare de Resetare Parolă"
+email.reset.body_intro: "Am primit o solicitare de resetare a parolei pentru contul tău %siteName%. Dacă nu ai făcut această solicitare, poți ignora acest email în siguranță."
+email.reset.body_link: "Pentru a alege o nouă parolă și a recăpăta accesul la cont, te rugăm să apeși butonul de mai jos:"
+email.reset.button: "Resetează Parola"
+email.reset.expiry: "Acest link va expira în %hours% ore."
+email.reset.backup_url: "Dacă butonul de mai sus nu funcționează, copiază și inserează următorul URL în browser-ul tău:"
+email.reset.footer_sign: "Securitate maximă,"
+
+# Claim Invitation
+email.invite.subject: "Ești invitat!"
+email.invite.h1: "Bun venit în cercul nostru"
+email.invite.body_intro: "Suntem încântați să te informăm că ai fost invitat să te alături %siteName%. Am analizat lista noastră de așteptare, iar locul tău este acum pregătit."
+email.invite.claim: "Acum îți poți înregistra contul folosind link-ul unic de mai jos. Această invitație este doar pentru tine, așa că te rugăm să nu o distribui."
+email.invite.button: "Revendică-mi Invitația"
+email.invite.next_steps: "Odată înregistrat, vei avea acces deplin la platforma și comunitatea noastră. Suntem încântați să vedem ce aduci nou!"
+email.invite.questions: "Dacă ai întrebări, nu ezita să contactezi echipa noastră de asistență."

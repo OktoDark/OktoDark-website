@@ -3,9 +3,9 @@
 {% block title %}{{ 'notification.new_follower.email_subject'|trans({}, 'notifications') }}{% endblock %}
 
 {% block content %}
-    <h1>Hello {{ followedUser.username }},</h1>
+    <h1>{{ 'notification.new_follower.email_hello'|trans({'%username%': followedUser.username}, 'notifications') }}</h1>
 
-    <p>{{ followerUsername }} is now following you on OktoDark Studios.</p>
+    <p>{{ 'notification.new_follower.email_content'|trans({'%follower_username%': followerUsername}, 'notifications') }}</p>
 
-    <p>Check out their profile here: <a href="{{ followedUserLink }}">{{ followedUserLink }}</a></p>
+    <p>{{ 'notification.new_follower.email_profile_link'|trans({}, 'notifications') }} <a href="{{ followedUserLink }}">{{ followedUserLink }}</a></p>
 {% endblock %}

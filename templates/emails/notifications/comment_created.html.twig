@@ -3,9 +3,9 @@
 {% block title %}{{ 'notification.comment_created.email_subject'|trans({}, 'notifications') }}{% endblock %}
 
 {% block content %}
-    <h1>Hello {{ author.username }},</h1>
+    <h1>{{ 'notification.comment_created.email_hello'|trans({'%username%': author.username}, 'notifications') }}</h1>
 
-    <p>Your post "{{ postTitle }}" has a new comment from {{ commentAuthor.username }}.</p>
+    <p>{{ 'notification.comment_created.email_content'|trans({'%post_title%': postTitle, '%comment_author%': commentAuthor.username}, 'notifications') }}</p>
 
-    <p>Read the comment here: <a href="{{ linkToPost }}">{{ linkToPost }}</a></p>
+    <p>{{ 'notification.comment_created.email_read_link'|trans({}, 'notifications') }} <a href="{{ linkToPost }}">{{ linkToPost }}</a></p>
 {% endblock %}

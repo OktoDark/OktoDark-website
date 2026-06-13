@@ -2,3 +2,74 @@ email.verify.title: "Confirm your email"
 email.verify.intro: "Click the button below to verify your email address."
 email.verify.button: "Confirm my Email"
 email.verify.footer: "Cheers,"
+
+# General Greetings
+email.greeting: "Hello %name%,"
+email.greeting_simple: "Hi!"
+email.greeting_general: "Hello there,"
+email.team: "The %siteName% Team"
+
+# Badges
+email.badge.security_alert: "Security Alert"
+email.badge.verification: "Verification"
+email.badge.account_security: "Account Security"
+email.badge.exclusive_invitation: "Exclusive Invitation"
+
+# Layout
+email.layout.rights_reserved: "All rights reserved."
+email.layout.automated_message: "This is an automated message, please do not reply directly to this email."
+
+# Failed Login Alert
+email.failed_login.subject: "Multiple Failed Login Attempts"
+email.failed_login.h1: "Multiple Failed Login Attempts Detected!"
+email.failed_login.body_intro: "We've detected multiple failed login attempts to your account (%email%)."
+email.failed_login.body_counts: "There have been %attempts% failed attempts within a short period. This activity was detected at %date%."
+email.failed_login.details: "Details of the last attempt:"
+email.failed_login.advice: "If this was you, please ensure you are using the correct password. If you did not attempt to log in, we recommend changing your password immediately and reviewing your account activity."
+email.failed_login.button: "Review Security Settings"
+email.failed_login.footer_sign: "Stay safe,"
+
+# Login Alert
+email.login_alert.subject: "Security Alert"
+email.login_alert.h1: "New login detected"
+email.login_alert.body_intro: "We've detected a successful login to your %siteName% account from a new device or location."
+email.login_alert.advice_ok: "If this was you, you can safely ignore this email. No further action is required."
+email.login_alert.advice_not: "Wasn't you? We recommend changing your password immediately and reviewing your active sessions to secure your account."
+email.login_alert.button: "Secure My Account"
+email.login_alert.received_reason: "You received this because login alerts are enabled for your account."
+email.login_alert.manage_settings: "Manage Alert Settings"
+
+# Details
+email.details.time: "Time:"
+email.details.ip: "IP Address:"
+email.details.location: "Location:"
+email.details.user_agent: "User Agent:"
+email.details.device: "Device:"
+
+# Login Code Verification
+email.login_code.subject: "Login Verification"
+email.login_code.h1: "Verify your login"
+email.login_code.body_intro: "To complete your login to %siteName%, please enter the following verification code:"
+email.login_code.expiry_note: "This code expires in 5 minutes."
+email.login_code.advice: "If you didn't request this code, you can safely ignore this email. Someone might have entered your email address by mistake."
+email.login_code.button: "Verify Login"
+email.login_code.warning: "For your security, never share this code with anyone."
+
+# Reset Password
+email.reset.subject: "Reset Your Password"
+email.reset.h1: "Password Reset Request"
+email.reset.body_intro: "We received a request to reset the password for your %siteName% account. If you didn't make this request, you can safely ignore this email."
+email.reset.body_link: "To choose a new password and regain access to your account, please click the button below:"
+email.reset.button: "Reset Password"
+email.reset.expiry: "This link will expire in %hours% hour(s)."
+email.reset.backup_url: "If the button above doesn't work, copy and paste the following URL into your browser:"
+email.reset.footer_sign: "Stay secure,"
+
+# Claim Invitation
+email.invite.subject: "You're Invited!"
+email.invite.h1: "Welcome to the inner circle"
+email.invite.body_intro: "We're thrilled to inform you that you've been invited to join %siteName%. We've been reviewing our waitlist, and your spot is now ready."
+email.invite.claim: "You can now register your account using the unique link below. This invitation is for you only, so please don't share it."
+email.invite.button: "Claim My Invite"
+email.invite.next_steps: "Once registered, you'll have full access to our platform and community. We're excited to see what you bring to the table!"
+email.invite.questions: "If you have any questions, feel free to reach out to our support team."

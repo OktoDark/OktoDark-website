@@ -1,9 +1,9 @@
 {% extends 'emails/layout.html.twig' %}
 
-{% block title %}Security Alert – {{ settings.getSiteName() }}{% endblock %}
+{% block title %}{{ 'email.login_alert.subject'|trans({}, 'emails') }} – {{ settings.getSiteName() }}{% endblock %}
 
 {% block badge %}
-    <div class="badge">Security Alert</div>
+    <div class="badge">{{ 'email.badge.security_alert'|trans({}, 'emails') }}</div>
 {% endblock %}
 
 {% block extra_styles %}
@@ -34,40 +34,40 @@
 {% endblock %}
 
 {% block content %}
-    <h1>New login detected</h1>
-    <p>Hi {{ user.username }},</p>
-    <p>We've detected a successful login to your <strong>{{ settings.getSiteName() }}</strong> account from a new device or location.</p>
+    <h1>{{ 'email.login_alert.h1'|trans({}, 'emails') }}</h1>
+    <p>{{ 'email.greeting'|trans({'%name%': user.username}, 'emails') }}</p>
+    <p>{{ 'email.login_alert.body_intro'|trans({'%siteName%': '<strong>' ~ settings.getSiteName() ~ '</strong>'}, 'emails')|raw }}</p>
 
     <div class="meta">
         <div class="meta-row">
-            <span class="meta-label">Time: </span>
+            <span class="meta-label">{{ 'email.details.time'|trans({}, 'emails') }} </span>
             <span class="meta-value">{{ loggedAt|date('Y-m-d H:i:s') }}</span>
         </div>
         <div class="meta-row">
-            <span class="meta-label">IP Address: </span>
+            <span class="meta-label">{{ 'email.details.ip'|trans({}, 'emails') }} </span>
             <span class="meta-value">{{ ip }}</span>
         </div>
         <div class="meta-row">
-            <span class="meta-label">Location: </span>
+            <span class="meta-label">{{ 'email.details.location'|trans({}, 'emails') }} </span>
             <span class="meta-value">{{ location ?? 'Unknown' }}</span>
         </div>
         <div class="meta-row">
-            <span class="meta-label">Device: </span>
+            <span class="meta-label">{{ 'email.details.device'|trans({}, 'emails') }} </span>
             <span class="meta-value">{{ userAgent }}</span>
         </div>
     </div>
 
-    <p>If this was you, you can safely ignore this email. No further action is required.</p>
-    <p><strong>Wasn't you?</strong> We recommend changing your password immediately and reviewing your active sessions to secure your account.</p>
+    <p>{{ 'email.login_alert.advice_ok'|trans({}, 'emails') }}</p>
+    <p>{{ 'email.login_alert.advice_not'|trans({}, 'emails')|raw }}</p>
 
     <div class="cta-container">
-        <a href="{{ url('settings_area', { tab: 'security' }) }}" class="cta-button">Secure My Account</a>
+        <a href="{{ url('settings_area', { tab: 'security' }) }}" class="cta-button">{{ 'email.login_alert.button'|trans({}, 'emails') }}</a>
     </div>
 {% endblock %}
 
 {% block footer %}
     {{ parent() }}
-    <p>You received this because login alerts are enabled for your account. 
-       <a href="{{ url('settings_area', { tab: 'security' }) }}">Manage Alert Settings</a>
+    <p>{{ 'email.login_alert.received_reason'|trans({}, 'emails') }} 
+       <a href="{{ url('settings_area', { tab: 'security' }) }}">{{ 'email.login_alert.manage_settings'|trans({}, 'emails') }}</a>
     </p>
 {% endblock %}

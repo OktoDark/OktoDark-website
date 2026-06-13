@@ -1,26 +1,26 @@
 {% extends 'emails/layout.html.twig' %}
 
-{% block title %}You're Invited! – {{ settings.getSiteName() }}{% endblock %}
+{% block title %}{{ 'email.invite.subject'|trans({}, 'emails') }} – {{ settings.getSiteName() }}{% endblock %}
 
 {% block badge %}
-    <div class="badge">Exclusive Invitation</div>
+    <div class="badge">{{ 'email.badge.exclusive_invitation'|trans({}, 'emails') }}</div>
 {% endblock %}
 
 {% block content %}
-    <h1>Welcome to the inner circle</h1>
-    <p>Hello there,</p>
-    <p>We're thrilled to inform you that you've been invited to join <strong>{{ settings.getSiteName() }}</strong>. We've been reviewing our waitlist, and your spot is now ready.</p>
+    <h1>{{ 'email.invite.h1'|trans({}, 'emails') }}</h1>
+    <p>{{ 'email.greeting_general'|trans({}, 'emails') }}</p>
+    <p>{{ 'email.invite.body_intro'|trans({'%siteName%': '<strong>' ~ settings.getSiteName() ~ '</strong>'}, 'emails')|raw }}</p>
     
-    <p>You can now register your account using the unique link below. This invitation is for you only, so please don't share it.</p>
+    <p>{{ 'email.invite.claim'|trans({}, 'emails') }}</p>
 
     <div class="cta-container">
-        <a href="{{ url('app_register') }}" class="cta-button">Claim My Invite</a>
+        <a href="{{ url('app_register') }}" class="cta-button">{{ 'email.invite.button'|trans({}, 'emails') }}</a>
     </div>
 
-    <p>Once registered, you'll have full access to our platform and community. We're excited to see what you bring to the table!</p>
+    <p>{{ 'email.invite.next_steps'|trans({}, 'emails') }}</p>
 
-    <p>If you have any questions, feel free to reach out to our support team.</p>
+    <p>{{ 'email.invite.questions'|trans({}, 'emails') }}</p>
     
-    <p>Best regards,<br>
-    <strong>The {{ settings.getSiteName() }} Team</strong></p>
+    <p>{{ 'email.verify.footer'|trans({}, 'emails') }}<br>
+    <strong>{{ 'email.team'|trans({'%siteName%': settings.getSiteName()}, 'emails') }}</strong></p>
 {% endblock %}

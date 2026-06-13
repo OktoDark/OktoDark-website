@@ -1,9 +1,9 @@
 {% extends 'emails/layout.html.twig' %}
 
-{% block title %}Login Verification – {{ settings.getSiteName() }}{% endblock %}
+{% block title %}{{ 'email.login_code.subject'|trans({}, 'emails') }} – {{ settings.getSiteName() }}{% endblock %}
 
 {% block badge %}
-    <div class="badge">Verification</div>
+    <div class="badge">{{ 'email.badge.verification'|trans({}, 'emails') }}</div>
 {% endblock %}
 
 {% block extra_styles %}
@@ -31,23 +31,23 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Verify your login</h1>
-    <p>Hi {{ user.username }},</p>
-    <p>To complete your login to <strong>{{ settings.getSiteName() }}</strong>, please enter the following verification code:</p>
+    <h1>{{ 'email.login_code.h1'|trans({}, 'emails') }}</h1>
+    <p>{{ 'email.greeting'|trans({'%name%': user.username}, 'emails') }}</p>
+    <p>{{ 'email.login_code.body_intro'|trans({'%siteName%': '<strong>' ~ settings.getSiteName() ~ '</strong>'}, 'emails')|raw }}</p>
 
     <div class="code-container">
         <p class="code-value">{{ code }}</p>
-        <p class="expiry-note">This code expires in 5 minutes.</p>
+        <p class="expiry-note">{{ 'email.login_code.expiry_note'|trans({}, 'emails') }}</p>
     </div>
 
-    <p>If you didn't request this code, you can safely ignore this email. Someone might have entered your email address by mistake.</p>
+    <p>{{ 'email.login_code.advice'|trans({}, 'emails') }}</p>
 
     <div class="cta-container">
-        <a href="{{ url('login_2fa_verify') }}" class="cta-button">Verify Login</a>
+        <a href="{{ url('login_2fa_verify') }}" class="cta-button">{{ 'email.login_code.button'|trans({}, 'emails') }}</a>
     </div>
 {% endblock %}
 
 {% block footer %}
     {{ parent() }}
-    <p>For your security, never share this code with anyone.</p>
+    <p>{{ 'email.login_code.warning'|trans({}, 'emails') }}</p>
 {% endblock %}
