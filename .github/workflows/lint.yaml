@@ -45,6 +45,7 @@ jobs:
                   tools: composer:v2
 
             - name: "Composer install"
+              id: install
               run: composer install --ansi --no-interaction --no-progress
 
             - name: Lint YAML files
