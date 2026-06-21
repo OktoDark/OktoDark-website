@@ -60,7 +60,7 @@ jobs:
               run: composer install --ansi --no-interaction --no-progress --prefer-dist
 
             - name: "Require symfony/flex"
-              run: composer require --no-progress --no-scripts --no-plugins symfony/flex
+              run: composer require symfony/flex --no-progress --no-scripts --no-plugins
 
             - name: "Run tests"
               run: vendor/bin/phpunit

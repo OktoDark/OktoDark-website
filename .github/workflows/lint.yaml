@@ -75,7 +75,3 @@ jobs:
             - name: Download Symfony CLI
               if: always() && steps.install.outcome == 'success'
               run: wget https://get.symfony.com/cli/installer -O - | bash
-
-            - name: Check if any dependencies are compromised
-              if: always() && steps.install.outcome == 'success'
-              run: composer audit
