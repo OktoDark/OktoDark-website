@@ -14,13 +14,13 @@ namespace App\Controller\Forum;
 use App\Entity\User;
 use App\Repository\ForumPostRepository;
 use App\Repository\ForumThreadRepository;
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/forum/feed')]
-#[IsGranted('ROLE_USER')]
+#[Permission('forum.use.feed', group: 'Forum', label: 'Use feed features')]
 final class ForumFeedController extends AbstractController
 {
     #[Route('', name: 'forum_feed', methods: ['GET'])]

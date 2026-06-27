@@ -13,6 +13,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Contact;
 use App\Repository\ContactRepository;
+use App\Security\Attribute\Permission;
 use App\Service\EmailIdentityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +25,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/contact')]
-#[IsGranted('ROLE_ADMIN')]
+#[Permission('admin.contact.index', group: 'Admin', label: 'View Contact')]
 class AdminContactController extends AbstractController
 {
     #[Route('/', name: 'admin_contact_index', methods: ['GET'])]

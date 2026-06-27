@@ -13,6 +13,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\CommandJob;
 use App\Message\CommandJobMessage;
+use App\Security\Attribute\Permission;
 use App\Service\CommandRunner;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,6 +24,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/tools'), IsGranted('ROLE_ADMIN')]
+#[Permission('admin.tools.index', group: 'Admin', label: 'View Tools')]
 final class AdminToolsController extends AbstractController
 {
     public function __construct(

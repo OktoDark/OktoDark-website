@@ -80,6 +80,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         'showEmail' => false,
         'showLocation' => true,
         'showSocialLinks' => true,
+        'showRoles' => true,
     ];
 
     #[ORM\Column(type: Types::BOOLEAN)]
@@ -90,9 +91,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $agreedTerms = null;
-
-    #[ORM\Column(type: Types::JSON)]
-    private array $roles = [];
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $lastLoginAt = null;
@@ -184,6 +182,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user', cascade: ['remove'], orphanRemoval: true)]
     private Collection $notifications;
 
+    // ---------------------------------------------------------
+    // PURE DB ROLE SYSTEM (ManyToMany)
+    // ---------------------------------------------------------
+    #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
+    #[ORM\JoinTable(name: 'user_role')]
+    private Collection $roleEntities;
+
     public function __construct()
     {
         $this->trustedDevices = new ArrayCollection();
@@ -201,6 +206,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->assignedBugs = new ArrayCollection();
         $this->activityLogs = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->roleEntities = new ArrayCollection();
         $this->createdAt = new \DateTime();
     }
 
@@ -209,16 +215,71 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return (string) $this->email;
     }
 
+    // ---------------------------------------------------------
+    // PURE DB ROLES ONLY
+    // ---------------------------------------------------------
     public function getRoles(): array
     {
-        $roles = $this->roles;
+        $roles = ['ROLE_USER'];
 
-        if (empty($roles)) {
-            $roles[] = self::ROLE_USER;
+        foreach ($this->roleEntities as $roleEntity) {
+            $roles[] = $roleEntity->getName();
         }
 
         return array_unique($roles);
     }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roleEntities->clear();
+
+        foreach ($roles as $role) {
+            if ($role instanceof Role) {
+                $this->addRoleEntity($role);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRoleByName(string $name): ?Role
+    {
+        foreach ($this->roleEntities as $role) {
+            if ($role->getName() === $name) {
+                return $role;
+            }
+        }
+
+        return null;
+    }
+
+    public function getRoleEntities(): Collection
+    {
+        return $this->roleEntities;
+    }
+
+    public function addRoleEntity(Role $role): self
+    {
+        if (!$this->roleEntities->contains($role)) {
+            $this->roleEntities->add($role);
+            $role->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoleEntity(Role $role): self
+    {
+        if ($this->roleEntities->removeElement($role)) {
+            $role->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    // ---------------------------------------------------------
+    // REST OF ORIGINAL USER ENTITY
+    // ---------------------------------------------------------
 
     public function eraseCredentials(): void
     {
@@ -485,18 +546,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
-
-        return $this;
-    }
-
-    public function getRolesRaw(): array
-    {
-        return $this->roles;
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
 
         return $this;
     }

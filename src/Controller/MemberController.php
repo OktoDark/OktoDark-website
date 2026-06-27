@@ -22,6 +22,7 @@ use App\Form\ProfileType;
 use App\Form\SecuritySettingsType;
 use App\Repository\AccountActivityRepository;
 use App\Repository\OurGamesRepository;
+use App\Security\Attribute\Permission;
 use App\Service\SocialLinkParser;
 use App\Service\TrustedDeviceService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,14 +33,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\Cache;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/member')]
 final class MemberController extends AbstractController
 {
     #[Route('/', name: 'member_area', methods: ['GET'])]
     #[Cache(smaxage: 10)]
-    #[IsGranted('IS_AUTHENTICATED_REMEMBERED')]
+    #[Permission('member.view.area', group: 'Member', label: 'View member area')]
     public function member(OurGamesRepository $ourGames): Response
     {
         return $this->render('@theme/member/member.html.twig', [
@@ -48,7 +48,7 @@ final class MemberController extends AbstractController
     }
 
     #[Route('/play_online', name: 'play_online', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Permission('member.play_online', group: 'Member', label: 'Play online')]
     public function memberGames(OurGamesRepository $ourGames): Response
     {
         $games = $ourGames->findAll();
@@ -60,7 +60,7 @@ final class MemberController extends AbstractController
     }
 
     #[Route('/settings', name: 'settings_area', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Permission('member.settings', group: 'Member', label: 'View member settings')]
     public function settings(
         Request $request,
         EntityManagerInterface $em,
@@ -244,6 +244,7 @@ final class MemberController extends AbstractController
     }
 
     #[Route('/settings/activity/clear', name: 'settings_activity_clear', methods: ['POST'])]
+    #[Permission('member.activity.clear', group: 'Member', label: 'Activity Clear')]
     public function clearActivity(
         AccountActivityRepository $repo,
     ): Response {

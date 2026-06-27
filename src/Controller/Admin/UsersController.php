@@ -12,7 +12,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Entity\Role;
 use App\Repository\BadgeRepository;
+use App\Repository\RoleRepository;
 use App\Service\TrustedDeviceService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +26,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class UsersController extends AbstractController
 {
     #[Route('', name: 'admin_users')]
-    public function index(Request $request, EntityManagerInterface $em, BadgeRepository $badgeRepo): Response
+    public function index(Request $request, EntityManagerInterface $em, BadgeRepository $badgeRepo, RoleRepository $roleRepo): Response
     {
         $userRepo = $em->getRepository(User::class);
 
@@ -48,7 +50,15 @@ class UsersController extends AbstractController
 
             // Roles (array)
             $roles = $request->request->all('roles') ?? [];
-            $user->setRoles($roles);
+            $roleEntities = [];
+            $roleRepo = $em->getRepository(Role::class);
+            foreach ($roles as $roleName) {
+                $role = $roleRepo->findOneBy(['name' => $roleName]);
+                if ($role) {
+                    $roleEntities[] = $role;
+                }
+            }
+            $user->setRoles($roleEntities);
 
             // Badges (array)
             $selectedBadgeIds = $request->request->all('badges') ?? [];
@@ -97,6 +107,32 @@ class UsersController extends AbstractController
         return $this->render('@theme/admin/users.html.twig', [
             'users' => $userRepo->findAll(),
             'allBadges' => $badgeRepo->findAll(),
+            'allRoles' => $roleRepo->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}/roles', name: 'admin_user_roles')]
+    public function userRoles(User $user, RoleRepository $repo, Request $request, EntityManagerInterface $em): Response
+    {
+        $roles = $repo->findAll();
+
+        if ($request->isMethod('POST')) {
+            $user->getRoleEntities()->clear();
+
+            foreach ($roles as $role) {
+                if ('1' === $request->request->get('role_'.$role->getId())) {
+                    $user->addRoleEntity($role);
+                }
+            }
+
+            $em->flush();
+
+            return $this->redirectToRoute('admin_user_roles', ['id' => $user->getId()]);
+        }
+
+        return $this->render('admin/users/roles.html.twig', [
+            'user' => $user,
+            'roles' => $roles,
         ]);
     }
 

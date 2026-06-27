@@ -15,16 +15,16 @@ use App\Entity\ForumThread;
 use App\Entity\User;
 use App\Repository\ForumCategoryRepository;
 use App\Repository\ForumThreadRepository;
+use App\Security\Attribute\Permission;
 use App\Service\ForumModeratorActionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/forum/thread')]
-#[IsGranted('ROLE_ADMIN')]
+#[Permission('admin.forum.threads.index', group: 'Admin', label: 'View forum threads')]
 final class ThreadController extends AbstractController
 {
     public function __construct(

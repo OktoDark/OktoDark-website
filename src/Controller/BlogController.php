@@ -19,6 +19,7 @@ use App\Form\CommentType;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Repository\TagRepository;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,6 +34,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/blog')]
+#[Permission('blog.view', group: 'Blog', label: 'View blog posts')]
 final class BlogController extends AbstractController
 {
     public function __construct(private ParameterBagInterface $parameterBag)
@@ -42,7 +44,7 @@ final class BlogController extends AbstractController
     #[Route('/', name: 'blog', defaults: ['page' => 1, '_format' => 'html'], methods: ['GET'])]
     #[Route('/rss.xml', name: 'blog_rss', defaults: ['page' => 1, '_format' => 'xml'], methods: ['GET'])]
     #[Route('/page/{page<[1-9]\d*>}', name: 'blog_index_paginated', defaults: ['_format' => 'html'], methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Permission('blog.view', group: 'Blog', label: 'View blog posts')]
     #[Cache(smaxage: 10)]
     public function index(
         Request $request,
@@ -66,7 +68,7 @@ final class BlogController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_USER')]
+    #[Permission('blog.view.post', group: 'Blog', label: 'View blog posts')]
     #[Route('/posts/{slug}', name: 'blog_post', methods: ['GET'])]
     public function postShow(
         #[MapEntity(mapping: ['slug' => 'slug'])] Post $post,
@@ -79,7 +81,7 @@ final class BlogController extends AbstractController
     }
 
     #[Route('/new', name: 'blog_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
+    #[Permission('blog.create.post', group: 'Blog', label: 'Create blog posts')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         /** @var User $user */
@@ -126,7 +128,7 @@ final class BlogController extends AbstractController
     }
 
     #[Route('/edit/{slug}', name: 'blog_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
+    #[Permission('blog.edit.post', group: 'Blog', label: 'Edit blog posts')]
     public function edit(
         #[MapEntity(mapping: ['slug' => 'slug'])] Post $post,
         Request $request,
@@ -182,7 +184,7 @@ final class BlogController extends AbstractController
     }
 
     #[Route('/delete/{slug}', name: 'blog_delete', methods: ['POST', 'GET'])]
-    #[IsGranted('ROLE_ADMIN')]
+    #[Permission('blog.delete.post', group: 'Blog', label: 'Delete blog posts')]
     public function delete(
         #[MapEntity(mapping: ['slug' => 'slug'])] Post $post,
         EntityManagerInterface $em,
@@ -202,7 +204,7 @@ final class BlogController extends AbstractController
     }
 
     #[Route('/comment/{postSlug}/new', name: 'comment_new', methods: ['POST'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[Permission('blog.comment', group: 'Blog', label: 'Comment on blog posts')]
     public function commentNew(
         string $postSlug,
         Request $request,
@@ -254,6 +256,7 @@ final class BlogController extends AbstractController
     }
 
     #[Route('/search', name: 'blog_search', methods: ['GET'])]
+    #[Permission('blog.search', group: 'Blog', label: 'Search blog posts')]
     public function search(Request $request, PostRepository $posts): Response
     {
         $query = (string) $request->query->get('q', '');

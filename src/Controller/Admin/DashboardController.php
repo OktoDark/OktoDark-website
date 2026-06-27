@@ -21,6 +21,7 @@ use App\Repository\NewsRepository;
 use App\Repository\RegistrationWaitlistRepository;
 use App\Repository\ServicesRepository;
 use App\Repository\UserRepository;
+use App\Security\Attribute\Permission;
 use App\Service\SettingsProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +31,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMIN')]
+#[Permission('admin.dashboard.index', group: 'Admin', label: 'View Dashboard')]
 class DashboardController extends AbstractController
 {
     public function __construct(

@@ -14,15 +14,15 @@ namespace App\Controller\Forum;
 use App\Entity\ForumPollOption;
 use App\Entity\ForumPollVote;
 use App\Entity\User;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/forum/poll')]
-#[IsGranted('ROLE_USER')]
+#[Permission('forum.use.vote', group: 'Forum', label: 'Use vote features')]
 final class ForumPollController extends AbstractController
 {
     #[Route('/vote/{id}', name: 'forum_poll_vote', methods: ['POST'])]

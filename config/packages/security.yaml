@@ -47,11 +47,25 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: '^/[a-z]{2}/login', roles: PUBLIC_ACCESS }
-        - { path: '^/[a-z]{2}/admin', roles: ROLE_ADMIN }
+        - { path: '^/[a-z]{2}/register', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/reset-password', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/verify/email', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/member/profile/[A-Za-z0-9._-]+$', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/live-users$', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/blog', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/forum', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/games', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/careers', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/supportus', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/contact', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/streaming', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/mods', roles: PUBLIC_ACCESS }
+        - { path: '^/[a-z]{2}/info', roles: PUBLIC_ACCESS }
         - { path: '^/[a-z]{2}/member', roles: ROLE_USER }
+        - { path: '^/[a-z]{2}/admin', roles: ROLE_USER }
 
     role_hierarchy:
-        ROLE_ADMIN: [ROLE_USER]
+        ROLE_SUPER_ADMIN: [ ROLE_ADMIN ]
 
 when@test:
     # this configuration simplifies testing URLs protected by the security mechanism

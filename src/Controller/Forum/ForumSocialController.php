@@ -14,6 +14,7 @@ namespace App\Controller\Forum;
 use App\Entity\ForumThread;
 use App\Entity\Notification;
 use App\Entity\User;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,11 +22,10 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/forum/social')]
-#[IsGranted('ROLE_USER')]
+#[Permission('forum.use.social', group: 'Forum', label: 'Use social features')]
 final class ForumSocialController extends AbstractController
 {
     public function __construct(

@@ -12,13 +12,13 @@
 namespace App\Controller\Admin\Forum;
 
 use App\Repository\ForumModerationLogRepository;
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/forum/moderation-logs')]
-#[IsGranted('ROLE_ADMIN')]
+#[Permission('admin.forum.moderation-logs.index', group: 'Admin', label: 'View forum moderation logs')]
 final class ModerationLogController extends AbstractController
 {
     public function __construct(

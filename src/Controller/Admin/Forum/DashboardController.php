@@ -19,15 +19,15 @@ use App\Repository\ForumModerationLogRepository;
 use App\Repository\ForumPostRepository;
 use App\Repository\ForumThreadRepository;
 use App\Repository\UserRepository;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/forum')]
-#[IsGranted('ROLE_ADMIN')]
+#[Permission('admin.forum.index', group: 'Admin', label: 'View forum')]
 final class DashboardController extends AbstractController
 {
     public function __construct(

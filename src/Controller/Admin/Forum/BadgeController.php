@@ -13,15 +13,15 @@ namespace App\Controller\Admin\Forum;
 
 use App\Entity\Badge;
 use App\Repository\BadgeRepository;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/forum/badges')]
-#[IsGranted('ROLE_ADMIN')]
+#[Permission('admin.forum.badges.index', group: 'Admin', label: 'View Forum Badges')]
 final class BadgeController extends AbstractController
 {
     public function __construct(

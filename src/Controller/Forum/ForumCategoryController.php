@@ -18,6 +18,7 @@ use App\Repository\ForumCategoryRepository;
 use App\Repository\ForumPostRepository;
 use App\Repository\ForumThreadRepository;
 use App\Repository\UserRepository;
+use App\Security\Attribute\Permission;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class ForumCategoryController extends AbstractController
 {
     #[Route('', name: 'forum', methods: ['GET'])]
+    #[Permission('forum.index', group: 'Forum', label: 'View forum')]
     public function index(
         ForumCategoryRepository $categoryRepository,
         ForumThreadRepository $threadRepository,

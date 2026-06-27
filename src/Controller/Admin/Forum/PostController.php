@@ -14,16 +14,16 @@ namespace App\Controller\Admin\Forum;
 use App\Entity\ForumPost;
 use App\Entity\User;
 use App\Repository\ForumPostRepository;
+use App\Security\Attribute\Permission;
 use App\Service\ForumModeratorActionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/forum/post')]
-#[IsGranted('ROLE_ADMIN')]
+#[Permission('admin.forum.posts.index', group: 'Admin', label: 'View forum posts')]
 final class PostController extends AbstractController
 {
     public function __construct(

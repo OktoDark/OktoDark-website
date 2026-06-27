@@ -14,8 +14,9 @@ namespace App\Controller\Forum;
 use App\Entity\ForumPost;
 use App\Entity\ForumReaction;
 use App\Entity\User;
-use App\Form\ForumPostType;
+use App\Form\Forum\ForumPostType;
 use App\Repository\ForumReactionRepository;
+use App\Security\Attribute\Permission;
 use App\Service\BadgeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +26,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/forum/post')]
-#[IsGranted('ROLE_USER')]
+#[Permission('forum.use.post', group: 'Forum', label: 'Use post features')]
 final class ForumPostController extends AbstractController
 {
     #[Route('/edit/{id}', name: 'forum_post_edit', methods: ['GET', 'POST'])]

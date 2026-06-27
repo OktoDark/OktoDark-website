@@ -13,6 +13,7 @@ namespace App\Controller\Admin;
 
 use App\Repository\AnalyticsSessionRepository;
 use App\Repository\RegistrationWaitlistRepository;
+use App\Security\Attribute\Permission;
 use App\Service\SettingsProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +26,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/system')]
-#[IsGranted('ROLE_ADMIN')]
+#[Permission('admin.system', group: 'Admin', label: 'View System')]
 final class AdminSystemController extends AbstractController
 {
     public function __construct(

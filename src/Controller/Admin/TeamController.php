@@ -12,6 +12,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Team;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/team')]
+#[Permission('admin.team.index', group: 'Admin', label: 'View Team')]
 class TeamController extends AbstractController
 {
     #[Route('', name: 'admin_team')]

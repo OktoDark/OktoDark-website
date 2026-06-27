@@ -17,6 +17,7 @@ use App\Entity\OurGames;
 use App\Entity\User;
 use App\Form\OurGamesType;
 use App\Repository\OurGamesRepository;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -33,7 +34,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/our-games')]
-#[IsGranted('ROLE_ADMIN')]
+#[Permission('admin.our_games.index', group: 'Admin', label: 'View Our Games')]
 class AdminOurGamesController extends AbstractController
 {
     private $slugger;

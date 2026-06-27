@@ -12,8 +12,9 @@
 namespace App\Controller\Admin\Forum;
 
 use App\Entity\ForumCategory;
-use App\Form\ForumCategoryType;
+use App\Form\Forum\ForumCategoryType;
 use App\Repository\ForumCategoryRepository;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[Route('/admin/forum/category')]
-#[IsGranted('ROLE_ADMIN')]
+#[Permission('admin.forum.categories.index', group: 'Admin', label: 'View Forum Categories')]
 final class CategoryController extends AbstractController
 {
     public function __construct(

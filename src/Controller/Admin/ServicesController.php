@@ -12,6 +12,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Services;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/services')]
+#[Permission('admin.services.index', group: 'Admin', label: 'View Services')]
 class ServicesController extends AbstractController
 {
     #[Route('', name: 'admin_services')]

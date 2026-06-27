@@ -20,6 +20,7 @@ use App\Form\ForumThreadType;
 use App\Pagination\Paginator;
 use App\Repository\ForumPostRepository;
 use App\Repository\UserRepository;
+use App\Security\Attribute\Permission;
 use App\Service\BadgeService;
 use App\Service\ForumNotificationService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,13 +32,12 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 #[Route('/forum/thread')]
-#[IsGranted('ROLE_USER')]
+#[Permission('forum.view.thread', group: 'Forum', label: 'View threads')]
 final class ForumThreadController extends AbstractController
 {
     public function __construct(
@@ -163,6 +163,7 @@ final class ForumThreadController extends AbstractController
     }
 
     #[Route('/create/{category}', name: 'forum_thread_create', methods: ['GET', 'POST'])]
+    #[Permission('forum.create.category', group: 'Forum', label: 'Create threads')]
     public function create(
         ForumCategory $category,
         Request $request,
@@ -217,6 +218,7 @@ final class ForumThreadController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'forum_thread_edit', methods: ['GET', 'POST'])]
+    #[Permission('forum.edit.thread', group: 'Forum', label: 'Edit threads')]
     public function edit(
         ForumThread $thread,
         Request $request,
@@ -250,7 +252,7 @@ final class ForumThreadController extends AbstractController
     }
 
     #[Route('/lock/{id}', name: 'forum_thread_lock')]
-    #[IsGranted('ROLE_ADMIN')]
+    #[Permission('forum.lock.thread', group: 'Forum', label: 'Lock threads')]
     public function lock(ForumThread $thread, EntityManagerInterface $em, ForumNotificationService $notifier): Response
     {
         $thread->setLocked(!$thread->isLocked());
@@ -264,7 +266,7 @@ final class ForumThreadController extends AbstractController
     }
 
     #[Route('/pin/{id}', name: 'forum_thread_pin')]
-    #[IsGranted('ROLE_ADMIN')]
+    #[Permission('forum.pin.thread', group: 'Forum', label: 'Pin threads')]
     public function pin(ForumThread $thread, EntityManagerInterface $em, ForumNotificationService $notifier): Response
     {
         $thread->setPinned(!$thread->isPinned());
@@ -278,6 +280,7 @@ final class ForumThreadController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'forum_thread_delete', methods: ['POST'])]
+    #[Permission('forum.delete.thread', group: 'Forum', label: 'Delete threads')]
     public function delete(ForumThread $thread, EntityManagerInterface $em): Response
     {
         /** @var User $user */
@@ -299,7 +302,7 @@ final class ForumThreadController extends AbstractController
     }
 
     #[Route('/move/{id}/{categoryId}', name: 'forum_thread_move')]
-    #[IsGranted('ROLE_ADMIN')]
+    #[Permission('forum.move.thread', group: 'Forum', label: 'Move threads')]
     public function move(
         ForumThread $thread,
         #[MapEntity(id: 'categoryId')] ForumCategory $category,

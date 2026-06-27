@@ -14,6 +14,7 @@ namespace App\Controller\Admin;
 use App\Entity\News;
 use App\Form\NewsType;
 use App\Repository\NewsRepository;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/news')]
+#[Permission('admin.news.index', group: 'Admin', label: 'View News')]
 class NewsController extends AbstractController
 {
     #[Route('/', name: 'admin_news_index')]

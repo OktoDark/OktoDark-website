@@ -14,6 +14,7 @@ namespace App\Controller\Admin;
 use App\Entity\CareerApplication;
 use App\Entity\Careers;
 use App\Repository\CareerApplicationRepository;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/careers')]
-#[IsGranted('ROLE_ADMIN')]
+#[Permission('admin.careers.index', group: 'Admin', label: 'View Careers')]
 class CareersController extends AbstractController
 {
     public function __construct(

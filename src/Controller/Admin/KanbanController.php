@@ -18,6 +18,7 @@ use App\Form\BoardFormType;
 use App\Repository\BoardRepository;
 use App\Repository\OurGamesRepository;
 use App\Repository\UserRepository;
+use App\Security\Attribute\Permission;
 use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
@@ -28,11 +29,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/kanban', name: 'admin_kanban_')]
-#[IsGranted('ROLE_ADMIN')]
+#[Permission('admin.kanban.index', group: 'Admin', label: 'View Kanban')]
 class KanbanController extends AbstractController
 {
     public function __construct(

@@ -13,6 +13,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\RegistrationWaitlist;
 use App\Repository\RegistrationWaitlistRepository;
+use App\Security\Attribute\Permission;
 use App\Service\InviteMailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMIN')]
+#[Permission('admin.waitlist.index', group: 'Admin', label: 'View Waitlist')]
 class WaitlistController extends AbstractController
 {
     public function __construct(

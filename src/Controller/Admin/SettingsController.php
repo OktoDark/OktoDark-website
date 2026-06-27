@@ -12,6 +12,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Settings;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/settings')]
+#[Permission('admin.settings.index', group: 'Admin', label: 'View Settings')]
 class SettingsController extends AbstractController
 {
     #[Route('', name: 'admin_settings')]

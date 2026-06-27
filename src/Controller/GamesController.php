@@ -12,15 +12,16 @@
 namespace App\Controller;
 
 use App\Repository\OurGamesRepository;
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[Permission('games.view', group: 'Games', label: 'View games')]
 final class GamesController extends AbstractController
 {
     #[Route('/games', name: 'games', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
     public function index(OurGamesRepository $repository): Response
     {
         return $this->render('modern/games.html.twig', [
@@ -29,7 +30,6 @@ final class GamesController extends AbstractController
     }
 
     #[Route('/games/{slug}', name: 'app_game_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
     public function show(string $slug, OurGamesRepository $repository): Response
     {
         $game = $repository->findOneBy(['shortNameSlug' => $slug]);
