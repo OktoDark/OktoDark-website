@@ -41,4 +41,3 @@ class PermissionRepository extends ServiceEntityRepository
         return (int) $qb->getQuery()->getSingleScalarResult() > 0;
     }
 }
-

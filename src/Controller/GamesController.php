@@ -16,7 +16,6 @@ use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Permission('games.view', group: 'Games', label: 'View games')]
 final class GamesController extends AbstractController

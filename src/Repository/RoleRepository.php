@@ -26,7 +26,7 @@ class RoleRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find a role by its system name (e.g. ROLE_USER)
+     * Find a role by its system name (e.g. ROLE_USER).
      */
     public function findByName(string $name): ?Role
     {

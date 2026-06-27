@@ -96,7 +96,7 @@ class RolePermissionSeeder extends Fixture
         // 3. ROLE → PERMISSION ASSIGNMENTS
         // ---------------------------------------------------------
 
-        $assign = function (string $roleName, array $permissionNames) use ($manager, $roleEntities, $permissionEntities) {
+        $assign = static function (string $roleName, array $permissionNames) use ($manager, $roleEntities, $permissionEntities) {
             $role = $roleEntities[$roleName];
 
             foreach ($permissionNames as $permName) {

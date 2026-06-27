@@ -19,12 +19,12 @@ class RolePermission
 {
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: 'rolePermissions')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private Role $role;
 
     #[ORM\Id]
-    #[ORM\ManyToOne(targetEntity: Permission::class)]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: Permission::class, inversedBy: 'rolePermissions')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private Permission $permission;
 
     #[ORM\Column(type: 'boolean')]

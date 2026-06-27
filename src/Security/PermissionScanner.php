@@ -50,6 +50,7 @@ class PermissionScanner
         }
 
         $this->syncPermissions($foundPermissions);
+
         return $foundPermissions;
     }
 
@@ -165,6 +166,7 @@ class PermissionScanner
     {
         // Extract area from permission name like "blog.view" -> "blog"
         $parts = explode('.', $permissionName);
+
         return $parts[0] ?? 'general';
     }
 }

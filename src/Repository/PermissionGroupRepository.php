@@ -22,4 +22,3 @@ class PermissionGroupRepository extends ServiceEntityRepository
         parent::__construct($registry, PermissionGroup::class);
     }
 }
-

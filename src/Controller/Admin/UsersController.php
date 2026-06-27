@@ -11,8 +11,8 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\User;
 use App\Entity\Role;
+use App\Entity\User;
 use App\Repository\BadgeRepository;
 use App\Repository\RoleRepository;
 use App\Service\TrustedDeviceService;
