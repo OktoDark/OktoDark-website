@@ -1,0 +1,245 @@
+{{ form_start(form, {
+    attr: {
+        id: 'ajax-form',
+        'data-mod-id': mod.id ?? ''
+    }
+}) }}
+
+{{ form_widget(form._token) }}
+
+<!-- ========================= -->
+<!-- MODERN TABS -->
+<!-- ========================= -->
+<ul class="nav nav-tabs border-0 mb-4" id="modTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active fw-semibold px-4 py-2" id="info-tab"
+                data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab">
+            Info
+        </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <button class="nav-link fw-semibold px-4 py-2" id="details-tab"
+                data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">
+            Details
+        </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <button class="nav-link fw-semibold px-4 py-2" id="images-tab"
+                data-bs-toggle="tab" data-bs-target="#images" type="button" role="tab">
+            Images
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content">
+
+    <!-- ========================= -->
+    <!-- TAB 1: INFO -->
+    <!-- ========================= -->
+    <div class="tab-pane fade show active" id="info" role="tabpanel">
+
+        <div class="p-4 bg-white rounded-4 shadow-sm mb-4 border">
+            <h5 class="mb-3 fw-bold text-dark">Basic Information</h5>
+
+            <div class="mb-3">
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-lg'}}) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 6}}) }}
+            </div>
+        </div>
+
+        <!-- ========================= -->
+        <!-- AUTHOR (READ-ONLY) -->
+        <!-- ========================= -->
+        <div class="p-4 bg-white rounded-4 shadow-sm mb-4 border">
+            <h5 class="mb-3 fw-bold text-dark">Author</h5>
+
+            <p class="fs-5 mb-0">
+                <strong>{{ mod.author ? mod.author.username : 'Unknown' }}</strong>
+            </p>
+
+            <p class="text-muted small mt-1">
+                This field is assigned automatically and cannot be changed.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- TAB 2: DETAILS -->
+    <!-- ========================= -->
+    <div class="tab-pane fade" id="details" role="tabpanel">
+
+        <!-- VERSION + DOWNLOAD -->
+        <div class="p-4 bg-white rounded-4 shadow-sm mb-4 border">
+            <h5 class="mb-3 fw-bold text-dark">Version & Download</h5>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    {{ form_label(form.version) }}
+                    {{ form_widget(form.version, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="col-md-8 mb-3">
+                    {{ form_label(form.download) }}
+                    {{ form_widget(form.download, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORIES -->
+        <div class="p-4 bg-white rounded-4 shadow-sm mb-4 border">
+            <h5 class="mb-3 fw-bold text-dark">Categories</h5>
+
+            <div class="d-flex flex-wrap gap-2">
+                {% for cat in form.categories %}
+                    <label class="category-toggle">
+                        {{ form_widget(cat, {
+                            attr: {
+                                class: 'd-none category-checkbox'
+                            }
+                        }) }}
+
+                        <span class="category-badge">
+                            {{ cat.vars.label }}
+                        </span>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- TAGS -->
+        <div class="p-4 bg-white rounded-4 shadow-sm mb-4 border">
+            <h5 class="mb-3 fw-bold text-dark">Tags</h5>
+
+            <div id="tags-wrapper"
+                 data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
+                {% for tag in form.tags %}
+                    <div class="input-group mb-2">
+                        {{ form_widget(tag, {'attr': {'class': 'form-control'}}) }}
+                        <button type="button" class="btn btn-outline-danger remove-item">×</button>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button type="button" class="btn btn-sm btn-outline-secondary mt-2" id="add-tag">
+                + Add Tag
+            </button>
+        </div>
+
+        <!-- COMPATIBLE -->
+        <div class="p-4 bg-white rounded-4 shadow-sm mb-4 border">
+            <h5 class="mb-3 fw-bold text-dark">Compatible Versions</h5>
+
+            <div id="compatible-wrapper"
+                 data-prototype="{{ form_widget(form.compatible.vars.prototype)|e('html_attr') }}">
+                {% for comp in form.compatible %}
+                    <div class="input-group mb-2">
+                        {{ form_widget(comp, {'attr': {'class': 'form-control'}}) }}
+                        <button type="button" class="btn btn-outline-danger remove-item">×</button>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button type="button" class="btn btn-sm btn-outline-secondary mt-2" id="add-compatible">
+                + Add Version
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- TAB 3: IMAGES -->
+    <!-- ========================= -->
+    <div class="tab-pane fade" id="images" role="tabpanel">
+
+        <!-- BANNER -->
+        <div class="p-4 bg-white rounded-4 shadow-sm mb-4 border">
+            <h5 class="mb-3 fw-bold text-dark">Banner Image</h5>
+
+            {% if mod.bannerImage %}
+                {% set bannerPath = asset('uploads/mods/' ~ mod.shortNameSlug ~ '/banner/' ~ mod.bannerImage) %}
+            {% else %}
+                {% set bannerPath = null %}
+            {% endif %}
+
+            <div class="text-center mb-3 d-flex justify-content-center">
+                {% if bannerPath %}
+                    <img id="banner-preview"
+                         src="{{ bannerPath }}"
+                         class="rounded-3 shadow-sm"
+                         style="max-width: 300px;">
+                {% else %}
+                    <div id="banner-preview"
+                         class="rounded-3 shadow-sm bg-secondary d-flex align-items-center justify-content-center text-white fw-bold"
+                         style="width: 300px; height: 150px;">
+                        No Banner
+                    </div>
+                {% endif %}
+            </div>
+
+            <div id="banner-dropzone"
+                 class="border border-secondary rounded-3 p-4 text-center bg-light"
+                 style="cursor: pointer;">
+                <i class="fas fa-cloud-upload-alt fa-2x mb-2 text-secondary"></i>
+                <p class="mb-0 text-secondary">Drag & drop banner here or click to select</p>
+            </div>
+
+            {{ form_widget(form.bannerFile, {
+                attr: {
+                    class: 'd-none',
+                    id: 'mods_bannerFile'
+                }
+            }) }}
+        </div>
+
+        <!-- GALLERY -->
+        <div class="p-4 bg-white rounded-4 shadow-sm mb-4 border">
+            <h5 class="mb-3 fw-bold text-dark">Gallery</h5>
+
+            <div id="gallery-preview" class="row g-3 mb-3">
+                {% for image in mod.gallery %}
+                    <div class="col-4 gallery-item" data-filename="{{ image }}">
+                        <div class="position-relative">
+                            <img src="{{ asset('uploads/mods/' ~ mod.shortNameSlug ~ '/gallery/' ~ image) }}"
+                                 class="img-fluid rounded-3 shadow-sm">
+
+                            <button type="button"
+                                    class="btn btn-sm btn-danger position-absolute top-0 end-0 delete-gallery">
+                                ×
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div id="gallery-dropzone"
+                 class="border border-secondary rounded-3 p-4 text-center bg-light"
+                 style="cursor: pointer;">
+                <i class="fas fa-images fa-2x mb-2 text-secondary"></i>
+                <p class="mb-0 text-secondary">Drag & drop gallery images here or click to select</p>
+            </div>
+
+            {{ form_widget(form.galleryFiles, {
+                attr: {
+                    class: 'd-none',
+                    id: 'mods_galleryFiles'
+                }
+            }) }}
+        </div>
+
+    </div>
+
+</div>
+
+<button class="btn btn-primary w-100 mt-3 py-2 fs-5 rounded-3">
+    <i class="fas fa-save me-1"></i> Save
+</button>
+
+{{ form_end(form, {'render_rest': false}) }}

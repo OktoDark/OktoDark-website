@@ -1,0 +1,119 @@
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * For the full copyright and license information, please view the LICENSE.
+ */
+
+.mod-card {
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+.mod-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+.mod-card img {
+    transition: transform .35s ease;
+}
+.mod-card:hover img {
+    transform: scale(1.05);
+}
+.game-banner img {
+    object-fit: cover;
+    max-height: 260px;
+}
+.game-banner-title {
+    text-shadow: 0 4px 12px rgba(0,0,0,0.7);
+}
+
+.category-toggle {
+    cursor: pointer;
+}
+
+.category-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: #f1f3f5;
+    color: #333;
+    font-weight: 500;
+    border: 1px solid #d0d5d9;
+    transition: all .2s ease;
+}
+
+.category-checkbox:checked + .category-badge {
+    background: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+}
+
+     /* Modern analytics-style card */
+ .rating-card {
+     background: rgba(255, 255, 255, 0.03);
+     border: 1px solid rgba(255, 255, 255, 0.06);
+     backdrop-filter: blur(6px);
+     border-radius: 12px;
+ }
+
+/* Bar container spacing */
+.rating-card .d-flex.align-items-end > div {
+    margin: 0 2px;
+}
+
+/* Bars */
+.rating-bar {
+    height: 0;
+    background: linear-gradient(180deg, #f8d44c, #f5c518);
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 0 6px rgba(245, 197, 24, 0.4);
+    transition: height .3s ease-out;
+}
+
+/* Star numbers under bars */
+.rating-card .small.text-muted {
+    color: rgba(255, 255, 255, 0.55) !important;
+    font-weight: 500;
+}
+
+/* Tooltip styling (Bootstrap override for dark theme) */
+.tooltip-inner {
+    background-color: #222 !important;
+    color: #f5c518 !important;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 6px 10px;
+}
+
+.tooltip.bs-tooltip-top .tooltip-arrow::before {
+    border-top-color: #222 !important;
+}
+
+.author-card {
+     background: rgba(0, 0, 0, 0.45);
+     border: 1px solid rgba(255, 255, 255, 0.08);
+     backdrop-filter: blur(6px);
+     border-radius: 8px;
+     display: inline-block;
+ }
+
+.category-card .card-img-top {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 0.25rem;
+    position: relative;
+}
+
+/* Badge inside the image */
+.category-card .mod-count-badge {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    z-index: 5;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+}

@@ -1,0 +1,123 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}Mods Admin{% endblock %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
+        {% block admin_content %}
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <!-- LEFT SIDE: Title + Subtitle -->
+                <div>
+                    <h2 class="mb-1">Mods</h2>
+                    <p class="text-muted mb-0">Manage the mods displayed on your website.</p>
+                </div>
+
+                <!-- RIGHT SIDE: Buttons -->
+                <div class="d-flex gap-3">
+
+                    <button class="btn btn-success admin-action-btn ajax-modal-trigger"
+                            data-url="{{ path('admin_mod_category_manager') }}"
+                            data-title="Manage Categories">
+                        <i class="fas fa-tags"></i>
+                        Manage Categories
+                    </button>
+
+                    <button class="btn btn-success admin-action-btn ajax-modal-trigger"
+                            data-url="{{ path('admin_mods_new') }}"
+                            data-title="Add New Mod">
+                        <i class="fas fa-plus"></i>
+                        Add Mod
+                    </button>
+
+                </div>
+
+            </div>
+
+
+                <!-- ========================= -->
+                <!-- MOD CARDS GRID -->
+                <!-- ========================= -->
+                <div id="mods-cards" class="row g-4"
+                     data-gallery-delete-url="{{ path('admin_mods_gallery_delete') }}"
+                     data-gallery-reorder-url="{{ path('admin_mods_gallery_reorder') }}">
+
+                    {% for mod in mods %}
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card shadow-sm h-100 border-0 rounded-4 bg-white">
+
+                                {% if mod.thumbnail %}
+                                    <img src="{{ asset('uploads/mods/' ~ mod.shortNameSlug ~ '/thumbnail/' ~ mod.thumbnail) }}"
+                                         class="card-img-top rounded-top" alt="{{ mod.name }}">
+                                {% else %}
+                                    <div class="bg-light d-flex align-items-center justify-content-center rounded-top"
+                                         style="height: 180px; border-bottom: 1px solid #eee;">
+                                        <span class="text-muted small">No Image</span>
+                                    </div>
+                                {% endif %}
+
+                                <div class="card-body">
+                                    <h5 class="card-title fw-semibold text-dark">{{ mod.name }}</h5>
+
+                                    <p class="card-text small text-muted mb-2">
+                                        Version: <strong>{{ mod.version ?: '-' }}</strong>
+                                    </p>
+
+                                    <p class="card-text small text-muted mb-2">
+                                        Downloads: <strong>{{ mod.downloads }}</strong>
+                                    </p>
+
+                                    <p class="card-text small text-muted">
+                                        Rating: <strong>{{ mod.rating }}/5</strong>
+                                    </p>
+                                </div>
+
+                                <div class="card-footer bg-white border-0 d-flex justify-content-between pt-0">
+                                    <button class="btn btn-sm btn-outline-warning ajax-modal-trigger"
+                                            data-url="{{ path('admin_mods_edit', {id: mod.id}) }}"
+                                            data-title="Edit Mod">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+
+                                    <form method="post" action="{{ path('admin_mods_delete', {id: mod.id}) }}"
+                                          onsubmit="return confirm('Delete this mod?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ mod.id) }}">
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+                <!-- END CARD GRID -->
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+    <!-- AJAX Modal Container -->
+    <div id="ajax-modal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+        <div id="toast-success" class="toast bg-success text-white" role="alert">
+            <div class="toast-body"></div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="{{ settings.siteCDN }}/themes/{{ theme }}/js/mods.js"></script>
+{% endblock %}

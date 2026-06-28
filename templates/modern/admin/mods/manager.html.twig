@@ -1,0 +1,58 @@
+<div class="p-4">
+
+    <h5 class="fw-semibold mb-3">Manage Categories</h5>
+
+    <!-- CREATE NEW CATEGORY -->
+    <div class="input-group mb-3">
+        <input type="text" id="new-category-name" class="form-control"
+               placeholder="New category name">
+
+        <input type="file" id="new-category-image" class="form-control" accept="image/*">
+
+        <button class="btn btn-primary" id="create-category-btn">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <!-- CATEGORY LIST -->
+    <div id="category-list" class="list-group">
+
+        {% for category in categories %}
+            <div class="list-group-item d-flex justify-content-between align-items-center"
+                 data-id="{{ category.id }}">
+
+                <div class="d-flex align-items-center gap-3">
+
+                    {% if category.image %}
+                        <img src="{{ asset('uploads/categories/' ~ category.image) }}"
+                             class="rounded"
+                             style="width: 40px; height: 40px; object-fit: cover;">
+                    {% else %}
+                        <div class="rounded bg-secondary"
+                             style="width: 40px; height: 40px; opacity: .2;"></div>
+                    {% endif %}
+
+                    <span class="cat-name">{{ category.name }}</span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-warning edit-category-btn">
+                        <i class="fas fa-edit"></i>
+                    </button>
+
+                    <button class="btn btn-sm btn-outline-danger delete-category-btn">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+
+            </div>
+
+        {% else %}
+            <div class="list-group-item text-muted small">
+                No categories created yet.
+            </div>
+        {% endfor %}
+
+    </div>
+
+</div>

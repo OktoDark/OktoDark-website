@@ -1,0 +1,799 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.mods'|trans({}, 'base') }}{% endblock %}
+{% block body_id 'mods' %}
+
+{% block head %}
+    {{ parent() }}
+    <style>
+        .rating i {
+            cursor: pointer;
+            transition: color 0.15s ease-in-out, transform 0.15s ease-in-out;
+        }
+        .rating i:hover {
+            transform: scale(1.25);
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+
+    <!-- Page Title -->
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold mb-2">{{ 'title.mods'|trans({}, 'base') }}</h2>
+            <p class="lead text-muted">{{ 'mods.subtitle'|trans({}, 'mods') }}</p>
+        </div>
+    </section>
+
+    {% if is_granted('ROLE_USER') or is_granted('ROLE_MOD_CREATOR') %}
+
+        {% if is_granted('ROLE_MOD_CREATOR') %}
+        <!-- Upload Mod Button -->
+        <section class="py-3 bg-body-tertiary">
+            <div class="container">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-success admin-action-btn ajax-modal-trigger"
+                            data-url="{{ path('mods_new') }}"
+                            data-title="Upload New Mod">
+                        <i class="fas fa-plus me-1"></i> Upload Mod
+                    </button>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Game Banner -->
+        <section class="py-4 bg-body-tertiary">
+            <div class="container">
+
+                <div class="game-banner position-relative mb-4 rounded overflow-hidden">
+
+                    {% if mods is not empty and mods|first.bannerImage %}
+                        <img src="{{ asset('uploads/mods/' ~ mods|first.shortNameSlug ~ '/banner/' ~ mods|first.bannerImage) }}"
+                             class="w-100"
+                             alt="Banner">
+                    {% else %}
+                        <div class="w-100 bg-primary d-flex align-items-center justify-content-center"
+                             style="height: 220px;">
+                            <h3 class="text-light m-0">No mods available</h3>
+                        </div>
+                    {% endif %}
+
+                    <div class="position-absolute top-0 start-0 w-100 h-100"
+                         style="background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.9));">
+                    </div>
+
+                    <div class="position-absolute bottom-0 start-0 p-4">
+
+                        <h2 class="fw-bold text-light game-banner-title mb-1">
+                            {{ mods|first ? mods|first.name : '' }}
+                        </h2>
+
+                        {% set firstMod = mods|first %}
+
+                        <div class="author-card mt-2 px-3 py-2">
+                            <div class="small text-light">
+                                Author:
+                                <strong class="text-warning">
+                                    {{ firstMod and firstMod.author ? firstMod.author.username : 'Unknown' }}
+                                </strong>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {# Not use Description yet #}
+                    {#
+                    <p class="mb-0">
+                        {{ mods|first ? mods|first.description : 'No mods available' }}
+                    </p>
+                    #}
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Categories -->
+        <section class="py-4 bg-body-tertiary">
+            <div class="container">
+                <h3 class="fw-bold mb-4 text-center">{{ 'mods.categories'|trans({}, 'mods') }}</h3>
+
+                <!-- TOP 4 CATEGORIES -->
+                <div class="row g-4 justify-content-center">
+                    {% for category in topCategories %}
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="category-card text-decoration-none"
+                                 data-category="{{ category.slug }}"
+                                 style="cursor: pointer;">
+
+                                <div class="card shadow-sm border-0 h-100 mod-card">
+
+                                    <div class="position-relative">
+
+                                        {% if category.image %}
+                                            <img src="{{ asset('uploads/categories/' ~ category.image) }}"
+                                                 class="card-img-top"
+                                                 alt="{{ category.name }}">
+                                        {% else %}
+                                            <div class="card-img-top bg-secondary rounded"
+                                                 style="aspect-ratio: 16/9; opacity: .25;"></div>
+                                        {% endif %}
+
+                                        <span class="badge bg-primary mod-count-badge">
+        {{ category.mod_count }} mods
+    </span>
+
+                                    </div>
+
+
+                                    <div class="card-body text-center">
+                                        <h6 class="fw-bold mb-1">{{ category.name }}</h6>
+                                        <p class="text-muted small mb-0">{{ category.description }}</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- SHOW ALL BUTTON -->
+                <div class="text-center mt-3">
+                    <button id="toggle-categories" class="btn btn-outline-primary btn-sm">
+                        Show all categories
+                    </button>
+                </div>
+
+                <!-- FULL CATEGORY LIST (HIDDEN BY DEFAULT) -->
+                <div id="all-categories" class="row g-4 justify-content-center mt-4" style="display: none;">
+                    {% for category in allCategories %}
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="category-card text-decoration-none"
+                                 data-category="{{ category.slug }}"
+                                 style="cursor: pointer;">
+
+                                <div class="card shadow-sm border-0 h-100 mod-card">
+
+                                    <div class="position-relative">
+
+                                        {% if category.image %}
+                                            <img src="{{ asset('uploads/categories/' ~ category.image) }}"
+                                                 class="card-img-top"
+                                                 alt="{{ category.name }}">
+                                        {% else %}
+                                            <div class="card-img-top bg-secondary rounded"
+                                                 style="aspect-ratio: 16/9; opacity: .25;"></div>
+                                        {% endif %}
+
+                                        <span class="badge bg-primary mod-count-badge">
+        {{ category.mod_count }} mods
+    </span>
+
+                                    </div>
+
+
+                                    <div class="card-body text-center">
+                                        <h6 class="fw-bold mb-1">{{ category.name }}</h6>
+                                        <p class="text-muted small mb-0">{{ category.description }}</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TOGGLE SCRIPT -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var btn = document.getElementById('toggle-categories');
+                var fullList = document.getElementById('all-categories');
+
+                btn.addEventListener('click', () => {
+                    if (fullList.style.display === 'none') {
+                        fullList.style.display = 'flex';
+                        btn.textContent = 'Hide categories';
+                    } else {
+                        fullList.style.display = 'none';
+                        btn.textContent = 'Show all categories';
+                    }
+                });
+            });
+        </script>
+
+        <!-- Filters + Search -->
+        <section class="py-4 text-light" id="mods-list">
+            <div class="container">
+
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                    <h3 class="fw-bold mb-0">{{ 'mods.list_title'|trans({}, 'mods') }}</h3>
+                </div>
+
+                <form id="mods-filter-form" method="get" class="row g-3 mb-4">
+
+                <!-- SEARCH -->
+                    <div class="col-md-4">
+                        <input type="text"
+                               name="q"
+                               class="form-control"
+                               placeholder="{{ 'mods.search_placeholder'|trans({}, 'mods') }}"
+                               value="{{ app.request.query.get('q') }}">
+                    </div>
+
+                    <!-- CATEGORY DROPDOWN -->
+                    <div class="col-md-2">
+                        {% set selectedCategory = app.request.query.get('category') %}
+                        <select name="category" class="form-select">
+                            <option value="">
+                                {{ 'mods.filter.category_all'|trans({}, 'mods') }}
+                            </option>
+
+                            {% for category in categories %}
+                                <option value="{{ category.slug }}"
+                                        {% if selectedCategory == category.slug %}selected{% endif %}>
+                                    {{ category.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- COMPATIBILITY DROPDOWN -->
+                    <div class="col-md-2">
+                        {% set selectedCompat = app.request.query.get('compatibility') %}
+                        <select name="compatibility" class="form-select">
+                            <option value="">
+                                {{ 'mods.filter.compat_all'|trans({}, 'mods') }}
+                            </option>
+
+                            {% for version in compatibilities %}
+                                <option value="{{ version }}"
+                                        {% if selectedCompat == version %}selected{% endif %}>
+                                    {{ version }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- AUTHOR DROPDOWN -->
+                    <div class="col-md-2">
+                        {% set selectedAuthor = app.request.query.get('author') %}
+                        <select name="author" class="form-select">
+                            <option value="">All Authors</option>
+
+                            {% for author in authors %}
+                                <option value="{{ author.id }}"
+                                        {% if selectedAuthor == author.id %}selected{% endif %}>
+                                    {{ author.username }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button class="btn btn-primary w-100">
+                            {{ 'mods.filter.apply'|trans({}, 'mods') }}
+                        </button>
+                    </div>
+                    {% if category %}
+                        <div class="col-md-2">
+                            <a href="{{ path('mods') }}" class="btn btn-outline-secondary w-100">
+                                Clear
+                            </a>
+                        </div>
+                    {% endif %}
+
+                </form>
+
+                {# Mods Grid #}
+                <div class="row g-4">
+
+                    {% for m in mods %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card bg-light border-0 shadow-sm h-100 mod-card">
+
+                                {% if m.bannerImage %}
+                                    <img src="{{ asset('uploads/mods/' ~ m.shortNameSlug ~ '/banner/' ~ m.bannerImage) }}"
+                                         class="card-img-top"
+                                         alt="{{ m.name }}">
+                                {% else %}
+                                    <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center"
+                                         style="height: 245px;">
+                                        <span class="text-light fw-bold">No Banner</span>
+                                    </div>
+                                {% endif %}
+
+                                <div class="card-body d-flex flex-column">
+
+                                    <h5 class="modal-title">
+                                        {{ m.name }} by
+                                        <strong>{{ firstMod.author ? firstMod.author.username : 'Unknown' }}</strong>
+                                    </h5>
+
+                                    {# Rating (Display Only) #}
+                                    <div class="rating-display mb-2" data-average="{{ m.rating }}">
+                                        {% set filled = m.rating|round(0, 'floor') %}
+                                        {% for i in 1..10 %}
+                                            <i class="fas fa-star"
+                                               style="color: {{ i <= filled ? '#f5c518' : '#ccc' }}; font-size: 18px;"></i>
+                                        {% endfor %}
+                                        <span class="text-muted small ms-1">
+                                            {{ m.rating|number_format(1) }} / 10
+                                        </span>
+                                    </div>
+
+                                    {# Tags #}
+                                    <div class="mb-2">
+                                        {% if m.tags is defined and m.tags is not empty %}
+                                            {% for tag in m.tags %}
+                                                <span class="badge bg-info me-1">{{ tag }}</span>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+
+                                    {# Description #}
+                                    <p class="text-dark small flex-grow-1">
+                                        {{ m.description }}
+                                    </p>
+
+                                    {# Meta #}
+                                    <p class="small text-muted mb-1">
+                                        <i class="fas fa-code-branch me-1"></i> v{{ m.version }}
+                                    </p>
+
+                                    <p class="small text-muted mb-1">
+                                        <i class="fas fa-clock me-1"></i> {{ m.updatedAt|date('Y-m-d') }}
+                                    </p>
+
+                                    <p class="small text-muted mb-2">
+                                        <i class="fas fa-download me-1"></i> {{ m.downloads }} {{ 'mods.downloads'|trans({}, 'mods') }}
+                                    </p>
+
+                                    {# Compatibility #}
+                                    <div class="mb-3">
+                                        <span class="small text-muted me-2">
+                                            {{ 'mods.compatible'|trans({}, 'mods') }}:
+                                        </span>
+
+                                        {% for version in m.compatible %}
+                                            <span class="badge bg-primary me-1">{{ version }}</span>
+                                        {% endfor %}
+                                    </div>
+
+                                    {# Download #}
+                                    <a class="btn btn-primary text-bg-primary w-100 mt-auto" href="{{ m.download }}">
+                                        <i class="fas fa-download me-1"></i> {{ 'mods.download'|trans({}, 'mods') }}
+                                    </a>
+
+                                    {# More Info #}
+                                    <a href="#"
+                                       class="btn btn-outline-light text-bg-info w-100 mt-2"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#modModal{{ m.id }}">
+                                        {{ 'mods.more_info'|trans({}, 'mods') }}
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mod Details Modal -->
+                        <div class="modal fade" id="modModal{{ m.id }}" tabindex="-1">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content bg-white text-dark shadow-lg rounded-4">
+
+                                    <div class="modal-header border-0 pb-0">
+                                        <h5 class="modal-title fw-bold">{{ m.name }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+
+                                        {% if m.bannerImage %}
+                                            <img src="{{ asset('uploads/mods/' ~ m.shortNameSlug ~ '/banner/' ~ m.bannerImage) }}"
+                                                 class="w-100 rounded-3 mb-3 shadow-sm"
+                                                 alt="{{ m.name }}">
+                                        {% else %}
+                                            <div class="w-100 rounded-3 mb-3 bg-light d-flex align-items-center justify-content-center border"
+                                                 style="height: 245px;">
+                                                <span class="fw-bold text-muted">No Banner</span>
+                                            </div>
+                                        {% endif %}
+
+                                        <!-- Rating (Interactive) -->
+                                        <div class="rating rating-interactive mb-2"
+                                             data-mod-id="{{ m.id }}"
+                                             data-current-rating="{{ m.rating }}">
+                                            {% for i in 1..10 %}
+                                                <i class="fa-star {% if i <= m.rating %}fas text-warning{% else %}far text-muted{% endif %}"
+                                                   data-value="{{ i }}"
+                                                   style="cursor:pointer; font-size:22px;"></i>
+                                            {% endfor %}
+                                        </div>
+
+                                        <div class="small text-muted mb-3" id="rating-info-{{ m.id }}">
+                                            {{ m.rating|number_format(1) }} ★ ({{ m.ratings|length }} votes)
+                                        </div>
+
+                                        <div id="rating-breakdown-{{ m.id }}" class="mb-3">
+                                            <!-- Wrapped inside a Bootstrap 5 card with zero corners and zero borders -->
+                                            <div class="card rating-card border-0 shadow-sm rounded-0 rounded-3">
+                                                <div class="card-body p-3">
+
+                                                    {# 1. Initialize breakdown using unique string keys #}
+                                                    {% set breakdown = {
+                                                        'star_1': 0, 'star_2': 0, 'star_3': 0, 'star_4': 0, 'star_5': 0,
+                                                        'star_6': 0, 'star_7': 0, 'star_8': 0, 'star_9': 0, 'star_10': 0
+                                                    } %}
+
+                                                    {# 2. Count votes safely #}
+                                                    {% for r in m.ratings %}
+                                                        {% if r.rating is defined and r.rating is not null %}
+                                                            {% set rv_int = r.rating | round(0, 'floor') | number_format(0) %}
+
+                                                            {% if rv_int >= 1 and rv_int <= 10 %}
+                                                                {% set key = 'star_' ~ rv_int %}
+                                                                {% set current_count = breakdown[key] %}
+                                                                {% set breakdown = breakdown | merge({ (key): current_count + 1 }) %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+
+                                                    {# 3. Compute max votes manually #}
+                                                    {% set maxVotes = 0 %}
+                                                    {% for star_key, count in breakdown %}
+                                                        {% if count > maxVotes %}
+                                                            {% set maxVotes = count %}
+                                                        {% endif %}
+                                                    {% endfor %}
+
+                                                    {% if maxVotes < 1 %}
+                                                        {% set maxVotes = 1 %}
+                                                    {% endif %}
+
+                                                    <!-- Chart Layout Container -->
+                                                    <div class="d-flex justify-content-between align-items-end mx-auto" style="height: 120px; max-width: 320px;">
+                                                        {% for star in 1..10 %}
+                                                            {% set lookup_key = 'star_' ~ star %}
+                                                            {% set count = breakdown[lookup_key] %}
+                                                            {% set height = (count / maxVotes * 100) | round(2) %}
+
+                                                            <div class="d-flex flex-column align-items-center h-100 justify-content-end" style="width: 24px;">
+
+                                                                <div class="rating-bar"
+                                                                     data-bs-toggle="tooltip"
+                                                                     data-bs-placement="top"
+                                                                     title="{{ star }}★ — {{ count }} votes"
+                                                                     style="
+                                                                        width: 100%;
+                                                                        background-color: #f5c518;
+                                                                        border-radius: 4px 4px 0 0;
+                             "
+                                                                     data-final-height="{{ height }}%">
+                                                                </div>
+
+                                                                <div class="small mt-1" style="font-size: 11px; line-height: 1;">{{ star }}</div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <style>
+                                            .rating-bar {
+                                                height: 0;
+                                                --final-height: 0%;
+                                            }
+
+                                            @keyframes growBar {
+                                                from { height: 0; }
+                                                to   { height: var(--final-height); }
+                                            }
+                                        </style>
+
+                                        <script>
+                                            /* global bootstrap */
+                                            function initRatingBarsAnimation() {
+                                                var bars = document.querySelectorAll('.rating-bar');
+                                                for (var i = 0; i < bars.length; i++) {
+                                                    var bar = bars[i];
+                                                    var finalHeight = bar.getAttribute('data-final-height');
+
+                                                    bar.style.setProperty('--final-height', finalHeight);
+                                                    bar.style.animation = 'growBar 0.6s ease-out forwards';
+                                                    bar.style.animationDelay = (i * 0.03) + 's';
+                                                }
+
+                                                if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+                                                    var tooltipElements = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+                                                    for (var j = 0; j < tooltipElements.length; j++) {
+                                                        if (!bootstrap.Tooltip.getInstance(tooltipElements[j])) {
+                                                            new bootstrap.Tooltip(tooltipElements[j]);
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            if (document.readyState === 'loading') {
+                                                document.addEventListener('DOMContentLoaded', initRatingBarsAnimation);
+                                            } else {
+                                                initRatingBarsAnimation();
+                                            }
+
+                                            document.addEventListener('ajaxModalLoaded', initRatingBarsAnimation);
+                                        </script>
+
+
+
+                                        <!-- End Rating -->
+
+                                        <p class="mb-3">
+                                            <strong>Description:</strong><br>
+                                            {{ m.description }}
+                                        </p>
+
+                                        <hr>
+
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <p class="mb-1"><strong>Version:</strong> {{ m.version }}</p>
+                                                <p class="mb-1"><strong>Updated:</strong> {{ m.updatedAt|date('Y-m-d') }}</p>
+                                                <p class="mb-1"><strong>Downloads:</strong> {{ m.downloads }}</p>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <p class="mb-1"><strong>Compatibility:</strong></p>
+                                                {% for version in m.compatible %}
+                                                    <span class="badge bg-primary me-1">{{ version }}</span>
+                                                {% endfor %}
+
+                                                {% if m.tags is defined and m.tags is not empty %}
+                                                    <p class="mt-3 mb-1"><strong>Tags:</strong></p>
+                                                    {% for tag in m.tags %}
+                                                        <span class="badge bg-info me-1">{{ tag }}</span>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer border-0 pt-0">
+                                        <a href="{{ m.download }}" class="btn btn-primary">
+                                            <i class="fas fa-download me-1"></i> {{ 'mods.download'|trans({}, 'mods') }}
+                                        </a>
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                            {{ 'mods.close'|trans({}, 'mods') }}
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <!-- Pagination -->
+                {% if last_page is defined and last_page > 1 %}
+                    <nav class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            {% for p in 1..last_page %}
+                                <li class="page-item {{ p == current_page ? 'active' : '' }}">
+                                    <a class="page-link"
+                                       href="{{ path('mods', {
+                                           page: p,
+                                           q: app.request.query.get('q'),
+                                           category: app.request.query.get('category'),
+                                           compatibility: app.request.query.get('compatibility')
+                                       }) }}">
+                                        {{ p }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                {% endif %}
+
+            </div>
+        </section>
+
+    {% else %}
+
+        <!-- Restricted Section -->
+        <section class="py-5 bg-dark text-light text-center">
+            <div class="container">
+                <h3 class="fw-bold mb-3">{{ 'mods.restriction'|trans({}, 'mods') }}</h3>
+
+                <div class="card bg-secondary border-0 shadow-sm mx-auto" style="max-width: 600px;">
+                    <div class="card-body">
+                        {{ 'mods.rescontent'|trans({}, 'mods')|raw }}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    {% endif %}
+
+    <!-- AJAX Modal Container -->
+    <div id="ajax-modal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+        <div id="toast-success" class="toast bg-success text-white" role="alert">
+            <div class="d-flex">
+                <div class="toast-body"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+        <div id="ratingToast" class="toast align-items-center text-bg-primary border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body" id="ratingToastBody">
+                    <!-- JS will insert message -->
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ settings.siteCDN }}/themes/{{ theme }}/js/mods.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // Only interactive stars inside modal
+            var containers = document.querySelectorAll('.rating-interactive');
+
+            containers.forEach(function (container) {
+                var modId = container.getAttribute('data-mod-id');
+                var stars = container.querySelectorAll('i');
+
+                stars.forEach(function (star) {
+
+                    // Hover
+                    star.addEventListener('mouseover', function () {
+                        var val = parseInt(this.dataset.value);
+                        highlight(container, val);
+                    });
+
+                    star.addEventListener('mouseout', function () {
+                        reset(container);
+                    });
+
+                    // Click → submit rating
+                    star.addEventListener('click', function () {
+                        var rating = parseInt(this.dataset.value);
+
+                        fetch('/mods/' + modId + '/rate', {
+                            method: 'POST',
+                            credentials: 'same-origin',
+                            body: new URLSearchParams({ rating: rating })
+                        })
+                            .then(function (r) { return r.json(); })
+                            .then(function (data) {
+                                if (!data.success) return;
+
+                                updateDisplay(modId, container, data.rating, data.count, data.stats);
+                            });
+                    });
+                });
+            });
+
+            function highlight(container, value) {
+                container.querySelectorAll('i').forEach(function (s, i) {
+                    s.classList.toggle('fas', i < value);
+                    s.classList.toggle('far', i >= value);
+                    s.classList.toggle('text-warning', i < value);
+                    s.classList.toggle('text-muted', i >= value);
+                });
+            }
+
+            function reset(container) {
+                var current = parseFloat(container.dataset.currentRating);
+                var filled = Math.round(current);
+
+                container.querySelectorAll('i').forEach(function (s, i) {
+                    s.classList.toggle('fas', i < filled);
+                    s.classList.toggle('far', i >= filled);
+                    s.classList.toggle('text-warning', i < filled);
+                    s.classList.toggle('text-muted', i >= filled);
+                });
+            }
+
+            function updateDisplay(modId, container, avg, count, stats) {
+                container.dataset.currentRating = avg;
+
+                // Update stars
+                reset(container);
+
+                // Update info
+                document.getElementById('rating-info-' + modId).innerHTML =
+                    avg.toFixed(1) + ' ★ (' + count + ' votes)';
+
+                // Update breakdown
+                var html = '';
+                for (var i = 10; i >= 1; i--) {
+                    html += i + '★: ' + (stats[i] || 0) + '<br>';
+                }
+                document.getElementById('rating-breakdown-' + modId).innerHTML = html;
+            }
+
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var categoryCards = document.querySelectorAll('.category-card');
+            var modItems = document.querySelectorAll('.mod-item');
+
+            categoryCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    var selected = card.dataset.category;
+
+                    modItems.forEach(item => {
+                        var categories = item.dataset.category.split(',');
+
+                        if (categories.includes(selected)) {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+
+                    // Scroll to mods list
+                    document.getElementById('mods-list').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var categoryCards = document.querySelectorAll('.category-card');
+            var form = document.getElementById('mods-filter-form');
+            var categorySelect = document.querySelector('select[name="category"]');
+
+            categoryCards.forEach(card => {
+                card.addEventListener('click', () => {
+
+                    // 1. Get clicked category slug
+                    var slug = card.dataset.category;
+
+                    // 2. Set dropdown value
+                    if (categorySelect) {
+                        categorySelect.value = slug;
+                    }
+
+                    // 3. Submit the form
+                    if (form) {
+                        form.submit();
+                    }
+                });
+            });
+
+        });
+    </script>
+
+
+{% endblock %}

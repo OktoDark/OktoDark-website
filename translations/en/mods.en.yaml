@@ -2,6 +2,17 @@
 mods:
     subtitle: "Mods and Content for games"
     restriction: "Only for Members"
+    list_title: "Mods"
+    categories: "Categories"
+    filter:
+        category_all: "All"
+        category_mods: "Mods"
+        compat_all: "Compatibility"
+        apply: "Apply"
+    downloads: "Downloads"
+    compatible: "Compatibility"
+    search_placeholder: "Search for mods..."
+    more_info: "Info"
     sims4_desc: "Mods and custom content for The Sims 4"
     soon: "Soon"
     download: "Download"
