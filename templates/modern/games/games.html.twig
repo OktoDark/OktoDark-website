@@ -1,0 +1,110 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ 'title.games'|trans({}, 'base') }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body_id 'games' %}
+
+{% block main %}
+
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h2 class="display-5 fw-bold">{{ 'title.games'|trans({}, 'games') }}</h2>
+            <p class="lead text-muted mt-2">{{ 'games.subtitle'|trans({}, 'games') }}</p>
+        </div>
+    </section>
+
+    <section class="section section-lg bg-gray-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <p>{{ 'content.gamesPage'|trans({}, 'games')|raw }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section class="section section-lg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row row-20 justify-content-lg-between">
+                        {% for g in games %}
+                            <div class="col-md-6 col-lg-5 text-center mb-5">
+                                {% set gameUrl = g.ShortNameSlug ? path('app_game_show', { 'slug': g.ShortNameSlug }) : g.WebsiteLink %}
+                                
+                                {% if gameUrl %}
+                                    <a href="{{ gameUrl }}">
+                                {% endif %}
+
+                                {% if g.Cover %}
+                                    <img class="game_covers_image img-fluid" src="{{ asset('uploads/games/' ~ g.ShortNameSlug|lower|replace({' ': '-'}) ~ '/covers/' ~ g.Cover) }}" alt="{{ g.Name }}"/>
+                                {% else %}
+                                    <div class="game_covers_image d-flex align-items-center justify-content-center bg-light border rounded" style="min-height: 250px;">
+                                        <i class="fas fa-gamepad fa-5x text-muted"></i>
+                                    </div>
+                                {% endif %}
+
+                                {% if gameUrl %}
+                                    </a>
+                                {% endif %}
+                                
+                                <h5 class="mt-3">{{ g.Name }}</h5>
+                                {% if g.shortDescription %}
+                                    <p class="text-muted">{{ g.shortDescription }}</p>
+                                {% endif %}
+                                {% if g.description %}
+                                    <p>{{ g.description|raw }}</p>
+                                {% endif %}
+
+                                <div class="d-flex justify-content-center gap-2 mt-3">
+                                    {% if g.isAlpha and g.Alpha %}
+                                        <a href="{{ g.Alpha }}" class="badge bg-primary text-decoration-none" target="_blank">Alpha</a>
+                                    {% endif %}
+                                    {% if g.isBeta and g.Beta %}
+                                        <a href="{{ g.Beta }}" class="badge bg-info text-decoration-none" target="_blank">Beta</a>
+                                    {% endif %}
+                                    {% if g.stable and g.StableLink %}
+                                        <a href="{{ g.StableLink }}" class="badge bg-success text-decoration-none" target="_blank">Stable</a>
+                                    {% endif %}
+                                </div>
+
+                                {# Display Images #}
+                                {% if g.Images is not empty %}
+                                    <div class="mt-4">
+                                        <h6>Screenshots:</h6>
+                                        <div class="d-flex flex-wrap justify-content-center gap-2">
+                                            {% for image in g.Images %}
+                                                <img src="{{ asset('uploads/games/' ~ g.ShortNameSlug|lower|replace({' ': '-'}) ~ '/images/' ~ image) }}" alt="{{ g.Name }} screenshot" style="max-width: 150px; height: auto; border: 1px solid #ddd;">
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                {# Display Videos #}
+                                {% if g.Videos is not empty %}
+                                    <div class="mt-4">
+                                        <h6>Videos:</h6>
+                                        <div class="d-flex flex-wrap justify-content-center gap-2">
+                                            {% for video in g.Videos %}
+                                                <video controls style="max-width: 200px; height: auto; border: 1px solid #ddd;">
+                                                    <source src="{{ asset('uploads/games/' ~ g.ShortNameSlug|lower|replace({' ': '-'}) ~ '/videos/' ~ video) }}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

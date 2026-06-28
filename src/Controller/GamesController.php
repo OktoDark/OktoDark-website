@@ -23,7 +23,7 @@ final class GamesController extends AbstractController
     #[Route('/games', name: 'games', methods: ['GET'])]
     public function index(OurGamesRepository $repository): Response
     {
-        return $this->render('modern/games.html.twig', [
+        return $this->render('@theme/games/games.html.twig', [
             'games' => $repository->findAll(),
         ]);
     }
@@ -37,7 +37,7 @@ final class GamesController extends AbstractController
             throw $this->createNotFoundException('The game does not exist');
         }
 
-        return $this->render('modern/game_details.html.twig', [
+        return $this->render('@theme/games/game_details.html.twig', [
             'game' => $game,
         ]);
     }

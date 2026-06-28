@@ -199,92 +199,100 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var ourGameModal = document.getElementById('ourGameModal');
-            var ourGameFormContent = document.getElementById('ourGameFormContent');
+        function setupDropzone(dropzoneId, inputSelector) {
+            var dropzone = document.getElementById(dropzoneId);
+            var input = document.querySelector(inputSelector);
 
-            ourGameModal.addEventListener('show.bs.modal', function (event) {
-                var button = event.relatedTarget; // Button that triggered the modal
-                var actionUrl = button.getAttribute('data-action'); // Extract info from data-action attribute
+            if (!dropzone || !input) return;
 
-                // Update the modal's content.
-                ourGameFormContent.innerHTML = 'Loading...'; // Show loading message
+            dropzone.addEventListener('click', function () {
+                input.click();
+            });
 
-                fetch(actionUrl, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest' // Identify as AJAX request
-                    }
+            dropzone.addEventListener('dragover', function (e) {
+                e.preventDefault();
+                dropzone.classList.add('border-primary');
+            });
+
+            dropzone.addEventListener('dragleave', function () {
+                dropzone.classList.remove('border-primary');
+            });
+
+            dropzone.addEventListener('drop', function (e) {
+                e.preventDefault();
+                dropzone.classList.remove('border-primary');
+
+                input.files = e.dataTransfer.files;
+
+                dropzone.innerHTML =
+                    '<p class="text-info">' + input.files.length + ' file(s) selected</p>';
+            });
+        }
+
+        function initCollection(collectionId, addButtonId) {
+            var wrapper = document.getElementById(collectionId);
+            var addBtn = document.getElementById(addButtonId);
+
+            if (!wrapper || !addBtn) return;
+
+            addBtn.addEventListener('click', function () {
+                var prototype = wrapper.getAttribute('data-prototype');
+                var index = wrapper.children.length;
+
+                var newField = prototype.replace(/__name__/g, index);
+
+                var div = document.createElement('div');
+                div.className = 'input-group mb-2';
+                div.innerHTML = newField +
+                    '<button type="button" class="btn btn-danger remove-item">×</button>';
+
+                wrapper.appendChild(div);
+            });
+
+            wrapper.addEventListener('click', function (e) {
+                if (e.target.classList.contains('remove-item')) {
+                    e.target.parentNode.remove();
+                }
+            });
+        }
+
+        document.addEventListener('click', function (e) {
+            var btn = e.target.closest('.ajax-modal-trigger');
+            if (!btn) return;
+
+            e.preventDefault();
+
+            var url = btn.getAttribute('data-url');
+            var title = btn.getAttribute('data-title');
+
+            var modalContent = document.querySelector('#ajax-modal .modal-content');
+            modalContent.innerHTML =
+                '<div class="p-5 text-center"><div class="spinner-border text-light"></div></div>';
+
+            new bootstrap.Modal(document.getElementById('ajax-modal')).show();
+
+            fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(function (res) { return res.text(); })
+                .then(function (html) {
+                    modalContent.innerHTML =
+                        '<div class="modal-header">' +
+                        '<h5 class="modal-title">' + title + '</h5>' +
+                        '<button type="button" class="btn-close" data-bs-dismiss="modal"></button>' +
+                        '</div>' +
+                        '<div class="modal-body">' + html + '</div>';
+
+                    // Reinitialize dropzones
+                    setupDropzone('banner-dropzone', 'input[name="mods[bannerFile]"]');
+                    setupDropzone('gallery-dropzone', 'input[name="mods[galleryFiles][]"]');
+
+                    // Reinitialize dynamic fields
+                    initCollection('tags-wrapper', 'add-tag');
+                    initCollection('compatible-wrapper', 'add-compatible');
                 })
-                .then(response => response.text()) // Fetch as text first
-                .then(html => {
-                    ourGameFormContent.innerHTML = html;
-                    // Re-attach event listener for form submission after content is loaded
-                    var form = ourGameFormContent.querySelector('form');
-                    if (form) {
-                        form.addEventListener('submit', function (e) {
-                            e.preventDefault(); // Prevent default form submission
-
-                            fetch(form.action, {
-                                method: 'POST',
-                                body: new FormData(form),
-                                headers: {
-                                    'X-Requested-With': 'XMLHttpRequest' // Identify as AJAX request
-                                }
-                            })
-                            .then(response => {
-                                // Check if the response is JSON
-                                const contentType = response.headers.get("content-type");
-                                if (contentType && contentType.indexOf("application/json") !== -1) {
-                                    return response.json();
-                                } else {
-                                    // If not JSON, assume it's HTML (form with errors)
-                                    return response.text().then(text => {
-                                        // Create a custom error object to pass HTML content
-                                        throw { isHtml: true, htmlContent: text };
-                                    });
-                                }
-                            })
-                            .then(data => {
-                                if (data.success) {
-                                    alert(data.message); // Or use a flash message system
-                                    var modal = bootstrap.Modal.getInstance(ourGameModal);
-                                    modal.hide();
-                                    location.reload(); // Reload the page to see changes
-                                } else {
-                                    // Handle JSON errors
-                                    let errorMessage = data.message || 'An unknown error occurred.';
-                                    if (data.errors && data.errors.length > 0) {
-                                        errorMessage += "\n" + data.errors.join("\n");
-                                    }
-                                    alert('Error: ' + errorMessage);
-                                }
-                            })
-                            .catch(error => {
-                                if (error.isHtml) {
-                                    // If it's HTML content, update the modal body with the form (which now contains errors)
-                                    ourGameFormContent.innerHTML = error.htmlContent;
-                                    // Re-attach the submit listener to the new form if needed
-                                    var newForm = ourGameFormContent.querySelector('form');
-                                    if (newForm) {
-                                        newForm.addEventListener('submit', arguments.callee); // Re-attach this same listener
-                                    }
-                                } else {
-                                    console.error('Error:', error);
-                                    alert('An unexpected error occurred during submission.');
-                                }
-                            });
-                        });
-                    }
-                })
-                .catch(error => {
-                    ourGameFormContent.innerHTML = '<p class="text-danger">Failed to load form.</p>';
-                    console.error('Error loading form:', error);
+                .catch(function () {
+                    modalContent.innerHTML =
+                        '<div class="p-4 text-danger">Failed to load form. Please try again.</div>';
                 });
-            });
-
-            ourGameModal.addEventListener('hidden.bs.modal', function () {
-                ourGameFormContent.innerHTML = ''; // Clear content when modal is closed
-            });
         });
     </script>
 {% endblock %}

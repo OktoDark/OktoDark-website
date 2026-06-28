@@ -1,0 +1,149 @@
+{% extends "@theme/base.html.twig" %}
+
+{% block title %}{{ game.name }}{% endblock %}
+
+{% block main %}
+<section class="section section-page-title bg-default py-5">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">{{ game.name }}</h1>
+        {% if game.shortDescription %}
+            <p class="lead text-muted">{{ game.shortDescription }}</p>
+        {% endif %}
+    </div>
+</section>
+
+<section class="section section-lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="game-description mb-5">
+                    <h3 class="mb-4">About</h3>
+                    {{ game.description|raw }}
+                </div>
+
+                {% if game.images is not empty %}
+                    <div class="screenshots-wrapper mb-5">
+                        <h3 class="mb-4">Screenshots</h3>
+                        
+                        <div id="gameScreenshotCarousel" class="carousel slide shadow rounded overflow-hidden" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                {% for image in game.images %}
+                                    <button type="button" data-bs-target="#gameScreenshotCarousel" data-bs-slide-to="{{ loop.index0 }}" class="{{ loop.first ? 'active' }}" aria-current="{{ loop.first ? 'true' }}" aria-label="Slide {{ loop.index }}"></button>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="carousel-inner">
+                                {% for image in game.images %}
+                                    {% set imagePath = asset('uploads/games/' ~ game.shortNameSlug ~ '/images/' ~ image) %}
+                                    <div class="carousel-item {{ loop.first ? 'active' }}">
+                                        <img src="{{ imagePath }}" 
+                                             class="d-block w-100 img-clickable" 
+                                             alt="Screenshot {{ loop.index }}"
+                                             style="cursor: zoom-in; object-fit: cover; max-height: 500px;"
+                                             data-bs-toggle="modal" 
+                                             data-bs-target="#screenshotModal" 
+                                             data-bs-fullsize="{{ imagePath }}">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <button class="carousel-control-prev" type="button" data-bs-target="#gameScreenshotCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#gameScreenshotCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <p class="text-muted small mt-2 text-center"><i class="fas fa-search-plus me-1"></i> Click any image to enlarge</p>
+                    </div>
+                {% endif %}
+
+                {% if game.systemRequirements %}
+                    <div class="system-requirements-wrapper mb-5">
+                        <h3 class="mb-4">System Requirements</h3>
+                        <div class="card card-body bg-light">
+                            {{ game.systemRequirements|raw }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 bg-light">
+                    <div class="card-body">
+                        {% if game.cover %}
+                            <img src="{{ asset('uploads/games/' ~ game.shortNameSlug ~ '/covers/' ~ game.cover) }}" 
+                                 class="img-fluid rounded mb-3" alt="{{ game.name }}">
+                        {% endif %}
+                        
+                        <div class="d-grid gap-2">
+                            {% if game.stableLink %}
+                                <a href="{{ game.stableLink }}" class="btn btn-success text-bg-success">Download Stable</a>
+                            {% endif %}
+                            {% if game.isAlpha and game.alpha %}
+                                <a href="{{ game.alpha }}" class="btn btn-outline-primary">Access Alpha</a>
+                            {% endif %}
+                        </div>
+
+                        <hr>
+                        
+                        <ul class="list-unstyled">
+                            <li><strong>Status:</strong> 
+                                {% if game.stable %} <span class="badge bg-success">Stable</span>
+                                {% elseif game.isBeta %} <span class="badge bg-info text-bg-info">Beta</span>
+                                {% else %} <span class="badge bg-warning text-bg-warning">Alpha</span>
+                                {% endif %}
+                            </li>
+                            {% if game.websiteLink %}
+                                <li class="mt-2 text-truncate">
+                                    <strong>Website:</strong> 
+                                    <a href="{{ game.websiteLink }}" target="_blank">Visit Site</a>
+                                </li>
+                            {% endif %}
+                            {% if game.shortNameSlug %}
+                                <li class="mt-2 text-truncate">
+                                    <strong>Bugs:</strong>
+                                    <a href="{{ path('kanban_bugs_project', {'shortNameSlug': game.shortNameSlug}) }}">Report/View Bugs</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Modal for Full Size Screenshots #}
+<div class="modal fade" id="screenshotModal" tabindex="-1" aria-labelledby="screenshotModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content bg-dark border-0">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-2 text-center">
+                <img src="" id="modalFullImage" class="img-fluid rounded" alt="Full size screenshot">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const screenshotModal = document.getElementById('screenshotModal');
+            if (screenshotModal) {
+                screenshotModal.addEventListener('show.bs.modal', function(event) {
+                    const button = event.relatedTarget;
+                    const fullSizeUrl = button.getAttribute('data-bs-fullsize');
+                    const modalImage = screenshotModal.querySelector('#modalFullImage');
+                    modalImage.src = fullSizeUrl;
+                });
+            }
+        });
+    </script>
+{% endblock %}
