@@ -81,6 +81,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         'showLocation' => true,
         'showSocialLinks' => true,
         'showRoles' => true,
+        'showMemberSince' => true,
+        'showAccountStatus' => true,
     ];
 
     #[ORM\Column(type: Types::BOOLEAN)]
@@ -124,12 +126,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $notificationPreferences = [
-        'blog_email' => true,
-        'blog_onsite' => true,
-        'forum_email' => true,
-        'forum_onsite' => true,
-        'follow_email' => true,
-        'follow_onsite' => true,
+        'blog_email' => false,
+        'blog_onsite' => false,
+        'forum_email' => false,
+        'forum_onsite' => false,
+        'follow_email' => false,
+        'follow_onsite' => false,
     ];
 
     #[ORM\ManyToMany(targetEntity: Badge::class, inversedBy: 'users')]
@@ -363,6 +365,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
+    public function setFullName(string $fullname): self
+    {
+        $parts = explode(' ', $fullname, 2);
+        $this->firstName = $parts[0] ?? '';
+        $this->lastName = $parts[1] ?? '';
+
+        return $this;
+    }
+
     public function getFullName(): string
     {
         if (!$this->firstName && !$this->lastName) {
@@ -465,6 +476,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
             'showEmail' => false,
             'showLocation' => true,
             'showSocialLinks' => true,
+            'showRoles' => true,
+            'showMemberSince' => true,
+            'showAccountStatus' => true,
         ];
 
         $stored = \is_array($this->privacy) ? $this->privacy : [];
@@ -679,10 +693,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
-    // NOTIFICATION PREFERENCES (Flattened JSON)
+    // NOTIFICATION PREFERENCES
     public function getNotificationPreferences(): ?array
     {
-        // Define the base default structure inline
         $baseDefaultPrefs = [
             'blog_email' => true,
             'blog_onsite' => true,
@@ -692,20 +705,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
             'follow_onsite' => true,
         ];
 
-        // Ensure $this->notificationPreferences is always an array before merging, or use an empty array if null
         $currentPrefs = \is_array($this->notificationPreferences) ? $this->notificationPreferences : [];
 
-        // Merge stored preferences with the base defaults to ensure all keys exist
-        $merged = array_replace_recursive(
-            $baseDefaultPrefs,
-            $currentPrefs
-        );
+        $merged = array_replace_recursive($baseDefaultPrefs, $currentPrefs);
 
-        // Ensure all values are booleans
         array_walk($merged, static function (&$value) {
             $value = filter_var($value, \FILTER_VALIDATE_BOOLEAN, \FILTER_NULL_ON_FAILURE);
             if (null === $value) {
-                $value = false; // Default to false if validation fails
+                $value = false;
             }
         });
 
@@ -714,31 +721,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function setNotificationPreferences(?array $notificationPreferences): self
     {
-        // Define the base default structure inline
         $baseDefaultPrefs = [
-            'blog_email' => true,
-            'blog_onsite' => true,
-            'forum_email' => true,
-            'forum_onsite' => true,
-            'follow_email' => true,
-            'follow_onsite' => true,
+            'blog_email' => false,
+            'blog_onsite' => false,
+            'forum_email' => false,
+            'forum_onsite' => false,
+            'follow_email' => false,
+            'follow_onsite' => false,
         ];
 
-        // If null is passed, set to null
         if (null === $notificationPreferences) {
             $this->notificationPreferences = null;
         } else {
-            // Merge provided preferences with the base defaults to ensure completeness
-            $merged = array_replace_recursive(
-                $baseDefaultPrefs,
-                $notificationPreferences
-            );
+            $merged = array_replace_recursive($baseDefaultPrefs, $notificationPreferences);
 
-            // Ensure all values are booleans
             array_walk($merged, static function (&$value) {
                 $value = filter_var($value, \FILTER_VALIDATE_BOOLEAN, \FILTER_NULL_ON_FAILURE);
                 if (null === $value) {
-                    $value = false; // Default to false if validation fails
+                    $value = false;
                 }
             });
 
@@ -748,18 +748,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
-    // Helper to get a specific flattened preference
     public function getNotificationPreference(string $key): bool
     {
-        $preferences = $this->getNotificationPreferences(); // This will return defaults if $notificationPreferences is null
+        $preferences = $this->getNotificationPreferences();
 
         return $preferences[$key] ?? false;
     }
 
-    // Helper to set a specific flattened preference
     public function setNotificationPreference(string $key, bool $enabled): self
     {
-        // Ensure we start with a complete set of preferences (or defaults)
         $preferences = $this->getNotificationPreferences();
         $preferences[$key] = $enabled;
         $this->notificationPreferences = $preferences;
@@ -767,6 +764,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
+    // BADGES
     public function getBadges(): Collection
     {
         return $this->badges;
@@ -788,7 +786,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
-    // RELATIONS
+    // TRUSTED DEVICES
     public function getTrustedDevices(): Collection
     {
         return $this->trustedDevices;
@@ -815,6 +813,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
+    // FORUM COUNTS
     public function getPostCount(): int
     {
         return $this->forumPosts->count();
@@ -852,6 +851,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this->followers;
     }
 
+    // THREAD SUBSCRIPTIONS
     public function getSubscribedThreads(): Collection
     {
         return $this->subscribedThreads;
@@ -873,9 +873,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
-    /**
-     * @return Collection<int, Notification>
-     */
+    // NOTIFICATIONS
     public function getNotifications(): Collection
     {
         return $this->notifications;
@@ -894,7 +892,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function removeNotification(Notification $notification): self
     {
         if ($this->notifications->removeElement($notification)) {
-            // set the owning side to null (unless already changed)
             if ($notification->getUser() === $this) {
                 $notification->setUser(null);
             }
@@ -915,6 +912,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $count;
     }
 
+    // SERIALIZATION
     public function __serialize(): array
     {
         return [$this->id, $this->email, $this->password];
@@ -930,6 +928,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return (string) $this->getUserIdentifier();
     }
 
+    // ONLINE STATUS
     public function isOnline(): bool
     {
         if ($this->getForumSettings()['stayHidden']) {

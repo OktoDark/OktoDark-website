@@ -15,7 +15,7 @@ use App\Entity\TrustedDevice;
 use App\Entity\User;
 use App\Form\AvatarUploadType;
 use App\Form\ChangePasswordType;
-use App\Form\ForumProfileSettingsType;
+use App\Form\Forum\ForumProfileSettingsType;
 use App\Form\NotificationSettingsType;
 use App\Form\PreferencesType;
 use App\Form\ProfileType;

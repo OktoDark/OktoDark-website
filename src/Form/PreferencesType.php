@@ -14,7 +14,6 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -29,22 +28,52 @@ class PreferencesType extends AbstractType
             ->add('darkMode', CheckboxType::class, [
                 'required' => false,
             ])
-            // Privacy Sub-form (JSON)
-            ->add('privacy', FormType::class, [
-                'inherit_data' => false,
+            // Privacy Sub-form (JSON) - using property_path to access array keys
+            ->add('profilePublic', CheckboxType::class, [
+                'required' => false,
+                'property_path' => 'privacy[profilePublic]',
+                'label' => false,
+            ])
+            ->add('showFirstName', CheckboxType::class, [
+                'required' => false,
+                'property_path' => 'privacy[showFirstName]',
+                'label' => false,
+            ])
+            ->add('showLastName', CheckboxType::class, [
+                'required' => false,
+                'property_path' => 'privacy[showLastName]',
+                'label' => false,
+            ])
+            ->add('showEmail', CheckboxType::class, [
+                'required' => false,
+                'property_path' => 'privacy[showEmail]',
+                'label' => false,
+            ])
+            ->add('showLocation', CheckboxType::class, [
+                'required' => false,
+                'property_path' => 'privacy[showLocation]',
+                'label' => false,
+            ])
+            ->add('showSocialLinks', CheckboxType::class, [
+                'required' => false,
+                'property_path' => 'privacy[showSocialLinks]',
+                'label' => false,
+            ])
+            ->add('showRoles', CheckboxType::class, [
+                'required' => false,
+                'property_path' => 'privacy[showRoles]',
+                'label' => false,
+            ])
+            ->add('showMemberSince', CheckboxType::class, [
+                'required' => false,
+                'property_path' => 'privacy[showMemberSince]',
+                'label' => false,
+            ])
+            ->add('showAccountStatus', CheckboxType::class, [
+                'required' => false,
+                'property_path' => 'privacy[showAccountStatus]',
                 'label' => false,
             ]);
-
-        $builder->get('privacy')
-            ->add('profilePublic', CheckboxType::class, ['required' => false])
-            ->add('showFirstName', CheckboxType::class, ['required' => false])
-            ->add('showLastName', CheckboxType::class, ['required' => false])
-            ->add('showEmail', CheckboxType::class, ['required' => false])
-            ->add('showLocation', CheckboxType::class, ['required' => false])
-            ->add('showSocialLinks', CheckboxType::class, ['required' => false])
-            ->add('showRoles', CheckboxType::class, ['required' => false])
-            ->add('showMemberSince', CheckboxType::class, ['required' => false])
-            ->add('showAccountStatus', CheckboxType::class, ['required' => false]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

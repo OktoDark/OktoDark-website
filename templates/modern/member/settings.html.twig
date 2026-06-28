@@ -423,47 +423,47 @@
 
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
                                                         <span>{{ 'settings.public_profile'|trans({}, 'settings') }}</span>
-                                                        {{ form_widget(preferencesForm.privacy.profilePublic, { attr: { class: 'privacy-toggle' } }) }}
+                                                        {{ form_widget(preferencesForm.profilePublic, { attr: { class: 'privacy-toggle' } }) }}
                                                     </div>
 
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
                                                         <span>{{ 'settings.show_first_name'|trans({}, 'settings') }}</span>
-                                                        {{ form_widget(preferencesForm.privacy.showFirstName, { attr: { class: 'privacy-toggle' } }) }}
+                                                        {{ form_widget(preferencesForm.showFirstName, { attr: { class: 'privacy-toggle' } }) }}
                                                     </div>
 
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
                                                         <span>{{ 'settings.show_last_name'|trans({}, 'settings') }}</span>
-                                                        {{ form_widget(preferencesForm.privacy.showLastName, { attr: { class: 'privacy-toggle' } }) }}
+                                                        {{ form_widget(preferencesForm.showLastName, { attr: { class: 'privacy-toggle' } }) }}
                                                     </div>
 
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
                                                         <span>{{ 'settings.show_email'|trans({}, 'settings') }}</span>
-                                                        {{ form_widget(preferencesForm.privacy.showEmail, { attr: { class: 'privacy-toggle' } }) }}
+                                                        {{ form_widget(preferencesForm.showEmail, { attr: { class: 'privacy-toggle' } }) }}
                                                     </div>
 
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
                                                         <span>{{ 'settings.show_location'|trans({}, 'settings') }}</span>
-                                                        {{ form_widget(preferencesForm.privacy.showLocation, { attr: { class: 'privacy-toggle' } }) }}
+                                                        {{ form_widget(preferencesForm.showLocation, { attr: { class: 'privacy-toggle' } }) }}
                                                     </div>
 
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
                                                         <span>{{ 'settings.show_social_links'|trans({}, 'settings') }}</span>
-                                                        {{ form_widget(preferencesForm.privacy.showSocialLinks, { attr: { class: 'privacy-toggle' } }) }}
+                                                        {{ form_widget(preferencesForm.showSocialLinks, { attr: { class: 'privacy-toggle' } }) }}
                                                     </div>
 
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
                                                         <span>{{ 'settings.show_roles'|trans({}, 'settings') }}</span>
-                                                        {{ form_widget(preferencesForm.privacy.showRoles, { attr: { class: 'privacy-toggle' } }) }}
+                                                        {{ form_widget(preferencesForm.showRoles, { attr: { class: 'privacy-toggle' } }) }}
                                                     </div>
 
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
                                                         <span>{{ 'settings.show_member_since'|trans({}, 'settings') }}</span>
-                                                        {{ form_widget(preferencesForm.privacy.showMemberSince, { attr: { class: 'privacy-toggle' } }) }}
+                                                        {{ form_widget(preferencesForm.showMemberSince, { attr: { class: 'privacy-toggle' } }) }}
                                                     </div>
 
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
                                                         <span>{{ 'settings.show_account_status'|trans({}, 'settings') }}</span>
-                                                        {{ form_widget(preferencesForm.privacy.showAccountStatus, { attr: { class: 'privacy-toggle' } }) }}
+                                                        {{ form_widget(preferencesForm.showAccountStatus, { attr: { class: 'privacy-toggle' } }) }}
                                                     </div>
 
                                                 </div>
@@ -488,46 +488,46 @@
                             <div class="card shadow-sm border-0">
                                 <div class="card-body p-4">
                                     {{ form_start(forumForm) }}
-                                        <h4 class="mb-4 fw-bold text-success"><i class="fa-solid fa-comments me-2"></i>{{ 'settings.forum.title'|trans({}, 'settings') }}</h4>
+                                    <h4 class="mb-4 fw-bold text-success"><i class="fa-solid fa-comments me-2"></i>{{ 'settings.forum.title'|trans({}, 'settings') }}</h4>
 
-                                        {# Signature Field (Modern Look) #}
-                                        {% if settings.forumSignaturesEnabled %}
-                                            <div class="col-12 mb-4">
-                                                <label class="form-label fw-semibold">{{ 'settings.forum.signature'|trans({}, 'settings') }}</label>
-                                                <div class="p-3 border rounded bg-light bg-opacity-10 border-start border-4 border-success shadow-sm">
-                                                    {{ form_widget(forumForm.signature, { attr: { class: 'form-control border-0 bg-white shadow-none', rows: 4, placeholder: 'Write something cool...' } }) }}
-                                                </div>
-                                                <div class="form-text mt-2 text-muted small">{{ 'settings.forum.signature_help'|trans({}, 'settings') }}</div>
+                                    {# Signature Field (Modern Look) #}
+                                    {% if settings.forumSignaturesEnabled %}
+                                        <div class="col-12 mb-4">
+                                            <label class="form-label fw-semibold">{{ 'settings.forum.signature'|trans({}, 'settings') }}</label>
+                                            <div class="p-3 border rounded bg-light bg-opacity-10 border-start border-4 border-success shadow-sm">
+                                                {{ form_widget(forumForm.signature, { attr: { class: 'form-control border-0 bg-white shadow-none', rows: 4, placeholder: 'Write something cool...' } }) }}
                                             </div>
-                                        {% endif %}
+                                            <div class="form-text mt-2 text-muted small">{{ 'settings.forum.signature_help'|trans({}, 'settings') }}</div>
+                                        </div>
+                                    {% endif %}
 
-                                        {# Forum Settings (Like Privacy Settings) #}
-                                        <div class="col-12">
-                                            <div class="card border-0 shadow-sm bg-light bg-opacity-25">
-                                                <div class="card-body">
-                                                    <div class="row g-3">
-                                                        <div class="col-12 d-flex justify-content-between align-items-center">
-                                                            <span class="small fw-semibold">{{ 'settings.forum.show_my_sig'|trans({}, 'settings') }}</span>
-                                                            {{ form_widget(forumForm.forumSettings.showSignature, { attr: { class: 'privacy-toggle' } }) }}
-                                                        </div>
-                                                        <div class="col-12 d-flex justify-content-between align-items-center">
-                                                            <span class="small fw-semibold">{{ 'settings.forum.show_others_sig'|trans({}, 'settings') }}</span>
-                                                            {{ form_widget(forumForm.forumSettings.showOtherSignatures, { attr: { class: 'privacy-toggle' } }) }}
-                                                        </div>
-                                                        <div class="col-12 d-flex justify-content-between align-items-center">
-                                                            <span class="small fw-semibold">{{ 'settings.forum.stay_hidden'|trans({}, 'settings') }}</span>
-                                                            {{ form_widget(forumForm.forumSettings.stayHidden, { attr: { class: 'privacy-toggle' } }) }}
-                                                        </div>
+                                    {# Forum Settings (Like Privacy Settings) #}
+                                    <div class="col-12">
+                                        <div class="card border-0 shadow-sm bg-light bg-opacity-25">
+                                            <div class="card-body">
+                                                <div class="row g-3">
+                                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                                        <span class="small fw-semibold">{{ 'settings.forum.show_my_sig'|trans({}, 'settings') }}</span>
+                                                        {{ form_widget(forumForm.showSignature, { attr: { class: 'privacy-toggle' } }) }}
+                                                    </div>
+                                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                                        <span class="small fw-semibold">{{ 'settings.forum.show_others_sig'|trans({}, 'settings') }}</span>
+                                                        {{ form_widget(forumForm.showOtherSignatures, { attr: { class: 'privacy-toggle' } }) }}
+                                                    </div>
+                                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                                        <span class="small fw-semibold">{{ 'settings.forum.stay_hidden'|trans({}, 'settings') }}</span>
+                                                        {{ form_widget(forumForm.stayHidden, { attr: { class: 'privacy-toggle' } }) }}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col-12 mt-4 d-flex justify-content-end">
-                                            <button name="tab" value="forum" class="btn btn-success btn-lg px-5 shadow-sm">
-                                                <i class="fas fa-save me-2"></i>{{ 'settings.forum.save'|trans({}, 'settings') }}
-                                            </button>
-                                        </div>
+                                    <div class="col-12 mt-4 d-flex justify-content-end">
+                                        <button name="tab" value="forum" class="btn btn-success btn-lg px-5 shadow-sm">
+                                            <i class="fas fa-save me-2"></i>{{ 'common.save'|trans({}, 'common') }}
+                                        </button>
+                                    </div>
                                     {{ form_end(forumForm) }}
                                 </div>
                             </div>
@@ -542,32 +542,32 @@
                                     {{ form_start(notificationForm) }}
                                         <div class="col-12 d-flex justify-content-between align-items-center mb-3">
                                             <span>{{ 'notification.types.blog'|trans({}, 'notifications') }} {{ 'notification.channels.email'|trans({}, 'notifications') }}</span>
-                                            {{ form_widget(notificationForm.notificationPreferences.blog_email, { attr: { class: 'privacy-toggle' } }) }}
+                                            {{ form_widget(notificationForm.blog_email, { attr: { class: 'privacy-toggle' } }) }}
                                         </div>
 
                                         <div class="col-12 d-flex justify-content-between align-items-center mb-3">
                                             <span>{{ 'notification.types.blog'|trans({}, 'notifications') }} {{ 'notification.channels.onsite'|trans({}, 'notifications') }}</span>
-                                            {{ form_widget(notificationForm.notificationPreferences.blog_onsite, { attr: { class: 'privacy-toggle' } }) }}
+                                            {{ form_widget(notificationForm.blog_onsite, { attr: { class: 'privacy-toggle' } }) }}
                                         </div>
 
                                         <div class="col-12 d-flex justify-content-between align-items-center mb-3">
                                             <span>{{ 'notification.types.forum'|trans({}, 'notifications') }} {{ 'notification.channels.email'|trans({}, 'notifications') }}</span>
-                                            {{ form_widget(notificationForm.notificationPreferences.forum_email, { attr: { class: 'privacy-toggle' } }) }}
+                                            {{ form_widget(notificationForm.forum_email, { attr: { class: 'privacy-toggle' } }) }}
                                         </div>
 
                                         <div class="col-12 d-flex justify-content-between align-items-center mb-3">
                                             <span>{{ 'notification.types.forum'|trans({}, 'notifications') }} {{ 'notification.channels.onsite'|trans({}, 'notifications') }}</span>
-                                            {{ form_widget(notificationForm.notificationPreferences.forum_onsite, { attr: { class: 'privacy-toggle' } }) }}
+                                            {{ form_widget(notificationForm.forum_onsite, { attr: { class: 'privacy-toggle' } }) }}
                                         </div>
 
                                         <div class="col-12 d-flex justify-content-between align-items-center mb-3">
                                             <span>{{ 'notification.types.follow'|trans({}, 'notifications') }} {{ 'notification.channels.email'|trans({}, 'notifications') }}</span>
-                                            {{ form_widget(notificationForm.notificationPreferences.follow_email, { attr: { class: 'privacy-toggle' } }) }}
+                                            {{ form_widget(notificationForm.follow_email, { attr: { class: 'privacy-toggle' } }) }}
                                         </div>
 
                                         <div class="col-12 d-flex justify-content-between align-items-center mb-3">
                                             <span>{{ 'notification.types.follow'|trans({}, 'notifications') }} {{ 'notification.channels.onsite'|trans({}, 'notifications') }}</span>
-                                            {{ form_widget(notificationForm.notificationPreferences.follow_onsite, { attr: { class: 'privacy-toggle' } }) }}
+                                            {{ form_widget(notificationForm.follow_onsite, { attr: { class: 'privacy-toggle' } }) }}
                                         </div>
 
                                         <button name="tab" value="notifications" class="btn btn-primary">

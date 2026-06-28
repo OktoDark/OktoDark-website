@@ -8,7 +8,7 @@
 
     <header class="admin-top-nav">
         <div class="container-fluid d-flex align-items-center justify-content-center px-4 position-relative">
-            
+
             <button class="admin-mobile-toggle d-lg-none" onclick="toggleAdminMenu()">
                 <i class="fas fa-bars"></i>
             </button>
@@ -37,6 +37,8 @@
                             <li><a href="{{ path('admin_users') }}">{{ 'admin.nav.user_management'|trans({}, 'admin') }}</a></li>
                             <li><a href="{{ path('admin_registration_panel') }}">{{ 'admin.nav.registration_control'|trans({}, 'admin') }}</a></li>
                             <li><a href="{{ path('admin_waitlist_index') }}">{{ 'admin.nav.waitlist'|trans({}, 'admin') }}</a></li>
+                            <li><a href="{{ path('admin_permission_groups') }}">Permission Groups</a></li>
+                            <li><a href="{{ path('admin_roles') }}">Roles</a></li>
                         </ul>
                     </li>
 
@@ -52,12 +54,13 @@
 
                     <li class="dropdown">
                         <a href="#" class="{{ (
-                            current_route starts with 'admin_news' or 
-                            current_route starts with 'admin_team' or 
-                            (current_route starts with 'admin_careers' and not (current_route starts with 'admin_careers_applications')) or 
-                            current_route starts with 'admin_services' or 
+                            current_route starts with 'admin_news' or
+                            current_route starts with 'admin_team' or
+                            (current_route starts with 'admin_careers' and not (current_route starts with 'admin_careers_applications')) or
+                            current_route starts with 'admin_services' or
                             current_route starts with 'admin_assets' or
-                            current_route starts with 'admin_our_games'
+                            current_route starts with 'admin_our_games' or
+                            current_route starts with 'admin_our_mods'
                         ) ? 'active' : '' }}">
                             <i class="fas fa-layer-group"></i> {{ 'admin.nav.content'|trans({}, 'admin') }} <i class="fas fa-chevron-down ms-1 small"></i>
                         </a>
@@ -68,6 +71,7 @@
                             <li><a href="{{ path('admin_services') }}">{{ 'admin.nav.services'|trans({}, 'admin') }}</a></li>
                             <li><a href="{{ path('admin_assets') }}">{{ 'admin.nav.asset_library'|trans({}, 'admin') }}</a></li>
                             <li><a href="{{ path('admin_our_games_index') }}">Our Games</a></li>
+                            <li><a href="{{ path('admin_mods_index') }}">Mods</a></li>
                         </ul>
                     </li>
 

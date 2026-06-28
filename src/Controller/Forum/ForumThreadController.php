@@ -15,13 +15,14 @@ use App\Entity\ForumCategory;
 use App\Entity\ForumPost;
 use App\Entity\ForumThread;
 use App\Entity\User;
-use App\Form\ForumPostType;
-use App\Form\ForumThreadType;
+use App\Form\Forum\ForumPostType;
+use App\Form\Forum\ForumThreadType;
 use App\Pagination\Paginator;
 use App\Repository\ForumPostRepository;
 use App\Repository\UserRepository;
 use App\Security\Attribute\Permission;
 use App\Service\BadgeService;
+use App\Service\EmailIdentityService;
 use App\Service\ForumNotificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -44,7 +45,7 @@ final class ForumThreadController extends AbstractController
         private MailerInterface $mailer,
         private UrlGeneratorInterface $urlGenerator,
         private TranslatorInterface $translator,
-        private string $sender,
+        private EmailIdentityService $emailIdentity,
         private Environment $twig,
     ) {
     }
@@ -99,17 +100,18 @@ final class ForumThreadController extends AbstractController
             $thread->setUpdatedAt(new \DateTime());
             $em->flush();
 
-            // --- Notification Logic for 'new reply' ---
+            // --- Email Notification ---
             $threadAuthor = $thread->getAuthor();
             $replier = $post->getAuthor();
 
-            // Only notify if the replier is not the thread author
             if ($threadAuthor !== $replier && $threadAuthor->getNotificationPreference('forum_email')) {
                 $subject = $this->translator->trans('notification.forum_new_reply.email_subject', [], 'notifications');
-                $linkToThread = $this->urlGenerator->generate('forum_thread_view', [
-                    'slug' => $thread->getSlug(),
-                    '_fragment' => 'post-'.$post->getId(),
-                ], UrlGeneratorInterface::ABSOLUTE_URL);
+
+                $linkToThread = $this->urlGenerator->generate(
+                    'forum_thread_view',
+                    ['slug' => $thread->getSlug(), '_fragment' => 'post-'.$post->getId()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                );
 
                 $body = $this->twig->render('emails/notifications/forum_new_reply.html.twig', [
                     'threadTitle' => $thread->getTitle(),
@@ -119,18 +121,17 @@ final class ForumThreadController extends AbstractController
                 ]);
 
                 $email = (new Email())
-                    ->from($this->sender)
+                    ->from($this->emailIdentity->noreply())
                     ->to($threadAuthor->getEmail())
                     ->subject($subject)
-                    ->html($body)
-                ;
+                    ->html($body);
+
                 $email->getHeaders()->addTextHeader('X-Transport', 'no_reply');
                 $this->mailer->send($email);
             }
-            // --- End Notification Logic ---
 
-            // Notifications (on-site, mentions)
-            $forumNotifier->notifyNewReply($post); // This will handle on-site notification for new replies
+            // On-site notifications + mentions
+            $forumNotifier->notifyNewReply($post);
             $this->parseMentions($post->getContent(), $post, $forumNotifier, $userRepository);
 
             // Badges
@@ -184,7 +185,6 @@ final class ForumThreadController extends AbstractController
             $slugger = new AsciiSlugger();
             $slug = mb_strtolower($slugger->slug($thread->getTitle()));
 
-            // Basic unique slug check (append random if needed, or ID)
             $thread->setSlug($slug.'-'.uniqid());
 
             if ('' === mb_trim($thread->getContent())) {
@@ -193,7 +193,6 @@ final class ForumThreadController extends AbstractController
                 return $this->redirectToRoute('forum_thread_create', ['category' => $category->getId()]);
             }
 
-            // Associate the poll with the thread if a poll was created
             $poll = $thread->getPoll();
             if ($poll) {
                 $poll->setThread($thread);
@@ -206,9 +205,7 @@ final class ForumThreadController extends AbstractController
 
             $this->addFlash('success', 'Thread created successfully.');
 
-            return $this->redirectToRoute('forum_thread_view', [
-                'slug' => $thread->getSlug(),
-            ]);
+            return $this->redirectToRoute('forum_thread_view', ['slug' => $thread->getSlug()]);
         }
 
         return $this->render('@theme/forum/create_thread.html.twig', [
@@ -292,7 +289,6 @@ final class ForumThreadController extends AbstractController
 
         $categorySlug = $thread->getCategory()->getSlug();
 
-        // Soft delete
         $thread->setDeletedAt(new \DateTime());
         $em->flush();
 

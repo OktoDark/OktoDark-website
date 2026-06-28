@@ -17,14 +17,14 @@
                     <div class="col-lg-6">
                         <div class="admin-card h-100">
                             <h5 class="mb-4 text-white"><i class="fas fa-server me-2 text-muted"></i>{{ 'admin.system.resources'|trans({}, 'admin') }}</h5>
-                            
+
                             <div class="mb-4">
                                 <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-white">{{ 'admin.system.disk'|trans({}, 'admin') }} ({{ health.disk.used }} / {{ health.disk.total }})</span>
+                                    <span>{{ 'admin.system.disk'|trans({}, 'admin') }} ({{ health.disk.used }} / {{ health.disk.total }})</span>
                                     <span class="fw-bold text-white">{{ health.disk.percentage }}%</span>
                                 </div>
                                 <div class="progress" style="height: 8px; background-color: var(--admin-border);">
-                                    <div class="progress-bar" 
+                                    <div class="progress-bar"
                                          role="progressbar" style="width: {{ health.disk.percentage }}%; background-color: {{ health.disk.status == 'warning' ? 'var(--admin-danger)' : 'var(--admin-accent)' }}"></div>
                                 </div>
                                 <small class="text-muted">{{ health.disk.free }} {{ 'admin.system.available'|trans({}, 'admin') }}</small>
@@ -32,11 +32,11 @@
 
                             <div class="mb-0">
                                 <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-white">{{ 'admin.system.memory'|trans({}, 'admin') }} ({{ health.memory.used }} / {{ health.memory.limit }})</span>
+                                    <span>{{ 'admin.system.memory'|trans({}, 'admin') }} ({{ health.memory.used }} / {{ health.memory.limit }})</span>
                                     <span class="fw-bold text-white">{{ health.memory.percentage }}%</span>
                                 </div>
                                 <div class="progress" style="height: 8px; background-color: var(--admin-border);">
-                                    <div class="progress-bar" 
+                                    <div class="progress-bar"
                                          role="progressbar" style="width: {{ health.memory.percentage }}%; background-color: {{ health.memory.status == 'warning' ? 'var(--admin-warning)' : 'var(--admin-success)' }}"></div>
                                 </div>
                                 <small class="text-muted">PHP Peak Memory: {{ health.memory.used }}</small>
@@ -51,7 +51,7 @@
                             <div class="admin-list-group">
                                 <div class="admin-list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <strong class="text-white">{{ 'admin.system.database'|trans({}, 'admin') }}</strong>
+                                        <strong>{{ 'admin.system.database'|trans({}, 'admin') }}</strong>
                                         <div class="small text-muted">{{ health.database.message }}</div>
                                     </div>
                                     <span class="admin-badge {{ health.database.status == 'ok' ? 'admin-badge-success' : 'admin-badge-danger' }}">
@@ -60,14 +60,14 @@
                                 </div>
                                 <div class="admin-list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <strong class="text-white">{{ 'admin.system.filesystem'|trans({}, 'admin') }}</strong>
+                                        <strong>{{ 'admin.system.filesystem'|trans({}, 'admin') }}</strong>
                                         <div class="small text-muted">Cache & Logs directories are writable.</div>
                                     </div>
                                     <span class="admin-badge admin-badge-success">OK</span>
                                 </div>
                                 <div class="admin-list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <strong class="text-white">{{ 'admin.system.environment'|trans({}, 'admin') }}</strong>
+                                        <strong>{{ 'admin.system.environment'|trans({}, 'admin') }}</strong>
                                         <div class="small text-muted">{{ health.env|capitalize }} Mode (Debug: {{ health.debug ? 'On' : 'Off' }})</div>
                                     </div>
                                     <span class="admin-badge admin-badge-info">PHP {{ health.php.version }}</span>

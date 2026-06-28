@@ -15,6 +15,7 @@ use App\Entity\ForumThread;
 use App\Entity\Notification;
 use App\Entity\User;
 use App\Security\Attribute\Permission;
+use App\Service\EmailIdentityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +34,7 @@ final class ForumSocialController extends AbstractController
         private MailerInterface $mailer,
         private UrlGeneratorInterface $urlGenerator,
         private TranslatorInterface $translator,
-        private string $sender,
+        private EmailIdentityService $emailIdentity,
     ) {
     }
 
@@ -57,16 +58,18 @@ final class ForumSocialController extends AbstractController
             $currentUser->follow($user);
             $this->addFlash('success', 'You are now following '.$user->getUsername());
 
-            // --- Notification Logic for 'follow' ---
             $followerUsername = $currentUser->getUsername();
             $followedUserEmail = $user->getEmail();
-            $followedUserLink = $this->urlGenerator->generate('profile_view', ['username' => $user->getUsername()], UrlGeneratorInterface::ABSOLUTE_URL); // Link to followed user's profile
+            $followedUserLink = $this->urlGenerator->generate(
+                'profile_view',
+                ['username' => $user->getUsername()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
 
             // On-site notification
             if ($user->getNotificationPreference('follow_onsite')) {
                 $notification = new Notification();
                 $notification->setUser($user);
-                // Re-added 'notification.' prefix
                 $notification->setTitle($this->translator->trans('notification.new_follower.title', [], 'notifications'));
                 $notification->setMessage($this->translator->trans('notification.new_follower.message', ['%username%' => $followerUsername], 'notifications'));
                 $notification->setLink($followedUserLink);
@@ -79,30 +82,29 @@ final class ForumSocialController extends AbstractController
                 $body = $this->renderView('emails/notifications/new_follower.html.twig', [
                     'followerUsername' => $followerUsername,
                     'followedUserLink' => $followedUserLink,
-                    'followedUser' => $user, // Pass the followed user object
-                    'currentUser' => $currentUser, // Pass the current user object
+                    'followedUser' => $user,
+                    'currentUser' => $currentUser,
                 ]);
 
                 $email = (new Email())
-                    ->from($this->sender)
+                    ->from($this->emailIdentity->noreply())
                     ->to($followedUserEmail)
                     ->subject($subject)
-                    ->html($body)
-                ;
+                    ->html($body);
+
                 $email->getHeaders()->addTextHeader('X-Transport', 'no_reply');
                 $this->mailer->send($email);
             }
-            // --- End Notification Logic ---
         }
 
         $this->em->flush();
 
-        return $this->redirect($this->generateUrl('profile_view', ['username' => $user->getUsername()]));
+        return $this->redirectToRoute('profile_view', ['username' => $user->getUsername()]);
     }
 
     #[Route('/subscribe/{id}', name: 'forum_thread_subscribe', methods: ['POST'])]
-    public function subscribeThread(ForumThread $thread, EntityManagerInterface $em): Response
     #[Permission('forum.social.subscribe', group: 'Forum', label: 'Subscribe to forum threads')]
+    public function subscribeThread(ForumThread $thread): Response
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
@@ -115,7 +117,7 @@ final class ForumSocialController extends AbstractController
             $this->addFlash('success', 'Subscribed to thread updates.');
         }
 
-        $em->flush();
+        $this->em->flush();
 
         return $this->redirectToRoute('forum_thread_view', ['slug' => $thread->getSlug()]);
     }
