@@ -9,32 +9,28 @@
  * For the full copyright and license information, please view the LICENSE.
  */
 
-namespace App\Form;
+namespace App\Form\Forum;
 
-use App\Entity\ForumPost;
-use App\Form\Type\TrixEditorType;
+use App\Entity\ForumPollOption;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ForumPostType extends AbstractType
+class ForumPollOptionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('content', TrixEditorType::class, [
-                'label' => 'Your Reply',
-                'required' => true,
-                'attr' => [
-                    'placeholder' => 'Write your message…',
-                ],
-            ]);
+        $builder->add('text', TextType::class, [
+            'label' => false,
+            'attr' => ['placeholder' => 'Option text...'],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ForumPost::class,
+            'data_class' => ForumPollOption::class,
         ]);
     }
 }

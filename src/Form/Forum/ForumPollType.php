@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view the LICENSE.
  */
 
-namespace App\Form;
+namespace App\Form\Forum;
 
 use App\Entity\ForumPoll;
 use Symfony\Component\Form\AbstractType;

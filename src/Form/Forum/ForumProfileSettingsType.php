@@ -9,12 +9,11 @@
  * For the full copyright and license information, please view the LICENSE.
  */
 
-namespace App\Form;
+namespace App\Form\Forum;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,14 +31,22 @@ class ForumProfileSettingsType extends AbstractType
                     'placeholder' => 'Enter your forum signature...',
                 ],
             ])
-            ->add('forumSettings', FormType::class, [
+            // Forum Settings (JSON array) - using property_path to access array keys
+            ->add('showSignature', CheckboxType::class, [
+                'required' => false,
+                'property_path' => 'forumSettings[showSignature]',
+                'label' => false,
+            ])
+            ->add('showOtherSignatures', CheckboxType::class, [
+                'required' => false,
+                'property_path' => 'forumSettings[showOtherSignatures]',
+                'label' => false,
+            ])
+            ->add('stayHidden', CheckboxType::class, [
+                'required' => false,
+                'property_path' => 'forumSettings[stayHidden]',
                 'label' => false,
             ]);
-
-        $builder->get('forumSettings')
-            ->add('showSignature', CheckboxType::class, ['required' => false])
-            ->add('showOtherSignatures', CheckboxType::class, ['required' => false])
-            ->add('stayHidden', CheckboxType::class, ['required' => false]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
