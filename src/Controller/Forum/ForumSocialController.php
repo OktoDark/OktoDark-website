@@ -38,6 +38,7 @@ final class ForumSocialController extends AbstractController
     }
 
     #[Route('/follow/{id}', name: 'forum_user_follow', methods: ['POST'])]
+    #[Permission('forum.social.follow', group: 'Forum', label: 'Follow forum users')]
     public function followUser(User $user): Response
     {
         /** @var User $currentUser */
@@ -101,6 +102,7 @@ final class ForumSocialController extends AbstractController
 
     #[Route('/subscribe/{id}', name: 'forum_thread_subscribe', methods: ['POST'])]
     public function subscribeThread(ForumThread $thread, EntityManagerInterface $em): Response
+    #[Permission('forum.social.subscribe', group: 'Forum', label: 'Subscribe to forum threads')]
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();

@@ -30,6 +30,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class ForumPostController extends AbstractController
 {
     #[Route('/edit/{id}', name: 'forum_post_edit', methods: ['GET', 'POST'])]
+    #[Permission('forum.edit.post', group: 'Forum', label: 'Edit forum posts')]
     public function edit(
         ForumPost $post,
         Request $request,
@@ -74,6 +75,7 @@ final class ForumPostController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'forum_post_delete', methods: ['POST'])]
+    #[Permission('forum.delete.post', group: 'Forum', label: 'Delete forum posts')]
     public function delete(ForumPost $post, EntityManagerInterface $em): Response
     {
         /** @var User $currentUser */
@@ -95,6 +97,7 @@ final class ForumPostController extends AbstractController
     }
 
     #[Route('/report/{id}', name: 'forum_post_report', methods: ['POST'])]
+    #[Permission('forum.report.post', group: 'Forum', label: 'Report forum posts')]
     #[IsGranted('IS_AUTHENTICATED_REMEMBERED')]
     public function report(ForumPost $post, EntityManagerInterface $em): Response
     {
@@ -113,6 +116,7 @@ final class ForumPostController extends AbstractController
     }
 
     #[Route('/accept/{id}', name: 'forum_post_accept', methods: ['POST'])]
+    #[Permission('forum.accept.answer', group: 'Forum', label: 'Accept forum answers')]
     public function acceptAnswer(ForumPost $post, EntityManagerInterface $em, BadgeService $badgeService): Response
     {
         /** @var User $currentUser */
@@ -153,6 +157,7 @@ final class ForumPostController extends AbstractController
     }
 
     #[Route('/react/{id}/{type}', name: 'forum_post_react', methods: ['POST'])]
+    #[Permission('forum.react.post', group: 'Forum', label: 'React to forum posts')]
     public function react(
         ForumPost $post,
         string $type,

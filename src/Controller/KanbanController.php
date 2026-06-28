@@ -11,12 +11,12 @@
 
 namespace App\Controller;
 
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_USER')]
+#[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
 class KanbanController extends AbstractController
 {
     public function __construct()
@@ -24,6 +24,7 @@ class KanbanController extends AbstractController
     }
 
     #[Route('/kanban/api', name: 'kanban_api_base', methods: ['GET'])]
+    #[Permission('kanban.api', group: 'Kanban', label: 'Access Kanban API')]
     public function apiBase(): JsonResponse
     {
         return new JsonResponse(['message' => 'Kanban API Base']);

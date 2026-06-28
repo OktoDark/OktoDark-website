@@ -57,6 +57,7 @@ final class DashboardController extends AbstractController
     }
 
     #[Route('/clean', name: 'admin_forum_clean', methods: ['POST'])]
+    #[Permission('admin.forum.clean', group: 'Admin', label: 'Clean forum data')]
     public function cleanForum(Request $request): Response
     {
         $option = $request->request->get('clean_option');

@@ -14,22 +14,24 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ChangePasswordType;
 use App\Form\UserType;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 
 /**
  * Controller used to manage current user.
  */
-#[Route('/profile'), IsGranted('ROLE_USER')]
+#[Route('/profile')]
+#[Permission('member.view.area', group: 'Member', label: 'View member area')]
 final class UserController extends AbstractController
 {
     #[Route('/edit', name: 'user_edit', methods: ['GET', 'POST'])]
+    #[Permission('member.profile.edit', group: 'Member', label: 'Edit profile')]
     public function edit(
         #[CurrentUser] User $user,
         Request $request,
@@ -53,6 +55,7 @@ final class UserController extends AbstractController
     }
 
     #[Route('/change-password', name: 'user_change_password', methods: ['GET', 'POST'])]
+    #[Permission('member.password.change', group: 'Member', label: 'Change password')]
     public function changePassword(
         #[CurrentUser] User $user,
         Request $request,

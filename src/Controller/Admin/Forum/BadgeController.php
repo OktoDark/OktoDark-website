@@ -31,6 +31,7 @@ final class BadgeController extends AbstractController
     }
 
     #[Route('', name: 'admin_badges')]
+    #[Permission('admin.forum.badges.manage', group: 'Admin', label: 'Manage Forum Badges')]
     public function index(Request $request): Response
     {
         // Handle CREATE or UPDATE

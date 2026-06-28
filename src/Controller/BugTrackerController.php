@@ -19,6 +19,7 @@ use App\Repository\BoardRepository;
 use App\Repository\BugRepository;
 use App\Repository\OurGamesRepository;
 use App\Repository\UserRepository;
+use App\Security\Attribute\Permission;
 use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
@@ -30,9 +31,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_USER')]
+#[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
 class BugTrackerController extends AbstractController
 {
     public function __construct(
@@ -46,6 +46,7 @@ class BugTrackerController extends AbstractController
 
     #[Route('/workspace/bugs', name: 'kanban_bugs')]
     #[Route('/workspace/{shortNameSlug}/bugs', name: 'kanban_bugs_project', requirements: ['shortNameSlug' => '[a-zA-Z0-9_-]+'])]
+    #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
     public function bugTracker(#[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null): Response
     {
         $users = $this->userRepository->findAll();
@@ -107,6 +108,7 @@ class BugTrackerController extends AbstractController
 
     #[Route('/workspace/bugs/details/{id}', name: 'kanban_bug_details', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[Route('/workspace/{shortNameSlug}/bugs/details/{id}', name: 'kanban_bug_details_project', requirements: ['shortNameSlug' => '[a-zA-Z0-9_-]+', 'id' => '\d+'], methods: ['GET'])]
+    #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
     public function viewBugDetails(Bug $bug, #[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null): Response
     {
         if ($game && $bug->getOurGame() !== $game) {
@@ -123,6 +125,7 @@ class BugTrackerController extends AbstractController
     }
 
     #[Route('/kanban/api/bugs/{id}', name: 'kanban_api_bug_get', methods: ['GET'])]
+    #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
     public function getBugApi(Bug $bug): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -154,6 +157,7 @@ class BugTrackerController extends AbstractController
     }
 
     #[Route('/kanban/api/bugs/{id}/assign', name: 'kanban_api_bug_assign', methods: ['PATCH'])]
+    #[Permission('kanban.bug.assign', group: 'Kanban', label: 'Assign bugs')]
     public function assignBugApi(Request $request, Bug $bug): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -194,6 +198,7 @@ class BugTrackerController extends AbstractController
     }
 
     #[Route('/kanban/api/bugs/{id}/status', name: 'kanban_api_bug_status_change', methods: ['PATCH'])]
+    #[Permission('kanban.bug.status', group: 'Kanban', label: 'Change bug status')]
     public function changeBugStatusApi(Request $request, Bug $bug): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -227,6 +232,7 @@ class BugTrackerController extends AbstractController
     }
 
     #[Route('/kanban/api/bugs', name: 'kanban_api_bugs_create', methods: ['POST'])]
+    #[Permission('kanban.bug.create', group: 'Kanban', label: 'Create bugs')]
     public function createBugApi(Request $request): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -298,6 +304,7 @@ class BugTrackerController extends AbstractController
     }
 
     #[Route('/kanban/api/bugs', name: 'kanban_api_bugs_list', methods: ['GET'])]
+    #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
     public function getBugsApi(Request $request): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -379,6 +386,7 @@ class BugTrackerController extends AbstractController
     }
 
     #[Route('/kanban/api/activity/{entityType}/{entityId}', name: 'kanban_api_activity_log', requirements: ['entityId' => '\d+'], methods: ['GET'])]
+    #[Permission('kanban.activity.view', group: 'Kanban', label: 'View activity log')]
     public function getActivityLogApi(string $entityType, int $entityId): JsonResponse
     {
         return new JsonResponse([

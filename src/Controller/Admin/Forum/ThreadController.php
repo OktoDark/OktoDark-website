@@ -77,6 +77,7 @@ final class ThreadController extends AbstractController
     }
 
     #[Route('/toggle-lock/{id}', name: 'admin_forum_thread_lock')]
+    #[Permission('admin.forum.threads.lock', group: 'Admin', label: 'Lock/unlock forum threads')]
     public function toggleLock(ForumThread $thread): Response
     {
         $thread->setLocked(!$thread->isLocked());
@@ -91,6 +92,7 @@ final class ThreadController extends AbstractController
     }
 
     #[Route('/toggle-pin/{id}', name: 'admin_forum_thread_pin')]
+    #[Permission('admin.forum.threads.pin', group: 'Admin', label: 'Pin/unpin forum threads')]
     public function togglePin(ForumThread $thread): Response
     {
         $thread->setPinned(!$thread->isPinned());
@@ -105,6 +107,7 @@ final class ThreadController extends AbstractController
     }
 
     #[Route('/restore/{id}', name: 'admin_forum_thread_restore')]
+    #[Permission('admin.forum.threads.restore', group: 'Admin', label: 'Restore forum threads')]
     public function restore(ForumThread $thread): Response
     {
         $thread->setDeletedAt(null);
@@ -119,6 +122,7 @@ final class ThreadController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'admin_forum_thread_delete', methods: ['POST'])]
+    #[Permission('admin.forum.threads.delete', group: 'Admin', label: 'Delete forum threads')]
     public function delete(ForumThread $thread, Request $request): Response
     {
         if ($this->isCsrfTokenValid('delete'.$thread->getId(), $request->request->get('_token'))) {

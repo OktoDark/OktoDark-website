@@ -69,6 +69,7 @@ final class PostController extends AbstractController
     }
 
     #[Route('/dismiss-report/{id}', name: 'admin_forum_post_dismiss_report')]
+    #[Permission('admin.forum.posts.dismiss_report', group: 'Admin', label: 'Dismiss post reports')]
     public function dismissReport(ForumPost $post): Response
     {
         $post->setReported(false);
@@ -83,6 +84,7 @@ final class PostController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'admin_forum_post_delete', methods: ['POST'])]
+    #[Permission('admin.forum.posts.delete', group: 'Admin', label: 'Delete forum posts')]
     public function delete(ForumPost $post, Request $request): Response
     {
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {

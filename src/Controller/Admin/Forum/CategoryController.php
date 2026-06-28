@@ -41,6 +41,7 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/create', name: 'admin_forum_category_create')]
+    #[Permission('admin.forum.categories.create', group: 'Admin', label: 'Create forum categories')]
     public function create(Request $request): Response
     {
         $category = new ForumCategory();
@@ -70,6 +71,7 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'admin_forum_category_edit')]
+    #[Permission('admin.forum.categories.edit', group: 'Admin', label: 'Edit forum categories')]
     public function edit(
         ForumCategory $category,
         Request $request,
@@ -99,6 +101,7 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'admin_forum_category_delete', methods: ['POST'])]
+    #[Permission('admin.forum.categories.delete', group: 'Admin', label: 'Delete forum categories')]
     public function delete(
         ForumCategory $category,
     ): Response {

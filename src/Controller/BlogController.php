@@ -244,6 +244,7 @@ final class BlogController extends AbstractController
         ]);
     }
 
+    #[Permission('blog.comment', group: 'Blog', label: 'Comment on blog posts')]
     public function commentForm(Post $post): Response
     {
         $form = $this->createForm(CommentType::class, new Comment());

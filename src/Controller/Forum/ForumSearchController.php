@@ -13,11 +13,13 @@ namespace App\Controller\Forum;
 
 use App\Pagination\Paginator;
 use App\Repository\ForumThreadRepository;
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Permission('forum.search', group: 'Forum', label: 'Search forum')]
 class ForumSearchController extends AbstractController
 {
     #[Route('/forum/search', name: 'forum_search', methods: ['GET'])]

@@ -26,10 +26,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/forum')]
+#[Permission('forum.index', group: 'Forum', label: 'View forum')]
 class ForumCategoryController extends AbstractController
 {
     #[Route('', name: 'forum', methods: ['GET'])]
-    #[Permission('forum.index', group: 'Forum', label: 'View forum')]
     public function index(
         ForumCategoryRepository $categoryRepository,
         ForumThreadRepository $threadRepository,
@@ -51,6 +51,7 @@ class ForumCategoryController extends AbstractController
     }
 
     #[Route('/category/{slug}', name: 'forum_category_view', methods: ['GET'])]
+    #[Permission('forum.view.category', group: 'Forum', label: 'View forum categories')]
     public function view(
         #[MapEntity(mapping: ['slug' => 'slug'])] ForumCategory $category,
         Request $request,

@@ -13,16 +13,16 @@ namespace App\Controller;
 
 use App\Entity\Notification;
 use App\Entity\User;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/notifications')]
-#[IsGranted('ROLE_USER')]
+#[Permission('notification.view', group: 'Notification', label: 'View notifications')]
 class NotificationController extends AbstractController
 {
     public function __construct(private EntityManagerInterface $em)
@@ -30,6 +30,7 @@ class NotificationController extends AbstractController
     }
 
     #[Route('/', name: 'notifications_index', methods: ['GET'])]
+    #[Permission('notification.view', group: 'Notification', label: 'View notifications')]
     public function index(): Response
     {
         /** @var User $user */
@@ -47,6 +48,7 @@ class NotificationController extends AbstractController
     }
 
     #[Route('/mark-all-read', name: 'notifications_mark_all_read', methods: ['POST'])]
+    #[Permission('notification.mark_all_read', group: 'Notification', label: 'Mark all notifications as read')]
     public function markAllAsRead(Request $request): Response
     {
         /** @var User $user */
@@ -72,6 +74,7 @@ class NotificationController extends AbstractController
     }
 
     #[Route('/{id}/mark-read', name: 'notifications_mark_as_read', methods: ['POST'])]
+    #[Permission('notification.mark_read', group: 'Notification', label: 'Mark notification as read')]
     public function markAsRead(Notification $notification, Request $request): Response
     {
         /** @var User $user */
@@ -96,6 +99,7 @@ class NotificationController extends AbstractController
     }
 
     #[Route('/api/latest', name: 'notifications_fetch_latest', methods: ['GET'])]
+    #[Permission('notification.fetch_latest', group: 'Notification', label: 'Fetch latest notifications')]
     public function fetchLatest(): JsonResponse
     {
         /** @var User $user */

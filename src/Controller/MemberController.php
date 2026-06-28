@@ -261,6 +261,7 @@ final class MemberController extends AbstractController
     }
 
     #[Route('/settings/trusted-devices/delete/{id}', name: 'trusted_device_delete')]
+    #[Permission('member.devices.delete', group: 'Member', label: 'Delete trusted devices')]
     public function deleteDevice(
         TrustedDevice $device,
         TrustedDeviceService $service,
@@ -279,6 +280,7 @@ final class MemberController extends AbstractController
     }
 
     #[Route('/settings/devices/remove/{id}', name: 'settings_devices_remove')]
+    #[Permission('member.devices.remove', group: 'Member', label: 'Remove devices')]
     public function removeDevice(
         TrustedDevice $device,
         TrustedDeviceService $service,

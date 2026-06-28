@@ -21,6 +21,7 @@ use App\Form\BoardFormType;
 use App\Repository\BoardColumnRepository;
 use App\Repository\BoardRepository;
 use App\Repository\OurGamesRepository;
+use App\Security\Attribute\Permission;
 use App\Service\KanbanBugSyncService;
 use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,10 +34,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[IsGranted('ROLE_USER')]
+#[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
 class BoardsController extends AbstractController
 {
     public function __construct(
@@ -50,6 +50,7 @@ class BoardsController extends AbstractController
     }
 
     #[Route('/workspace/boards', name: 'kanban_index', methods: ['GET'])]
+    #[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
     public function index(
         #[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null,
     ): Response {
@@ -72,6 +73,7 @@ class BoardsController extends AbstractController
 
     #[Route('/workspace/boards/{id}', name: 'kanban_board', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[Route('/workspace/{shortNameSlug}/boards/{id?}', name: 'kanban_board_project', requirements: ['shortNameSlug' => '[a-zA-Z0-9_-]+', 'id' => '\d+'], methods: ['GET'])]
+    #[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
     public function viewBoard(
         #[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null,
         ?Board $board = null,
@@ -122,6 +124,7 @@ class BoardsController extends AbstractController
     }
 
     #[Route('/kanban/api/boards/{id}/report-bug', name: 'kanban_api_board_report_bug', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[Permission('kanban.bug.report', group: 'Kanban', label: 'Report bugs')]
     public function reportBugApi(Request $request, Board $board): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -249,6 +252,7 @@ class BoardsController extends AbstractController
     }
 
     #[Route('/kanban/api/boards/{id}/columns', name: 'kanban_api_board_add_column', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[Permission('kanban.column.create', group: 'Kanban', label: 'Create columns')]
     public function addColumnApi(Request $request, Board $board): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -300,6 +304,7 @@ class BoardsController extends AbstractController
     }
 
     #[Route('/kanban/api/columns/{id}', name: 'kanban_api_column_update_title', requirements: ['id' => '\d+'], methods: ['PATCH'])]
+    #[Permission('kanban.column.edit', group: 'Kanban', label: 'Edit columns')]
     public function updateColumnTitleApi(Request $request, BoardColumn $column): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -351,6 +356,7 @@ class BoardsController extends AbstractController
     }
 
     #[Route('/kanban/api/boards/{id}/columns/reorder', name: 'kanban_api_board_columns_reorder', requirements: ['id' => '\d+'], methods: ['PATCH'])]
+    #[Permission('kanban.column.reorder', group: 'Kanban', label: 'Reorder columns')]
     public function reorderColumnsApi(Request $request, Board $board): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -397,6 +403,7 @@ class BoardsController extends AbstractController
     }
 
     #[Route('/kanban/api/cards/{id}/move', name: 'kanban_api_cards_move', requirements: ['id' => '\d+'], methods: ['PATCH'])]
+    #[Permission('kanban.card.move', group: 'Kanban', label: 'Move cards')]
     public function moveCardApi(Request $request, Card $card): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -464,6 +471,7 @@ class BoardsController extends AbstractController
     }
 
     #[Route('/kanban/api/boards', name: 'kanban_api_boards_list', methods: ['GET'])]
+    #[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
     public function getBoardsApi(Request $request): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -509,6 +517,7 @@ class BoardsController extends AbstractController
     }
 
     #[Route('/kanban/api/boards/{id}', name: 'kanban_api_boards_update', requirements: ['id' => '\d+'], methods: ['PUT'])]
+    #[Permission('kanban.board.edit', group: 'Kanban', label: 'Edit boards')]
     public function updateBoardApi(Request $request, Board $board): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -558,6 +567,7 @@ class BoardsController extends AbstractController
     }
 
     #[Route('/kanban/api/boards', name: 'kanban_api_boards_create', methods: ['POST'])]
+    #[Permission('kanban.board.create', group: 'Kanban', label: 'Create boards')]
     public function createBoardApi(Request $request): JsonResponse
     {
         $board = new Board();
@@ -635,6 +645,7 @@ class BoardsController extends AbstractController
     }
 
     #[Route('/kanban/api/boards/{id}/members/current', name: 'kanban_api_board_members_current', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
     public function getBoardMembersApi(Board $board): JsonResponse
     {
         $authResult = $this->checkAuthentication();

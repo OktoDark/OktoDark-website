@@ -21,9 +21,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/admin/tools'), IsGranted('ROLE_ADMIN')]
+#[Route('/admin/tools')]
 #[Permission('admin.tools.index', group: 'Admin', label: 'View Tools')]
 final class AdminToolsController extends AbstractController
 {
