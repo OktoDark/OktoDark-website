@@ -30,13 +30,6 @@ class Login2FAController extends AbstractController
      * Validates the submitted code, optionally registers a trusted device,
      * manually authenticates the user, and redirects to the original target
      * path or the member area.
-     *
-     * @param Request $request
-     * @param UserRepository $users
-     * @param Login2FAService $login2FA
-     * @param TrustedDeviceService $trustedDevices
-     * @param EntityManagerInterface $em
-     * @return Response
      */
     #[Route('/login/verify', name: 'login_2fa_verify', methods: ['GET', 'POST'])]
     public function verify(

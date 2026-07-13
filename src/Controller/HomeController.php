@@ -21,9 +21,6 @@ final class HomeController extends AbstractController
 {
     /**
      * Renders the homepage with the latest news entries.
-     *
-     * @param NewsRepository $news
-     * @return Response
      */
     #[Route('/', name: 'home_index', methods: ['GET'])]
     #[Route('/home', name: 'home', methods: ['GET'])]

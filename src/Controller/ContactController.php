@@ -29,11 +29,6 @@ final class ContactController extends AbstractController
      * User-Agent and Referer checks, honeypot validation, timestamp/checksum
      * validation, rate limiting, and math captcha verification before persisting
      * the submitted contact message.
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param RateLimiterFactory $contactFormLimiter
-     * @return Response
      */
     #[Route('/contact', name: 'contact', methods: ['GET', 'POST'])]
     public function contact(

@@ -28,8 +28,6 @@ class KanbanController extends AbstractController
 
     /**
      * Returns the Kanban API base response.
-     *
-     * @return JsonResponse
      */
     #[Route('/kanban/api', name: 'kanban_api_base', methods: ['GET'])]
     #[Permission('kanban.api', group: 'Kanban', label: 'Access Kanban API')]

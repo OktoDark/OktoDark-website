@@ -23,10 +23,6 @@ final class AssetsController extends AbstractController
 {
     /**
      * Displays the admin assets management page.
-     *
-     * @param SettingsRepository $settings
-     * @param AssetsRepository $assets
-     * @return Response
      */
     #[Route('/assets', name: 'assets_index', methods: ['GET'])]
     public function index(SettingsRepository $settings, AssetsRepository $assets): Response

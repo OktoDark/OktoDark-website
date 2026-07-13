@@ -32,11 +32,6 @@ final class UserController extends AbstractController
 {
     /**
      * Edits the current user's profile information.
-     *
-     * @param User $user
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @return Response
      */
     #[Route('/edit', name: 'user_edit', methods: ['GET', 'POST'])]
     #[Permission('member.profile.edit', group: 'Member', label: 'Edit profile')]
@@ -64,12 +59,6 @@ final class UserController extends AbstractController
 
     /**
      * Handles the current user's password change request.
-     *
-     * @param User $user
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param LogoutUrlGenerator $logoutUrlGenerator
-     * @return Response
      */
     #[Route('/change-password', name: 'user_change_password', methods: ['GET', 'POST'])]
     #[Permission('member.password.change', group: 'Member', label: 'Change password')]

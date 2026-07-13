@@ -20,9 +20,6 @@ final class InfoController extends AbstractController
 {
     /**
      * Displays the about page with team information.
-     *
-     * @param TeamRepository $team
-     * @return Response
      */
     #[Route('/about', name: 'about', methods: ['GET'])]
     public function about(TeamRepository $team): Response
@@ -34,8 +31,6 @@ final class InfoController extends AbstractController
 
     /**
      * Displays the frequently asked questions page.
-     *
-     * @return Response
      */
     #[Route('/faq', name: 'faq', methods: ['GET'])]
     public function faq(): Response
@@ -46,8 +41,6 @@ final class InfoController extends AbstractController
 
     /**
      * Displays the privacy policy page.
-     *
-     * @return Response
      */
     #[Route('/privacy-policy', name: 'privacy-policy', methods: ['GET'])]
     public function privacypolicy(): Response
@@ -58,8 +51,6 @@ final class InfoController extends AbstractController
 
     /**
      * Displays the terms and conditions page.
-     *
-     * @return Response
      */
     #[Route('/terms-and-conditions', name: 'terms-and-conditions', methods: ['GET'])]
     public function termsAndConditions(): Response

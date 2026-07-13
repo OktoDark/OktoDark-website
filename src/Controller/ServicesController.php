@@ -20,9 +20,6 @@ final class ServicesController extends AbstractController
 {
     /**
      * Displays the services listing page.
-     *
-     * @param ServicesRepository $services
-     * @return Response
      */
     #[Route('/services', name: 'services', methods: ['GET'])]
     public function services(ServicesRepository $services): Response

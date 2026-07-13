@@ -26,9 +26,6 @@ final class LoginController extends AbstractController
      *
      * GET renders the login page with the last authentication error and username.
      * POST is handled by Symfony's FormAuthenticator.
-     *
-     * @param AuthenticationUtils $auth
-     * @return Response
      */
     #[Route('/login', name: 'security_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $auth): Response
@@ -59,7 +56,6 @@ final class LoginController extends AbstractController
      *
      * This method is intercepted by the Symfony firewall and should not be called directly.
      *
-     * @return never
      * @throws \LogicException Always thrown to indicate firewall interception
      */
     #[Route('/logout', name: 'security_logout', methods: ['GET'])]
@@ -70,11 +66,6 @@ final class LoginController extends AbstractController
 
     /**
      * Resends the 2FA verification code to the user's email.
-     *
-     * @param Request $request
-     * @param UserRepository $users
-     * @param Login2FAService $login2FA
-     * @return Response
      */
     #[Route('/login/verify/resend', name: 'login_2fa_resend', methods: ['POST'])]
     public function resend(

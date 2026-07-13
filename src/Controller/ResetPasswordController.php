@@ -39,14 +39,6 @@ final class ResetPasswordController extends AbstractController
 
     /**
      * Initializes the reset password controller.
-     *
-     * @param ResetPasswordHelperInterface $resetPasswordHelper
-     * @param EntityManagerInterface $em
-     * @param TranslatorInterface $translator
-     * @param ResetPasswordRequestRepository $resetRepo
-     * @param int $throttleLimit
-     * @param EmailIdentityService $emailIdentity
-     * @param SettingsProvider $settingsProvider
      */
     public function __construct(
         private ResetPasswordHelperInterface $resetPasswordHelper,
@@ -61,10 +53,6 @@ final class ResetPasswordController extends AbstractController
 
     /**
      * Displays and processes the forgot-password request form.
-     *
-     * @param Request $request
-     * @param MailerInterface $mailer
-     * @return Response
      */
     #[Route('', name: 'app_forgot_password_request')]
     public function request(Request $request, MailerInterface $mailer): Response
@@ -87,8 +75,6 @@ final class ResetPasswordController extends AbstractController
 
     /**
      * Displays the check-email page after a password reset request.
-     *
-     * @return Response
      */
     #[Route('/check-email', name: 'app_check_email')]
     public function checkEmail(): Response
@@ -106,11 +92,6 @@ final class ResetPasswordController extends AbstractController
 
     /**
      * Handles the password reset form submission using a valid reset token.
-     *
-     * @param Request $request
-     * @param UserPasswordHasherInterface $passwordHasher
-     * @param string|null $token
-     * @return Response
      */
     #[Route('/reset/{token}', name: 'app_reset_password', defaults: ['token' => null])]
     public function reset(
@@ -177,11 +158,6 @@ final class ResetPasswordController extends AbstractController
 
     /**
      * Processes the password reset email sending logic.
-     *
-     * @param string $emailFormData
-     * @param MailerInterface $mailer
-     * @param Request $request
-     * @return RedirectResponse
      */
     private function processSendingPasswordResetEmail(
         string $emailFormData,

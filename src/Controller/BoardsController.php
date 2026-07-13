@@ -349,8 +349,8 @@ class BoardsController extends AbstractController
      * Updates the column title (after validating the board association and
      * "board_edit" permission) and stamps the updated time.
      *
-     * @param Request      $request The incoming JSON HTTP request
-     * @param BoardColumn  $column  The column being renamed
+     * @param Request     $request The incoming JSON HTTP request
+     * @param BoardColumn $column  The column being renamed
      */
     #[Route('/kanban/api/columns/{id}', name: 'kanban_api_column_update_title', requirements: ['id' => '\d+'], methods: ['PATCH'])]
     #[Permission('kanban.column.edit', group: 'Kanban', label: 'Edit columns')]

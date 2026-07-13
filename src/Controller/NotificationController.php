@@ -27,8 +27,6 @@ class NotificationController extends AbstractController
 {
     /**
      * Initializes the notification controller.
-     *
-     * @param EntityManagerInterface $em
      */
     public function __construct(private EntityManagerInterface $em)
     {
@@ -36,8 +34,6 @@ class NotificationController extends AbstractController
 
     /**
      * Displays the notifications listing for the authenticated user.
-     *
-     * @return Response
      */
     #[Route('/', name: 'notifications_index', methods: ['GET'])]
     #[Permission('notification.view', group: 'Notification', label: 'View notifications')]
@@ -60,7 +56,6 @@ class NotificationController extends AbstractController
     /**
      * Marks all notifications as read for the authenticated user.
      *
-     * @param Request $request
      * @return Response|JsonResponse
      */
     #[Route('/mark-all-read', name: 'notifications_mark_all_read', methods: ['POST'])]
@@ -92,10 +87,9 @@ class NotificationController extends AbstractController
     /**
      * Marks a single notification as read for the authenticated user.
      *
-     * @param Notification $notification
-     * @param Request $request
-     * @return Response|JsonResponse
      * @throws AccessDeniedException If the notification does not belong to the current user
+     *
+     * @return Response|JsonResponse
      */
     #[Route('/{id}/mark-read', name: 'notifications_mark_as_read', methods: ['POST'])]
     #[Permission('notification.mark_read', group: 'Notification', label: 'Mark notification as read')]
@@ -124,8 +118,6 @@ class NotificationController extends AbstractController
 
     /**
      * Returns the latest unread notifications for the authenticated user.
-     *
-     * @return JsonResponse
      */
     #[Route('/api/latest', name: 'notifications_fetch_latest', methods: ['GET'])]
     #[Permission('notification.fetch_latest', group: 'Notification', label: 'Fetch latest notifications')]

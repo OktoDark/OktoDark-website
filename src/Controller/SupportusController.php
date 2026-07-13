@@ -19,8 +19,6 @@ final class SupportusController extends AbstractController
 {
     /**
      * Displays the support us page.
-     *
-     * @return Response
      */
     #[Route('/supportus', name: 'supportus', methods: ['GET'])]
     public function supportus(): Response
@@ -31,8 +29,6 @@ final class SupportusController extends AbstractController
 
     /**
      * Displays the become a patron page.
-     *
-     * @return Response
      */
     #[Route('/bepatron', name: 'bepatron', methods: ['GET'])]
     public function bepatron(): Response
@@ -43,8 +39,6 @@ final class SupportusController extends AbstractController
 
     /**
      * Displays the become a donor page.
-     *
-     * @return Response
      */
     #[Route('/bedonor', name: 'bedonor', methods: ['GET'])]
     public function bedonor(): Response

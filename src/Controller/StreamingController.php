@@ -19,8 +19,6 @@ final class StreamingController extends AbstractController
 {
     /**
      * Displays the streaming page.
-     *
-     * @return Response
      */
     #[Route('/streaming', name: 'streaming', methods: ['GET'])]
     public function streaming(): Response
