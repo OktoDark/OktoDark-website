@@ -19,10 +19,18 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
 class KanbanController extends AbstractController
 {
+    /**
+     * Initializes the Kanban controller.
+     */
     public function __construct()
     {
     }
 
+    /**
+     * Returns the Kanban API base response.
+     *
+     * @return JsonResponse
+     */
     #[Route('/kanban/api', name: 'kanban_api_base', methods: ['GET'])]
     #[Permission('kanban.api', group: 'Kanban', label: 'Access Kanban API')]
     public function apiBase(): JsonResponse

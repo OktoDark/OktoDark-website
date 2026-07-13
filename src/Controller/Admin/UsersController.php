@@ -25,6 +25,14 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin/users')]
 class UsersController extends AbstractController
 {
+    /**
+     * List users and handle their create/update/delete via the same route.
+     *
+     * POST persists a new or existing user, syncing the selected Role entities and
+     * adding/removing Badge associations by diffing current vs submitted IDs. A
+     * "delete" query parameter removes a user. Otherwise the full list with all
+     * badges and roles is rendered.
+     */
     #[Route('', name: 'admin_users')]
     public function index(Request $request, EntityManagerInterface $em, BadgeRepository $badgeRepo, RoleRepository $roleRepo): Response
     {
@@ -111,6 +119,12 @@ class UsersController extends AbstractController
         ]);
     }
 
+    /**
+     * Manage a user's role assignments via toggle checkboxes.
+     *
+     * On POST it clears the user's role entities and re-adds only those whose
+     * checkbox was submitted, then persists and redirects back to this page.
+     */
     #[Route('/{id}/roles', name: 'admin_user_roles')]
     public function userRoles(User $user, RoleRepository $repo, Request $request, EntityManagerInterface $em): Response
     {
@@ -136,6 +150,9 @@ class UsersController extends AbstractController
         ]);
     }
 
+    /**
+     * Display a single user's detailed profile.
+     */
     #[Route('/{id}/view', name: 'admin_user_view')]
     public function view(User $user): Response
     {
@@ -144,6 +161,9 @@ class UsersController extends AbstractController
         ]);
     }
 
+    /**
+     * Remove all trusted devices for a user (admin only) and redirect to the profile.
+     */
     #[Route('/{id}/trusted-devices/clear', name: 'admin_clear_trusted_devices')]
     public function adminClearTrustedDevices(
         User $user,

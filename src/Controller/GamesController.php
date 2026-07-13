@@ -20,6 +20,12 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('games.view', group: 'Games', label: 'View games')]
 final class GamesController extends AbstractController
 {
+    /**
+     * Lists all available games.
+     *
+     * @param OurGamesRepository $repository
+     * @return Response
+     */
     #[Route('/games', name: 'games', methods: ['GET'])]
     public function index(OurGamesRepository $repository): Response
     {
@@ -28,6 +34,14 @@ final class GamesController extends AbstractController
         ]);
     }
 
+    /**
+     * Displays details for a specific game identified by its slug.
+     *
+     * @param string $slug
+     * @param OurGamesRepository $repository
+     * @return Response
+     * @throws NotFoundException If the game does not exist
+     */
     #[Route('/games/{slug}', name: 'app_game_show', methods: ['GET'])]
     public function show(string $slug, OurGamesRepository $repository): Response
     {

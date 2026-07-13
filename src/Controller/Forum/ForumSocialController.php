@@ -29,6 +29,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Permission('forum.use.social', group: 'Forum', label: 'Use social features')]
 final class ForumSocialController extends AbstractController
 {
+    /**
+     * Initialize social feature dependencies including entity manager, mailer, URL generator, translator, and email identity service.
+     */
     public function __construct(
         private EntityManagerInterface $em,
         private MailerInterface $mailer,
@@ -38,6 +41,9 @@ final class ForumSocialController extends AbstractController
     ) {
     }
 
+    /**
+     * Toggle follow/unfollow status for a user, send notifications and emails based on preferences.
+     */
     #[Route('/follow/{id}', name: 'forum_user_follow', methods: ['POST'])]
     #[Permission('forum.social.follow', group: 'Forum', label: 'Follow forum users')]
     public function followUser(User $user): Response
@@ -102,6 +108,9 @@ final class ForumSocialController extends AbstractController
         return $this->redirectToRoute('profile_view', ['username' => $user->getUsername()]);
     }
 
+    /**
+     * Toggle subscription status for a thread and persist changes.
+     */
     #[Route('/subscribe/{id}', name: 'forum_thread_subscribe', methods: ['POST'])]
     #[Permission('forum.social.subscribe', group: 'Forum', label: 'Subscribe to forum threads')]
     public function subscribeThread(ForumThread $thread): Response

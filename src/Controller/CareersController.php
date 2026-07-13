@@ -24,6 +24,18 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class CareersController extends AbstractController
 {
+    /**
+     * Displays the careers page and processes job application submissions.
+     *
+     * Handles CSRF validation, CV file upload with a safe unique filename,
+     * and persistence of CareerApplication entities for the authenticated form submission.
+     *
+     * @param Request $request
+     * @param CareersRepository $careersRepository
+     * @param EntityManagerInterface $em
+     * @param SluggerInterface $slugger
+     * @return Response
+     */
     #[Route('/careers', name: 'careers', methods: ['GET', 'POST'])]
     public function careers(
         Request $request,

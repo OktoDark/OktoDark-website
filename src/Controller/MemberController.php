@@ -37,6 +37,12 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/member')]
 final class MemberController extends AbstractController
 {
+    /**
+     * Displays the member area dashboard.
+     *
+     * @param OurGamesRepository $ourGames
+     * @return Response
+     */
     #[Route('/', name: 'member_area', methods: ['GET'])]
     #[Cache(smaxage: 10)]
     #[Permission('member.view.area', group: 'Member', label: 'View member area')]
@@ -47,6 +53,12 @@ final class MemberController extends AbstractController
         ]);
     }
 
+    /**
+     * Displays the play-online games page for members.
+     *
+     * @param OurGamesRepository $ourGames
+     * @return Response
+     */
     #[Route('/play_online', name: 'play_online', methods: ['GET'])]
     #[Permission('member.play_online', group: 'Member', label: 'Play online')]
     public function memberGames(OurGamesRepository $ourGames): Response
@@ -59,6 +71,21 @@ final class MemberController extends AbstractController
         ]);
     }
 
+    /**
+     * Displays and processes the member settings page.
+     *
+     * Handles profile updates, password changes, preferences, forum settings,
+     * security settings, notification settings, and avatar uploads through
+     * separate validated forms.
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param UserPasswordHasherInterface $hasher
+     * @param SocialLinkParser $parser
+     * @param AccountActivityRepository $activityRepo
+     * @param TrustedDeviceService $trustedDeviceService
+     * @return Response
+     */
     #[Route('/settings', name: 'settings_area', methods: ['GET', 'POST'])]
     #[Permission('member.settings', group: 'Member', label: 'View member settings')]
     public function settings(
@@ -243,6 +270,12 @@ final class MemberController extends AbstractController
         ]);
     }
 
+    /**
+     * Clears all recent activity records for the authenticated user.
+     *
+     * @param AccountActivityRepository $repo
+     * @return Response
+     */
     #[Route('/settings/activity/clear', name: 'settings_activity_clear', methods: ['POST'])]
     #[Permission('member.activity.clear', group: 'Member', label: 'Activity Clear')]
     public function clearActivity(
@@ -260,6 +293,14 @@ final class MemberController extends AbstractController
         return $this->redirectToRoute('settings_area', ['tab' => 'security']);
     }
 
+    /**
+     * Deletes a trusted device for the authenticated user.
+     *
+     * @param TrustedDevice $device
+     * @param TrustedDeviceService $service
+     * @return Response
+     * @throws AccessDeniedException If the device does not belong to the current user
+     */
     #[Route('/settings/trusted-devices/delete/{id}', name: 'trusted_device_delete')]
     #[Permission('member.devices.delete', group: 'Member', label: 'Delete trusted devices')]
     public function deleteDevice(
@@ -279,6 +320,14 @@ final class MemberController extends AbstractController
         return $this->redirectToRoute('settings_area', ['tab' => 'security']);
     }
 
+    /**
+     * Removes a trusted device for the authenticated user.
+     *
+     * @param TrustedDevice $device
+     * @param TrustedDeviceService $service
+     * @return Response
+     * @throws AccessDeniedException If the device does not belong to the current user
+     */
     #[Route('/settings/devices/remove/{id}', name: 'settings_devices_remove')]
     #[Permission('member.devices.remove', group: 'Member', label: 'Remove devices')]
     public function removeDevice(

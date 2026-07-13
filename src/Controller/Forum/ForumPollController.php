@@ -25,6 +25,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('forum.use.vote', group: 'Forum', label: 'Use vote features')]
 final class ForumPollController extends AbstractController
 {
+    /**
+     * Allow the authenticated user to cast a vote on a poll option, enforcing expiration and duplicate-vote rules.
+     */
     #[Route('/vote/{id}', name: 'forum_poll_vote', methods: ['POST'])]
     public function vote(ForumPollOption $option, EntityManagerInterface $em, Request $request): Response
     {

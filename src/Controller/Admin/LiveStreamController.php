@@ -20,6 +20,12 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin')]
 class LiveStreamController extends AbstractController
 {
+    /**
+     * Stream live analytics metrics (active sessions, recent views) as Server-Sent Events.
+     *
+     * Emits a JSON payload every 3 seconds until the connection closes, with
+     * headers disabling buffering so the event stream updates in real time.
+     */
     #[Route('/live-stream', name: 'admin_live_stream')]
     public function liveStream(
         AnalyticsPageViewRepository $views,

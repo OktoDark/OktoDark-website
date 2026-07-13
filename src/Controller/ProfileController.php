@@ -19,6 +19,12 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ProfileController extends AbstractController
 {
+    /**
+     * Displays a user's public profile with privacy-respecting fields.
+     *
+     * @param User $user
+     * @return Response
+     */
     #[Route('/profile/{username}', name: 'profile_view', methods: ['GET'])]
     public function viewProfile(
         #[MapEntity(mapping: ['username' => 'username'])] User $user,

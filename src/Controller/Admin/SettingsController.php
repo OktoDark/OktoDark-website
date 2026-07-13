@@ -23,6 +23,13 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('admin.settings.index', group: 'Admin', label: 'View Settings')]
 class SettingsController extends AbstractController
 {
+    /**
+     * Display and persist global site and forum settings.
+     *
+     * Loads the single settings row (creating one if absent) and, on POST,
+     * updates general settings (site name, registration toggle, CDN, logo) and
+     * forum settings (signatures, uploads, polls, embeds, post rate limit).
+     */
     #[Route('', name: 'admin_settings')]
     public function settings(Request $request, EntityManagerInterface $em): Response
     {

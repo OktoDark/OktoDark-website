@@ -25,12 +25,22 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('admin.careers.index', group: 'Admin', label: 'View Careers')]
 class CareersController extends AbstractController
 {
+    /**
+     * Initialize controller dependencies for persistence and application queries.
+     */
     public function __construct(
         private EntityManagerInterface $em,
         private CareerApplicationRepository $applicationRepo,
     ) {
     }
 
+    /**
+     * List career positions and handle their create/update/delete via the same route.
+     *
+     * POST persists a new or existing position (requirements are filtered to
+     * non-empty strings); a "delete" query parameter removes a position. Otherwise
+     * the full list is rendered.
+     */
     #[Route('', name: 'admin_careers')]
     public function index(Request $request): Response
     {
@@ -84,6 +94,9 @@ class CareersController extends AbstractController
         ]);
     }
 
+    /**
+     * List all career applications ordered by most recent submission.
+     */
     #[Route('/applications', name: 'admin_careers_applications_index')]
     public function applications(): Response
     {
@@ -92,6 +105,9 @@ class CareersController extends AbstractController
         ]);
     }
 
+    /**
+     * Display a single career application's details.
+     */
     #[Route('/applications/{id}', name: 'admin_careers_applications_show')]
     public function showApplication(CareerApplication $application): Response
     {
@@ -100,6 +116,9 @@ class CareersController extends AbstractController
         ]);
     }
 
+    /**
+     * Update the status of a career application and redirect back to its detail page.
+     */
     #[Route('/applications/{id}/status', name: 'admin_careers_applications_status', methods: ['POST'])]
     public function updateApplicationStatus(CareerApplication $application, Request $request): Response
     {
@@ -112,6 +131,9 @@ class CareersController extends AbstractController
         return $this->redirectToRoute('admin_careers_applications_show', ['id' => $application->getId()]);
     }
 
+    /**
+     * Delete a career application after CSRF token validation and redirect to the list.
+     */
     #[Route('/applications/{id}/delete', name: 'admin_careers_applications_delete', methods: ['POST'])]
     public function deleteApplication(CareerApplication $application, Request $request): Response
     {

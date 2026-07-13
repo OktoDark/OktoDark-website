@@ -42,6 +42,9 @@ class AdminOurGamesController extends AbstractController
     private $validator;
     private const BASE_UPLOAD_DIR = '/public/uploads/games';
 
+    /**
+     * Initialize controller dependencies for slugging, filesystem, and validation.
+     */
     public function __construct(SluggerInterface $slugger, ParameterBagInterface $parameterBag, Filesystem $filesystem, ValidatorInterface $validator)
     {
         $this->slugger = $slugger;
@@ -50,6 +53,9 @@ class AdminOurGamesController extends AbstractController
         $this->validator = $validator;
     }
 
+    /**
+     * Display the list of all "Our Games" entries.
+     */
     #[Route('/', name: 'admin_our_games_index', methods: ['GET'])]
     public function index(OurGamesRepository $ourGamesRepository): Response
     {
@@ -58,6 +64,9 @@ class AdminOurGamesController extends AbstractController
         ]);
     }
 
+    /**
+     * Normalize form validation errors into global and field-keyed messages.
+     */
     private function getFormErrors(Form $form): array
     {
         $errors = ['_global' => [], 'fields' => []];
@@ -75,6 +84,13 @@ class AdminOurGamesController extends AbstractController
         return $errors;
     }
 
+    /**
+     * Create a new game via AJAX form submission, handling cover/image/video uploads.
+     *
+     * After persisting the game and its assets, provisions a private bug-tracker
+     * Board (with a default "To Do" column) owned by the current user and links
+     * it back to the game via the bugLink property.
+     */
     #[Route('/new', name: 'admin_our_games_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -226,6 +242,12 @@ class AdminOurGamesController extends AbstractController
         return $this->redirectToRoute('admin_our_games_index');
     }
 
+    /**
+     * Edit an existing game via AJAX form submission, replacing cover and appending image/video assets.
+     *
+     * Removes the previous cover file when a new one is uploaded and recomputes
+     * Doctrine change sets so the JSON image/video fields are persisted correctly.
+     */
     #[Route('/{id}/edit', name: 'admin_our_games_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, OurGames $ourGame, EntityManagerInterface $entityManager): Response
     {
@@ -331,6 +353,9 @@ class AdminOurGamesController extends AbstractController
         return $this->redirectToRoute('admin_our_games_index');
     }
 
+    /**
+     * Delete a game and its entire upload directory after CSRF validation.
+     */
     #[Route('/{id}', name: 'admin_our_games_delete', methods: ['POST'])]
     public function delete(Request $request, OurGames $ourGame, EntityManagerInterface $entityManager): Response
     {

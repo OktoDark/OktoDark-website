@@ -38,6 +38,9 @@ class AdminModsController extends AbstractController
 {
     private const BASE_UPLOAD_DIR = '/public/uploads/mods';
 
+    /**
+     * Initialize controller dependencies for slugging, filesystem operations, validation, and image resizing.
+     */
     public function __construct(
         private SluggerInterface $slugger,
         private ParameterBagInterface $parameterBag,
@@ -47,6 +50,9 @@ class AdminModsController extends AbstractController
     ) {
     }
 
+    /**
+     * Display the mod listing with associated categories.
+     */
     #[Route('/', name: 'admin_mods_index', methods: ['GET'])]
     public function index(ModsRepository $modsRepository, ModCategoryRepository $categoryRepo): Response
     {
@@ -56,6 +62,9 @@ class AdminModsController extends AbstractController
         ]);
     }
 
+    /**
+     * Extract form errors grouped by global and field-level messages.
+     */
     private function getFormErrors(Form $form): array
     {
         $errors = ['_global' => [], 'fields' => []];
@@ -64,6 +73,9 @@ class AdminModsController extends AbstractController
         return $errors;
     }
 
+    /**
+     * Recursively traverse form children and accumulate validation errors.
+     */
     private function extractFormErrors(Form $form, array &$errors): void
     {
         foreach ($form->getErrors() as $error) {
@@ -89,6 +101,9 @@ class AdminModsController extends AbstractController
         }
     }
 
+    /**
+     * Handle creation of a new mod via AJAX form submission, uploading banner and gallery assets.
+     */
     #[Route('/new', name: 'admin_mods_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
@@ -189,6 +204,9 @@ class AdminModsController extends AbstractController
         return $this->redirectToRoute('admin_mods_index');
     }
 
+    /**
+     * Handle editing of an existing mod via AJAX form submission, replacing banner and gallery assets.
+     */
     #[Route('/{id}/edit', name: 'admin_mods_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, int $id, ModsRepository $modsRepository, EntityManagerInterface $em): Response
     {
@@ -291,6 +309,9 @@ class AdminModsController extends AbstractController
         return $this->redirectToRoute('admin_mods_index');
     }
 
+    /**
+     * Permanently remove a mod and its associated upload directory after CSRF validation.
+     */
     #[Route('/{id}', name: 'admin_mods_delete', methods: ['POST'])]
     public function delete(Request $request, Mods $mod, EntityManagerInterface $em): Response
     {
@@ -311,6 +332,9 @@ class AdminModsController extends AbstractController
         return $this->redirectToRoute('admin_mods_index');
     }
 
+    /**
+     * Remove a specific gallery image file and update the mod entity’s gallery array.
+     */
     #[Route('/gallery/delete', name: 'admin_mods_gallery_delete', methods: ['POST'])]
     public function galleryDelete(Request $request, ModsRepository $modsRepository, EntityManagerInterface $em): JsonResponse
     {
@@ -348,6 +372,9 @@ class AdminModsController extends AbstractController
         return new JsonResponse(['success' => true]);
     }
 
+    /**
+     * Reorder a mod’s gallery images by replacing the ordered array payload.
+     */
     #[Route('/gallery/reorder', name: 'admin_mods_gallery_reorder', methods: ['POST'])]
     public function galleryReorder(Request $request, ModsRepository $modsRepository, EntityManagerInterface $em): JsonResponse
     {
@@ -368,9 +395,9 @@ class AdminModsController extends AbstractController
         return new JsonResponse(['success' => true]);
     }
 
-    // ============================
-    // CATEGORY MANAGEMENT
-    // ============================
+    /**
+     * Render the mod category manager page.
+     */
     #[Route('/categories/manager', name: 'admin_mod_category_manager')]
     public function categoryManager(ModCategoryRepository $repo): Response
     {
@@ -379,6 +406,9 @@ class AdminModsController extends AbstractController
         ]);
     }
 
+    /**
+     * Create a new mod category with an optional uploaded image.
+     */
     #[Route('/categories/create', name: 'admin_mod_category_create', methods: ['POST'])]
     public function categoryCreate(Request $request, EntityManagerInterface $em): JsonResponse
     {
@@ -421,6 +451,9 @@ class AdminModsController extends AbstractController
         ]);
     }
 
+    /**
+     * Update an existing category name and replace its image when a new one is uploaded.
+     */
     #[Route('/categories/{id}/edit', name: 'admin_mod_category_edit', methods: ['POST'])]
     public function categoryEdit(ModCategory $category, Request $request, EntityManagerInterface $em): JsonResponse
     {
@@ -468,6 +501,9 @@ class AdminModsController extends AbstractController
         ]);
     }
 
+    /**
+     * Delete a category and remove its associated image file.
+     */
     #[Route('/categories/{id}/delete', name: 'admin_mod_category_delete', methods: ['POST'])]
     public function categoryDelete(ModCategory $category, EntityManagerInterface $em): JsonResponse
     {

@@ -29,6 +29,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Permission('forum.use.post', group: 'Forum', label: 'Use post features')]
 final class ForumPostController extends AbstractController
 {
+    /**
+     * Allow editing a post with authorization checks and content validation.
+     */
     #[Route('/edit/{id}', name: 'forum_post_edit', methods: ['GET', 'POST'])]
     #[Permission('forum.edit.post', group: 'Forum', label: 'Edit forum posts')]
     public function edit(
@@ -74,6 +77,9 @@ final class ForumPostController extends AbstractController
         ]);
     }
 
+    /**
+     * Soft-delete a forum post after ownership or admin authorization.
+     */
     #[Route('/delete/{id}', name: 'forum_post_delete', methods: ['POST'])]
     #[Permission('forum.delete.post', group: 'Forum', label: 'Delete forum posts')]
     public function delete(ForumPost $post, EntityManagerInterface $em): Response
@@ -96,6 +102,9 @@ final class ForumPostController extends AbstractController
         return $this->redirectToRoute('forum_thread_view', ['slug' => $threadSlug]);
     }
 
+    /**
+     * Mark a post as reported and notify moderators.
+     */
     #[Route('/report/{id}', name: 'forum_post_report', methods: ['POST'])]
     #[Permission('forum.report.post', group: 'Forum', label: 'Report forum posts')]
     #[IsGranted('IS_AUTHENTICATED_REMEMBERED')]
@@ -115,6 +124,9 @@ final class ForumPostController extends AbstractController
         ]);
     }
 
+    /**
+     * Mark a post as the accepted answer for its thread, adjust reputation, and trigger badge checks.
+     */
     #[Route('/accept/{id}', name: 'forum_post_accept', methods: ['POST'])]
     #[Permission('forum.accept.answer', group: 'Forum', label: 'Accept forum answers')]
     public function acceptAnswer(ForumPost $post, EntityManagerInterface $em, BadgeService $badgeService): Response
@@ -156,6 +168,9 @@ final class ForumPostController extends AbstractController
         return $this->redirectToRoute('forum_thread_view', ['slug' => $thread->getSlug()]);
     }
 
+    /**
+     * Toggle upvote/downvote reactions on a post and update author reputation.
+     */
     #[Route('/react/{id}/{type}', name: 'forum_post_react', methods: ['POST'])]
     #[Permission('forum.react.post', group: 'Forum', label: 'React to forum posts')]
     public function react(

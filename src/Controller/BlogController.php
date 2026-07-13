@@ -36,10 +36,26 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('blog.view', group: 'Blog', label: 'View blog posts')]
 final class BlogController extends AbstractController
 {
+    /**
+     * Initializes the blog controller.
+     */
     public function __construct(private ParameterBagInterface $parameterBag)
     {
     }
 
+    /**
+     * Lists blog posts with optional tag filtering, RSS support and pagination.
+     *
+     * Serves the blog index, paginated archive and RSS feed routes. When a
+     * "tag" query parameter is present, the published posts are filtered by
+     * that tag before paginating the result set.
+     *
+     * @param Request        $request The incoming HTTP request
+     * @param int            $page    The requested page (1-based)
+     * @param string         $_format The response format (html or xml)
+     * @param PostRepository $posts   Repository used to fetch latest posts
+     * @param TagRepository  $tags    Repository used to resolve and list tags
+     */
     #[Route('/', name: 'blog', defaults: ['page' => 1, '_format' => 'html'], methods: ['GET'])]
     #[Route('/rss.xml', name: 'blog_rss', defaults: ['page' => 1, '_format' => 'xml'], methods: ['GET'])]
     #[Route('/page/{page<[1-9]\d*>}', name: 'blog_index_paginated', defaults: ['_format' => 'html'], methods: ['GET'])]
@@ -67,6 +83,12 @@ final class BlogController extends AbstractController
         ]);
     }
 
+    /**
+     * Displays a single blog post together with its related posts.
+     *
+     * @param Post           $post  The post resolved from the slug in the route
+     * @param PostRepository $posts Repository used to fetch related posts
+     */
     #[Permission('blog.view.post', group: 'Blog', label: 'View blog posts')]
     #[Route('/posts/{slug}', name: 'blog_post', methods: ['GET'])]
     public function postShow(
@@ -79,6 +101,16 @@ final class BlogController extends AbstractController
         ]);
     }
 
+    /**
+     * Creates a new blog post.
+     *
+     * Renders and processes the post creation form. When a featured image is
+     * uploaded it is moved to the public uploads directory and its public path
+     * is persisted on the post.
+     *
+     * @param Request                $request The incoming HTTP request
+     * @param EntityManagerInterface $em      The Doctrine entity manager
+     */
     #[Route('/new', name: 'blog_new', methods: ['GET', 'POST'])]
     #[Permission('blog.create.post', group: 'Blog', label: 'Create blog posts')]
     public function new(Request $request, EntityManagerInterface $em): Response
@@ -126,6 +158,17 @@ final class BlogController extends AbstractController
         ]);
     }
 
+    /**
+     * Edits an existing blog post.
+     *
+     * Renders and processes the post edit form. Uploading a new featured image
+     * replaces the previous one (the old file is deleted); submitting without a
+     * new file keeps or clears the existing image depending on its prior value.
+     *
+     * @param Post                   $post    The post resolved from the slug
+     * @param Request                $request The incoming HTTP request
+     * @param EntityManagerInterface $em      The Doctrine entity manager
+     */
     #[Route('/edit/{slug}', name: 'blog_edit', methods: ['GET', 'POST'])]
     #[Permission('blog.edit.post', group: 'Blog', label: 'Edit blog posts')]
     public function edit(
@@ -182,6 +225,12 @@ final class BlogController extends AbstractController
         ]);
     }
 
+    /**
+     * Deletes a blog post and its associated featured image file.
+     *
+     * @param Post                   $post The post resolved from the slug
+     * @param EntityManagerInterface $em   The Doctrine entity manager
+     */
     #[Route('/delete/{slug}', name: 'blog_delete', methods: ['POST', 'GET'])]
     #[Permission('blog.delete.post', group: 'Blog', label: 'Delete blog posts')]
     public function delete(
@@ -202,6 +251,19 @@ final class BlogController extends AbstractController
         return $this->redirectToRoute('blog');
     }
 
+    /**
+     * Handles submission of a new comment for a blog post.
+     *
+     * Creates and persists a comment authored by the current user, then
+     * dispatches a CommentCreatedEvent so subscribers (e.g. notifications) can
+     * react. On validation failure the comment form is re-rendered with errors.
+     *
+     * @param string                   $postSlug        The slug of the target post
+     * @param Request                  $request         The incoming HTTP request
+     * @param PostRepository           $posts           Repository used to fetch the post
+     * @param EventDispatcherInterface $eventDispatcher Dispatcher for the comment event
+     * @param EntityManagerInterface   $entityManager   The Doctrine entity manager
+     */
     #[Route('/comment/{postSlug}/new', name: 'comment_new', methods: ['POST'])]
     #[Permission('blog.comment', group: 'Blog', label: 'Comment on blog posts')]
     public function commentNew(
@@ -244,6 +306,11 @@ final class BlogController extends AbstractController
         ]);
     }
 
+    /**
+     * Renders the standalone comment submission form for a given post.
+     *
+     * @param Post $post The post the comment form targets
+     */
     #[Permission('blog.comment', group: 'Blog', label: 'Comment on blog posts')]
     public function commentForm(Post $post): Response
     {
@@ -255,6 +322,16 @@ final class BlogController extends AbstractController
         ]);
     }
 
+    /**
+     * Searches blog posts by title/summary.
+     *
+     * When invoked as an XMLHttpRequest it returns a JSON list of matching
+     * posts (limited by the "l" query parameter). Otherwise it renders the
+     * search results page for the provided "q" query parameter.
+     *
+     * @param Request        $request The incoming HTTP request
+     * @param PostRepository $posts   Repository used to run the search query
+     */
     #[Route('/search', name: 'blog_search', methods: ['GET'])]
     #[Permission('blog.search', group: 'Blog', label: 'Search blog posts')]
     public function search(Request $request, PostRepository $posts): Response

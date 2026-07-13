@@ -24,12 +24,18 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('admin.forum.badges.index', group: 'Admin', label: 'View Forum Badges')]
 final class BadgeController extends AbstractController
 {
+    /**
+     * Initialize repositories and entity manager for badge CRUD operations.
+     */
     public function __construct(
         private BadgeRepository $repo,
         private EntityManagerInterface $em,
     ) {
     }
 
+    /**
+     * List all badges and handle badge creation, update, or deletion from the same form.
+     */
     #[Route('', name: 'admin_badges')]
     #[Permission('admin.forum.badges.manage', group: 'Admin', label: 'Manage Forum Badges')]
     public function index(Request $request): Response

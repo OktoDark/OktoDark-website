@@ -25,6 +25,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/api/forum')]
 final class ForumApiController extends AbstractController
 {
+    /**
+     * Retrieve a list of top-level forum categories.
+     */
     #[Route('/categories', name: 'api_forum_categories', methods: ['GET'])]
     public function categories(ForumCategoryRepository $repo): JsonResponse
     {
@@ -48,6 +51,9 @@ final class ForumApiController extends AbstractController
         }
     }
 
+    /**
+     * Retrieve threads for a specific forum category.
+     */
     #[Route('/category/{slug}/threads', name: 'api_forum_category_threads', methods: ['GET'])]
     public function threads(ForumCategory $category, ForumThreadRepository $threadRepo): JsonResponse
     {
@@ -73,6 +79,9 @@ final class ForumApiController extends AbstractController
         }
     }
 
+    /**
+     * Retrieve detailed information about a forum thread including its non-deleted posts.
+     */
     #[Route('/thread/{slug}', name: 'api_forum_thread_detail', methods: ['GET'])]
     public function threadDetail(ForumThread $thread): JsonResponse
     {

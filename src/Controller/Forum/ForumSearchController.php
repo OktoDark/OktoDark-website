@@ -22,6 +22,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('forum.search', group: 'Forum', label: 'Search forum')]
 class ForumSearchController extends AbstractController
 {
+    /**
+     * Search forum threads by title/content with a minimum query length, paginate results, and optionally filter by author.
+     */
     #[Route('/forum/search', name: 'forum_search', methods: ['GET'])]
     public function search(Request $request, ForumThreadRepository $threadRepository): Response
     {

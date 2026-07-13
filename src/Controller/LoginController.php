@@ -22,9 +22,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 final class LoginController extends AbstractController
 {
     /**
-     * LOGIN PAGE (/login)
-     * GET  → show login form
-     * POST → handled by FormAuthenticator.
+     * Displays the login form and handles authentication errors.
+     *
+     * GET renders the login page with the last authentication error and username.
+     * POST is handled by Symfony's FormAuthenticator.
+     *
+     * @param AuthenticationUtils $auth
+     * @return Response
      */
     #[Route('/login', name: 'security_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $auth): Response
@@ -51,8 +55,12 @@ final class LoginController extends AbstractController
     }
 
     /**
-     * LOGOUT
-     * Handled by Symfony firewall.
+     * Logs the user out.
+     *
+     * This method is intercepted by the Symfony firewall and should not be called directly.
+     *
+     * @return never
+     * @throws \LogicException Always thrown to indicate firewall interception
      */
     #[Route('/logout', name: 'security_logout', methods: ['GET'])]
     public function logout(): never
@@ -61,7 +69,12 @@ final class LoginController extends AbstractController
     }
 
     /**
-     * RESEND 2FA CODE (/login/verify/resend).
+     * Resends the 2FA verification code to the user's email.
+     *
+     * @param Request $request
+     * @param UserRepository $users
+     * @param Login2FAService $login2FA
+     * @return Response
      */
     #[Route('/login/verify/resend', name: 'login_2fa_resend', methods: ['POST'])]
     public function resend(

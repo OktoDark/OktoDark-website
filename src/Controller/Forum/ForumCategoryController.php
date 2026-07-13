@@ -29,6 +29,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('forum.index', group: 'Forum', label: 'View forum')]
 class ForumCategoryController extends AbstractController
 {
+    /**
+     * List top-level forum categories and aggregate forum statistics for the homepage.
+     */
     #[Route('', name: 'forum', methods: ['GET'])]
     public function index(
         ForumCategoryRepository $categoryRepository,
@@ -50,6 +53,9 @@ class ForumCategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * Display a paginated and sortable listing of threads within a specific forum category.
+     */
     #[Route('/category/{slug}', name: 'forum_category_view', methods: ['GET'])]
     #[Permission('forum.view.category', group: 'Forum', label: 'View forum categories')]
     public function view(

@@ -25,6 +25,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('admin.news.index', group: 'Admin', label: 'View News')]
 class NewsController extends AbstractController
 {
+    /**
+     * List all news articles ordered by most recent creation date.
+     */
     #[Route('/', name: 'admin_news_index')]
     public function index(NewsRepository $repo): Response
     {
@@ -33,6 +36,9 @@ class NewsController extends AbstractController
         ]);
     }
 
+    /**
+     * Create a new news article and redirect to the list on success.
+     */
     #[Route('/new', name: 'admin_news_new')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
@@ -54,6 +60,9 @@ class NewsController extends AbstractController
         ]);
     }
 
+    /**
+     * Edit an existing news article and redirect to the list on success.
+     */
     #[Route('/edit/{id}', name: 'admin_news_edit')]
     public function edit(News $news, Request $request, EntityManagerInterface $em): Response
     {
@@ -72,6 +81,9 @@ class NewsController extends AbstractController
         ]);
     }
 
+    /**
+     * Delete a news article and redirect to the list.
+     */
     #[Route('/delete/{id}', name: 'admin_news_delete')]
     public function delete(News $news, EntityManagerInterface $em): Response
     {

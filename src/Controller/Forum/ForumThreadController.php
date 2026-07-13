@@ -41,6 +41,9 @@ use Twig\Environment;
 #[Permission('forum.view.thread', group: 'Forum', label: 'View threads')]
 final class ForumThreadController extends AbstractController
 {
+    /**
+     * Initialize thread controller dependencies for mail delivery, URL generation, translation, email identity, and Twig rendering.
+     */
     public function __construct(
         private MailerInterface $mailer,
         private UrlGeneratorInterface $urlGenerator,
@@ -50,6 +53,9 @@ final class ForumThreadController extends AbstractController
     ) {
     }
 
+    /**
+     * Display a thread with paginated posts, handle new post submissions, send email notifications, parse mentions, and check automated badges.
+     */
     #[Route('/view/{slug}', name: 'forum_thread_view', methods: ['GET', 'POST'])]
     public function view(
         #[MapEntity(mapping: ['slug' => 'slug'])] ForumThread $thread,
@@ -150,6 +156,9 @@ final class ForumThreadController extends AbstractController
         ]);
     }
 
+    /**
+     * Parse @username mentions in post content and trigger mention notifications for matched users.
+     */
     private function parseMentions(string $content, ForumPost $post, ForumNotificationService $notifier, UserRepository $userRepository): void
     {
         preg_match_all('/@([a-zA-Z0-9_]+)/', $content, $matches);
@@ -163,6 +172,9 @@ final class ForumThreadController extends AbstractController
         }
     }
 
+    /**
+     * Create a new forum thread within a category, handling form submission, slug generation, and optional poll attachment.
+     */
     #[Route('/create/{category}', name: 'forum_thread_create', methods: ['GET', 'POST'])]
     #[Permission('forum.create.category', group: 'Forum', label: 'Create threads')]
     public function create(
@@ -214,6 +226,9 @@ final class ForumThreadController extends AbstractController
         ]);
     }
 
+    /**
+     * Edit an existing thread after verifying author or admin privileges.
+     */
     #[Route('/edit/{id}', name: 'forum_thread_edit', methods: ['GET', 'POST'])]
     #[Permission('forum.edit.thread', group: 'Forum', label: 'Edit threads')]
     public function edit(
@@ -248,6 +263,9 @@ final class ForumThreadController extends AbstractController
         ]);
     }
 
+    /**
+     * Toggle thread lock status and notify subscribers of status change.
+     */
     #[Route('/lock/{id}', name: 'forum_thread_lock')]
     #[Permission('forum.lock.thread', group: 'Forum', label: 'Lock threads')]
     public function lock(ForumThread $thread, EntityManagerInterface $em, ForumNotificationService $notifier): Response
@@ -262,6 +280,9 @@ final class ForumThreadController extends AbstractController
         return $this->redirectToRoute('forum_thread_view', ['slug' => $thread->getSlug()]);
     }
 
+    /**
+     * Toggle thread pinned status and notify subscribers of status change.
+     */
     #[Route('/pin/{id}', name: 'forum_thread_pin')]
     #[Permission('forum.pin.thread', group: 'Forum', label: 'Pin threads')]
     public function pin(ForumThread $thread, EntityManagerInterface $em, ForumNotificationService $notifier): Response
@@ -276,6 +297,9 @@ final class ForumThreadController extends AbstractController
         return $this->redirectToRoute('forum_thread_view', ['slug' => $thread->getSlug()]);
     }
 
+    /**
+     * Soft-delete a thread after verifying author or admin privileges.
+     */
     #[Route('/delete/{id}', name: 'forum_thread_delete', methods: ['POST'])]
     #[Permission('forum.delete.thread', group: 'Forum', label: 'Delete threads')]
     public function delete(ForumThread $thread, EntityManagerInterface $em): Response
@@ -297,6 +321,9 @@ final class ForumThreadController extends AbstractController
         return $this->redirectToRoute('forum_category_view', ['slug' => $categorySlug]);
     }
 
+    /**
+     * Move a thread to a different category.
+     */
     #[Route('/move/{id}/{categoryId}', name: 'forum_thread_move')]
     #[Permission('forum.move.thread', group: 'Forum', label: 'Move threads')]
     public function move(

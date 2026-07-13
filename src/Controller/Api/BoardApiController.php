@@ -27,6 +27,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/api/boards', name: 'api_board_')]
 class BoardApiController extends AbstractController
 {
+    /**
+     * Initialize board API dependencies for board, user, and entity manager operations.
+     */
     public function __construct(
         private readonly BoardService $boardService,
         private readonly BoardRepository $boardRepository,
@@ -35,6 +38,9 @@ class BoardApiController extends AbstractController
     ) {
     }
 
+    /**
+     * List all boards accessible to the current user.
+     */
     #[Route('', name: 'list', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function listBoards(): JsonResponse
@@ -53,6 +59,9 @@ class BoardApiController extends AbstractController
         }
     }
 
+    /**
+     * Create a new board owned by the current user.
+     */
     #[Route('', name: 'create', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function createBoard(Request $request): JsonResponse
@@ -82,6 +91,9 @@ class BoardApiController extends AbstractController
         }
     }
 
+    /**
+     * Retrieve detailed board information including columns, cards, and members.
+     */
     #[Route('/{id}', name: 'get', methods: ['GET'])]
     public function getBoard(int $id): JsonResponse
     {
@@ -103,6 +115,9 @@ class BoardApiController extends AbstractController
         }
     }
 
+    /**
+     * Update board metadata such as title, description, visibility, and background color.
+     */
     #[Route('/{id}', name: 'update', methods: ['PUT'])]
     #[IsGranted('ROLE_USER')]
     public function updateBoard(int $id, Request $request): JsonResponse
@@ -135,6 +150,9 @@ class BoardApiController extends AbstractController
         }
     }
 
+    /**
+     * Delete a board after verifying the current user has delete permission.
+     */
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_USER')]
     public function deleteBoard(int $id): JsonResponse
@@ -156,6 +174,9 @@ class BoardApiController extends AbstractController
         }
     }
 
+    /**
+     * Add a member to a board by user ID after permission checks.
+     */
     #[Route('/{id}/members', name: 'add_member', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function addMember(int $id, Request $request): JsonResponse
@@ -192,6 +213,9 @@ class BoardApiController extends AbstractController
         }
     }
 
+    /**
+     * Remove a member from a board after permission checks.
+     */
     #[Route('/{id}/members/{userId}', name: 'remove_member', methods: ['DELETE'])]
     #[IsGranted('ROLE_USER')]
     public function removeMember(int $id, int $userId): JsonResponse

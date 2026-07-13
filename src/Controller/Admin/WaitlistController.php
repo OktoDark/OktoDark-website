@@ -24,6 +24,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('admin.waitlist.index', group: 'Admin', label: 'View Waitlist')]
 class WaitlistController extends AbstractController
 {
+    /**
+     * Initialize controller dependencies for the waitlist, persistence and invites.
+     */
     public function __construct(
         private RegistrationWaitlistRepository $waitlistRepo,
         private EntityManagerInterface $em,
@@ -31,6 +34,9 @@ class WaitlistController extends AbstractController
     ) {
     }
 
+    /**
+     * List registration waitlist entries ordered by most recent submission.
+     */
     #[Route('/admin/waitlist', name: 'admin_waitlist_index')]
     public function index(): Response
     {
@@ -41,6 +47,9 @@ class WaitlistController extends AbstractController
         ]);
     }
 
+    /**
+     * Send an invite email to a waitlist entry and remove it from the list.
+     */
     #[Route('/admin/waitlist/invite/{id}', name: 'admin_waitlist_invite', methods: ['POST'])]
     public function invite(RegistrationWaitlist $entry): RedirectResponse
     {
@@ -54,6 +63,9 @@ class WaitlistController extends AbstractController
         return $this->redirectToRoute('admin_waitlist_index');
     }
 
+    /**
+     * Delete a waitlist entry without sending an invite.
+     */
     #[Route('/admin/waitlist/delete/{id}', name: 'admin_waitlist_delete', methods: ['POST'])]
     public function delete(RegistrationWaitlist $entry): RedirectResponse
     {

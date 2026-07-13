@@ -26,6 +26,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('admin.forum.posts.index', group: 'Admin', label: 'View forum posts')]
 final class PostController extends AbstractController
 {
+    /**
+     * Initialize post repository, entity manager, and moderator action logger.
+     */
     public function __construct(
         private ForumPostRepository $postRepo,
         private EntityManagerInterface $em,
@@ -33,6 +36,9 @@ final class PostController extends AbstractController
     ) {
     }
 
+    /**
+     * List forum posts with optional filters for reported posts and author username.
+     */
     #[Route('/', name: 'admin_forum_posts')]
     public function index(Request $request): Response
     {
@@ -61,6 +67,9 @@ final class PostController extends AbstractController
         ]);
     }
 
+    /**
+     * Alias for the posts index filtered to show only reported posts.
+     */
     #[Route('/reports', name: 'admin_forum_reports')]
     public function reports(): Response
     {
@@ -68,6 +77,9 @@ final class PostController extends AbstractController
         return $this->redirectToRoute('admin_forum_posts', ['reported' => 1]);
     }
 
+    /**
+     * Dismiss a report against a post and log the moderator action.
+     */
     #[Route('/dismiss-report/{id}', name: 'admin_forum_post_dismiss_report')]
     #[Permission('admin.forum.posts.dismiss_report', group: 'Admin', label: 'Dismiss post reports')]
     public function dismissReport(ForumPost $post): Response
@@ -83,6 +95,9 @@ final class PostController extends AbstractController
         return $this->redirectToRoute('admin_forum_posts', ['reported' => 1]);
     }
 
+    /**
+     * Permanently delete a post after CSRF validation and log the moderator action.
+     */
     #[Route('/delete/{id}', name: 'admin_forum_post_delete', methods: ['POST'])]
     #[Permission('admin.forum.posts.delete', group: 'Admin', label: 'Delete forum posts')]
     public function delete(ForumPost $post, Request $request): Response

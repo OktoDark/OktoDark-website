@@ -26,12 +26,18 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 #[Permission('admin.forum.categories.index', group: 'Admin', label: 'View Forum Categories')]
 final class CategoryController extends AbstractController
 {
+    /**
+     * Initialize category repository and entity manager for forum category management.
+     */
     public function __construct(
         private ForumCategoryRepository $repo,
         private EntityManagerInterface $em,
     ) {
     }
 
+    /**
+     * Render the forum category listing ordered by position.
+     */
     #[Route('/', name: 'admin_forum_categories')]
     public function index(): Response
     {
@@ -40,6 +46,9 @@ final class CategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * Create a new forum category using the dedicated form type.
+     */
     #[Route('/create', name: 'admin_forum_category_create')]
     #[Permission('admin.forum.categories.create', group: 'Admin', label: 'Create forum categories')]
     public function create(Request $request): Response
@@ -70,6 +79,9 @@ final class CategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * Edit an existing forum category and update its slug if missing.
+     */
     #[Route('/edit/{id}', name: 'admin_forum_category_edit')]
     #[Permission('admin.forum.categories.edit', group: 'Admin', label: 'Edit forum categories')]
     public function edit(
@@ -100,6 +112,9 @@ final class CategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * Permanently delete a forum category.
+     */
     #[Route('/delete/{id}', name: 'admin_forum_category_delete', methods: ['POST'])]
     #[Permission('admin.forum.categories.delete', group: 'Admin', label: 'Delete forum categories')]
     public function delete(

@@ -35,6 +35,15 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
 class BugTrackerController extends AbstractController
 {
+    /**
+     * Initializes the bug tracker controller with required repositories.
+     *
+     * @param UserRepository $userRepository
+     * @param EntityManagerInterface $entityManager
+     * @param BugRepository $bugRepository
+     * @param BoardRepository $boardRepository
+     * @param OurGamesRepository $ourGamesRepository
+     */
     public function __construct(
         private readonly UserRepository $userRepository,
         private readonly EntityManagerInterface $entityManager,
@@ -44,10 +53,21 @@ class BugTrackerController extends AbstractController
     ) {
     }
 
-    #[Route('/workspace/bugs', name: 'kanban_bugs')]
-    #[Route('/workspace/{shortNameSlug}/bugs', name: 'kanban_bugs_project', requirements: ['shortNameSlug' => '[a-zA-Z0-9_-]+'])]
-    #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
-    public function bugTracker(#[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null): Response
+     /**
+      * Displays the bug tracker listing filtered by the current context.
+      *
+      * Loads the team list, filtered bugs (via BugRepository::findFiltered) and
+      * the boards available to the authenticated user. When a game context is
+      * present, bugs and boards are scoped to that game and a default bug board
+      * may be pre-selected.
+      *
+      * @param OurGames|null $game Optional game context resolved from the slug
+      * @return Response
+      */
+     #[Route('/workspace/bugs', name: 'kanban_bugs')]
+     #[Route('/workspace/{shortNameSlug}/bugs', name: 'kanban_bugs_project', requirements: ['shortNameSlug' => '[a-zA-Z0-9_-]+'])]
+     #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
+     public function bugTracker(#[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null): Response
     {
         $users = $this->userRepository->findAll();
         $teamData = [];
@@ -106,6 +126,16 @@ class BugTrackerController extends AbstractController
         ]);
     }
 
+    /**
+     * Displays the details page for a specific bug.
+     *
+     * Validates that the bug belongs to the correct project context and
+     * renders the bug details template with the resolved bug entity.
+     *
+     * @param Bug $bug
+     * @param OurGames|null $game Optional game context resolved from the slug
+     * @return Response
+     */
     #[Route('/workspace/bugs/details/{id}', name: 'kanban_bug_details', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[Route('/workspace/{shortNameSlug}/bugs/details/{id}', name: 'kanban_bug_details_project', requirements: ['shortNameSlug' => '[a-zA-Z0-9_-]+', 'id' => '\d+'], methods: ['GET'])]
     #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
@@ -124,6 +154,12 @@ class BugTrackerController extends AbstractController
         ]);
     }
 
+    /**
+     * Returns the details of a single bug as JSON.
+     *
+     * @param Bug $bug
+     * @return JsonResponse
+     */
     #[Route('/kanban/api/bugs/{id}', name: 'kanban_api_bug_get', methods: ['GET'])]
     #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
     public function getBugApi(Bug $bug): JsonResponse
@@ -156,6 +192,13 @@ class BugTrackerController extends AbstractController
         ]);
     }
 
+    /**
+     * Assigns a bug to a user via a PATCH request.
+     *
+     * @param Request $request
+     * @param Bug $bug
+     * @return JsonResponse
+     */
     #[Route('/kanban/api/bugs/{id}/assign', name: 'kanban_api_bug_assign', methods: ['PATCH'])]
     #[Permission('kanban.bug.assign', group: 'Kanban', label: 'Assign bugs')]
     public function assignBugApi(Request $request, Bug $bug): JsonResponse
@@ -197,6 +240,13 @@ class BugTrackerController extends AbstractController
         ]);
     }
 
+    /**
+     * Updates the status of a bug via a PATCH request.
+     *
+     * @param Request $request
+     * @param Bug $bug
+     * @return JsonResponse
+     */
     #[Route('/kanban/api/bugs/{id}/status', name: 'kanban_api_bug_status_change', methods: ['PATCH'])]
     #[Permission('kanban.bug.status', group: 'Kanban', label: 'Change bug status')]
     public function changeBugStatusApi(Request $request, Bug $bug): JsonResponse
@@ -231,6 +281,12 @@ class BugTrackerController extends AbstractController
         ]);
     }
 
+    /**
+     * Creates a new bug report from a submitted form payload.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     #[Route('/kanban/api/bugs', name: 'kanban_api_bugs_create', methods: ['POST'])]
     #[Permission('kanban.bug.create', group: 'Kanban', label: 'Create bugs')]
     public function createBugApi(Request $request): JsonResponse
@@ -303,6 +359,13 @@ class BugTrackerController extends AbstractController
         ], Response::HTTP_BAD_REQUEST);
     }
 
+    /**
+     * Lists bugs with optional filtering by status, severity, assignee,
+     * board, and project context.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     #[Route('/kanban/api/bugs', name: 'kanban_api_bugs_list', methods: ['GET'])]
     #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
     public function getBugsApi(Request $request): JsonResponse
@@ -385,6 +448,13 @@ class BugTrackerController extends AbstractController
         ]);
     }
 
+    /**
+     * Returns a placeholder activity log response for the given entity.
+     *
+     * @param string $entityType
+     * @param int $entityId
+     * @return JsonResponse
+     */
     #[Route('/kanban/api/activity/{entityType}/{entityId}', name: 'kanban_api_activity_log', requirements: ['entityId' => '\d+'], methods: ['GET'])]
     #[Permission('kanban.activity.view', group: 'Kanban', label: 'View activity log')]
     public function getActivityLogApi(string $entityType, int $entityId): JsonResponse
@@ -401,6 +471,9 @@ class BugTrackerController extends AbstractController
 
     /**
      * Helper to get form errors in a structured way.
+     *
+     * @param FormInterface $form
+     * @return array
      */
     private function getFormErrors(FormInterface $form): array
     {
@@ -422,6 +495,9 @@ class BugTrackerController extends AbstractController
 
     /**
      * Helper to handle database exceptions and return a consistent JsonResponse.
+     *
+     * @param \Exception $e
+     * @return JsonResponse
      */
     private function handleDatabaseException(\Exception $e): JsonResponse
     {

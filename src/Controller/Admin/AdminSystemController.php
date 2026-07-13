@@ -28,6 +28,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('admin.system', group: 'Admin', label: 'View System')]
 final class AdminSystemController extends AbstractController
 {
+    /**
+     * Initialize controller dependencies for persistence, parameters and settings.
+     */
     public function __construct(
         private EntityManagerInterface $entityManager,
         private ParameterBagInterface $parameterBag,
@@ -35,6 +38,12 @@ final class AdminSystemController extends AbstractController
     ) {
     }
 
+    /**
+     * Render the system health dashboard with database, disk, memory and environment metrics.
+     *
+     * Aggregates live checks (database connectivity, disk usage, memory usage) and
+     * runtime PHP/Symfony configuration for display in the admin health template.
+     */
     #[Route('/health', name: 'admin_system_health')]
     public function health(): Response
     {
@@ -57,6 +66,9 @@ final class AdminSystemController extends AbstractController
         ]);
     }
 
+    /**
+     * Display the registration control panel with current status and waitlist size.
+     */
     #[Route('/registration', name: 'admin_registration_panel')]
     public function registration(RegistrationWaitlistRepository $waitlistRepo): Response
     {
@@ -66,6 +78,9 @@ final class AdminSystemController extends AbstractController
         ]);
     }
 
+    /**
+     * Flip the global registration-enabled setting and redirect back to the panel.
+     */
     #[Route('/registration/toggle', name: 'admin_registration_toggle', methods: ['POST'])]
     public function toggleRegistration(): RedirectResponse
     {
@@ -77,6 +92,9 @@ final class AdminSystemController extends AbstractController
         return $this->redirectToRoute('admin_registration_panel');
     }
 
+    /**
+     * Return the current count of active analytics sessions as JSON.
+     */
     #[Route('/active-users', name: 'admin_active_users')]
     public function activeUsers(AnalyticsSessionRepository $repo): JsonResponse
     {
@@ -87,6 +105,13 @@ final class AdminSystemController extends AbstractController
         ]);
     }
 
+    /**
+     * Render a preview of an email template using dummy data.
+     *
+     * Resolves the requested template name to its Twig path via a known map
+     * (falling back to a generic emails/{name}.html.twig lookup) and supplies
+     * sample variables so the layout can be inspected without sending mail.
+     */
     #[Route('/email-preview/{templateName}', name: 'admin_email_preview')]
     public function emailPreview(string $templateName): Response
     {
@@ -120,6 +145,9 @@ final class AdminSystemController extends AbstractController
 
     // --- Private Health Helpers ---
 
+    /**
+     * Verify database connectivity by executing a dummy select statement.
+     */
     private function checkDatabase(): array
     {
         try {
@@ -132,6 +160,9 @@ final class AdminSystemController extends AbstractController
         }
     }
 
+    /**
+     * Compute disk usage statistics for the project directory, flagging critical levels.
+     */
     private function getDiskUsage(): array
     {
         $path = $this->parameterBag->get('kernel.project_dir');
@@ -149,6 +180,9 @@ final class AdminSystemController extends AbstractController
         ];
     }
 
+    /**
+     * Compute current PHP memory usage against the configured limit, flagging high usage.
+     */
     private function getMemoryUsage(): array
     {
         $usage = memory_get_usage(true);
@@ -163,6 +197,9 @@ final class AdminSystemController extends AbstractController
         ];
     }
 
+    /**
+     * Format a byte count into a human-readable string with binary unit suffixes.
+     */
     private function formatBytes($bytes, $precision = 2): string
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
@@ -174,6 +211,9 @@ final class AdminSystemController extends AbstractController
         return round($bytes, $precision).' '.$units[$pow];
     }
 
+    /**
+     * Parse an ini-style size string (e.g. "128M") into its byte integer value.
+     */
     private function parseSize(string $size): int
     {
         $unit = preg_replace('/[^bkmgt]/i', '', $size);

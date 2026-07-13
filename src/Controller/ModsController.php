@@ -38,6 +38,15 @@ final class ModsController extends AbstractController
 {
     private const BASE_UPLOAD_DIR = '/public/uploads/mods';
 
+    /**
+     * Initializes the mods controller with required services.
+     *
+     * @param SluggerInterface $slugger
+     * @param ParameterBagInterface $parameterBag
+     * @param Filesystem $filesystem
+     * @param ValidatorInterface $validator
+     * @param ImageResizer $imageResizer
+     */
     public function __construct(
         private SluggerInterface $slugger,
         private ParameterBagInterface $parameterBag,
@@ -47,6 +56,12 @@ final class ModsController extends AbstractController
     ) {
     }
 
+    /**
+     * Extracts form errors into a structured array with global and field-level messages.
+     *
+     * @param Form $form
+     * @return array
+     */
     private function getFormErrors(Form $form): array
     {
         $errors = ['_global' => [], 'fields' => []];
@@ -55,6 +70,13 @@ final class ModsController extends AbstractController
         return $errors;
     }
 
+    /**
+     * Recursively extracts form errors into a structured array.
+     *
+     * @param Form $form
+     * @param array $errors
+     * @return void
+     */
     private function extractFormErrors(Form $form, array &$errors): void
     {
         foreach ($form->getErrors() as $error) {
@@ -80,6 +102,14 @@ final class ModsController extends AbstractController
         }
     }
 
+    /**
+     * Displays the mods listing with search, filters, and pagination.
+     *
+     * @param Request $request
+     * @param ModsRepository $mods
+     * @param ModCategoryRepository $modCategoryRepository
+     * @return Response
+     */
     #[Route('/mods', name: 'mods', methods: ['GET'])]
     #[Permission('mods.view', group: 'Mods', label: 'View mods')]
     public function mods(
@@ -152,6 +182,13 @@ final class ModsController extends AbstractController
         ]);
     }
 
+    /**
+     * Creates a new mod entry with banner, thumbnail, and gallery uploads.
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response|JsonResponse
+     */
     #[Route('/mods/new', name: 'mods_new', methods: ['GET', 'POST'])]
     #[Permission('mods.can.added', group: 'Mods', label: 'Add mods')]
     public function new(Request $request, EntityManagerInterface $em): Response
@@ -253,6 +290,16 @@ final class ModsController extends AbstractController
         return $this->redirectToRoute('mods');
     }
 
+    /**
+     * Submits a rating for a mod and returns updated statistics.
+     *
+     * @param int $id
+     * @param Request $request
+     * @param ModsRepository $mods
+     * @param ModRatingRepository $ratingRepo
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
     #[Route('/mods/{id}/rate', name: 'mod_rate', options: ['expose' => true], methods: ['POST'])]
     #[Permission('mods.rate', group: 'Mods', label: 'Rate mods')]
     public function rate(

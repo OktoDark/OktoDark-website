@@ -28,6 +28,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/api/comments', name: 'api_comment_')]
 class CommentApiController extends AbstractController
 {
+    /**
+     * Initialize comment API dependencies for card and comment operations.
+     */
     public function __construct(
         private readonly CardService $cardService,
         private readonly CardRepository $cardRepository,
@@ -35,6 +38,9 @@ class CommentApiController extends AbstractController
     ) {
     }
 
+    /**
+     * List all comments for a given card.
+     */
     #[Route('/card/{cardId}', name: 'list_card', methods: ['GET'])]
     public function listCardComments(int $cardId): JsonResponse
     {
@@ -54,6 +60,9 @@ class CommentApiController extends AbstractController
         }
     }
 
+    /**
+     * Create a new comment on a card.
+     */
     #[Route('', name: 'create', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function createComment(Request $request): JsonResponse
@@ -84,6 +93,9 @@ class CommentApiController extends AbstractController
         }
     }
 
+    /**
+     * Update an existing comment after verifying author ownership.
+     */
     #[Route('/{id}', name: 'update', methods: ['PUT'])]
     #[IsGranted('ROLE_USER')]
     public function updateComment(int $id, Request $request): JsonResponse
@@ -118,6 +130,9 @@ class CommentApiController extends AbstractController
         }
     }
 
+    /**
+     * Delete a comment after verifying author ownership.
+     */
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_USER')]
     public function deleteComment(int $id): JsonResponse

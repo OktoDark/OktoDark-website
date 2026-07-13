@@ -30,6 +30,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('admin.forum.index', group: 'Admin', label: 'View forum')]
 final class DashboardController extends AbstractController
 {
+    /**
+     * Initialize forum dashboard dependencies for stats and cleanup operations.
+     */
     public function __construct(
         private ForumThreadRepository $threadRepo,
         private ForumPostRepository $postRepo,
@@ -39,6 +42,9 @@ final class DashboardController extends AbstractController
     ) {
     }
 
+    /**
+     * Display forum dashboard statistics and recent activity.
+     */
     #[Route('/dashboard', name: 'admin_forum_dashboard')]
     #[Route('', name: 'admin_forum_index')]
     public function index(): Response
@@ -56,6 +62,9 @@ final class DashboardController extends AbstractController
         ]);
     }
 
+    /**
+     * Execute forum cleanup tasks: full wipe with auto-increment reset or purge deleted items older than 30 days.
+     */
     #[Route('/clean', name: 'admin_forum_clean', methods: ['POST'])]
     #[Permission('admin.forum.clean', group: 'Admin', label: 'Clean forum data')]
     public function cleanForum(Request $request): Response

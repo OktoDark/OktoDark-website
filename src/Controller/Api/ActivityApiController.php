@@ -25,12 +25,18 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/api/activity', name: 'api_activity_')]
 class ActivityApiController extends AbstractController
 {
+    /**
+     * Initialize activity API dependencies for log retrieval and entity activity aggregation.
+     */
     public function __construct(
         private readonly ActivityService $activityService,
         private readonly ActivityLogRepository $activityRepository,
     ) {
     }
 
+    /**
+     * Retrieve activity logs for a specific entity identified by type and ID.
+     */
     #[Route('/{entityType}/{entityId}', name: 'get_entity', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function getEntityActivity(string $entityType, int $entityId): JsonResponse
@@ -47,6 +53,9 @@ class ActivityApiController extends AbstractController
         }
     }
 
+    /**
+     * Retrieve the 50 most recent activity logs across all entities.
+     */
     #[Route('/recent', name: 'recent', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function getRecentActivity(): JsonResponse

@@ -28,6 +28,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/api/bugs', name: 'api_bug_')]
 class BugApiController extends AbstractController
 {
+    /**
+     * Initialize bug API dependencies for bug operations, repositories, and validation.
+     */
     public function __construct(
         private readonly BugService $bugService,
         private readonly BugRepository $bugRepository,
@@ -37,6 +40,9 @@ class BugApiController extends AbstractController
     ) {
     }
 
+    /**
+     * List bugs filtered by status, severity, or assignee, falling back to unresolved bugs.
+     */
     #[Route('', name: 'list', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function listBugs(Request $request): JsonResponse
@@ -66,6 +72,9 @@ class BugApiController extends AbstractController
         ]);
     }
 
+    /**
+     * Create a new bug report with validation and optional reproduction details.
+     */
     #[Route('', name: 'create', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function createBug(Request $request): JsonResponse
@@ -114,6 +123,9 @@ class BugApiController extends AbstractController
         }
     }
 
+    /**
+     * Retrieve detailed bug information including description and reproduction details.
+     */
     #[Route('/{id}', name: 'get', methods: ['GET'])]
     public function getBug(int $id): JsonResponse
     {
@@ -129,6 +141,9 @@ class BugApiController extends AbstractController
         ]);
     }
 
+    /**
+     * Update bug fields from the provided JSON payload.
+     */
     #[Route('/{id}', name: 'update', methods: ['PUT'])]
     #[IsGranted('ROLE_USER')]
     public function updateBug(int $id, Request $request): JsonResponse
@@ -153,6 +168,9 @@ class BugApiController extends AbstractController
         }
     }
 
+    /**
+     * Change the status of a bug.
+     */
     #[Route('/{id}/status', name: 'change_status', methods: ['PATCH'])]
     #[IsGranted('ROLE_USER')]
     public function changeStatus(int $id, Request $request): JsonResponse
@@ -181,6 +199,9 @@ class BugApiController extends AbstractController
         }
     }
 
+    /**
+     * Change the severity of a bug.
+     */
     #[Route('/{id}/severity', name: 'change_severity', methods: ['PATCH'])]
     #[IsGranted('ROLE_USER')]
     public function changeSeverity(int $id, Request $request): JsonResponse
@@ -209,6 +230,9 @@ class BugApiController extends AbstractController
         }
     }
 
+    /**
+     * Assign a bug to a specific user.
+     */
     #[Route('/{id}/assign', name: 'assign', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function assignBug(int $id, Request $request): JsonResponse
@@ -243,6 +267,9 @@ class BugApiController extends AbstractController
         }
     }
 
+    /**
+     * Unassign the current assignee from a bug.
+     */
     #[Route('/{id}/unassign', name: 'unassign', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function unassignBug(int $id): JsonResponse
@@ -262,6 +289,9 @@ class BugApiController extends AbstractController
         }
     }
 
+    /**
+     * Link a bug to a card for traceability.
+     */
     #[Route('/{id}/link-card', name: 'link_card', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function linkCard(int $id, Request $request): JsonResponse
@@ -296,6 +326,9 @@ class BugApiController extends AbstractController
         }
     }
 
+    /**
+     * Remove the card link from a bug.
+     */
     #[Route('/{id}/unlink-card', name: 'unlink_card', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function unlinkCard(int $id): JsonResponse
@@ -315,6 +348,9 @@ class BugApiController extends AbstractController
         }
     }
 
+    /**
+     * Permanently delete a bug.
+     */
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_USER')]
     public function deleteBug(int $id): JsonResponse

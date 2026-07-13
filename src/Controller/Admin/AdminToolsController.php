@@ -26,6 +26,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('admin.tools.index', group: 'Admin', label: 'View Tools')]
 final class AdminToolsController extends AbstractController
 {
+    /**
+     * Initialize controller dependencies for command execution and message dispatching.
+     */
     public function __construct(
         private CommandRunner $runner,
         private string $projectDir,
@@ -33,6 +36,12 @@ final class AdminToolsController extends AbstractController
     ) {
     }
 
+    /**
+     * Build the whitelist of safe, predefined terminal commands available to admins.
+     *
+     * Composer commands are prefixed with the configured PHP binary so the correct
+     * interpreter is always used.
+     */
     private function getAllowedCommands(): array
     {
         $php = $this->getParameter('php_bin');
@@ -53,6 +62,9 @@ final class AdminToolsController extends AbstractController
         ];
     }
 
+    /**
+     * Render the admin terminal view populated with the allowed command list.
+     */
     #[Route('/terminal', name: 'admin_tools_terminal', methods: ['GET'])]
     public function terminal(): Response
     {
@@ -61,6 +73,13 @@ final class AdminToolsController extends AbstractController
         ]);
     }
 
+    /**
+     * Queue an allowed terminal command as a CommandJob and dispatch it via Messenger.
+     *
+     * Validates the CSRF token, ensures the requested command is present in the
+     * allowlist, then persists a pending CommandJob and dispatches a
+     * CommandJobMessage for asynchronous execution, returning the new job ID.
+     */
     #[Route('/terminal/run', name: 'admin_tools_terminal_run', methods: ['POST'])]
     public function terminalRun(Request $request, EntityManagerInterface $em): Response
     {
@@ -92,6 +111,9 @@ final class AdminToolsController extends AbstractController
         return $this->json(['jobId' => (string) $job->getId()]);
     }
 
+    /**
+     * Return the current status and output of a queued CommandJob as JSON.
+     */
     #[Route('/terminal/status/{id}', name: 'admin_tools_terminal_status', methods: ['GET'])]
     public function terminalStatus(string $id, EntityManagerInterface $em): Response
     {

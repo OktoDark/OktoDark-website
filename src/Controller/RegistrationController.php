@@ -38,6 +38,13 @@ class RegistrationController extends AbstractController
 {
     use RegistrationFlowGuardTrait;
 
+    /**
+     * Initializes the registration controller.
+     *
+     * @param EmailVerifier $emailVerifier
+     * @param SettingsProvider $settingsProvider
+     * @param RateLimiterFactory $resendVerificationLimiter
+     */
     public function __construct(
         private readonly EmailVerifier $emailVerifier,
         private readonly SettingsProvider $settingsProvider,
@@ -45,6 +52,13 @@ class RegistrationController extends AbstractController
     ) {
     }
 
+    /**
+     * Displays the registration disabled page and handles waiting list submissions.
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
     #[Route('/register/disabled', name: 'app_register_disabled')]
     public function registrationDisabled(Request $request, EntityManagerInterface $em): Response
     {
@@ -89,6 +103,15 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    /**
+     * Handles new user registration with email verification.
+     *
+     * @param Request $request
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @param EntityManagerInterface $em
+     * @param EmailIdentityService $emailIdentity
+     * @return Response
+     */
     #[Route('/register', name: 'app_register')]
     public function register(
         Request $request,
@@ -145,6 +168,12 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    /**
+     * Displays the check-email page after registration submission.
+     *
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/register/check-email', name: 'app_register_check_email')]
     public function checkEmailPage(Request $request): Response
     {
@@ -161,6 +190,16 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    /**
+     * Handles email verification link confirmation.
+     *
+     * @param Request $request
+     * @param UserRepository $repo
+     * @param EntityManagerInterface $em
+     * @param UserAuthenticatorInterface $authenticator
+     * @param FormAuthenticator $formAuthenticator
+     * @return Response
+     */
     #[Route('/verifyemail', name: 'app_verify_email')]
     public function verifyUserEmail(
         Request $request,
@@ -208,6 +247,15 @@ class RegistrationController extends AbstractController
         );
     }
 
+    /**
+     * Resends the email verification message with rate limiting.
+     *
+     * @param Request $request
+     * @param UserRepository $repo
+     * @param EntityManagerInterface $em
+     * @param EmailIdentityService $emailIdentity
+     * @return Response
+     */
     #[Route('/resend-verification', name: 'app_resend_verification')]
     public function resendVerification(
         Request $request,
@@ -287,6 +335,13 @@ class RegistrationController extends AbstractController
         return $this->redirectToRoute('app_register_check_email');
     }
 
+    /**
+     * Handles profile completion for newly registered users.
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
     #[Route('/complete-profile', name: 'app_complete_profile')]
     public function completeProfile(Request $request, EntityManagerInterface $em): Response
     {
@@ -318,6 +373,13 @@ class RegistrationController extends AbstractController
     /* -------------------------------------------------------------
      * AJAX CHECKS
      * ------------------------------------------------------------- */
+    /**
+     * AJAX check for username availability during registration.
+     *
+     * @param Request $request
+     * @param UserRepository $repo
+     * @return JsonResponse
+     */
     #[Route('/check-username', name: 'check_username', methods: ['GET'])]
     public function checkUsername(Request $request, UserRepository $repo): JsonResponse
     {
@@ -336,6 +398,13 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    /**
+     * AJAX check for email availability during registration.
+     *
+     * @param Request $request
+     * @param UserRepository $repo
+     * @return JsonResponse
+     */
     #[Route('/check-email', name: 'check_email', methods: ['GET'])]
     public function checkEmail(Request $request, UserRepository $repo): JsonResponse
     {

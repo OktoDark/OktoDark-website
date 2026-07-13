@@ -21,11 +21,17 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('admin.forum.moderation-logs.index', group: 'Admin', label: 'View forum moderation logs')]
 final class ModerationLogController extends AbstractController
 {
+    /**
+     * Initialize moderation log repository for forum action history.
+     */
     public function __construct(
         private ForumModerationLogRepository $logRepo,
     ) {
     }
 
+    /**
+     * Render the forum moderation log listing ordered by most recent activity.
+     */
     #[Route('/', name: 'admin_forum_moderation_logs')]
     public function index(): Response
     {

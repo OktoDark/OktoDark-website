@@ -27,6 +27,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('admin.forum.threads.index', group: 'Admin', label: 'View forum threads')]
 final class ThreadController extends AbstractController
 {
+    /**
+     * Initialize thread repository, category repository, entity manager, and moderator action logger.
+     */
     public function __construct(
         private ForumThreadRepository $threadRepo,
         private ForumCategoryRepository $catRepo,
@@ -35,6 +38,9 @@ final class ThreadController extends AbstractController
     ) {
     }
 
+    /**
+     * List forum threads with optional filters for category, status, and author.
+     */
     #[Route('/', name: 'admin_forum_threads')]
     public function index(Request $request): Response
     {
@@ -76,6 +82,9 @@ final class ThreadController extends AbstractController
         ]);
     }
 
+    /**
+     * Toggle a thread's locked status and log the moderator action.
+     */
     #[Route('/toggle-lock/{id}', name: 'admin_forum_thread_lock')]
     #[Permission('admin.forum.threads.lock', group: 'Admin', label: 'Lock/unlock forum threads')]
     public function toggleLock(ForumThread $thread): Response
@@ -91,6 +100,9 @@ final class ThreadController extends AbstractController
         return $this->redirectToRoute('admin_forum_threads');
     }
 
+    /**
+     * Toggle a thread's pinned status and log the moderator action.
+     */
     #[Route('/toggle-pin/{id}', name: 'admin_forum_thread_pin')]
     #[Permission('admin.forum.threads.pin', group: 'Admin', label: 'Pin/unpin forum threads')]
     public function togglePin(ForumThread $thread): Response
@@ -106,6 +118,9 @@ final class ThreadController extends AbstractController
         return $this->redirectToRoute('admin_forum_threads');
     }
 
+    /**
+     * Restore a soft-deleted thread and log the moderator action.
+     */
     #[Route('/restore/{id}', name: 'admin_forum_thread_restore')]
     #[Permission('admin.forum.threads.restore', group: 'Admin', label: 'Restore forum threads')]
     public function restore(ForumThread $thread): Response
@@ -121,6 +136,9 @@ final class ThreadController extends AbstractController
         return $this->redirectToRoute('admin_forum_threads');
     }
 
+    /**
+     * Permanently delete a thread after CSRF validation and log the moderator action.
+     */
     #[Route('/delete/{id}', name: 'admin_forum_thread_delete', methods: ['POST'])]
     #[Permission('admin.forum.threads.delete', group: 'Admin', label: 'Delete forum threads')]
     public function delete(ForumThread $thread, Request $request): Response

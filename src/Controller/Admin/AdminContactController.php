@@ -27,6 +27,13 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('admin.contact.index', group: 'Admin', label: 'View Contact')]
 class AdminContactController extends AbstractController
 {
+    /**
+     * Lists contact messages with search, sorting and pagination.
+     *
+     * Reads "search", "sort", "order" and "page" query parameters, maps the
+     * public sort keys to entity columns and delegates filtering/pagination to
+     * the ContactRepository search helpers.
+     */
     #[Route('/', name: 'admin_contact_index', methods: ['GET'])]
     public function index(Request $request, ContactRepository $repo): Response
     {
@@ -71,6 +78,14 @@ class AdminContactController extends AbstractController
         ]);
     }
 
+    /**
+     * Displays a contact message and handles the admin reply form.
+     *
+     * Marks the message as read on first view, then on POST validates the CSRF
+     * token and, when a reply body is provided, persists the reply on the
+     * entity, sends a reply email via the configured contact transport and
+     * redirects back to the listing.
+     */
     #[Route('/{id}', name: 'admin_contact_show', methods: ['GET', 'POST'])]
     public function show(
         Contact $message,
@@ -122,6 +137,12 @@ class AdminContactController extends AbstractController
         ]);
     }
 
+    /**
+     * Deletes a contact message after CSRF token validation.
+     *
+     * Removes the entity only when the "delete{id}" CSRF token matches the
+     * submitted "_token", then redirects to the contact listing.
+     */
     #[Route('/{id}/delete', name: 'admin_contact_delete', methods: ['POST'])]
     public function delete(
         Request $request,

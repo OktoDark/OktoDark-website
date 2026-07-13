@@ -28,6 +28,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/api/cards', name: 'api_card_')]
 class CardApiController extends AbstractController
 {
+    /**
+     * Initialize card API dependencies for card operations, labels, columns, and user lookups.
+     */
     public function __construct(
         private readonly CardService $cardService,
         private readonly CardRepository $cardRepository,
@@ -37,6 +40,9 @@ class CardApiController extends AbstractController
     ) {
     }
 
+    /**
+     * Create a new card within a specific column.
+     */
     #[Route('', name: 'create', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function createCard(Request $request): JsonResponse
@@ -76,6 +82,9 @@ class CardApiController extends AbstractController
         }
     }
 
+    /**
+     * Retrieve detailed card information including assignees, labels, comments count, and linked bug.
+     */
     #[Route('/{id}', name: 'get', methods: ['GET'])]
     public function getCard(int $id): JsonResponse
     {
@@ -93,6 +102,9 @@ class CardApiController extends AbstractController
         ]);
     }
 
+    /**
+     * Update card fields including title, description, type, priority, and due date.
+     */
     #[Route('/{id}', name: 'update', methods: ['PUT'])]
     #[IsGranted('ROLE_USER')]
     public function updateCard(int $id, Request $request): JsonResponse
@@ -135,6 +147,9 @@ class CardApiController extends AbstractController
         }
     }
 
+    /**
+     * Delete a card after verifying delete permission.
+     */
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_USER')]
     public function deleteCard(int $id): JsonResponse
@@ -156,6 +171,9 @@ class CardApiController extends AbstractController
         }
     }
 
+    /**
+     * Move a card to a different column and position.
+     */
     #[Route('/{id}/move', name: 'move', methods: ['PATCH'])]
     #[IsGranted('ROLE_USER')]
     public function moveCard(int $id, Request $request): JsonResponse
@@ -197,6 +215,9 @@ class CardApiController extends AbstractController
         }
     }
 
+    /**
+     * Assign a user to a card with an optional role.
+     */
     #[Route('/{id}/assign', name: 'assign', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function assignUser(int $id, Request $request): JsonResponse
@@ -233,6 +254,9 @@ class CardApiController extends AbstractController
         }
     }
 
+    /**
+     * Remove a user assignment from a card.
+     */
     #[Route('/{id}/assign/{userId}', name: 'unassign', methods: ['DELETE'])]
     #[IsGranted('ROLE_USER')]
     public function unassignUser(int $id, int $userId): JsonResponse
@@ -260,6 +284,9 @@ class CardApiController extends AbstractController
         }
     }
 
+    /**
+     * Attach an existing label to a card.
+     */
     #[Route('/{id}/labels', name: 'add_label', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function addLabel(int $id, Request $request): JsonResponse
@@ -293,6 +320,9 @@ class CardApiController extends AbstractController
         }
     }
 
+    /**
+     * Remove a label from a card.
+     */
     #[Route('/{id}/labels/{labelId}', name: 'remove_label', methods: ['DELETE'])]
     #[IsGranted('ROLE_USER')]
     public function removeLabel(int $id, int $labelId): JsonResponse
@@ -320,6 +350,9 @@ class CardApiController extends AbstractController
         }
     }
 
+    /**
+     * Retrieve all bugs linked to a specific card.
+     */
     #[Route('/{id}/bugs', name: 'get_bugs', methods: ['GET'])]
     public function getCardBugs(int $id): JsonResponse
     {

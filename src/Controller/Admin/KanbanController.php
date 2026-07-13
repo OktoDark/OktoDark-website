@@ -35,6 +35,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Permission('admin.kanban.index', group: 'Admin', label: 'View Kanban')]
 class KanbanController extends AbstractController
 {
+    /**
+     * Initialize controller dependencies for boards, users, games and persistence.
+     */
     public function __construct(
         private readonly BoardRepository $boardRepository,
         private readonly UserRepository $userRepository,
@@ -44,6 +47,9 @@ class KanbanController extends AbstractController
     ) {
     }
 
+    /**
+     * Render the Kanban board list with a board creation form and available games.
+     */
     #[Route('/', name: 'index')]
     public function index(): Response
     {
@@ -58,6 +64,12 @@ class KanbanController extends AbstractController
         ]);
     }
 
+    /**
+     * Create a new board owned by the current user with a default "To Do" column.
+     *
+     * Validates the board and its generated default column before persisting;
+     * surfaces ORM/DBAL errors as flash messages and redirects to the board list.
+     */
     #[Route('/create', name: 'create')]
     public function create(Request $request): Response
     {
@@ -139,6 +151,12 @@ class KanbanController extends AbstractController
         return $this->redirectToRoute('admin_kanban_index');
     }
 
+    /**
+     * Update an existing board from the submitted form and redirect to the list.
+     *
+     * Persists changes via flush, converting ORM/DBAL exceptions into flash
+     * messages; on validation failure it reports structured form errors.
+     */
     #[Route('/edit/{id}', name: 'edit', requirements: ['id' => '\d+'])]
     public function edit(Request $request, Board $board): Response
     {
@@ -184,6 +202,9 @@ class KanbanController extends AbstractController
         return $this->redirectToRoute('admin_kanban_index');
     }
 
+    /**
+     * Delete a board after CSRF token validation and redirect to the list.
+     */
     #[Route('/delete/{id}', name: 'delete', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function delete(Request $request, Board $board): Response
     {
@@ -202,6 +223,12 @@ class KanbanController extends AbstractController
         return $this->redirectToRoute('admin_kanban_index');
     }
 
+    /**
+     * Return users with high-rank roles who are not yet members or the owner of the board.
+     *
+     * Excludes existing members/owner and matches users whose roles contain any
+     * of the configured high-rank roles (ROLE_ADMIN, ROLE_DEVELOPER).
+     */
     #[Route('/api/boards/{id}/members/high-rank-available', name: 'api_board_members_high_rank_available', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function getHighRankAvailableMembersApi(int $id): JsonResponse
     {
@@ -249,6 +276,9 @@ class KanbanController extends AbstractController
         }
     }
 
+    /**
+     * Return the owner followed by the other members of a board as JSON.
+     */
     #[Route('/api/boards/{id}/members/current', name: 'api_board_members_current', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function getCurrentBoardMembersApi(int $id): JsonResponse
     {
@@ -289,6 +319,9 @@ class KanbanController extends AbstractController
         }
     }
 
+    /**
+     * Add a user as a member of a board, rejecting duplicates and invalid users.
+     */
     #[Route('/api/boards/{id}/members', name: 'api_board_members_add', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function addBoardMemberApi(Request $request, int $id): JsonResponse
     {
@@ -331,6 +364,9 @@ class KanbanController extends AbstractController
         ], Response::HTTP_CREATED);
     }
 
+    /**
+     * Remove a member from a board, refusing to remove the owner.
+     */
     #[Route('/api/boards/{boardId}/members/{userId}', name: 'api_board_members_remove', requirements: ['boardId' => '\d+', 'userId' => '\d+'], methods: ['DELETE'])]
     public function removeBoardMemberApi(int $boardId, int $userId): JsonResponse
     {

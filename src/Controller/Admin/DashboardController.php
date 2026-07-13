@@ -33,6 +33,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Permission('admin.dashboard.index', group: 'Admin', label: 'View Dashboard')]
 class DashboardController extends AbstractController
 {
+    /**
+     * Initialize dashboard dependencies for entity counts and settings.
+     */
     public function __construct(
         private UserRepository $userRepo,
         private NewsRepository $newsRepo,
@@ -43,6 +46,14 @@ class DashboardController extends AbstractController
     ) {
     }
 
+    /**
+     * Render the admin dashboard with aggregated analytics and content statistics.
+     *
+     * Deduplicates recent analytics sessions by a signature built from their
+     * IP/browser/OS/device/country attributes, then composes counts, traffic
+     * trends, device/browser/referrer breakdowns and content rankings via the
+     * analytics repositories.
+     */
     #[Route('/admin', name: 'admin_dashboard')]
     public function index(
         AnalyticsSessionRepository $sessionRepo,
@@ -108,6 +119,12 @@ class DashboardController extends AbstractController
         ]);
     }
 
+    /**
+     * Persist the time spent on a page view reported by the client analytics beacon.
+     *
+     * Locates the latest page view for the current session and URL and updates its
+     * duration when provided, returning an empty 204 response either way.
+     */
     #[Route('/analytics/track', name: 'analytics_track', methods: ['POST'])]
     public function track(Request $request, EntityManagerInterface $em): Response
     {
@@ -129,6 +146,9 @@ class DashboardController extends AbstractController
         return new Response('', 204);
     }
 
+    /**
+     * Return the count of page views recorded in the last minute as JSON.
+     */
     #[Route('/admin/live-traffic')]
     public function liveTraffic(AnalyticsPageViewRepository $repo): JsonResponse
     {
