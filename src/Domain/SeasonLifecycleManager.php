@@ -20,7 +20,7 @@ class SeasonLifecycleManager
     public function computeSeasonProgress(Season $season): int
     {
         $episodes = $season->getEpisodes();
-        $total = count($episodes);
+        $total = \count($episodes);
         $watched = 0;
 
         foreach ($episodes as $ep) {
@@ -37,7 +37,7 @@ class SeasonLifecycleManager
         $progress = $this->computeSeasonProgress($season);
         $season->setProgress($progress);
 
-        if ($progress === 100) {
+        if (100 === $progress) {
             $season->setStatus(WatchStatus::COMPLETED);
         } elseif ($progress > 0) {
             $season->setStatus(WatchStatus::IN_PROGRESS);
@@ -67,7 +67,7 @@ class SeasonLifecycleManager
 
         $tv->setProgress($progress);
 
-        if ($progress === 100) {
+        if (100 === $progress) {
             $tv->setStatus(WatchStatus::COMPLETED);
         } elseif ($progress > 0) {
             $tv->setStatus(WatchStatus::IN_PROGRESS);

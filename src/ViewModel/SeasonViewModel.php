@@ -21,5 +21,3 @@ class SeasonViewModel
     public string $statusLabel;
     public string $statusClass;
 }
-
-

@@ -103,7 +103,7 @@ class EpisodeLifecycleManager
         }
 
         foreach ($nextSeason->getEpisodes() as $ep) {
-            if ($ep->getEpisodeNumber() === 1) {
+            if (1 === $ep->getEpisodeNumber()) {
                 return $ep;
             }
         }
