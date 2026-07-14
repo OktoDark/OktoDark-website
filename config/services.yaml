@@ -10,6 +10,7 @@ parameters:
     avatars_directory: '%kernel.project_dir%/public/uploads/avatars'
     cv_directory: '%kernel.project_dir%/public/uploads/cvs'
     symfonycasts_reset_password.throttle_limit: 600
+    security.remember_me.lifetime: 604800
 
     # MAILERS
     mailer.from.jobs: '%env(MAILER_FROM_JOBS)%'
