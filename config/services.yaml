@@ -219,6 +219,10 @@ services:
     App\Twig\ThemeLoader:
         tags: ['twig.loader']
 
+    App\Service\TrustedDeviceService:
+        arguments:
+            $rememberMeLifetime: '%security.remember_me.lifetime%'
+
 when@test:
     services:
         App\Service\SettingsProvider: null
