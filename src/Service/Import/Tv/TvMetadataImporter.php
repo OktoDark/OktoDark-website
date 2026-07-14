@@ -41,4 +41,3 @@ class TvMetadataImporter
         $meta->setSource($parsed['source']);
     }
 }
-

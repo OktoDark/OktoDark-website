@@ -41,7 +41,9 @@ class AnalyticsPageViewRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('v')
             ->select('COUNT(v.id)')
+            ->leftJoin('v.user', 'u') // Join with the User entity
             ->andWhere('v.createdAt >= :today')
+            ->andWhere('v.user IS NULL OR u.trackingEnabled = TRUE') // Apply tracking preference filter
             ->setParameter('today', $today)
             ->getQuery()
             ->getSingleScalarResult();
@@ -51,6 +53,8 @@ class AnalyticsPageViewRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('v')
             ->select('v.route AS route, COUNT(v.id) AS total')
+            ->leftJoin('v.user', 'u') // Join with the User entity
+            ->andWhere('v.user IS NULL OR u.trackingEnabled = TRUE') // Apply tracking preference filter
             ->groupBy('v.route')
             ->orderBy('total', 'DESC')
             ->setMaxResults($limit)
@@ -64,7 +68,9 @@ class AnalyticsPageViewRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('v')
             ->select('DATE(v.createdAt) AS date, COUNT(v.id) AS total')
+            ->leftJoin('v.user', 'u') // Join with the User entity
             ->andWhere('v.createdAt >= :from')
+            ->andWhere('v.user IS NULL OR u.trackingEnabled = TRUE') // Apply tracking preference filter
             ->setParameter('from', $from)
             ->groupBy('date')
             ->orderBy('date', 'ASC')
@@ -76,6 +82,8 @@ class AnalyticsPageViewRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('v')
             ->select('HOUR(v.createdAt) AS hour, COUNT(v.id) AS total')
+            ->leftJoin('v.user', 'u') // Join with the User entity
+            ->andWhere('v.user IS NULL OR u.trackingEnabled = TRUE') // Apply tracking preference filter
             ->groupBy('hour')
             ->orderBy('hour', 'ASC')
             ->getQuery()
@@ -86,8 +94,10 @@ class AnalyticsPageViewRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('v')
             ->select('v.referrer AS referrer, COUNT(v.id) AS total')
+            ->leftJoin('v.user', 'u') // Join with the User entity
             ->andWhere('v.referrer IS NOT NULL')
             ->andWhere('v.referrer != \'\'')
+            ->andWhere('v.user IS NULL OR u.trackingEnabled = TRUE') // Apply tracking preference filter
             ->groupBy('v.referrer')
             ->orderBy('total', 'DESC')
             ->setMaxResults($limit)
@@ -101,7 +111,9 @@ class AnalyticsPageViewRepository extends ServiceEntityRepository
 
         return (int) $qb
             ->select('COUNT(v.id)')
+            ->leftJoin('v.user', 'u') // Join with the User entity
             ->where('v.createdAt > :cutoff')
+            ->andWhere('v.user IS NULL OR u.trackingEnabled = TRUE') // Apply tracking preference filter
             ->setParameter('cutoff', new \DateTimeImmutable('-60 seconds'))
             ->getQuery()
             ->getSingleScalarResult();

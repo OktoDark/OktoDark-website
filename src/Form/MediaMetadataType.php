@@ -33,14 +33,14 @@ class MediaMetadataType extends AbstractType
             ])
             ->add('source', ChoiceType::class, [
                 'choices' => array_combine(
-                    array_map(fn (Source $s) => $s->value, Source::cases()),
+                    array_map(static fn (Source $s) => $s->value, Source::cases()),
                     Source::cases()
                 ),
                 'required' => true,
             ])
             ->add('mediaType', ChoiceType::class, [
                 'choices' => array_combine(
-                    array_map(fn (MediaType $t) => $t->value, MediaType::cases()),
+                    array_map(static fn (MediaType $t) => $t->value, MediaType::cases()),
                     MediaType::cases()
                 ),
                 'required' => true,

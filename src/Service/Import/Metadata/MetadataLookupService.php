@@ -111,8 +111,8 @@ class MetadataLookupService
 
         // Always assign a normalized mediaId
         $meta->setMediaId(
-            strtolower(
-                trim(
+            mb_strtolower(
+                mb_trim(
                     $ids['tmdb']
                     ?? $ids['imdb']
                     ?? $ids['alpha']

@@ -63,7 +63,7 @@ class MetadataEnricher
 
             // Hydrate show-level cast
             $cast = array_map(
-                fn (array $c) => [
+                static fn (array $c) => [
                     'name' => $c['person']['name'] ?? null,
                     'character' => $c['character']['name'] ?? null,
                     'image' => $c['person']['image']['medium'] ?? null,

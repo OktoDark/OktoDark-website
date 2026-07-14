@@ -107,7 +107,7 @@ class MovieRepository extends AbstractMediaRepository
 
         if ($search) {
             $qb->andWhere('LOWER(meta.title) LIKE :search OR LOWER(meta.alternativeTitles) LIKE :search')
-                ->setParameter('search', '%'.strtolower($search).'%');
+                ->setParameter('search', '%'.mb_strtolower($search).'%');
         }
 
         switch ($sort) {

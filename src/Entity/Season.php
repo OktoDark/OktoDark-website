@@ -27,7 +27,7 @@ class Season
     private ?int $id = null;
 
     #[ORM\Column(type: 'decimal', precision: 3, scale: 1, nullable: true)]
-    private ?float $score = null;
+    private ?string $score = null;
 
     #[ORM\Column(type: 'integer')]
     private int $progress = 0;
@@ -109,12 +109,12 @@ class Season
         $this->id = $id;
     }
 
-    public function getScore(): ?float
+    public function getScore(): ?string
     {
         return $this->score;
     }
 
-    public function setScore(?float $score): void
+    public function setScore(?string $score): void
     {
         $this->score = $score;
     }

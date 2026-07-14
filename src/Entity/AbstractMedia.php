@@ -77,6 +77,7 @@ abstract class AbstractMedia
     public function setMediaMetadata(?MediaMetadata $mediaMetadata): self
     {
         $this->mediaMetadata = $mediaMetadata;
+
         return $this;
     }
 
@@ -88,6 +89,7 @@ abstract class AbstractMedia
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
         return $this;
     }
 
@@ -99,6 +101,7 @@ abstract class AbstractMedia
     public function setScore(?string $score): self
     {
         $this->score = $score;
+
         return $this;
     }
 
@@ -110,6 +113,7 @@ abstract class AbstractMedia
     public function setProgress(int $progress): self
     {
         $this->progress = $progress;
+
         return $this;
     }
 
@@ -121,6 +125,7 @@ abstract class AbstractMedia
     public function setStatus(WatchStatus $status): self
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -132,6 +137,7 @@ abstract class AbstractMedia
     public function setStartDate(?\DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
+
         return $this;
     }
 
@@ -143,6 +149,7 @@ abstract class AbstractMedia
     public function setEndDate(?\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
+
         return $this;
     }
 
@@ -154,6 +161,7 @@ abstract class AbstractMedia
     public function setNotes(?string $notes): self
     {
         $this->notes = $notes;
+
         return $this;
     }
 
@@ -170,6 +178,7 @@ abstract class AbstractMedia
     public function setProgressedAt(?\DateTimeImmutable $progressedAt): self
     {
         $this->progressedAt = $progressedAt;
+
         return $this;
     }
 

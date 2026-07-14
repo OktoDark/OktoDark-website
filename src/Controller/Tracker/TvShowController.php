@@ -46,11 +46,11 @@ class TvShowController extends AbstractController
         ]);
 
         // Sort seasons by season number, then episodes by episode number (ascending)
-        usort($seasons, fn ($a, $b) => ($a->getSeasonNumber() ?? 0) <=> ($b->getSeasonNumber() ?? 0));
+        usort($seasons, static fn ($a, $b) => ($a->getSeasonNumber() ?? 0) <=> ($b->getSeasonNumber() ?? 0));
 
         foreach ($seasons as $season) {
             $episodes = $season->getEpisodes()->toArray();
-            usort($episodes, fn ($a, $b) => ($a->getEpisodeNumber() ?? 0) <=> ($b->getEpisodeNumber() ?? 0));
+            usort($episodes, static fn ($a, $b) => ($a->getEpisodeNumber() ?? 0) <=> ($b->getEpisodeNumber() ?? 0));
             $season->setEpisodes($episodes);
         }
 
@@ -67,7 +67,7 @@ class TvShowController extends AbstractController
 
             if ($mazeId) {
                 $cast = array_map(
-                    fn (array $c) => [
+                    static fn (array $c) => [
                         'name' => $c['person']['name'] ?? null,
                         'character' => $c['character']['name'] ?? null,
                         'image' => $c['person']['image']['medium'] ?? null,

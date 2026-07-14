@@ -69,7 +69,7 @@ class MovieWatchHistoryImporter
     private function mapStatus(array $record): WatchStatus
     {
         // Provider status string
-        $status = strtolower($record['status'] ?? '');
+        $status = mb_strtolower($record['status'] ?? '');
 
         return match ($status) {
             'completed', 'complete', 'finished', 'done' => WatchStatus::COMPLETED,

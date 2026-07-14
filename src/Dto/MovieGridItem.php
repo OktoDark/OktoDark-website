@@ -27,17 +27,16 @@ class MovieGridItem
     public ?string $notes;
 
     public function __construct(
-        int     $id,
-        string  $title,
+        int $id,
+        string $title,
         ?string $coverUrl,
         ?string $releaseDate,
-        ?int    $runtime,
-        string  $statusLabel,
-        string  $statusClass,
-        ?int    $score,
-        ?string $notes
-    )
-    {
+        ?int $runtime,
+        string $statusLabel,
+        string $statusClass,
+        ?int $score,
+        ?string $notes,
+    ) {
         $this->id = $id;
         $this->title = $title;
         $this->coverUrl = $coverUrl ?? '';
@@ -53,7 +52,7 @@ class MovieGridItem
 
     public function getFormattedRuntime(): string
     {
-        return $this->runtime ? $this->runtime . ' min' : '—';
+        return $this->runtime ? $this->runtime.' min' : '—';
     }
 
     public function getFormattedReleaseYear(): string

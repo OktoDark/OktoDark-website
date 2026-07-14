@@ -18,10 +18,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TrustedDeviceService
 {
+    private int $rememberMeLifetime;
+
     public function __construct(
         private EntityManagerInterface $em,
         private DeviceParserService $deviceParser,
+        int $rememberMeLifetime,
     ) {
+        $this->rememberMeLifetime = $rememberMeLifetime;
     }
 
     public function hasTrustedDevice(User $user, Request $request): bool
@@ -62,7 +66,7 @@ class TrustedDeviceService
             ->setIcon($parsed['icon'])
             ->setCreatedAt(new \DateTime())
             ->setLastUsedAt(new \DateTime())
-            ->setExpiresAt(new \DateTime('+30 days'));
+            ->setExpiresAt(new \DateTime('+'.$this->rememberMeLifetime.' seconds'));
 
         $this->em->persist($device);
         $this->em->flush();

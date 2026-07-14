@@ -84,7 +84,7 @@ class AnimeRepository extends AbstractMediaRepository
         User $user,
         ?string $search = null,
         ?string $sort = null,
-        ?WatchStatus $status = null
+        ?WatchStatus $status = null,
     ): array {
         $qb = $this->createQueryBuilder('a')
             ->innerJoin('a.mediaMetadata', 'meta')
@@ -99,7 +99,7 @@ class AnimeRepository extends AbstractMediaRepository
 
         if ($search) {
             $qb->andWhere('LOWER(meta.title) LIKE :search OR LOWER(meta.alternativeTitles) LIKE :search')
-                ->setParameter('search', '%' . strtolower($search) . '%');
+                ->setParameter('search', '%'.mb_strtolower($search).'%');
         }
 
         switch ($sort) {

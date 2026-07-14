@@ -39,7 +39,7 @@ class SeasonGridItem
         int $totalEpisodes,
         int $progress,
         ?int $score,
-        ?string $notes
+        ?string $notes,
     ) {
         $this->seasonNumber = $seasonNumber;
         $this->title = $title ?? '';
@@ -62,7 +62,7 @@ class SeasonGridItem
      */
     public function getFormattedSeason(): string
     {
-        return sprintf('Season %d', $this->seasonNumber);
+        return \sprintf('Season %d', $this->seasonNumber);
     }
 
     /**
@@ -70,6 +70,6 @@ class SeasonGridItem
      */
     public function getFormattedEpisodeCount(): string
     {
-        return sprintf('%d / %d', $this->watchedEpisodes, $this->totalEpisodes);
+        return \sprintf('%d / %d', $this->watchedEpisodes, $this->totalEpisodes);
     }
 }

@@ -35,7 +35,7 @@ class MovieDuplicateResolver
 
         // 1. TMDB match
         if (!empty($ids['tmdb'])) {
-            $existing = $repo->findByMediaIdAndUser(strtolower((string) $ids['tmdb']), $user);
+            $existing = $repo->findByMediaIdAndUser(mb_strtolower((string) $ids['tmdb']), $user);
             if ($existing) {
                 return $existing;
             }
@@ -43,7 +43,7 @@ class MovieDuplicateResolver
 
         // 2. IMDb match
         if (!empty($ids['imdb'])) {
-            $existing = $repo->findByMediaIdAndUser(strtolower((string) $ids['imdb']), $user);
+            $existing = $repo->findByMediaIdAndUser(mb_strtolower((string) $ids['imdb']), $user);
             if ($existing) {
                 return $existing;
             }
@@ -51,13 +51,13 @@ class MovieDuplicateResolver
 
         // 3. TVTime alpha key match
         if (!empty($ids['alpha'])) {
-            $existing = $repo->findByMediaIdAndUser(strtolower((string) $ids['alpha']), $user);
+            $existing = $repo->findByMediaIdAndUser(mb_strtolower((string) $ids['alpha']), $user);
             if ($existing) {
                 return $existing;
             }
         }
 
         // 4. Fallback: metadata mediaId
-        return $repo->findByMediaIdAndUser(strtolower($meta->getMediaId()), $user);
+        return $repo->findByMediaIdAndUser(mb_strtolower($meta->getMediaId()), $user);
     }
 }

@@ -38,7 +38,7 @@ abstract class AbstractMediaRepository extends ServiceEntityRepository
 
         if ($search) {
             $qb->andWhere('LOWER(meta.title) LIKE :search')
-                ->setParameter('search', '%'.strtolower($search).'%');
+                ->setParameter('search', '%'.mb_strtolower($search).'%');
         }
 
         $this->applySorting($qb, $sortFilter);
@@ -49,7 +49,6 @@ abstract class AbstractMediaRepository extends ServiceEntityRepository
     protected function applySorting(QueryBuilder $qb, ?string $sortFilter): void
     {
         switch ($sortFilter) {
-
             // ─────────────────────────────────────────────
             // TITLE SORT
             // ─────────────────────────────────────────────
@@ -57,52 +56,52 @@ abstract class AbstractMediaRepository extends ServiceEntityRepository
                 $qb->orderBy('LOWER(meta.title)', 'ASC');
                 break;
 
-            // ─────────────────────────────────────────────
-            // START DATE SORT
-            // ─────────────────────────────────────────────
+                // ─────────────────────────────────────────────
+                // START DATE SORT
+                // ─────────────────────────────────────────────
             case 'start_date':
                 $qb->orderBy('s.startDate', 'ASC')
                     ->addOrderBy('LOWER(meta.title)', 'ASC');
                 break;
 
-            // ─────────────────────────────────────────────
-            // END DATE / PROGRESSED AT SORT
-            // ─────────────────────────────────────────────
+                // ─────────────────────────────────────────────
+                // END DATE / PROGRESSED AT SORT
+                // ─────────────────────────────────────────────
             case 'end_date':
             case 'progressed_at':
                 $qb->orderBy('s.'.$sortFilter, 'DESC')
                     ->addOrderBy('LOWER(meta.title)', 'ASC');
                 break;
 
-            // ─────────────────────────────────────────────
-            // RELEASE DATE SORT (NEW)
-            // ─────────────────────────────────────────────
+                // ─────────────────────────────────────────────
+                // RELEASE DATE SORT (NEW)
+                // ─────────────────────────────────────────────
             case 'release_date':
                 $qb->orderBy('meta.releaseDate', 'DESC')
                     ->addOrderBy('LOWER(meta.title)', 'ASC');
                 break;
 
-            // ─────────────────────────────────────────────
-            // RUNTIME SORT (NEW)
-            // ─────────────────────────────────────────────
+                // ─────────────────────────────────────────────
+                // RUNTIME SORT (NEW)
+                // ─────────────────────────────────────────────
             case 'runtime':
                 $qb->orderBy('meta.runtime', 'DESC')
                     ->addOrderBy('LOWER(meta.title)', 'ASC');
                 break;
 
-            // ─────────────────────────────────────────────
-            // MEDIA ID SORT (NEW)
-            // Useful for grouping TV → Season → Episode
-            // ─────────────────────────────────────────────
+                // ─────────────────────────────────────────────
+                // MEDIA ID SORT (NEW)
+                // Useful for grouping TV → Season → Episode
+                // ─────────────────────────────────────────────
             case 'media_id':
                 $qb->orderBy('meta.mediaId', 'ASC')
                     ->addOrderBy('meta.seasonNumber', 'ASC')
                     ->addOrderBy('meta.episodeNumber', 'ASC');
                 break;
 
-            // ─────────────────────────────────────────────
-            // DEFAULT SORT: newest first
-            // ─────────────────────────────────────────────
+                // ─────────────────────────────────────────────
+                // DEFAULT SORT: newest first
+                // ─────────────────────────────────────────────
             default:
                 $qb->orderBy('s.createdAt', 'DESC')
                     ->addOrderBy('LOWER(meta.title)', 'ASC');

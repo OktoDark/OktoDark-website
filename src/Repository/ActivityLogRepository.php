@@ -28,16 +28,19 @@ class ActivityLogRepository extends ServiceEntityRepository
     /**
      * Find activity for specific entity.
      */
-    public function findByEntity(string $entityType, int $entityId): array
+    public function findByEntity(string $entityType, int $entityId, ?int $limit = null): array
     {
-        return $this->createQueryBuilder('a')
+        $qb = $this->createQueryBuilder('a')
             ->where('a.entityType = :type AND a.entityId = :id')
             ->setParameter('type', $entityType)
             ->setParameter('id', $entityId)
-            ->orderBy('a.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult()
-        ;
+            ->orderBy('a.createdAt', 'DESC');
+
+        if (null !== $limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     /**

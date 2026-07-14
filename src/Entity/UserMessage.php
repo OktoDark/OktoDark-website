@@ -60,6 +60,7 @@ class UserMessage
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
         return $this;
     }
 
@@ -71,6 +72,7 @@ class UserMessage
     public function setLevel(UserMessageLevel $level): self
     {
         $this->level = $level;
+
         return $this;
     }
 
@@ -82,6 +84,7 @@ class UserMessage
     public function setMessage(string $message): self
     {
         $this->message = $message;
+
         return $this;
     }
 
@@ -98,6 +101,7 @@ class UserMessage
     public function setShownAt(?\DateTimeInterface $shownAt): self
     {
         $this->shownAt = $shownAt;
+
         return $this;
     }
 }

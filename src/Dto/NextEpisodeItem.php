@@ -38,7 +38,7 @@ class NextEpisodeItem
 
     public function getFormattedEpisode(): string
     {
-        return sprintf(
+        return \sprintf(
             'S%02dE%02d',
             $this->season ?? 0,
             $this->episode ?? 0

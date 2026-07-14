@@ -35,14 +35,14 @@ class TvImportController extends AbstractController
         /** @var UploadedFile[] $files */
         $files = $request->files->all()['files'] ?? [$request->files->get('file')];
 
-        if (!$files || !count(array_filter($files))) {
+        if (!$files || !\count(array_filter($files))) {
             return $this->json(['error' => 'No files uploaded'], 400);
         }
 
         $session = $request->getSession();
         $user = $this->getUser();
 
-        $response = new StreamedResponse(function () use ($importer, $files, $user, $session): void {
+        $response = new StreamedResponse(static function () use ($importer, $files, $user, $session): void {
             // Release the session lock immediately so other requests are not blocked
             // by this long-running import, then keep the connection open for streaming.
             $session->save();

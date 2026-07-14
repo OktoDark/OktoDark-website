@@ -29,15 +29,15 @@ class TvShowGridItem
     public array $seasons = [];
 
     public function __construct(
-        int     $id,
-        string  $title,
+        int $id,
+        string $title,
         ?string $coverUrl,
-        string  $statusLabel,
-        string  $statusClass,
+        string $statusLabel,
+        string $statusClass,
         ?string $releaseDate,
-        int     $watchedEpisodes,
-        int     $totalEpisodes,
-        array   $seasons
+        int $watchedEpisodes,
+        int $totalEpisodes,
+        array $seasons,
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -59,7 +59,7 @@ class TvShowGridItem
      */
     public function getFormattedEpisodeCount(): string
     {
-        return sprintf('%d / %d', $this->watchedEpisodes, $this->totalEpisodes);
+        return \sprintf('%d / %d', $this->watchedEpisodes, $this->totalEpisodes);
     }
 
     /**
@@ -75,7 +75,7 @@ class TvShowGridItem
      */
     public function isReadyToStart(): bool
     {
-        return $this->watchedEpisodes === 0;
+        return 0 === $this->watchedEpisodes;
     }
 
     /**

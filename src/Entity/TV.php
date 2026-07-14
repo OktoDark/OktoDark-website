@@ -110,7 +110,7 @@ class TV extends AbstractMedia
         }
 
         // Sort seasons by metadata seasonNumber
-        usort($seasons, fn ($a, $b) => ($a->getMediaMetadata()?->getSeasonNumber() ?? 0)
+        usort($seasons, static fn ($a, $b) => ($a->getMediaMetadata()?->getSeasonNumber() ?? 0)
             <=>
             ($b->getMediaMetadata()?->getSeasonNumber() ?? 0)
         );
@@ -123,7 +123,7 @@ class TV extends AbstractMedia
             }
 
             // Sort episodes by metadata episodeNumber
-            usort($episodes, fn ($a, $b) => ($a->getMediaMetadata()?->getEpisodeNumber() ?? 0)
+            usort($episodes, static fn ($a, $b) => ($a->getMediaMetadata()?->getEpisodeNumber() ?? 0)
                 <=>
                 ($b->getMediaMetadata()?->getEpisodeNumber() ?? 0)
             );
@@ -143,7 +143,7 @@ class TV extends AbstractMedia
         $lastEpisodes = $lastSeason->getEpisodes()->toArray();
 
         if (!empty($lastEpisodes)) {
-            usort($lastEpisodes, fn ($a, $b) => ($a->getMediaMetadata()?->getEpisodeNumber() ?? 0)
+            usort($lastEpisodes, static fn ($a, $b) => ($a->getMediaMetadata()?->getEpisodeNumber() ?? 0)
                 <=>
                 ($b->getMediaMetadata()?->getEpisodeNumber() ?? 0)
             );

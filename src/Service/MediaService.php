@@ -77,7 +77,7 @@ class MediaService
             $this->queueUserMessage(
                 $user,
                 UserMessageLevel::SUCCESS,
-                sprintf(
+                \sprintf(
                     'Congratulations! You finished watching %s!',
                     $season->getMediaMetadata()?->getTitle() ?? 'a season'
                 )

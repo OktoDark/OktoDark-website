@@ -36,7 +36,7 @@ class TvTimeMovieProvider implements MovieImportProviderInterface
 
     private function extractYear(?string $date): ?int
     {
-        return $date ? (int) substr($date, 0, 4) : null;
+        return $date ? (int) mb_substr($date, 0, 4) : null;
     }
 
     /**

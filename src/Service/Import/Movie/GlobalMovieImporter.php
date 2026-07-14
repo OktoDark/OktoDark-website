@@ -52,17 +52,17 @@ class GlobalMovieImporter
         $content = file_get_contents($file->getRealPath());
 
         // JSON?
-        if (str_starts_with(trim($content), '{') || str_starts_with(trim($content), '[')) {
+        if (str_starts_with(mb_trim($content), '{') || str_starts_with(mb_trim($content), '[')) {
             return json_decode($content, true) ?? [];
         }
 
         // CSV
-        $lines = preg_split('/\r\n|\r|\n/', trim($content));
+        $lines = preg_split('/\r\n|\r|\n/', mb_trim($content));
         $header = str_getcsv(array_shift($lines), ',', '"', '\\');
         $rows = [];
 
         foreach ($lines as $line) {
-            if (!trim($line)) {
+            if (!mb_trim($line)) {
                 continue;
             }
 

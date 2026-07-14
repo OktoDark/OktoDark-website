@@ -33,20 +33,19 @@ class AnimeGridItem
     public ?string $notes;
 
     public function __construct(
-        int     $id,
-        string  $title,
+        int $id,
+        string $title,
         ?string $coverUrl,
         ?string $releaseDate,
-        ?int    $runtime,
-        string  $statusLabel,
-        string  $statusClass,
-        int     $watchedEpisodes,
-        int     $totalEpisodes,
-        array   $seasons,
-        ?int    $score,
-        ?string $notes
-    )
-    {
+        ?int $runtime,
+        string $statusLabel,
+        string $statusClass,
+        int $watchedEpisodes,
+        int $totalEpisodes,
+        array $seasons,
+        ?int $score,
+        ?string $notes,
+    ) {
         $this->id = $id;
         $this->title = $title;
         $this->coverUrl = $coverUrl ?? '';
@@ -68,7 +67,7 @@ class AnimeGridItem
 
     public function getFormattedEpisodeCount(): string
     {
-        return sprintf('%d / %d', $this->watchedEpisodes, $this->totalEpisodes);
+        return \sprintf('%d / %d', $this->watchedEpisodes, $this->totalEpisodes);
     }
 
     public function getFormattedReleaseYear(): string
@@ -76,4 +75,3 @@ class AnimeGridItem
         return $this->releaseDate ?: '—';
     }
 }
-

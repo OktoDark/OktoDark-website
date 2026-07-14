@@ -27,17 +27,16 @@ class GameGridItem
     public ?string $notes;
 
     public function __construct(
-        int     $id,
-        string  $title,
+        int $id,
+        string $title,
         ?string $coverUrl,
         ?string $releaseDate,
-        ?int    $runtime,
-        string  $statusLabel,
-        string  $statusClass,
-        ?int    $score,
-        ?string $notes
-    )
-    {
+        ?int $runtime,
+        string $statusLabel,
+        string $statusClass,
+        ?int $score,
+        ?string $notes,
+    ) {
         $this->id = $id;
         $this->title = $title;
         $this->coverUrl = $coverUrl ?? '';
@@ -54,7 +53,7 @@ class GameGridItem
 
     public function getFormattedRuntime(): string
     {
-        return $this->runtime ? $this->runtime . ' hrs' : '—';
+        return $this->runtime ? $this->runtime.' hrs' : '—';
     }
 
     public function getFormattedReleaseYear(): string
@@ -62,5 +61,3 @@ class GameGridItem
         return $this->releaseDate ?: '—';
     }
 }
-
-

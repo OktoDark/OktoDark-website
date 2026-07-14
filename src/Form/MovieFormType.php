@@ -31,7 +31,7 @@ class MovieFormType extends AbstractType
             ])
             ->add('status', ChoiceType::class, [
                 'choices' => array_combine(
-                    array_map(fn (WatchStatus $s) => $s->value, WatchStatus::cases()),
+                    array_map(static fn (WatchStatus $s) => $s->value, WatchStatus::cases()),
                     WatchStatus::cases()
                 ),
                 'required' => true,

@@ -179,7 +179,7 @@ class TvImportService
         foreach ($files as $file) {
             if ($file instanceof UploadedFile) {
                 $records = $this->parseFile($file);
-                $total += is_array($records) ? count($records) : 0;
+                $total += \is_array($records) ? \count($records) : 0;
             }
         }
 
@@ -363,7 +363,7 @@ class TvImportService
     private function parseFile(UploadedFile $file): ?array
     {
         $content = file_get_contents($file->getRealPath());
-        $ext = strtolower($file->getClientOriginalExtension());
+        $ext = mb_strtolower($file->getClientOriginalExtension());
 
         return match ($ext) {
             'json' => json_decode($content, true),
@@ -379,7 +379,7 @@ class TvImportService
         $headers = str_getcsv(array_shift($lines));
 
         foreach ($lines as $line) {
-            if ('' === trim($line)) {
+            if ('' === mb_trim($line)) {
                 continue;
             }
             $rows[] = array_combine($headers, str_getcsv($line));

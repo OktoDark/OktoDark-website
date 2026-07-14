@@ -176,7 +176,7 @@ class Episode
 
     public function getFormattedEpisode(): string
     {
-        return sprintf(
+        return \sprintf(
             'S%02dE%02d',
             $this->getSeasonNumber() ?? 0,
             $this->getEpisodeNumber() ?? 0

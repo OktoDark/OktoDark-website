@@ -27,6 +27,6 @@ class Game extends AbstractMedia
         $hours = floor($this->progress / 60);
         $minutes = $this->progress % 60;
 
-        return sprintf('%02d:%02d', $hours, $minutes);
+        return \sprintf('%02d:%02d', $hours, $minutes);
     }
 }

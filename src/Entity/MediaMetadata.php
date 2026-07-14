@@ -436,7 +436,7 @@ class MediaMetadata
         $this->image = $data['image'] ?? $this->image;
         $this->overview = $data['overview'] ?? $this->overview;
 
-        if (array_key_exists('screenshot', $data)) {
+        if (\array_key_exists('screenshot', $data)) {
             $this->screenshot = $data['screenshot'] ?? $this->screenshot;
         } elseif (null === $this->screenshot
             && !empty($data['episodeNumber'])
@@ -446,11 +446,11 @@ class MediaMetadata
             $this->screenshot = $data['image'];
         }
 
-        if (array_key_exists('cast', $data)) {
+        if (\array_key_exists('cast', $data)) {
             $this->cast = $data['cast'] ?? $this->cast;
         }
 
-        if (array_key_exists('trailer', $data)) {
+        if (\array_key_exists('trailer', $data)) {
             $this->trailer = $data['trailer'] ?? $this->trailer;
         }
 

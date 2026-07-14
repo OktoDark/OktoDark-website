@@ -59,8 +59,8 @@ class TvTimeCsvImporter
 
     /**
      * @param callable(array): void $emit Receives streamed events:
-     *                                   ['type'=>'log','level'=>string,'message'=>string]
-     *                                   ['type'=>'progress','done'=>int,'total'=>int,'imported'=>int,'skipped'=>int,'errors'=>int]
+     *                                    ['type'=>'log','level'=>string,'message'=>string]
+     *                                    ['type'=>'progress','done'=>int,'total'=>int,'imported'=>int,'skipped'=>int,'errors'=>int]
      *
      * @return array{series:int, seasons:int, episodes:int, errors:int}
      */
@@ -87,14 +87,14 @@ class TvTimeCsvImporter
         $f->setFlags(\SplFileObject::READ_CSV | \SplFileObject::SKIP_EMPTY);
 
         $header = null;
-        $total = max(0, count(file($file)) - 1);
+        $total = max(0, \count(file($file)) - 1);
 
         $batchSize = 50;
         $i = 0;
         $processed = 0;
 
         foreach ($f as $row) {
-            if (!is_array($row)) {
+            if (!\is_array($row)) {
                 $this->emitProgress($emit, $processed, $total, $stats);
                 continue;
             }
@@ -174,11 +174,11 @@ class TvTimeCsvImporter
     private function normalizeRow(array $row, array $header): ?array
     {
         $key = $row[$header['key'] ?? 0] ?? '';
-        $prefix = str_contains($key, '-') ? substr($key, 0, strpos($key, '-')) : $key;
+        $prefix = str_contains($key, '-') ? mb_substr($key, 0, mb_strpos($key, '-')) : $key;
 
         // Watched episode rows (watch-episode / rewatch-episode gsi)
         if (str_contains($row[$header['gsi'] ?? 0] ?? '', 'watch-episode')) {
-            $series = trim($row[$header['series_name'] ?? 0] ?? '');
+            $series = mb_trim($row[$header['series_name'] ?? 0] ?? '');
 
             // v2 CSV: season_number column is always 1 (TVTime flat schema).
             // Use s_no (col 9) first; fall back to season_number (col 10).
@@ -203,12 +203,12 @@ class TvTimeCsvImporter
 
         // Followed series rows (user-series-*)
         if ('user' === $prefix) {
-            $series = trim($row[$header['series_name'] ?? 0] ?? '');
+            $series = mb_trim($row[$header['series_name'] ?? 0] ?? '');
             if ('' === $series) {
                 return null;
             }
 
-            $isFollowed = 'true' === strtolower(trim($row[$header['is_followed'] ?? 0] ?? ''));
+            $isFollowed = 'true' === mb_strtolower(mb_trim($row[$header['is_followed'] ?? 0] ?? ''));
 
             $resume = null;
             $mru = $row[$header['most_recent_ep_watched'] ?? 0] ?? '';
@@ -292,7 +292,7 @@ class TvTimeCsvImporter
     {
         $metaRepo = $this->em->getRepository(MediaMetadata::class);
 
-        $tvMeta = $cache['tv:'.strtolower($series)]
+        $tvMeta = $cache['tv:'.mb_strtolower($series)]
             ?? $metaRepo->findOneBy([
                 'title' => $series,
                 'mediaType' => MediaType::TV,
@@ -313,7 +313,7 @@ class TvTimeCsvImporter
         } else {
             $this->tvMaze->enrichShowMetadata($tvMeta, false);
         }
-        $cache['tv:'.strtolower($series)] = $tvMeta;
+        $cache['tv:'.mb_strtolower($series)] = $tvMeta;
 
         return $tvMeta;
     }
@@ -563,7 +563,7 @@ class TvTimeCsvImporter
             return WatchStatus::PLANNING;
         }
 
-        $watched = $episodes->filter(fn (Episode $e) => null !== $e->getEndDate());
+        $watched = $episodes->filter(static fn (Episode $e) => null !== $e->getEndDate());
         $watchedCount = $watched->count();
 
         $lastWatched = $watched->last();

@@ -84,7 +84,7 @@ class ImportService
         }
 
         try {
-            return MediaType::from(strtolower($mediaType));
+            return MediaType::from(mb_strtolower($mediaType));
         } catch (\ValueError) {
             return null;
         }

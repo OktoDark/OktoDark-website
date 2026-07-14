@@ -55,7 +55,7 @@ class TVRepository extends ServiceEntityRepository
 
         if ($search) {
             $qb->andWhere('LOWER(meta.title) LIKE :search OR LOWER(meta.alternativeTitles) LIKE :search')
-                ->setParameter('search', '%'.strtolower($search).'%');
+                ->setParameter('search', '%'.mb_strtolower($search).'%');
         }
 
         switch ($sort) {
@@ -183,12 +183,12 @@ class TVRepository extends ServiceEntityRepository
 
         if ($search) {
             $qb->andWhere('LOWER(ti.title) LIKE :search')
-                ->setParameter('search', '%'.strtolower($search).'%');
+                ->setParameter('search', '%'.mb_strtolower($search).'%');
         }
 
         if ($country) {
             $qb->andWhere('LOWER(ti.country) LIKE :country')
-                ->setParameter('country', '%'.strtolower($country).'%');
+                ->setParameter('country', '%'.mb_strtolower($country).'%');
         }
 
         if ($actor) {
@@ -205,7 +205,7 @@ class TVRepository extends ServiceEntityRepository
             ->setFirstResult(($page - 1) * $limit);
 
         $rows = $qb->executeQuery()->fetchAllAssociative();
-        $tvIds = array_map(fn ($row) => $row['tv_id'], $rows);
+        $tvIds = array_map(static fn ($row) => $row['tv_id'], $rows);
 
         if (empty($tvIds)) {
             return ['items' => [], 'total' => 0];
@@ -313,7 +313,7 @@ class TVRepository extends ServiceEntityRepository
 
         uasort($aggregated, static fn ($a, $b) => $b['count'] <=> $a['count']);
 
-        $top = array_slice($aggregated, 0, $limit, true);
+        $top = \array_slice($aggregated, 0, $limit, true);
 
         return array_map(static fn ($genre, $data) => [
             'genre' => $genre,

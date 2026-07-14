@@ -39,8 +39,9 @@ class AnilistService
 
     private function cacheGet(string $key, callable $fn, int $ttl = 3600): ?array
     {
-        return $this->cache->get($key, function (ItemInterface $item) use ($fn, $ttl) {
+        return $this->cache->get($key, static function (ItemInterface $item) use ($fn, $ttl) {
             $item->expiresAfter($ttl);
+
             return $fn();
         });
     }
@@ -69,7 +70,7 @@ class AnilistService
     private function buildMediaList(array $media, int $limit): array
     {
         $items = [];
-        foreach (array_slice($media, 0, $limit) as $item) {
+        foreach (\array_slice($media, 0, $limit) as $item) {
             $items[] = [
                 'id' => $item['id'] ?? null,
                 'title' => $item['title']['romaji'] ?? $item['title']['english'] ?? 'Unknown',

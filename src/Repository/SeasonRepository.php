@@ -54,7 +54,7 @@ class SeasonRepository extends ServiceEntityRepository
 
         if ($search) {
             $qb->andWhere('LOWER(meta.title) LIKE :search OR LOWER(meta.alternativeTitles) LIKE :search')
-                ->setParameter('search', '%'.strtolower($search).'%');
+                ->setParameter('search', '%'.mb_strtolower($search).'%');
         }
 
         switch ($sort) {
@@ -113,7 +113,7 @@ class SeasonRepository extends ServiceEntityRepository
 
         if ($search) {
             $qb->andWhere('LOWER(meta.title) LIKE :search OR LOWER(meta.alternativeTitles) LIKE :search')
-                ->setParameter('search', '%'.strtolower($search).'%');
+                ->setParameter('search', '%'.mb_strtolower($search).'%');
         }
 
         $qb->orderBy('LOWER(meta.title)', 'ASC')
@@ -162,7 +162,7 @@ class SeasonRepository extends ServiceEntityRepository
                 $seasonMeta = $season->getMediaMetadata();
 
                 // Episode counts
-                $seasonTotal = count($season->getEpisodes());
+                $seasonTotal = \count($season->getEpisodes());
                 $seasonWatched = 0;
 
                 foreach ($season->getEpisodes() as $ep) {
@@ -224,7 +224,7 @@ class SeasonRepository extends ServiceEntityRepository
 
         if ($search) {
             $qb->andWhere('LOWER(meta.title) LIKE :search OR LOWER(meta.alternativeTitles) LIKE :search')
-                ->setParameter('search', '%'.strtolower($search).'%');
+                ->setParameter('search', '%'.mb_strtolower($search).'%');
         }
 
         return (int) $qb->getQuery()->getSingleScalarResult();

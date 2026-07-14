@@ -42,7 +42,7 @@ class StatsService
      */
     public function getGlobalStats(User $user): array
     {
-        $cacheKey = sprintf('stats.global.%d', $user->getId());
+        $cacheKey = \sprintf('stats.global.%d', $user->getId());
 
         return $this->cache->get($cacheKey, function (ItemInterface $item) use ($user) {
             $item->expiresAfter(300);
@@ -254,7 +254,7 @@ class StatsService
 
     public function refreshStats(User $user): array
     {
-        $cacheKey = sprintf('stats.global.%d', $user->getId());
+        $cacheKey = \sprintf('stats.global.%d', $user->getId());
         $this->cache->delete($cacheKey);
 
         return $this->getGlobalStats($user);

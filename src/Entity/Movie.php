@@ -28,5 +28,4 @@ class Movie extends AbstractMedia
 
         return $meta->getImage();
     }
-
 }

@@ -126,9 +126,9 @@ class TmdbService
     {
         $allowed = [
             'now_playing' => true,
-            'popular'     => true,
-            'top_rated'   => true,
-            'upcoming'    => true,
+            'popular' => true,
+            'top_rated' => true,
+            'upcoming' => true,
         ];
 
         if (!isset($allowed[$list])) {
@@ -139,12 +139,12 @@ class TmdbService
         $results = $data['results'] ?? [];
 
         $movies = [];
-        foreach (array_slice($results, 0, $limit) as $item) {
+        foreach (\array_slice($results, 0, $limit) as $item) {
             $movies[] = [
-                'id'     => $item['id'] ?? null,
-                'title'  => $item['title'] ?? $item['original_title'] ?? 'Unknown',
-                'year'   => isset($item['release_date'])
-                    ? (int) substr((string) $item['release_date'], 0, 4)
+                'id' => $item['id'] ?? null,
+                'title' => $item['title'] ?? $item['original_title'] ?? 'Unknown',
+                'year' => isset($item['release_date'])
+                    ? (int) mb_substr((string) $item['release_date'], 0, 4)
                     : null,
                 'poster' => isset($item['poster_path'])
                     ? self::IMG.'w500'.$item['poster_path']
@@ -238,20 +238,20 @@ class TmdbService
             foreach ($seasons as $season) {
                 $seasonNumber = $season['season_number'] ?? null;
 
-                if ($seasonNumber === null) {
+                if (null === $seasonNumber) {
                     continue;
                 }
 
                 $episodes = $this->getEpisodes($tmdbId, $seasonNumber) ?? [];
 
                 $fullSeasons[$seasonNumber] = [
-                    'season'   => $season,
+                    'season' => $season,
                     'episodes' => $episodes,
                 ];
             }
 
             return [
-                'show'    => $show,
+                'show' => $show,
                 'seasons' => $fullSeasons,
             ];
         } catch (\Throwable $e) {
@@ -324,7 +324,7 @@ class TmdbService
         $data = $this->safeGet(self::BASE."/tv/$showId/season/$seasonNumber/episode/$episodeNumber/credits");
 
         $cast = [];
-        foreach (array_slice($data['guest_stars'] ?? [], 0, 12) as $person) {
+        foreach (\array_slice($data['guest_stars'] ?? [], 0, 12) as $person) {
             $cast[] = [
                 'name' => $person['name'] ?? null,
                 'character' => $person['character'] ?? null,
@@ -346,7 +346,7 @@ class TmdbService
 
         foreach ($data['results'] ?? [] as $video) {
             if (($video['site'] ?? '') === 'YouTube'
-                && in_array($video['type'] ?? '', ['Trailer', 'Teaser'], true)
+                && \in_array($video['type'] ?? '', ['Trailer', 'Teaser'], true)
             ) {
                 return 'https://www.youtube.com/embed/'.$video['key'];
             }
@@ -364,7 +364,7 @@ class TmdbService
 
         foreach ($data['results'] ?? [] as $video) {
             if (($video['site'] ?? '') === 'YouTube'
-                && in_array($video['type'] ?? '', ['Trailer', 'Teaser'], true)
+                && \in_array($video['type'] ?? '', ['Trailer', 'Teaser'], true)
             ) {
                 return 'https://www.youtube.com/embed/'.$video['key'];
             }
@@ -378,7 +378,7 @@ class TmdbService
     // ---------------------------------------------------------
     public function searchShows(?string $query): array
     {
-        if (!$query || '' === trim($query)) {
+        if (!$query || '' === mb_trim($query)) {
             return [];
         }
 
@@ -403,7 +403,7 @@ class TmdbService
                 'metaId' => $item['id'],
                 'name' => $item['name'] ?? $item['original_name'],
                 'year' => isset($item['first_air_date'])
-                    ? substr($item['first_air_date'], 0, 4)
+                    ? mb_substr($item['first_air_date'], 0, 4)
                     : null,
                 'image' => isset($item['poster_path'])
                     ? 'https://image.tmdb.org/t/p/w500'.$item['poster_path']

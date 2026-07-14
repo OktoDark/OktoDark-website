@@ -16,8 +16,8 @@ use App\Domain\TvLifecycleManager;
 use App\Entity\Season;
 use App\Entity\User;
 use App\Enum\WatchStatus;
-use App\Repository\SeasonRepository;
 use App\Repository\EpisodeRepository;
+use App\Repository\SeasonRepository;
 use App\Repository\TVRepository;
 
 class SeasonService

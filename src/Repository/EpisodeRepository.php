@@ -94,7 +94,7 @@ class EpisodeRepository extends ServiceEntityRepository
                 tvId: $tv->getId(),
                 showTitle: $metaTv->getTitle(),
                 episodeTitle: $metaEp->getTitle(),
-                formattedEpisode: sprintf(
+                formattedEpisode: \sprintf(
                     'S%02dE%02d',
                     $season->getSeasonNumber(),
                     $metaEp->getEpisodeNumber()
@@ -277,7 +277,7 @@ class EpisodeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getArrayResult();
 
-        return array_map(static fn($r) => [
+        return array_map(static fn ($r) => [
             'date' => $r['date'],
             'episodesWatched' => (int) $r['episodesWatched'],
         ], $rows);
@@ -297,7 +297,7 @@ class EpisodeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getArrayResult();
 
-        return array_map(static fn($r) => [
+        return array_map(static fn ($r) => [
             'month' => $r['month'],
             'episodesWatched' => (int) $r['episodesWatched'],
         ], $rows);

@@ -210,7 +210,7 @@ class ImportDashboardController extends AbstractController
 
                 if (!empty($hydrated['releaseDate'])) {
                     $meta->setReleaseDate(new \DateTime($hydrated['releaseDate']));
-                    $meta->setYear((int) substr($hydrated['releaseDate'], 0, 4));
+                    $meta->setYear((int) mb_substr($hydrated['releaseDate'], 0, 4));
                 }
 
                 $logs[] = "Rebuilt movie: {$meta->getTitle()}";
@@ -240,7 +240,7 @@ class ImportDashboardController extends AbstractController
 
                 if (!empty($hydrated['releaseDate'])) {
                     $meta->setReleaseDate(new \DateTime($hydrated['releaseDate']));
-                    $meta->setYear((int) substr($hydrated['releaseDate'], 0, 4));
+                    $meta->setYear((int) mb_substr($hydrated['releaseDate'], 0, 4));
                 }
 
                 $logs[] = "Rebuilt TV: {$meta->getTitle()}";

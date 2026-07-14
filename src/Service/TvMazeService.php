@@ -45,7 +45,7 @@ class TvMazeService
     // ---------------------------------------------------------
     public function searchShows(string $query): array
     {
-        if (trim($query) === '') {
+        if ('' === mb_trim($query)) {
             return [];
         }
 
@@ -63,7 +63,7 @@ class TvMazeService
                 'metaId' => $show['id'],
                 'name' => $show['name'],
                 'year' => isset($show['premiered'])
-                    ? substr($show['premiered'], 0, 4)
+                    ? mb_substr($show['premiered'], 0, 4)
                     : null,
                 'image' => $show['image']['medium'] ?? '',
             ];
@@ -145,14 +145,14 @@ class TvMazeService
         $hydratedSeasons = [];
         foreach ($seasons as $season) {
             $seasonNumber = $season['number'] ?? null;
-            if ($seasonNumber === null) {
+            if (null === $seasonNumber) {
                 continue;
             }
 
             $hydratedSeasons[$seasonNumber] = [
                 'metadata' => $this->hydrateSeasonMetadata($season),
                 'episodes' => array_map(fn ($ep) => $this->hydrateEpisodeMetadata($ep),
-                    array_filter($episodes, fn ($ep) => $ep['season'] === $seasonNumber)
+                    array_filter($episodes, static fn ($ep) => $ep['season'] === $seasonNumber)
                 ),
             ];
         }
