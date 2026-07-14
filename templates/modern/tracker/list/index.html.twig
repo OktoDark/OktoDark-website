@@ -1,0 +1,131 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}My List{% endblock %}
+
+{% block main %}
+    <section class="section section-lg">
+        <div class="container-fluid px-4">
+            <div class="row w-100 justify-content-center">
+                {% include '@theme/tracker/partials/_sidebar.html.twig' %}
+
+                <div class="col-md-9">
+
+                    <h2 class="fw-bold mb-4">My List</h2>
+
+                    <form method="get" action="{{ path('app_tracker_list') }}" class="mb-4" id="tracker-search-form">
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <input type="text" name="search" class="form-control" placeholder="Search title..." value="{{ search ?? '' }}">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" name="country" class="form-control" placeholder="Country..." value="{{ country ?? '' }}">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" name="actor" class="form-control" placeholder="Actor..." value="{{ actor ?? '' }}">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary w-100">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% if list is empty %}
+                        <p class="text-muted">Your list is empty.</p>
+                    {% else %}
+                        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-3" id="tracker-list-grid">
+                            {% for item in list %}
+                                <div class="col">
+                                    <div class="card h-100 shadow-sm border-0">
+                                        <a href="{{ path('app_tracking_tv_show', {id: item.id}) }}" class="text-decoration-none">
+                                            <div class="position-relative">
+                                                {% if item.coverUrl %}
+                                                    <img src="{{ item.coverUrl }}" alt="{{ item.title }}"
+                                                         class="card-img-top rounded-top"
+                                                         style="aspect-ratio: 2 / 3; object-fit: cover;">
+                                                {% else %}
+                                                    <div class="bg-secondary rounded-top d-flex align-items-center justify-content-center"
+                                                         style="aspect-ratio: 2 / 3;">
+                                                        <span class="text-white-50 small">No Image</span>
+                                                    </div>
+                                                {% endif %}
+
+                                                <span class="badge {{ item.statusClass ?: 'bg-secondary' }} position-absolute top-0 start-0 m-1">
+                                                    {{ item.statusLabel|capitalize }}
+                                                </span>
+                                            </div>
+                                        </a>
+                                        <div class="card-body p-2">
+                                            <h5 class="card-title text-truncate fs-6 mb-1" title="{{ item.title }}">{{ item.title }}</h5>
+                                            <p class="small text-muted mb-1">
+                                                {{ item.getReleaseDate() ? item.getReleaseDate().format('Y') : '—' }}
+                                            </p>
+
+                                            {% if item.getScore() %}
+                                                <p class="small mb-1">
+                                                    Score: <strong>{{ item.getFormattedScore() }}</strong>/10
+                                                </p>
+                                            {% endif %}
+
+                                            <button class="btn btn-danger btn-sm removeItem w-100"
+                                                    data-id="{{ item.id }}">
+                                                Remove
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        {% if total > limit %}
+                            <nav aria-label="Page navigation" class="mt-4">
+                                <ul class="pagination justify-content-center">
+                                    {% set maxPages = (total / limit)|round(0, 'ceil') %}
+                                    {% if page > 1 %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'page': page - 1})) }}">Previous</a>
+                                        </li>
+                                    {% endif %}
+                                    {% for p in 1..maxPages %}
+                                        <li class="page-item {{ p == page ? 'active' : '' }}">
+                                            <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'page': p})) }}">{{ p }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    {% if page < maxPages %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'page': page + 1})) }}">Next</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let debounceTimer;
+        const form = document.getElementById('tracker-search-form');
+        const inputs = form.querySelectorAll('input');
+
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    form.submit();
+                }, 400);
+            });
+        });
+
+        document.querySelectorAll('.removeItem').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const id = btn.dataset.id;
+
+                await fetch(`/tracker/list/remove/${id}`, { method: 'POST' });
+                location.reload();
+            });
+        });
+    </script>
+{% endblock %}

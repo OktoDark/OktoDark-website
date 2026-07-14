@@ -1,0 +1,40 @@
+{% macro navItem(route, label, currentRoute) %}
+    <a href="{{ path(route) }}"
+       class="list-group-item list-group-item-action py-1 px-2 {{ currentRoute starts with route ? 'active' }}">
+        {{ label }}
+    </a>
+{% endmacro %}
+
+{% import _self as sidebar %}
+
+{% set currentRoute = app.request.attributes.get('_route') %}
+
+<aside class="col-md-2">
+    <div class="list-group mb-4 sidebar-nav">
+        <div class="fw-semibold text-muted small px-2 mb-1">Media Categories</div>
+
+        {{ sidebar.navItem('app_tracking_dashboard', 'TV Shows', currentRoute) }}
+        {{ sidebar.navItem('app_tracker_seasons', 'TV Seasons', currentRoute) }}
+        {{ sidebar.navItem('app_tracker_movies', 'Movies', currentRoute) }}
+        {{ sidebar.navItem('app_tracker_anime', 'Anime', currentRoute) }}
+        {{ sidebar.navItem('app_tracker_manga', 'Manga', currentRoute) }}
+        {{ sidebar.navItem('app_tracker_games', 'Games', currentRoute) }}
+        {{ sidebar.navItem('app_tracker_books', 'Books', currentRoute) }}
+        {{ sidebar.navItem('app_tracker_comics', 'Comics', currentRoute) }}
+        {{ sidebar.navItem('app_tracker_boardgames', 'Boardgames', currentRoute) }}
+        {{ sidebar.navItem('app_tracker_custom', 'Create Custom', currentRoute) }}
+    </div>
+
+    <div class="list-group sidebar-nav border-top pt-3 mt-1">
+        <div class="fw-semibold text-muted small px-2 mb-1">Tools</div>
+
+        {{ sidebar.navItem('app_tracker_stats', 'Statistics', currentRoute) }}
+        {{ sidebar.navItem('app_tracker_list', 'My List', currentRoute) }}
+        {{ sidebar.navItem('app_tracker_calendar', 'Calendar', currentRoute) }}
+        {{ sidebar.navItem('app_tracker_search', 'Search', currentRoute) }}
+    </div>
+
+    <div class="list-group sidebar-nav border-top pt-3 mt-1">
+        {{ sidebar.navItem('app_import_dashboard', 'Import Dashboard', currentRoute) }}
+    </div>
+</aside>

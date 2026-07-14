@@ -1,0 +1,210 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}{{ tv.title }} – Media Tracker{% endblock %}
+{% block body_id 'tracker' %}
+
+{% block main %}
+    <section class="section section-page-title bg-default text-center py-4">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('app_tracking_dashboard') }}">TV Seasons</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ tv.title }}</li>
+                </ol>
+            </nav>
+            <div class="d-flex align-items-center justify-content-center gap-4">
+                {% if tv.coverUrl %}
+                    <img src="{{ tv.coverUrl }}" alt="{{ tv.title }}" class="img-fluid rounded" style="max-height: 200px;">
+                {% endif %}
+                <div class="text-start">
+                    <h2 class="display-6 fw-bold">{{ tv.title }}</h2>
+                    <p class="lead text-muted mt-2">{{ tv.releaseDate ? tv.releaseDate|date('F j, Y') : '—' }}</p>
+                    <span class="badge {{ tv.statusClass ?: 'bg-secondary' }}">{{ tv.statusLabel }}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-lg">
+        <div class="container-fluid px-4">
+            <div class="row w-100 justify-content-center">
+                {% include '@theme/tracker/partials/_sidebar.html.twig' %}
+
+                <div class="col-md-9">
+                    <!-- Overall Progress -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h6 class="text-muted text-uppercase mb-2">Overall Progress</h6>
+                                    <h3 class="fw-bold">{{ tv.watchedEpisodes }}/{{ tv.totalEpisodes }}</h3>
+                                    <p class="text-muted mb-0">episodes watched</p>
+                                    <div class="progress mt-2" style="height: 8px;">
+                                        <div class="progress-bar" role="progressbar"
+                                             style="width: {{ tv.totalEpisodes > 0 ? (tv.watchedEpisodes / tv.totalEpisodes * 100) : 0 }}%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h6 class="text-muted text-uppercase mb-2">Seasons</h6>
+                                    <h3 class="fw-bold">{{ tv.seasons|length }}</h3>
+                                    <p class="text-muted mb-0">total seasons</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h6 class="text-muted text-uppercase mb-2">Status</h6>
+                                    <span class="badge {{ tv.statusClass ?: 'bg-secondary' }} fs-6">{{ tv.statusLabel }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h6 class="text-muted text-uppercase mb-2">Completion</h6>
+                                    <h3 class="fw-bold">{{ tv.totalEpisodes > 0 ? (tv.watchedEpisodes / tv.totalEpisodes * 100)|round : 0 }}%</h3>
+                                    <p class="text-muted mb-0">complete</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cast + Trailer (whole show) -->
+                    {% if (cast and cast|length > 0) or trailer %}
+                        <div class="row g-4">
+                            {% if cast and cast|length > 0 %}
+                                <div class="col-12 col-lg-8">
+                                    <div class="card h-100 mb-lg-0">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">Cast</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row g-3">
+                                                {% for member in cast|slice(0, 12) %}
+                                                    <div class="col-4 col-sm-3 col-md-3 col-lg-2 text-center">
+                                                        {% if member.image %}
+                                                            <img src="{{ member.image }}" alt="{{ member.name }}"
+                                                                 class="rounded-circle img-fluid border"
+                                                                 style="width: 88px; height: 88px; object-fit: cover;">
+                                                        {% else %}
+                                                            <div class="rounded-circle bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center text-muted border mx-auto"
+                                                                 style="width: 88px; height: 88px;">
+                                                                <i class="ti ti-user" style="font-size: 2rem;"></i>
+                                                            </div>
+                                                        {% endif %}
+                                                        <div class="mt-2" style="min-height: 2.4em;">
+                                                            <small class="d-block fw-semibold lh-sm">{{ member.name ?? '—' }}</small>
+                                                            {% if member.character %}
+                                                                <small class="d-block text-muted lh-sm">{{ member.character }}</small>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% if trailer %}
+                                <div class="col-12 col-lg-4">
+                                    <div class="card h-100 mb-lg-0">
+                                        <div class="card-header py-2">
+                                            <h6 class="mb-0">Trailer</h6>
+                                        </div>
+                                        <div class="card-body p-2">
+                                            <div class="ratio ratio-16x9">
+                                                <iframe src="{{ trailer }}" title="Show trailer" allowfullscreen loading="lazy"></iframe>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    <!-- Seasons List -->
+                    <h3 class="h5 mb-3">Seasons</h3>
+                    {% for season in tv.seasons %}
+                        <div class="card mb-4 season-detail-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-0">Season {{ season.seasonNumber }}</h5>
+                                    <small class="text-muted">{{ season.mediaMetadata and season.mediaMetadata.releaseDate ? season.mediaMetadata.releaseDate|date('F j, Y') : '—' }}</small>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="badge {{ season.status ? season.status.cssClass() : 'bg-secondary' }}">{{ season.status ? season.status.label() : '—' }}</span>
+                                    <span class="text-muted">{{ season.progress }}/{{ season.totalEpisodes }} episodes</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="progress mb-3" style="height: 6px;">
+                                    <div class="progress-bar" role="progressbar"
+                                         style="width: {{ season.totalEpisodes > 0 ? (season.progress / season.totalEpisodes * 100) : 0 }}%">
+                                    </div>
+                                </div>
+
+                                {% if season.score %}
+                                    <p><strong>Score:</strong> {{ season.score }}/10</p>
+                                {% endif %}
+                                {% if season.notes %}
+                                    <p><strong>Notes:</strong> {{ season.notes }}</p>
+                                {% endif %}
+
+                                {% if season.episodes and season.episodes|length > 0 %}
+                                    <h6 class="mt-3 mb-3">Episodes</h6>
+                                    <div class="row g-3">
+                                        {% for episode in season.episodes %}
+                                            <div class="col-12 col-sm-6 col-lg-4">
+                                                <div class="card h-100 episode-card {{ episode.isWatched ? 'border-success border-2' : '' }}">
+                                                    <div class="episode-media position-relative">
+                                                        {% set epImage = episode.screenshot ?? episode.image %}
+                                                        {% if epImage %}
+                                                            <img src="{{ epImage }}" alt="{{ episode.title ?? 'Episode' }}"
+                                                                 class="card-img-top" style="width: 100%; height: 160px; object-fit: cover;">
+                                                        {% else %}
+                                                            <div class="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center text-muted" style="width: 100%; height: 160px;">
+                                                                <i class="ti ti-photo" style="font-size: 2rem;"></i>
+                                                            </div>
+                                                        {% endif %}
+                                                        <span class="badge bg-dark position-absolute top-0 start-0 m-2">E{{ episode.episodeNumber < 10 ? '0' : '' }}{{ episode.episodeNumber }}</span>
+                                                        {% if episode.isWatched %}
+                                                            <span class="badge bg-success position-absolute top-0 end-0 m-2">
+                                                        <i class="ti ti-check"></i>
+                                                    </span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <h6 class="card-title mb-1">{{ episode.title ?? '—' }}</h6>
+                                                        <small class="text-muted d-block mb-2">{{ episode.releaseDate ? episode.releaseDate|date('F j, Y') : '—' }}</small>
+
+                                                        {% if episode.trailer %}
+                                                            <div class="ratio ratio-16x9 mt-2">
+                                                                <iframe src="{{ episode.trailer }}" title="Episode trailer"
+                                                                        allowfullscreen loading="lazy"></iframe>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No seasons found for this show.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,325 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Media Tracker – Import TV{% endblock %}
+{% block head %}{{ parent() }}{% endblock %}
+{% block body_id %}tracker{% endblock %}
+
+{% block main %}
+    <section class="section section-page-title bg-default text-center py-4">
+        <div class="container">
+            <h2 class="display-6 fw-bold">Import TV</h2>
+            <p class="lead text-muted mt-2">Upload your files to export and manage your media database</p>
+        </div>
+    </section>
+
+    <section class="section section-lg">
+        <div class="container-fluid px-4">
+            <div class="row justify-content-center">
+
+                <!-- SIDEBAR -->
+                {% include '@theme/tracker/partials/_sidebar.html.twig' %}
+
+                <!-- MAIN CONTENT -->
+                <div class="col-md-9">
+
+                    <!-- IMPORT CARD -->
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <form id="importForm" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label class="form-label">Upload File</label>
+                                    <input type="file" name="files[]" class="form-control" multiple>
+                                    <small class="text-muted">
+                                        Supports: Trakt JSON, TVTime CSV, Simkl JSON, Generic CSV
+                                    </small>
+                                </div>
+
+                                <div id="dropZone"
+                                     class="border border-dashed rounded-3 p-4 text-center bg-dark bg-opacity-25 mb-3">
+                                    <p class="mb-1 fw-semibold">Drag & drop files here</p>
+                                    <p class="text-muted mb-0 small">Supported: TV exports, CSV lists</p>
+                                </div>
+
+                                <button class="btn btn-primary" type="submit">
+                                    Import TV
+                                </button>
+                            </form>
+
+                            <div id="importResult" class="mt-3"></div>
+
+                            <div class="mt-3">
+                                <div class="progress" style="height: 6px;">
+                                    <div id="importProgress" class="progress-bar" role="progressbar"
+                                         style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+                                <ul class="list-unstyled mb-0 small">
+                                    <li>Imported: <span id="statusImported" class="fw-bold">0</span></li>
+                                    <li>Skipped: <span id="statusSkipped" class="fw-bold">0</span></li>
+                                    <li>Errors: <span id="statusErrors" class="fw-bold">0</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CLEANUP CARD -->
+                    <div class="card shadow-sm mt-4">
+                        <div class="card-header d-flex justify-content-between align-items-center fw-semibold">
+                            <span>Legacy Cleanup</span>
+                            <span class="badge text-bg-warning">Optional</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                                <p class="text-muted small mb-0">
+                                    Removes corrupted movie-seasons and movie-TV entries from previous imports.
+                                </p>
+                                <button class="btn btn-outline-warning" id="cleanupButton">
+                                    Run Cleanup
+                                </button>
+                            </div>
+                            <div id="cleanupResult" class="mt-3"></div>
+                        </div>
+                    </div>
+
+                    <!-- LOGS CARD -->
+                    <div class="card shadow-sm mt-4">
+                        <div class="card-header d-flex justify-content-between align-items-center fw-semibold">
+                            <span>Import Logs</span>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-secondary" id="refreshLogsButton">
+                                    Refresh
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" id="clearLogsButton">
+                                    Clear
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <pre id="logsBox"
+                                 class="bg-dark text-light p-3 rounded small"
+                                 style="max-height: 300px; overflow-y: auto;">{% if logs is not empty %}{{ logs|join('\n') }}{% else %}Loading logs…{% endif %}</pre>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% block javascripts %}
+        {{ parent() }}
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+
+                const importForm     = document.getElementById('importForm');
+                const importResult   = document.getElementById('importResult');
+                const importProgress = document.getElementById('importProgress');
+
+                const statusImported = document.getElementById('statusImported');
+                const statusSkipped  = document.getElementById('statusSkipped');
+                const statusErrors   = document.getElementById('statusErrors');
+
+                const cleanupButton  = document.getElementById('cleanupButton');
+                const cleanupResult  = document.getElementById('cleanupResult');
+                const logsBox        = document.getElementById('logsBox');
+
+                const dropZone       = document.getElementById('dropZone');
+
+                let pollingInterval = null;
+
+                function isArray(value) {
+                    return Array.isArray(value);
+                }
+
+                function refreshLogs() {
+                    fetch('{{ path("app_import_logs") }}')
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data && isArray(data.logs)) {
+                                logsBox.textContent = data.logs.join('\n');
+                            } else {
+                                logsBox.textContent = 'No logs available.';
+                            }
+                        })
+                        .catch(() => logsBox.textContent = 'Error loading logs.');
+                }
+
+                refreshLogs();
+
+                document.getElementById('refreshLogsButton').addEventListener('click', refreshLogs);
+
+                document.getElementById('clearLogsButton').addEventListener('click', function () {
+                    fetch('{{ path("app_import_logs_clear") }}', { method: 'POST' })
+                        .then(r => r.json())
+                        .then(() => {
+                            logsBox.textContent = 'Logs cleared.';
+                        })
+                        .catch(() => logsBox.textContent = 'Error clearing logs.');
+                });
+
+                ['dragenter', 'dragover'].forEach(ev => {
+                    dropZone.addEventListener(ev, e => {
+                        e.preventDefault();
+                        dropZone.classList.add('border-primary');
+                    });
+                });
+
+                ['dragleave', 'drop'].forEach(ev => {
+                    dropZone.addEventListener(ev, e => {
+                        e.preventDefault();
+                        dropZone.classList.remove('border-primary');
+                    });
+                });
+
+                dropZone.addEventListener('drop', e => {
+                    const input = importForm.querySelector('input[type="file"]');
+                    input.files = e.dataTransfer.files;
+                });
+
+                function handleImportEvent(ev) {
+                    if (ev.type === 'file') {
+                        logsBox.textContent += 'Importing file: ' + ev.name + '\n';
+                    } else if (ev.type === 'log') {
+                        const prefix = '[' + (ev.level || 'info') + '] ';
+                        logsBox.textContent += prefix + ev.message + '\n';
+                        logsBox.scrollTop = logsBox.scrollHeight;
+                    } else if (ev.type === 'progress') {
+                        const pct = ev.total ? Math.round((ev.done / ev.total) * 100) : 100;
+                        importProgress.style.width = pct + '%';
+                        importProgress.setAttribute('aria-valuenow', String(pct));
+                        statusImported.textContent = ev.imported ?? 0;
+                        statusSkipped.textContent  = ev.skipped ?? 0;
+                        statusErrors.textContent   = ev.errors ?? 0;
+                    } else if (ev.type === 'done') {
+                        statusImported.textContent = ev.imported ?? 0;
+                        statusSkipped.textContent  = ev.skipped ?? 0;
+                        statusErrors.textContent   = ev.errors ?? 0;
+                        importResult.innerHTML =
+                            '<div class="alert alert-success">Import completed. Imported ' +
+                            (ev.imported ?? 0) + ', skipped ' + (ev.skipped ?? 0) +
+                            ', errors ' + (ev.errors ?? 0) + '.</div>';
+                        importProgress.style.width = '100%';
+                        importProgress.setAttribute('aria-valuenow', '100');
+                    } else if (ev.type === 'error') {
+                        importResult.innerHTML = '<div class="alert alert-danger">' + ev.message + '</div>';
+                    }
+                }
+
+                function readImportStream(reader) {
+                    const decoder = new TextDecoder();
+                    let buffer = '';
+
+                    function pump() {
+                        return reader.read().then(function (chunk) {
+                            if (chunk.done) {
+                                return;
+                            }
+
+                            buffer += decoder.decode(chunk.value, { stream: true });
+                            let idx;
+                            while ((idx = buffer.indexOf('\n\n')) >= 0) {
+                                const frame = buffer.slice(0, idx);
+                                buffer = buffer.slice(idx + 2);
+
+                                frame.split('\n').forEach(function (line) {
+                                    if (line.startsWith('data: ')) {
+                                        try {
+                                            handleImportEvent(JSON.parse(line.slice(6)));
+                                        } catch (e) { /* ignore malformed frame */ }
+                                    }
+                                });
+                            }
+
+                            return pump();
+                        });
+                    }
+
+                    return pump();
+                }
+
+                importForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const input = importForm.querySelector('input[type="file"]');
+                    const files = input.files;
+
+                    if (!files.length) {
+                        importResult.innerHTML = '<div class="alert alert-danger">Please select at least one file.</div>';
+                        return;
+                    }
+
+                    const formData = new FormData();
+                    for (let i = 0; i < files.length; i++) {
+                        formData.append('files[]', files[i]);
+                    }
+
+                    importResult.innerHTML = '';
+                    importProgress.style.width = '0%';
+                    importProgress.setAttribute('aria-valuenow', '0');
+                    statusImported.textContent = '0';
+                    statusSkipped.textContent  = '0';
+                    statusErrors.textContent   = '0';
+                    logsBox.textContent = 'Starting import…\n';
+
+                    if (pollingInterval) clearInterval(pollingInterval);
+
+                    fetch('{{ path("app_import_tv_upload") }}', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(r => {
+                            if (!r.ok) {
+                                throw new Error('HTTP ' + r.status);
+                            }
+                            return readImportStream(r.body.getReader());
+                        })
+                        .then(() => {
+                            importProgress.style.width = '100%';
+                            importProgress.setAttribute('aria-valuenow', '100');
+                        })
+                        .catch(err => {
+                            importResult.innerHTML = '<div class="alert alert-danger">Import failed: ' + err.message + '</div>';
+                            importProgress.style.width = '0%';
+                            importProgress.setAttribute('aria-valuenow', '0');
+                        });
+                });
+
+                cleanupButton.addEventListener('click', function () {
+                    runAdminAction(cleanupButton, cleanupResult, '{{ path("admin_import_cleanup") }}', 'POST', 'Cleanup completed successfully.');
+                });
+
+                function runAdminAction(button, resultEl, url, method, successText) {
+                    if (button.disabled) return;
+
+                    const label = button.textContent.trim();
+                    button.disabled = true;
+                    resultEl.innerHTML = 'Running ' + label + '…';
+
+                    fetch(url, { method: method })
+                        .then(r => r.json())
+                        .then(data => {
+                            resultEl.innerHTML =
+                                '<div class="alert alert-success">' + successText + '</div>';
+
+                            if (data.logs && isArray(data.logs)) {
+                                logsBox.textContent = data.logs.join('\n');
+                            }
+                            refreshLogs();
+                        })
+                        .catch(err => {
+                            resultEl.innerHTML =
+                                '<div class="alert alert-danger">' + label + ' failed: ' + err + '</div>';
+                            refreshLogs();
+                        })
+                        .finally(() => { button.disabled = false; });
+                }
+
+            });
+        </script>
+
+    {% endblock %}
+{% endblock %}

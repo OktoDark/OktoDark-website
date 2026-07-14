@@ -1,0 +1,38 @@
+<div class="card shadow-sm border-0 h-100">
+    <div class="card-header fw-semibold">Progress Over Time</div>
+    <div class="card-body">
+        <canvas id="progressOverTimeChart"></canvas>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const ctx = document.getElementById('progressOverTimeChart');
+        const labels = {{ data|map(d => d.date)|json_encode|raw }};
+        const values = {{ data|map(d => d.episodesWatched)|json_encode|raw }};
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Episodes Watched',
+                    data: values,
+                    borderColor: '#0d6efd',
+                    backgroundColor: 'rgba(13,110,253,0.1)',
+                    tension: 0.3,
+                    fill: true,
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { display: true },
+                    y: { display: true, beginAtZero: true }
+                }
+            }
+        });
+    })();
+</script>

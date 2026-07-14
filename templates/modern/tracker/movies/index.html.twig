@@ -1,0 +1,161 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Movies{% endblock %}
+{% block body_id 'tracker' %}
+
+{% macro coverRow(title, items, emptyText) %}
+    <div class="mb-4">
+        <h5 class="fw-semibold mb-3">{{ title }}</h5>
+
+        {% if items is empty %}
+            <p class="text-muted small">{{ emptyText }}</p>
+        {% else %}
+            <div class="d-flex flex-nowrap overflow-auto gap-3 pb-2" style="scrollbar-width: thin;">
+                {% for item in items %}
+                    <div class="border rounded p-2 flex-shrink-0" style="width: 150px;">
+                        <div class="position-relative mb-2">
+                            {% if item.poster %}
+                                <img src="{{ item.poster }}"
+                                     alt="{{ item.title }}"
+                                     class="rounded w-100"
+                                     style="aspect-ratio: 2 / 3; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-secondary rounded d-flex align-items-center justify-content-center w-100"
+                                     style="aspect-ratio: 2 / 3;">
+                                    <span class="text-white-50 small">No Image</span>
+                                </div>
+                            {% endif %}
+
+                            {% if item.rating is not null %}
+                                <span class="badge bg-warning position-absolute top-0 start-0 m-1">
+                                    {{ item.rating }}
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <div class="fw-semibold text-truncate" title="{{ item.title }}">
+                            {{ item.title }}
+                        </div>
+
+                        <div class="text-muted small">
+                            {{ item.year ?? '—' }}
+                        </div>
+
+                        <form action="{{ path('app_tracker_movies_import_tmdb') }}" method="POST" class="mt-2">
+                            <input type="hidden" name="tmdb_id" value="{{ item.id }}">
+                            <button class="btn btn-sm btn-outline-primary w-100">+ Add</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% block main %}
+    <section class="section section-page-title bg-default text-center py-4">
+        <div class="container">
+            <h2 class="display-6 fw-bold">Movies</h2>
+            <p class="lead text-muted mt-2">Track the films you watch and plan to watch</p>
+        </div>
+    </section>
+
+    <section class="section section-lg">
+        <div class="container-fluid px-4">
+            <div class="row w-100 justify-content-center">
+
+                <!-- SIDEBAR -->
+                {% include '@theme/tracker/partials/_sidebar.html.twig' %}
+
+                <!-- MAIN CONTENT -->
+                <div class="col-md-9">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                        <form action="{{ path('app_tracker_movies_add') }}" method="POST" class="d-flex">
+                            <input type="text" name="metadata_id" class="form-control form-control-sm me-2" placeholder="Metadata ID">
+                            <button class="btn btn-sm btn-primary">Add Movie</button>
+                        </form>
+
+                        <form action="{{ path('app_tracker_movies_import_tmdb') }}" method="POST" class="d-flex">
+                            <input type="text" name="tmdb_id" class="form-control form-control-sm me-2" placeholder="TMDB ID">
+                            <button class="btn btn-sm btn-outline-info">Import from TMDB</button>
+                        </form>
+                    </div>
+
+                    <!-- DISCOVERY CATEGORIES -->
+                    {{ _self.coverRow('New Releases', newReleases, 'No new releases available right now.') }}
+                    {{ _self.coverRow('Recommended for You', recommendations, 'No recommendations available right now.') }}
+                    {{ _self.coverRow('Top Rated', topRated, 'No top rated movies available right now.') }}
+                    {{ _self.coverRow('Coming Soon', comingSoon, 'Nothing scheduled right now.') }}
+
+                    <!-- MY COLLECTION -->
+                    <div class="card shadow-sm border-0 mt-2">
+                        <div class="card-header fw-semibold">
+                            My Movie Collection
+                        </div>
+                        <div class="card-body">
+
+                            {% if movies is empty %}
+                                <p class="text-muted text-center small">No movies tracked yet.</p>
+                            {% else %}
+                                <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
+                                    {% for movie in movies %}
+                                        <div class="col">
+                                            <div class="border rounded p-2 h-100 d-flex flex-column">
+
+                                                <div class="position-relative mb-2">
+                                                    {% if movie.getCoverUrl() %}
+                                                        <img src="{{ movie.getCoverUrl() }}"
+                                                             alt="{{ movie.getTitle() }}"
+                                                             class="rounded w-100"
+                                                             style="aspect-ratio: 2 / 3; object-fit: cover;">
+                                                    {% else %}
+                                                        <div class="bg-secondary rounded d-flex align-items-center justify-content-center w-100"
+                                                             style="aspect-ratio: 2 / 3;">
+                                                            <span class="text-white-50 small">No Image</span>
+                                                        </div>
+                                                    {% endif %}
+
+                                                    <span class="badge {{ movie.getStatusClass() }} position-absolute top-0 start-0 m-1">
+                                                        {{ movie.getStatusLabel()|capitalize }}
+                                                    </span>
+                                                </div>
+
+                                                <div class="fw-semibold text-truncate" title="{{ movie.getTitle() }}">
+                                                    {{ movie.getTitle() }}
+                                                </div>
+
+                                                <div class="text-muted small">
+                                                    {{ movie.getReleaseDate() ? movie.getReleaseDate().format('Y') : '—' }}
+                                                    {% if movie.getRuntime() %}
+                                                        · {{ movie.getRuntime() }} min
+                                                    {% endif %}
+                                                </div>
+
+                                                <div class="small mt-1">
+                                                    Score: <strong>{{ movie.getFormattedScore() }}</strong>/10
+                                                </div>
+
+                                                <div class="mt-auto pt-2 d-flex gap-1">
+                                                    <form action="{{ path('app_tracker_movies_complete', {id: movie.id}) }}" method="POST">
+                                                        <button class="btn btn-sm btn-success">Complete</button>
+                                                    </form>
+                                                    <form action="{{ path('app_tracker_movies_delete', {id: movie.id}) }}" method="POST">
+                                                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

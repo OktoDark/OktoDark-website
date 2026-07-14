@@ -1,0 +1,71 @@
+{% extends '@theme/base.html.twig' %}
+{% block title %}Media Tracker – Statistics{% endblock %}
+{% block body_id 'tracker-stats' %}
+
+{% block head %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block main %}
+    <section class="section section-page-title bg-default text-center py-4">
+        <div class="container">
+            <h2 class="display-6 fw-bold">Statistics</h2>
+            <p class="lead text-muted mt-2">Visualize your watching habits</p>
+        </div>
+    </section>
+
+    <section class="section section-lg">
+        <div class="container-fluid px-4">
+            <div class="row w-100 justify-content-center">
+                {% include '@theme/tracker/partials/_sidebar.html.twig' %}
+
+                <div class="col-md-9">
+
+                    {# SUMMARY CARDS #}
+                    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3 mb-4">
+                        {% include '@theme/tracker/components/stats_cards.html.twig' with { stats: stats.summary } %}
+                    </div>
+
+                    {# CHARTS #}
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            {% include '@theme/tracker/components/chart_progress_over_time.html.twig' with {
+                                data: stats.progressOverTime
+                            } %}
+                        </div>
+                        <div class="col-md-6">
+                            {% include '@theme/tracker/components/chart_episodes_per_month.html.twig' with {
+                                data: stats.episodesPerMonth
+                            } %}
+                        </div>
+                    </div>
+
+                    {# TOP CARDS #}
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            {% include '@theme/tracker/components/top_shows.html.twig' with {
+                                shows: stats.topShows
+                            } %}
+                        </div>
+                        <div class="col-md-6">
+                            {% include '@theme/tracker/components/top_genres.html.twig' with {
+                                genres: stats.topGenres
+                            } %}
+                        </div>
+                    </div>
+
+                    {# HEATMAP #}
+                    <div class="row g-4">
+                        <div class="col-12">
+                            {% include '@theme/tracker/components/daily_heatmap.html.twig' with {
+                                data: stats.dailyHeatmap
+                            } %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

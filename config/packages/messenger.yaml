@@ -8,10 +8,16 @@ framework:
             # async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
             sync: 'sync://'
+            async: '%env(MESSENGER_TRANSPORT_DSN)%'
 
         routing:
             # Route your messages to the transports
             App\Message\CommandJobMessage: sync
+            App\Message\RefreshStatsMessage: async
+            App\Service\Import\Movie\MovieImportMessage: async
+            App\Service\Import\Tv\TvImportMessage: async
+            App\Service\Import\Season\SeasonImportMessage: async
+            App\Service\Import\Episode\EpisodeImportMessage: async
 
 # when@test:
 #    framework:

@@ -1,0 +1,117 @@
+<div class="card mb-4 shadow-sm border-0">
+    <div class="card-header fw-semibold">Continue Watching</div>
+    <div class="card-body">
+
+        {% include '@theme/tracker/components/continue_watching_pagination.html.twig' %}
+
+        <style>
+            .fade-soft {
+                opacity: 0;
+                transition: opacity 0.35s ease-in-out;
+            }
+            .fade-soft.show {
+                opacity: 1;
+            }
+            .badge-overlay {
+                position: absolute;
+                top: 8px;
+                right: 8px;
+                z-index: 2;
+            }
+        </style>
+
+        {% if continueWatching is empty %}
+            <p class="text-muted small">No ongoing shows.</p>
+        {% else %}
+            <div id="cw-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 fade-soft show">
+
+                {% for item in continueWatching %}
+                    <div class="col">
+                        <div class="card h-100 border-0 shadow-sm position-relative"
+                             data-id="{{ item.tvId }}">
+
+                            {# Status badge #}
+                            <div class="badge-overlay">
+                                {% if item.status == 'completed' %}
+                                    <span class="badge bg-success">Completed</span>
+                                {% elseif item.status == 'in_progress' %}
+                                    <span class="badge bg-primary">Continue</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">New</span>
+                                {% endif %}
+                            </div>
+
+                            {# Cover image #}
+                            {% if item.coverUrl %}
+                                <img src="{{ item.coverUrl }}" class="card-img-top" alt="{{ item.title }}">
+                            {% else %}
+                                <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center"
+                                     style="height: 180px; border-radius: .25rem;">
+                                    <span class="text-white-50 small">No Image</span>
+                                </div>
+                            {% endif %}
+
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.title }}</h5>
+
+                                {# Next episode #}
+                                {% if item.nextEpisode %}
+                                    <p class="small text-muted mb-2">
+                                        Next: S{{ item.nextEpisode.season }}E{{ item.nextEpisode.number }}
+                                    </p>
+                                {% else %}
+                                    <p class="small text-muted mb-2">Up to date</p>
+                                {% endif %}
+
+                                {# Progress bar #}
+                                <div class="progress mb-2" style="height: 4px;">
+                                    <div class="progress-bar bg-primary"
+                                         role="progressbar"
+                                         style="width: {{ item.progressPercent }}%;"
+                                         aria-valuenow="{{ item.progressPercent }}"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100">
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-2 mt-2">
+
+                                    {# Mark next episode watched #}
+                                    {% if item.nextEpisode %}
+                                        <button
+                                            class="btn btn-sm btn-primary cw-mark-watched"
+                                            data-id="{{ item.tvId }}"
+                                            data-season="{{ item.nextEpisode.season }}"
+                                            data-episode="{{ item.nextEpisode.number }}">
+                                            Mark Episode Watched
+                                        </button>
+                                    {% endif %}
+
+                                    {# Mark entire season watched #}
+                                    {% if item.nextEpisode %}
+                                        <button
+                                            class="btn btn-sm btn-outline-primary cw-mark-season"
+                                            data-id="{{ item.tvId }}"
+                                            data-season="{{ item.nextEpisode.season }}">
+                                            Mark Season {{ item.nextEpisode.season }} Watched
+                                        </button>
+                                    {% endif %}
+
+                                    {# Undo last watched #}
+                                    <button
+                                        class="btn btn-sm btn-outline-secondary cw-undo-watched"
+                                        data-id="{{ item.tvId }}">
+                                        Undo Watched
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        {% endif %}
+
+    </div>
+</div>

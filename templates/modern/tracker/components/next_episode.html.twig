@@ -1,0 +1,21 @@
+<div class="card mb-4 shadow-sm border-0">
+    <div class="card-header fw-semibold">Next Episodes</div>
+    <div class="card-body">
+
+        {% if nextEpisodes is empty %}
+            <p class="text-muted small">No upcoming episodes.</p>
+        {% else %}
+            <ul class="list-group">
+                {% for ep in nextEpisodes %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>
+                            {{ ep.showTitle }} — S{{ '%02d'|format(ep.season ?? 0) }}E{{ '%02d'|format(ep.episode ?? 0) }}
+                        </span>
+                        <span class="text-muted small">{{ ep.airDate ? ep.airDate|date('Y-m-d') : 'TBA' }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+    </div>
+</div>

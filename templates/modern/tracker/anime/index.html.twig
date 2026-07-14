@@ -1,0 +1,222 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Anime{% endblock %}
+{% block body_id 'tracker' %}
+
+{% block main %}
+    <section class="section section-page-title bg-default text-center py-4">
+        <div class="container">
+            <h2 class="display-6 fw-bold">Anime Tracker</h2>
+            <p class="lead text-muted mt-2">Track the anime you watch and plan to watch</p>
+        </div>
+    </section>
+
+    <section class="section section-lg">
+        <div class="container-fluid px-4">
+            <div class="row w-100 justify-content-center">
+
+                <!-- SIDEBAR -->
+                {% include '@theme/tracker/partials/_sidebar.html.twig' %}
+
+                <!-- MAIN CONTENT -->
+                <div class="col-md-9">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                        <form action="{{ path('app_tracker_anime_add') }}" method="POST" class="d-flex">
+                            <input type="text" name="metadata_id" class="form-control form-control-sm me-2" placeholder="Metadata ID">
+                            <button class="btn btn-sm btn-primary">Add Anime</button>
+                        </form>
+
+                        <form action="{{ path('app_tracker_anime_import_anilist') }}" method="POST" class="d-flex">
+                            <input type="text" name="anilist_id" class="form-control form-control-sm me-2" placeholder="AniList ID">
+                            <button class="btn btn-sm btn-outline-info">Import from AniList</button>
+                        </form>
+                    </div>
+
+                    <!-- DISCOVERY CATEGORIES -->
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-6">
+                            <h5 class="fw-semibold mb-3">New Releases</h5>
+                            {% if newReleases is empty %}
+                                <p class="text-muted small">No new releases available right now.</p>
+                            {% else %}
+                                <div class="d-flex flex-nowrap overflow-auto gap-3 pb-2" style="scrollbar-width: thin;">
+                                    {% for item in newReleases %}
+                                        <div class="border rounded p-2 flex-shrink-0" style="width: 150px;">
+                                            <div class="position-relative mb-2">
+                                                {% if item.poster %}
+                                                    <img src="{{ item.poster }}" alt="{{ item.title }}" class="rounded w-100" style="aspect-ratio: 2 / 3; object-fit: cover;">
+                                                {% else %}
+                                                    <div class="bg-secondary rounded d-flex align-items-center justify-content-center w-100" style="aspect-ratio: 2 / 3;">
+                                                        <span class="text-white-50 small">No Image</span>
+                                                    </div>
+                                                {% endif %}
+                                                {% if item.rating is not null %}
+                                                    <span class="badge bg-warning position-absolute top-0 start-0 m-1">{{ item.rating }}</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="fw-semibold text-truncate" title="{{ item.title }}">{{ item.title }}</div>
+                                            <div class="text-muted small">{{ item.year ?? '—' }}</div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <h5 class="fw-semibold mb-3">Recommended for You</h5>
+                            {% if recommendations is empty %}
+                                <p class="text-muted small">No recommendations available right now.</p>
+                            {% else %}
+                                <div class="d-flex flex-nowrap overflow-auto gap-3 pb-2" style="scrollbar-width: thin;">
+                                    {% for item in recommendations %}
+                                        <div class="border rounded p-2 flex-shrink-0" style="width: 150px;">
+                                            <div class="position-relative mb-2">
+                                                {% if item.poster %}
+                                                    <img src="{{ item.poster }}" alt="{{ item.title }}" class="rounded w-100" style="aspect-ratio: 2 / 3; object-fit: cover;">
+                                                {% else %}
+                                                    <div class="bg-secondary rounded d-flex align-items-center justify-content-center w-100" style="aspect-ratio: 2 / 3;">
+                                                        <span class="text-white-50 small">No Image</span>
+                                                    </div>
+                                                {% endif %}
+                                                {% if item.rating is not null %}
+                                                    <span class="badge bg-warning position-absolute top-0 start-0 m-1">{{ item.rating }}</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="fw-semibold text-truncate" title="{{ item.title }}">{{ item.title }}</div>
+                                            <div class="text-muted small">{{ item.year ?? '—' }}</div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <h5 class="fw-semibold mb-3">Top Rated</h5>
+                            {% if topRated is empty %}
+                                <p class="text-muted small">No top rated anime available right now.</p>
+                            {% else %}
+                                <div class="d-flex flex-nowrap overflow-auto gap-3 pb-2" style="scrollbar-width: thin;">
+                                    {% for item in topRated %}
+                                        <div class="border rounded p-2 flex-shrink-0" style="width: 150px;">
+                                            <div class="position-relative mb-2">
+                                                {% if item.poster %}
+                                                    <img src="{{ item.poster }}" alt="{{ item.title }}" class="rounded w-100" style="aspect-ratio: 2 / 3; object-fit: cover;">
+                                                {% else %}
+                                                    <div class="bg-secondary rounded d-flex align-items-center justify-content-center w-100" style="aspect-ratio: 2 / 3;">
+                                                        <span class="text-white-50 small">No Image</span>
+                                                    </div>
+                                                {% endif %}
+                                                {% if item.rating is not null %}
+                                                    <span class="badge bg-warning position-absolute top-0 start-0 m-1">{{ item.rating }}</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="fw-semibold text-truncate" title="{{ item.title }}">{{ item.title }}</div>
+                                            <div class="text-muted small">{{ item.year ?? '—' }}</div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <h5 class="fw-semibold mb-3">Coming Soon</h5>
+                            {% if comingSoon is empty %}
+                                <p class="text-muted small">Nothing scheduled right now.</p>
+                            {% else %}
+                                <div class="d-flex flex-nowrap overflow-auto gap-3 pb-2" style="scrollbar-width: thin;">
+                                    {% for item in comingSoon %}
+                                        <div class="border rounded p-2 flex-shrink-0" style="width: 150px;">
+                                            <div class="position-relative mb-2">
+                                                {% if item.poster %}
+                                                    <img src="{{ item.poster }}" alt="{{ item.title }}" class="rounded w-100" style="aspect-ratio: 2 / 3; object-fit: cover;">
+                                                {% else %}
+                                                    <div class="bg-secondary rounded d-flex align-items-center justify-content-center w-100" style="aspect-ratio: 2 / 3;">
+                                                        <span class="text-white-50 small">No Image</span>
+                                                    </div>
+                                                {% endif %}
+                                                {% if item.rating is not null %}
+                                                    <span class="badge bg-warning position-absolute top-0 start-0 m-1">{{ item.rating }}</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="fw-semibold text-truncate" title="{{ item.title }}">{{ item.title }}</div>
+                                            <div class="text-muted small">{{ item.year ?? '—' }}</div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- MY COLLECTION -->
+                    <div class="card shadow-sm border-0 mt-2">
+                        <div class="card-header fw-semibold">
+                            My Anime Collection
+                        </div>
+                        <div class="card-body">
+
+                            {% if anime is empty %}
+                                <p class="text-muted text-center small">No anime tracked yet.</p>
+                            {% else %}
+
+                                <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
+                                    {% for item in anime %}
+                                        <div class="col">
+                                            <div class="border rounded p-2 h-100 d-flex flex-column">
+
+                                                <div class="position-relative mb-2">
+                                                    {% if item.getCoverUrl() %}
+                                                        <img src="{{ item.getCoverUrl() }}"
+                                                             alt="{{ item.getTitle() }}"
+                                                             class="rounded w-100"
+                                                             style="aspect-ratio: 2 / 3; object-fit: cover;">
+                                                    {% else %}
+                                                        <div class="bg-secondary rounded d-flex align-items-center justify-content-center w-100"
+                                                             style="aspect-ratio: 2 / 3;">
+                                                            <span class="text-white-50 small">No Image</span>
+                                                        </div>
+                                                    {% endif %}
+
+                                                    <span class="badge {{ item.getStatusClass() }} position-absolute top-0 start-0 m-1">
+                                                        {{ item.getStatusLabel()|capitalize }}
+                                                    </span>
+                                                </div>
+
+                                                <div class="fw-semibold text-truncate" title="{{ item.getTitle() }}">
+                                                    {{ item.getTitle() }}
+                                                </div>
+
+                                                <div class="text-muted small">
+                                                    {{ item.getReleaseDate() ? item.getReleaseDate().format('Y') : '—' }}
+                                                    {% if item.getRuntime() %}
+                                                        · {{ item.getRuntime() }} min
+                                                    {% endif %}
+                                                </div>
+
+                                                <div class="small mt-1">
+                                                    Score: <strong>{{ item.getFormattedScore() }}</strong>/10
+                                                </div>
+
+                                                <div class="mt-auto pt-2 d-flex gap-1">
+                                                    <form action="{{ path('app_tracker_anime_complete', {id: item.id}) }}" method="POST">
+                                                        <button class="btn btn-sm btn-success">Complete</button>
+                                                    </form>
+                                                    <form action="{{ path('app_tracker_anime_delete', {id: item.id}) }}" method="POST">
+                                                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

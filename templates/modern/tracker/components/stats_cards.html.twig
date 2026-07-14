@@ -1,0 +1,65 @@
+<div class="col">
+    <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-3">
+            <div class="display-6 fw-bold text-primary mb-1">
+                {{ stats.tv.totalSeries|default(0)|number_format }}
+            </div>
+            <div class="text-muted small">Total Series</div>
+        </div>
+    </div>
+</div>
+
+<div class="col">
+    <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-3">
+            <div class="display-6 fw-bold text-success mb-1">
+                {{ stats.tv.watchedEpisodes|default(0)|number_format }}
+            </div>
+            <div class="text-muted small">Episodes Watched</div>
+        </div>
+    </div>
+</div>
+
+<div class="col">
+    <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-3">
+            <div class="display-6 fw-bold text-info mb-1">
+                {{ stats.tv.totalEpisodes|default(0)|number_format }}
+            </div>
+            <div class="text-muted small">Total Episodes</div>
+        </div>
+    </div>
+</div>
+
+<div class="col">
+    <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-3">
+            <div class="display-6 fw-bold text-warning mb-1">
+                {{ stats.tv.hoursWatched|default(0)|number_format }}
+            </div>
+            <div class="text-muted small">Hours Watched</div>
+        </div>
+    </div>
+</div>
+
+<div class="col">
+    <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-3">
+            <div class="display-6 fw-bold text-primary mb-1">
+                {{ stats.watching|default(0)|number_format }}
+            </div>
+            <div class="text-muted small">Watching</div>
+        </div>
+    </div>
+</div>
+
+<div class="col">
+    <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-3">
+            <div class="display-6 fw-bold text-success mb-1">
+                {{ stats.totals.completedMedia|default(0)|number_format }}
+            </div>
+            <div class="text-muted small">Completed</div>
+        </div>
+    </div>
+</div>

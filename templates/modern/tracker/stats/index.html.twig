@@ -1,0 +1,18 @@
+{% extends '@theme/base.html.twig' %}
+{% block title %}Statistics{% endblock %}
+
+{% block main %}
+    <section class="section section-lg">
+        <div class="container-fluid px-4">
+            <div class="row w-100 justify-content-center">
+                {% include '@theme/tracker/partials/_sidebar.html.twig' %}
+
+                <div class="col-md-9">
+                    <h2 class="fw-bold mb-4">Statistics</h2>
+
+                    {% include '@theme/tracker/components/stats_cards.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

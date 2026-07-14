@@ -1,0 +1,35 @@
+<div class="card shadow-sm border-0 h-100">
+    <div class="card-header fw-semibold">Episodes Per Month</div>
+    <div class="card-body">
+        <canvas id="episodesPerMonthChart"></canvas>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const ctx = document.getElementById('episodesPerMonthChart');
+        const labels = {{ data|map(d => d.month)|json_encode|raw }};
+        const values = {{ data|map(d => d.episodesWatched)|json_encode|raw }};
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Episodes',
+                    data: values,
+                    backgroundColor: 'rgba(25,135,84,0.7)',
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { display: true },
+                    y: { display: true, beginAtZero: true }
+                }
+            }
+        });
+    })();
+</script>

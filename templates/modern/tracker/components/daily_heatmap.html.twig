@@ -1,0 +1,50 @@
+<div class="card shadow-sm border-0">
+    <div class="card-header fw-semibold">
+        Daily Watch Time
+        <span class="text-muted small ms-2">(Episodes per day)</span>
+    </div>
+
+    <div class="card-body">
+        <div class="heatmap-grid">
+            {% set values = data|map(d => d.episodesWatched) %}
+            {% set maxValue = values is empty ? 1 : max(values) %}
+
+            {% for day in data %}
+                {% set value = day.episodesWatched %}
+                {% set intensity = (value / maxValue) %}
+
+                <div
+                    class="heatmap-cell"
+                    style="--intensity: {{ intensity }}"
+                    title="{{ day.date }} — {{ value }} episodes">
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-muted small mt-2">
+            Darker squares mean more episodes watched.
+        </div>
+    </div>
+</div>
+
+<style>
+    .heatmap-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        max-width: 100%;
+    }
+
+    .heatmap-cell {
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        background-color: rgba(13, 110, 253, calc(var(--intensity)));
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .heatmap-cell:hover {
+        transform: scale(1.3);
+        box-shadow: 0 0 4px rgba(0,0,0,0.3);
+    }
+</style>

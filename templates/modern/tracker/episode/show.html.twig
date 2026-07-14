@@ -1,0 +1,33 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}{{ episode.getFormattedEpisode() }}{% endblock %}
+
+{% block main %}
+    <section class="section section-lg">
+        <div class="container">
+
+            <h2 class="fw-bold mb-3">{{ episode.getFormattedEpisode() }}</h2>
+
+            <p class="text-muted">{{ episode.mediaMetadata.overview }}</p>
+
+            {% if episode.isWatched() %}
+                <button class="btn btn-danger" id="unwatchBtn">Unwatch</button>
+            {% else %}
+                <button class="btn btn-success" id="watchBtn">Mark Watched</button>
+            {% endif %}
+
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('watchBtn')?.addEventListener('click', async () => {
+            await fetch(`/tracker/episode/{{ episode.id }}/watch`, { method: 'POST' });
+            location.reload();
+        });
+
+        document.getElementById('unwatchBtn')?.addEventListener('click', async () => {
+            await fetch(`/tracker/episode/{{ episode.id }}/unwatch`, { method: 'POST' });
+            location.reload();
+        });
+    </script>
+{% endblock %}

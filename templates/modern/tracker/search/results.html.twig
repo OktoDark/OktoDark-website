@@ -1,0 +1,75 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Search – {{ query }}{% endblock %}
+
+{% block main %}
+    <section class="section section-page-title bg-default text-center py-4">
+        <div class="container">
+            <h2 class="display-6 fw-bold">Search Results</h2>
+            <p class="lead text-muted mt-2">Results for "{{ query }}"</p>
+        </div>
+    </section>
+
+    <section class="section section-lg">
+        <div class="container-fluid px-4">
+            <div class="row w-100 justify-content-center">
+                {% include '@theme/tracker/partials/_sidebar.html.twig' %}
+
+                <div class="col-md-9">
+
+                    <div class="row">
+                        {% for item in tmdb %}
+                            <div class="col-md-3 mb-4">
+                                <div class="card shadow-sm border-0 h-100">
+                                    <img src="{{ item.image }}" class="card-img-top" alt="">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ item.name }}</h5>
+                                        <p class="small text-muted">{{ item.year }}</p>
+
+                                        <button class="btn btn-primary btn-sm addToList"
+                                                data-meta="{{ item.metaId }}">
+                                            Add to List
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        {% for item in maze %}
+                            <div class="col-md-3 mb-4">
+                                <div class="card shadow-sm border-0 h-100">
+                                    <img src="{{ item.image }}" class="card-img-top" alt="">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ item.name }}</h5>
+                                        <p class="small text-muted">{{ item.year }}</p>
+
+                                        <button class="btn btn-primary btn-sm addToList"
+                                                data-meta="{{ item.metaId }}">
+                                            Add to List
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.querySelectorAll('.addToList').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const metaId = btn.dataset.meta;
+
+                const res = await fetch(`/tracker/list/add/${metaId}`, {
+                    method: 'POST'
+                });
+
+                const data = await res.json();
+                alert('Added to list!');
+            });
+        });
+    </script>
+{% endblock %}

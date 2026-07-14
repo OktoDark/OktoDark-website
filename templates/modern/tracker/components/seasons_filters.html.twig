@@ -1,0 +1,64 @@
+<div class="card mb-4 shadow-sm border-0">
+    <div class="card-header fw-semibold">
+        Filters
+    </div>
+
+    <div class="card-body">
+        <form method="get" class="row g-3">
+
+            {# SEARCH #}
+            <div class="col-md-4">
+                <label class="form-label small text-muted">Search</label>
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ searchQuery|default('') }}"
+                    class="form-control"
+                    placeholder="Search seasons or shows..."
+                >
+            </div>
+
+            {# STATUS FILTER #}
+            <div class="col-md-3">
+                <label class="form-label small text-muted">Status</label>
+                <select name="status" class="form-select">
+                    <option value="all" {{ currentStatus == 'all' ? 'selected' }}>All</option>
+                    <option value="WATCHING" {{ currentStatus == 'WATCHING' ? 'selected' }}>Watching</option>
+                    <option value="COMPLETED" {{ currentStatus == 'COMPLETED' ? 'selected' }}>Completed</option>
+                    <option value="PLANNING" {{ currentStatus == 'PLANNING' ? 'selected' }}>Planning</option>
+                    <option value="PAUSED" {{ currentStatus == 'PAUSED' ? 'selected' }}>Paused</option>
+                    <option value="DROPPED" {{ currentStatus == 'DROPPED' ? 'selected' }}>Dropped</option>
+                </select>
+            </div>
+
+            {# SORT FILTER #}
+            <div class="col-md-3">
+                <label class="form-label small text-muted">Sort</label>
+                <select name="sort" class="form-select">
+                    <option value="created_at" {{ currentSort == 'created_at' ? 'selected' }}>Recently Added</option>
+                    <option value="title" {{ currentSort == 'title' ? 'selected' }}>Title</option>
+                    <option value="release_date" {{ currentSort == 'release_date' ? 'selected' }}>Release Date</option>
+                    <option value="progress" {{ currentSort == 'progress' ? 'selected' }}>Progress</option>
+                </select>
+            </div>
+
+            {# PER PAGE #}
+            <div class="col-md-2">
+                <label class="form-label small text-muted">Per Page</label>
+                <select name="perPage" class="form-select">
+                    <option value="10" {{ perPage == 10 ? 'selected' }}>10</option>
+                    <option value="20" {{ perPage == 20 ? 'selected' }}>20</option>
+                    <option value="50" {{ perPage == 50 ? 'selected' }}>50</option>
+                </select>
+            </div>
+
+            <div class="col-12 text-end">
+                <button class="btn btn-primary px-4">Apply Filters</button>
+                <a href="{{ path('app_tracker_seasons') }}" class="btn btn-outline-secondary px-4 ms-2">
+                    Reset
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>

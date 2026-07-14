@@ -1,0 +1,21 @@
+{% if cwTotalPages > 1 %}
+    <div id="cw-pagination" class="d-flex justify-content-center align-items-center gap-3 mb-3 fade-soft show">
+
+        <a href="#"
+           class="cw-nav btn btn-outline-primary btn-sm {{ cwCurrentPage <= 1 ? 'disabled' }}"
+           data-page="{{ cwCurrentPage - 1 }}">
+            ‹
+        </a>
+
+        <span class="text-muted small">
+        {{ cwCurrentPage }} / {{ cwTotalPages }}
+    </span>
+
+        <a href="#"
+           class="cw-nav btn btn-outline-primary btn-sm {{ cwCurrentPage >= cwTotalPages ? 'disabled' }}"
+           data-page="{{ cwCurrentPage + 1 }}">
+            ›
+        </a>
+
+    </div>
+{% endif %}

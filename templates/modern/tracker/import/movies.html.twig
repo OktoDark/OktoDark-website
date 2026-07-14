@@ -1,0 +1,200 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Import Movies{% endblock %}
+{% block head %}{{ parent() }}{% endblock %}
+{% block body_id %}tracker{% endblock %}
+
+{% block main %}
+    <section class="section section-page-title bg-default text-center py-4">
+        <div class="container">
+            <h2 class="display-6 fw-bold">Import Movies</h2>
+            <p class="lead text-muted mt-2">Upload movie exports and manage your database</p>
+        </div>
+    </section>
+
+    <section class="section section-lg">
+        <div class="container-fluid px-4">
+            <div class="row justify-content-center">
+
+                <!-- SIDEBAR -->
+                {% include '@theme/tracker/partials/_sidebar.html.twig' %}
+
+                <!-- MAIN CONTENT -->
+                <div class="col-md-9">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <form id="importForm" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label class="form-label">Upload File</label>
+                                    <input type="file" name="files[]" class="form-control" multiple>
+                                    <small class="text-muted">
+                                        Supports: TVTime CSV, Trakt JSON, Letterboxd CSV, Simkl JSON, Custom CSV
+                                    </small>
+                                </div>
+
+                                <div id="dropZone"
+                                     class="border border-dashed rounded-3 p-4 text-center bg-dark bg-opacity-25 mb-3">
+                                    <p class="mb-1 fw-semibold">Drag & drop files here</p>
+                                    <p class="text-muted mb-0 small">Supported: movie exports, CSV lists</p>
+                                </div>
+
+                                <button class="btn btn-primary" type="submit">
+                                    Import Movies
+                                </button>
+                            </form>
+
+                            <div id="importResult" class="mt-3"></div>
+
+                            <div class="mt-3">
+                                <div class="progress" style="height: 6px;">
+                                    <div id="importProgress" class="progress-bar" role="progressbar"
+                                         style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+                                <ul class="list-unstyled mb-0 small">
+                                    <li>Imported: <span id="statusImported" class="fw-bold">0</span></li>
+                                    <li>Errors: <span id="statusErrors" class="fw-bold">0</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm mt-4">
+                        <div class="card-header d-flex justify-content-between align-items-center fw-semibold">
+                            <span>Import Logs</span>
+                            <button class="btn btn-sm btn-outline-secondary" id="refreshLogsButton">
+                                Refresh
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <pre id="logsBox"
+                                 class="bg-dark text-light p-3 rounded small"
+                                 style="max-height: 300px; overflow-y: auto;">
+                                Loading logs…
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    {% block javascripts %}
+        {{ parent() }}
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const importForm = document.getElementById('importForm');
+                const importResult = document.getElementById('importResult');
+                const importProgress = document.getElementById('importProgress');
+                const statusImported = document.getElementById('statusImported');
+                const statusErrors = document.getElementById('statusErrors');
+                const logsBox = document.getElementById('logsBox');
+                const dropZone = document.getElementById('dropZone');
+                const refreshLogsButton = document.getElementById('refreshLogsButton');
+
+                let pollingInterval = null;
+
+                function isArray(value) {
+                    return Array.isArray(value);
+                }
+
+                function refreshLogs() {
+                    fetch('{{ path("app_import_logs") }}')
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data && isArray(data.logs)) {
+                                logsBox.textContent = data.logs.join('\n');
+                            } else {
+                                logsBox.textContent = 'No logs available.';
+                            }
+                        })
+                        .catch(() => logsBox.textContent = 'Error loading logs.');
+                }
+
+                refreshLogs();
+                refreshLogsButton.addEventListener('click', refreshLogs);
+
+                ['dragenter', 'dragover'].forEach(ev => {
+                    dropZone.addEventListener(ev, e => {
+                        e.preventDefault();
+                        dropZone.classList.add('border-primary');
+                    });
+                });
+
+                ['dragleave', 'drop'].forEach(ev => {
+                    dropZone.addEventListener(ev, e => {
+                        e.preventDefault();
+                        dropZone.classList.remove('border-primary');
+                    });
+                });
+
+                dropZone.addEventListener('drop', e => {
+                    const input = importForm.querySelector('input[type="file"]');
+                    input.files = e.dataTransfer.files;
+                });
+
+                importForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const input = importForm.querySelector('input[type="file"]');
+                    const files = input.files;
+
+                    if (!files.length) {
+                        importResult.innerHTML = '<div class="alert alert-danger">Please select at least one file.</div>';
+                        return;
+                    }
+
+                    const formData = new FormData();
+                    for (let i = 0; i < files.length; i++) {
+                        formData.append('files[]', files[i]);
+                    }
+
+                    importResult.innerHTML = '';
+                    importProgress.style.width = '10%';
+                    importProgress.setAttribute('aria-valuenow', '10');
+
+                    if (pollingInterval) clearInterval(pollingInterval);
+                    pollingInterval = setInterval(refreshLogs, 2000);
+
+                    fetch('{{ path("app_import_movies") }}', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.error) {
+                                importResult.innerHTML = '<div class="alert alert-danger">' + data.error + '</div>';
+                                importProgress.style.width = '0%';
+                                importProgress.setAttribute('aria-valuenow', '0');
+                                clearInterval(pollingInterval);
+                                return;
+                            }
+
+                            statusImported.textContent = data.imported ?? 0;
+                            statusErrors.textContent = data.errors ?? 0;
+
+                            importResult.innerHTML =
+                                '<div class="alert alert-success">Import completed.</div>';
+
+                            importProgress.style.width = '100%';
+                            importProgress.setAttribute('aria-valuenow', '100');
+
+                            setTimeout(() => clearInterval(pollingInterval), 5000);
+                            refreshLogs();
+                        })
+                        .catch(err => {
+                            importResult.innerHTML = '<div class="alert alert-danger">Import failed: ' + err + '</div>';
+                            importProgress.style.width = '0%';
+                            importProgress.setAttribute('aria-valuenow', '0');
+                            clearInterval(pollingInterval);
+                        });
+                });
+            });
+        </script>
+    {% endblock %}
+{% endblock %}

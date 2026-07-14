@@ -1,0 +1,170 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Admin – Import Dashboard{% endblock %}
+{% block head %}{{ parent() }}{% endblock %}
+{% block body_id 'admin' %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
+
+        {% block admin_content %}
+            <div class="section-title">
+                <h2>Import Dashboard</h2>
+                <p>Manage database integrity, cleanup legacy data, and rebuild metadata.</p>
+            </div>
+
+            <section class="py-3">
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <div class="admin-card">
+                            <h5 class="mb-3">Cleanup Legacy Data</h5>
+                            <p class="text-muted small mb-3">
+                                Removes corrupted movie-season and movie-TV entries created before the schema fix.
+                            </p>
+                            <form method="post" action="{{ path('admin_import_cleanup') }}" onsubmit="return handlePost(this, 'cleanupResult');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('admin_import_cleanup') }}">
+                                <button type="submit" class="btn btn-warning">Run Cleanup</button>
+                            </form>
+                            <div id="cleanupResult" class="mt-3"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="admin-card">
+                            <h5 class="mb-3">Remove Duplicates</h5>
+                            <p class="text-muted small mb-3">
+                                Deletes duplicate MediaMetadata, Movies, TV entries, Seasons, and Episodes.
+                            </p>
+                            <form method="post" action="{{ path('admin_import_remove_duplicates') }}" onsubmit="return handlePost(this, 'removeDuplicatesResult');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('admin_import_remove_duplicates') }}">
+                                <button type="submit" class="btn btn-outline-danger">Remove Duplicates</button>
+                            </form>
+                            <div id="removeDuplicatesResult" class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <div class="admin-card">
+                            <h5 class="mb-3">Rebuild Metadata (TMDB)</h5>
+                            <p class="text-muted small mb-3">
+                                Re-fetches and updates image, overview, genres, runtime, and externalId for all metadata.
+                            </p>
+                            <form method="post" action="{{ path('admin_import_rebuild_metadata') }}" onsubmit="return handlePost(this, 'rebuildMetadataResult');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('admin_import_rebuild_metadata') }}">
+                                <button type="submit" class="btn btn-primary">Rebuild Metadata</button>
+                            </form>
+                            <div id="rebuildMetadataResult" class="mt-3"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="admin-card">
+                            <h5 class="mb-3">Purge Orphaned Entities</h5>
+                            <p class="text-muted small mb-3">
+                                Deletes Episodes, Seasons, TV, Movies, and MediaMetadata records that are no longer linked.
+                            </p>
+                            <form method="post" action="{{ path('admin_import_purge_orphans') }}" onsubmit="return handlePost(this, 'purgeOrphansResult');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('admin_import_purge_orphans') }}">
+                                <button type="submit" class="btn btn-outline-warning">Purge Orphans</button>
+                            </form>
+                            <div id="purgeOrphansResult" class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-12">
+                        <div class="admin-card">
+                            <h5 class="mb-3">Validate Database Integrity</h5>
+                            <p class="text-muted small mb-3">
+                                Scans for duplicates, orphans, missing metadata, and corrupted relationships without modifying data.
+                            </p>
+                            <form method="get" action="{{ path('admin_import_validate_integrity') }}" onsubmit="return handleGet(this, 'validateIntegrityResult');">
+                                <button type="submit" class="btn btn-outline-success">Validate Integrity</button>
+                            </form>
+                            <div id="validateIntegrityResult" class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-12">
+                        <div class="admin-card">
+                            <h5 class="mb-3">Import Logs</h5>
+                            <pre id="logsBox" class="bg-dark text-light p-3 rounded small" style="max-height: 300px; overflow-y: auto;">{{ logs|join('\n') }}</pre>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        function handlePost(form, resultId) {
+            const resultDiv = document.getElementById(resultId);
+            resultDiv.innerHTML = '<div class="alert alert-info">Processing...</div>';
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                },
+                body: new FormData(form),
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.status) {
+                    resultDiv.innerHTML = '<div class="alert alert-success">Operation completed successfully.</div>';
+                } else {
+                    resultDiv.innerHTML = '<div class="alert alert-warning">Operation finished with unknown status.</div>';
+                }
+                refreshLogs();
+            })
+            .catch(err => {
+                resultDiv.innerHTML = '<div class="alert alert-danger">Error: ' + err + '</div>';
+            });
+
+            return false;
+        }
+
+        function refreshLogs() {
+            fetch('{{ path("admin_import_dashboard") }}')
+                .then(r => r.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newLogs = doc.querySelector('#logsBox');
+                    if (newLogs && document.getElementById('logsBox')) {
+                        document.getElementById('logsBox').textContent = newLogs.textContent;
+                    }
+                })
+                .catch(() => {});
+        }
+
+        function handleGet(form, resultId) {
+            const resultDiv = document.getElementById(resultId);
+            resultDiv.innerHTML = '<div class="alert alert-info">Processing...</div>';
+
+            fetch(form.action, { method: 'GET', headers: { 'Accept': 'application/json' } })
+                .then(r => r.json())
+                .then(data => {
+                    resultDiv.innerHTML = '<div class="alert alert-success">Integrity validated.</div>';
+                    refreshLogs();
+                })
+                .catch(err => {
+                    resultDiv.innerHTML = '<div class="alert alert-danger">Error: ' + err + '</div>';
+                });
+
+            return false;
+        }
+    </script>
+{% endblock %}

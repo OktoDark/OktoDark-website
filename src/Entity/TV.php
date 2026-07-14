@@ -1,0 +1,162 @@
+<?php
+
+/*
+ * Copyright (c) OktoDark Studios
+ * Website: https://www.oktodark.com
+ *
+ * Author: Razvan George H. (Viruzzz)
+ *
+ * For the full copyright and license information, please view the LICENSE.
+ */
+
+namespace App\Entity;
+
+use App\Repository\TVRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: TVRepository::class)]
+#[ORM\Table(name: 'tracking_tv')]
+#[ORM\UniqueConstraint(name: 'unique_tv_item_user', columns: ['user_id', 'media_metadata_id'])]
+class TV extends AbstractMedia
+{
+    /** @var Collection<int, Season> */
+    #[ORM\OneToMany(targetEntity: Season::class, mappedBy: 'relatedTv', cascade: ['remove'])]
+    private Collection $seasons;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->seasons = new ArrayCollection();
+    }
+
+    public function setUser(?User $user): self
+    {
+        parent::setUser($user);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Season>
+     */
+    public function getSeasons(): Collection
+    {
+        return $this->seasons;
+    }
+
+    // ─────────────────────────────────────────────
+    // PASSTHROUGH HELPERS FOR METADATA FIELDS
+    // ─────────────────────────────────────────────
+
+    public function getSeasonNumber(): ?int
+    {
+        return $this->getMediaMetadata()?->getSeasonNumber();
+    }
+
+    public function getEpisodeNumber(): ?int
+    {
+        return $this->getMediaMetadata()?->getEpisodeNumber();
+    }
+
+    // ─────────────────────────────────────────────
+    // PROGRESS CALCULATION
+    // ─────────────────────────────────────────────
+
+    public function getProgress(): int
+    {
+        $total = 0;
+
+        foreach ($this->seasons as $season) {
+            $meta = $season->getMediaMetadata();
+
+            if ($meta && $meta->getSeasonNumber() > 0) {
+                $total += $season->getProgress();
+            }
+        }
+
+        return $total;
+    }
+
+    public function getWatchedEpisodes(): int
+    {
+        return $this->getProgress();
+    }
+
+    public function getTotalEpisodes(): int
+    {
+        $total = 0;
+
+        foreach ($this->seasons as $season) {
+            if (method_exists($season, 'getTotalEpisodes')) {
+                $total += $season->getTotalEpisodes();
+            }
+        }
+
+        return $total;
+    }
+
+    // ─────────────────────────────────────────────
+    // NEXT EPISODE LOGIC (FULLY FIXED)
+    // ─────────────────────────────────────────────
+
+    public function getNextEpisode(): array
+    {
+        $seasons = $this->seasons->toArray();
+
+        if (empty($seasons)) {
+            return [];
+        }
+
+        // Sort seasons by metadata seasonNumber
+        usort($seasons, fn ($a, $b) => ($a->getMediaMetadata()?->getSeasonNumber() ?? 0)
+            <=>
+            ($b->getMediaMetadata()?->getSeasonNumber() ?? 0)
+        );
+
+        foreach ($seasons as $season) {
+            $episodes = $season->getEpisodes()->toArray();
+
+            if (empty($episodes)) {
+                continue;
+            }
+
+            // Sort episodes by metadata episodeNumber
+            usort($episodes, fn ($a, $b) => ($a->getMediaMetadata()?->getEpisodeNumber() ?? 0)
+                <=>
+                ($b->getMediaMetadata()?->getEpisodeNumber() ?? 0)
+            );
+
+            foreach ($episodes as $ep) {
+                if (!$ep->isWatched()) {
+                    return [
+                        'season' => $season->getMediaMetadata()?->getSeasonNumber(),
+                        'episode' => $ep->getMediaMetadata()?->getEpisodeNumber(),
+                    ];
+                }
+            }
+        }
+
+        // All episodes watched → return last episode of last season
+        $lastSeason = end($seasons);
+        $lastEpisodes = $lastSeason->getEpisodes()->toArray();
+
+        if (!empty($lastEpisodes)) {
+            usort($lastEpisodes, fn ($a, $b) => ($a->getMediaMetadata()?->getEpisodeNumber() ?? 0)
+                <=>
+                ($b->getMediaMetadata()?->getEpisodeNumber() ?? 0)
+            );
+
+            $lastEp = end($lastEpisodes);
+
+            return [
+                'season' => $lastSeason->getMediaMetadata()?->getSeasonNumber(),
+                'episode' => $lastEp->getMediaMetadata()?->getEpisodeNumber(),
+            ];
+        }
+
+        // No episodes available at all
+        return [];
+    }
+}

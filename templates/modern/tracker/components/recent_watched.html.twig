@@ -1,0 +1,48 @@
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header fw-semibold">Recently Watched</div>
+
+    <div class="card-body">
+
+        {% if recentWatched is empty %}
+            <p class="text-muted small">No recent activity.</p>
+        {% else %}
+            <ul class="list-group">
+
+                {% for ep in recentWatched %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                        <div class="d-flex align-items-center">
+
+                            {% if ep.coverUrl %}
+                                <img src="{{ ep.coverUrl }}"
+                                     alt=""
+                                     class="rounded me-2"
+                                     style="width:40px; height:60px; object-fit:cover;">
+                            {% endif %}
+
+                            <div>
+                                <a href="{{ path('app_tracking_tv_show', { id: ep.tvId }) }}"
+                                   class="text-decoration-none">
+                                    {{ ep.showTitle }} — {{ ep.formattedEpisode }}
+                                </a>
+
+                                {% if ep.episodeTitle %}
+                                    <div class="text-muted small">
+                                        {{ ep.episodeTitle }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <span class="text-muted small">
+                            {{ ep.watchedAt|default('Unknown')|date('Y-m-d H:i') }}
+                        </span>
+
+                    </li>
+                {% endfor %}
+
+            </ul>
+        {% endif %}
+
+    </div>
+</div>

@@ -1,0 +1,49 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Season {{ season.mediaMetadata.seasonNumber }}{% endblock %}
+
+{% block main %}
+    <section class="section section-lg">
+        <div class="container">
+
+            <h2 class="fw-bold mb-3">
+                Season {{ season.mediaMetadata.seasonNumber }}
+            </h2>
+
+            <p class="text-muted">
+                {{ season.getWatchedEpisodes() }} / {{ season.getTotalEpisodes() }} episodes watched
+            </p>
+
+            <button class="btn btn-success mb-4" id="watchAll">Mark All Watched</button>
+            <button class="btn btn-danger mb-4" id="unwatchAll">Unwatch All</button>
+
+            <div class="list-group">
+                {% for ep in episodes %}
+                    <a href="{{ path('app_tracker_episode', {id: ep.id}) }}"
+                       class="list-group-item list-group-item-action d-flex justify-content-between">
+                        <span>{{ ep.getFormattedEpisode() }} – {{ ep.mediaMetadata.title }}</span>
+
+                        {% if ep.isWatched() %}
+                            <span class="badge bg-success">Watched</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Unwatched</span>
+                        {% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('watchAll').onclick = async () => {
+            await fetch(`/tracker/season/{{ season.id }}/watch-all`, { method: 'POST' });
+            location.reload();
+        };
+
+        document.getElementById('unwatchAll').onclick = async () => {
+            await fetch(`/tracker/season/{{ season.id }}/unwatch-all`, { method: 'POST' });
+            location.reload();
+        };
+    </script>
+{% endblock %}

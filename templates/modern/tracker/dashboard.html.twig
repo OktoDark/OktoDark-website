@@ -1,0 +1,304 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Media Tracker – TV Seasons{% endblock %}
+{% block head %}{{ parent() }}{% endblock %}
+{% block body_id 'tracker' %}
+
+{% block main %}
+
+    <section class="section section-page-title bg-default text-center py-4">
+        <div class="container">
+            <h2 class="display-6 fw-bold">TV Seasons</h2>
+            <p class="lead text-muted mt-2">Track your progress across all seasons</p>
+        </div>
+    </section>
+
+    <section class="section section-lg pt-0">
+        <div class="container-fluid px-4">
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3 mb-4">
+                {% include '@theme/tracker/components/stats_cards.html.twig' %}
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-lg">
+        <div class="container-fluid px-4">
+            <div class="d-flex justify-content-center">
+                <div class="row w-100 justify-content-center">
+
+                    <!-- SIDEBAR -->
+                    {% include '@theme/tracker/partials/_sidebar.html.twig' %}
+
+                    <!-- MAIN CONTENT -->
+                    <div class="col-md-9">
+
+                        <style>
+                            .fade-soft {
+                                opacity: 0;
+                                transition: opacity 0.35s ease-in-out;
+                            }
+                            .fade-soft.show {
+                                opacity: 1;
+                            }
+                        </style>
+
+                        {% include '@theme/tracker/components/continue_watching.html.twig' %}
+                        <br>
+                        Next
+                        <br>
+
+                        {% include '@theme/tracker/components/next_episode.html.twig' %}
+                        {% include '@theme/tracker/components/recent_watched.html.twig' %}
+                        {% include '@theme/tracker/components/seasons_filters.html.twig' %}
+                        {% include '@theme/tracker/components/seasons_grid.html.twig' %}
+                        {% include '@theme/tracker/components/pagination.html.twig' %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% block javascripts %}
+        {{ parent() }}
+        <<script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const grid = document.getElementById('cw-grid');
+            const pagination = document.getElementById('cw-pagination');
+
+            async function refreshContinueWatching() {
+                const url = new URL(window.location.href);
+                const cwPage = url.searchParams.get('cwPage') || 1;
+                url.searchParams.set('cwPage', cwPage);
+
+                const response = await fetch(url);
+                const html = await response.text();
+
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                const newGrid = doc.querySelector('#cw-grid');
+                const newPagination = doc.querySelector('#cw-pagination');
+
+                grid.innerHTML = newGrid.innerHTML;
+                pagination.innerHTML = newPagination.innerHTML;
+
+                attachEvents();
+
+                grid.classList.add('show');
+                pagination.classList.add('show');
+            }
+
+            function attachEvents() {
+                // pagination
+                document.querySelectorAll('.cw-nav').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        e.preventDefault();
+
+                        const page = btn.dataset.page;
+                        if (!page) return;
+
+                        grid.classList.remove('show');
+                        pagination.classList.remove('show');
+
+                        const url = new URL(window.location.href);
+                        url.searchParams.set('cwPage', page);
+                        history.replaceState(null, '', url);
+
+                        await refreshContinueWatching();
+                    });
+                });
+
+                // mark episode watched (auto-advance)
+                document.querySelectorAll('.cw-mark-watched').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const id = btn.dataset.id;
+                        const season = btn.dataset.season;
+                        const episode = btn.dataset.episode;
+
+                        btn.disabled = true;
+                        btn.innerText = 'Updating...';
+
+                        await fetch('{{ path("app_mark_episode_watched") }}', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: new URLSearchParams({ id, season, episode })
+                        });
+
+                        grid.classList.remove('show');
+                        pagination.classList.remove('show');
+
+                        await refreshContinueWatching();
+
+                        const updatedCard = document.querySelector('[data-id="' + id + '"]');
+                        if (updatedCard) {
+                            updatedCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    });
+                });
+
+                // mark entire season watched
+                document.querySelectorAll('.cw-mark-season').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const id = btn.dataset.id;
+                        const season = btn.dataset.season;
+
+                        btn.disabled = true;
+                        btn.innerText = 'Marking...';
+
+                        await fetch('{{ path("app_mark_season_watched") }}', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: new URLSearchParams({ id, season })
+                        });
+
+                        grid.classList.remove('show');
+                        pagination.classList.remove('show');
+
+                        await refreshContinueWatching();
+
+                        const updatedCard = document.querySelector('[data-id="' + id + '"]');
+                        if (updatedCard) {
+                            updatedCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    });
+                });
+
+                // undo watched
+                document.querySelectorAll('.cw-undo-watched').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const id = btn.dataset.id;
+
+                        btn.disabled = true;
+                        btn.innerText = 'Reverting...';
+
+                        await fetch('{{ path("app_undo_episode_watched") }}', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: new URLSearchParams({ id })
+                        });
+
+                        grid.classList.remove('show');
+                        pagination.classList.remove('show');
+
+                        await refreshContinueWatching();
+
+                        const updatedCard = document.querySelector('[data-id="' + id + '"]');
+                        if (updatedCard) {
+                            updatedCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    });
+                });
+            }
+
+            grid.classList.add('show');
+            pagination.classList.add('show');
+            attachEvents();
+        });
+    </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+
+                function attachMarkWatchedEvents() {
+                    document.querySelectorAll('.cw-mark-watched').forEach(btn => {
+                        btn.addEventListener('click', async () => {
+
+                            const id = btn.dataset.id;
+                            const season = btn.dataset.season;
+                            const episode = btn.dataset.episode;
+
+                            btn.disabled = true;
+                            btn.innerText = 'Updating...';
+
+                            const response = await fetch('{{ path("app_mark_episode_watched") }}', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                body: new URLSearchParams({
+                                    id: id,
+                                    season: season,
+                                    episode: episode
+                                })
+                            });
+
+                            const data = await response.json();
+
+                            if (data.success) {
+                                btn.innerText = 'Marked ✔';
+                                btn.classList.remove('btn-primary');
+                                btn.classList.add('btn-success');
+
+                                // Refresh Continue Watching grid via AJAX
+                                const url = new URL(window.location.href);
+                                const cwPage = url.searchParams.get('cwPage') || 1;
+                                url.searchParams.set('cwPage', cwPage);
+
+                                const html = await fetch(url).then(r => r.text());
+                                const parser = new DOMParser();
+                                const doc = parser.parseFromString(html, 'text/html');
+
+                                const newGrid = doc.querySelector('#cw-grid');
+                                const newPagination = doc.querySelector('#cw-pagination');
+
+                                const grid = document.getElementById('cw-grid');
+                                const pagination = document.getElementById('cw-pagination');
+
+                                grid.innerHTML = newGrid.innerHTML;
+                                pagination.innerHTML = newPagination.innerHTML;
+
+                                // Reattach events
+                                attachMarkWatchedEvents();
+                            }
+                        });
+                    });
+                }
+
+                attachMarkWatchedEvents();
+            });
+        </script>
+
+        <script>
+            (function() {
+                // Sync active filter buttons with URL parameters on page load
+                var urlParams = {};
+                var query = window.location.search.substring(1);
+                if (query) {
+                    var pairs = query.split('&');
+                    for (var i = 0; i < pairs.length; i++) {
+                        var pair = pairs[i].split('=');
+                        urlParams[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+                    }
+                }
+                var statusParam = urlParams['status'] || 'all';
+
+                // Update sidebar filter active states
+                var sidebarItems = document.querySelectorAll('.list-group-item-action[data-filter]');
+                for (var j = 0; j < sidebarItems.length; j++) {
+                    var sidebarBtn = sidebarItems[j];
+                    var filter = sidebarBtn.getAttribute('data-filter');
+                    if (filter === statusParam) {
+                        sidebarBtn.classList.add('active');
+                    } else {
+                        sidebarBtn.classList.remove('active');
+                    }
+                }
+
+                // Update top filter button active states
+                var topButtons = document.querySelectorAll('.btn-group .btn[data-filter]');
+                for (var k = 0; k < topButtons.length; k++) {
+                    var topBtn = topButtons[k];
+                    var filter = topBtn.getAttribute('data-filter');
+                    if (filter === statusParam) {
+                        topBtn.classList.remove('btn-outline-secondary');
+                        topBtn.classList.add('btn-primary');
+                    } else {
+                        topBtn.classList.remove('btn-primary');
+                        topBtn.classList.add('btn-outline-secondary');
+                    }
+                }
+            })();
+        </script>
+
+    {% endblock %}
+{% endblock %}

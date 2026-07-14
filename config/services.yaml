@@ -54,6 +54,114 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response }
 
+    # ---------------------------------------------------------
+    # External API Clients
+    # ---------------------------------------------------------
+    App\Service\TVMazeClient:
+        arguments:
+            $http: '@http_client'
+
+    App\Service\TmdbService:
+        arguments:
+            $tmdbApiKey: '%env(TMDB_API_KEY)%'
+
+    App\Service\StatsService:
+        arguments:
+            $cache: '@cache.app'
+
+    # ---------------------------------------------------------
+    #  Core Import Dispatcher
+    # ---------------------------------------------------------
+    App\Service\Import\ImportService: ~
+
+    # ---------------------------------------------------------
+    #  Movie Import
+    # ---------------------------------------------------------
+    App\Service\Import\Movie\MovieImportService: ~
+
+    App\Service\Import\Movie\MovieImportHandler:
+        tags: ['messenger.message_handler']
+
+    # ---------------------------------------------------------
+    #  TV Import
+    # ---------------------------------------------------------
+    App\Service\Import\Tv\TvImportService:
+        public: true
+
+    App\Service\Import\Tv\TvHierarchyBuilder: ~
+
+    App\Service\Import\Tv\TvMetadataMerger: ~
+
+    App\Service\Import\Tv\TvImportHandler:
+        tags: ['messenger.message_handler']
+
+    # ---------------------------------------------------------
+    #  Season Import
+    # ---------------------------------------------------------
+    App\Service\Import\Season\SeasonImportService: ~
+
+    App\Service\Import\Season\SeasonImportHandler:
+        tags: ['messenger.message_handler']
+
+    # ---------------------------------------------------------
+    #  Episode Import
+    # ---------------------------------------------------------
+    App\Service\Import\Episode\EpisodeImportService: ~
+
+    App\Service\Import\Episode\EpisodeImportHandler:
+        tags: ['messenger.message_handler']
+
+    # ---------------------------------------------------------
+    # Movie Providers
+    # ----------------------------------------------------------
+    App\Service\Import\Movie\Provider\TvTimeMovieProvider: ~
+    App\Service\Import\Movie\Provider\TraktMovieProvider: ~
+    App\Service\Import\Movie\Provider\LetterboxdMovieProvider: ~
+    App\Service\Import\Movie\Provider\SimklMovieProvider: ~
+    App\Service\Import\Movie\Provider\CustomCsvMovieProvider: ~
+
+    App\Service\Import\Movie\GlobalMovieImporter:
+        arguments:
+            $providers:
+                - '@App\Service\Import\Movie\Provider\TvTimeMovieProvider'
+                - '@App\Service\Import\Movie\Provider\TraktMovieProvider'
+                - '@App\Service\Import\Movie\Provider\LetterboxdMovieProvider'
+                - '@App\Service\Import\Movie\Provider\SimklMovieProvider'
+                - '@App\Service\Import\Movie\Provider\CustomCsvMovieProvider'
+
+
+    # ---------------------------------------------------------
+    # Tv Providers
+    # ---------------------------------------------------------
+    App\Service\Import\Tv\Provider\TraktTvProvider:
+        tags: ['app.tv_provider']
+
+    App\Service\Import\Tv\Provider\TvTimeTvProvider:
+        tags: ['app.tv_provider']
+
+    App\Service\Import\Tv\Provider\SimklTvProvider:
+        tags: ['app.tv_provider']
+
+    App\Service\Import\Tv\Provider\GenericTvProvider:
+        tags: ['app.tv_provider']
+
+    App\Service\Import\Tv\Provider\TvProviderRegistry:
+        arguments:
+            $providers: !tagged_iterator app.tv_provider
+
+    # ---------------------------------------------------------
+    #  Metadata Services
+    # ---------------------------------------------------------
+    App\Service\Import\Metadata\MetadataLookupService: ~
+
+    App\Service\Import\Metadata\MetadataMergeService: ~
+
+    App\Service\Import\Metadata\MetadataHydrator: ~
+
+    # ---------------------------------------------------------
+    #  Controller
+    # ---------------------------------------------------------
+    App\Controller\Tracker\Import\ImportController: ~
     Symfony\Component\RateLimiter\RateLimiterFactory: '@limiter.resend_verification'
 
     App\Controller\RegistrationController:

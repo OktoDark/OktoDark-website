@@ -1,0 +1,121 @@
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header fw-semibold">
+        TV Shows & Seasons
+    </div>
+
+    <style>
+        .border.rounded.p-3.h-100:hover {
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+            transition: all 0.2s ease;
+        }
+    </style>
+    <div class="card-body">
+
+        {% if tvShowsData is empty %}
+            <p class="text-muted small">No seasons found.</p>
+        {% else %}
+
+            {% for show in tvShowsData %}
+                <div class="mb-5 pb-3 border-bottom">
+
+                    {# TV SHOW HEADER #}
+                    <div class="d-flex align-items-center mb-3">
+                        {% if show.coverUrl %}
+                            <img src="{{ show.coverUrl }}"
+                                 alt="{{ show.title }}"
+                                 class="rounded me-3"
+                                 style="width: 70px; height: 100px; object-fit: cover;">
+                        {% else %}
+                            <div class="bg-secondary rounded me-2 d-flex align-items-center justify-content-center"
+                                 style="width: 50px; height: 75px;">
+                                <span class="text-white-50 small">No Image</span>
+                            </div>
+                        {% endif %}
+
+                        <div>
+                            <h5 class="mb-1">{{ show.title }}</h5>
+
+                            <span class="badge {{ show.statusClass }}">
+                                {{ show.statusLabel|capitalize }}
+                            </span>
+
+                            <div class="text-muted small mt-1">
+                                First aired: {{ show.releaseDate|default('Unknown') }}
+                            </div>
+
+                            <div class="text-muted small">
+                                {{ show.watchedEpisodes }} / {{ show.totalEpisodes }} episodes watched
+                            </div>
+                        </div>
+                    </div>
+
+                    {# SEASONS LIST #}
+                    <div class="row g-3">
+
+                        {% for season in show.seasons %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="border rounded p-3 h-100">
+
+                                    <div class="d-flex align-items-center mb-2">
+                                        {% if season.coverUrl %}
+                                            <img src="{{ season.coverUrl }}"
+                                                 alt="{{ season.title }}"
+                                                 class="rounded me-2"
+                                                 style="width: 50px; height: 75px; object-fit: cover;">
+                                        {% endif %}
+
+                                        <div>
+                                            <strong>S{{ season.seasonNumber }}</strong>
+                                            <div class="text-muted small">
+                                                {{ season.releaseDate ?? 'Unknown' }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <span class="badge {{ season.statusClass }}">
+                                        {{ season.statusLabel|capitalize }}
+                                    </span>
+
+                                    <div class="mt-2 small">
+                                        {{ season.watchedEpisodes }} / {{ season.totalEpisodes }} episodes
+                                    </div>
+
+                                    {# PROGRESS BAR #}
+                                    <div class="progress mt-2" style="height: 6px;">
+                                        <div class="progress-bar bg-primary"
+                                             role="progressbar"
+                                             style="width: {{ season.progress }}%;">
+                                        </div>
+                                    </div>
+
+                                    {% if season.score %}
+                                        <div class="mt-2 small">
+                                            Score: <strong>{{ season.score }}</strong>/10
+                                        </div>
+                                    {% endif %}
+
+                                    {% if season.notes %}
+                                        <div class="mt-2 text-muted small">
+                                            {{ season.notes|u.truncate(80, '…') }}
+                                        </div>
+                                    {% endif %}
+
+                                    <a href="{{ path('app_tracking_tv_show', { id: show.id }) }}"
+                                       class="btn btn-sm btn-outline-primary mt-3 w-100">
+                                        View Details
+                                    </a>
+
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+            {% endfor %}
+
+        {% endif %}
+
+    </div>
+</div>
