@@ -15,8 +15,6 @@ use App\Entity\User;
 use App\Enum\WatchStatus;
 use App\Repository\AnimeRepository;
 use App\Repository\EpisodeRepository;
-use App\Repository\GameRepository;
-use App\Repository\MovieRepository;
 use App\Repository\SeasonRepository;
 use App\Repository\TVRepository;
 use App\Repository\UserMessageRepository;
@@ -38,9 +36,7 @@ class DashboardController extends AbstractController
         TVRepository $tvRepo,
         SeasonRepository $seasonRepo,
         EpisodeRepository $episodeRepo,
-        MovieRepository $movieRepo,
         AnimeRepository $animeRepo,
-        GameRepository $gameRepo,
         UserMessageRepository $msgRepo,
         EntityManagerInterface $em,
         StatsService $statsService,
@@ -53,21 +49,27 @@ class DashboardController extends AbstractController
         }
 
         // -------------------------------------------
-        // CONTINUE WATCHING
+        // CONTINUE WATCHING (OPTIMIZED DB LIMITS)
         // -------------------------------------------
-        $continueWatching = $tvRepo->findContinueWatching($user);
+        $cwPerPage = 7;
 
-        $cwPage = max(1, $request->query->getInt('cwPage', 1));
-        $cwPerPage = 4;
+        // TV Show Continue Watching
+        $cwTvPage = $request->query->getInt('cwTvPage', 1);
+        $totalTvContinue = $tvRepo->countContinueWatching($user);
+        $cwTvTotalPages = (int) \ceil($totalTvContinue / $cwPerPage);
+        $cwTvPage = max(1, min($cwTvPage, $cwTvTotalPages > 0 ? $cwTvTotalPages : 1));
+        $cwTvOffset = ($cwTvPage - 1) * $cwPerPage;
+        $continueWatchingTv = $tvRepo->findContinueWatching($user, $cwTvOffset, $cwPerPage);
 
-        $totalCW = \count($continueWatching);
-        $cwTotalPages = max(1, (int) ceil($totalCW / $cwPerPage));
+        // Anime Continue Watching
+        $cwAnimePage = $request->query->getInt('cwAnimePage', 1);
+        $totalAnimeContinue = $animeRepo->countContinueWatching($user);
+        $cwAnimeTotalPages = (int) \ceil($totalAnimeContinue / $cwPerPage);
+        $cwAnimePage = max(1, min($cwAnimePage, $cwAnimeTotalPages > 0 ? $cwAnimeTotalPages : 1));
+        $cwAnimeOffset = ($cwAnimePage - 1) * $cwPerPage;
+        $continueWatchingAnime = $animeRepo->findContinueWatching($user, $cwAnimeOffset, $cwPerPage);
 
-        $continueWatching = \array_slice(
-            $continueWatching,
-            ($cwPage - 1) * $cwPerPage,
-            $cwPerPage
-        );
+        $continueWatching = array_merge($continueWatchingTv, $continueWatchingAnime);
 
         // -------------------------------------------
         // NEXT EPISODES
@@ -103,13 +105,23 @@ class DashboardController extends AbstractController
         $searchQuery = $request->query->get('search');
 
         // -------------------------------------------
+        // ANIME LIST
+        // -------------------------------------------
+        $animeList = $animeRepo->getMediaList($user, $statusFilter, $sortFilter, $searchQuery);
+        $animeList = \array_slice($animeList, 0, 100);
+
+        // -------------------------------------------
         // PAGINATION FOR TV SHOWS GRID
         // -------------------------------------------
         $page = $request->query->getInt('page', 1);
         $perPage = $request->query->getInt('perPage', 20);
-        $offset = ($page - 1) * $perPage;
 
         $totalShows = $seasonRepo->countGroupedShows($user, $statusFilter, $searchQuery);
+
+        $lastPage = (int) \ceil($totalShows / $perPage);
+        $lastPage = max($lastPage, 1);
+        $page = max(1, min($page, $lastPage));
+        $offset = ($page - 1) * $perPage;
 
         $tvShowsData = $seasonRepo->findGroupedSeasons(
             $user,
@@ -171,16 +183,15 @@ class DashboardController extends AbstractController
         };
 
         // -------------------------------------------
-        // OTHER MEDIA TYPES
-        // -------------------------------------------
-        $movies = $movieRepo->getMediaList($user, $statusFilter, $sortFilter, $searchQuery);
-        $anime = $animeRepo->getMediaList($user, $statusFilter, $sortFilter, $searchQuery);
-        $games = $gameRepo->getMediaList($user, $statusFilter, $sortFilter, $searchQuery);
-
-        // -------------------------------------------
         // TOAST MESSAGES
         // -------------------------------------------
-        $messages = $msgRepo->findBy(['user' => $user, 'shownAt' => null]);
+        $messages = $msgRepo->createQueryBuilder('m')
+            ->where('m.user = :user')
+            ->andWhere('m.shownAt IS NULL')
+            ->setParameter('user', $user)
+            ->setMaxResults(50)
+            ->getQuery()
+            ->getResult();
         foreach ($messages as $msg) {
             $msg->setShownAt(new \DateTimeImmutable());
         }
@@ -198,16 +209,22 @@ class DashboardController extends AbstractController
             'tvShows' => $paginator,
             'tvShowsData' => $tvShowsData,
             'perPage' => $perPage,
-            'cwCurrentPage' => $cwPage,
-            'cwTotalPages' => $cwTotalPages,
-            'movies' => $movies,
-            'anime' => $anime,
-            'games' => $games,
+            'animeList' => $animeList,
             'currentStatus' => $statusParam,
             'currentSort' => $sortFilter,
             'searchQuery' => $searchQuery,
             'toastMessages' => $messages,
             'stats' => $stats,
+
+            // TV Continue Pagination variables
+            'cwTvPage' => $cwTvPage,
+            'cwTvTotalPages' => $cwTvTotalPages,
+            'totalTvContinue' => $totalTvContinue,
+
+            // Anime Continue Pagination variables
+            'cwAnimePage' => $cwAnimePage,
+            'cwAnimeTotalPages' => $cwAnimeTotalPages,
+            'totalAnimeContinue' => $totalAnimeContinue,
         ]);
     }
 }

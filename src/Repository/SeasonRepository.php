@@ -96,6 +96,41 @@ class SeasonRepository extends ServiceEntityRepository
         int $limit = 20,
         int $offset = 0,
     ): array {
+        // Step 1: resolve the distinct TV shows that match the filters and
+        // paginate on the SHOW level (not on the exploded season/episode rows).
+        // Applying the limit directly to the one-to-many joined query would
+        // truncate entire seasons for shows with many episodes (e.g. Grimm).
+        $idQb = $this->createQueryBuilder('s')
+            ->select('DISTINCT tv.id AS tvId')
+            ->innerJoin('s.relatedTv', 'tv')
+            ->innerJoin('tv.mediaMetadata', 'meta')
+            ->innerJoin('s.mediaMetadata', 'seasonMeta')
+            ->where('tv.user = :user')
+            ->setParameter('user', $user);
+
+        if ($status) {
+            $idQb->andWhere('s.status = :status')
+                ->setParameter('status', $status);
+        }
+
+        if ($search) {
+            $idQb->andWhere('LOWER(meta.title) LIKE :search OR LOWER(meta.alternativeTitles) LIKE :search')
+                ->setParameter('search', '%'.mb_strtolower($search).'%');
+        }
+
+        $idQb->orderBy('LOWER(meta.title)', 'ASC')
+            ->addOrderBy('tv.id', 'ASC')
+            ->setMaxResults($limit)
+            ->setFirstResult($offset);
+
+        $tvIds = array_map(static fn (array $row) => $row['tvId'], $idQb->getQuery()->getArrayResult());
+
+        if ([] === $tvIds) {
+            return [];
+        }
+
+        // Step 2: hydrate every season + episode for the selected shows. This
+        // keeps the join multiplication safe because no result limit is applied.
         $qb = $this->createQueryBuilder('s')
             ->innerJoin('s.relatedTv', 'tv')
             ->innerJoin('tv.mediaMetadata', 'meta')
@@ -104,22 +139,13 @@ class SeasonRepository extends ServiceEntityRepository
             ->leftJoin('ep.mediaMetadata', 'epMeta')
             ->addSelect('tv', 'meta', 'seasonMeta', 'ep', 'epMeta')
             ->where('tv.user = :user')
-            ->setParameter('user', $user);
-
-        if ($status) {
-            $qb->andWhere('s.status = :status')
-                ->setParameter('status', $status);
-        }
-
-        if ($search) {
-            $qb->andWhere('LOWER(meta.title) LIKE :search OR LOWER(meta.alternativeTitles) LIKE :search')
-                ->setParameter('search', '%'.mb_strtolower($search).'%');
-        }
+            ->andWhere('tv.id IN (:tvIds)')
+            ->setParameter('user', $user)
+            ->setParameter('tvIds', $tvIds);
 
         $qb->orderBy('LOWER(meta.title)', 'ASC')
             ->addOrderBy('seasonMeta.seasonNumber', 'ASC')
-            ->setMaxResults($limit)
-            ->setFirstResult($offset);
+            ->addOrderBy('epMeta.episodeNumber', 'ASC');
 
         /** @var Season[] $seasons */
         $seasons = $qb->getQuery()->getResult();

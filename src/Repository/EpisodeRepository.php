@@ -29,48 +29,66 @@ class EpisodeRepository extends ServiceEntityRepository
      * BASIC QUERIES
      * --------------------------------------------------------- */
 
+    /**
+     * Finds the single next upcoming unwatched episode for each of the user's active shows.
+     * Prevents listing multiple sequential unwatched episodes of the same show.
+     *
+     * @return NextEpisodeItem[]
+     */
     public function findNextEpisodes(User $user): array
     {
-        $episodes = $this->createQueryBuilder('e')
+        // Step 1: Find the lowest unwatched episode ID for each active show
+        $subQuery = $this->createQueryBuilder('sub_e')
+            ->select('MIN(sub_e.id)')
+            ->join('sub_e.relatedSeason', 'sub_s')
+            ->join('sub_s.relatedTv', 'sub_t')
+            ->where('sub_t.user = :u')
+            ->andWhere('sub_e.endDate IS NULL')
+            ->groupBy('sub_t.id')
+            ->getDQL();
+
+        // Step 2: Fetch the full DTO details for just those target episodes
+        $rows = $this->createQueryBuilder('e')
+            ->select('t.id AS tvId', 'metaTv.title AS showTitle', 'metaTv.image AS coverUrl')
+            ->addSelect('metaSeason.seasonNumber AS season', 'metaEp.episodeNumber AS episode', 'metaEp.releaseDate AS airDate')
             ->join('e.relatedSeason', 's')
+            ->join('s.mediaMetadata', 'metaSeason')
             ->join('s.relatedTv', 't')
             ->join('t.mediaMetadata', 'metaTv')
             ->join('e.mediaMetadata', 'metaEp')
-            ->where('t.user = :u')
-            ->andWhere('e.endDate IS NULL')
-            ->orderBy('e.id', 'ASC')
+            ->where('e.id IN (' . $subQuery . ')')
             ->setParameter('u', $user)
+            ->orderBy('metaEp.releaseDate', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult();
+            ->getArrayResult(); // Hydrate as light array to prevent memory leaks
 
-        $items = [];
-
-        foreach ($episodes as $ep) {
-            $season = $ep->getRelatedSeason();
-            $tv = $season?->getRelatedTv();
-            $metaTv = $tv?->getMediaMetadata();
-
-            $items[] = new NextEpisodeItem(
-                tvId: $tv?->getId() ?? 0,
-                showTitle: $metaTv?->getTitle() ?? 'Untitled',
-                coverUrl: $metaTv?->getImage(),
-                season: $season?->getSeasonNumber(),
-                episode: $ep->getEpisodeNumber(),
-                airDate: $ep->getReleaseDate(),
+        return array_map(static function (array $row) {
+            return new NextEpisodeItem(
+                tvId: (int) $row['tvId'],
+                showTitle: $row['showTitle'] ?? 'Untitled',
+                coverUrl: $row['coverUrl'],
+                season: (int) $row['season'],
+                episode: (int) $row['episode'],
+                airDate: $row['airDate'],
             );
-        }
-
-        return $items;
+        }, $rows);
     }
 
     /**
      * Recently Watched — modern DTO version.
+     * Optimized to select properties directly to avoid loading deep database entities.
+     *
+     * @return RecentlyWatchedItem[]
      */
     public function findRecentlyWatched(User $user): array
     {
-        $episodes = $this->createQueryBuilder('e')
+        $rows = $this->createQueryBuilder('e')
+            ->select('t.id AS tvId', 'metaTv.title AS showTitle', 'metaEp.title AS episodeTitle')
+            ->addSelect('metaSeason.seasonNumber AS seasonNumber', 'metaEp.episodeNumber AS episodeNumber')
+            ->addSelect('metaTv.image AS coverUrl', 'e.endDate AS watchedAt')
             ->join('e.relatedSeason', 's')
+            ->join('s.mediaMetadata', 'metaSeason')
             ->join('s.relatedTv', 't')
             ->join('t.mediaMetadata', 'metaTv')
             ->join('e.mediaMetadata', 'metaEp')
@@ -80,31 +98,22 @@ class EpisodeRepository extends ServiceEntityRepository
             ->setParameter('u', $user)
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult();
+            ->getArrayResult();
 
-        $items = [];
-
-        foreach ($episodes as $ep) {
-            $season = $ep->getRelatedSeason();
-            $tv = $season->getRelatedTv();
-            $metaTv = $tv->getMediaMetadata();
-            $metaEp = $ep->getMediaMetadata();
-
-            $items[] = new RecentlyWatchedItem(
-                tvId: $tv->getId(),
-                showTitle: $metaTv->getTitle(),
-                episodeTitle: $metaEp->getTitle(),
+        return array_map(static function (array $row) {
+            return new RecentlyWatchedItem(
+                tvId: (int) $row['tvId'],
+                showTitle: $row['showTitle'],
+                episodeTitle: $row['episodeTitle'],
                 formattedEpisode: \sprintf(
                     'S%02dE%02d',
-                    $season->getSeasonNumber(),
-                    $metaEp->getEpisodeNumber()
+                    $row['seasonNumber'],
+                    $row['episodeNumber']
                 ),
-                coverUrl: $metaTv->getImage(),
-                watchedAt: $ep->getEndDate()
+                coverUrl: $row['coverUrl'],
+                watchedAt: $row['watchedAt']
             );
-        }
-
-        return $items;
+        }, $rows);
     }
 
     /* ---------------------------------------------------------

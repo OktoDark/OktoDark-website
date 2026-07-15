@@ -17,6 +17,7 @@ use App\Enum\Source;
 use App\Service\TmdbService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -44,6 +45,7 @@ class ImportDashboardController extends AbstractController
 
         return $this->render('@theme/admin/import/dashboard.html.twig', [
             'logs' => $logs,
+            'projectDir' => $this->getParameter('kernel.project_dir'),
         ]);
     }
 
@@ -255,6 +257,205 @@ class ImportDashboardController extends AbstractController
     }
 
     /**
+     * Launch the tracker:backfill-metadata console command in the background.
+     *
+     * The command can take a long time for tens of thousands of rows, so it is
+     * spawned as a detached process and its output streamed to a log file that
+     * the matching status endpoint polls. The detached child PID is recorded in
+     * a pidfile so a long run can be interrupted via the Stop endpoint. Refuses
+     * to start while a previous run is still in progress.
+     */
+    #[Route('/backfill-metadata', name: 'admin_import_backfill_metadata', methods: ['POST'])]
+    // #[Permission('admin.import.backfill_metadata', group: 'Admin', label: 'Backfill Metadata')]
+    public function backfillMetadata(Request $request): JsonResponse
+    {
+        [$logPath, $pidPath, $launcherPath] = $this->backfillPaths();
+
+        if ($this->backfillIsRunning($pidPath)) {
+            return new JsonResponse([
+                'status' => 'already_running',
+                'log' => is_file($logPath) ? (string) @file_get_contents($logPath) : '',
+            ]);
+        }
+
+        $type = (string) $request->request->get('type', '');
+        $source = (string) $request->request->get('source', '');
+        $limit = $request->request->getInt('limit', 0);
+        $batch = $request->request->getInt('batch', 200);
+        $delay = $request->request->getInt('delay', 100);
+        $apply = (bool) $request->request->get('apply', false);
+
+        $args = ['tracker:backfill-metadata'];
+        if ('' !== $type) {
+            $args[] = '--type='.escapeshellarg($type);
+        }
+        if ('' !== $source) {
+            $args[] = '--source='.escapeshellarg($source);
+        }
+        if ($limit > 0) {
+            $args[] = '--limit='.$limit;
+        }
+        if ($batch > 0) {
+            $args[] = '--batch='.$batch;
+        }
+        if ($delay >= 0) {
+            $args[] = '--delay-ms='.$delay;
+        }
+        if ($apply) {
+            $args[] = '--apply';
+        }
+
+        $projectDir = $this->getParameter('kernel.project_dir');
+        $console = $projectDir.'/bin/console';
+
+        $phpCmd = escapeshellarg(\PHP_BINARY).' '.escapeshellarg($console).' '.implode(' ', array_map('escapeshellarg', $args));
+        $launcherCmd = $phpCmd.' >> '.escapeshellarg($logPath).' 2>&1';
+
+        $this->writeLauncher($launcherPath, $launcherCmd);
+        @file_put_contents($logPath, '');
+        @unlink($pidPath);
+
+        if ('\\' === \DIRECTORY_SEPARATOR) {
+            $launcherArg = '"'.str_replace('"', '', $launcherPath).'"';
+            $pidArg = '"'.str_replace('"', '', $pidPath).'"';
+            $command = 'powershell -NoProfile -Command "$p = Start-Process -FilePath \'cmd.exe\' '
+                .'-ArgumentList \'/C\', '.$launcherArg.' -NoNewWindow -PassThru; '
+                .'$p.Id | Out-File -FilePath '.$pidArg.' -Encoding ascii"';
+        } else {
+            $command = 'nohup /bin/sh '.escapeshellarg($launcherPath).' >/dev/null 2>&1 & echo $! > '.escapeshellarg($pidPath);
+        }
+
+        $handle = @popen($command, 'r');
+        if (false === $handle) {
+            return new JsonResponse(['status' => 'error', 'message' => 'Unable to start backfill process.'], 500);
+        }
+        pclose($handle);
+
+        return new JsonResponse(['status' => 'started', 'log' => '']);
+    }
+
+    /**
+     * Stop a running backfill by killing the detached process recorded in the
+     * pidfile. Trailing child processes (the PHP worker) are terminated too.
+     */
+    #[Route('/backfill-metadata/stop', name: 'admin_import_backfill_metadata_stop', methods: ['POST'])]
+    // #[Permission('admin.import.backfill_metadata', group: 'Admin', label: 'Stop Backfill')]
+    public function backfillMetadataStop(): JsonResponse
+    {
+        [$logPath, $pidPath] = $this->backfillPaths();
+
+        $wasRunning = $this->backfillIsRunning($pidPath);
+        $this->backfillKill($pidPath, $logPath);
+
+        return new JsonResponse([
+            'status' => $wasRunning ? 'stopped' : 'not_running',
+            'log' => is_file($logPath) ? (string) @file_get_contents($logPath) : '',
+        ]);
+    }
+
+    /**
+     * Stream the running backfill command's log file to the dashboard.
+     */
+    #[Route('/backfill-metadata/status', name: 'admin_import_backfill_metadata_status', methods: ['GET'])]
+    // #[Permission('admin.import.backfill_metadata', group: 'Admin', label: 'Backfill Metadata Status')]
+    public function backfillMetadataStatus(): JsonResponse
+    {
+        [$logPath, $pidPath] = $this->backfillPaths();
+
+        if (!is_file($logPath)) {
+            return new JsonResponse(['running' => false, 'log' => '']);
+        }
+
+        $log = (string) @file_get_contents($logPath);
+        $running = $this->backfillIsRunning($pidPath) && !str_contains($log, 'Done.');
+
+        return new JsonResponse(['running' => $running, 'log' => $log]);
+    }
+
+    /**
+     * Resolve the on-disk paths used by the detached backfill (log, pidfile, launcher).
+     *
+     * @return array{0: string, 1: string, 2: string}
+     */
+    private function backfillPaths(): array
+    {
+        $logDir = $this->getParameter('kernel.project_dir').'/var/log';
+
+        return [
+            $logDir.'/backfill_metadata.log',
+            $logDir.'/backfill_metadata.pid',
+            $logDir.'/backfill_metadata.launcher'.('\\' === \DIRECTORY_SEPARATOR ? '.cmd' : '.sh'),
+        ];
+    }
+
+    /**
+     * Whether a backfill process is currently alive (pidfile present + live PID).
+     */
+    private function backfillIsRunning(string $pidPath): bool
+    {
+        if (!is_file($pidPath)) {
+            return false;
+        }
+
+        $pid = (int) @file_get_contents($pidPath);
+
+        return $pid > 0 && $this->pidAlive($pid);
+    }
+
+    /**
+     * Probe a process for liveness in a cross-platform way (kill -0 / Get-Process).
+     */
+    private function pidAlive(int $pid): bool
+    {
+        if ('\\' === \DIRECTORY_SEPARATOR) {
+            $out = @shell_exec('powershell -NoProfile -Command "Get-Process -Id '.$pid.' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Id"');
+
+            return null !== $out && '' !== mb_trim((string) $out);
+        }
+
+        $code = @shell_exec('kill -0 '.$pid.' 2>/dev/null; echo $?');
+
+        return '0' === mb_trim((string) $code);
+    }
+
+    /**
+     * Terminate the detached backfill (and its child tree) and mark the log as stopped.
+     */
+    private function backfillKill(string $pidPath, string $logPath): void
+    {
+        if (is_file($pidPath)) {
+            $pid = (int) @file_get_contents($pidPath);
+
+            if ($pid > 0) {
+                if ('\\' === \DIRECTORY_SEPARATOR) {
+                    @shell_exec('taskkill /PID '.$pid.' /T /F');
+                } else {
+                    @shell_exec('kill -TERM '.$pid.' 2>/dev/null');
+                }
+            }
+
+            @unlink($pidPath);
+        }
+
+        $existing = is_file($logPath) ? (string) @file_get_contents($logPath) : '';
+        @file_put_contents($logPath, mb_rtrim($existing)."\n=== Stopped by user ===\nDone. (stopped)\n");
+    }
+
+    /**
+     * Write a small launcher script that runs the backfill command with output
+     * redirected to the log file. Using a script avoids shell-quoting issues
+     * with the long argument list across platforms.
+     */
+    private function writeLauncher(string $launcherPath, string $command): void
+    {
+        if ('\\' === \DIRECTORY_SEPARATOR) {
+            @file_put_contents($launcherPath, "@echo off\r\n".$command."\r\n");
+        } else {
+            @file_put_contents($launcherPath, "#!/bin/sh\n".'exec '.$command."\n");
+        }
+    }
+
+    /**
      * Delete tracking rows whose parent relations no longer exist (orphan cleanup).
      */
     #[Route('/purge-orphans', name: 'admin_import_purge_orphans', methods: ['POST'])]
@@ -380,5 +581,46 @@ class ImportDashboardController extends AbstractController
         ]);
 
         return $this->json(['status' => 'integrity_validated', 'report' => $report]);
+    }
+
+    /**
+     * Recompute TV show progress and status from season/episode data.
+     */
+    #[Route('/recompute-tv-progress', name: 'admin_import_recompute_tv_progress', methods: ['POST'])]
+    public function recomputeTvProgress(Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $session = $request->getSession();
+        $conn = $em->getConnection();
+        $logs = [];
+
+        $result = $conn->executeStatement("
+            UPDATE tracking_tv tv
+            JOIN (
+                SELECT 
+                    s.related_tv_id,
+                    COUNT(e.id) as total_episodes,
+                    SUM(CASE WHEN e.end_date IS NOT NULL THEN 1 ELSE 0 END) as watched_episodes,
+                    MAX(e.end_date) as last_watched
+                FROM tracking_season s
+                LEFT JOIN tracking_episode e ON e.related_season_id = s.id
+                GROUP BY s.related_tv_id
+            ) stats ON stats.related_tv_id = tv.id
+            SET tv.progress = CASE 
+                WHEN stats.total_episodes > 0 
+                THEN ROUND((stats.watched_episodes / stats.total_episodes) * 100)
+                ELSE 0 
+            END,
+            tv.status = CASE 
+                WHEN stats.total_episodes > 0 AND stats.watched_episodes >= stats.total_episodes THEN 'Completed'
+                WHEN stats.watched_episodes > 0 THEN 'In progress'
+                ELSE 'Planning'
+            END,
+            tv.progressed_at = stats.last_watched
+        ");
+
+        $logs[] = "Recomputed TV progress for {$result} shows.";
+        $session->set('admin_import_logs', $logs);
+
+        return $this->json(['status' => 'tv_progress_recomputed', 'logs' => $logs]);
     }
 }

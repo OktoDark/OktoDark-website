@@ -43,9 +43,68 @@
                         </style>
 
                         {% include '@theme/tracker/components/continue_watching.html.twig' %}
-                        <br>
-                        Next
-                        <br>
+
+                        {% if animeList is not empty %}
+                            <div class="card mb-4 shadow-sm border-0">
+                                <div class="card-header fw-semibold">My Anime</div>
+                                <div class="card-body">
+                                    <div id="anime-grid" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-7 g-3">
+
+                                        {% for anime in animeList %}
+                                            {% if loop.index > 7 %}
+                                                <div class="col anime-extra" style="display: none;">
+                                            {% else %}
+                                                <div class="col">
+                                            {% endif %}
+
+                                                    <div class="card h-100 border-0 shadow-sm">
+                                                        {% if anime.coverUrl %}
+                                                            <img src="{{ anime.coverUrl }}" class="card-img-top" alt="{{ anime.title }}" style="aspect-ratio: 2 / 3; object-fit: cover;">
+                                                        {% else %}
+                                                            <div class="bg-secondary d-flex align-items-center justify-content-center" style="aspect-ratio: 2 / 3;">
+                                                                <span class="text-white-50 small">No Image</span>
+                                                            </div>
+                                                        {% endif %}
+
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title text-truncate mb-1">{{ anime.title }}</h6>
+
+                                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                                <span class="badge {{ anime.statusClass }}">{{ anime.statusLabel|capitalize }}</span>
+                                                                <span class="text-muted small">{{ anime.score ?: '—' }}/10</span>
+                                                            </div>
+
+                                                            <div class="text-muted small">
+                                                                {% if anime.releaseDate %}
+                                                                    {{ anime.releaseDate|date('Y') }}
+                                                                {% else %}
+                                                                    —
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        {% endfor %}
+
+                                    </div>
+
+                                    {% if animeList|length > 7 %}
+                                        <div class="text-center mt-3">
+                                            <button id="anime-show-more" class="btn btn-outline-primary btn-sm">
+                                                Show More ({{ animeList|length - 7 }})
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="card mb-4 shadow-sm border-0">
+                                <div class="card-header fw-semibold">My Anime</div>
+                                <div class="card-body">
+                                    <p class="text-muted small">No anime in your list yet.</p>
+                                </div>
+                            </div>
+                        {% endif %}
 
                         {% include '@theme/tracker/components/next_episode.html.twig' %}
                         {% include '@theme/tracker/components/recent_watched.html.twig' %}
@@ -61,16 +120,137 @@
 
     {% block javascripts %}
         {{ parent() }}
-        <<script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const items = [...document.querySelectorAll('.cw-item')];
+                const showMoreTile = document.querySelector('.cw-show-more-tile');
+                const grid = document.getElementById('cw-grid');
+
+                let page = 0;
+                const perPage = 7;
+
+                function renderPage(slideDirection = 0) {
+                    items.forEach((item, index) => {
+                        item.classList.add('cw-hidden');
+                        if (index >= page * perPage && index < (page + 1) * perPage) {
+                            item.classList.remove('cw-hidden');
+                        }
+                    });
+
+                    const hasMore = (page + 1) * perPage < items.length;
+                    showMoreTile.classList.toggle('cw-hidden', !hasMore);
+
+                    // Slide animation
+                    grid.style.transform = `translateX(${slideDirection * -20}px)`;
+                    setTimeout(() => {
+                        grid.style.transform = `translateX(0px)`;
+                    }, 10);
+                }
+
+                document.getElementById('cw-prev').addEventListener('click', () => {
+                    if (page > 0) {
+                        page--;
+                        renderPage(-1);
+                    }
+                });
+
+                document.getElementById('cw-next').addEventListener('click', () => {
+                    const maxPage = Math.floor(items.length / perPage);
+                    if (page < maxPage) {
+                        page++;
+                        renderPage(1);
+                    }
+                });
+
+                showMoreTile.addEventListener('click', () => {
+                    page++;
+                    renderPage(1);
+                    grid.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                });
+
+                renderPage();
+            });
+        </script>
+        <script>
+            let touchStartX = 0;
+
+            grid.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            grid.addEventListener('touchend', (e) => {
+                const touchEndX = e.changedTouches[0].screenX;
+                const diff = touchEndX - touchStartX;
+
+                if (Math.abs(diff) > 50) {
+                    if (diff < 0) {
+                        document.getElementById('cw-next').click();
+                    } else {
+                        document.getElementById('cw-prev').click();
+                    }
+                }
+            });
+        </script>
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const items = [...document.querySelectorAll('.cw-item')];
+                const showMoreTile = document.querySelector('.cw-show-more-tile');
+                const grid = document.getElementById('cw-grid');
+
+                let page = 0;
+                const perPage = 7;
+
+                function renderPage() {
+                    items.forEach((item, index) => {
+                        item.classList.add('cw-hidden');
+                        if (index >= page * perPage && index < (page + 1) * perPage) {
+                            item.classList.remove('cw-hidden');
+                        }
+                    });
+
+                    // Show More tile only if more items exist
+                    const hasMore = (page + 1) * perPage < items.length;
+                    showMoreTile.classList.toggle('cw-hidden', !hasMore);
+
+                    grid.classList.remove('show');
+                    setTimeout(() => grid.classList.add('show'), 10);
+                }
+
+                document.getElementById('cw-prev').addEventListener('click', () => {
+                    if (page > 0) {
+                        page--;
+                        renderPage();
+                    }
+                });
+
+                document.getElementById('cw-next').addEventListener('click', () => {
+                    const maxPage = Math.floor(items.length / perPage);
+                    if (page < maxPage) {
+                        page++;
+                        renderPage();
+                    }
+                });
+
+                showMoreTile.addEventListener('click', () => {
+                    page++;
+                    renderPage();
+                });
+
+                renderPage();
+            });
+        </script>
+
+        <script>
         document.addEventListener('DOMContentLoaded', () => {
 
             const grid = document.getElementById('cw-grid');
             const pagination = document.getElementById('cw-pagination');
 
-            async function refreshContinueWatching() {
+            async function loadContinueWatchingPage(page) {
                 const url = new URL(window.location.href);
-                const cwPage = url.searchParams.get('cwPage') || 1;
-                url.searchParams.set('cwPage', cwPage);
+                url.searchParams.set('cwPage', page);
 
                 const response = await fetch(url);
                 const html = await response.text();
@@ -81,35 +261,27 @@
                 const newGrid = doc.querySelector('#cw-grid');
                 const newPagination = doc.querySelector('#cw-pagination');
 
-                grid.innerHTML = newGrid.innerHTML;
-                pagination.innerHTML = newPagination.innerHTML;
+                if (newGrid && grid) {
+                    grid.innerHTML = newGrid.innerHTML;
+                }
+
+                if (newPagination && pagination) {
+                    pagination.innerHTML = newPagination.innerHTML;
+                }
 
                 attachEvents();
 
-                grid.classList.add('show');
-                pagination.classList.add('show');
+                if (grid) grid.classList.add('show');
+                if (pagination) pagination.classList.add('show');
+            }
+
+            async function refreshContinueWatching() {
+                const url = new URL(window.location.href);
+                const cwPage = url.searchParams.get('cwPage') || 1;
+                await loadContinueWatchingPage(cwPage);
             }
 
             function attachEvents() {
-                // pagination
-                document.querySelectorAll('.cw-nav').forEach(btn => {
-                    btn.addEventListener('click', async (e) => {
-                        e.preventDefault();
-
-                        const page = btn.dataset.page;
-                        if (!page) return;
-
-                        grid.classList.remove('show');
-                        pagination.classList.remove('show');
-
-                        const url = new URL(window.location.href);
-                        url.searchParams.set('cwPage', page);
-                        history.replaceState(null, '', url);
-
-                        await refreshContinueWatching();
-                    });
-                });
-
                 // mark episode watched (auto-advance)
                 document.querySelectorAll('.cw-mark-watched').forEach(btn => {
                     btn.addEventListener('click', async () => {
@@ -126,8 +298,8 @@
                             body: new URLSearchParams({ id, season, episode })
                         });
 
-                        grid.classList.remove('show');
-                        pagination.classList.remove('show');
+                        if (grid) grid.classList.remove('show');
+                        if (pagination) pagination.classList.remove('show');
 
                         await refreshContinueWatching();
 
@@ -153,8 +325,8 @@
                             body: new URLSearchParams({ id, season })
                         });
 
-                        grid.classList.remove('show');
-                        pagination.classList.remove('show');
+                        if (grid) grid.classList.remove('show');
+                        if (pagination) pagination.classList.remove('show');
 
                         await refreshContinueWatching();
 
@@ -179,8 +351,8 @@
                             body: new URLSearchParams({ id })
                         });
 
-                        grid.classList.remove('show');
-                        pagination.classList.remove('show');
+                        if (grid) grid.classList.remove('show');
+                        if (pagination) pagination.classList.remove('show');
 
                         await refreshContinueWatching();
 
@@ -190,73 +362,41 @@
                         }
                     });
                 });
+
+                // pagination
+                document.querySelectorAll('.cw-nav').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const page = parseInt(btn.dataset.page);
+                        if (page && page > 0) {
+                            loadContinueWatchingPage(page);
+                        }
+                    });
+                });
             }
 
-            grid.classList.add('show');
-            pagination.classList.add('show');
+            if (grid) grid.classList.add('show');
+            if (pagination) pagination.classList.add('show');
             attachEvents();
+
+            // Show More / Show Less for Anime
+            const animeBtn = document.getElementById('anime-show-more');
+            if (animeBtn) {
+                animeBtn.addEventListener('click', () => {
+                    const extras = document.querySelectorAll('.anime-extra');
+                    const isHidden = extras[0] && extras[0].style.display === 'none';
+
+                    extras.forEach(el => {
+                        el.style.display = isHidden ? '' : 'none';
+                    });
+
+                    animeBtn.innerText = isHidden
+                        ? 'Show Less'
+                        : 'Show More (' + extras.length + ')';
+                });
+            }
         });
     </script>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-
-                function attachMarkWatchedEvents() {
-                    document.querySelectorAll('.cw-mark-watched').forEach(btn => {
-                        btn.addEventListener('click', async () => {
-
-                            const id = btn.dataset.id;
-                            const season = btn.dataset.season;
-                            const episode = btn.dataset.episode;
-
-                            btn.disabled = true;
-                            btn.innerText = 'Updating...';
-
-                            const response = await fetch('{{ path("app_mark_episode_watched") }}', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                                body: new URLSearchParams({
-                                    id: id,
-                                    season: season,
-                                    episode: episode
-                                })
-                            });
-
-                            const data = await response.json();
-
-                            if (data.success) {
-                                btn.innerText = 'Marked ✔';
-                                btn.classList.remove('btn-primary');
-                                btn.classList.add('btn-success');
-
-                                // Refresh Continue Watching grid via AJAX
-                                const url = new URL(window.location.href);
-                                const cwPage = url.searchParams.get('cwPage') || 1;
-                                url.searchParams.set('cwPage', cwPage);
-
-                                const html = await fetch(url).then(r => r.text());
-                                const parser = new DOMParser();
-                                const doc = parser.parseFromString(html, 'text/html');
-
-                                const newGrid = doc.querySelector('#cw-grid');
-                                const newPagination = doc.querySelector('#cw-pagination');
-
-                                const grid = document.getElementById('cw-grid');
-                                const pagination = document.getElementById('cw-pagination');
-
-                                grid.innerHTML = newGrid.innerHTML;
-                                pagination.innerHTML = newPagination.innerHTML;
-
-                                // Reattach events
-                                attachMarkWatchedEvents();
-                            }
-                        });
-                    });
-                }
-
-                attachMarkWatchedEvents();
-            });
-        </script>
 
         <script>
             (function() {

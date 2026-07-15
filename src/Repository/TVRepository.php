@@ -37,10 +37,6 @@ class TVRepository extends ServiceEntityRepository
 
     /**
      * Retrieve TV shows for the dashboard with optional search and sorting.
-     *
-     * Filters by lowercase title match when a search term is provided, then
-     * orders by the requested field with a consistent secondary sort on
-     * lowercase title for stable pagination.
      */
     public function findDashboardShows(
         User $user,
@@ -88,20 +84,39 @@ class TVRepository extends ServiceEntityRepository
     }
 
     /**
-     * Build a list of shows the user is currently watching.
+     * Build a paginated list of shows the user is currently watching.
      *
-     * Excludes completed shows and maps each result to a DTO containing
-     * metadata, next episode info, watch status, and progress percentage.
+     * Orders by the show's general tracking state and limits performance impact
+     * by executing calculations only on the requested offset chunk.
+     *
+     * @return ContinueWatchingItem[]
      */
-    public function findContinueWatching(User $user): array
+    public function findContinueWatching(User $user, int $offset = 0, int $limit = 7): array
     {
-        $shows = $this->createQueryBuilder('t')
-            ->innerJoin('t.mediaMetadata', 'meta')
+        $qb = $this->createQueryBuilder('t');
+
+        // To prevent empty gaps in pagination, we filter out empty PLANNING shows
+        // directly in DQL using a EXISTS/size subquery.
+        $qb->innerJoin('t.mediaMetadata', 'meta')
             ->addSelect('meta')
             ->where('t.user = :u')
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('t.status', ':statusInProgress'),
+                    $qb->expr()->andX(
+                        $qb->expr()->eq('t.status', ':statusPlanning'),
+                        $qb->expr()->gt('SIZE(t.seasons)', 0) // Only fetch PLANNING shows with seasons
+                    )
+                )
+            )
             ->setParameter('u', $user)
-            ->getQuery()
-            ->getResult();
+            ->setParameter('statusInProgress', WatchStatus::IN_PROGRESS)
+            ->setParameter('statusPlanning', WatchStatus::PLANNING)
+            ->orderBy('t.progressedAt', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        $shows = $qb->getQuery()->getResult();
 
         $items = [];
         $epRepo = $this->episodes();
@@ -110,24 +125,25 @@ class TVRepository extends ServiceEntityRepository
             $showId = $show->getId();
             $meta = $show->getMediaMetadata();
 
-            // Next episode (modern EpisodeService logic)
+            // Next episode details
             $next = $show->getNextEpisode();
             $nextSeason = $next['season'] ?? null;
             $nextEpisode = $next['episode'] ?? null;
 
-            // Episode counts
+            // Episode progress counters
             $watched = $epRepo->countWatchedEpisodesForShow($user, $showId);
             $total = $epRepo->countTotalEpisodesForShow($user, $showId);
 
-            $progressPercent = $total > 0
-                ? (int) round(($watched / $total) * 100)
-                : 0;
+            $isCompleted = ($total > 0 && $watched >= $total);
 
-            $isCompleted = $total > 0 && $watched >= $total;
-
-            if (0 === $total || $isCompleted) {
+            // Skip shows that are fully watched and completed
+            if ($isCompleted) {
                 continue;
             }
+
+            $progressPercent = $total > 0
+                ? (int) min(100, round(($watched / $total) * 100))
+                : 0;
 
             $isInProgress = WatchStatus::IN_PROGRESS === $show->getStatus();
 
@@ -144,6 +160,30 @@ class TVRepository extends ServiceEntityRepository
         }
 
         return $items;
+    }
+
+    /**
+     * Count total "Continue Watching" shows associated with a user.
+     */
+    public function countContinueWatching(User $user): int
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('COUNT(t.id)')
+            ->where('t.user = :user')
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('t.status', ':statusInProgress'),
+                    $qb->expr()->andX(
+                        $qb->expr()->eq('t.status', ':statusPlanning'),
+                        $qb->expr()->gt('SIZE(t.seasons)', 0)
+                    )
+                )
+            )
+            ->setParameter('user', $user)
+            ->setParameter('statusInProgress', WatchStatus::IN_PROGRESS)
+            ->setParameter('statusPlanning', WatchStatus::PLANNING);
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -240,9 +280,6 @@ class TVRepository extends ServiceEntityRepository
 
     /**
      * Identify the user’s most-watched shows ranked by watch time.
-     *
-     * Aggregates watched episodes and their runtime, limiting the result set
-     * and returning structured data for the premium dashboard.
      */
     public function getTopShowsByWatchTime(User $user, int $limit = 5): array
     {
@@ -274,9 +311,6 @@ class TVRepository extends ServiceEntityRepository
 
     /**
      * Determine the user’s most frequent genres ranked by watch volume.
-     *
-     * Aggregates show counts and estimated runtimes per genre, limiting the
-     * result set for the premium dashboard.
      */
     public function getTopGenres(User $user, int $limit = 6): array
     {

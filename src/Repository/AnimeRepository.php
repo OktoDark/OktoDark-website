@@ -11,6 +11,7 @@
 
 namespace App\Repository;
 
+use App\Dto\ContinueWatchingItem;
 use App\Entity\Anime;
 use App\Entity\User;
 use App\Enum\WatchStatus;
@@ -75,6 +76,67 @@ class AnimeRepository extends AbstractMediaRepository
     public function countUserWatchingAnime(User $user): int
     {
         return $this->countUserAnimeByStatus($user, WatchStatus::IN_PROGRESS);
+    }
+
+    /**
+     * Retrieve paginated anime for the "Continue Watching" dashboard section.
+     *
+     * @return ContinueWatchingItem[]
+     */
+    public function findContinueWatching(User $user, int $offset = 0, int $limit = 7): array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->innerJoin('a.mediaMetadata', 'meta')
+            ->addSelect('meta')
+            ->where('a.user = :u')
+            ->andWhere('a.status = :status')
+            ->setParameter('u', $user)
+            ->setParameter('status', WatchStatus::IN_PROGRESS)
+            ->orderBy('a.createdAt', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        $animeList = $qb->getQuery()->getResult();
+
+        $items = [];
+
+        foreach ($animeList as $anime) {
+            $progressPercent = $anime->getProgress();
+            $isCompleted = WatchStatus::COMPLETED === $anime->getStatus();
+            $isInProgress = WatchStatus::IN_PROGRESS === $anime->getStatus();
+
+            if ($isCompleted) {
+                continue;
+            }
+
+            $items[] = new ContinueWatchingItem(
+                tvId: $anime->getId(),
+                title: $anime->getTitle() ?? 'Untitled',
+                coverUrl: $anime->getCoverUrl() ?? '',
+                nextSeason: null,
+                nextEpisode: null,
+                isCompleted: $isCompleted,
+                isInProgress: $isInProgress,
+                progressPercent: $progressPercent
+            );
+        }
+
+        return $items;
+    }
+
+    /**
+     * Count total "Continue Watching" anime associated with a user.
+     */
+    public function countContinueWatching(User $user): int
+    {
+        return (int) $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->where('a.user = :user')
+            ->andWhere('a.status = :status')
+            ->setParameter('user', $user)
+            ->setParameter('status', WatchStatus::IN_PROGRESS)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     /**

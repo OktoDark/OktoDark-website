@@ -51,12 +51,17 @@ class SeasonLifecycleManager
         $seasons = $tv->getSeasons();
         $totalEpisodes = 0;
         $watchedEpisodes = 0;
+        $lastWatched = null;
 
         foreach ($seasons as $season) {
             foreach ($season->getEpisodes() as $ep) {
                 ++$totalEpisodes;
                 if ($ep->isWatched()) {
                     ++$watchedEpisodes;
+                    $endDate = $ep->getEndDate();
+                    if ($endDate && ($lastWatched === null || $endDate > $lastWatched)) {
+                        $lastWatched = $endDate;
+                    }
                 }
             }
         }
@@ -73,6 +78,10 @@ class SeasonLifecycleManager
             $tv->setStatus(WatchStatus::IN_PROGRESS);
         } else {
             $tv->setStatus(WatchStatus::PLANNING);
+        }
+
+        if ($lastWatched) {
+            $tv->setProgressedAt($lastWatched);
         }
     }
 

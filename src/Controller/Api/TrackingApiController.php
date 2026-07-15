@@ -71,6 +71,8 @@ class TrackingApiController extends AbstractController
             $nextEpisode->getEpisodeNumber()
         );
 
+        $this->em->flush();
+
         return new JsonResponse([
             'success' => true,
             'newProgress' => $season->getProgress(),

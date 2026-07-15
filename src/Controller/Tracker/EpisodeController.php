@@ -14,6 +14,7 @@ namespace App\Controller\Tracker;
 use App\Entity\User;
 use App\Repository\EpisodeRepository;
 use App\Service\EpisodeService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,6 +47,7 @@ class EpisodeController extends AbstractController
         int $id,
         EpisodeRepository $episodeRepo,
         EpisodeService $episodeService,
+        EntityManagerInterface $em,
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -62,6 +64,8 @@ class EpisodeController extends AbstractController
             $episode->getEpisodeNumber()
         );
 
+        $em->flush();
+
         return $this->json(['status' => 'episode_watched']);
     }
 
@@ -70,6 +74,7 @@ class EpisodeController extends AbstractController
         int $id,
         EpisodeRepository $episodeRepo,
         EpisodeService $episodeService,
+        EntityManagerInterface $em,
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -84,6 +89,8 @@ class EpisodeController extends AbstractController
             $episode->getRelatedSeason()->getRelatedTv()->getId()
         );
 
+        $em->flush();
+
         return $this->json(['status' => 'episode_unwatched']);
     }
 
@@ -95,6 +102,7 @@ class EpisodeController extends AbstractController
     public function markEpisodeWatched(
         Request $request,
         EpisodeService $episodeService,
+        EntityManagerInterface $em,
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -109,6 +117,8 @@ class EpisodeController extends AbstractController
 
         $episodeService->markEpisodeWatched($user, $showId, $season, $episode);
 
+        $em->flush();
+
         return $this->json(['status' => 'episode_watched']);
     }
 
@@ -116,6 +126,7 @@ class EpisodeController extends AbstractController
     public function markSeasonWatched(
         Request $request,
         EpisodeService $episodeService,
+        EntityManagerInterface $em,
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -129,6 +140,8 @@ class EpisodeController extends AbstractController
 
         $episodeService->markSeasonWatched($user, $showId, $seasonNumber);
 
+        $em->flush();
+
         return $this->json(['status' => 'season_watched']);
     }
 
@@ -136,6 +149,7 @@ class EpisodeController extends AbstractController
     public function undoEpisodeWatched(
         Request $request,
         EpisodeService $episodeService,
+        EntityManagerInterface $em,
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -147,6 +161,8 @@ class EpisodeController extends AbstractController
         }
 
         $episodeService->undoLastWatched($user, $showId);
+
+        $em->flush();
 
         return $this->json(['status' => 'episode_unwatched']);
     }

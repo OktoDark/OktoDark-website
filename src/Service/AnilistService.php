@@ -149,4 +149,94 @@ class AnilistService
 
         return $media ? $this->buildMediaList($media, 1)[0] ?? null : null;
     }
+
+    /**
+     * Title-search AniList for the first matching media of the requested type.
+     *
+     * Used by the metadata backfill to resolve missing external IDs for
+     * anime/manga rows. Returns the raw media node (or null when not found).
+     */
+    public function searchMedia(string $title, string $type, ?int $year = null): ?array
+    {
+        $query = <<<'GRAPHQL'
+        query ($search: String, $type: MediaType, $yearLike: String) {
+            Page(perPage: 1) {
+                media(search: $search, type: $type, startDate_like: $yearLike) {
+                    id
+                    title { romaji english }
+                    description
+                    coverImage { large medium }
+                    bannerImage
+                    averageScore
+                    startDate { year month day }
+                    endDate { year month day }
+                    status
+                    episodes
+                    chapters
+                    volumes
+                    duration
+                    genres
+                    studios { nodes { name } }
+                    siteUrl
+                }
+            }
+        }
+        GRAPHQL;
+
+        $variables = ['search' => $title, 'type' => $type];
+        if ($year > 0) {
+            $variables['yearLike'] = $year.'%';
+        }
+
+        $media = $this->query($query, $variables, 86400);
+
+        return $media[0] ?? null;
+    }
+
+    /**
+     * Normalize a raw AniList media node into the same shape produced by
+     * TmdbService::hydrateMetadata so the backfill command can persist it
+     * uniformly regardless of the source provider.
+     *
+     * @return array<string, mixed>
+     */
+    public function hydrateMetadata(array $data): array
+    {
+        $title = $data['title']['romaji'] ?? $data['title']['english'] ?? null;
+
+        $releaseDate = null;
+        if (!empty($data['startDate']['year'])) {
+            $releaseDate = \sprintf(
+                '%04d-%02d-%02d',
+                (int) $data['startDate']['year'],
+                (int) ($data['startDate']['month'] ?? 1),
+                (int) ($data['startDate']['day'] ?? 1),
+            );
+        }
+
+        $image = $data['coverImage']['large'] ?? $data['coverImage']['medium'] ?? null;
+
+        return [
+            'mediaId' => $data['id'] ?? null,
+            'externalId' => (string) ($data['id'] ?? null),
+
+            'title' => $title,
+            'overview' => $data['description'] ?? null,
+
+            'genres' => $data['genres'] ?? [],
+
+            'runtime' => $data['duration'] ?? null,
+
+            'releaseDate' => $releaseDate,
+
+            'image' => $image,
+            'backdrop' => $data['bannerImage'] ?? '',
+
+            'screenshot' => $image,
+            'cast' => [],
+            'trailer' => null,
+
+            'country' => null,
+        ];
+    }
 }
