@@ -32,7 +32,7 @@ class TvLifecycleManager
                 if ($ep->isWatched()) {
                     ++$watchedEpisodes;
                     $endDate = $ep->getEndDate();
-                    if ($endDate && ($lastWatched === null || $endDate > $lastWatched)) {
+                    if ($endDate && (null === $lastWatched || $endDate > $lastWatched)) {
                         $lastWatched = $endDate;
                     }
                 }

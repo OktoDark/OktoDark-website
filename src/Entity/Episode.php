@@ -115,7 +115,7 @@ class Episode
 
     public function isWatched(): bool
     {
-        return null !== $this->endDate;
+        return WatchStatus::COMPLETED === $this->status;
     }
 
     // ─────────────────────────────────────────────

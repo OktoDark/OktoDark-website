@@ -61,9 +61,9 @@ class TrackerDataController extends AbstractController
             'board_games' => $this->exportBoardGames($em, $user),
         ];
 
-        $json = \json_encode($data, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES);
+        $json = json_encode($data, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES);
 
-        return new StreamedResponse(function () use ($json): void {
+        return new StreamedResponse(static function () use ($json): void {
             echo $json;
         }, 200, [
             'Content-Type' => 'application/json',

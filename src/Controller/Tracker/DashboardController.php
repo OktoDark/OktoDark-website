@@ -56,7 +56,7 @@ class DashboardController extends AbstractController
         // TV Show Continue Watching
         $cwTvPage = $request->query->getInt('cwTvPage', 1);
         $totalTvContinue = $tvRepo->countContinueWatching($user);
-        $cwTvTotalPages = (int) \ceil($totalTvContinue / $cwPerPage);
+        $cwTvTotalPages = (int) ceil($totalTvContinue / $cwPerPage);
         $cwTvPage = max(1, min($cwTvPage, $cwTvTotalPages > 0 ? $cwTvTotalPages : 1));
         $cwTvOffset = ($cwTvPage - 1) * $cwPerPage;
         $continueWatchingTv = $tvRepo->findContinueWatching($user, $cwTvOffset, $cwPerPage);
@@ -64,7 +64,7 @@ class DashboardController extends AbstractController
         // Anime Continue Watching
         $cwAnimePage = $request->query->getInt('cwAnimePage', 1);
         $totalAnimeContinue = $animeRepo->countContinueWatching($user);
-        $cwAnimeTotalPages = (int) \ceil($totalAnimeContinue / $cwPerPage);
+        $cwAnimeTotalPages = (int) ceil($totalAnimeContinue / $cwPerPage);
         $cwAnimePage = max(1, min($cwAnimePage, $cwAnimeTotalPages > 0 ? $cwAnimeTotalPages : 1));
         $cwAnimeOffset = ($cwAnimePage - 1) * $cwPerPage;
         $continueWatchingAnime = $animeRepo->findContinueWatching($user, $cwAnimeOffset, $cwPerPage);
@@ -118,7 +118,7 @@ class DashboardController extends AbstractController
 
         $totalShows = $seasonRepo->countGroupedShows($user, $statusFilter, $searchQuery);
 
-        $lastPage = (int) \ceil($totalShows / $perPage);
+        $lastPage = (int) ceil($totalShows / $perPage);
         $lastPage = max($lastPage, 1);
         $page = max(1, min($page, $lastPage));
         $offset = ($page - 1) * $perPage;
