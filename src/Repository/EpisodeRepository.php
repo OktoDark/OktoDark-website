@@ -56,7 +56,7 @@ class EpisodeRepository extends ServiceEntityRepository
             ->join('s.relatedTv', 't')
             ->join('t.mediaMetadata', 'metaTv')
             ->join('e.mediaMetadata', 'metaEp')
-            ->where('e.id IN (' . $subQuery . ')')
+            ->where('e.id IN ('.$subQuery.')')
             ->setParameter('u', $user)
             ->orderBy('metaEp.releaseDate', 'ASC')
             ->setMaxResults(10)
