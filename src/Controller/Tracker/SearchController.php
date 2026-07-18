@@ -11,9 +11,9 @@
 
 namespace App\Controller\Tracker;
 
+use App\Security\Attribute\Permission;
 use App\Service\TmdbService;
 use App\Service\TvMazeService;
-use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

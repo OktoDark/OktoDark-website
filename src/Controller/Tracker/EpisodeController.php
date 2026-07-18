@@ -13,8 +13,8 @@ namespace App\Controller\Tracker;
 
 use App\Entity\User;
 use App\Repository\EpisodeRepository;
-use App\Service\EpisodeService;
 use App\Security\Attribute\Permission;
+use App\Service\EpisodeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

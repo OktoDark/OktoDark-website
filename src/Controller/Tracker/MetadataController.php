@@ -11,8 +11,8 @@
 
 namespace App\Controller\Tracker;
 
-use App\Service\MetadataEnricher;
 use App\Security\Attribute\Permission;
+use App\Service\MetadataEnricher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
