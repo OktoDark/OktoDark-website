@@ -12,6 +12,7 @@
 namespace App\Controller\Tracker;
 
 use App\Service\MetadataEnricher;
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,6 +20,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class MetadataController extends AbstractController
 {
     #[Route('/metadata/enrich', name: 'metadata_enrich')]
+    #[Permission('tracker.tv.manage')]
     public function enrich(MetadataEnricher $enricher): JsonResponse
     {
         $result = $enricher->enrichMissing();

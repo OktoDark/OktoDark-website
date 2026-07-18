@@ -20,16 +20,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/services')]
-#[Permission('admin.services.index', group: 'Admin', label: 'View Services')]
 class ServicesController extends AbstractController
 {
     /**
      * List services and handle their create/update/delete via the same route.
      *
-     * On POST it persists a new or existing service; a "delete" query parameter
-     * removes a service. Otherwise the full list is rendered.
+     * On POST, it persists a new or existing service; a "delete" query parameter
+     * removes a service. Otherwise, the full list is rendered.
      */
     #[Route('', name: 'admin_services')]
+    #[Permission('admin.services.index')]
     public function index(Request $request, EntityManagerInterface $em): Response
     {
         $repo = $em->getRepository(Services::class);

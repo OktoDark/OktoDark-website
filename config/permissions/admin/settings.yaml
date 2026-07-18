@@ -1,0 +1,27 @@
+manual_permissions:
+    - name: admin.settings.general
+      label: Manage General Settings
+      group: Admin
+      area: admin_settings
+
+    - name: admin.settings.security
+      label: Manage Security Settings
+      group: Admin
+      area: admin_settings
+
+    - name: admin.settings.rbac
+      label: Manage RBAC Settings
+      group: Admin
+      area: admin_settings
+
+    - name: admin.settings.index
+      label: View Settings
+      group: Admin
+      area: admin_settings
+
+roles:
+    ROLE_SUPER_ADMIN:
+        - admin.settings.general
+        - admin.settings.security
+        - admin.settings.rbac
+        - admin.settings.index

@@ -1,0 +1,27 @@
+manual_permissions:
+    - name: notification.view
+      label: View notifications
+      group: Notification
+      area: notification
+
+    - name: notification.fetch_latest
+      label: Fetch latest notifications
+      group: Notification
+      area: notification
+
+    - name: notification.mark_read
+      label: Mark notification as read
+      group: Notification
+      area: notification
+
+    - name: notification.mark_all_read
+      label: Mark all notifications as read
+      group: Notification
+      area: notification
+
+roles:
+    ROLE_USER:
+        - notification.view
+        - notification.fetch_latest
+        - notification.mark_read
+        - notification.mark_all_read

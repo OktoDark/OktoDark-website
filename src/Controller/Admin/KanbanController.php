@@ -32,7 +32,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/kanban', name: 'admin_kanban_')]
-#[Permission('admin.kanban.index', group: 'Admin', label: 'View Kanban')]
 class KanbanController extends AbstractController
 {
     /**
@@ -51,6 +50,7 @@ class KanbanController extends AbstractController
      * Render the Kanban board list with a board creation form and available games.
      */
     #[Route('/', name: 'index')]
+    #[Permission('admin.kanban.index')]
     public function index(): Response
     {
         $boards = $this->boardRepository->findAll();
@@ -71,6 +71,7 @@ class KanbanController extends AbstractController
      * surfaces ORM/DBAL errors as flash messages and redirects to the board list.
      */
     #[Route('/create', name: 'create')]
+    #[Permission('admin.kanban.create')]
     public function create(Request $request): Response
     {
         $board = new Board();
@@ -158,6 +159,7 @@ class KanbanController extends AbstractController
      * messages; on validation failure it reports structured form errors.
      */
     #[Route('/edit/{id}', name: 'edit', requirements: ['id' => '\d+'])]
+    #[Permission('admin.kanban.edit')]
     public function edit(Request $request, Board $board): Response
     {
         $form = $this->createForm(BoardFormType::class, $board);
@@ -206,6 +208,7 @@ class KanbanController extends AbstractController
      * Delete a board after CSRF token validation and redirect to the list.
      */
     #[Route('/delete/{id}', name: 'delete', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[Permission('admin.kanban.delete')]
     public function delete(Request $request, Board $board): Response
     {
         if ($this->isCsrfTokenValid('delete'.$board->getId(), $request->request->get('_token'))) {

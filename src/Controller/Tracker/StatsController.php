@@ -12,17 +12,17 @@
 namespace App\Controller\Tracker;
 
 use App\Entity\User;
+use App\Security\Attribute\Permission;
 use App\Service\StatsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class StatsController extends AbstractController
 {
     #[Route('/tracker/stats', name: 'app_tracker_stats')]
-    #[IsGranted('ROLE_USER')]
+    #[Permission('tracker.stats', group: 'Tracker', label: 'View Tracker Stats')]
     public function index(StatsService $statsService): Response
     {
         /** @var User $user */

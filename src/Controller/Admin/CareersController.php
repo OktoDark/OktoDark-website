@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/careers')]
-#[Permission('admin.careers.index', group: 'Admin', label: 'View Careers')]
 class CareersController extends AbstractController
 {
     /**
@@ -42,6 +41,7 @@ class CareersController extends AbstractController
      * the full list is rendered.
      */
     #[Route('', name: 'admin_careers')]
+    #[Permission('admin.careers.index')]
     public function index(Request $request): Response
     {
         $repo = $this->em->getRepository(Careers::class);
@@ -98,6 +98,7 @@ class CareersController extends AbstractController
      * List all career applications ordered by most recent submission.
      */
     #[Route('/applications', name: 'admin_careers_applications_index')]
+    #[Permission('admin.careers.applications.index')]
     public function applications(): Response
     {
         return $this->render('@theme/admin/careers/index.html.twig', [
@@ -109,6 +110,7 @@ class CareersController extends AbstractController
      * Display a single career application's details.
      */
     #[Route('/applications/{id}', name: 'admin_careers_applications_show')]
+    #[Permission('admin.careers.applications.show')]
     public function showApplication(CareerApplication $application): Response
     {
         return $this->render('@theme/admin/careers/show.html.twig', [
@@ -120,6 +122,7 @@ class CareersController extends AbstractController
      * Update the status of a career application and redirect back to its detail page.
      */
     #[Route('/applications/{id}/status', name: 'admin_careers_applications_status', methods: ['POST'])]
+    #[Permission('admin.careers.applications.status')]
     public function updateApplicationStatus(CareerApplication $application, Request $request): Response
     {
         $status = $request->request->get('status');
@@ -135,6 +138,7 @@ class CareersController extends AbstractController
      * Delete a career application after CSRF token validation and redirect to the list.
      */
     #[Route('/applications/{id}/delete', name: 'admin_careers_applications_delete', methods: ['POST'])]
+    #[Permission('admin.careers.applications.delete')]
     public function deleteApplication(CareerApplication $application, Request $request): Response
     {
         if ($this->isCsrfTokenValid('delete'.$application->getId(), $request->request->get('_token'))) {

@@ -23,7 +23,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/tools')]
-#[Permission('admin.tools.index', group: 'Admin', label: 'View Tools')]
 final class AdminToolsController extends AbstractController
 {
     /**
@@ -66,6 +65,7 @@ final class AdminToolsController extends AbstractController
      * Render the admin terminal view populated with the allowed command list.
      */
     #[Route('/terminal', name: 'admin_tools_terminal', methods: ['GET'])]
+    #[Permission('admin.tools.index')]
     public function terminal(): Response
     {
         return $this->render('@theme/admin/tools/terminal.html.twig', [
@@ -81,6 +81,7 @@ final class AdminToolsController extends AbstractController
      * CommandJobMessage for asynchronous execution, returning the new job ID.
      */
     #[Route('/terminal/run', name: 'admin_tools_terminal_run', methods: ['POST'])]
+    #[Permission('admin.tools.run')]
     public function terminalRun(Request $request, EntityManagerInterface $em): Response
     {
         if (!$this->isCsrfTokenValid('terminal-run', $request->request->get('_token'))) {
@@ -115,6 +116,7 @@ final class AdminToolsController extends AbstractController
      * Return the current status and output of a queued CommandJob as JSON.
      */
     #[Route('/terminal/status/{id}', name: 'admin_tools_terminal_status', methods: ['GET'])]
+    #[Permission('admin.tools.status')]
     public function terminalStatus(string $id, EntityManagerInterface $em): Response
     {
         $job = $em->getRepository(CommandJob::class)->find($id);

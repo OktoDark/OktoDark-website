@@ -1,0 +1,12 @@
+manual_permissions:
+    - name: admin.waitlist.index
+      label: View Registration Waitlist
+      group: Admin
+      area: admin_waitlist
+
+roles:
+    ROLE_ADMIN:
+        - admin.waitlist.index
+
+    ROLE_SUPER_ADMIN:
+        - admin.waitlist.index

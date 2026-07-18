@@ -25,7 +25,6 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/system')]
-#[Permission('admin.system', group: 'Admin', label: 'View System')]
 final class AdminSystemController extends AbstractController
 {
     /**
@@ -45,6 +44,7 @@ final class AdminSystemController extends AbstractController
      * runtime PHP/Symfony configuration for display in the admin health template.
      */
     #[Route('/health', name: 'admin_system_health')]
+    #[Permission('admin.system')]
     public function health(): Response
     {
         $health = [
@@ -70,6 +70,7 @@ final class AdminSystemController extends AbstractController
      * Display the registration control panel with current status and waitlist size.
      */
     #[Route('/registration', name: 'admin_registration_panel')]
+    #[Permission('admin.registration')]
     public function registration(RegistrationWaitlistRepository $waitlistRepo): Response
     {
         return $this->render('@theme/admin/registration_panel.html.twig', [
@@ -82,6 +83,7 @@ final class AdminSystemController extends AbstractController
      * Flip the global registration-enabled setting and redirect back to the panel.
      */
     #[Route('/registration/toggle', name: 'admin_registration_toggle', methods: ['POST'])]
+    #[Permission('admin.registration.toggle')]
     public function toggleRegistration(): RedirectResponse
     {
         $enabled = !$this->settingsProvider->isRegistrationEnabled();
@@ -96,6 +98,7 @@ final class AdminSystemController extends AbstractController
      * Return the current count of active analytics sessions as JSON.
      */
     #[Route('/active-users', name: 'admin_active_users')]
+    #[Permission('admin.active_users')]
     public function activeUsers(AnalyticsSessionRepository $repo): JsonResponse
     {
         $active = $repo->countActiveSessions();
@@ -113,6 +116,7 @@ final class AdminSystemController extends AbstractController
      * sample variables so the layout can be inspected without sending mail.
      */
     #[Route('/email-preview/{templateName}', name: 'admin_email_preview')]
+    #[Permission('admin.email_preview')]
     public function emailPreview(string $templateName): Response
     {
         $pathMap = [

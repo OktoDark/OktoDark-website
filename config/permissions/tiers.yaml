@@ -1,0 +1,61 @@
+manual_permissions:
+    - name: tier.view
+      label: View Tier Features
+      group: Tier
+      area: tier
+
+    - name: tier.i
+      label: Tier I Access
+      group: Tier
+      area: tier
+
+    - name: tier.ii
+      label: Tier II Access
+      group: Tier
+      area: tier
+
+    - name: tier.iii
+      label: Tier III Access
+      group: Tier
+      area: tier
+
+    - name: tier.iv
+      label: Tier IV Access
+      group: Tier
+      area: tier
+
+    - name: tier.v
+      label: Tier V Access
+      group: Tier
+      area: tier
+
+roles:
+    ROLE_TIER_I:
+        - tier.view
+        - tier.i
+
+    ROLE_TIER_II:
+        - tier.view
+        - tier.i
+        - tier.ii
+
+    ROLE_TIER_III:
+        - tier.view
+        - tier.i
+        - tier.ii
+        - tier.iii
+
+    ROLE_TIER_IV:
+        - tier.view
+        - tier.i
+        - tier.ii
+        - tier.iii
+        - tier.iv
+
+    ROLE_TIER_V:
+        - tier.view
+        - tier.i
+        - tier.ii
+        - tier.iii
+        - tier.iv
+        - tier.v

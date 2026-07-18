@@ -1,0 +1,59 @@
+manual_permissions:
+    - name: admin.mods.index
+      label: View Mods
+      group: Admin
+      area: mods_admin
+
+    - name: admin.mods.create
+      label: Create Mods
+      group: Admin
+      area: mods_admin
+
+    - name: admin.mods.edit
+      label: Edit Mods
+      group: Admin
+      area: mods_admin
+
+    - name: admin.mods.delete
+      label: Delete Mods
+      group: Admin
+      area: mods_admin
+
+    - name: admin.mods.gallery
+      label: Manage Gallery
+      group: Admin
+      area: mods_admin
+
+    - name: admin.mods.approve
+      label: Approve Mods
+      group: Admin
+      area: mods_admin
+
+    - name: admin.mods.moderate
+      label: Moderate Mods
+      group: Admin
+      area: mods_admin
+
+    - name: admin.mods.categories
+      label: Manage Categories
+      group: Admin
+      area: mods_admin
+
+roles:
+    ROLE_ADMIN:
+        - admin.mods.index
+        - admin.mods.create
+        - admin.mods.edit
+        - admin.mods.gallery
+        - admin.mods.approve
+        - admin.mods.categories
+
+    ROLE_SUPER_ADMIN:
+        - admin.mods.index
+        - admin.mods.create
+        - admin.mods.edit
+        - admin.mods.delete
+        - admin.mods.gallery
+        - admin.mods.approve
+        - admin.mods.moderate
+        - admin.mods.categories

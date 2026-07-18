@@ -1,0 +1,9 @@
+manual_permissions:
+    - name: creator.access
+      label: Creator Access
+      group: Creator
+      area: creator
+
+roles:
+    ROLE_CONTENT_CREATOR:
+        - creator.access

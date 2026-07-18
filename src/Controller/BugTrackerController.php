@@ -54,12 +54,10 @@ class BugTrackerController extends AbstractController
      * the boards available to the authenticated user. When a game context is
      * present, bugs and boards are scoped to that game and a default bug board
      * may be pre-selected.
-     *
-     * @param OurGames|null $game Optional game context resolved from the slug
      */
     #[Route('/workspace/bugs', name: 'kanban_bugs')]
     #[Route('/workspace/{shortNameSlug}/bugs', name: 'kanban_bugs_project', requirements: ['shortNameSlug' => '[a-zA-Z0-9_-]+'])]
-    #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
+    #[Permission('kanban.bugs.view')]
     public function bugTracker(#[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null): Response
     {
         $users = $this->userRepository->findAll();
@@ -124,12 +122,10 @@ class BugTrackerController extends AbstractController
      *
      * Validates that the bug belongs to the correct project context and
      * renders the bug details template with the resolved bug entity.
-     *
-     * @param OurGames|null $game Optional game context resolved from the slug
      */
     #[Route('/workspace/bugs/details/{id}', name: 'kanban_bug_details', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[Route('/workspace/{shortNameSlug}/bugs/details/{id}', name: 'kanban_bug_details_project', requirements: ['shortNameSlug' => '[a-zA-Z0-9_-]+', 'id' => '\d+'], methods: ['GET'])]
-    #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
+    #[Permission('kanban.bugs.view.details')]
     public function viewBugDetails(Bug $bug, #[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null): Response
     {
         if ($game && $bug->getOurGame() !== $game) {
@@ -149,7 +145,7 @@ class BugTrackerController extends AbstractController
      * Returns the details of a single bug as JSON.
      */
     #[Route('/kanban/api/bugs/{id}', name: 'kanban_api_bug_get', methods: ['GET'])]
-    #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
+    #[Permission('kanban.bugs.view.api')]
     public function getBugApi(Bug $bug): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -184,7 +180,7 @@ class BugTrackerController extends AbstractController
      * Assigns a bug to a user via a PATCH request.
      */
     #[Route('/kanban/api/bugs/{id}/assign', name: 'kanban_api_bug_assign', methods: ['PATCH'])]
-    #[Permission('kanban.bug.assign', group: 'Kanban', label: 'Assign bugs')]
+    #[Permission('kanban.bug.assign')]
     public function assignBugApi(Request $request, Bug $bug): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -228,7 +224,7 @@ class BugTrackerController extends AbstractController
      * Updates the status of a bug via a PATCH request.
      */
     #[Route('/kanban/api/bugs/{id}/status', name: 'kanban_api_bug_status_change', methods: ['PATCH'])]
-    #[Permission('kanban.bug.status', group: 'Kanban', label: 'Change bug status')]
+    #[Permission('kanban.bug.status')]
     public function changeBugStatusApi(Request $request, Bug $bug): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -265,7 +261,7 @@ class BugTrackerController extends AbstractController
      * Creates a new bug report from a submitted form payload.
      */
     #[Route('/kanban/api/bugs', name: 'kanban_api_bugs_create', methods: ['POST'])]
-    #[Permission('kanban.bug.create', group: 'Kanban', label: 'Create bugs')]
+    #[Permission('kanban.bug.create')]
     public function createBugApi(Request $request): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -341,7 +337,7 @@ class BugTrackerController extends AbstractController
      * board, and project context.
      */
     #[Route('/kanban/api/bugs', name: 'kanban_api_bugs_list', methods: ['GET'])]
-    #[Permission('kanban.bugs.view', group: 'Kanban', label: 'View bugs')]
+    #[Permission('kanban.bugs.view.api.list')]
     public function getBugsApi(Request $request): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -426,7 +422,7 @@ class BugTrackerController extends AbstractController
      * Returns a placeholder activity log response for the given entity.
      */
     #[Route('/kanban/api/activity/{entityType}/{entityId}', name: 'kanban_api_activity_log', requirements: ['entityId' => '\d+'], methods: ['GET'])]
-    #[Permission('kanban.activity.view', group: 'Kanban', label: 'View activity log')]
+    #[Permission('kanban.activity.view.api')]
     public function getActivityLogApi(string $entityType, int $entityId): JsonResponse
     {
         return new JsonResponse([
@@ -477,8 +473,6 @@ class BugTrackerController extends AbstractController
 
     /**
      * Retrieves the authenticated user.
-     *
-     * @return User|null the authenticated user, or null if not authenticated
      */
     private function getAuthenticatedUser(): ?User
     {
@@ -492,8 +486,6 @@ class BugTrackerController extends AbstractController
 
     /**
      * Checks if a user is authenticated. If not, returns an unauthorized JsonResponse.
-     *
-     * @return User|JsonResponse the authenticated user, or a JsonResponse if not authenticated
      */
     private function checkAuthentication(): User|JsonResponse
     {

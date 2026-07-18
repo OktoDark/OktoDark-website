@@ -11,6 +11,7 @@
 
 namespace App\Controller\Tracker\Import;
 
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class ImportDashboardController extends AbstractController
 {
     #[Route('/import/dashboard', name: 'app_import_dashboard', methods: ['GET'])]
+    #[Permission('tracker.import.dashboard')]
     public function dashboard(Request $request): Response
     {
         $session = $request->getSession();

@@ -1,0 +1,21 @@
+manual_permissions:
+    - name: moderation.access
+      label: Access Moderation Tools
+      group: Moderation
+      area: moderation
+
+    - name: moderation.comments
+      label: Moderate Comments
+      group: Moderation
+      area: moderation
+
+    - name: moderation.posts
+      label: Moderate Posts
+      group: Moderation
+      area: moderation
+
+roles:
+    ROLE_MODERATOR:
+        - moderation.access
+        - moderation.comments
+        - moderation.posts

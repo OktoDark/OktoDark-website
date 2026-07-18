@@ -13,6 +13,7 @@ namespace App\Controller\Admin;
 
 use App\Repository\AnalyticsPageViewRepository;
 use App\Repository\AnalyticsSessionRepository;
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -27,6 +28,7 @@ class LiveStreamController extends AbstractController
      * headers disabling buffering so the event stream updates in real time.
      */
     #[Route('/live-stream', name: 'admin_live_stream')]
+    #[Permission('admin.live_stream')]
     public function liveStream(
         AnalyticsPageViewRepository $views,
         AnalyticsSessionRepository $sessions,

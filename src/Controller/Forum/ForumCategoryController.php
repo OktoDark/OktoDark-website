@@ -26,13 +26,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/forum')]
-#[Permission('forum.index', group: 'Forum', label: 'View forum')]
 class ForumCategoryController extends AbstractController
 {
     /**
      * List top-level forum categories and aggregate forum statistics for the homepage.
      */
     #[Route('', name: 'forum', methods: ['GET'])]
+    #[Permission('forum.index')]
     public function index(
         ForumCategoryRepository $categoryRepository,
         ForumThreadRepository $threadRepository,
@@ -57,7 +57,7 @@ class ForumCategoryController extends AbstractController
      * Display a paginated and sortable listing of threads within a specific forum category.
      */
     #[Route('/category/{slug}', name: 'forum_category_view', methods: ['GET'])]
-    #[Permission('forum.view.category', group: 'Forum', label: 'View forum categories')]
+    #[Permission('forum.view.category')]
     public function view(
         #[MapEntity(mapping: ['slug' => 'slug'])] ForumCategory $category,
         Request $request,

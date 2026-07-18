@@ -18,6 +18,7 @@ use App\Repository\EpisodeRepository;
 use App\Repository\SeasonRepository;
 use App\Repository\TVRepository;
 use App\Repository\UserMessageRepository;
+use App\Security\Attribute\Permission;
 use App\Service\StatsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,12 +26,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_USER')]
 class DashboardController extends AbstractController
 {
     #[Route('/tracker', name: 'app_tracking_dashboard')]
+    #[Permission('tracker.view')]
     public function index(
         Request $request,
         TVRepository $tvRepo,

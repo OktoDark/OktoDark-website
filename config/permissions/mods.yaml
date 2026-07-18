@@ -1,0 +1,25 @@
+manual_permissions:
+    - name: mods.view
+      label: View Mods
+      group: Mods
+      area: mods
+
+    - name: mods.can.added
+      label: Add Mods
+      group: Mods
+      area: mods
+
+    - name: mods.rate
+      label: Rate Mods
+      group: Mods
+      area: mods
+
+roles:
+    ROLE_USER:
+        - mods.view
+        - mods.rate
+
+    ROLE_MOD_CREATOR:
+        - mods.view
+        - mods.can.added
+        - mods.rate

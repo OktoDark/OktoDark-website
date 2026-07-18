@@ -1,0 +1,12 @@
+manual_permissions:
+    - name: admin.analytics.view
+      label: View Analytics
+      group: Admin
+      area: admin_analytics
+
+roles:
+    ROLE_ADMIN:
+        - admin.analytics.view
+
+    ROLE_SUPER_ADMIN:
+        - admin.analytics.view

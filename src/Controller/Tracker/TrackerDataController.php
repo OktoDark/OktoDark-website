@@ -23,15 +23,14 @@ use App\Entity\Movie;
 use App\Entity\Season;
 use App\Entity\TV;
 use App\Entity\User;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_USER')]
 #[Route('/tracker/data', name: 'app_tracker_data_')]
 class TrackerDataController extends AbstractController
 {
@@ -43,6 +42,7 @@ class TrackerDataController extends AbstractController
      * so the user can back up or migrate their tracking data.
      */
     #[Route('/export', name: 'export', methods: ['GET'])]
+    #[Permission('tracker.export')]
     public function export(Request $request, EntityManagerInterface $em): StreamedResponse
     {
         /** @var User $user */
@@ -79,6 +79,7 @@ class TrackerDataController extends AbstractController
      * dashboard with a success flash message.
      */
     #[Route('/clean', name: 'clean', methods: ['POST'])]
+    #[Permission('tracker.clean')]
     public function clean(Request $request, EntityManagerInterface $em): Response
     {
         /** @var User $user */

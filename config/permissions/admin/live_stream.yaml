@@ -1,0 +1,12 @@
+manual_permissions:
+    - name: admin.live_stream
+      label: View Live Analytics Stream
+      group: Admin
+      area: admin_live_stream
+
+roles:
+    ROLE_ADMIN:
+        - admin.live_stream
+
+    ROLE_SUPER_ADMIN:
+        - admin.live_stream

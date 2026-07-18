@@ -1,0 +1,9 @@
+manual_permissions:
+    - name: admin.schema_check.index
+      label: Run Schema Check
+      group: Admin
+      area: admin_schema
+
+roles:
+    ROLE_SUPER_ADMIN:
+        - admin.schema_check.index

@@ -1,0 +1,25 @@
+manual_permissions:
+    - name: admin.users.view
+      label: View Users
+      group: Admin
+      area: admin_users
+
+    - name: admin.users.manage
+      label: Manage Users
+      group: Admin
+      area: admin_users
+
+    - name: admin.users.ban
+      label: Ban Users
+      group: Admin
+      area: admin_users
+
+roles:
+    ROLE_ADMIN:
+        - admin.users.view
+        - admin.users.manage
+
+    ROLE_SUPER_ADMIN:
+        - admin.users.view
+        - admin.users.manage
+        - admin.users.ban

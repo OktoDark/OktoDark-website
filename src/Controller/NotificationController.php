@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/notifications')]
-#[Permission('notification.view', group: 'Notification', label: 'View notifications')]
 class NotificationController extends AbstractController
 {
     /**
@@ -36,7 +35,7 @@ class NotificationController extends AbstractController
      * Displays the notifications listing for the authenticated user.
      */
     #[Route('/', name: 'notifications_index', methods: ['GET'])]
-    #[Permission('notification.view', group: 'Notification', label: 'View notifications')]
+    #[Permission('notification.view')]
     public function index(): Response
     {
         /** @var User $user */
@@ -55,11 +54,9 @@ class NotificationController extends AbstractController
 
     /**
      * Marks all notifications as read for the authenticated user.
-     *
-     * @return Response|JsonResponse
      */
     #[Route('/mark-all-read', name: 'notifications_mark_all_read', methods: ['POST'])]
-    #[Permission('notification.mark_all_read', group: 'Notification', label: 'Mark all notifications as read')]
+    #[Permission('notification.mark_all_read')]
     public function markAllAsRead(Request $request): Response
     {
         /** @var User $user */
@@ -86,13 +83,9 @@ class NotificationController extends AbstractController
 
     /**
      * Marks a single notification as read for the authenticated user.
-     *
-     * @throws AccessDeniedException If the notification does not belong to the current user
-     *
-     * @return Response|JsonResponse
      */
     #[Route('/{id}/mark-read', name: 'notifications_mark_as_read', methods: ['POST'])]
-    #[Permission('notification.mark_read', group: 'Notification', label: 'Mark notification as read')]
+    #[Permission('notification.mark_read')]
     public function markAsRead(Notification $notification, Request $request): Response
     {
         /** @var User $user */
@@ -120,7 +113,7 @@ class NotificationController extends AbstractController
      * Returns the latest unread notifications for the authenticated user.
      */
     #[Route('/api/latest', name: 'notifications_fetch_latest', methods: ['GET'])]
-    #[Permission('notification.fetch_latest', group: 'Notification', label: 'Fetch latest notifications')]
+    #[Permission('notification.fetch_latest')]
     public function fetchLatest(): JsonResponse
     {
         /** @var User $user */

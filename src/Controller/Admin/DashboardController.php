@@ -30,7 +30,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Permission('admin.dashboard.index', group: 'Admin', label: 'View Dashboard')]
 class DashboardController extends AbstractController
 {
     /**
@@ -55,6 +54,7 @@ class DashboardController extends AbstractController
      * analytics repositories.
      */
     #[Route('/admin', name: 'admin_dashboard')]
+    #[Permission('admin.dashboard.index')]
     public function index(
         AnalyticsSessionRepository $sessionRepo,
         AnalyticsPageViewRepository $pageRepo,

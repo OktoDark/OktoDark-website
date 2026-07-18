@@ -20,17 +20,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/team')]
-#[Permission('admin.team.index', group: 'Admin', label: 'View Team')]
 class TeamController extends AbstractController
 {
     /**
      * List team members and handle their create/update/delete via the same route.
      *
-     * On POST it persists a new or existing member and uploads the team image
+     * On POST, it persists a new or existing member and uploads the team image
      * when provided; a "delete" query parameter removes a member. Otherwise the
      * full team list is rendered.
      */
     #[Route('', name: 'admin_team')]
+    #[Permission('admin.team.index')]
     public function index(Request $request, EntityManagerInterface $em): Response
     {
         $teamRepo = $em->getRepository(Team::class);

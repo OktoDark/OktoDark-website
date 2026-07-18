@@ -1,0 +1,26 @@
+manual_permissions:
+    - name: admin.dashboard.view
+      label: View Admin Dashboard
+      group: Admin
+      area: admin_dashboard
+
+    - name: admin.dashboard.stats
+      label: View System Statistics
+      group: Admin
+      area: admin_dashboard
+
+    - name: admin.dashboard.index
+      label: View Dashboard Home
+      group: Admin
+      area: admin_dashboard
+
+roles:
+    ROLE_ADMIN:
+        - admin.dashboard.view
+        - admin.dashboard.stats
+        - admin.dashboard.index
+
+    ROLE_SUPER_ADMIN:
+        - admin.dashboard.view
+        - admin.dashboard.stats
+        - admin.dashboard.index

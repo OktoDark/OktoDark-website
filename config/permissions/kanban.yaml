@@ -1,0 +1,123 @@
+manual_permissions:
+    - name: kanban.view
+      label: View Kanban
+      group: Kanban
+      area: kanban
+
+    - name: kanban.api
+      label: Access Kanban API
+      group: Kanban
+      area: kanban
+
+    - name: kanban.activity.view
+      label: View activity log
+      group: Kanban
+      area: kanban
+
+    - name: kanban.board.create
+      label: Create boards
+      group: Kanban
+      area: kanban
+
+    - name: kanban.board.edit
+      label: Edit boards
+      group: Kanban
+      area: kanban
+
+    - name: kanban.card.move
+      label: Move cards
+      group: Kanban
+      area: kanban
+
+    - name: kanban.column.create
+      label: Create columns
+      group: Kanban
+      area: kanban
+
+    - name: kanban.column.edit
+      label: Edit columns
+      group: Kanban
+      area: kanban
+
+    - name: kanban.column.reorder
+      label: Reorder columns
+      group: Kanban
+      area: kanban
+
+    - name: kanban.bug.create
+      label: Create bugs
+      group: Kanban
+      area: kanban
+
+    - name: kanban.bug.assign
+      label: Assign bugs
+      group: Kanban
+      area: kanban
+
+    - name: kanban.bug.report
+      label: Report bugs
+      group: Kanban
+      area: kanban
+
+    - name: kanban.bug.status
+      label: Change bug status
+      group: Kanban
+      area: kanban
+
+    - name: kanban.bugs.view
+      label: View bugs
+      group: Kanban
+      area: kanban
+
+    - name: kanban.view.board
+      label: View board
+      group: Kanban
+      area: kanban
+
+    - name: kanban.view.api.board
+      label: View board via API
+      group: Kanban
+      area: kanban
+
+    - name: kanban.bugs.view.details
+      label: View bug details
+      group: Kanban
+      area: kanban
+
+    - name: kanban.bugs.view.api
+      label: View bugs via API
+      group: Kanban
+      area: kanban
+
+    - name: kanban.bugs.view.api.list
+      label: View bug list via API
+      group: Kanban
+      area: kanban
+
+    - name: kanban.activity.view.api
+      label: View activity log via API
+      group: Kanban
+      area: kanban
+
+roles:
+    ROLE_USER:
+        - kanban.view
+        - kanban.api
+        - kanban.activity.view
+        - kanban.board.create
+        - kanban.board.edit
+        - kanban.card.move
+        - kanban.column.create
+        - kanban.column.edit
+        - kanban.column.reorder
+        - kanban.bug.create
+        - kanban.bug.assign
+        - kanban.bug.report
+        - kanban.bug.status
+        - kanban.bugs.view
+        - kanban.view.board
+        - kanban.view.api.board
+        - kanban.bugs.view.details
+        - kanban.bugs.view.api
+        - kanban.bugs.view.api.list
+        - kanban.activity.view.api

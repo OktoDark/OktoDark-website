@@ -16,6 +16,7 @@ use App\Entity\MediaMetadata;
 use App\Enum\WatchStatus;
 use App\Repository\GameRepository;
 use App\Service\MetadataEnricher;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +26,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class GamesController extends AbstractController
 {
     #[Route('/tracker/games', name: 'app_tracker_games')]
+    #[Permission('tracker.games.view')]
     public function index(GameRepository $gameRepo): Response
     {
         $games = $gameRepo->findBy(['user' => $this->getUser()]);
@@ -35,6 +37,7 @@ class GamesController extends AbstractController
     }
 
     #[Route('/tracker/games/add', name: 'app_tracker_games_add', methods: ['POST'])]
+    #[Permission('tracker.games.add')]
     public function add(Request $request, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
@@ -103,6 +106,7 @@ class GamesController extends AbstractController
     }
 
     #[Route('/tracker/games/import/igdb', name: 'app_tracker_games_import_igdb', methods: ['POST'])]
+    #[Permission('tracker.games.import')]
     public function importIgdbGame(
         Request $request,
         MetadataEnricher $enricher,

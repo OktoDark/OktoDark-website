@@ -122,7 +122,7 @@ class UsersController extends AbstractController
     /**
      * Manage a user's role assignments via toggle checkboxes.
      *
-     * On POST it clears the user's role entities and re-adds only those whose
+     * On POST, it clears the user's role entities and re-adds only those whose
      * checkbox was submitted, then persists and redirects back to this page.
      */
     #[Route('/{id}/roles', name: 'admin_user_roles')]

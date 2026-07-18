@@ -1,0 +1,225 @@
+manual_permissions:
+    - name: tracker.view
+      label: View Tracker Dashboard
+      group: Tracker
+      area: tracker
+
+    - name: tracker.view.calendar
+      label: View Tracker Calendar
+      group: Tracker
+      area: tracker
+
+    - name: tracker.view.continue
+      label: View Continue Watching
+      group: Tracker
+      area: tracker
+
+    - name: tracker.view.next
+      label: View Next Episodes
+      group: Tracker
+      area: tracker
+
+    - name: tracker.view.recent
+      label: View Recently Watched
+      group: Tracker
+      area: tracker
+
+    - name: tracker.stats
+      label: View Tracker Stats
+      group: Tracker
+      area: tracker
+
+    - name: tracker.list
+      label: View Tracker List
+      group: Tracker
+      area: tracker
+
+    - name: tracker.list.add
+      label: Add to Tracker List
+      group: Tracker
+      area: tracker
+
+    - name: tracker.list.remove
+      label: Remove from Tracker List
+      group: Tracker
+      area: tracker
+
+    - name: tracker.search
+      label: Search Tracker
+      group: Tracker
+      area: tracker
+
+    - name: tracker.export
+      label: Export Tracker Data
+      group: Tracker
+      area: tracker
+
+    - name: tracker.clean
+      label: Clean Tracker Data
+      group: Tracker
+      area: tracker
+
+    - name: tracker.import.dashboard
+      label: View Import Dashboard
+      group: Tracker
+      area: tracker_import
+
+    - name: tracker.import.tv
+      label: Import TV Shows
+      group: Tracker
+      area: tracker_import
+
+    - name: tracker.movies.view
+      label: View Movies
+      group: Tracker
+      area: tracker_movies
+
+    - name: tracker.movies.add
+      label: Add Movies
+      group: Tracker
+      area: tracker_movies
+
+    - name: tracker.movies.import
+      label: Import Movies
+      group: Tracker
+      area: tracker_movies
+
+    - name: tracker.anime.view
+      label: View Anime
+      group: Tracker
+      area: tracker_anime
+
+    - name: tracker.anime.add
+      label: Add Anime
+      group: Tracker
+      area: tracker_anime
+
+    - name: tracker.anime.update
+      label: Update Anime
+      group: Tracker
+      area: tracker_anime
+
+    - name: tracker.anime.complete
+      label: Complete Anime
+      group: Tracker
+      area: tracker_anime
+
+    - name: tracker.anime.import
+      label: Import Anime
+      group: Tracker
+      area: tracker_anime
+
+    - name: tracker.games.view
+      label: View Games
+      group: Tracker
+      area: tracker_games
+
+    - name: tracker.games.add
+      label: Add Games
+      group: Tracker
+      area: tracker_games
+
+    - name: tracker.games.import
+      label: Import Games
+      group: Tracker
+      area: tracker_games
+
+    - name: tracker.tv.view
+      label: View TV Shows
+      group: Tracker
+      area: tracker_tv
+
+    - name: tracker.tv.manage
+      label: Manage TV Shows
+      group: Tracker
+      area: tracker_tv
+
+    - name: tracker.episode.watch
+      label: Watch Episodes
+      group: Tracker
+      area: tracker_tv
+
+    - name: tracker.episode.unwatch
+      label: Unwatch Episodes
+      group: Tracker
+      area: tracker_tv
+
+    - name: tracker.season.view
+      label: View Seasons
+      group: Tracker
+      area: tracker_tv
+
+    - name: tracker.season.watch
+      label: Watch Seasons
+      group: Tracker
+      area: tracker_tv
+
+    - name: tracker.series.view
+      label: View Series
+      group: Tracker
+      area: tracker_tv
+
+    - name: tracker.manga.view
+      label: View Manga
+      group: Tracker
+      area: tracker_manga
+
+    - name: tracker.comics.view
+      label: View Comics
+      group: Tracker
+      area: tracker_comics
+
+    - name: tracker.books.view
+      label: View Books
+      group: Tracker
+      area: tracker_books
+
+    - name: tracker.boardgames.view
+      label: View Board Games
+      group: Tracker
+      area: tracker_boardgames
+
+    - name: tracker.custom.view
+      label: View Custom Tracker
+      group: Tracker
+      area: tracker_custom
+
+roles:
+    ROLE_USER:
+        - tracker.view
+        - tracker.view.calendar
+        - tracker.view.continue
+        - tracker.view.next
+        - tracker.view.recent
+        - tracker.stats
+        - tracker.list
+        - tracker.list.add
+        - tracker.list.remove
+        - tracker.search
+        - tracker.export
+        - tracker.clean
+        - tracker.import.dashboard
+        - tracker.import.tv
+        - tracker.movies.view
+        - tracker.movies.add
+        - tracker.movies.import
+        - tracker.anime.view
+        - tracker.anime.add
+        - tracker.anime.update
+        - tracker.anime.complete
+        - tracker.anime.import
+        - tracker.games.view
+        - tracker.games.add
+        - tracker.games.import
+        - tracker.tv.view
+        - tracker.tv.manage
+        - tracker.episode.watch
+        - tracker.episode.unwatch
+        - tracker.season.view
+        - tracker.season.watch
+        - tracker.series.view
+        - tracker.manga.view
+        - tracker.comics.view
+        - tracker.books.view
+        - tracker.boardgames.view
+        - tracker.custom.view

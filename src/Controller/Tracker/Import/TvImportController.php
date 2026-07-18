@@ -11,6 +11,7 @@
 
 namespace App\Controller\Tracker\Import;
 
+use App\Security\Attribute\Permission;
 use App\Service\Import\Tv\TvImportService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -22,6 +23,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class TvImportController extends AbstractController
 {
     #[Route('/import/tv', name: 'app_import_tv', methods: ['GET'])]
+    #[Permission('tracker.import.tv')]
     public function index(Request $request): Response
     {
         return $this->render('@theme/tracker/import/tv.html.twig', [
@@ -30,6 +32,7 @@ class TvImportController extends AbstractController
     }
 
     #[Route('/import/tv', name: 'app_import_tv_upload', methods: ['POST'])]
+    #[Permission('tracker.import.tv')]
     public function upload(Request $request, TvImportService $importer): Response
     {
         /** @var UploadedFile[] $files */

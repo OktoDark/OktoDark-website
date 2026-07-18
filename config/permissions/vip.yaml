@@ -1,0 +1,9 @@
+manual_permissions:
+    - name: vip.access
+      label: VIP Access
+      group: VIP
+      area: vip
+
+roles:
+    ROLE_VIP:
+        - vip.access

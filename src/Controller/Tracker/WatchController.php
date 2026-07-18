@@ -14,6 +14,7 @@ namespace App\Controller\Tracker;
 use App\Entity\User;
 use App\Repository\EpisodeRepository;
 use App\Repository\TVRepository;
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -21,6 +22,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class WatchController extends AbstractController
 {
     #[Route('/tracker/watch/continue', name: 'app_tracker_continue')]
+    #[Permission('tracker.view.continue')]
     public function continueWatching(
         TVRepository $tvRepo,
     ): Response {
@@ -33,6 +35,7 @@ class WatchController extends AbstractController
     }
 
     #[Route('/tracker/watch/next', name: 'app_tracker_next')]
+    #[Permission('tracker.view.next')]
     public function nextEpisode(
         EpisodeRepository $episodeRepo,
     ): Response {
@@ -46,6 +49,7 @@ class WatchController extends AbstractController
     }
 
     #[Route('/tracker/watch/recent', name: 'app_tracker_recent')]
+    #[Permission('tracker.view.recent')]
     public function recent(
         EpisodeRepository $episodeRepo,
     ): Response {

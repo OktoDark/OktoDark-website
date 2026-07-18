@@ -1,0 +1,157 @@
+manual_permissions:
+    - name: forum.view
+      label: View Forum
+      group: Forum
+      area: forum
+
+    - name: forum.post
+      label: Create Forum Posts
+      group: Forum
+      area: forum
+
+    - name: forum.reply
+      label: Reply to Posts
+      group: Forum
+      area: forum
+
+    - name: forum.moderate
+      label: Moderate Forum Content
+      group: Moderation
+      area: forum
+
+    - name: forum.index
+      label: View forum
+      group: Forum
+      area: forum
+
+    - name: forum.view.category
+      label: View forum categories
+      group: Forum
+      area: forum
+
+    - name: forum.view.thread
+      label: View threads
+      group: Forum
+      area: forum
+
+    - name: forum.create.category
+      label: Create threads
+      group: Forum
+      area: forum
+
+    - name: forum.edit.post
+      label: Edit forum posts
+      group: Forum
+      area: forum
+
+    - name: forum.delete.post
+      label: Delete forum posts
+      group: Forum
+      area: forum
+
+    - name: forum.edit.thread
+      label: Edit threads
+      group: Forum
+      area: forum
+
+    - name: forum.lock.thread
+      label: Lock threads
+      group: Forum
+      area: forum
+
+    - name: forum.pin.thread
+      label: Pin threads
+      group: Forum
+      area: forum
+
+    - name: forum.delete.thread
+      label: Delete threads
+      group: Forum
+      area: forum
+
+    - name: forum.move.thread
+      label: Move threads
+      group: Forum
+      area: forum
+
+    - name: forum.report.post
+      label: Report forum posts
+      group: Forum
+      area: forum
+
+    - name: forum.accept.answer
+      label: Accept forum answers
+      group: Forum
+      area: forum
+
+    - name: forum.react.post
+      label: React to forum posts
+      group: Forum
+      area: forum
+
+    - name: forum.search
+      label: Search forum
+      group: Forum
+      area: forum
+
+    - name: forum.use.post
+      label: Use post features
+      group: Forum
+      area: forum
+
+    - name: forum.use.feed
+      label: Use feed features
+      group: Forum
+      area: forum
+
+    - name: forum.use.vote
+      label: Use vote features
+      group: Forum
+      area: forum
+
+    - name: forum.use.social
+      label: Use social features
+      group: Forum
+      area: forum
+
+    - name: forum.social.follow
+      label: Follow forum users
+      group: Forum
+      area: forum
+
+    - name: forum.social.subscribe
+      label: Subscribe to forum threads
+      group: Forum
+      area: forum
+
+roles:
+    ROLE_USER:
+        - forum.view
+        - forum.reply
+        - forum.view.category
+        - forum.view.thread
+        - forum.create.category
+        - forum.edit.post
+        - forum.delete.post
+        - forum.edit.thread
+        - forum.report.post
+        - forum.react.post
+        - forum.search
+        - forum.use.post
+        - forum.use.feed
+        - forum.use.vote
+        - forum.use.social
+        - forum.social.follow
+        - forum.social.subscribe
+
+    ROLE_CONTENT_CREATOR:
+        - forum.post
+
+    ROLE_MODERATOR:
+        - forum.moderate
+        - forum.index
+        - forum.lock.thread
+        - forum.pin.thread
+        - forum.delete.thread
+        - forum.move.thread
+        - forum.accept.answer

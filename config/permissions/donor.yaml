@@ -1,0 +1,9 @@
+manual_permissions:
+    - name: donor.access
+      label: Donor Access
+      group: Donor
+      area: donor
+
+roles:
+    ROLE_DONOR:
+        - donor.access

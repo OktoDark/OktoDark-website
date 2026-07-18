@@ -26,14 +26,14 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/forum/post')]
-#[Permission('forum.use.post', group: 'Forum', label: 'Use post features')]
+#[Permission('forum.use.post')]
 final class ForumPostController extends AbstractController
 {
     /**
      * Allow editing a post with authorization checks and content validation.
      */
     #[Route('/edit/{id}', name: 'forum_post_edit', methods: ['GET', 'POST'])]
-    #[Permission('forum.edit.post', group: 'Forum', label: 'Edit forum posts')]
+    #[Permission('forum.edit.post')]
     public function edit(
         ForumPost $post,
         Request $request,
@@ -81,7 +81,7 @@ final class ForumPostController extends AbstractController
      * Soft-delete a forum post after ownership or admin authorization.
      */
     #[Route('/delete/{id}', name: 'forum_post_delete', methods: ['POST'])]
-    #[Permission('forum.delete.post', group: 'Forum', label: 'Delete forum posts')]
+    #[Permission('forum.delete.post')]
     public function delete(ForumPost $post, EntityManagerInterface $em): Response
     {
         /** @var User $currentUser */
@@ -106,7 +106,7 @@ final class ForumPostController extends AbstractController
      * Mark a post as reported and notify moderators.
      */
     #[Route('/report/{id}', name: 'forum_post_report', methods: ['POST'])]
-    #[Permission('forum.report.post', group: 'Forum', label: 'Report forum posts')]
+    #[Permission('forum.report.post')]
     #[IsGranted('IS_AUTHENTICATED_REMEMBERED')]
     public function report(ForumPost $post, EntityManagerInterface $em): Response
     {
@@ -128,7 +128,7 @@ final class ForumPostController extends AbstractController
      * Mark a post as the accepted answer for its thread, adjust reputation, and trigger badge checks.
      */
     #[Route('/accept/{id}', name: 'forum_post_accept', methods: ['POST'])]
-    #[Permission('forum.accept.answer', group: 'Forum', label: 'Accept forum answers')]
+    #[Permission('forum.accept.answer')]
     public function acceptAnswer(ForumPost $post, EntityManagerInterface $em, BadgeService $badgeService): Response
     {
         /** @var User $currentUser */
@@ -172,7 +172,7 @@ final class ForumPostController extends AbstractController
      * Toggle upvote/downvote reactions on a post and update author reputation.
      */
     #[Route('/react/{id}/{type}', name: 'forum_post_react', methods: ['POST'])]
-    #[Permission('forum.react.post', group: 'Forum', label: 'React to forum posts')]
+    #[Permission('forum.react.post')]
     public function react(
         ForumPost $post,
         string $type,

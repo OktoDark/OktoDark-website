@@ -1,0 +1,19 @@
+manual_permissions:
+    - name: admin.registration
+      label: View Registration Panel
+      group: Admin
+      area: admin_registration
+
+    - name: admin.registration.toggle
+      label: Toggle Registration
+      group: Admin
+      area: admin_registration
+
+roles:
+    ROLE_ADMIN:
+        - admin.registration
+        - admin.registration.toggle
+
+    ROLE_SUPER_ADMIN:
+        - admin.registration
+        - admin.registration.toggle

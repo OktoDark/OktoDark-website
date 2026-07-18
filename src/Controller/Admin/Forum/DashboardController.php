@@ -27,7 +27,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/forum')]
-#[Permission('admin.forum.index', group: 'Admin', label: 'View forum')]
 final class DashboardController extends AbstractController
 {
     /**
@@ -46,7 +45,8 @@ final class DashboardController extends AbstractController
      * Display forum dashboard statistics and recent activity.
      */
     #[Route('/dashboard', name: 'admin_forum_dashboard')]
-    #[Route('', name: 'admin_forum_index')]
+    #[Route('', name: 'admin_forum_dashboard_index')]
+    #[Permission('admin.forum.dashboard.index')]
     public function index(): Response
     {
         return $this->render('@theme/admin/forum/dashboard.html.twig', [
@@ -66,7 +66,7 @@ final class DashboardController extends AbstractController
      * Execute forum cleanup tasks: full wipe with auto-increment reset or purge deleted items older than 30 days.
      */
     #[Route('/clean', name: 'admin_forum_clean', methods: ['POST'])]
-    #[Permission('admin.forum.clean', group: 'Admin', label: 'Clean forum data')]
+    #[Permission('admin.forum.dashboard.clean')]
     public function cleanForum(Request $request): Response
     {
         $option = $request->request->get('clean_option');

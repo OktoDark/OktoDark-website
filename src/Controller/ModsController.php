@@ -33,7 +33,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Permission('mods.view', group: 'Mods', label: 'View mods')]
 final class ModsController extends AbstractController
 {
     private const BASE_UPLOAD_DIR = '/public/uploads/mods';
@@ -93,7 +92,7 @@ final class ModsController extends AbstractController
      * Displays the mods listing with search, filters, and pagination.
      */
     #[Route('/mods', name: 'mods', methods: ['GET'])]
-    #[Permission('mods.view', group: 'Mods', label: 'View mods')]
+    #[Permission('mods.view')]
     public function mods(
         Request $request,
         ModsRepository $mods,
@@ -166,11 +165,9 @@ final class ModsController extends AbstractController
 
     /**
      * Creates a new mod entry with banner, thumbnail, and gallery uploads.
-     *
-     * @return Response|JsonResponse
      */
     #[Route('/mods/new', name: 'mods_new', methods: ['GET', 'POST'])]
-    #[Permission('mods.can.added', group: 'Mods', label: 'Add mods')]
+    #[Permission('mods.can.added')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $mod = new Mods();
@@ -276,7 +273,7 @@ final class ModsController extends AbstractController
      * @return JsonResponse
      */
     #[Route('/mods/{id}/rate', name: 'mod_rate', options: ['expose' => true], methods: ['POST'])]
-    #[Permission('mods.rate', group: 'Mods', label: 'Rate mods')]
+    #[Permission('mods.rate')]
     public function rate(
         int $id,
         Request $request,

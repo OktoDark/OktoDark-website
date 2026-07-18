@@ -17,6 +17,7 @@ use App\Enum\WatchStatus;
 use App\Repository\AnimeRepository;
 use App\Service\AnilistService;
 use App\Service\MetadataEnricher;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +27,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class AnimeController extends AbstractController
 {
     #[Route('/tracker/anime', name: 'app_tracker_anime')]
+    #[Permission('tracker.anime.view')]
     public function index(AnimeRepository $animeRepo, AnilistService $anilist): Response
     {
         $anime = $animeRepo->findBy(['user' => $this->getUser()]);
@@ -45,6 +47,7 @@ class AnimeController extends AbstractController
     }
 
     #[Route('/tracker/anime/add', name: 'app_tracker_anime_add', methods: ['POST'])]
+    #[Permission('tracker.anime.add')]
     public function add(Request $request, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
@@ -68,6 +71,7 @@ class AnimeController extends AbstractController
     }
 
     #[Route('/tracker/anime/{id}/update', name: 'app_tracker_anime_update', methods: ['POST'])]
+    #[Permission('tracker.anime.update')]
     public function update(Anime $anime, Request $request, EntityManagerInterface $em): Response
     {
         if ($anime->getUser() !== $this->getUser()) {
@@ -98,6 +102,7 @@ class AnimeController extends AbstractController
     }
 
     #[Route('/tracker/anime/{id}/complete', name: 'app_tracker_anime_complete', methods: ['POST'])]
+    #[Permission('tracker.anime.complete')]
     public function complete(Anime $anime, EntityManagerInterface $em): Response
     {
         if ($anime->getUser() !== $this->getUser()) {
@@ -113,6 +118,7 @@ class AnimeController extends AbstractController
     }
 
     #[Route('/tracker/anime/import/anilist', name: 'app_tracker_anime_import_anilist', methods: ['POST'])]
+    #[Permission('tracker.anime.import')]
     public function importAnilistAnime(
         Request $request,
         MetadataEnricher $enricher,

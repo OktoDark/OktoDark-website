@@ -36,7 +36,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
 class BoardsController extends AbstractController
 {
     public function __construct(
@@ -54,8 +53,6 @@ class BoardsController extends AbstractController
      *
      * Boards are filtered by the authenticated member and an explicit null
      * "ourGame" filter, so only general (non-project) boards are returned.
-     *
-     * @param OurGames|null $game Optional game context (always null on this route)
      */
     #[Route('/workspace/boards', name: 'kanban_index', methods: ['GET'])]
     #[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
@@ -87,13 +84,10 @@ class BoardsController extends AbstractController
      * associated board). The board/game context is validated and access is
      * granted via the "board_view" voter, then the board is reloaded with full
      * column, card and bug details to avoid lazy-loading issues.
-     *
-     * @param OurGames|null $game  Optional game context resolved from the slug
-     * @param Board|null    $board Optional board resolved from the route id
      */
     #[Route('/workspace/boards/{id}', name: 'kanban_board', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[Route('/workspace/{shortNameSlug}/boards/{id?}', name: 'kanban_board_project', requirements: ['shortNameSlug' => '[a-zA-Z0-9_-]+', 'id' => '\d+'], methods: ['GET'])]
-    #[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
+    #[Permission('kanban.view.board')]
     public function viewBoard(
         #[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null,
         ?Board $board = null,
@@ -150,12 +144,9 @@ class BoardsController extends AbstractController
      * an associated Bug entity. Validates both entities and links the bug to the
      * game supplied in the payload (falling back to the board's game). Persistence
      * errors are normalised through handleDatabaseException().
-     *
-     * @param Request $request The incoming JSON HTTP request
-     * @param Board   $board   The board the bug card is added to
      */
     #[Route('/kanban/api/boards/{id}/report-bug', name: 'kanban_api_board_report_bug', requirements: ['id' => '\d+'], methods: ['POST'])]
-    #[Permission('kanban.bug.report', group: 'Kanban', label: 'Report bugs')]
+    #[Permission('kanban.bug.report')]
     public function reportBugApi(Request $request, Board $board): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -287,12 +278,9 @@ class BoardsController extends AbstractController
      *
      * Validates the column (title required) and appends it at the end of the
      * board's columns. Requires "board_edit" permission.
-     *
-     * @param Request $request The incoming JSON HTTP request
-     * @param Board   $board   The board the column is added to
      */
     #[Route('/kanban/api/boards/{id}/columns', name: 'kanban_api_board_add_column', requirements: ['id' => '\d+'], methods: ['POST'])]
-    #[Permission('kanban.column.create', group: 'Kanban', label: 'Create columns')]
+    #[Permission('kanban.column.create')]
     public function addColumnApi(Request $request, Board $board): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -348,12 +336,9 @@ class BoardsController extends AbstractController
      *
      * Updates the column title (after validating the board association and
      * "board_edit" permission) and stamps the updated time.
-     *
-     * @param Request     $request The incoming JSON HTTP request
-     * @param BoardColumn $column  The column being renamed
      */
     #[Route('/kanban/api/columns/{id}', name: 'kanban_api_column_update_title', requirements: ['id' => '\d+'], methods: ['PATCH'])]
-    #[Permission('kanban.column.edit', group: 'Kanban', label: 'Edit columns')]
+    #[Permission('kanban.column.edit')]
     public function updateColumnTitleApi(Request $request, BoardColumn $column): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -410,12 +395,9 @@ class BoardsController extends AbstractController
      * Accepts an ordered list of column ids and applies the new positions to
      * the board's columns. Columns not belonging to the board are rejected.
      * Requires "board_edit" permission.
-     *
-     * @param Request $request The incoming JSON HTTP request
-     * @param Board   $board   The board whose columns are reordered
      */
     #[Route('/kanban/api/boards/{id}/columns/reorder', name: 'kanban_api_board_columns_reorder', requirements: ['id' => '\d+'], methods: ['PATCH'])]
-    #[Permission('kanban.column.reorder', group: 'Kanban', label: 'Reorder columns')]
+    #[Permission('kanban.column.reorder')]
     public function reorderColumnsApi(Request $request, Board $board): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -467,12 +449,9 @@ class BoardsController extends AbstractController
      * Validates the target column belongs to the same board (requires
      * "board_view"). Moving a card into a "done/completed/closed" column is
      * blocked while the card still has unresolved bugs via KanbanBugSyncService.
-     *
-     * @param Request $request The incoming JSON HTTP request
-     * @param Card    $card    The card being moved
      */
     #[Route('/kanban/api/cards/{id}/move', name: 'kanban_api_cards_move', requirements: ['id' => '\d+'], methods: ['PATCH'])]
-    #[Permission('kanban.card.move', group: 'Kanban', label: 'Move cards')]
+    #[Permission('kanban.card.move')]
     public function moveCardApi(Request $request, Card $card): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -544,11 +523,9 @@ class BoardsController extends AbstractController
      *
      * Supports optional filtering by game slug. Boards are resolved through
      * BoardRepository::findFiltered using the authenticated member as a filter.
-     *
-     * @param Request $request The incoming HTTP request
      */
     #[Route('/kanban/api/boards', name: 'kanban_api_boards_list', methods: ['GET'])]
-    #[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
+    #[Permission('kanban.view.api.board')]
     public function getBoardsApi(Request $request): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -599,12 +576,9 @@ class BoardsController extends AbstractController
      * Submits the JSON payload to the board form (without clearing missing
      * fields), validates it, and persists changes. Requires "board_edit"
      * permission; the OurGames association is handled by the form.
-     *
-     * @param Request $request The incoming JSON HTTP request
-     * @param Board   $board   The board being updated
      */
     #[Route('/kanban/api/boards/{id}', name: 'kanban_api_boards_update', requirements: ['id' => '\d+'], methods: ['PUT'])]
-    #[Permission('kanban.board.edit', group: 'Kanban', label: 'Edit boards')]
+    #[Permission('kanban.board.edit')]
     public function updateBoardApi(Request $request, Board $board): JsonResponse
     {
         $authResult = $this->checkAuthentication();
@@ -659,11 +633,9 @@ class BoardsController extends AbstractController
      * Validates the submitted board form, creates the board with a default
      * "To Do" column, and persists both. Requires "kanban.board.create"
      * permission; the authenticated user becomes the board owner.
-     *
-     * @param Request $request The incoming JSON HTTP request
      */
     #[Route('/kanban/api/boards', name: 'kanban_api_boards_create', methods: ['POST'])]
-    #[Permission('kanban.board.create', group: 'Kanban', label: 'Create boards')]
+    #[Permission('kanban.board.create')]
     public function createBoardApi(Request $request): JsonResponse
     {
         $board = new Board();
@@ -745,11 +717,9 @@ class BoardsController extends AbstractController
      *
      * Requires "board_view" permission. The owner is always listed first as
      * "isOwner", followed by the remaining board members.
-     *
-     * @param Board $board The board whose members are returned
      */
     #[Route('/kanban/api/boards/{id}/members/current', name: 'kanban_api_board_members_current', requirements: ['id' => '\d+'], methods: ['GET'])]
-    #[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
+    #[Permission('kanban.view.api.board')]
     public function getBoardMembersApi(Board $board): JsonResponse
     {
         $authResult = $this->checkAuthentication();

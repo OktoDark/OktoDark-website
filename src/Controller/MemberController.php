@@ -42,7 +42,7 @@ final class MemberController extends AbstractController
      */
     #[Route('/', name: 'member_area', methods: ['GET'])]
     #[Cache(smaxage: 10)]
-    #[Permission('member.view.area', group: 'Member', label: 'View member area')]
+    #[Permission('member.view.area')]
     public function member(OurGamesRepository $ourGames): Response
     {
         return $this->render('@theme/member/member.html.twig', [
@@ -54,7 +54,7 @@ final class MemberController extends AbstractController
      * Displays the play-online games page for members.
      */
     #[Route('/play_online', name: 'play_online', methods: ['GET'])]
-    #[Permission('member.play_online', group: 'Member', label: 'Play online')]
+    #[Permission('member.play_online')]
     public function memberGames(OurGamesRepository $ourGames): Response
     {
         $games = $ourGames->findAll();
@@ -73,7 +73,7 @@ final class MemberController extends AbstractController
      * separate validated forms.
      */
     #[Route('/settings', name: 'settings_area', methods: ['GET', 'POST'])]
-    #[Permission('member.settings', group: 'Member', label: 'View member settings')]
+    #[Permission('member.settings')]
     public function settings(
         Request $request,
         EntityManagerInterface $em,
@@ -260,7 +260,7 @@ final class MemberController extends AbstractController
      * Clears all recent activity records for the authenticated user.
      */
     #[Route('/settings/activity/clear', name: 'settings_activity_clear', methods: ['POST'])]
-    #[Permission('member.activity.clear', group: 'Member', label: 'Activity Clear')]
+    #[Permission('member.activity.clear')]
     public function clearActivity(
         AccountActivityRepository $repo,
     ): Response {
@@ -278,11 +278,9 @@ final class MemberController extends AbstractController
 
     /**
      * Deletes a trusted device for the authenticated user.
-     *
-     * @throws AccessDeniedException If the device does not belong to the current user
      */
     #[Route('/settings/trusted-devices/delete/{id}', name: 'trusted_device_delete')]
-    #[Permission('member.devices.delete', group: 'Member', label: 'Delete trusted devices')]
+    #[Permission('member.devices.delete')]
     public function deleteDevice(
         TrustedDevice $device,
         TrustedDeviceService $service,
@@ -302,11 +300,9 @@ final class MemberController extends AbstractController
 
     /**
      * Removes a trusted device for the authenticated user.
-     *
-     * @throws AccessDeniedException If the device does not belong to the current user
      */
     #[Route('/settings/devices/remove/{id}', name: 'settings_devices_remove')]
-    #[Permission('member.devices.remove', group: 'Member', label: 'Remove devices')]
+    #[Permission('member.devices.remove')]
     public function removeDevice(
         TrustedDevice $device,
         TrustedDeviceService $service,

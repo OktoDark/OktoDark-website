@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/forum/moderation-logs')]
-#[Permission('admin.forum.moderation-logs.index', group: 'Admin', label: 'View forum moderation logs')]
 final class ModerationLogController extends AbstractController
 {
     /**
@@ -33,6 +32,7 @@ final class ModerationLogController extends AbstractController
      * Render the forum moderation log listing ordered by most recent activity.
      */
     #[Route('/', name: 'admin_forum_moderation_logs')]
+    #[Permission('admin.forum.moderation-logs.index')]
     public function index(): Response
     {
         return $this->render('@theme/admin/forum/moderation_logs.html.twig', [

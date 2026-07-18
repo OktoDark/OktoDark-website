@@ -1,0 +1,33 @@
+manual_permissions:
+    - name: admin.our_games.index
+      label: Manage Our Games
+      group: Admin
+      area: admin_our_games
+
+    - name: admin.our_games.create
+      label: Create Our Game
+      group: Admin
+      area: admin_our_games
+
+    - name: admin.our_games.edit
+      label: Edit Our Game
+      group: Admin
+      area: admin_our_games
+
+    - name: admin.our_games.delete
+      label: Delete Our Game
+      group: Admin
+      area: admin_our_games
+
+roles:
+    ROLE_ADMIN:
+        - admin.our_games.index
+        - admin.our_games.create
+        - admin.our_games.edit
+        - admin.our_games.delete
+
+    ROLE_SUPER_ADMIN:
+        - admin.our_games.index
+        - admin.our_games.create
+        - admin.our_games.edit
+        - admin.our_games.delete

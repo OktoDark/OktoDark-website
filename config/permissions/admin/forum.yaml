@@ -1,0 +1,143 @@
+manual_permissions:
+    # Dashboard
+    - name: admin.forum.dashboard.index
+      label: View Dashboard Forum
+      group: Admin
+      area: forum_admin
+
+    - name: admin.forum.dashboard.clean
+      label: Access Forum Clear
+      group: Admin
+      area: forum_admin
+
+    # Badges
+    - name: admin.forum.badges.index
+      label: Manage Forum Badges
+      group: Admin
+      area: forum_admin
+
+    # Moderation Logs
+    - name: admin.forum.moderation-logs.index
+      label: View forum moderation logs
+      group: Admin
+      area: forum_admin
+
+    # Post
+    - name: admin.forum.posts.index
+      label: View forum posts
+      group: Admin
+      area: forum_admin
+
+    - name: admin.forum.posts.reports
+      label: View forum posts reports
+      group: Admin
+      area: forum_admin
+
+    - name: admin.forum.posts.dismiss_report
+      label: View forum posts dismiss report
+      group: Admin
+      area: forum_admin
+
+    - name: admin.forum.posts.delete
+      label: Delete forum posts
+      group: Admin
+      area: forum_admin
+
+    # Thread
+    - name: admin.forum.threads.index
+      label: View forum threads
+      group: Admin
+      area: forum_admin
+
+    # Categories
+    - name: admin.forum.categories.index
+      label: Manage Forum Categories
+      group: Admin
+      area: forum_admin
+
+    - name: admin.forum.categories.create
+      label: Create Forum Categories
+      group: Admin
+      area: forum_admin
+
+    - name: admin.forum.categories.edit
+      label: Edit Forum Categories
+      group: Admin
+      area: forum_admin
+
+    - name: admin.forum.categories.delete
+      label: Delete Forum Categories
+      group: Admin
+      area: forum_admin
+
+    - name: admin.forum.moderation
+      label: Moderate Forum Content
+      group: Admin
+      area: forum_admin
+
+    - name: admin.forum.moderation-logs.index
+      label: View forum moderation logs
+      group: Admin
+      area: forum_admin
+
+    # Thread
+    - name: admin.forum.threads.lock
+      label: Lock/unlock forum threads
+      group: Admin
+      area: forum_admin
+
+    - name: admin.forum.threads.pin
+      label: Pin/unpin forum threads
+      group: Admin
+      area: forum_admin
+
+    - name: admin.forum.threads.restore
+      label: Restore forum threads
+      group: Admin
+      area: forum_admin
+
+    - name: admin.forum.threads.delete
+      label: Delete forum threads
+      group: Admin
+      area: forum_admin
+
+roles:
+    ROLE_ADMIN:
+        - admin.forum.dashboard.index
+        - admin.forum.dashboard.clean
+        - admin.forum.badges.index
+        - admin.forum.categories.index
+        - admin.forum.categories.create
+        - admin.forum.categories.edit
+        - admin.forum.categories.delete
+        - admin.forum.moderation
+        - admin.forum.moderation-logs.index
+        - admin.forum.posts.index
+        - admin.forum.posts.reports
+        - admin.forum.posts.dismiss_report
+        - admin.forum.posts.delete
+        - admin.forum.threads.index
+        - admin.forum.threads.lock
+        - admin.forum.threads.pin
+        - admin.forum.threads.restore
+        - admin.forum.threads.delete
+
+    ROLE_SUPER_ADMIN:
+        - admin.forum.dashboard.index
+        - admin.forum.dashboard.clean
+        - admin.forum.badges.index
+        - admin.forum.categories.index
+        - admin.forum.categories.create
+        - admin.forum.categories.edit
+        - admin.forum.categories.delete
+        - admin.forum.moderation
+        - admin.forum.moderation-logs.index
+        - admin.forum.posts.index
+        - admin.forum.posts.reports
+        - admin.forum.posts.dismiss_report
+        - admin.forum.posts.delete
+        - admin.forum.threads.index
+        - admin.forum.threads.lock
+        - admin.forum.threads.pin
+        - admin.forum.threads.restore
+        - admin.forum.threads.delete

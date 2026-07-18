@@ -16,6 +16,7 @@ use App\Repository\SeasonRepository;
 use App\Repository\TVRepository;
 use App\Service\TmdbService;
 use App\Service\TvMazeService;
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -23,6 +24,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class TvShowController extends AbstractController
 {
     #[Route('/tracker/tv/{id}', name: 'app_tracking_tv_show')]
+    #[Permission('tracker.tv.view')]
     public function show(
         int $id,
         TVRepository $tvRepo,

@@ -1,0 +1,12 @@
+manual_permissions:
+    - name: admin.team.index
+      label: Manage Team
+      group: Admin
+      area: admin_team
+
+roles:
+    ROLE_ADMIN:
+        - admin.team.index
+
+    ROLE_SUPER_ADMIN:
+        - admin.team.index

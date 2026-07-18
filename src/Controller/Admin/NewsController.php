@@ -22,13 +22,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/news')]
-#[Permission('admin.news.index', group: 'Admin', label: 'View News')]
 class NewsController extends AbstractController
 {
     /**
      * List all news articles ordered by most recent creation date.
      */
     #[Route('/', name: 'admin_news_index')]
+    #[Permission('admin.news.index')]
     public function index(NewsRepository $repo): Response
     {
         return $this->render('@theme/admin/news/index.html.twig', [
@@ -40,6 +40,7 @@ class NewsController extends AbstractController
      * Create a new news article and redirect to the list on success.
      */
     #[Route('/new', name: 'admin_news_new')]
+    #[Permission('admin.news.create')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $news = new News();
@@ -64,6 +65,7 @@ class NewsController extends AbstractController
      * Edit an existing news article and redirect to the list on success.
      */
     #[Route('/edit/{id}', name: 'admin_news_edit')]
+    #[Permission('admin.news.edit')]
     public function edit(News $news, Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(NewsType::class, $news);
@@ -85,6 +87,7 @@ class NewsController extends AbstractController
      * Delete a news article and redirect to the list.
      */
     #[Route('/delete/{id}', name: 'admin_news_delete')]
+    #[Permission('admin.news.delete')]
     public function delete(News $news, EntityManagerInterface $em): Response
     {
         $em->remove($news);

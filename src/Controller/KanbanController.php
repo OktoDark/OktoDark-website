@@ -16,7 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
 class KanbanController extends AbstractController
 {
     /**
@@ -30,7 +29,7 @@ class KanbanController extends AbstractController
      * Returns the Kanban API base response.
      */
     #[Route('/kanban/api', name: 'kanban_api_base', methods: ['GET'])]
-    #[Permission('kanban.api', group: 'Kanban', label: 'Access Kanban API')]
+    #[Permission('kanban.api')]
     public function apiBase(): JsonResponse
     {
         return new JsonResponse(['message' => 'Kanban API Base']);

@@ -20,17 +20,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/assets')]
-#[Permission('admin.assets.index', group: 'Admin', label: 'View Assets')]
 class AssetsController extends AbstractController
 {
     /**
      * List assets and handle their create/update/delete via the same route.
      *
-     * On POST it decodes the JSON-array attributes (brand, hairtype, clothing,
+     * On POST, it decodes the JSON-array attributes (brand, hairtype, clothing,
      * etc.) from the request and persists a new or existing asset. A "delete"
-     * query parameter removes an asset. Otherwise the full list is rendered.
+     * query parameter removes an asset. Otherwise, the full list is rendered.
      */
     #[Route('', name: 'admin_assets')]
+    #[Permission('admin.assets.index')]
     public function index(Request $request, EntityManagerInterface $em): Response
     {
         $repo = $em->getRepository(Assets::class);

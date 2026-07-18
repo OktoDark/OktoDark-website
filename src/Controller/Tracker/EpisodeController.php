@@ -14,6 +14,7 @@ namespace App\Controller\Tracker;
 use App\Entity\User;
 use App\Repository\EpisodeRepository;
 use App\Service\EpisodeService;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class EpisodeController extends AbstractController
 {
     #[Route('/tracker/episode/{id}', name: 'app_tracker_episode')]
+    #[Permission('tracker.episode.watch')]
     public function show(int $id, EpisodeRepository $episodeRepo): Response
     {
         /** @var User $user */
@@ -43,6 +45,7 @@ class EpisodeController extends AbstractController
     }
 
     #[Route('/tracker/episode/{id}/watch', name: 'app_tracker_episode_watch', methods: ['POST'])]
+    #[Permission('tracker.episode.watch')]
     public function watch(
         int $id,
         EpisodeRepository $episodeRepo,
@@ -70,6 +73,7 @@ class EpisodeController extends AbstractController
     }
 
     #[Route('/tracker/episode/{id}/unwatch', name: 'app_tracker_episode_unwatch', methods: ['POST'])]
+    #[Permission('tracker.episode.unwatch')]
     public function unwatch(
         int $id,
         EpisodeRepository $episodeRepo,
@@ -99,6 +103,7 @@ class EpisodeController extends AbstractController
      * fetch('{{ path("app_mark_episode_watched") }}', { method: 'POST', body: { id, season, episode } }).
      */
     #[Route('/tracker/episode/mark-watched', name: 'app_mark_episode_watched', methods: ['POST'])]
+    #[Permission('tracker.episode.watch')]
     public function markEpisodeWatched(
         Request $request,
         EpisodeService $episodeService,
@@ -123,6 +128,7 @@ class EpisodeController extends AbstractController
     }
 
     #[Route('/tracker/season/mark-watched', name: 'app_mark_season_watched', methods: ['POST'])]
+    #[Permission('tracker.season.watch')]
     public function markSeasonWatched(
         Request $request,
         EpisodeService $episodeService,
@@ -146,6 +152,7 @@ class EpisodeController extends AbstractController
     }
 
     #[Route('/tracker/episode/undo-watched', name: 'app_undo_episode_watched', methods: ['POST'])]
+    #[Permission('tracker.episode.unwatch')]
     public function undoEpisodeWatched(
         Request $request,
         EpisodeService $episodeService,

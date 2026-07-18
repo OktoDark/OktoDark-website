@@ -24,7 +24,6 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/contact')]
-#[Permission('admin.contact.index', group: 'Admin', label: 'View Contact')]
 class AdminContactController extends AbstractController
 {
     /**
@@ -35,6 +34,7 @@ class AdminContactController extends AbstractController
      * the ContactRepository search helpers.
      */
     #[Route('/', name: 'admin_contact_index', methods: ['GET'])]
+    #[Permission('admin.contact.index')]
     public function index(Request $request, ContactRepository $repo): Response
     {
         // 1. Read query params

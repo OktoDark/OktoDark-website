@@ -1,0 +1,45 @@
+manual_permissions:
+    - name: admin.roles.view
+      label: View Roles
+      group: Admin
+      area: admin_roles
+
+    - name: admin.roles.manage
+      label: Manage Roles
+      group: Admin
+      area: admin_roles
+
+    - name: admin.roles.index
+      label: View Roles List
+      group: Admin
+      area: admin_roles
+
+    - name: admin.roles.create
+      label: Create Role
+      group: Admin
+      area: admin_roles
+
+    - name: admin.roles.edit
+      label: Edit Role
+      group: Admin
+      area: admin_roles
+
+    - name: admin.roles.permissions
+      label: Manage Role Permissions
+      group: Admin
+      area: admin_roles
+
+    - name: admin.roles.refresh_permissions
+      label: Refresh Permissions Cache
+      group: Admin
+      area: admin_roles
+
+roles:
+    ROLE_SUPER_ADMIN:
+        - admin.roles.view
+        - admin.roles.manage
+        - admin.roles.index
+        - admin.roles.create
+        - admin.roles.edit
+        - admin.roles.permissions
+        - admin.roles.refresh_permissions

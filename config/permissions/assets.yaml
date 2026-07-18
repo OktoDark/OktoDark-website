@@ -1,0 +1,9 @@
+manual_permissions:
+    - name: assets_index
+      label: View assets
+      group: Assets
+      area: assets
+
+roles:
+    ROLE_USER:
+        - assets_index

@@ -23,7 +23,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/forum/post')]
-#[Permission('admin.forum.posts.index', group: 'Admin', label: 'View forum posts')]
 final class PostController extends AbstractController
 {
     /**
@@ -40,6 +39,7 @@ final class PostController extends AbstractController
      * List forum posts with optional filters for reported posts and author username.
      */
     #[Route('/', name: 'admin_forum_posts')]
+    #[Permission('admin.forum.posts.index')]
     public function index(Request $request): Response
     {
         $reported = $request->query->get('reported');
@@ -71,6 +71,7 @@ final class PostController extends AbstractController
      * Alias for the posts index filtered to show only reported posts.
      */
     #[Route('/reports', name: 'admin_forum_reports')]
+    #[Permission('admin.forum.posts.reports')]
     public function reports(): Response
     {
         // Alias for index with reported=1
@@ -81,7 +82,7 @@ final class PostController extends AbstractController
      * Dismiss a report against a post and log the moderator action.
      */
     #[Route('/dismiss-report/{id}', name: 'admin_forum_post_dismiss_report')]
-    #[Permission('admin.forum.posts.dismiss_report', group: 'Admin', label: 'Dismiss post reports')]
+    #[Permission('admin.forum.posts.dismiss_report')]
     public function dismissReport(ForumPost $post): Response
     {
         $post->setReported(false);
@@ -99,7 +100,7 @@ final class PostController extends AbstractController
      * Permanently delete a post after CSRF validation and log the moderator action.
      */
     #[Route('/delete/{id}', name: 'admin_forum_post_delete', methods: ['POST'])]
-    #[Permission('admin.forum.posts.delete', group: 'Admin', label: 'Delete forum posts')]
+    #[Permission('admin.forum.posts.delete')]
     public function delete(ForumPost $post, Request $request): Response
     {
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {

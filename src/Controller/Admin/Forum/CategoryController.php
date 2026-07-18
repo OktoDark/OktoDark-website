@@ -23,7 +23,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[Route('/admin/forum/category')]
-#[Permission('admin.forum.categories.index', group: 'Admin', label: 'View Forum Categories')]
 final class CategoryController extends AbstractController
 {
     /**
@@ -39,6 +38,7 @@ final class CategoryController extends AbstractController
      * Render the forum category listing ordered by position.
      */
     #[Route('/', name: 'admin_forum_categories')]
+    #[Permission('admin.forum.categories.index')]
     public function index(): Response
     {
         return $this->render('@theme/admin/forum/categories.html.twig', [
@@ -50,7 +50,7 @@ final class CategoryController extends AbstractController
      * Create a new forum category using the dedicated form type.
      */
     #[Route('/create', name: 'admin_forum_category_create')]
-    #[Permission('admin.forum.categories.create', group: 'Admin', label: 'Create forum categories')]
+    #[Permission('admin.forum.categories.create')]
     public function create(Request $request): Response
     {
         $category = new ForumCategory();
@@ -83,7 +83,7 @@ final class CategoryController extends AbstractController
      * Edit an existing forum category and update its slug if missing.
      */
     #[Route('/edit/{id}', name: 'admin_forum_category_edit')]
-    #[Permission('admin.forum.categories.edit', group: 'Admin', label: 'Edit forum categories')]
+    #[Permission('admin.forum.categories.edit')]
     public function edit(
         ForumCategory $category,
         Request $request,
@@ -116,7 +116,7 @@ final class CategoryController extends AbstractController
      * Permanently delete a forum category.
      */
     #[Route('/delete/{id}', name: 'admin_forum_category_delete', methods: ['POST'])]
-    #[Permission('admin.forum.categories.delete', group: 'Admin', label: 'Delete forum categories')]
+    #[Permission('admin.forum.categories.delete')]
     public function delete(
         ForumCategory $category,
     ): Response {

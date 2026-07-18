@@ -20,7 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/settings')]
-#[Permission('admin.settings.index', group: 'Admin', label: 'View Settings')]
 class SettingsController extends AbstractController
 {
     /**
@@ -31,6 +30,7 @@ class SettingsController extends AbstractController
      * forum settings (signatures, uploads, polls, embeds, post rate limit).
      */
     #[Route('', name: 'admin_settings')]
+    #[Permission('admin.settings.index')]
     public function settings(Request $request, EntityManagerInterface $em): Response
     {
         // Load the single settings row

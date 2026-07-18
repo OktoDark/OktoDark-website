@@ -1,0 +1,26 @@
+manual_permissions:
+    - name: admin.tools.index
+      label: View Admin Tools
+      group: Admin
+      area: admin_tools
+
+    - name: admin.tools.run
+      label: Run Admin Tools
+      group: Admin
+      area: admin_tools
+
+    - name: admin.tools.status
+      label: View Admin Tool Status
+      group: Admin
+      area: admin_tools
+
+roles:
+    ROLE_ADMIN:
+        - admin.tools.index
+        - admin.tools.run
+        - admin.tools.status
+
+    ROLE_SUPER_ADMIN:
+        - admin.tools.index
+        - admin.tools.run
+        - admin.tools.status

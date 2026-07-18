@@ -1,0 +1,12 @@
+manual_permissions:
+    - name: admin.contact.index
+      label: View Contact Messages
+      group: Admin
+      area: admin_contact
+
+roles:
+    ROLE_ADMIN:
+        - admin.contact.index
+
+    ROLE_SUPER_ADMIN:
+        - admin.contact.index

@@ -15,6 +15,7 @@ use App\Entity\MediaMetadata;
 use App\Entity\TV;
 use App\Entity\User;
 use App\Repository\TVRepository;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class ListController extends AbstractController
 {
     #[Route('/tracker/list', name: 'app_tracker_list')]
+    #[Permission('tracker.list')]
     public function index(Request $request, TVRepository $tvRepo): Response
     {
         /** @var User $user */
@@ -49,6 +51,7 @@ class ListController extends AbstractController
     }
 
     #[Route('/tracker/list/add/{metaId}', name: 'app_tracker_list_add', methods: ['POST'])]
+    #[Permission('tracker.list.add')]
     public function add(int $metaId, EntityManagerInterface $em): Response
     {
         /** @var User $user */
@@ -67,6 +70,7 @@ class ListController extends AbstractController
     }
 
     #[Route('/tracker/list/remove/{id}', name: 'app_tracker_list_remove', methods: ['POST'])]
+    #[Permission('tracker.list.remove')]
     public function remove(int $id, TVRepository $tvRepo, EntityManagerInterface $em): Response
     {
         $tv = $tvRepo->find($id);

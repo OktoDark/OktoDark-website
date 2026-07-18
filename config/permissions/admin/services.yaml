@@ -1,0 +1,12 @@
+manual_permissions:
+    - name: admin.services.index
+      label: Manage Services
+      group: Admin
+      area: admin_services
+
+roles:
+    ROLE_ADMIN:
+        - admin.services.index
+
+    ROLE_SUPER_ADMIN:
+        - admin.services.index

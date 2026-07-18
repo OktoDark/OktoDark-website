@@ -15,6 +15,7 @@ use App\Entity\User;
 use App\Repository\EpisodeRepository;
 use App\Repository\SeasonRepository;
 use App\Service\EpisodeService;
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,6 +23,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class SeasonController extends AbstractController
 {
     #[Route('/tracker/season/{id}', name: 'app_tracker_season')]
+    #[Permission('tracker.season.view')]
     public function show(
         int $id,
         SeasonRepository $seasonRepo,

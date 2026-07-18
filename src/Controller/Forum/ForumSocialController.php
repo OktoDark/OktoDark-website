@@ -26,7 +26,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/forum/social')]
-#[Permission('forum.use.social', group: 'Forum', label: 'Use social features')]
+#[Permission('forum.use.social')]
 final class ForumSocialController extends AbstractController
 {
     /**
@@ -45,7 +45,7 @@ final class ForumSocialController extends AbstractController
      * Toggle follow/unfollow status for a user, send notifications and emails based on preferences.
      */
     #[Route('/follow/{id}', name: 'forum_user_follow', methods: ['POST'])]
-    #[Permission('forum.social.follow', group: 'Forum', label: 'Follow forum users')]
+    #[Permission('forum.social.follow')]
     public function followUser(User $user): Response
     {
         /** @var User $currentUser */
@@ -112,7 +112,7 @@ final class ForumSocialController extends AbstractController
      * Toggle subscription status for a thread and persist changes.
      */
     #[Route('/subscribe/{id}', name: 'forum_thread_subscribe', methods: ['POST'])]
-    #[Permission('forum.social.subscribe', group: 'Forum', label: 'Subscribe to forum threads')]
+    #[Permission('forum.social.subscribe')]
     public function subscribeThread(ForumThread $thread): Response
     {
         /** @var User $currentUser */

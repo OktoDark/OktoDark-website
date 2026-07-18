@@ -38,7 +38,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 #[Route('/forum/thread')]
-#[Permission('forum.view.thread', group: 'Forum', label: 'View threads')]
 final class ForumThreadController extends AbstractController
 {
     /**
@@ -57,6 +56,7 @@ final class ForumThreadController extends AbstractController
      * Display a thread with paginated posts, handle new post submissions, send email notifications, parse mentions, and check automated badges.
      */
     #[Route('/view/{slug}', name: 'forum_thread_view', methods: ['GET', 'POST'])]
+    #[Permission('forum.view.thread')]
     public function view(
         #[MapEntity(mapping: ['slug' => 'slug'])] ForumThread $thread,
         Request $request,
@@ -176,7 +176,7 @@ final class ForumThreadController extends AbstractController
      * Create a new forum thread within a category, handling form submission, slug generation, and optional poll attachment.
      */
     #[Route('/create/{category}', name: 'forum_thread_create', methods: ['GET', 'POST'])]
-    #[Permission('forum.create.category', group: 'Forum', label: 'Create threads')]
+    #[Permission('forum.create.category')]
     public function create(
         ForumCategory $category,
         Request $request,
@@ -230,7 +230,7 @@ final class ForumThreadController extends AbstractController
      * Edit an existing thread after verifying author or admin privileges.
      */
     #[Route('/edit/{id}', name: 'forum_thread_edit', methods: ['GET', 'POST'])]
-    #[Permission('forum.edit.thread', group: 'Forum', label: 'Edit threads')]
+    #[Permission('forum.edit.thread')]
     public function edit(
         ForumThread $thread,
         Request $request,
@@ -267,7 +267,7 @@ final class ForumThreadController extends AbstractController
      * Toggle thread lock status and notify subscribers of status change.
      */
     #[Route('/lock/{id}', name: 'forum_thread_lock')]
-    #[Permission('forum.lock.thread', group: 'Forum', label: 'Lock threads')]
+    #[Permission('forum.lock.thread')]
     public function lock(ForumThread $thread, EntityManagerInterface $em, ForumNotificationService $notifier): Response
     {
         $thread->setLocked(!$thread->isLocked());
@@ -284,7 +284,7 @@ final class ForumThreadController extends AbstractController
      * Toggle thread pinned status and notify subscribers of status change.
      */
     #[Route('/pin/{id}', name: 'forum_thread_pin')]
-    #[Permission('forum.pin.thread', group: 'Forum', label: 'Pin threads')]
+    #[Permission('forum.pin.thread')]
     public function pin(ForumThread $thread, EntityManagerInterface $em, ForumNotificationService $notifier): Response
     {
         $thread->setPinned(!$thread->isPinned());
@@ -301,7 +301,7 @@ final class ForumThreadController extends AbstractController
      * Soft-delete a thread after verifying author or admin privileges.
      */
     #[Route('/delete/{id}', name: 'forum_thread_delete', methods: ['POST'])]
-    #[Permission('forum.delete.thread', group: 'Forum', label: 'Delete threads')]
+    #[Permission('forum.delete.thread')]
     public function delete(ForumThread $thread, EntityManagerInterface $em): Response
     {
         /** @var User $user */
@@ -325,7 +325,7 @@ final class ForumThreadController extends AbstractController
      * Move a thread to a different category.
      */
     #[Route('/move/{id}/{categoryId}', name: 'forum_thread_move')]
-    #[Permission('forum.move.thread', group: 'Forum', label: 'Move threads')]
+    #[Permission('forum.move.thread')]
     public function move(
         ForumThread $thread,
         #[MapEntity(id: 'categoryId')] ForumCategory $category,

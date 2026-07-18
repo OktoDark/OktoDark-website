@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Permission('admin.waitlist.index', group: 'Admin', label: 'View Waitlist')]
 class WaitlistController extends AbstractController
 {
     /**
@@ -38,6 +37,7 @@ class WaitlistController extends AbstractController
      * List registration waitlist entries ordered by most recent submission.
      */
     #[Route('/admin/waitlist', name: 'admin_waitlist_index')]
+    #[Permission('admin.waitlist.index')]
     public function index(): Response
     {
         $entries = $this->waitlistRepo->findBy([], ['createdAt' => 'DESC']);

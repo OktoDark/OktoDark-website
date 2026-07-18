@@ -1,0 +1,51 @@
+manual_permissions:
+    - name: member.view.area
+      label: View member area
+      group: Member
+      area: member
+
+    - name: member.play_online
+      label: Play online
+      group: Member
+      area: member
+
+    - name: member.settings
+      label: View member settings
+      group: Member
+      area: member
+
+    - name: member.profile.edit
+      label: Edit profile
+      group: Member
+      area: member
+
+    - name: member.password.change
+      label: Change password
+      group: Member
+      area: member
+
+    - name: member.activity.clear
+      label: Activity Clear
+      group: Member
+      area: member
+
+    - name: member.devices.delete
+      label: Delete trusted devices
+      group: Member
+      area: member
+
+    - name: member.devices.remove
+      label: Remove devices
+      group: Member
+      area: member
+
+roles:
+    ROLE_USER:
+        - member.view.area
+        - member.play_online
+        - member.settings
+        - member.profile.edit
+        - member.password.change
+        - member.activity.clear
+        - member.devices.delete
+        - member.devices.remove

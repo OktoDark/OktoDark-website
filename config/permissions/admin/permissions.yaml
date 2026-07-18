@@ -1,0 +1,33 @@
+manual_permissions:
+    - name: admin.permissions.view
+      label: View Permissions
+      group: Admin
+      area: admin_permissions
+
+    - name: admin.permissions.manage
+      label: Manage Permissions
+      group: Admin
+      area: admin_permissions
+
+    - name: admin.permission_groups.index
+      label: View Permission Groups
+      group: Admin
+      area: admin_permissions
+
+    - name: admin.permission_groups.create
+      label: Create Permission Group
+      group: Admin
+      area: admin_permissions
+
+    - name: admin.permission_groups.edit
+      label: Edit Permission Group
+      group: Admin
+      area: admin_permissions
+
+roles:
+    ROLE_SUPER_ADMIN:
+        - admin.permissions.view
+        - admin.permissions.manage
+        - admin.permission_groups.index
+        - admin.permission_groups.create
+        - admin.permission_groups.edit

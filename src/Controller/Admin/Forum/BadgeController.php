@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/forum/badges')]
-#[Permission('admin.forum.badges.index', group: 'Admin', label: 'View Forum Badges')]
 final class BadgeController extends AbstractController
 {
     /**
@@ -37,7 +36,7 @@ final class BadgeController extends AbstractController
      * List all badges and handle badge creation, update, or deletion from the same form.
      */
     #[Route('', name: 'admin_badges')]
-    #[Permission('admin.forum.badges.manage', group: 'Admin', label: 'Manage Forum Badges')]
+    #[Permission('admin.forum.badges.index')]
     public function index(Request $request): Response
     {
         // Handle CREATE or UPDATE

@@ -11,6 +11,7 @@
 
 namespace App\Controller\Tracker;
 
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,6 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class BoardgamesController extends AbstractController
 {
     #[Route('/tracker/boardgames', name: 'app_tracker_boardgames')]
+    #[Permission('tracker.boardgames.view')]
     public function index(): Response
     {
         return $this->render('@theme/tracker/boardgames/index.html.twig');

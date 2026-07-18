@@ -33,7 +33,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/mods')]
-#[Permission('admin.mods.index', group: 'Admin', label: 'View Mods')]
 class AdminModsController extends AbstractController
 {
     private const BASE_UPLOAD_DIR = '/public/uploads/mods';
@@ -54,6 +53,7 @@ class AdminModsController extends AbstractController
      * Display the mod listing with associated categories.
      */
     #[Route('/', name: 'admin_mods_index', methods: ['GET'])]
+    #[Permission('admin.mods.index')]
     public function index(ModsRepository $modsRepository, ModCategoryRepository $categoryRepo): Response
     {
         return $this->render('@theme/admin/mods/index.html.twig', [
@@ -105,6 +105,7 @@ class AdminModsController extends AbstractController
      * Handle creation of a new mod via AJAX form submission, uploading banner and gallery assets.
      */
     #[Route('/new', name: 'admin_mods_new', methods: ['GET', 'POST'])]
+    #[Permission('admin.mods.create')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $mod = new Mods();
@@ -208,6 +209,7 @@ class AdminModsController extends AbstractController
      * Handle editing of an existing mod via AJAX form submission, replacing banner and gallery assets.
      */
     #[Route('/{id}/edit', name: 'admin_mods_edit', methods: ['GET', 'POST'])]
+    #[Permission('admin.mods.edit')]
     public function edit(Request $request, int $id, ModsRepository $modsRepository, EntityManagerInterface $em): Response
     {
         $mod = $modsRepository->findWithAuthor($id);
@@ -313,6 +315,7 @@ class AdminModsController extends AbstractController
      * Permanently remove a mod and its associated upload directory after CSRF validation.
      */
     #[Route('/{id}', name: 'admin_mods_delete', methods: ['POST'])]
+    #[Permission('admin.mods.delete')]
     public function delete(Request $request, Mods $mod, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$mod->getId(), $request->request->get('_token'))) {
@@ -336,6 +339,7 @@ class AdminModsController extends AbstractController
      * Remove a specific gallery image file and update the mod entity’s gallery array.
      */
     #[Route('/gallery/delete', name: 'admin_mods_gallery_delete', methods: ['POST'])]
+    #[Permission('admin.mods.gallery')]
     public function galleryDelete(Request $request, ModsRepository $modsRepository, EntityManagerInterface $em): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -376,6 +380,7 @@ class AdminModsController extends AbstractController
      * Reorder a mod’s gallery images by replacing the ordered array payload.
      */
     #[Route('/gallery/reorder', name: 'admin_mods_gallery_reorder', methods: ['POST'])]
+    #[Permission('admin.mods.gallery')]
     public function galleryReorder(Request $request, ModsRepository $modsRepository, EntityManagerInterface $em): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -399,6 +404,7 @@ class AdminModsController extends AbstractController
      * Render the mod category manager page.
      */
     #[Route('/categories/manager', name: 'admin_mod_category_manager')]
+    #[Permission('admin.mods.categories')]
     public function categoryManager(ModCategoryRepository $repo): Response
     {
         return $this->render('@theme/admin/mods/manager.html.twig', [
@@ -410,6 +416,7 @@ class AdminModsController extends AbstractController
      * Create a new mod category with an optional uploaded image.
      */
     #[Route('/categories/create', name: 'admin_mod_category_create', methods: ['POST'])]
+    #[Permission('admin.mods.categories')]
     public function categoryCreate(Request $request, EntityManagerInterface $em): JsonResponse
     {
         $name = mb_trim($request->request->get('name'));
@@ -455,6 +462,7 @@ class AdminModsController extends AbstractController
      * Update an existing category name and replace its image when a new one is uploaded.
      */
     #[Route('/categories/{id}/edit', name: 'admin_mod_category_edit', methods: ['POST'])]
+    #[Permission('admin.mods.categories')]
     public function categoryEdit(ModCategory $category, Request $request, EntityManagerInterface $em): JsonResponse
     {
         $name = mb_trim($request->request->get('name'));
@@ -505,6 +513,7 @@ class AdminModsController extends AbstractController
      * Delete a category and remove its associated image file.
      */
     #[Route('/categories/{id}/delete', name: 'admin_mod_category_delete', methods: ['POST'])]
+    #[Permission('admin.mods.categories')]
     public function categoryDelete(ModCategory $category, EntityManagerInterface $em): JsonResponse
     {
         // Delete image file

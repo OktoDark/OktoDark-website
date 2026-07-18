@@ -1,0 +1,40 @@
+manual_permissions:
+    - name: admin.careers.index
+      label: View Careers
+      group: Admin
+      area: admin_careers
+
+    - name: admin.careers.applications.index
+      label: View Career Applications
+      group: Admin
+      area: admin_careers
+
+    - name: admin.careers.applications.show
+      label: View Career Application
+      group: Admin
+      area: admin_careers
+
+    - name: admin.careers.applications.status
+      label: Update Application Status
+      group: Admin
+      area: admin_careers
+
+    - name: admin.careers.applications.delete
+      label: Delete Application
+      group: Admin
+      area: admin_careers
+
+roles:
+    ROLE_ADMIN:
+        - admin.careers.index
+        - admin.careers.applications.index
+        - admin.careers.applications.show
+        - admin.careers.applications.status
+        - admin.careers.applications.delete
+
+    ROLE_SUPER_ADMIN:
+        - admin.careers.index
+        - admin.careers.applications.index
+        - admin.careers.applications.show
+        - admin.careers.applications.status
+        - admin.careers.applications.delete

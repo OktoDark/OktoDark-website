@@ -20,13 +20,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/forum/feed')]
-#[Permission('forum.use.feed', group: 'Forum', label: 'Use feed features')]
 final class ForumFeedController extends AbstractController
 {
     /**
      * Render personalized activity feed for the authenticated user, including followed users' threads and subscribed thread replies.
      */
     #[Route('', name: 'forum_feed', methods: ['GET'])]
+    #[Permission('forum.feed')]
     public function index(ForumThreadRepository $threadRepo, ForumPostRepository $postRepo): Response
     {
         /** @var User $user */

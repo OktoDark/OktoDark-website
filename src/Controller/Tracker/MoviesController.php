@@ -18,6 +18,7 @@ use App\Enum\WatchStatus;
 use App\Repository\MovieRepository;
 use App\Service\MetadataEnricher;
 use App\Service\TmdbService;
+use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class MoviesController extends AbstractController
 {
     #[Route('/tracker/movies', name: 'app_tracker_movies')]
+    #[Permission('tracker.movies.view')]
     public function index(MovieRepository $movieRepo, TmdbService $tmdb): Response
     {
         /** @var User $user */
@@ -49,6 +51,7 @@ class MoviesController extends AbstractController
     }
 
     #[Route('/tracker/movies/add', name: 'app_tracker_movies_add', methods: ['POST'])]
+    #[Permission('tracker.movies.add')]
     public function add(Request $request, EntityManagerInterface $em): Response
     {
         /** @var User $user */
@@ -193,6 +196,7 @@ class MoviesController extends AbstractController
     }
 
     #[Route('/tracker/movies/import/tmdb', name: 'app_tracker_movies_import_tmdb', methods: ['POST'])]
+    #[Permission('tracker.movies.import')]
     public function importTmdbMovie(
         Request $request,
         MetadataEnricher $enricher,

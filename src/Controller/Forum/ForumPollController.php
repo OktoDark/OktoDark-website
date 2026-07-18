@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/forum/poll')]
-#[Permission('forum.use.vote', group: 'Forum', label: 'Use vote features')]
+#[Permission('forum.use.vote')]
 final class ForumPollController extends AbstractController
 {
     /**

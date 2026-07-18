@@ -1,0 +1,58 @@
+manual_permissions:
+    - name: blog.view
+      label: View Blog
+      group: Blog
+      area: blog
+
+    - name: blog.post
+      label: Create Blog Posts
+      group: Blog
+      area: blog
+
+    - name: blog.edit
+      label: Edit Blog Posts
+      group: Blog
+      area: blog
+
+    - name: blog.view.post
+      label: View blog posts
+      group: Blog
+      area: blog
+
+    - name: blog.create.post
+      label: Create blog posts
+      group: Blog
+      area: blog
+
+    - name: blog.edit.post
+      label: Edit blog posts
+      group: Blog
+      area: blog
+
+    - name: blog.delete.post
+      label: Delete blog posts
+      group: Blog
+      area: blog
+
+    - name: blog.comment
+      label: Comment on blog posts
+      group: Blog
+      area: blog
+
+    - name: blog.search
+      label: Search blog posts
+      group: Blog
+      area: blog
+
+roles:
+    ROLE_USER:
+        - blog.view
+        - blog.create.post
+        - blog.edit.post
+        - blog.delete.post
+        - blog.comment
+        - blog.search
+
+    ROLE_CONTENT_CREATOR:
+        - blog.post
+        - blog.edit

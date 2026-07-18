@@ -1,0 +1,19 @@
+manual_permissions:
+    - name: admin.blog.posts.manage
+      label: Manage Blog Posts
+      group: Admin
+      area: blog_admin
+
+    - name: admin.blog.categories.manage
+      label: Manage Blog Categories
+      group: Admin
+      area: blog_admin
+
+roles:
+    ROLE_ADMIN:
+        - admin.blog.posts.manage
+        - admin.blog.categories.manage
+
+    ROLE_SUPER_ADMIN:
+        - admin.blog.posts.manage
+        - admin.blog.categories.manage

@@ -1,0 +1,15 @@
+manual_permissions:
+    - name: admin.security.audit
+      label: View Audit Logs
+      group: Admin
+      area: admin_security
+
+    - name: admin.security.firewall
+      label: Manage Firewall Rules
+      group: Admin
+      area: admin_security
+
+roles:
+    ROLE_SUPER_ADMIN:
+        - admin.security.audit
+        - admin.security.firewall

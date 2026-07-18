@@ -1,0 +1,47 @@
+manual_permissions:
+    - name: admin.kanban.view
+      label: View Kanban Board
+      group: Admin
+      area: admin_kanban
+
+    - name: admin.kanban.manage
+      label: Manage Kanban Board
+      group: Admin
+      area: admin_kanban
+
+    - name: admin.kanban.index
+      label: View Kanban Board List
+      group: Admin
+      area: admin_kanban
+
+    - name: admin.kanban.create
+      label: Create Kanban Board
+      group: Admin
+      area: admin_kanban
+
+    - name: admin.kanban.edit
+      label: Edit Kanban Board
+      group: Admin
+      area: admin_kanban
+
+    - name: admin.kanban.delete
+      label: Delete Kanban Board
+      group: Admin
+      area: admin_kanban
+
+roles:
+    ROLE_ADMIN:
+        - admin.kanban.view
+        - admin.kanban.manage
+        - admin.kanban.index
+        - admin.kanban.create
+        - admin.kanban.edit
+        - admin.kanban.delete
+
+    ROLE_SUPER_ADMIN:
+        - admin.kanban.view
+        - admin.kanban.manage
+        - admin.kanban.index
+        - admin.kanban.create
+        - admin.kanban.edit
+        - admin.kanban.delete

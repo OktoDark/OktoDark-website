@@ -34,7 +34,7 @@ final class UserController extends AbstractController
      * Edits the current user's profile information.
      */
     #[Route('/edit', name: 'user_edit', methods: ['GET', 'POST'])]
-    #[Permission('member.profile.edit', group: 'Member', label: 'Edit profile')]
+    #[Permission('member.profile.edit')]
     public function edit(
         #[CurrentUser] User $user,
         Request $request,
@@ -61,7 +61,7 @@ final class UserController extends AbstractController
      * Handles the current user's password change request.
      */
     #[Route('/change-password', name: 'user_change_password', methods: ['GET', 'POST'])]
-    #[Permission('member.password.change', group: 'Member', label: 'Change password')]
+    #[Permission('member.password.change')]
     public function changePassword(
         #[CurrentUser] User $user,
         Request $request,

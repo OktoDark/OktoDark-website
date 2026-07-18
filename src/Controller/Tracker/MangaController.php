@@ -11,6 +11,7 @@
 
 namespace App\Controller\Tracker;
 
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,6 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class MangaController extends AbstractController
 {
     #[Route('/tracker/manga', name: 'app_tracker_manga')]
+    #[Permission('tracker.manga.view')]
     public function index(): Response
     {
         return $this->render('@theme/tracker/manga/index.html.twig');

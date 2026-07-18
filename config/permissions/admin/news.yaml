@@ -1,0 +1,33 @@
+manual_permissions:
+    - name: admin.news.index
+      label: View News
+      group: Admin
+      area: admin_news
+
+    - name: admin.news.create
+      label: Create News
+      group: Admin
+      area: admin_news
+
+    - name: admin.news.edit
+      label: Edit News
+      group: Admin
+      area: admin_news
+
+    - name: admin.news.delete
+      label: Delete News
+      group: Admin
+      area: admin_news
+
+roles:
+    ROLE_ADMIN:
+        - admin.news.index
+        - admin.news.create
+        - admin.news.edit
+        - admin.news.delete
+
+    ROLE_SUPER_ADMIN:
+        - admin.news.index
+        - admin.news.create
+        - admin.news.edit
+        - admin.news.delete

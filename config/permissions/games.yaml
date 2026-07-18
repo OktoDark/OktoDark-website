@@ -1,0 +1,15 @@
+manual_permissions:
+    - name: games.view
+      label: View games
+      group: Games
+      area: games
+
+    - name: games.view.details
+      label: View game details
+      group: Games
+      area: games
+
+roles:
+    ROLE_USER:
+        - games.view
+        - games.view.details

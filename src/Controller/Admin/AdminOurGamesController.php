@@ -33,7 +33,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/our-games')]
-#[Permission('admin.our_games.index', group: 'Admin', label: 'View Our Games')]
 class AdminOurGamesController extends AbstractController
 {
     private $slugger;
@@ -57,6 +56,7 @@ class AdminOurGamesController extends AbstractController
      * Display the list of all "Our Games" entries.
      */
     #[Route('/', name: 'admin_our_games_index', methods: ['GET'])]
+    #[Permission('admin.our_games.index')]
     public function index(OurGamesRepository $ourGamesRepository): Response
     {
         return $this->render('@theme/admin/our_games/index.html.twig', [
@@ -92,6 +92,7 @@ class AdminOurGamesController extends AbstractController
      * it back to the game via the bugLink property.
      */
     #[Route('/new', name: 'admin_our_games_new', methods: ['GET', 'POST'])]
+    #[Permission('admin.our_games.create')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $ourGame = new OurGames();
@@ -249,6 +250,7 @@ class AdminOurGamesController extends AbstractController
      * Doctrine change sets so the JSON image/video fields are persisted correctly.
      */
     #[Route('/{id}/edit', name: 'admin_our_games_edit', methods: ['GET', 'POST'])]
+    #[Permission('admin.our_games.edit')]
     public function edit(Request $request, OurGames $ourGame, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(OurGamesType::class, $ourGame, [
@@ -357,6 +359,7 @@ class AdminOurGamesController extends AbstractController
      * Delete a game and its entire upload directory after CSRF validation.
      */
     #[Route('/{id}', name: 'admin_our_games_delete', methods: ['POST'])]
+    #[Permission('admin.our_games.delete')]
     public function delete(Request $request, OurGames $ourGame, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$ourGame->getId(), $request->request->get('_token'))) {

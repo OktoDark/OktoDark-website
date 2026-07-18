@@ -1,0 +1,51 @@
+manual_permissions:
+    - name: admin.import.dashboard
+      label: View Import Dashboard
+      group: Admin
+      area: admin_import
+
+    - name: admin.import.cleanup
+      label: Cleanup Import Data
+      group: Admin
+      area: admin_import
+
+    - name: admin.import.remove_duplicates
+      label: Remove Duplicate Imports
+      group: Admin
+      area: admin_import
+
+    - name: admin.import.rebuild_metadata
+      label: Rebuild Import Metadata
+      group: Admin
+      area: admin_import
+
+    - name: admin.import.backfill_metadata
+      label: Backfill Import Metadata
+      group: Admin
+      area: admin_import
+
+    - name: admin.import.purge_orphans
+      label: Purge Orphan Imports
+      group: Admin
+      area: admin_import
+
+    - name: admin.import.validate_integrity
+      label: Validate Import Integrity
+      group: Admin
+      area: admin_import
+
+    - name: admin.import.recompute_tv_progress
+      label: Recompute TV Progress
+      group: Admin
+      area: admin_import
+
+roles:
+    ROLE_SUPER_ADMIN:
+        - admin.import.dashboard
+        - admin.import.cleanup
+        - admin.import.remove_duplicates
+        - admin.import.rebuild_metadata
+        - admin.import.backfill_metadata
+        - admin.import.purge_orphans
+        - admin.import.validate_integrity
+        - admin.import.recompute_tv_progress

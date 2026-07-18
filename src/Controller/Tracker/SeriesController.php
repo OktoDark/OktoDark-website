@@ -14,6 +14,7 @@ namespace App\Controller\Tracker;
 use App\Entity\User;
 use App\Repository\SeasonRepository;
 use App\Repository\TVRepository;
+use App\Security\Attribute\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -21,6 +22,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class SeriesController extends AbstractController
 {
     #[Route('/tracker/series/{id}', name: 'app_tracker_series')]
+    #[Permission('tracker.series.view')]
     public function show(
         int $id,
         TVRepository $tvRepo,

@@ -1,0 +1,26 @@
+manual_permissions:
+    - name: admin.system
+      label: View System Health
+      group: Admin
+      area: admin_system
+
+    - name: admin.active_users
+      label: View Active Users
+      group: Admin
+      area: admin_system
+
+    - name: admin.email_preview
+      label: Preview Email Templates
+      group: Admin
+      area: admin_system
+
+roles:
+    ROLE_ADMIN:
+        - admin.system
+        - admin.active_users
+        - admin.email_preview
+
+    ROLE_SUPER_ADMIN:
+        - admin.system
+        - admin.active_users
+        - admin.email_preview

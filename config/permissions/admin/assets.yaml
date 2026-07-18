@@ -1,0 +1,12 @@
+manual_permissions:
+    - name: admin.assets.index
+      label: Manage Assets
+      group: Admin
+      area: admin_assets
+
+roles:
+    ROLE_ADMIN:
+        - admin.assets.index
+
+    ROLE_SUPER_ADMIN:
+        - admin.assets.index

@@ -14,6 +14,7 @@ namespace App\Controller\Admin;
 use App\Entity\MediaMetadata;
 use App\Enum\MediaType;
 use App\Enum\Source;
+use App\Security\Attribute\Permission;
 use App\Service\TmdbService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,7 +38,7 @@ class ImportDashboardController extends AbstractController
      * Render the import dashboard showing session-stored operation logs.
      */
     #[Route('/', name: 'admin_import_dashboard', methods: ['GET'])]
-    // #[Permission('admin.import.dashboard', group: 'Admin', label: 'Import Dashboard')]
+    #[Permission('admin.import.dashboard')]
     public function dashboard(Request $request, EntityManagerInterface $em): Response
     {
         $session = $request->getSession();
@@ -53,7 +54,7 @@ class ImportDashboardController extends AbstractController
      * Remove movie-typed season and TV tracking rows to clean up stale data.
      */
     #[Route('/cleanup', name: 'admin_import_cleanup', methods: ['POST'])]
-    // #[Permission('admin.import.cleanup', group: 'Admin', label: 'Import Cleanup')]
+    #[Permission('admin.import.cleanup')]
     public function cleanup(Request $request, EntityManagerInterface $em): Response
     {
         $session = $request->getSession();
@@ -83,8 +84,8 @@ class ImportDashboardController extends AbstractController
     /**
      * Delete duplicate tracking rows across metadata, movie, TV, season and episode tables.
      */
-    #[Route('/remove-duplicates', name: 'admin_import_remove_duplicates', methods: ['POST'])]
-    // #[Permission('admin.import.remove_duplicates', group: 'Admin', label: 'Remove Duplicates')]
+    #[Route('/remove-duplicates', name: 'admin_import_remove_duplicates', methods: ['POST', 'GET'])]
+    #[Permission('admin.import.remove_duplicates')]
     public function removeDuplicates(Request $request, EntityManagerInterface $em): Response
     {
         $session = $request->getSession();
@@ -173,7 +174,7 @@ class ImportDashboardController extends AbstractController
      * Re-fetch and re-hydrate TMDB metadata for every MediaMetadata entity.
      */
     #[Route('/rebuild-metadata', name: 'admin_import_rebuild_metadata', methods: ['POST'])]
-    // #[Permission('admin.import.rebuild_metadata', group: 'Admin', label: 'Rebuild Metadata')]
+    #[Permission('admin.import.rebuild_metadata')]
     public function rebuildMetadata(Request $request, EntityManagerInterface $em): Response
     {
         $session = $request->getSession();
@@ -266,7 +267,7 @@ class ImportDashboardController extends AbstractController
      * to start while a previous run is still in progress.
      */
     #[Route('/backfill-metadata', name: 'admin_import_backfill_metadata', methods: ['POST'])]
-    // #[Permission('admin.import.backfill_metadata', group: 'Admin', label: 'Backfill Metadata')]
+    #[Permission('admin.import.backfill_metadata')]
     public function backfillMetadata(Request $request): JsonResponse
     {
         [$logPath, $pidPath, $launcherPath] = $this->backfillPaths();
@@ -339,7 +340,7 @@ class ImportDashboardController extends AbstractController
      * pidfile. Trailing child processes (the PHP worker) are terminated too.
      */
     #[Route('/backfill-metadata/stop', name: 'admin_import_backfill_metadata_stop', methods: ['POST'])]
-    // #[Permission('admin.import.backfill_metadata', group: 'Admin', label: 'Stop Backfill')]
+    #[Permission('admin.import.backfill_metadata')]
     public function backfillMetadataStop(): JsonResponse
     {
         [$logPath, $pidPath] = $this->backfillPaths();
@@ -357,7 +358,7 @@ class ImportDashboardController extends AbstractController
      * Stream the running backfill command's log file to the dashboard.
      */
     #[Route('/backfill-metadata/status', name: 'admin_import_backfill_metadata_status', methods: ['GET'])]
-    // #[Permission('admin.import.backfill_metadata', group: 'Admin', label: 'Backfill Metadata Status')]
+    #[Permission('admin.import.backfill_metadata')]
     public function backfillMetadataStatus(): JsonResponse
     {
         [$logPath, $pidPath] = $this->backfillPaths();
@@ -458,8 +459,8 @@ class ImportDashboardController extends AbstractController
     /**
      * Delete tracking rows whose parent relations no longer exist (orphan cleanup).
      */
-    #[Route('/purge-orphans', name: 'admin_import_purge_orphans', methods: ['POST'])]
-    // #[Permission('admin.import.purge_orphans', group: 'Admin', label: 'Purge Orphans')]
+    #[Route('/purge-orphans', name: 'admin_import_purge_orphans', methods: ['POST', 'GET'])]
+    #[Permission('admin.import.purge_orphans')]
     public function purgeOrphans(Request $request, EntityManagerInterface $em): Response
     {
         $session = $request->getSession();
@@ -513,7 +514,7 @@ class ImportDashboardController extends AbstractController
      * Run integrity checks for duplicates, orphans, missing metadata and broken relations.
      */
     #[Route('/validate-integrity', name: 'admin_import_validate_integrity', methods: ['GET'])]
-    // #[Permission('admin.import.validate_integrity', group: 'Admin', label: 'Validate Integrity')]
+    #[Permission('admin.import.validate_integrity')]
     public function validateIntegrity(Request $request, EntityManagerInterface $em): Response
     {
         $session = $request->getSession();
@@ -587,6 +588,7 @@ class ImportDashboardController extends AbstractController
      * Recompute TV show progress and status from season/episode data.
      */
     #[Route('/recompute-tv-progress', name: 'admin_import_recompute_tv_progress', methods: ['POST'])]
+    #[Permission('admin.import.recompute_tv_progress')]
     public function recomputeTvProgress(Request $request, EntityManagerInterface $em): JsonResponse
     {
         $session = $request->getSession();

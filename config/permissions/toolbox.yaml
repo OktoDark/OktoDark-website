@@ -1,0 +1,40 @@
+manual_permissions:
+    - name: admin.toolbox.diagnostics
+      label: View Diagnostics
+      group: Admin
+      area: admin_toolbox
+
+    - name: admin.toolbox.install
+      label: Run Installer
+      group: Admin
+      area: admin_toolbox
+
+    - name: admin.toolbox.migrations
+      label: View Migrations
+      group: Admin
+      area: admin_toolbox
+
+    - name: admin.toolbox.repair
+      label: Run Repairs
+      group: Admin
+      area: admin_toolbox
+
+    - name: admin.toolbox.update
+      label: Run Updates
+      group: Admin
+      area: admin_toolbox
+
+roles:
+    ROLE_ADMIN:
+        - admin.toolbox.diagnostics
+        - admin.toolbox.install
+        - admin.toolbox.migrations
+        - admin.toolbox.repair
+        - admin.toolbox.update
+
+    ROLE_SUPER_ADMIN:
+        - admin.toolbox.diagnostics
+        - admin.toolbox.install
+        - admin.toolbox.migrations
+        - admin.toolbox.repair
+        - admin.toolbox.update
