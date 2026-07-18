@@ -1,0 +1,93 @@
+manual_permissions:
+    - name: maintenance.bypass
+      label: Bypass Maintenance Mode
+      area: system
+      group: System
+
+    # Donor
+    - name: donor.access
+      label: Donor Access
+      area: member
+      group: Donor
+
+    # VIP
+    - name: vip.access
+      label: VIP Access
+      area: member
+      group: VIP
+
+    # Creator
+    - name: creator.access
+      label: Creator Access
+      area: creator
+      group: Creator
+
+    # Mod Creator
+    - name: mod.creator.access
+      label: Mod Creator Access
+      area: mods
+      group: Mods
+
+    # Tiers
+    - name: tier.i
+      label: Tier I Access
+      area: tier
+      group: Tier
+
+    - name: tier.ii
+      label: Tier II Access
+      area: tier
+      group: Tier
+
+    - name: tier.iii
+      label: Tier III Access
+      area: tier
+      group: Tier
+
+    - name: tier.iv
+      label: Tier IV Access
+      area: tier
+      group: Tier
+
+    - name: tier.v
+      label: Tier V Access
+      area: tier
+      group: Tier
+
+roles:
+    ROLE_DONOR:
+        - donor.access
+
+    ROLE_VIP:
+        - vip.access
+
+    ROLE_CREATOR:
+        - creator.access
+
+    ROLE_MOD_CREATOR:
+        - mod.creator.access
+
+    ROLE_TIER_I:
+        - tier.i
+
+    ROLE_TIER_II:
+        - tier.i
+        - tier.ii
+
+    ROLE_TIER_III:
+        - tier.i
+        - tier.ii
+        - tier.iii
+
+    ROLE_TIER_IV:
+        - tier.i
+        - tier.ii
+        - tier.iii
+        - tier.iv
+
+    ROLE_TIER_V:
+        - tier.i
+        - tier.ii
+        - tier.iii
+        - tier.iv
+        - tier.v

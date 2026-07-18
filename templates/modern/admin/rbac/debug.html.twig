@@ -1,0 +1,208 @@
+{% extends '@theme/base.html.twig' %}
+{% block title %}RBAC Debug – Admin{% endblock %}
+{% block body_id 'admin' %}
+
+{% block main %}
+    {% embed '@theme/admin/partials/_nav.html.twig' %}
+
+        {% block admin_content %}
+            <div class="section-title">
+                <h2>RBAC Debug Dashboard</h2>
+                <p>Role-based access control inspection and health checks</p>
+            </div>
+
+            <section class="py-3">
+
+                {# SUMMARY COUNTERS #}
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="admin-card text-center py-3">
+                            <h6 class="text-muted mb-1">Total Roles</h6>
+                            <div class="fs-4 fw-bold">{{ roleMap|length }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="admin-card text-center py-3">
+                            <h6 class="text-muted mb-1">Total Permissions</h6>
+                            <div class="fs-4 fw-bold">{{ manualPermissions|length }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="admin-card text-center py-3">
+                            <h6 class="text-muted mb-1">Controller Attributes Scanned</h6>
+                            <div class="fs-4 fw-bold">{{ attributes|length }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                {# ROLE → PERMISSION MATRIX #}
+                <div class="row g-4 mb-4">
+                    <div class="col-12">
+                        <div class="admin-card">
+                            <h5 class="mb-4"><i class="fas fa-user-shield me-2 text-muted"></i>Role → Permission Matrix</h5>
+                            <div class="table-responsive">
+                                <table class="admin-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Role</th>
+                                        <th>Permissions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for role, perms in roleMap %}
+                                        <tr>
+                                            <td><strong>{{ role }}</strong></td>
+                                            <td>
+                                                {% for perm in perms %}
+                                                    <span class="badge bg-primary me-1 mb-1">{{ perm }}</span>
+                                                {% else %}
+                                                    <span class="text-muted small">No permissions assigned</span>
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="2" class="text-center text-muted py-4">No roles found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# PERMISSION → ROLES MAP #}
+                <div class="row g-4 mb-4">
+                    <div class="col-12">
+                        <div class="admin-card">
+                            <h5 class="mb-4"><i class="fas fa-key me-2 text-muted"></i>Permission → Roles Map</h5>
+                            <div class="table-responsive">
+                                <table class="admin-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Permission</th>
+                                        <th>Roles</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for perm in manualPermissions %}
+                                        <tr>
+                                            <td>{{ perm.name }}</td>
+                                            <td>
+                                                {% for role in permissionRoles[perm.name] ?? [] %}
+                                                    <span class="badge bg-success me-1 mb-1">{{ role }}</span>
+                                                {% else %}
+                                                    <span class="text-muted small">No roles assigned</span>
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="2" class="text-center text-muted py-4">No permissions defined</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# CONTROLLER ATTRIBUTE SCAN #}
+                <div class="row g-4 mb-4">
+                    <div class="col-12">
+                        <div class="admin-card">
+                            <h5 class="mb-4"><i class="fas fa-magnifying-glass me-2 text-muted"></i>Controller Attribute Scan</h5>
+                            <div class="table-responsive">
+                                <table class="admin-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Controller</th>
+                                        <th>Method</th>
+                                        <th>Permission</th>
+                                        <th>Group</th>
+                                        <th>Label</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for attr in attributes %}
+                                        <tr>
+                                            <td><code class="text-accent">{{ attr.controller }}</code></td>
+                                            <td>{{ attr.method }}</td>
+                                            <td><span class="badge bg-info me-1">{{ attr.name }}</span></td>
+                                            <td>{{ attr.group }}</td>
+                                            <td>{{ attr.label }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted py-4">No controller attributes scanned</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# HEALTH CHECKS #}
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="admin-card h-100">
+                            <h5 class="mb-3"><i class="fas fa-triangle-exclamation me-2 text-warning"></i>Orphan Permissions</h5>
+                            <p class="text-muted small mb-3">Permissions defined in YAML but not used in any controller.</p>
+                            <ul class="admin-list-group">
+                                {% for perm in health.orphan_permissions %}
+                                    <li class="admin-list-group-item d-flex justify-content-between align-items-center">
+                                        <span>{{ perm.name }}</span>
+                                        <span class="badge bg-warning text-dark">Orphan</span>
+                                    </li>
+                                {% else %}
+                                    <li class="admin-list-group-item text-muted text-center">No orphan permissions</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="admin-card h-100">
+                            <h5 class="mb-3"><i class="fas fa-circle-exclamation me-2 text-danger"></i>Undefined Permissions</h5>
+                            <p class="text-muted small mb-3">Permissions used in controllers but missing from YAML config.</p>
+                            <ul class="admin-list-group">
+                                {% for attr in health.undefined_permissions %}
+                                    <li class="admin-list-group-item">
+                                        <strong>{{ attr.name }}</strong>
+                                        <div class="small text-muted">{{ attr.controller }}::{{ attr.method }}</div>
+                                    </li>
+                                {% else %}
+                                    <li class="admin-list-group-item text-muted text-center">No undefined permissions</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="admin-card h-100">
+                            <h5 class="mb-3"><i class="fas fa-user-lock me-2 text-muted"></i>Roles Without Permissions</h5>
+                            <p class="text-muted small mb-3">Roles that have no permissions assigned at all.</p>
+                            <ul class="admin-list-group">
+                                {% for role in health.roles_without_permissions %}
+                                    <li class="admin-list-group-item d-flex justify-content-between align-items-center">
+                                        <span>{{ role }}</span>
+                                        <span class="badge bg-danger">Empty</span>
+                                    </li>
+                                {% else %}
+                                    <li class="admin-list-group-item text-muted text-center">All roles have permissions</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endblock %}

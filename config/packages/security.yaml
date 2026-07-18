@@ -63,6 +63,7 @@ security:
         - { path: '^/[a-z]{2}/info', roles: PUBLIC_ACCESS }
         - { path: '^/[a-z]{2}/member', roles: ROLE_USER }
         - { path: '^/[a-z]{2}/admin', roles: ROLE_USER }
+        - { path: ^/debug/permissions, roles: ROLE_ADMIN }
 
     role_hierarchy:
         ROLE_SUPER_ADMIN: [ ROLE_ADMIN ]

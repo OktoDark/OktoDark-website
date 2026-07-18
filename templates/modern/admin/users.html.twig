@@ -58,12 +58,16 @@
 
                             <div class="col-md-3">
                                 <label class="admin-form-label">{{ 'admin.users.roles'|trans({}, 'admin') }}</label>
-                                <select name="roles[]" id="roles" class="admin-form-control" multiple style="height: 100px;">
-                                    <option value="ROLE_USER">{{ 'admin.users.role_user'|trans({}, 'admin') }}</option>
-                                    <option value="ROLE_MODERATOR">{{ 'admin.users.role_moderator'|trans({}, 'admin') }}</option>
-                                    <option value="ROLE_ADMIN">{{ 'admin.users.role_admin'|trans({}, 'admin') }}</option>
-                                    <option value="ROLE_SUPER_ADMIN">{{ 'admin.users.role_super_admin'|trans({}, 'admin') }}</option>
-                                </select>
+                                <div class="border border-secondary border-opacity-25 rounded p-2" style="max-height: 120px; overflow-y: auto;">
+                                    {% for role in allRoles %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="roles[]" id="role_{{ role.id }}" value="{{ role.name }}">
+                                            <label class="form-check-label small" for="role_{{ role.id }}">
+                                                {{ role.label|default(role.name|replace({'ROLE_': ''})|title) }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
 
                             <div class="col-md-3">
@@ -77,10 +81,14 @@
 
                             <div class="col-md-2">
                                 <label class="admin-form-label">{{ 'admin.users.verification'|trans({}, 'admin') }}</label>
-                                <select name="isVerified" id="isVerified" class="admin-form-control">
-                                    <option value="1">{{ 'admin.users.verified'|trans({}, 'admin') }}</option>
-                                    <option value="0">{{ 'admin.users.unverified'|trans({}, 'admin') }}</option>
-                                </select>
+                                <div class="border border-secondary border-opacity-25 rounded p-2" style="max-height: 120px; overflow-y: auto;">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="isVerified" id="isVerified" value="1">
+                                        <label class="form-check-label small" for="isVerified">
+                                            {{ 'admin.users.verified'|trans({}, 'admin') }}
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -161,8 +169,8 @@
                                                         '{{ u.firstName|e('js') }}',
                                                         '{{ u.lastName|e('js') }}',
                                                         '{{ u.email|e('js') }}',
-                                                        `{{ u.roles|json_encode|e('js') }}`,
-                                                        '{{ u.isVerified ? 1 : 0 }}',
+                                                        `{{ u.roleEntities|map(r => r.name)|json_encode|e('js') }}`,
+                                                        {{ u.isVerified ? 1 : 0 }},
                                                         `{{ u.badges|map(b => b.id)|json_encode|e('js') }}`
                                                     )" title="{{ 'admin.common.edit'|trans({}, 'admin') }}">
                                                 <i class="fas fa-edit"></i>
@@ -200,19 +208,21 @@
                     document.getElementById('lastName').value = lastName;
                     document.getElementById('email').value = email;
 
-                    const roles = JSON.parse(rolesJson);
-                    const rolesSelect = document.getElementById('roles');
-                    for (let option of rolesSelect.options) {
-                        option.selected = roles.includes(option.value);
+                    // Handle role checkboxes
+                    var roles = JSON.parse(rolesJson);
+                    var roleCheckboxes = document.querySelectorAll('input[name="roles[]"]');
+                    for (let checkbox of roleCheckboxes) {
+                        checkbox.checked = roles.includes(checkbox.value);
                     }
 
-                    const badgeIds = JSON.parse(badgesJson || '[]');
-                    const badgesSelect = document.getElementById('badges');
+                    var badgeIds = JSON.parse(badgesJson || '[]');
+                    var badgesSelect = document.getElementById('badges');
                     for (let option of badgesSelect.options) {
                         option.selected = badgeIds.includes(parseInt(option.value));
                     }
 
-                    document.getElementById('isVerified').value = isVerified;
+                    // Handle verification checkbox
+                    document.getElementById('isVerified').checked = isVerified === 1 || isVerified === '1' || isVerified === true;
 
                     document.getElementById('userFormContainer').scrollIntoView({ behavior: 'smooth' });
                 }
@@ -220,6 +230,15 @@
                 function resetForm() {
                     document.getElementById('formTitle').innerText = '{{ 'admin.users.add_edit'|trans({}, 'admin') }}';
                     document.getElementById('userId').value = '';
+
+                    // Reset role checkboxes
+                    var roleCheckboxes = document.querySelectorAll('input[name="roles[]"]');
+                    for (let checkbox of roleCheckboxes) {
+                        checkbox.checked = false;
+                    }
+
+                    // Reset verification checkbox
+                    document.getElementById('isVerified').checked = false;
                 }
             </script>
 

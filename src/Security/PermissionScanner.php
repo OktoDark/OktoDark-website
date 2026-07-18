@@ -21,7 +21,19 @@ class PermissionScanner
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private string $controllerPath = __DIR__.'/../Controller',
+        private array $controllerPaths = [
+            __DIR__.'/../Controller',
+            __DIR__.'/../Admin/Controller',
+            __DIR__.'/../Modules/Forum/Controller',
+            __DIR__.'/../Modules/Blog/Controller',
+            __DIR__.'/../Modules/Kanban/Controller',
+            __DIR__.'/../Modules/Member/Controller',
+            __DIR__.'/../Modules/Mods/Controller',
+            __DIR__.'/../Modules/Games/Controller',
+            __DIR__.'/../Modules/Notification/Controller',
+            __DIR__.'/../Http/Controller',
+            __DIR__.'/../Api/Controller',
+        ],
     ) {
     }
 
@@ -30,7 +42,13 @@ class PermissionScanner
         $foundPermissions = [];
 
         $finder = new Finder();
-        $finder->files()->in($this->controllerPath)->name('*.php');
+        $finder->files()->name('*.php');
+
+        foreach ($this->controllerPaths as $path) {
+            if (is_dir($path)) {
+                $finder->in($path);
+            }
+        }
 
         foreach ($finder as $file) {
             $className = $this->extractClassName($file->getRealPath());
@@ -49,9 +67,7 @@ class PermissionScanner
             }
         }
 
-        $this->syncPermissions($foundPermissions);
-
-        return $foundPermissions;
+        return $this->syncPermissions($foundPermissions);
     }
 
     private function scanAttributes(\ReflectionClass|\ReflectionMethod $ref, array &$foundPermissions): void

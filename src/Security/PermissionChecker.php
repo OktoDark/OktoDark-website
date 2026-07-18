@@ -14,26 +14,29 @@ namespace App\Security;
 use App\Entity\User;
 use App\Repository\PermissionRepository;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class PermissionChecker
 {
     public function __construct(
         private Security $security,
         private PermissionRepository $permissionRepository,
+        private TokenStorageInterface $tokenStorage,
     ) {
     }
 
     public function can(string $permissionName): bool
     {
-        $user = $this->security->getUser();
-        if (!$user) {
+        $token = $this->tokenStorage->getToken();
+        $user = $token?->getUser();
+
+        // Skip permission checks during login or anonymous access
+        if (!$user instanceof User) {
             return false;
         }
 
-        // 1) Get all Symfony roles for this user (from token)
         $roles = $user->getRoles();
 
-        // 2) Ask repository if any of these roles has this permission
         return $this->permissionRepository->rolesHavePermission($roles, $permissionName);
     }
 

@@ -19,63 +19,203 @@
                     </div>
                 {% endfor %}
 
+                <a href="{{ path('admin_refresh_permissions') }}" class="btn btn-warning mb-3">
+                    Refresh Permissions
+                </a>
+
                 <div class="admin-card">
                     <h4 class="mb-4">{{ 'admin.roles.permissions_for'|trans({'%role%': role.label}, 'admin') }}</h4>
 
-                    <form method="post">
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                        <input type="text" id="permSearch" placeholder="Search permissions…"
+                               class="form-control" style="max-width: 320px;">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="expandAllBtn">
+                            {{ 'admin.roles.expand_all'|trans({}, 'admin') }}
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="collapseAllBtn">
+                            {{ 'admin.roles.collapse_all'|trans({}, 'admin') }}
+                        </button>
+                    </div>
 
-                        {% set grouped = {} %}
+                    {% set icons = {
+                        'Forum': '💬',
+                        'Blog': '📝',
+                        'Member': '👤',
+                        'Games': '🎮',
+                        'Admin': '⚙️',
+                        'System': '🛠️',
+                        'General': '📦',
+                        'Assets': '🗂️',
+                        'Creator': '🎨',
+                        'Donor': '💖',
+                        'Kanban': '📋',
+                        'Moderation': '🛡️',
+                        'Mods': '🔧',
+                        'Notification': '🔔',
+                        'Tier': '⭐',
+                        'Tracker': '📺',
+                        'VIP': '👑'
+                    } %}
 
-                        {# Group permissions by PermissionGroup #}
-                        {% for perm in permissions %}
-                            {% set group = perm.groupLabel %}
-                            {% if grouped[group] is not defined %}
-                                {% set grouped = grouped|merge({ (group): [perm] }) %}
-                            {% else %}
-                                {% set grouped = grouped|merge({ (group): grouped[group]|merge([perm]) }) %}
-                            {% endif %}
-                        {% endfor %}
+                    {% set critical = [
+                        'admin.roles.edit',
+                        'admin.users.delete',
+                        'system.shutdown',
+                        'system.config.edit',
+                        'system.maintenance.bypass'
+                    ] %}
 
-                        {% for group, perms in grouped %}
-                            <h5 class="mt-4 mb-3 text-accent">{{ group }}</h5>
+                    {% set grouped = {} %}
 
-                            <div class="admin-table-container mb-4">
-                                <div class="table-responsive">
-                                    <table class="admin-table">
-                                        <thead>
-                                        <tr>
-                                            <th>{{ 'admin.roles.permission'|trans({}, 'admin') }}</th>
-                                            <th class="text-center" style="width: 150px;">{{ 'admin.roles.allowed'|trans({}, 'admin') }}</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
+                    {# Group permissions by PermissionGroup #}
+                    {% for perm in permissions %}
+                        {% set group = perm.groupLabel %}
+                        {% if grouped[group] is not defined %}
+                            {% set grouped = grouped|merge({ (group): [perm] }) %}
+                        {% else %}
+                            {% set grouped = grouped|merge({ (group): grouped[group]|merge([perm]) }) %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {# Rank groups from lowest to highest privilege (User → Admin) #}
+                    {% set groupRank = [
+                        'General', 'Tracker', 'Member', 'Forum', 'Blog', 'Games',
+                        'Mods', 'Content', 'Stats', 'System', 'Admin'
+                    ] %}
+                    {% set orderedGroups = [] %}
+                    {% for rankGroup in groupRank %}
+                        {% if grouped[rankGroup] is defined %}
+                            {% set orderedGroups = orderedGroups|merge([rankGroup]) %}
+                        {% endif %}
+                    {% endfor %}
+                    {% for group in grouped|keys %}
+                        {% if group not in orderedGroups %}
+                            {% set orderedGroups = orderedGroups|merge([group]) %}
+                        {% endif %}
+                    {% endfor %}
+
+                    <form method="post" id="permissionsForm">
+                        {% for group in orderedGroups %}
+                            {% set perms = grouped[group] %}
+                            {% set gid = 'perm-group-' ~ loop.index %}
+                            <div class="permission-group mb-3 border rounded">
+                                <div class="d-flex align-items-center justify-content-between px-3 py-2 bg-light"
+                                     data-bs-toggle="collapse" data-bs-target="#{{ gid }}"
+                                     style="cursor: pointer;">
+                                    <h5 class="m-0 text-accent d-flex align-items-center gap-2 flex-wrap">
+                                        <i class="bi bi-chevron-right collapse-chevron"></i>
+                                        <span>{{ icons[group] ?? '📦' }}</span>
+                                        <span>{{ group }}</span>
+                                        {% set activeCount = 0 %}
                                         {% for perm in perms %}
                                             {% set rp = role.rolePermissions|filter(rp => rp.permission.id == perm.id)|first %}
-                                            <tr>
-                                                <td>{{ perm.label }}</td>
-                                                <td class="text-center">
-                                                    <div class="form-check form-switch d-flex justify-content-center">
-                                                        <input class="form-check-input" type="checkbox"
-                                                               name="perm_{{ perm.id }}"
-                                                               value="1"
-                                                               {% if rp and rp.allowed %}checked{% endif %}>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            {% if rp and rp.allowed %}{% set activeCount = activeCount + 1 %}{% endif %}
                                         {% endfor %}
-                                        </tbody>
-                                    </table>
+                                        <span class="badge bg-success" title="Active permissions">{{ activeCount }} active</span>
+                                        <span class="badge bg-secondary" title="Total permissions">{{ perms|length }} total</span>
+                                    </h5>
+                                    <div class="d-flex align-items-center gap-3" onclick="event.stopPropagation();">
+                                        <label class="form-check-label mb-0 small text-muted" title="Toggle all in this group">
+                                            <input type="checkbox" class="form-check-input group-toggle-all">
+                                            {{ 'admin.roles.all'|trans({}, 'admin') }}
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="collapse admin-table-container p-2" id="{{ gid }}">
+                                    <div class="table-responsive">
+                                        <table class="admin-table">
+                                            <thead>
+                                            <tr>
+                                                <th>{{ 'admin.roles.permission'|trans({}, 'admin') }}</th>
+                                                <th class="text-center" style="width: 150px;">
+                                                    {{ 'admin.roles.allowed'|trans({}, 'admin') }}
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for perm in perms %}
+                                                {% set rp = role.rolePermissions|filter(rp => rp.permission.id == perm.id)|first %}
+                                                <tr class="{% if perm.name in critical %}table-danger{% endif %}">
+                                                    <td class="perm-row-text">
+                                                        {{ perm.label }}
+                                                        <small class="text-muted d-block">{{ perm.name }}</small>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-check form-switch d-flex justify-content-center">
+                                                            <label>
+                                                                <input class="form-check-input perm-toggle" type="checkbox"
+                                                                       name="perm_{{ perm.id }}"
+                                                                       value="1"
+                                                                       {% if rp and rp.allowed %}checked{% endif %}>
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         {% endfor %}
 
                         <div class="d-flex justify-content-end gap-2 mt-4">
-                            <a href="{{ path('admin_roles') }}" class="admin-btn admin-btn-secondary">{{ 'admin.common.cancel'|trans({}, 'admin') }}</a>
-                            <button type="submit" class="admin-btn admin-btn-primary px-5">{{ 'admin.roles.save_permissions'|trans({}, 'admin') }}</button>
+                            <a href="{{ path('admin_roles') }}" class="admin-btn admin-btn-secondary">
+                                {{ 'admin.common.cancel'|trans({}, 'admin') }}
+                            </a>
+                            <button type="submit" class="admin-btn admin-btn-primary px-5">
+                                {{ 'admin.roles.save_permissions'|trans({}, 'admin') }}
+                            </button>
                         </div>
                     </form>
                 </div>
             </section>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const groups = Array.from(document.querySelectorAll('.permission-group .collapse'));
+                    const searchInput = document.getElementById('permSearch');
+
+                    // "All" checkbox toggles every permission toggle inside its group
+                    document.querySelectorAll('.group-toggle-all').forEach(toggle => {
+                        toggle.addEventListener('change', function () {
+                            const group = this.closest('.permission-group');
+                            const checked = this.checked;
+                            group.querySelectorAll('.perm-toggle').forEach(cb => { cb.checked = checked; });
+                        });
+                    });
+
+                    // Expand / Collapse all
+                    function setAll(open) {
+                        groups.forEach(panel => {
+                            const inst = bootstrap.Collapse.getOrCreateInstance(panel, { toggle: false });
+                            open ? inst.show() : inst.hide();
+                        });
+                    }
+                    document.getElementById('expandAllBtn').addEventListener('click', () => setAll(true));
+                    document.getElementById('collapseAllBtn').addEventListener('click', () => setAll(false));
+
+                    // Search: filter rows and auto-expand groups with matches
+                    searchInput.addEventListener('input', function () {
+                        const term = this.value.toLowerCase().trim();
+
+                        groups.forEach(panel => {
+                            let visible = 0;
+                            panel.querySelectorAll('.admin-table tbody tr').forEach(row => {
+                                const match = term === '' || row.innerText.toLowerCase().includes(term);
+                                row.style.display = match ? '' : 'none';
+                                if (match) { visible++; }
+                            });
+                            if (term !== '' && visible > 0) {
+                                bootstrap.Collapse.getOrCreateInstance(panel, { toggle: false }).show();
+                            } else if (term !== '') {
+                                bootstrap.Collapse.getOrCreateInstance(panel, { toggle: false }).hide();
+                            }
+                        });
+                    });
+                });
+            </script>
         {% endblock %}
 
     {% endembed %}
