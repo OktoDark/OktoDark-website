@@ -41,7 +41,7 @@ class RBACDebugCommand extends Command
         // Roles
         $output->writeln("\n<comment>Roles:</comment>");
         foreach ($config['roles'] as $role => $perms) {
-            $output->writeln(" - <info>$role</info> (".count($perms).' perms)');
+            $output->writeln(" - <info>$role</info> (".\count($perms).' perms)');
         }
 
         // Permissions

@@ -9,7 +9,6 @@
  * For the full copyright and license information, please view the LICENSE.
  */
 
-
 namespace App\Http\Controller;
 
 use App\Repository\PermissionRepository;
@@ -41,4 +40,3 @@ class PermissionDebugController extends AbstractController
         ]);
     }
 }
-

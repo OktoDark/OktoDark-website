@@ -23,7 +23,6 @@ final class PermissionAttributeScanner
         $this->projectDir = $bag->get('kernel.project_dir');
     }
 
-
     public function scanControllers(): array
     {
         $finder = new Finder();
