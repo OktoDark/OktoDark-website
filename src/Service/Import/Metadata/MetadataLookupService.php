@@ -153,12 +153,12 @@ class MetadataLookupService
      * title+year search, scores every result and returns the normalized ShowFull
      * for each source plus the name of the best-scoring source.
      *
-      * Source order (industry standard): TMDB → TVDB → TVMaze.
-      *
-      * @param array{tmdb?:string|int, tvdb?:string|int, tvmaze?:string|int, title?:string} $ids
-      *
-      * @return array{tmdb:?ShowFull, tvdb:?ShowFull, tvmaze:?ShowFull, best:string, scores:array<string,int>}
-      */
+     * Source order (industry standard): TMDB → TVDB → TVMaze.
+     *
+     * @param array{tmdb?:string|int, tvdb?:string|int, tvmaze?:string|int, title?:string} $ids
+     *
+     * @return array{tmdb:?ShowFull, tvdb:?ShowFull, tvmaze:?ShowFull, best:string, scores:array<string,int>}
+     */
     public function discoverTvSources(string $title, ?int $year, array $ids): array
     {
         $cleanIds = [
@@ -239,10 +239,10 @@ class MetadataLookupService
      * normalized ShowFull plus a best-source marker so the movie importer shares
      * the exact same merge/hierarchy contract as the TV importer.
      *
-      * @param array{tmdb?:string|int, title?:string} $ids
-      *
-      * @return array{tmdb:?ShowFull, best:string, scores:array<string,int>}
-      */
+     * @param array{tmdb?:string|int, title?:string} $ids
+     *
+     * @return array{tmdb:?ShowFull, best:string, scores:array<string,int>}
+     */
     public function discoverMovieSources(string $title, ?int $year, array $ids): array
     {
         $tmdbId = !empty($ids['tmdb']) ? (int) $ids['tmdb'] : null;

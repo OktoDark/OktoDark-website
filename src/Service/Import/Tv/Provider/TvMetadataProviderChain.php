@@ -96,6 +96,7 @@ class TvMetadataProviderChain implements TvMetadataProviderInterface
 
             if ($this->changed($meta, $before)) {
                 $meta->setSource($provider->getSource());
+
                 return;
             }
         }
@@ -116,6 +117,7 @@ class TvMetadataProviderChain implements TvMetadataProviderInterface
 
             if ($seasonMeta->getImage() || $seasonMeta->getOverview()) {
                 $seasonMeta->setSource($provider->getSource());
+
                 return;
             }
         }
@@ -136,6 +138,7 @@ class TvMetadataProviderChain implements TvMetadataProviderInterface
 
             if ($epMeta->getImage() || $epMeta->getOverview()) {
                 $epMeta->setSource($provider->getSource());
+
                 return;
             }
         }

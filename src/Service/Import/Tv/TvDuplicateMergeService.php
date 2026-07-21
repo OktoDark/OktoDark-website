@@ -44,7 +44,7 @@ class TvDuplicateMergeService
         $merged = 0;
 
         foreach ($byTmdb as $items) {
-            if (count($items) <= 1) {
+            if (\count($items) <= 1) {
                 continue;
             }
 
@@ -76,7 +76,7 @@ class TvDuplicateMergeService
             }
 
             foreach ($groups as $items) {
-                if (count($items) <= 1) {
+                if (\count($items) <= 1) {
                     continue;
                 }
 
@@ -155,11 +155,11 @@ class TvDuplicateMergeService
 
     private function normalizeTitle(string $title): string
     {
-        $title = trim($title);
+        $title = mb_trim($title);
         $title = preg_replace('/\s+/', ' ', $title);
         $title = str_replace(["\xC2\xA0"], ' ', $title);
         $title = preg_replace('/\s*\(.*?\)\s*/', '', $title);
 
-        return strtolower($title);
+        return mb_strtolower($title);
     }
 }

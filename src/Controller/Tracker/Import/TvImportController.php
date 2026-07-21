@@ -105,7 +105,7 @@ class TvImportController extends AbstractController
                         $ext = mb_strtolower($file->getClientOriginalExtension());
                         if (!\in_array($ext, $allowed, true)) {
                             return $this->json([
-                                'error' => "Invalid file type for {$hints['title']}. Accepted: " . implode(', ', $allowed),
+                                'error' => "Invalid file type for {$hints['title']}. Accepted: ".implode(', ', $allowed),
                             ], 400);
                         }
                     }
@@ -150,14 +150,14 @@ class TvImportController extends AbstractController
             };
 
             if ($source) {
-                $emit(['type' => 'log', 'level' => 'info', 'message' => "Importing from source: " . self::SOURCE_HINTS[$source]['title']]);
+                $emit(['type' => 'log', 'level' => 'info', 'message' => 'Importing from source: '.self::SOURCE_HINTS[$source]['title']]);
             }
 
             $result = $importer->importStreamed($files, $user, $emit);
 
             try {
                 $bagKey = 'attributes';
-                if (\class_exists(\Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag::class)) {
+                if (class_exists(\Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag::class)) {
                     $bagKey = (new \Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag())->getStorageKey();
                 }
                 $_SESSION[$bagKey]['import_logs'] = $result['logs'];

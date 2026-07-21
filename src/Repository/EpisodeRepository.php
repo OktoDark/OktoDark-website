@@ -84,7 +84,7 @@ class EpisodeRepository extends ServiceEntityRepository
                 episode: (int) $row['episode'],
                 airDate: $row['airDate'],
             );
-        }, array_slice($nextByShow, 0, 10, true));
+        }, \array_slice($nextByShow, 0, 10, true));
     }
 
     /**

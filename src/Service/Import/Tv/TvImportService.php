@@ -409,7 +409,7 @@ class TvImportService
      * Primary TMDB/TVDB/TVMaze data is considered authoritative; this pass only
      * backfills empty overview/image fields on the show, its seasons and its
      * episodes. The chain resolves the best available provider (TMDB -> TVDB
-      * -> TVMaze) using the external ids carried on the metadata and the parsed ids.
+     * -> TVMaze) using the external ids carried on the metadata and the parsed ids.
      */
     private function enrichViaProviderChain(TV $tv, MediaMetadata $showMeta, array $ids): void
     {

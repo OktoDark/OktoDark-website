@@ -174,7 +174,7 @@ class ImportDashboardController extends AbstractController
             ];
             $total = array_sum($counts);
 
-            $logs = ['DRY RUN — would remove duplicates: '.\json_encode($counts)];
+            $logs = ['DRY RUN — would remove duplicates: '.json_encode($counts)];
             $session->set('admin_import_logs', $logs);
 
             return $this->json([
@@ -185,7 +185,7 @@ class ImportDashboardController extends AbstractController
             ]);
         }
 
-        $conn->executeStatement("
+        $conn->executeStatement('
             DELETE ti FROM tracking_item ti
             JOIN (
                 SELECT MIN(id) AS keep_id, media_id, source, media_type, season_number, episode_number
@@ -198,9 +198,9 @@ class ImportDashboardController extends AbstractController
                AND ti.season_number <=> d.season_number
                AND ti.episode_number <=> d.episode_number
             WHERE ti.id <> d.keep_id
-        ");
+        ');
 
-        $conn->executeStatement("
+        $conn->executeStatement('
             DELETE tm FROM tracking_movie tm
             JOIN (
                 SELECT MIN(id) AS keep_id, media_metadata_id, user_id
@@ -210,9 +210,9 @@ class ImportDashboardController extends AbstractController
             ) d ON tm.media_metadata_id = d.media_metadata_id
                AND tm.user_id = d.user_id
             WHERE tm.id <> d.keep_id
-        ");
+        ');
 
-        $conn->executeStatement("
+        $conn->executeStatement('
             DELETE tv FROM tracking_tv tv
             JOIN (
                 SELECT MIN(id) AS keep_id, media_metadata_id, user_id
@@ -222,9 +222,9 @@ class ImportDashboardController extends AbstractController
             ) d ON tv.media_metadata_id = d.media_metadata_id
                AND tv.user_id = d.user_id
             WHERE tv.id <> d.keep_id
-        ");
+        ');
 
-        $conn->executeStatement("
+        $conn->executeStatement('
             DELETE ts FROM tracking_season ts
             JOIN (
                 SELECT MIN(id) AS keep_id, related_tv_id, media_metadata_id
@@ -234,9 +234,9 @@ class ImportDashboardController extends AbstractController
             ) d ON ts.related_tv_id = d.related_tv_id
                AND ts.media_metadata_id = d.media_metadata_id
             WHERE ts.id <> d.keep_id
-        ");
+        ');
 
-        $conn->executeStatement("
+        $conn->executeStatement('
             DELETE te FROM tracking_episode te
             JOIN (
                 SELECT MIN(id) AS keep_id, media_metadata_id, related_season_id
@@ -246,7 +246,7 @@ class ImportDashboardController extends AbstractController
             ) d ON te.media_metadata_id = d.media_metadata_id
                AND te.related_season_id = d.related_season_id
             WHERE te.id <> d.keep_id
-        ");
+        ');
 
         $logs = [
             'Removed duplicate MediaMetadata entries.',
@@ -604,7 +604,7 @@ class ImportDashboardController extends AbstractController
             ];
             $total = array_sum($counts);
 
-            $logs = ['DRY RUN — would purge orphans: '.\json_encode($counts)];
+            $logs = ['DRY RUN — would purge orphans: '.json_encode($counts)];
             $session->set('admin_import_logs', $logs);
 
             return $this->json([
@@ -615,33 +615,33 @@ class ImportDashboardController extends AbstractController
             ]);
         }
 
-        $conn->executeStatement("
+        $conn->executeStatement('
             DELETE FROM tracking_episode
             WHERE related_season_id NOT IN (SELECT id FROM tracking_season)
-        ");
+        ');
 
-        $conn->executeStatement("
+        $conn->executeStatement('
             DELETE FROM tracking_season
             WHERE related_tv_id NOT IN (SELECT id FROM tracking_tv)
-        ");
+        ');
 
-        $conn->executeStatement("
+        $conn->executeStatement('
             DELETE FROM tracking_tv
             WHERE media_metadata_id NOT IN (SELECT id FROM tracking_item)
-        ");
+        ');
 
-        $conn->executeStatement("
+        $conn->executeStatement('
             DELETE FROM tracking_movie
             WHERE media_metadata_id NOT IN (SELECT id FROM tracking_item)
-        ");
+        ');
 
-        $conn->executeStatement("
+        $conn->executeStatement('
             DELETE FROM tracking_item
             WHERE id NOT IN (SELECT media_metadata_id FROM tracking_movie)
               AND id NOT IN (SELECT media_metadata_id FROM tracking_tv)
               AND id NOT IN (SELECT media_metadata_id FROM tracking_season)
               AND id NOT IN (SELECT media_metadata_id FROM tracking_episode)
-        ");
+        ');
 
         $logs = [
             'Purged orphaned Episodes.',
