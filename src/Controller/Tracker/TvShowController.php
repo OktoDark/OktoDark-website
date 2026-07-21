@@ -12,6 +12,7 @@
 namespace App\Controller\Tracker;
 
 use App\Entity\User;
+use App\Repository\EpisodeRepository;
 use App\Repository\SeasonRepository;
 use App\Repository\TVRepository;
 use App\Security\Attribute\Permission;
@@ -29,6 +30,7 @@ class TvShowController extends AbstractController
         int $id,
         TVRepository $tvRepo,
         SeasonRepository $seasonRepo,
+        EpisodeRepository $episodeRepo,
         TvMazeService $maze,
         TmdbService $tmdb,
     ): Response {
@@ -56,26 +58,57 @@ class TvShowController extends AbstractController
             $season->setEpisodes($episodes);
         }
 
-        // Resolve show-level cast (stored first, otherwise fetched from TVMaze on demand)
+        $lastWatchedEpisode = $episodeRepo->findLastWatchedEpisodeByNumber($user, $tv->getId());
+
+        if ($lastWatchedEpisode) {
+            foreach ($seasons as $season) {
+                if ($season->getId() === $lastWatchedEpisode->getRelatedSeason()?->getId()) {
+                    $episodes = $season->getEpisodes()->toArray();
+                    $reordered = [$lastWatchedEpisode];
+                    foreach ($episodes as $ep) {
+                        if ($ep->getId() !== $lastWatchedEpisode->getId()) {
+                            $reordered[] = $ep;
+                        }
+                    }
+                    $season->setEpisodes($reordered);
+                    break;
+                }
+            }
+        }
+
+        // Resolve show-level cast (stored first, TMDB, then TVMaze on demand)
         $cast = $tv->getCast() ?? [];
 
         if (empty($cast)) {
-            $mazeId = $tv->getMediaMetadata()?->getExternalId();
+            $tmdbId = $tv->getMediaMetadata()?->getTmdbId();
 
-            if (!$mazeId) {
-                $results = $maze->searchShows((string) $tv->getTitle());
-                $mazeId = $results[0]['metaId'] ?? null;
+            if (!$tmdbId) {
+                $show = $tmdb->searchShow((string) $tv->getTitle(), $tv->getMediaMetadata()?->getYear());
+                $tmdbId = $show['id'] ?? null;
             }
 
-            if ($mazeId) {
-                $cast = array_map(
-                    static fn (array $c) => [
-                        'name' => $c['person']['name'] ?? null,
-                        'character' => $c['character']['name'] ?? null,
-                        'image' => $c['person']['image']['medium'] ?? null,
-                    ],
-                    $maze->getCast((int) $mazeId) ?? []
-                );
+            if ($tmdbId) {
+                $cast = $tmdb->getShowCredits((int) $tmdbId);
+            }
+
+            if (empty($cast)) {
+                $mazeId = $tv->getMediaMetadata()?->getExternalId();
+
+                if (!$mazeId) {
+                    $results = $maze->searchShows((string) $tv->getTitle());
+                    $mazeId = $results[0]['metaId'] ?? null;
+                }
+
+                if ($mazeId) {
+                    $cast = array_map(
+                        static fn (array $c) => [
+                            'name' => $c['person']['name'] ?? null,
+                            'character' => $c['character']['name'] ?? null,
+                            'image' => $c['person']['image']['medium'] ?? null,
+                        ],
+                        $maze->getCast((int) $mazeId) ?? []
+                    );
+                }
             }
         }
 
@@ -108,6 +141,7 @@ class TvShowController extends AbstractController
             'seasons' => $seasons,
             'cast' => $cast,
             'trailer' => $trailer,
+            'lastWatchedEpisode' => $lastWatchedEpisode,
         ]);
     }
 }

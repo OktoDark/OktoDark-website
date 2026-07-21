@@ -14,6 +14,7 @@ namespace App\Controller\Tracker;
 use App\Entity\MediaMetadata;
 use App\Entity\TV;
 use App\Entity\User;
+use App\Enum\WatchStatus;
 use App\Repository\TVRepository;
 use App\Security\Attribute\Permission;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,10 +35,16 @@ class ListController extends AbstractController
         $search = $request->query->get('search');
         $country = $request->query->get('country');
         $actor = $request->query->get('actor');
+        $statusParam = $request->query->get('status');
         $page = max(1, (int) $request->query->get('page', 1));
         $limit = 24;
 
-        $result = $tvRepo->findUserList($user, $search, $country, $actor, $page, $limit);
+        $status = null;
+        if ($statusParam) {
+            $status = WatchStatus::tryFrom($statusParam);
+        }
+
+        $result = $tvRepo->findUserList($user, $search, $country, $actor, $page, $limit, $status);
 
         return $this->render('@theme/tracker/list/index.html.twig', [
             'list' => $result['items'],
@@ -47,6 +54,7 @@ class ListController extends AbstractController
             'search' => $search,
             'country' => $country,
             'actor' => $actor,
+            'status' => $status,
         ]);
     }
 
@@ -62,6 +70,7 @@ class ListController extends AbstractController
         $tv = new TV();
         $tv->setMediaMetadata($meta);
         $tv->setUser($user);
+        $tv->setStatus(WatchStatus::PLANNING);
 
         $em->persist($tv);
         $em->flush();

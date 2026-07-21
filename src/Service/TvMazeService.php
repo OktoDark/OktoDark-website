@@ -11,6 +11,7 @@
 
 namespace App\Service;
 
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class TvMazeService
@@ -18,8 +19,10 @@ class TvMazeService
     private HttpClientInterface $client;
     private string $baseUrl = 'https://api.tvmaze.com';
 
-    public function __construct(HttpClientInterface $client)
-    {
+    public function __construct(
+        HttpClientInterface $client,
+        private CacheInterface $cache,
+    ) {
         $this->client = $client;
     }
 
@@ -37,7 +40,53 @@ class TvMazeService
 
     private function safeGet(string $url): ?array
     {
-        return $this->safe(fn () => $this->client->request('GET', $url)->toArray());
+        $key = 'tvmaze_'.md5($url);
+
+        return $this->cache->get($key, function () use ($url): ?array {
+            try {
+                return $this->client->request('GET', $url)->toArray();
+            } catch (\Throwable) {
+                return null;
+            }
+        });
+    }
+
+    // ---------------------------------------------------------
+    // SEARCH (list, used by multi-source discovery)
+    // ---------------------------------------------------------
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function searchShowList(string $title, ?int $year): array
+    {
+        if ('' === mb_trim($title)) {
+            return [];
+        }
+
+        $data = $this->safeGet($this->baseUrl.'/search/shows?q='.urlencode($title)) ?? [];
+
+        $shows = [];
+        foreach ($data as $item) {
+            $show = $item['show'] ?? null;
+            if ($show) {
+                $shows[] = $show;
+            }
+        }
+
+        return $shows;
+    }
+
+    /**
+     * Extract the normalized external id set from a raw TVMaze show record.
+     *
+     * @param array<string, mixed> $show
+     */
+    public function extractExternalIds(array $show): Import\Metadata\Structure\ExternalIds
+    {
+        return new Import\Metadata\Structure\ExternalIds(
+            tvmaze: isset($show['id']) ? (string) $show['id'] : null,
+            tvdb: $show['externals']['thetvdb'] ?? null,
+        );
     }
 
     // ---------------------------------------------------------
@@ -166,9 +215,17 @@ class TvMazeService
     // ---------------------------------------------------------
     // IMAGE BUILDER
     // ---------------------------------------------------------
-    private function buildImageUrl(?array $image): string
+    private function buildImageUrl(mixed $image): string
     {
-        return $image['medium'] ?? $image['original'] ?? '';
+        if (\is_array($image)) {
+            return $image['original'] ?? $image['medium'] ?? '';
+        }
+
+        if (\is_string($image)) {
+            return $image;
+        }
+
+        return '';
     }
 
     // ---------------------------------------------------------
@@ -176,6 +233,16 @@ class TvMazeService
     // ---------------------------------------------------------
     public function hydrateShowMetadata(array $show): array
     {
+        $image = $show['image'] ?? null;
+
+        if (\is_string($image)) {
+            $imageUrl = $image;
+        } elseif (\is_array($image)) {
+            $imageUrl = $image['original'] ?? $image['medium'] ?? '';
+        } else {
+            $imageUrl = '';
+        }
+
         $country = $show['network']['country']['name'] ?? $show['webChannel']['country']['name'] ?? null;
 
         return [
@@ -191,7 +258,7 @@ class TvMazeService
 
             'releaseDate' => $show['premiered'] ?? null,
 
-            'image' => $this->buildImageUrl($show['image'] ?? []),
+            'image' => $imageUrl,
             'backdrop' => '',
 
             'country' => $country,

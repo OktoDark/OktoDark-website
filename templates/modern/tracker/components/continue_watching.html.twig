@@ -76,11 +76,11 @@
             <p class="text-muted small">No ongoing shows.</p>
         {% else %}
 
-            <div id="cw-grid" class="d-flex flex-row gap-3 fade-soft show" style="overflow-x: hidden;">
+            <div id="cw-grid" class="d-flex flex-row gap-3 fade-soft show" style="overflow-x: auto;">
 
                 {% for item in continueWatching %}
-                    <div class="cw-item" style="flex: 0 0 calc(100% / 7);">
-                        <div class="card h-100 border-0 shadow-sm position-relative"
+                    <div class="cw-item d-flex" style="flex: 0 0 calc(100% / 7);">
+                        <div class="card h-100 border-0 shadow-sm position-relative d-flex flex-column w-100"
                              data-id="{{ item.tvId }}">
 
                             <div class="badge-overlay">
@@ -93,55 +93,67 @@
                                 {% endif %}
                             </div>
 
-                            {% if item.coverUrl %}
-                                <img src="{{ item.coverUrl }}" loading="lazy" class="card-img-top" alt="{{ item.title }}">
-                            {% else %}
-                                <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center"
-                                     style="height: 180px; border-radius: .25rem;">
-                                    <span class="text-white-50 small">No Image</span>
-                                </div>
-                            {% endif %}
+                            <a href="{{ path('app_tracking_tv_show', { id: item.tvId }) }}"
+                               class="text-decoration-none text-reset cw-cover-link d-flex flex-column flex-grow-1">
 
-                            <div class="card-body">
-                                <h5 class="card-title">{{ item.title }}</h5>
-
-                                {% if item.nextEpisode %}
-                                    <p class="small text-muted mb-2">
-                                        Next: S{{ item.nextEpisode.season }}E{{ item.nextEpisode.number }}
-                                    </p>
+                                {% if item.coverUrl %}
+                                    <img src="{{ item.coverUrl }}" loading="lazy" class="card-img-top" alt="{{ item.title }}">
                                 {% else %}
-                                    <p class="small text-muted mb-2">Up to date</p>
+                                    <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center"
+                                         style="height: 180px; border-radius: .25rem;">
+                                        <span class="text-white-50 small">No Image</span>
+                                    </div>
                                 {% endif %}
 
-                                <div class="progress mb-2" style="height: 4px;">
-                                    <div class="progress-bar bg-primary"
-                                         role="progressbar"
-                                         style="width: {{ item.progressPercent }}%;"
-                                         aria-valuenow="{{ item.progressPercent }}"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.title }}</h5>
+
+                                    {% if item.nextEpisode %}
+                                        <p class="small text-muted mb-2">
+                                            Next: S{{ item.nextEpisode.season }}E{{ item.nextEpisode.number }}
+                                        </p>
+                                    {% else %}
+                                        <p class="small text-muted mb-2">Up to date</p>
+                                    {% endif %}
+
+                                    <div class="progress mb-2" style="height: 4px;">
+                                        <div class="progress-bar bg-primary"
+                                             role="progressbar"
+                                             style="width: {{ item.progressPercent }}%;"
+                                             aria-valuenow="{{ item.progressPercent }}"
+                                             aria-valuemin="0"
+                                             aria-valuemax="100">
+                                        </div>
                                     </div>
                                 </div>
+                            </a>
 
-                                <div class="d-flex gap-2 mt-2">
+                            <div class="card-body border-top pt-2 mt-auto">
+                                <div class="d-flex gap-2 mt-2 justify-content-center">
                                     {% if item.nextEpisode %}
+                                        <!-- Mark Episode Watched -->
                                         <button class="btn btn-sm btn-primary cw-mark-watched"
                                                 data-id="{{ item.tvId }}"
                                                 data-season="{{ item.nextEpisode.season }}"
-                                                data-episode="{{ item.nextEpisode.number }}">
-                                            Mark Episode Watched
+                                                data-episode="{{ item.nextEpisode.number }}"
+                                                title="Mark Episode Watched">
+                                            <i class="fa-solid fa-check" aria-hidden="true"></i>
                                         </button>
 
+                                        <!-- Mark Season Watched -->
                                         <button class="btn btn-sm btn-outline-primary cw-mark-season"
                                                 data-id="{{ item.tvId }}"
-                                                data-season="{{ item.nextEpisode.season }}">
-                                            Mark Season {{ item.nextEpisode.season }} Watched
+                                                data-season="{{ item.nextEpisode.season }}"
+                                                title="Mark Season {{ item.nextEpisode.season }} Watched">
+                                            <i class="fa-solid fa-arrows-left-right-to-line" aria-hidden="true"></i>
                                         </button>
                                     {% endif %}
 
+                                    <!-- Undo Watched -->
                                     <button class="btn btn-sm btn-outline-secondary cw-undo-watched"
-                                            data-id="{{ item.tvId }}">
-                                        Undo Watched
+                                            data-id="{{ item.tvId }}"
+                                            title="Undo Watched">
+                                        <i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </div>
@@ -149,7 +161,7 @@
                     </div>
                 {% endfor %}
 
-                <div class="cw-show-more-tile cw-hidden" style="flex: 0 0 calc(100% / 7);">
+                <div id="cw-show-more-tile" class="cw-show-more-tile {{ cwHasMore|default(false) ? '' : 'cw-hidden' }}" style="flex: 0 0 calc(100% / 7);">
                     <div class="cw-show-more">
                         Show More &rsaquo;
                     </div>
@@ -158,5 +170,87 @@
             </div>
 
         {% endif %}
+    </div>
+</div>
+
+{% if animeList is not empty %}
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-header fw-semibold">My Anime</div>
+        <div class="card-body">
+            <div id="anime-grid" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-7 g-3">
+
+                {% for anime in animeList %}
+                    {% if loop.index > 7 %}
+                        <div class="col anime-extra" style="display: none;">
+                    {% else %}
+                        <div class="col">
+                    {% endif %}
+
+                            <div class="card h-100 border-0 shadow-sm">
+                                {% if anime.coverUrl %}
+                                    <img src="{{ anime.coverUrl }}" class="card-img-top" alt="{{ anime.title }}" style="aspect-ratio: 2 / 3; object-fit: cover;">
+                                {% else %}
+                                    <div class="bg-secondary d-flex align-items-center justify-content-center" style="aspect-ratio: 2 / 3;">
+                                        <span class="text-white-50 small">No Image</span>
+                                    </div>
+                                {% endif %}
+
+                                <div class="card-body p-2">
+                                    <h6 class="card-title text-truncate mb-1">{{ anime.title }}</h6>
+
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="badge {{ anime.statusClass }}">{{ anime.statusLabel|capitalize }}</span>
+                                        <span class="text-muted small">{{ anime.score ?: '—' }}/10</span>
+                                    </div>
+
+                                    <div class="text-muted small">
+                                        {% if anime.releaseDate %}
+                                            {{ anime.releaseDate|date('Y') }}
+                                        {% else %}
+                                            —
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                {% endfor %}
+
+            </div>
+
+            {% if animeList|length > 7 %}
+                <div class="text-center mt-3">
+                    <button id="anime-show-more" class="btn btn-outline-primary btn-sm">
+                        Show More ({{ animeList|length - 7 }})
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-header fw-semibold">My Anime</div>
+        <div class="card-body">
+            <p class="text-muted small">No anime in your list yet.</p>
+        </div>
+    </div>
+{% endif %}
+
+<div class="card mb-4 shadow-sm border-0">
+    <div class="card-header fw-semibold">Action Legend</div>
+    <div class="card-body">
+        <ul class="list-unstyled d-flex flex-wrap gap-4 mb-0 small text-muted">
+            <li>
+                <i class="fa-solid fa-check text-primary" aria-hidden="true"></i>
+                Mark next episode as watched
+            </li>
+            <li>
+                <i class="fa-solid fa-arrows-left-right-to-line text-primary" aria-hidden="true"></i>
+                Mark the whole season as watched
+            </li>
+            <li>
+                <i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i>
+                Undo the last watched progress
+            </li>
+        </ul>
     </div>
 </div>

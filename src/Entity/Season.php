@@ -99,6 +99,19 @@ class Season
         return $this->episodes->count();
     }
 
+    public function getWatchedEpisodes(): int
+    {
+        $watched = 0;
+
+        foreach ($this->episodes as $ep) {
+            if ($ep->isWatched()) {
+                ++$watched;
+            }
+        }
+
+        return $watched;
+    }
+
     // ─────────────────────────────────────────────
     // GETTERS / SETTERS
     // ─────────────────────────────────────────────

@@ -1,5 +1,5 @@
-{% macro navItem(route, label, currentRoute) %}
-    <a href="{{ path(route) }}"
+{% macro navItem(route, label, currentRoute, routeParams = {}) %}
+    <a href="{{ path(route, routeParams) }}"
        class="list-group-item list-group-item-action py-1 px-2 {{ currentRoute starts with route ? 'active' }}">
         {{ label }}
     </a>
@@ -35,6 +35,8 @@
     </div>
 
     <div class="list-group sidebar-nav border-top pt-3 mt-1">
-        {{ sidebar.navItem('app_import_dashboard', 'Import Dashboard', currentRoute) }}
+        <div class="fw-semibold text-muted small px-2 mb-1">Import</div>
+
+        {{ sidebar.navItem('app_import_dashboard', 'Dashboard', currentRoute) }}
     </div>
 </aside>

@@ -29,6 +29,13 @@ class ContinueWatchingItem
     public string $status; // completed / in_progress / new
     public int $progressPercent = 0;
 
+    /**
+     * Most recent watched episode timestamp (or creation date as fallback),
+     * used to globally sort the merged TV + Anime "Continue Watching" list
+     * by recent watching activity.
+     */
+    public ?\DateTimeInterface $recentWatchedAt = null;
+
     public function __construct(
         int $tvId,
         string $title,
@@ -38,6 +45,7 @@ class ContinueWatchingItem
         bool $isCompleted,
         bool $isInProgress,
         int $progressPercent,
+        ?\DateTimeInterface $recentWatchedAt = null,
     ) {
         $this->tvId = $tvId;
         $this->title = $title;
@@ -61,5 +69,6 @@ class ContinueWatchingItem
         }
 
         $this->progressPercent = $progressPercent;
+        $this->recentWatchedAt = $recentWatchedAt;
     }
 }

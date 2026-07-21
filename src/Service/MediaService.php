@@ -47,6 +47,7 @@ class MediaService
         if ($isWatched) {
             $episode->setEndDate(new \DateTimeImmutable());
             $episode->setStatus(WatchStatus::COMPLETED);
+            $episode->setUpdatedAt(new \DateTimeImmutable());
 
             if (!$episode->getStartDate()) {
                 $episode->setStartDate(new \DateTimeImmutable());
@@ -54,6 +55,7 @@ class MediaService
         } else {
             $episode->setEndDate(null);
             $episode->setStatus(WatchStatus::IN_PROGRESS);
+            $episode->setUpdatedAt(new \DateTimeImmutable());
         }
 
         // ---------------------------------------------------------

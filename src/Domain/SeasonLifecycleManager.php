@@ -81,7 +81,9 @@ class SeasonLifecycleManager
         }
 
         if ($lastWatched) {
-            $tv->setProgressedAt($lastWatched);
+            $tv->setProgressedAt($lastWatched instanceof \DateTimeImmutable
+                ? $lastWatched
+                : \DateTimeImmutable::createFromMutable($lastWatched));
         }
     }
 

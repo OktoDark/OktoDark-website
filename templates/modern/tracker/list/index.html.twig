@@ -13,6 +13,7 @@
                     <h2 class="fw-bold mb-4">My List</h2>
 
                     <form method="get" action="{{ path('app_tracker_list') }}" class="mb-4" id="tracker-search-form">
+                        {% if status %}<input type="hidden" name="status" value="{{ status.value }}">{% endif %}
                         <div class="row g-2">
                             <div class="col-md-4">
                                 <input type="text" name="search" class="form-control" placeholder="Search title..." value="{{ search ?? '' }}">
@@ -28,6 +29,18 @@
                             </div>
                         </div>
                     </form>
+
+                    <div class="mb-4">
+                        <div class="btn-group flex-wrap" role="group">
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'status': null, 'page': 1})) }}" class="btn btn-outline-primary {% if status is null %}active{% endif %}">All</a>
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'status': 'In progress', 'page': 1})) }}" class="btn btn-outline-primary {% if status and status.value == 'In progress' %}active{% endif %}">Continue Watching</a>
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'status': 'Planning', 'page': 1})) }}" class="btn btn-outline-secondary {% if status and status.value == 'Planning' %}active{% endif %}">Planning</a>
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'status': 'Completed', 'page': 1})) }}" class="btn btn-outline-success {% if status and status.value == 'Completed' %}active{% endif %}">Completed</a>
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'status': 'Dropped', 'page': 1})) }}" class="btn btn-outline-danger {% if status and status.value == 'Dropped' %}active{% endif %}">Dropped</a>
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'status': 'Paused', 'page': 1})) }}" class="btn btn-outline-warning {% if status and status.value == 'Paused' %}active{% endif %}">Paused</a>
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'status': 'On hold', 'page': 1})) }}" class="btn btn-outline-info {% if status and status.value == 'On hold' %}active{% endif %}">On Hold</a>
+                        </div>
+                    </div>
 
                     {% if list is empty %}
                         <p class="text-muted">Your list is empty.</p>

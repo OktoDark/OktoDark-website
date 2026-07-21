@@ -69,22 +69,22 @@ class TV extends AbstractMedia
 
     public function getProgress(): int
     {
-        $total = 0;
-
-        foreach ($this->seasons as $season) {
-            $meta = $season->getMediaMetadata();
-
-            if ($meta && $meta->getSeasonNumber() > 0) {
-                $total += $season->getProgress();
-            }
-        }
-
-        return $total;
+        return $this->progress;
     }
 
     public function getWatchedEpisodes(): int
     {
-        return $this->getProgress();
+        $watched = 0;
+
+        foreach ($this->seasons as $season) {
+            foreach ($season->getEpisodes() as $ep) {
+                if ($ep->isWatched()) {
+                    ++$watched;
+                }
+            }
+        }
+
+        return $watched;
     }
 
     public function getTotalEpisodes(): int
@@ -133,11 +133,78 @@ class TV extends AbstractMedia
             return [];
         }
 
-        // Sort seasons by metadata seasonNumber
         usort($seasons, static fn ($a, $b) => ($a->getMediaMetadata()?->getSeasonNumber() ?? 0)
             <=>
             ($b->getMediaMetadata()?->getSeasonNumber() ?? 0)
         );
+
+        $lastWatched = null;
+        $lastWatchedDate = null;
+
+        foreach ($seasons as $season) {
+            foreach ($season->getEpisodes() as $ep) {
+                $endDate = $ep->getEndDate();
+                if ($endDate && (null === $lastWatchedDate || $endDate > $lastWatchedDate)) {
+                    $lastWatchedDate = $endDate;
+                    $lastWatched = $ep;
+                }
+            }
+        }
+
+        if ($lastWatched) {
+            $lastWatchedSeason = $lastWatched->getRelatedSeason();
+            $lastWatchedNumber = $lastWatched->getMediaMetadata()?->getEpisodeNumber();
+
+            foreach ($seasons as $season) {
+                if ($season->getId() === $lastWatchedSeason->getId()) {
+                    $episodes = $season->getEpisodes()->toArray();
+
+                    usort($episodes, static fn ($a, $b) => ($a->getMediaMetadata()?->getEpisodeNumber() ?? 0)
+                        <=>
+                        ($b->getMediaMetadata()?->getEpisodeNumber() ?? 0)
+                    );
+
+                    foreach ($episodes as $ep) {
+                        $epNumber = $ep->getMediaMetadata()?->getEpisodeNumber();
+                        if ($epNumber > $lastWatchedNumber && null === $ep->getEndDate()) {
+                            return [
+                                'season' => $season->getMediaMetadata()?->getSeasonNumber(),
+                                'episode' => $epNumber,
+                            ];
+                        }
+                    }
+                    break;
+                }
+            }
+
+            $foundLastSeason = false;
+
+            foreach ($seasons as $season) {
+                if ($foundLastSeason) {
+                    $episodes = $season->getEpisodes()->toArray();
+
+                    if (!empty($episodes)) {
+                        usort($episodes, static fn ($a, $b) => ($a->getMediaMetadata()?->getEpisodeNumber() ?? 0)
+                            <=>
+                            ($b->getMediaMetadata()?->getEpisodeNumber() ?? 0)
+                        );
+
+                        foreach ($episodes as $ep) {
+                            if (null === $ep->getEndDate()) {
+                                return [
+                                    'season' => $season->getMediaMetadata()?->getSeasonNumber(),
+                                    'episode' => $ep->getMediaMetadata()?->getEpisodeNumber(),
+                                ];
+                            }
+                        }
+                    }
+                }
+
+                if ($season->getId() === $lastWatchedSeason->getId()) {
+                    $foundLastSeason = true;
+                }
+            }
+        }
 
         foreach ($seasons as $season) {
             $episodes = $season->getEpisodes()->toArray();
@@ -146,14 +213,13 @@ class TV extends AbstractMedia
                 continue;
             }
 
-            // Sort episodes by metadata episodeNumber
             usort($episodes, static fn ($a, $b) => ($a->getMediaMetadata()?->getEpisodeNumber() ?? 0)
                 <=>
                 ($b->getMediaMetadata()?->getEpisodeNumber() ?? 0)
             );
 
             foreach ($episodes as $ep) {
-                if (!$ep->isWatched()) {
+                if (null === $ep->getEndDate()) {
                     return [
                         'season' => $season->getMediaMetadata()?->getSeasonNumber(),
                         'episode' => $ep->getMediaMetadata()?->getEpisodeNumber(),
@@ -162,25 +228,6 @@ class TV extends AbstractMedia
             }
         }
 
-        // All episodes watched → return last episode of last season
-        $lastSeason = end($seasons);
-        $lastEpisodes = $lastSeason->getEpisodes()->toArray();
-
-        if (!empty($lastEpisodes)) {
-            usort($lastEpisodes, static fn ($a, $b) => ($a->getMediaMetadata()?->getEpisodeNumber() ?? 0)
-                <=>
-                ($b->getMediaMetadata()?->getEpisodeNumber() ?? 0)
-            );
-
-            $lastEp = end($lastEpisodes);
-
-            return [
-                'season' => $lastSeason->getMediaMetadata()?->getSeasonNumber(),
-                'episode' => $lastEp->getMediaMetadata()?->getEpisodeNumber(),
-            ];
-        }
-
-        // No episodes available at all
         return [];
     }
 }

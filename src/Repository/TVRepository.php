@@ -95,24 +95,15 @@ class TVRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('t');
 
-        // To prevent empty gaps in pagination, we filter out empty PLANNING shows
-        // directly in DQL using a EXISTS/size subquery.
         $qb->innerJoin('t.mediaMetadata', 'meta')
             ->addSelect('meta')
             ->where('t.user = :u')
-            ->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->eq('t.status', ':statusInProgress'),
-                    $qb->expr()->andX(
-                        $qb->expr()->eq('t.status', ':statusPlanning'),
-                        $qb->expr()->gt('SIZE(t.seasons)', 0) // Only fetch PLANNING shows with seasons
-                    )
-                )
-            )
+            ->andWhere('t.status = :statusInProgress')
+            ->andWhere('t.progress > 0')
             ->setParameter('u', $user)
             ->setParameter('statusInProgress', WatchStatus::IN_PROGRESS)
-            ->setParameter('statusPlanning', WatchStatus::PLANNING)
-            ->orderBy('t.progressedAt', 'DESC')
+            ->addOrderBy('t.progressedAt', 'DESC')
+            ->addOrderBy('t.createdAt', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
@@ -155,7 +146,8 @@ class TVRepository extends ServiceEntityRepository
                 nextEpisode: $nextEpisode,
                 isCompleted: $isCompleted,
                 isInProgress: $isInProgress,
-                progressPercent: $progressPercent
+                progressPercent: $progressPercent,
+                recentWatchedAt: $show->getProgressedAt() ?? $show->getCreatedAt()
             );
         }
 
@@ -170,18 +162,10 @@ class TVRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('t');
         $qb->select('COUNT(t.id)')
             ->where('t.user = :user')
-            ->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->eq('t.status', ':statusInProgress'),
-                    $qb->expr()->andX(
-                        $qb->expr()->eq('t.status', ':statusPlanning'),
-                        $qb->expr()->gt('SIZE(t.seasons)', 0)
-                    )
-                )
-            )
+            ->andWhere('t.status = :statusInProgress')
+            ->andWhere('t.progress > 0')
             ->setParameter('user', $user)
-            ->setParameter('statusInProgress', WatchStatus::IN_PROGRESS)
-            ->setParameter('statusPlanning', WatchStatus::PLANNING);
+            ->setParameter('statusInProgress', WatchStatus::IN_PROGRESS);
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
@@ -211,6 +195,7 @@ class TVRepository extends ServiceEntityRepository
         ?string $actor = null,
         int $page = 1,
         int $limit = 24,
+        ?WatchStatus $status = null,
     ): array {
         $conn = $this->getEntityManager()->getConnection();
         $qb = $conn->createQueryBuilder();
@@ -234,6 +219,11 @@ class TVRepository extends ServiceEntityRepository
         if ($actor) {
             $qb->andWhere('JSON_SEARCH(ti.cast, "one", :actor, NULL, "$[*].name") IS NOT NULL')
                 ->setParameter('actor', $actor);
+        }
+
+        if (null !== $status) {
+            $qb->andWhere('t.status = :status')
+                ->setParameter('status', $status->value);
         }
 
         $countQb = clone $qb;

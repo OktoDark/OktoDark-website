@@ -15,6 +15,7 @@ use App\Dto\NextEpisodeItem;
 use App\Dto\RecentlyWatchedItem;
 use App\Entity\Episode;
 use App\Entity\User;
+use App\Enum\WatchStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,18 +38,9 @@ class EpisodeRepository extends ServiceEntityRepository
      */
     public function findNextEpisodes(User $user): array
     {
-        // Step 1: Find the lowest unwatched episode ID for each active show
-        $subQuery = $this->createQueryBuilder('sub_e')
-            ->select('MIN(sub_e.id)')
-            ->join('sub_e.relatedSeason', 'sub_s')
-            ->join('sub_s.relatedTv', 'sub_t')
-            ->where('sub_t.user = :u')
-            ->andWhere('sub_e.endDate IS NULL')
-            ->groupBy('sub_t.id')
-            ->getDQL();
+        $qb = $this->createQueryBuilder('e');
 
-        // Step 2: Fetch the full DTO details for just those target episodes
-        $rows = $this->createQueryBuilder('e')
+        $rows = $qb
             ->select('t.id AS tvId', 'metaTv.title AS showTitle', 'metaTv.image AS coverUrl')
             ->addSelect('metaSeason.seasonNumber AS season', 'metaEp.episodeNumber AS episode', 'metaEp.releaseDate AS airDate')
             ->join('e.relatedSeason', 's')
@@ -56,12 +48,32 @@ class EpisodeRepository extends ServiceEntityRepository
             ->join('s.relatedTv', 't')
             ->join('t.mediaMetadata', 'metaTv')
             ->join('e.mediaMetadata', 'metaEp')
-            ->where('e.id IN ('.$subQuery.')')
+            ->where('t.user = :u')
+            ->andWhere('e.endDate IS NULL')
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('t.status', ':statusInProgress'),
+                    $qb->expr()->andX(
+                        $qb->expr()->eq('t.status', ':statusPlanning'),
+                        $qb->expr()->gt('SIZE(t.seasons)', 0)
+                    )
+                )
+            )
             ->setParameter('u', $user)
-            ->orderBy('metaEp.releaseDate', 'ASC')
-            ->setMaxResults(10)
+            ->setParameter('statusInProgress', WatchStatus::IN_PROGRESS)
+            ->setParameter('statusPlanning', WatchStatus::PLANNING)
+            ->orderBy('metaSeason.seasonNumber', 'ASC')
+            ->addOrderBy('metaEp.episodeNumber', 'ASC')
             ->getQuery()
-            ->getArrayResult(); // Hydrate as light array to prevent memory leaks
+            ->getArrayResult();
+
+        $nextByShow = [];
+        foreach ($rows as $row) {
+            $tvId = (int) $row['tvId'];
+            if (!isset($nextByShow[$tvId])) {
+                $nextByShow[$tvId] = $row;
+            }
+        }
 
         return array_map(static function (array $row) {
             return new NextEpisodeItem(
@@ -72,7 +84,7 @@ class EpisodeRepository extends ServiceEntityRepository
                 episode: (int) $row['episode'],
                 airDate: $row['airDate'],
             );
-        }, $rows);
+        }, array_slice($nextByShow, 0, 10, true));
     }
 
     /**
@@ -95,6 +107,7 @@ class EpisodeRepository extends ServiceEntityRepository
             ->where('t.user = :u')
             ->andWhere('e.endDate IS NOT NULL')
             ->orderBy('e.endDate', 'DESC')
+            ->addOrderBy('e.id', 'DESC')
             ->setParameter('u', $user)
             ->setMaxResults(10)
             ->getQuery()
@@ -232,6 +245,26 @@ class EpisodeRepository extends ServiceEntityRepository
             ->andWhere('t.user = :user')
             ->andWhere('e.endDate IS NOT NULL')
             ->orderBy('e.endDate', 'DESC')
+            ->setParameter('show', $showId)
+            ->setParameter('user', $user)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findLastWatchedEpisodeByNumber(User $user, int $showId): ?Episode
+    {
+        return $this->createQueryBuilder('e')
+            ->join('e.relatedSeason', 's')
+            ->join('s.mediaMetadata', 'metaSeason')
+            ->join('s.relatedTv', 't')
+            ->join('e.mediaMetadata', 'm')
+            ->where('t.id = :show')
+            ->andWhere('t.user = :user')
+            ->andWhere('e.endDate IS NOT NULL')
+            ->orderBy('metaSeason.seasonNumber', 'DESC')
+            ->addOrderBy('m.episodeNumber', 'DESC')
+            ->addOrderBy('e.endDate', 'DESC')
             ->setParameter('show', $showId)
             ->setParameter('user', $user)
             ->setMaxResults(1)

@@ -84,13 +84,6 @@ class TmdbService
                 }
             }
 
-            if (!empty($ids['imdb'])) {
-                $movie = $this->findByExternalId($ids['imdb'], 'movie_results');
-                if ($movie) {
-                    return $movie;
-                }
-            }
-
             if ($title) {
                 $movie = $this->searchMovie($title, $year);
                 if ($movie) {
@@ -171,13 +164,6 @@ class TmdbService
                 }
             }
 
-            if (!empty($ids['imdb'])) {
-                $show = $this->findByExternalId($ids['imdb'], 'tv_results');
-                if ($show) {
-                    return $show;
-                }
-            }
-
             if ($title) {
                 $show = $this->searchShow($title, $year);
                 if ($show) {
@@ -207,19 +193,38 @@ class TmdbService
     }
 
     // ---------------------------------------------------------
-    // EXTERNAL ID LOOKUP (IMDB)
+    // SEARCH (list, used by multi-source discovery)
     // ---------------------------------------------------------
-    public function findByExternalId(string $externalId, string $resultKey): ?array
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function searchShowList(string $title, ?int $year): array
     {
-        $data = $this->safeGet(self::BASE."/find/$externalId", [
-            'external_source' => 'imdb_id',
-        ]);
+        $params = ['query' => $title];
+        if ($year) {
+            $params['first_air_date_year'] = $year;
+        }
 
-        $result = $data[$resultKey][0] ?? null;
+        $data = $this->safeGet(self::BASE.'/search/tv', $params);
 
-        return $result ? $this->hydrateMetadata($result) : null;
+        return $data['results'] ?? [];
     }
 
+    /**
+     * Extract the normalized external id set from a raw TMDB show record.
+     *
+     * @param array<string, mixed> $show
+     */
+    public function extractExternalIds(array $show): Import\Metadata\Structure\ExternalIds
+    {
+        return new Import\Metadata\Structure\ExternalIds(
+            tmdb: isset($show['id']) ? (string) $show['id'] : null,
+        );
+    }
+
+    // ---------------------------------------------------------
+    // HYDRATION
+    // ---------------------------------------------------------
     public function fetchFullShow(int $tmdbId): ?array
     {
         try {
@@ -374,6 +379,27 @@ class TmdbService
     }
 
     // ---------------------------------------------------------
+    // SHOW CAST (CREDITS)
+    // ---------------------------------------------------------
+    public function getShowCredits(int $showId): array
+    {
+        $data = $this->safeGet(self::BASE."/tv/$showId/credits");
+
+        $cast = [];
+        foreach (\array_slice($data['cast'] ?? [], 0, 12) as $person) {
+            $cast[] = [
+                'name' => $person['name'] ?? null,
+                'character' => $person['character'] ?? null,
+                'image' => isset($person['profile_path'])
+                    ? self::IMG.'w185'.$person['profile_path']
+                    : null,
+            ];
+        }
+
+        return $cast;
+    }
+
+    // ---------------------------------------------------------
     // SEARCH SHOWS
     // ---------------------------------------------------------
     public function searchShows(?string $query): array
@@ -428,6 +454,7 @@ class TmdbService
     public function hydrateMetadata(array $data): array
     {
         $title = $data['name'] ?? $data['title'] ?? null;
+        $originalTitle = $data['original_name'] ?? $data['original_title'] ?? null;
         $releaseDate = $data['first_air_date'] ?? $data['release_date'] ?? null;
         $posterPath = $data['poster_path'] ?? null;
 
@@ -450,6 +477,7 @@ class TmdbService
             'externalId' => (string) ($data['id'] ?? null),
 
             'title' => $title,
+            'originalTitle' => $originalTitle,
             'overview' => $data['overview'] ?? null,
 
             'genres' => $genres,

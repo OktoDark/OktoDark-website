@@ -92,7 +92,8 @@ class AnimeRepository extends AbstractMediaRepository
             ->andWhere('a.status = :status')
             ->setParameter('u', $user)
             ->setParameter('status', WatchStatus::IN_PROGRESS)
-            ->orderBy('a.createdAt', 'DESC')
+            ->addOrderBy('a.progressedAt', 'DESC')
+            ->addOrderBy('a.createdAt', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
@@ -117,7 +118,8 @@ class AnimeRepository extends AbstractMediaRepository
                 nextEpisode: null,
                 isCompleted: $isCompleted,
                 isInProgress: $isInProgress,
-                progressPercent: $progressPercent
+                progressPercent: $progressPercent,
+                recentWatchedAt: $anime->getProgressedAt() ?? $anime->getCreatedAt()
             );
         }
 
