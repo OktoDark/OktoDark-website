@@ -83,6 +83,10 @@ class ImportDashboardController extends AbstractController
 
     /**
      * Delete duplicate tracking rows across metadata, movie, TV, season and episode tables.
+     *
+     * When called with a "dry-run" query parameter, the same duplicate-detection
+     * queries are run as COUNT(*) selects so the caller can preview exactly how
+     * many rows per table would be removed, without writing anything.
      */
     #[Route('/remove-duplicates', name: 'admin_import_remove_duplicates', methods: ['POST', 'GET'])]
     #[Permission('admin.import.remove_duplicates')]
@@ -90,81 +94,167 @@ class ImportDashboardController extends AbstractController
     {
         $session = $request->getSession();
         $conn = $em->getConnection();
-        $logs = [];
+        $dryRun = $request->query->getBoolean('dry-run') || $request->request->getBoolean('dry-run');
 
-        // Remove duplicate MediaMetadata (tracking_item)
-        $conn->executeStatement('
-        DELETE ti FROM tracking_item ti
-        JOIN (
-            SELECT MIN(id) AS keep_id, media_id, source, media_type, season_number, episode_number
-            FROM tracking_item
-            GROUP BY media_id, source, media_type, season_number, episode_number
-            HAVING COUNT(*) > 1
-        ) d ON ti.media_id = d.media_id
-           AND ti.source = d.source
-           AND ti.media_type = d.media_type
-           AND ti.season_number <=> d.season_number
-           AND ti.episode_number <=> d.episode_number
-        WHERE ti.id <> d.keep_id
-    ');
-        $logs[] = 'Removed duplicate MediaMetadata entries.';
+        // Duplicate MediaMetadata (tracking_item)
+        $metaSql = '
+            SELECT COUNT(*) FROM tracking_item ti
+            JOIN (
+                SELECT MIN(id) AS keep_id, media_id, source, media_type, season_number, episode_number
+                FROM tracking_item
+                GROUP BY media_id, source, media_type, season_number, episode_number
+                HAVING COUNT(*) > 1
+            ) d ON ti.media_id = d.media_id
+               AND ti.source = d.source
+               AND ti.media_type = d.media_type
+               AND ti.season_number <=> d.season_number
+               AND ti.episode_number <=> d.episode_number
+            WHERE ti.id <> d.keep_id
+        ';
 
-        // Remove duplicate Movies
-        $conn->executeStatement('
-        DELETE tm FROM tracking_movie tm
-        JOIN (
-            SELECT MIN(id) AS keep_id, media_metadata_id, user_id
-            FROM tracking_movie
-            GROUP BY media_metadata_id, user_id
-            HAVING COUNT(*) > 1
-        ) d ON tm.media_metadata_id = d.media_metadata_id
-           AND tm.user_id = d.user_id
-        WHERE tm.id <> d.keep_id
-    ');
-        $logs[] = 'Removed duplicate Movies.';
+        // Duplicate Movies
+        $movieSql = '
+            SELECT COUNT(*) FROM tracking_movie tm
+            JOIN (
+                SELECT MIN(id) AS keep_id, media_metadata_id, user_id
+                FROM tracking_movie
+                GROUP BY media_metadata_id, user_id
+                HAVING COUNT(*) > 1
+            ) d ON tm.media_metadata_id = d.media_metadata_id
+               AND tm.user_id = d.user_id
+            WHERE tm.id <> d.keep_id
+        ';
 
-        // Remove duplicate TV entries
-        $conn->executeStatement('
-        DELETE tv FROM tracking_tv tv
-        JOIN (
-            SELECT MIN(id) AS keep_id, media_metadata_id, user_id
-            FROM tracking_tv
-            GROUP BY media_metadata_id, user_id
-            HAVING COUNT(*) > 1
-        ) d ON tv.media_metadata_id = d.media_metadata_id
-           AND tv.user_id = d.user_id
-        WHERE tv.id <> d.keep_id
-    ');
-        $logs[] = 'Removed duplicate TV entries.';
+        // Duplicate TV entries
+        $tvSql = '
+            SELECT COUNT(*) FROM tracking_tv tv
+            JOIN (
+                SELECT MIN(id) AS keep_id, media_metadata_id, user_id
+                FROM tracking_tv
+                GROUP BY media_metadata_id, user_id
+                HAVING COUNT(*) > 1
+            ) d ON tv.media_metadata_id = d.media_metadata_id
+               AND tv.user_id = d.user_id
+            WHERE tv.id <> d.keep_id
+        ';
 
-        // Remove duplicate Seasons
-        $conn->executeStatement('
-        DELETE ts FROM tracking_season ts
-        JOIN (
-            SELECT MIN(id) AS keep_id, related_tv_id, media_metadata_id
-            FROM tracking_season
-            GROUP BY related_tv_id, media_metadata_id
-            HAVING COUNT(*) > 1
-        ) d ON ts.related_tv_id = d.related_tv_id
-           AND ts.media_metadata_id = d.media_metadata_id
-        WHERE ts.id <> d.keep_id
-    ');
-        $logs[] = 'Removed duplicate Seasons.';
+        // Duplicate Seasons
+        $seasonSql = '
+            SELECT COUNT(*) FROM tracking_season ts
+            JOIN (
+                SELECT MIN(id) AS keep_id, related_tv_id, media_metadata_id
+                FROM tracking_season
+                GROUP BY related_tv_id, media_metadata_id
+                HAVING COUNT(*) > 1
+            ) d ON ts.related_tv_id = d.related_tv_id
+               AND ts.media_metadata_id = d.media_metadata_id
+            WHERE ts.id <> d.keep_id
+        ';
 
-        // Remove duplicate Episodes
-        $conn->executeStatement('
-        DELETE te FROM tracking_episode te
-        JOIN (
-            SELECT MIN(id) AS keep_id, media_metadata_id, related_season_id
-            FROM tracking_episode
-            GROUP BY media_metadata_id, related_season_id
-            HAVING COUNT(*) > 1
-        ) d ON te.media_metadata_id = d.media_metadata_id
-           AND te.related_season_id = d.related_season_id
-        WHERE te.id <> d.keep_id
-    ');
-        $logs[] = 'Removed duplicate Episodes.';
+        // Duplicate Episodes
+        $episodeSql = '
+            SELECT COUNT(*) FROM tracking_episode te
+            JOIN (
+                SELECT MIN(id) AS keep_id, media_metadata_id, related_season_id
+                FROM tracking_episode
+                GROUP BY media_metadata_id, related_season_id
+                HAVING COUNT(*) > 1
+            ) d ON te.media_metadata_id = d.media_metadata_id
+               AND te.related_season_id = d.related_season_id
+            WHERE te.id <> d.keep_id
+        ';
 
+        if ($dryRun) {
+            $counts = [
+                'metadata' => (int) $conn->fetchOne($metaSql),
+                'movie' => (int) $conn->fetchOne($movieSql),
+                'tv' => (int) $conn->fetchOne($tvSql),
+                'season' => (int) $conn->fetchOne($seasonSql),
+                'episode' => (int) $conn->fetchOne($episodeSql),
+            ];
+            $total = array_sum($counts);
+
+            $logs = ['DRY RUN — would remove duplicates: '.\json_encode($counts)];
+            $session->set('admin_import_logs', $logs);
+
+            return $this->json([
+                'status' => 'dry_run',
+                'total' => $total,
+                'counts' => $counts,
+                'logs' => $logs,
+            ]);
+        }
+
+        $conn->executeStatement("
+            DELETE ti FROM tracking_item ti
+            JOIN (
+                SELECT MIN(id) AS keep_id, media_id, source, media_type, season_number, episode_number
+                FROM tracking_item
+                GROUP BY media_id, source, media_type, season_number, episode_number
+                HAVING COUNT(*) > 1
+            ) d ON ti.media_id = d.media_id
+               AND ti.source = d.source
+               AND ti.media_type = d.media_type
+               AND ti.season_number <=> d.season_number
+               AND ti.episode_number <=> d.episode_number
+            WHERE ti.id <> d.keep_id
+        ");
+
+        $conn->executeStatement("
+            DELETE tm FROM tracking_movie tm
+            JOIN (
+                SELECT MIN(id) AS keep_id, media_metadata_id, user_id
+                FROM tracking_movie
+                GROUP BY media_metadata_id, user_id
+                HAVING COUNT(*) > 1
+            ) d ON tm.media_metadata_id = d.media_metadata_id
+               AND tm.user_id = d.user_id
+            WHERE tm.id <> d.keep_id
+        ");
+
+        $conn->executeStatement("
+            DELETE tv FROM tracking_tv tv
+            JOIN (
+                SELECT MIN(id) AS keep_id, media_metadata_id, user_id
+                FROM tracking_tv
+                GROUP BY media_metadata_id, user_id
+                HAVING COUNT(*) > 1
+            ) d ON tv.media_metadata_id = d.media_metadata_id
+               AND tv.user_id = d.user_id
+            WHERE tv.id <> d.keep_id
+        ");
+
+        $conn->executeStatement("
+            DELETE ts FROM tracking_season ts
+            JOIN (
+                SELECT MIN(id) AS keep_id, related_tv_id, media_metadata_id
+                FROM tracking_season
+                GROUP BY related_tv_id, media_metadata_id
+                HAVING COUNT(*) > 1
+            ) d ON ts.related_tv_id = d.related_tv_id
+               AND ts.media_metadata_id = d.media_metadata_id
+            WHERE ts.id <> d.keep_id
+        ");
+
+        $conn->executeStatement("
+            DELETE te FROM tracking_episode te
+            JOIN (
+                SELECT MIN(id) AS keep_id, media_metadata_id, related_season_id
+                FROM tracking_episode
+                GROUP BY media_metadata_id, related_season_id
+                HAVING COUNT(*) > 1
+            ) d ON te.media_metadata_id = d.media_metadata_id
+               AND te.related_season_id = d.related_season_id
+            WHERE te.id <> d.keep_id
+        ");
+
+        $logs = [
+            'Removed duplicate MediaMetadata entries.',
+            'Removed duplicate Movies.',
+            'Removed duplicate TV entries.',
+            'Removed duplicate Seasons.',
+            'Removed duplicate Episodes.',
+        ];
         $session->set('admin_import_logs', $logs);
 
         return $this->json(['status' => 'duplicates_removed', 'logs' => $logs]);
@@ -458,6 +548,10 @@ class ImportDashboardController extends AbstractController
 
     /**
      * Delete tracking rows whose parent relations no longer exist (orphan cleanup).
+     *
+     * When called with a "dry-run" query parameter, the same orphan-detection
+     * queries are run as COUNT(*) selects so the caller can preview exactly how
+     * many rows per table would be removed, without writing anything.
      */
     #[Route('/purge-orphans', name: 'admin_import_purge_orphans', methods: ['POST', 'GET'])]
     #[Permission('admin.import.purge_orphans')]
@@ -465,46 +559,97 @@ class ImportDashboardController extends AbstractController
     {
         $session = $request->getSession();
         $conn = $em->getConnection();
-        $logs = [];
+        $dryRun = $request->query->getBoolean('dry-run') || $request->request->getBoolean('dry-run');
 
         // Episodes without Season
-        $conn->executeStatement('
-        DELETE FROM tracking_episode
+        $episodeSql = '
+        SELECT COUNT(*) FROM tracking_episode
         WHERE related_season_id NOT IN (SELECT id FROM tracking_season)
-    ');
-        $logs[] = 'Purged orphaned Episodes.';
+    ';
 
         // Seasons without TV
-        $conn->executeStatement('
-        DELETE FROM tracking_season
+        $seasonSql = '
+        SELECT COUNT(*) FROM tracking_season
         WHERE related_tv_id NOT IN (SELECT id FROM tracking_tv)
-    ');
-        $logs[] = 'Purged orphaned Seasons.';
+    ';
 
         // TV without metadata
-        $conn->executeStatement('
-        DELETE FROM tracking_tv
+        $tvSql = '
+        SELECT COUNT(*) FROM tracking_tv
         WHERE media_metadata_id NOT IN (SELECT id FROM tracking_item)
-    ');
-        $logs[] = 'Purged orphaned TV entries.';
+    ';
 
         // Movies without metadata
-        $conn->executeStatement('
-        DELETE FROM tracking_movie
+        $movieSql = '
+        SELECT COUNT(*) FROM tracking_movie
         WHERE media_metadata_id NOT IN (SELECT id FROM tracking_item)
-    ');
-        $logs[] = 'Purged orphaned Movies.';
+    ';
 
         // Metadata without any linked entity
-        $conn->executeStatement('
-        DELETE FROM tracking_item
+        $metadataSql = '
+        SELECT COUNT(*) FROM tracking_item
         WHERE id NOT IN (SELECT media_metadata_id FROM tracking_movie)
           AND id NOT IN (SELECT media_metadata_id FROM tracking_tv)
           AND id NOT IN (SELECT media_metadata_id FROM tracking_season)
           AND id NOT IN (SELECT media_metadata_id FROM tracking_episode)
-    ');
-        $logs[] = 'Purged orphaned MediaMetadata.';
+    ';
 
+        if ($dryRun) {
+            $counts = [
+                'episode' => (int) $conn->fetchOne($episodeSql),
+                'season' => (int) $conn->fetchOne($seasonSql),
+                'tv' => (int) $conn->fetchOne($tvSql),
+                'movie' => (int) $conn->fetchOne($movieSql),
+                'metadata' => (int) $conn->fetchOne($metadataSql),
+            ];
+            $total = array_sum($counts);
+
+            $logs = ['DRY RUN — would purge orphans: '.\json_encode($counts)];
+            $session->set('admin_import_logs', $logs);
+
+            return $this->json([
+                'status' => 'dry_run',
+                'total' => $total,
+                'counts' => $counts,
+                'logs' => $logs,
+            ]);
+        }
+
+        $conn->executeStatement("
+            DELETE FROM tracking_episode
+            WHERE related_season_id NOT IN (SELECT id FROM tracking_season)
+        ");
+
+        $conn->executeStatement("
+            DELETE FROM tracking_season
+            WHERE related_tv_id NOT IN (SELECT id FROM tracking_tv)
+        ");
+
+        $conn->executeStatement("
+            DELETE FROM tracking_tv
+            WHERE media_metadata_id NOT IN (SELECT id FROM tracking_item)
+        ");
+
+        $conn->executeStatement("
+            DELETE FROM tracking_movie
+            WHERE media_metadata_id NOT IN (SELECT id FROM tracking_item)
+        ");
+
+        $conn->executeStatement("
+            DELETE FROM tracking_item
+            WHERE id NOT IN (SELECT media_metadata_id FROM tracking_movie)
+              AND id NOT IN (SELECT media_metadata_id FROM tracking_tv)
+              AND id NOT IN (SELECT media_metadata_id FROM tracking_season)
+              AND id NOT IN (SELECT media_metadata_id FROM tracking_episode)
+        ");
+
+        $logs = [
+            'Purged orphaned Episodes.',
+            'Purged orphaned Seasons.',
+            'Purged orphaned TV entries.',
+            'Purged orphaned Movies.',
+            'Purged orphaned MediaMetadata.',
+        ];
         $session->set('admin_import_logs', $logs);
 
         return $this->json(['status' => 'orphans_purged', 'logs' => $logs]);
@@ -598,7 +743,7 @@ class ImportDashboardController extends AbstractController
         $result = $conn->executeStatement("
             UPDATE tracking_tv tv
             JOIN (
-                SELECT 
+                SELECT
                     s.related_tv_id,
                     COUNT(e.id) as total_episodes,
                     SUM(CASE WHEN e.end_date IS NOT NULL THEN 1 ELSE 0 END) as watched_episodes,
@@ -607,12 +752,12 @@ class ImportDashboardController extends AbstractController
                 LEFT JOIN tracking_episode e ON e.related_season_id = s.id
                 GROUP BY s.related_tv_id
             ) stats ON stats.related_tv_id = tv.id
-            SET tv.progress = CASE 
-                WHEN stats.total_episodes > 0 
+            SET tv.progress = CASE
+                WHEN stats.total_episodes > 0
                 THEN ROUND((stats.watched_episodes / stats.total_episodes) * 100)
-                ELSE 0 
+                ELSE 0
             END,
-            tv.status = CASE 
+            tv.status = CASE
                 WHEN stats.total_episodes > 0 AND stats.watched_episodes >= stats.total_episodes THEN 'Completed'
                 WHEN stats.watched_episodes > 0 THEN 'In progress'
                 ELSE 'Planning'
