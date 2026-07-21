@@ -1,0 +1,27 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Upgrade Account{% endblock %}
+
+{% block body %}
+    <div class="error-page">
+
+        <div class="error-icon">
+            <i class="fas fa-star"></i>
+        </div>
+
+        <h1 class="error-title">Upgrade Your Account</h1>
+
+        <p class="error-message">
+            Unlock premium features, enhanced tools, and exclusive community access.
+        </p>
+
+        <a href="{{ path('supportus') }}" class="btn btn-primary btn-lg">
+            Upgrade Now
+        </a>
+
+        <a href="{{ path('homepage') }}" class="btn btn-secondary mt-3">
+            Return to Home
+        </a>
+
+    </div>
+{% endblock %}

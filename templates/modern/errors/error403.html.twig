@@ -1,0 +1,59 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Access Denied{% endblock %}
+
+{% block body %}
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 60vh;">
+        <div class="row justify-content-center w-100">
+            <div class="col-md-8 col-lg-6">
+
+                <div class="card shadow border-0">
+                    <div class="card-body text-center p-4">
+
+                        <div class="mb-3">
+                            <i class="bi bi-shield-lock-fill text-danger" style="font-size: 3.5rem;"></i>
+                        </div>
+
+                        <h1 class="card-title fw-bold mb-2 fs-3">Access Denied</h1>
+
+                        <p class="card-text text-muted mb-3">
+                            You do not have permission to access this resource.
+                        </p>
+
+                        {% if required_permission %}
+                            <div class="alert alert-warning d-inline-block mb-3" role="alert">
+                                Required permission: <br> <strong>{{ required_permission }}</strong>
+                            </div>
+                        {% endif %}
+
+                        {% if app.user %}
+                            <p class="card-text text-muted mb-3">
+                                Your current account level does not include access to this feature.
+                            </p>
+
+                            <a href="{{ path('supportus') }}" class="btn btn-primary text-bg-primary px-3">
+                                <i class="bi bi-arrow-up-circle me-2"></i>Upgrade Account
+                            </a>
+                        {% else %}
+                            <p class="card-text text-muted mb-3">
+                                You must be logged in to access this feature.
+                            </p>
+
+                            <a href="{{ path('security_login') }}" class="btn btn-primary px-3">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                            </a>
+                        {% endif %}
+
+                        <div class="mt-3 pt-3 border-top">
+                            <a href="{{ path('homepage') }}" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-house-door me-1"></i>Return to Home
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

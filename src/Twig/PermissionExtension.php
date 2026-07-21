@@ -15,6 +15,7 @@ namespace App\Twig;
 
 use App\Security\PermissionChecker;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -23,6 +24,7 @@ class PermissionExtension extends AbstractExtension
     public function __construct(
         private Security $security,
         private PermissionChecker $checker,
+        private TokenStorageInterface $tokenStorage,
     ) {
     }
 
@@ -35,7 +37,10 @@ class PermissionExtension extends AbstractExtension
 
     public function can(string $permission): bool
     {
-        $user = $this->security->getUser();
+        // Use TokenStorage directly to get user from token (even if not fully authenticated)
+        $token = $this->tokenStorage->getToken();
+        $user = $token?->getUser();
+
         if (!$user) {
             return false;
         }

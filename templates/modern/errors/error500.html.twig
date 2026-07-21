@@ -1,0 +1,27 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Server Error{% endblock %}
+
+{% block body %}
+    <div class="error-page">
+
+        <div class="error-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+
+        <h1 class="error-title">Something Went Wrong</h1>
+
+        <p class="error-message">
+            An unexpected error occurred. Our team has been notified.
+        </p>
+
+        <a href="{{ path('homepage') }}" class="btn btn-primary btn-lg">
+            Return to Home
+        </a>
+
+        <p class="error-subtext">
+            Error code: 500
+        </p>
+
+    </div>
+{% endblock %}

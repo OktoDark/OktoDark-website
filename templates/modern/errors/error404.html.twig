@@ -1,0 +1,27 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Page Not Found{% endblock %}
+
+{% block body %}
+    <div class="error-page">
+
+        <div class="error-icon">
+            <i class="fas fa-search"></i>
+        </div>
+
+        <h1 class="error-title">Page Not Found</h1>
+
+        <p class="error-message">
+            The page you are looking for does not exist or has been moved.
+        </p>
+
+        <a href="{{ path('homepage') }}" class="btn btn-primary btn-lg">
+            Return to Home
+        </a>
+
+        <p class="error-subtext">
+            Error code: 404
+        </p>
+
+    </div>
+{% endblock %}

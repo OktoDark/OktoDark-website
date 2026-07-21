@@ -42,7 +42,6 @@ readonly class KernelRequestSubscriber implements EventSubscriberInterface
             return;
         }
 
-        // 1. CHECK IF MAINTENANCE MODE IS ON
         $mode = $_ENV['MAINTENANCE_MODE'] ?? $_SERVER['MAINTENANCE_MODE'] ?? '0';
         if (!filter_var($mode, \FILTER_VALIDATE_BOOLEAN)) {
             return;
@@ -51,19 +50,24 @@ readonly class KernelRequestSubscriber implements EventSubscriberInterface
         $request = $event->getRequest();
         $path = $request->getPathInfo();
 
-        // 2. ALWAYS ALLOW login, logout, and debug tools so admins can authenticate
         if (preg_match('/^\/([a-z]{2}\/)?(login|logout|_profiler|_wdt)/', $path)) {
             return;
         }
 
-        // 3. ALLOW ADMINS to bypass maintenance mode
-        if ($this->security->isGranted('ROLE_ADMIN')) {
+        if (
+            $this->security->isGranted('ROLE_ADMIN')
+            || $this->security->isGranted('ROLE_SUPER_ADMIN')
+            || $this->security->isGranted('maintenance.bypass')
+        ) {
             return;
         }
 
-        // 4. EVERYONE ELSE (Guests/Users) -> SHOW MAINTENANCE PAGE
         try {
-            $content = $this->twig->render('maintenance/index.html.twig');
+            $content = $this->twig->render('maintenance/index.html.twig', [
+                's' => [
+                    'siteCDN' => $_ENV['SITE_CDN'] ?? '',
+                ],
+            ]);
         } catch (\Exception) {
             $content = '<h1>Maintenance</h1><p>We will be back soon.</p>';
         }

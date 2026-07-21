@@ -11,13 +11,23 @@
 
 namespace App\EventSubscriber;
 
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Twig\Environment;
 
 class ExceptionSubscriber implements EventSubscriberInterface
 {
+    public function __construct(
+        private Security $security,
+        private Environment $twig,
+    ) {}
+
     public static function getSubscribedEvents(): array
     {
         return [
@@ -29,6 +39,12 @@ class ExceptionSubscriber implements EventSubscriberInterface
     {
         $exception = $event->getThrowable();
 
+        // Handle both 403 exception types
+        if ($exception instanceof AccessDeniedException || $exception instanceof AccessDeniedHttpException) {
+            $this->handleAccessDenied($event, $exception);
+            return;
+        }
+
         // Only handle 404 errors
         if (!$exception instanceof NotFoundHttpException) {
             return;
@@ -37,14 +53,22 @@ class ExceptionSubscriber implements EventSubscriberInterface
         $request = $event->getRequest();
         $referer = $request->headers->get('referer');
 
-        // If user came from another page → go back
         if ($referer) {
             $event->setResponse(new RedirectResponse($referer));
-
             return;
         }
 
-        // Otherwise → redirect to home
         $event->setResponse(new RedirectResponse('/'));
+    }
+
+    private function handleAccessDenied(ExceptionEvent $event, \Throwable $exception): void
+    {
+        $requiredPermission = $exception->getMessage();
+
+        $content = $this->twig->render('@theme/errors/error403.html.twig', [
+            'required_permission' => $requiredPermission,
+        ]);
+
+        $event->setResponse(new Response($content, 403));
     }
 }

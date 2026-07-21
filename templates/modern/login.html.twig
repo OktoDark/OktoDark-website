@@ -20,7 +20,7 @@
                 <div class="login-modern p-4 p-md-5">
 
                     <form method="post" action="{{ path('security_login', {'_locale': app.request.locale}) }}">
-                        <input type="hidden" name="x_token_98342" value="{{ csrf_token('security_login') }}">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('security_login') }}">
 
                         {% if error %}
                             <div class="alert alert-danger mb-3">
