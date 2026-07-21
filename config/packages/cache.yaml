@@ -17,3 +17,13 @@ framework:
         # Namespaced pools use the above "app" backend by default
         #pools:
             #my.dedicated.cache: null
+
+        # ── Provider response cache (roadmap Phase 8) ───────────────────────
+        # Dedicated pool for external metadata provider responses (TMDB / TVDB /
+        # TVMaze). 24h TTL keeps rate-limit pressure low during large imports.
+        # Swap the "app" backend for Redis in production via the commented lines.
+        pools:
+            provider.cache:
+                default_lifetime: 86400          # 24h
+                # adapter: cache.adapter.redis   # enable in production (see below)
+

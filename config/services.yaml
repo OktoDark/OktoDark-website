@@ -1,4 +1,6 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
 # config/services.yaml
+
 parameters:
     app.locale: en
     app.locales: 'en|ro|ja|ko|de|fr|zh|es'
@@ -26,20 +28,34 @@ services:
             string $locales: '%app.locales%'
             string $defaultLocale: '%app.locale%'
 
+    # Auto-load all App\ classes
     App\:
-      resource: '../src/'
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
 
+    # ---------------------------------------------------------
+    # Email Identity Service
+    # ---------------------------------------------------------
     App\Service\EmailIdentityService:
         arguments:
             $jobs: '%mailer.from.jobs%'
             $contact: '%mailer.from.contact%'
             $noreply: '%mailer.from.no_reply%'
 
+    # ---------------------------------------------------------
+    # GeoIP
+    # ---------------------------------------------------------
     App\Service\GeoIpService:
         arguments:
             $countryDbPath: '%kernel.project_dir%/var/geoip/GeoLite2-Country.mmdb'
             $cityDbPath: '%kernel.project_dir%/var/geoip/GeoLite2-City.mmdb'
 
+    # ---------------------------------------------------------
+    # Social Links
+    # ---------------------------------------------------------
     App\Service\SocialLinkParser:
         arguments:
             $social_base_urls: '%social_base_urls%'
@@ -51,9 +67,22 @@ services:
             $social_colors: '%social_colors%'
         tags: ['twig.extension']
 
+    # ---------------------------------------------------------
+    # Client Hints Listener
+    # ---------------------------------------------------------
     App\EventListener\ClientHintsListener:
         tags:
             - { name: kernel.event_listener, event: kernel.response }
+
+    App\Twig\PermissionExtension:
+        tags: ['twig.extension']
+
+    # ---------------------------------------------------------
+    # Permission Scanner
+    # ---------------------------------------------------------
+    App\Security\PermissionScanner:
+        public: true
+        shared: true
 
     # ---------------------------------------------------------
     # External API Clients
@@ -219,8 +248,8 @@ services:
     Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider: ~
 
     App\Controller\ResetPasswordController:
-      arguments:
-        $throttleLimit: '%symfonycasts_reset_password.throttle_limit%'
+        arguments:
+            $throttleLimit: '%symfonycasts_reset_password.throttle_limit%'
 
     App\Controller\Admin\AdminToolsController:
         arguments:
@@ -231,17 +260,8 @@ services:
             $projectDir: '%kernel.project_dir%'
 
     App\EventSubscriber\CommentNotificationSubscriber:
-        $sender: '%app.notifications.email_sender%'
-
-    # Explicitly configure the $sender argument for ForumSocialController
-    # App\Controller\Forum\ForumSocialController:
-    #    bind:
-    #        $sender: '%app.notifications.email_sender%'
-
-    # Explicitly configure the $sender argument for ForumThreadController
-    # App\Controller\Forum\ForumThreadController:
-    #    bind:
-    #        $sender: '%app.notifications.email_sender%'
+        arguments:
+            $sender: '%app.notifications.email_sender%'
 
     Symfony\Component\Security\Http\Logout\LogoutUrlGenerator: '@security.logout_url_generator'
 
@@ -253,9 +273,12 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 
-  #######################################################################
-  # THEME SYSTEM SERVICES
-  #######################################################################
+    Doctrine\Migrations\DependencyFactory:
+        alias: 'doctrine.migrations.dependency_factory'
+
+    #######################################################################
+    # THEME SYSTEM SERVICES
+    #######################################################################
 
     App\Service\SettingsProvider: ~
 

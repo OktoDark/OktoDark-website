@@ -28,6 +28,13 @@ framework:
     property_info:
         with_constructor_extractor: false
 
+    router:
+        utf8: true
+        # Configure the default URI to use when generating URLs in a console command or messenger message
+        # or when the RequestContext is not available from the main request.
+        # This is the correct option for your Symfony version.
+        default_uri: '%env(MAILER_URL_SCHEME)%://%env(MAILER_URL_HOST)%'
+
 when@test:
     framework:
         test: true

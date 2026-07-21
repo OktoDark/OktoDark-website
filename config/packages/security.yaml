@@ -75,3 +75,5 @@ when@test:
         firewalls:
             main:
                 http_basic: ~
+                entry_point: http_basic
+
