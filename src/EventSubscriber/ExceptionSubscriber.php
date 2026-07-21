@@ -16,9 +16,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Twig\Environment;
 
 class ExceptionSubscriber implements EventSubscriberInterface
@@ -26,7 +26,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
     public function __construct(
         private Security $security,
         private Environment $twig,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {
@@ -42,6 +43,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // Handle both 403 exception types
         if ($exception instanceof AccessDeniedException || $exception instanceof AccessDeniedHttpException) {
             $this->handleAccessDenied($event, $exception);
+
             return;
         }
 
@@ -55,6 +57,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
 
         if ($referer) {
             $event->setResponse(new RedirectResponse($referer));
+
             return;
         }
 
