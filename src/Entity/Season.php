@@ -19,6 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SeasonRepository::class)]
 #[ORM\Table(name: 'tracking_season')]
+#[ORM\UniqueConstraint(name: 'unique_season_user_meta', columns: ['user_id', 'media_metadata_id'])]
 class Season
 {
     #[ORM\Id]
@@ -49,6 +50,9 @@ class Season
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $progressedAt = null;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(targetEntity: MediaMetadata::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
@@ -187,6 +191,16 @@ class Season
     public function setProgressedAt(?\DateTimeInterface $progressedAt): void
     {
         $this->progressedAt = $progressedAt;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 
     public function getMediaMetadata(): ?MediaMetadata

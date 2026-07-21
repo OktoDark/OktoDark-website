@@ -44,10 +44,6 @@ class MovieMetadataImporter
             $meta->setTmdbId((string) $record['tmdb_id']);
         }
 
-        if (!empty($record['ids']['imdb'])) {
-            $meta->setExternalId((string) $record['ids']['imdb']);
-        }
-
         if (!empty($record['ids']['alpha'])) {
             $meta->setMediaId((string) $record['ids']['alpha']);
         }

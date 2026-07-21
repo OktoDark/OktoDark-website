@@ -14,10 +14,8 @@ namespace App\Service\Import\Movie;
 use App\Entity\Movie;
 use App\Enum\MediaType;
 use App\Enum\Source;
-use App\Service\Import\Metadata\MetadataHydrator;
 use App\Service\Import\Metadata\MetadataLookupService;
 use App\Service\Import\Metadata\MetadataMergeService;
-use App\Service\TmdbService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -25,10 +23,8 @@ class MovieImportService
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private TmdbService $tmdb,
         private MetadataLookupService $lookup,
         private MetadataMergeService $merge,
-        private MetadataHydrator $hydrator,
         private LoggerInterface $log,
         private MovieMetadataImporter $metadataImporter,
         private MovieWatchHistoryImporter $watchHistoryImporter,
@@ -38,6 +34,10 @@ class MovieImportService
 
     /**
      * Import a normalized movie record from ANY provider.
+     *
+     * Provider-agnostic (TVTime, Trakt, Letterboxd, Simkl, Custom): only the
+     * parsed title / year / ids matter. Uses the same multi-source discovery +
+     * merge engine as the TV importer for metadata parity.
      */
     public function import(array $record): void
     {
@@ -63,16 +63,18 @@ class MovieImportService
         // Provider-specific metadata (runtime, release_date, etc.)
         $this->metadataImporter->apply($meta, $record);
 
-        // TMDB enrichment
-        $tmdbData = $this->tmdb->findMovie($ids, $title, $record['year'] ?? null);
+        /*
+         * ⭐ Multi-source discovery (TMDB → identity + images + cast)
+         * Resolves the movie by known id, discovers via title+year search when
+         * missing, and merges the result using the same strategy as the TV flow.
+         */
+        $discovery = $this->lookup->discoverMovieSources($title, $record['year'] ?? null, $ids);
+        $this->merge->mergeMovieMetadataFromDiscovery($meta, $discovery);
 
-        if ($tmdbData) {
-            $hydrated = $this->hydrator->hydrateTmdbMovie($tmdbData);
-            $this->merge->mergeMovieMetadata($meta, $hydrated);
-
+        if ($discovery['tmdb'] ?? null) {
             $this->log->info('movie.tmdb.enriched', [
                 'title' => $title,
-                'tmdbId' => $hydrated['externalId'] ?? null,
+                'tmdbId' => $discovery['tmdb']->externalIds->tmdb,
             ]);
         }
 
@@ -85,8 +87,10 @@ class MovieImportService
                 'meta' => $meta->getMediaId(),
             ]);
 
-            // Merge watch history into existing movie
+            // Merge metadata + watch history into existing movie
+            $this->metadataImporter->apply($existing, $record);
             $this->watchHistoryImporter->apply($existing, $record);
+            $this->applyRatings($existing, $record, $discovery['tmdb'] ?? null);
 
             $this->em->flush();
 
@@ -103,8 +107,8 @@ class MovieImportService
         // Watch history (status, progress, dates)
         $this->watchHistoryImporter->apply($movie, $record);
 
-        // Ratings (Letterboxd, Simkl, etc.)
-        $this->applyRatings($movie, $record);
+        // Ratings (provider score, else TMDB vote average)
+        $this->applyRatings($movie, $record, $discovery['tmdb'] ?? null);
 
         $this->em->flush();
 
@@ -126,10 +130,18 @@ class MovieImportService
         };
     }
 
-    private function applyRatings(Movie $movie, array $record): void
+    private function applyRatings(Movie $movie, array $record, ?\App\Service\Import\Metadata\Structure\ShowFull $tmdb = null): void
     {
         if (!empty($record['rating'])) {
             $movie->setScore((float) $record['rating']);
+
+            return;
+        }
+
+        // Fall back to the TMDB user score (vote_average) when the provider
+        // did not supply one — parity with the TV importer ratings flow.
+        if (null !== $tmdb?->rating) {
+            $movie->setScore($tmdb->rating);
         }
     }
 }

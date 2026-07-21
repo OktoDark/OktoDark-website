@@ -25,6 +25,7 @@ class TvTimeTvProvider extends AbstractTvProvider
             'ids' => [
                 'tvmaze' => $record['tvmaze_id'] ?? null,
                 'tmdb' => $record['tmdb_id'] ?? null,
+                'tvdb' => $record['tvdb_id'] ?? null,
             ],
             'year' => $record['year'] ?? null,
             'user' => $user,

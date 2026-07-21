@@ -30,6 +30,7 @@ class EpisodeLifecycleManager
         $episode->setStartDate($episode->getStartDate() ?? new \DateTimeImmutable());
         $episode->setEndDate(new \DateTimeImmutable());
         $episode->setStatus(WatchStatus::COMPLETED);
+        $episode->setUpdatedAt(new \DateTimeImmutable());
 
         $season = $episode->getRelatedSeason();
         if ($season) {
@@ -44,6 +45,7 @@ class EpisodeLifecycleManager
     {
         $episode->setEndDate(null);
         $episode->setStatus(WatchStatus::IN_PROGRESS);
+        $episode->setUpdatedAt(new \DateTimeImmutable());
 
         $season = $episode->getRelatedSeason();
         if ($season) {

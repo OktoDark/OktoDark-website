@@ -25,6 +25,7 @@ enum Source: string
     case MANUAL = 'manual';
     case ANILIST = 'anilist';
     case TVMAZE = 'tvmaze';
+    case TVDB = 'tvdb';
     case TVTIME = 'tvtime';
     case LETTERBOXD = 'letterboxd';
     case SIMKL = 'simkl';

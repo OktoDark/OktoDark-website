@@ -65,6 +65,16 @@ services:
     App\Service\TmdbService:
         arguments:
             $tmdbApiKey: '%env(TMDB_API_KEY)%'
+            $cache: '@provider.cache'
+
+    App\Service\TvdbService:
+        arguments:
+            $tvdbApiKey: '%env(TVDB_API_KEY)%'
+            $cache: '@provider.cache'
+
+    App\Service\TvMazeService:
+        arguments:
+            $cache: '@provider.cache'
 
     App\Service\StatsService:
         arguments:
@@ -89,12 +99,33 @@ services:
     App\Service\Import\Tv\TvImportService:
         public: true
 
+    App\Service\Import\Tv\TvDuplicateMergeService: ~
+
     App\Service\Import\Tv\TvHierarchyBuilder: ~
 
     App\Service\Import\Tv\TvMetadataMerger: ~
 
     App\Service\Import\Tv\TvImportHandler:
         tags: ['messenger.message_handler']
+
+    # ---------------------------------------------------------
+    # TV Metadata Providers (chain: TMDB -> TVDB -> TVMaze)
+    # TMDB: identity, images, cast, translations
+    # TVDB: episodes, air dates, numbering
+    # TVMaze: status, schedule, next episode
+    # ---------------------------------------------------------
+    App\Service\Import\Tv\Provider\TvMazeMetadataProvider: ~
+
+    App\Service\Import\Tv\Provider\TvdbMetadataProvider: ~
+
+    App\Service\Import\Tv\Provider\TmdbMetadataProvider: ~
+
+    App\Service\Import\Tv\Provider\TvMetadataProviderChain:
+        arguments:
+            $providers:
+                - '@App\Service\Import\Tv\Provider\TmdbMetadataProvider'
+                - '@App\Service\Import\Tv\Provider\TvdbMetadataProvider'
+                - '@App\Service\Import\Tv\Provider\TvMazeMetadataProvider'
 
     # ---------------------------------------------------------
     #  Season Import
@@ -160,9 +191,25 @@ services:
     App\Service\Import\Metadata\MetadataHydrator: ~
 
     # ---------------------------------------------------------
+    #  Extensible metadata providers (roadmap Phase 9)
+    #  Add AniList / MAL / JustWatch / RottenTomatoes / Letterboxd
+    #  by implementing MetadataProviderInterface and tagging below.
+    # ---------------------------------------------------------
+    App\Service\Import\Metadata\Provider\TmdbMetadataProvider:
+        tags: ['app.metadata_provider']
+
+    App\Service\Import\Metadata\Provider\MetadataProviderRegistry:
+        arguments:
+            $providers: !tagged_iterator app.metadata_provider
+
+    # ---------------------------------------------------------
     #  Controller
     # ---------------------------------------------------------
     App\Controller\Tracker\Import\ImportController: ~
+
+    # ---------------------------------------------------------
+    # Rate Limiter
+    # ---------------------------------------------------------
     Symfony\Component\RateLimiter\RateLimiterFactory: '@limiter.resend_verification'
 
     App\Controller\RegistrationController:

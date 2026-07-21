@@ -25,6 +25,9 @@ class TV extends AbstractMedia
     #[ORM\OneToMany(targetEntity: Season::class, mappedBy: 'relatedTv', cascade: ['remove'])]
     private Collection $seasons;
 
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -97,10 +100,31 @@ class TV extends AbstractMedia
         return $total;
     }
 
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
     // ─────────────────────────────────────────────
     // NEXT EPISODE LOGIC (FULLY FIXED)
     // ─────────────────────────────────────────────
 
+    /**
+     * Returns the episode to watch next, advancing from the last watched episode.
+     *
+     * If episodes have been watched, the method locates the most recently watched
+     * episode by endDate and returns the first unwatched episode that follows it
+     * within the same season, or the first unwatched episode of the next season.
+     * If no episodes have been watched yet, it falls back to the first unwatched
+     * episode across all seasons.
+     */
     public function getNextEpisode(): array
     {
         $seasons = $this->seasons->toArray();

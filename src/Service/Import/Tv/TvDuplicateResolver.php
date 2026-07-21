@@ -33,6 +33,7 @@ class TvDuplicateResolver
         $tv = new TV();
         $tv->setMediaMetadata($meta);
         $tv->setUser($user);
+        $tv->setStatus(WatchStatus::PLANNING);
 
         return $tv;
     }

@@ -1,5 +1,9 @@
 {% extends '@theme/base.html.twig' %}
 
+{% set source = source ?? null %}
+{% set sourceHints = sourceHints ?? {} %}
+{% set currentSource = sourceHints[source] ?? null %}
+
 {% block title %}Media Tracker – Import TV{% endblock %}
 {% block head %}{{ parent() }}{% endblock %}
 {% block body_id %}tracker{% endblock %}
@@ -7,8 +11,20 @@
 {% block main %}
     <section class="section section-page-title bg-default text-center py-4">
         <div class="container">
-            <h2 class="display-6 fw-bold">Import TV</h2>
-            <p class="lead text-muted mt-2">Upload your files to export and manage your media database</p>
+            <h2 class="display-6 fw-bold">
+                {% if currentSource %}
+                    Import TV – {{ currentSource.title }}
+                {% else %}
+                    Import TV
+                {% endif %}
+            </h2>
+            <p class="lead text-muted mt-2">
+                {% if currentSource %}
+                    {{ currentSource.description }}
+                {% else %}
+                    Upload your files to export and manage your media database
+                {% endif %}
+            </p>
         </div>
     </section>
 
@@ -28,20 +44,51 @@
                             <form id="importForm" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label class="form-label">Upload File</label>
-                                    <input type="file" name="files[]" class="form-control" multiple>
+                                    <input type="file" name="files[]" class="form-control" multiple
+                                           {% if currentSource %}accept="{{ currentSource.accept }}"{% endif %}>
                                     <small class="text-muted">
-                                        Supports: Trakt JSON, TVTime CSV, Simkl JSON, Generic CSV
+                                        {% if currentSource %}
+                                            Accepted formats: {{ currentSource.accept }}
+                                        {% else %}
+                                            Supports: Trakt JSON, TVTime CSV, Simkl JSON, Generic CSV
+                                        {% endif %}
                                     </small>
                                 </div>
+
+                                {% if currentSource %}
+                                    <div class="alert alert-info small mb-3">
+                                        <strong>{{ currentSource.title }} format:</strong>
+                                        {% if source == 'tvtime' %}
+                                            Upload your TV Time export CSV (tracking-prod-records.csv or tracking-prod-records-v2.csv).
+                                            This will import watched episodes, seasons, and watch dates.
+                                        {% elseif source == 'trakt' %}
+                                            Upload your Trakt export (JSON or CSV). Make sure it includes show IDs and watch history.
+                                        {% elseif source == 'simkl' %}
+                                            Upload your Simkl export JSON file with watch history.
+                                        {% elseif source == 'generic' %}
+                                            Upload a CSV or JSON file with at least: title, season_number, episode_number, watched_at columns.
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
 
                                 <div id="dropZone"
                                      class="border border-dashed rounded-3 p-4 text-center bg-dark bg-opacity-25 mb-3">
                                     <p class="mb-1 fw-semibold">Drag & drop files here</p>
-                                    <p class="text-muted mb-0 small">Supported: TV exports, CSV lists</p>
+                                    <p class="text-muted mb-0 small">
+                                        {% if currentSource %}
+                                            Supported: {{ currentSource.title }} exports
+                                        {% else %}
+                                            Supported: TV exports, CSV lists
+                                        {% endif %}
+                                    </p>
                                 </div>
 
                                 <button class="btn btn-primary" type="submit">
-                                    Import TV
+                                    {% if currentSource %}
+                                        Import TV ({{ currentSource.title }})
+                                    {% else %}
+                                        Import TV
+                                    {% endif %}
                                 </button>
                             </form>
 
@@ -62,6 +109,8 @@
                                     <li>Errors: <span id="statusErrors" class="fw-bold">0</span></li>
                                 </ul>
                             </div>
+
+                            <div id="seriesStatus" class="mt-3 small" style="max-height: 400px; overflow-y: auto;"></div>
                         </div>
                     </div>
 
@@ -128,8 +177,20 @@
                 const logsBox        = document.getElementById('logsBox');
 
                 const dropZone       = document.getElementById('dropZone');
+                const seriesStatus   = document.getElementById('seriesStatus');
+                const submitButton   = importForm.querySelector('button[type="submit"]');
 
                 let pollingInterval = null;
+                const seriesLines = {};
+                let importCompleted = false;
+                let importAborted = false;
+
+                function setImporting(isImporting) {
+                    submitButton.disabled = isImporting;
+                    submitButton.classList.toggle('btn-primary', !isImporting);
+                    submitButton.classList.toggle('btn-secondary', isImporting);
+                    submitButton.textContent = isImporting ? 'Importing…' : '{% if currentSource %}Import TV ({{ currentSource.title }}){% else %}Import TV{% endif %}';
+                }
 
                 function isArray(value) {
                     return Array.isArray(value);
@@ -194,7 +255,37 @@
                         statusImported.textContent = ev.imported ?? 0;
                         statusSkipped.textContent  = ev.skipped ?? 0;
                         statusErrors.textContent   = ev.errors ?? 0;
+                    } else if (ev.type === 'series') {
+                        const name = ev.name || '';
+                        if (!name) return;
+
+                        if ('start' === ev.status) {
+                            if (!seriesLines[name]) {
+                                const line = document.createElement('div');
+                                line.className = 'text-muted';
+                                line.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>' + name + ' – Processing...';
+                                seriesStatus.appendChild(line);
+                                seriesLines[name] = line;
+                            }
+                        } else if ('done' === ev.status) {
+                            const line = seriesLines[name];
+                            if (line) {
+                                const seasons = ev.seasons || 0;
+                                const episodes = ev.episodes || 0;
+                                line.className = 'text-success';
+                                line.textContent = name + ' – Done (' + seasons + ' season' + (seasons !== 1 ? 's' : '') + ', ' + episodes + ' episode' + (episodes !== 1 ? 's' : '') + ')';
+                                delete seriesLines[name];
+                            }
+                        } else if ('error' === ev.status) {
+                            const line = seriesLines[name];
+                            if (line) {
+                                line.className = 'text-danger';
+                                line.textContent = name + ' – Error: ' + (ev.message || 'Unknown');
+                                delete seriesLines[name];
+                            }
+                        }
                     } else if (ev.type === 'done') {
+                        importCompleted = true;
                         statusImported.textContent = ev.imported ?? 0;
                         statusSkipped.textContent  = ev.skipped ?? 0;
                         statusErrors.textContent   = ev.errors ?? 0;
@@ -204,18 +295,32 @@
                             ', errors ' + (ev.errors ?? 0) + '.</div>';
                         importProgress.style.width = '100%';
                         importProgress.setAttribute('aria-valuenow', '100');
+                        submitButton.disabled = false;
+                        submitButton.classList.remove('btn-secondary');
+                        submitButton.classList.add('btn-success');
+                        submitButton.textContent = 'Import Finished';
                     } else if (ev.type === 'error') {
                         importResult.innerHTML = '<div class="alert alert-danger">' + ev.message + '</div>';
                     }
                 }
 
-                function readImportStream(reader) {
+                function readImportStream(reader, onDone) {
                     const decoder = new TextDecoder();
                     let buffer = '';
+                    let finished = false;
+
+                    function finish() {
+                        if (finished) {
+                            return;
+                        }
+                        finished = true;
+                        onDone(importCompleted);
+                    }
 
                     function pump() {
                         return reader.read().then(function (chunk) {
                             if (chunk.done) {
+                                finish();
                                 return;
                             }
 
@@ -228,13 +333,24 @@
                                 frame.split('\n').forEach(function (line) {
                                     if (line.startsWith('data: ')) {
                                         try {
-                                            handleImportEvent(JSON.parse(line.slice(6)));
+                                            const ev = JSON.parse(line.slice(6));
+
+                                            if ('done' === ev.type) {
+                                                importCompleted = true;
+                                                finish();
+                                                try { reader.cancel(); } catch (e) { /* ignore */ }
+                                                return;
+                                            }
+
+                                            handleImportEvent(ev);
                                         } catch (e) { /* ignore malformed frame */ }
                                     }
                                 });
                             }
 
                             return pump();
+                        }).catch(function () {
+                            finish();
                         });
                     }
 
@@ -264,27 +380,45 @@
                     statusSkipped.textContent  = '0';
                     statusErrors.textContent   = '0';
                     logsBox.textContent = 'Starting import…\n';
+                    seriesStatus.innerHTML = '';
+                    for (const key in seriesLines) { delete seriesLines[key]; }
 
                     if (pollingInterval) clearInterval(pollingInterval);
 
-                    fetch('{{ path("app_import_tv_upload") }}', {
+                    setImporting(true);
+
+                    fetch('{% if currentSource %}{{ path("app_import_tv_source_upload", { source: source }) }}{% else %}{{ path("app_import_tv_upload") }}{% endif %}', {
                         method: 'POST',
                         body: formData
                     })
                         .then(r => {
                             if (!r.ok) {
-                                throw new Error('HTTP ' + r.status);
+                                return r.json().then(err => { throw new Error(err.error || 'HTTP ' + r.status); });
                             }
-                            return readImportStream(r.body.getReader());
-                        })
-                        .then(() => {
-                            importProgress.style.width = '100%';
-                            importProgress.setAttribute('aria-valuenow', '100');
+                            return readImportStream(r.body.getReader(), function (completed) {
+                                if (completed) {
+                                    importProgress.style.width = '100%';
+                                    importProgress.setAttribute('aria-valuenow', '100');
+                                    setImporting(false);
+                                    submitButton.classList.remove('btn-secondary');
+                                    submitButton.classList.add('btn-success');
+                                    submitButton.textContent = 'Import Finished';
+                                } else {
+                                    importResult.innerHTML = '<div class="alert alert-danger">Import interrupted: the server connection was lost before the import finished. The process may still be running in the background. Do not start a new import until you confirm the previous one is complete.</div>';
+                                    importProgress.style.width = '0%';
+                                    importProgress.setAttribute('aria-valuenow', '0');
+                                    setImporting(false);
+                                    submitButton.classList.remove('btn-secondary');
+                                    submitButton.classList.add('btn-outline-danger');
+                                    submitButton.textContent = 'Import Interrupted';
+                                }
+                            });
                         })
                         .catch(err => {
                             importResult.innerHTML = '<div class="alert alert-danger">Import failed: ' + err.message + '</div>';
                             importProgress.style.width = '0%';
                             importProgress.setAttribute('aria-valuenow', '0');
+                            setImporting(false);
                         });
                 });
 

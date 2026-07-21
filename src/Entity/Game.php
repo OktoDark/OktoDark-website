@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Game extends AbstractMedia
 {
     /**
-     * Replicates the custom game progress formatting logic from Yamtrack.
+     * Replicates the custom game progress formatting logic.
      * Converts raw progress minutes into an 'HH:MM' string structure.
      */
     public function getFormattedProgress(): string

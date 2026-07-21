@@ -19,7 +19,7 @@ interface TvImportProviderInterface
      * Must return:
      * [
      *   'title' => string,
-     *   'ids' => ['tmdb' => ?, 'tvmaze' => ?, 'trakt' => ?, 'imdb' => ?],
+     *   'ids' => ['tmdb' => ?, 'tvdb' => ?, 'tvmaze' => ?, 'trakt' => ?],
      *   'year' => int|null,
      *   'user' => User,
      *   'season' => int|null,

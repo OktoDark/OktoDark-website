@@ -196,6 +196,11 @@ abstract class AbstractMedia
         return $this->mediaMetadata?->getTitle();
     }
 
+    public function getOriginalTitle(): ?string
+    {
+        return $this->mediaMetadata?->getOriginalTitle();
+    }
+
     public function getCoverUrl(): ?string
     {
         return $this->mediaMetadata?->getImage();

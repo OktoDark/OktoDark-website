@@ -26,9 +26,7 @@ class LetterboxdMovieProvider implements MovieImportProviderInterface
             'status' => !empty($row['Watched Date']) ? 'completed' : 'new',
             'progress' => !empty($row['Watched Date']) ? 100 : 0,
             'source' => 'letterboxd',
-            'ids' => [
-                'imdb' => $row['IMDb ID'] ?? null,
-            ],
+            'ids' => [],
         ];
     }
 }

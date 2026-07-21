@@ -128,6 +128,12 @@ class MediaMetadata
     private ?string $tmdbId = null;
 
     /**
+     * Original title from TMDB (original_name / original_title).
+     */
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $originalTitle = null;
+
+    /**
      * IGDB ID (games).
      */
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
@@ -356,6 +362,18 @@ class MediaMetadata
     public function setTmdbId(?string $tmdbId): self
     {
         $this->tmdbId = $tmdbId;
+
+        return $this;
+    }
+
+    public function getOriginalTitle(): ?string
+    {
+        return $this->originalTitle;
+    }
+
+    public function setOriginalTitle(?string $originalTitle): self
+    {
+        $this->originalTitle = $originalTitle;
 
         return $this;
     }

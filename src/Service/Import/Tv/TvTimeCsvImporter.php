@@ -11,6 +11,8 @@
 
 namespace App\Service\Import\Tv;
 
+use App\Domain\SeasonLifecycleManager;
+use App\Domain\TvLifecycleManager;
 use App\Entity\Episode;
 use App\Entity\MediaMetadata;
 use App\Entity\Season;
@@ -19,17 +21,18 @@ use App\Entity\User;
 use App\Enum\MediaType;
 use App\Enum\Source;
 use App\Enum\WatchStatus;
-use App\Service\TVMazeClient;
+use App\Service\Import\Tv\Provider\TmdbMetadataProvider;
+use App\Service\Import\Tv\Provider\TvMetadataProviderChain;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Imports a raw TVTime DynamoDB CSV export (e.g. tracking-prod-records-v2.csv).
  *
- * This is the shared engine behind both the yamtrack:migrate-tvtime-csv console
+ * This is the shared engine behind both the tracker:migrate-tvtime-csv console
  * command and the web TV importer. It maps the TVTime flat schema (watch-episode
  * and user-series rows) into the OktoDark tracking model, building seasons from
- * TVMaze and recording watch dates.
+ * external metadata providers (TVMaze -> TVDB -> TMDB) and recording watch dates.
  */
 class TvTimeCsvImporter
 {
@@ -45,10 +48,16 @@ class TvTimeCsvImporter
     /** @var array<string, array{season:int,episode:int}|null> "series" => resume point */
     private array $followed = [];
 
+    /** @var array<string, \DateTimeInterface|null> "series|season" => watch_date from most_recent_ep_watched */
+    private array $resumeWatchDates = [];
+
     public function __construct(
         private EntityManagerInterface $em,
         private ManagerRegistry $registry,
-        private TVMazeClient $tvMaze,
+        private TvMetadataProviderChain $metadataProvider,
+        private TmdbMetadataProvider $tmdbProvider,
+        private SeasonLifecycleManager $seasonLifecycle,
+        private TvLifecycleManager $tvLifecycle,
     ) {
     }
 
@@ -87,15 +96,12 @@ class TvTimeCsvImporter
         $f->setFlags(\SplFileObject::READ_CSV | \SplFileObject::SKIP_EMPTY);
 
         $header = null;
-        $total = max(0, \count(file($file)) - 1);
+        $seriesGroups = [];
+        $totalRows = 0;
 
-        $batchSize = 50;
-        $i = 0;
-        $processed = 0;
-
+        // Phase 1: parse and categorize every row, grouped by series
         foreach ($f as $row) {
             if (!\is_array($row)) {
-                $this->emitProgress($emit, $processed, $total, $stats);
                 continue;
             }
 
@@ -106,25 +112,72 @@ class TvTimeCsvImporter
 
             $json = $this->normalizeRow($row, $header);
             if (!$json) {
-                $this->emitProgress($emit, $processed, $total, $stats);
                 continue;
             }
 
+            $series = $json['series'];
+            if (!isset($seriesGroups[$series])) {
+                $seriesGroups[$series] = ['series' => null, 'watches' => []];
+            }
+
+            if ('series' === $json['type']) {
+                $seriesGroups[$series]['series'] = $json;
+            } else {
+                $seriesGroups[$series]['watches'][] = $json;
+            }
+
+            ++$totalRows;
+        }
+
+        $total = $totalRows;
+        $batchSize = 50;
+        $processed = 0;
+        $batchCount = 0;
+
+        $emit([
+            'type' => 'log',
+            'level' => 'info',
+            'message' => "Parsed {$totalRows} rows into ".\count($seriesGroups).' series',
+        ]);
+
+        // Phase 2: process each series as a correlated unit
+        foreach ($seriesGroups as $seriesName => $group) {
+            $emit([
+                'type' => 'series',
+                'name' => $seriesName,
+                'status' => 'start',
+            ]);
+
             try {
-                if ('watch' === $json['type']) {
-                    $this->importWatchRow($json, $user, $stats, $cache);
-                } else {
-                    $this->importSeriesRow($json, $user, $stats, $cache);
+                $seriesStartStats = $stats;
+
+                if ($group['series']) {
+                    $this->importSeriesRow($group['series'], $user, $stats, $cache);
                 }
 
-                if (!$dryRun && (0 === ++$i % $batchSize)) {
+                foreach ($group['watches'] as $watchRow) {
+                    $this->importWatchRow($watchRow, $user, $stats, $cache);
+                }
+
+                if (!$dryRun && (0 === ++$batchCount % $batchSize)) {
                     $this->em->flush();
                     $this->em->clear();
                     $cache = [];
                     $user = $this->em->getRepository(User::class)->find($userId);
                 }
 
-                if (++$processed === $limit) {
+                $processed += ($group['series'] ? 1 : 0) + \count($group['watches']);
+                $this->emitProgress($emit, $processed, $total, $stats);
+
+                $emit([
+                    'type' => 'series',
+                    'name' => $seriesName,
+                    'status' => 'done',
+                    'seasons' => $stats['seasons'] - $seriesStartStats['seasons'],
+                    'episodes' => $stats['episodes'] - $seriesStartStats['episodes'],
+                ]);
+
+                if (null !== $limit && $processed >= $limit) {
                     break;
                 }
             } catch (\Throwable $e) {
@@ -132,7 +185,14 @@ class TvTimeCsvImporter
                 $emit([
                     'type' => 'log',
                     'level' => 'error',
-                    'message' => "Row error: {$e->getMessage()}",
+                    'message' => "Series error ({$seriesName}): {$e->getMessage()}",
+                ]);
+
+                $emit([
+                    'type' => 'series',
+                    'name' => $seriesName,
+                    'status' => 'error',
+                    'message' => $e->getMessage(),
                 ]);
 
                 try {
@@ -148,8 +208,6 @@ class TvTimeCsvImporter
                 $cache = [];
                 $user = $this->em->getRepository(User::class)->find($userId);
             }
-
-            $this->emitProgress($emit, $processed, $total, $stats);
         }
 
         if (!$dryRun) {
@@ -176,15 +234,17 @@ class TvTimeCsvImporter
         $key = $row[$header['key'] ?? 0] ?? '';
         $prefix = str_contains($key, '-') ? mb_substr($key, 0, mb_strpos($key, '-')) : $key;
 
-        // Watched episode rows (watch-episode / rewatch-episode gsi)
+        $tvdbId = isset($header['s_id']) ? (string) mb_trim($row[$header['s_id']] ?? '') : '';
+        $tvdbId = '' !== $tvdbId ? $tvdbId : null;
+
         if (str_contains($row[$header['gsi'] ?? 0] ?? '', 'watch-episode')) {
             $series = mb_trim($row[$header['series_name'] ?? 0] ?? '');
 
-            // v2 CSV: season_number column is always 1 (TVTime flat schema).
-            // Use s_no (col 9) first; fall back to season_number (col 10).
-            $season = (int) ($row[$header['s_no'] ?? $header['season_number'] ?? 0] ?? 0);
+            if ('' === $series && $tvdbId) {
+                $series = $this->resolveSeriesNameByTvdbId($tvdbId);
+            }
 
-            // episode_number (col 7) is the canonical field; ep_no (col 11) is a synonym.
+            $season = (int) ($row[$header['s_no'] ?? $header['season_number'] ?? 0] ?? 0);
             $episode = (int) ($row[$header['episode_number'] ?? $header['ep_no'] ?? 0] ?? 0);
             $createdAt = $row[$header['created_at'] ?? 0] ?? null;
 
@@ -198,12 +258,17 @@ class TvTimeCsvImporter
                 'season' => $season,
                 'episode' => $episode,
                 'created_at' => $createdAt,
+                'tvdb_id' => $tvdbId,
             ];
         }
 
-        // Followed series rows (user-series-*)
         if ('user' === $prefix) {
             $series = mb_trim($row[$header['series_name'] ?? 0] ?? '');
+
+            if ('' === $series && $tvdbId) {
+                $series = $this->resolveSeriesNameByTvdbId($tvdbId);
+            }
+
             if ('' === $series) {
                 return null;
             }
@@ -211,9 +276,17 @@ class TvTimeCsvImporter
             $isFollowed = 'true' === mb_strtolower(mb_trim($row[$header['is_followed'] ?? 0] ?? ''));
 
             $resume = null;
+            $watchDate = null;
             $mru = $row[$header['most_recent_ep_watched'] ?? 0] ?? '';
             if (preg_match('/s_no:(\d+)/', $mru, $ms) && preg_match('/ep_no:(\d+)/', $mru, $me)) {
                 $resume = ['season' => (int) $ms[1], 'episode' => (int) $me[1]];
+            }
+
+            if (preg_match('/watch_date:([0-9.e+-]+)/', $mru, $md)) {
+                $millis = (float) $md[1];
+                $seconds = (int) round($millis / 1e6);
+                $watchDate = new \DateTimeImmutable("@$seconds");
+                $watchDate = $watchDate->setTimezone(new \DateTimeZone('UTC'));
             }
 
             return [
@@ -221,10 +294,59 @@ class TvTimeCsvImporter
                 'series' => $series,
                 'followed' => $isFollowed,
                 'resume' => $resume,
+                'watch_date' => $watchDate,
+                'tvdb_id' => $tvdbId,
             ];
         }
 
         return null;
+    }
+
+    /**
+     * Build an immutable UTC DateTime from a TVTime CSV timestamp.
+     *
+     * TVTime records watch times in UTC. Parsing explicitly in the UTC zone keeps
+     * the stored DATETIME correct regardless of the server/PHP timezone setting,
+     * so the same import yields identical rows on any machine.
+     */
+    private function parseUtc(?string $value): ?\DateTimeImmutable
+    {
+        if (null === $value || '' === mb_trim($value)) {
+            return null;
+        }
+
+        try {
+            return new \DateTimeImmutable($value, new \DateTimeZone('UTC'));
+        } catch (\Throwable) {
+            return null;
+        }
+    }
+
+    /**
+     * Convert any date to a mutable DateTime in UTC.
+     *
+     * The Episode.endDate column is mapped as DATETIME_MUTABLE, so Doctrine
+     * rejects DateTimeImmutable at conversion time. Normalizing here keeps the
+     * stored value explicit and timezone-independent.
+     */
+    private function toMutableUtc(?\DateTimeInterface $value): ?\DateTime
+    {
+        if (null === $value) {
+            return null;
+        }
+
+        return new \DateTime($value->format('Y-m-d H:i:s'), new \DateTimeZone('UTC'));
+    }
+
+    private function resolveSeriesNameByTvdbId(string $tvdbId): ?string
+    {
+        $meta = $this->em->getRepository(MediaMetadata::class)->findOneBy([
+            'externalId' => $tvdbId,
+            'mediaType' => MediaType::TV,
+            'source' => Source::MANUAL,
+        ]);
+
+        return $meta ? $meta->getTitle() : null;
     }
 
     private function importWatchRow(array $json, User $user, array &$stats, array &$cache): void
@@ -233,34 +355,44 @@ class TvTimeCsvImporter
         $seasonNumber = $json['season'];
         $episodeNumber = $json['episode'];
         $createdAt = $json['created_at'];
+        $updatedAt = $json['updated_at'] ?? null;
+        $tvdbId = $json['tvdb_id'] ?? null;
+
+        $utc = $this->parseUtc($createdAt);
+        $updatedUtc = $this->parseUtc($updatedAt) ?: $utc;
 
         // Record the watch event: keep the EARLIEST created_at (first real watch beats rewatches).
         $watchKey = "{$series}|{$seasonNumber}";
         if (!isset($this->watched[$watchKey][$episodeNumber])) {
-            $this->watched[$watchKey][$episodeNumber] = $createdAt;
-        } elseif ($createdAt && $this->watched[$watchKey][$episodeNumber]) {
+            $this->watched[$watchKey][$episodeNumber] = $utc;
+        } elseif ($utc && $this->watched[$watchKey][$episodeNumber] instanceof \DateTimeInterface) {
             // Both non-null: keep the earlier timestamp.
-            if (strtotime($createdAt) < strtotime($this->watched[$watchKey][$episodeNumber])) {
-                $this->watched[$watchKey][$episodeNumber] = $createdAt;
+            if ($utc < $this->watched[$watchKey][$episodeNumber]) {
+                $this->watched[$watchKey][$episodeNumber] = $utc;
             }
         }
         $this->explicitWatch[$watchKey] = true;
 
-        $tvMeta = $this->ensureTvMeta($series, $cache, $stats);
+        $tvMeta = $this->ensureTvMeta($series, $tvdbId, $cache, $stats);
         $tv = $this->ensureTv($tvMeta, $user, $cache);
-        $seasonMeta = $this->ensureSeasonMeta($tvMeta, $seasonNumber, $cache, $stats);
+        $seasonMeta = $this->ensureSeasonMeta($tvMeta, $tvdbId, $seasonNumber, $cache, $stats);
         $season = $this->ensureSeason($seasonMeta, $tv, $user, $cache);
 
-        $this->ensureSeasonEpisodes($tvMeta, $series, $seasonNumber, $season, $tv, $user, $episodeNumber, $createdAt, $stats, $cache);
+        $this->ensureSeasonEpisodes($tvMeta, $series, $seasonNumber, $season, $tv, $user, $episodeNumber, $utc, $stats, $cache, $updatedUtc);
     }
 
     private function importSeriesRow(array $json, User $user, array &$stats, array &$cache): void
     {
         $series = $json['series'];
+        $tvdbId = $json['tvdb_id'] ?? null;
 
         $this->followed[$series] = $json['resume'];
 
-        $tvMeta = $this->ensureTvMeta($series, $cache, $stats);
+        if ($json['watch_date'] instanceof \DateTimeInterface) {
+            $this->resumeWatchDates[$series] = $json['watch_date'];
+        }
+
+        $tvMeta = $this->ensureTvMeta($series, $tvdbId, $cache, $stats);
         $tv = $this->ensureTv($tvMeta, $user, $cache);
 
         // Best-effort: if the user has a resume point and we have no explicit
@@ -268,36 +400,54 @@ class TvTimeCsvImporter
         // the resume episode as watched.
         $resume = $json['resume'];
         if ($resume && empty($this->explicitWatch["{$series}|{$resume['season']}"])) {
-            $seasonMeta = $this->ensureSeasonMeta($tvMeta, $resume['season'], $cache, $stats);
+            $seasonMeta = $this->ensureSeasonMeta($tvMeta, $tvdbId, $resume['season'], $cache, $stats);
             $season = $this->ensureSeason($seasonMeta, $tv, $user, $cache);
 
             $showId = $tvMeta->getExternalId();
             if ($showId) {
-                $all = $this->tvMaze->getAllEpisodes($showId);
+                $all = $this->metadataProvider->getSeasonEpisodes($showId, $resume['season']);
                 foreach ($all as $ep) {
                     if ((int) ($ep['season'] ?? 0) !== $resume['season']) {
                         continue;
                     }
                     $epNum = (int) ($ep['number'] ?? 0);
                     if ($epNum > 0 && $epNum <= $resume['episode']) {
-                        $this->watched["{$series}|{$resume['season']}"][$epNum] = null;
+                        if (!isset($this->watched["{$series}|{$resume['season']}"][$epNum])) {
+                            $this->watched["{$series}|{$resume['season']}"][$epNum] = $json['watch_date'];
+                        }
                     }
                 }
-                $this->ensureSeasonEpisodes($tvMeta, $series, $resume['season'], $season, $tv, $user, null, null, $stats, $cache);
+                $this->ensureSeasonEpisodes($tvMeta, $series, $resume['season'], $season, $tv, $user, null, $json['watch_date'], $stats, $cache, $json['watch_date']);
             }
         }
     }
 
-    private function ensureTvMeta(string $series, array &$cache, array &$stats): MediaMetadata
+    private function ensureTvMeta(string $series, ?string $tvdbId, array &$cache, array &$stats): MediaMetadata
     {
         $metaRepo = $this->em->getRepository(MediaMetadata::class);
+        $cacheKey = 'tv:'.mb_strtolower($series);
 
-        $tvMeta = $cache['tv:'.mb_strtolower($series)]
-            ?? $metaRepo->findOneBy([
+        if (isset($cache[$cacheKey])) {
+            return $cache[$cacheKey];
+        }
+
+        // Prefer stable external ID lookup to prevent duplicate TVs on re-import
+        // when the stored title was enriched/changed by a metadata provider.
+        if ($tvdbId) {
+            $tvMeta = $metaRepo->findOneBy([
+                'externalId' => $tvdbId,
+                'mediaType' => MediaType::TV,
+                'source' => Source::MANUAL,
+            ]);
+        }
+
+        if (!isset($tvMeta) || !$tvMeta) {
+            $tvMeta = $metaRepo->findOneBy([
                 'title' => $series,
                 'mediaType' => MediaType::TV,
                 'source' => Source::MANUAL,
             ]);
+        }
 
         if (!$tvMeta) {
             $tvMeta = (new MediaMetadata())
@@ -308,12 +458,26 @@ class TvTimeCsvImporter
 
             $this->em->persist($tvMeta);
             ++$stats['series'];
-
-            $this->tvMaze->enrichShowMetadata($tvMeta);
-        } else {
-            $this->tvMaze->enrichShowMetadata($tvMeta, false);
         }
-        $cache['tv:'.mb_strtolower($series)] = $tvMeta;
+
+        if ($tvdbId) {
+            $tvMeta->setExternalId($tvdbId);
+            $this->metadataProvider->enrichShow($tvMeta, ['tvdb' => $tvdbId], false);
+        } elseif (null === $tvMeta->getExternalId()) {
+            $this->metadataProvider->enrichShow($tvMeta);
+        } else {
+            $this->metadataProvider->enrichShow($tvMeta, [], false);
+        }
+
+        if ((!$tvMeta->getImage() || !$tvMeta->getOverview()) && !$tvMeta->getTmdbId()) {
+            $tmdbId = $this->tmdbProvider->resolveShowId($series);
+            if ($tmdbId) {
+                $tvMeta->setTmdbId($tmdbId);
+                $this->tmdbProvider->enrichShow($tvMeta, ['tmdb' => $tmdbId], false);
+            }
+        }
+
+        $cache[$cacheKey] = $tvMeta;
 
         return $tvMeta;
     }
@@ -330,7 +494,7 @@ class TvTimeCsvImporter
             $tv = (new TV())
                 ->setMediaMetadata($tvMeta)
                 ->setUser($user)
-                ->setStatus(WatchStatus::IN_PROGRESS);
+                ->setStatus(WatchStatus::PLANNING);
 
             $this->em->persist($tv);
         }
@@ -339,7 +503,7 @@ class TvTimeCsvImporter
         return $tv;
     }
 
-    private function ensureSeasonMeta(MediaMetadata $tvMeta, int $seasonNumber, array &$cache, array &$stats): MediaMetadata
+    private function ensureSeasonMeta(MediaMetadata $tvMeta, ?string $tvdbId, int $seasonNumber, array &$cache, array &$stats): MediaMetadata
     {
         $metaRepo = $this->em->getRepository(MediaMetadata::class);
 
@@ -361,10 +525,17 @@ class TvTimeCsvImporter
             $this->em->persist($seasonMeta);
             ++$stats['seasons'];
 
-            $this->tvMaze->enrichSeasonMetadata($tvMeta, $seasonMeta);
+            $ids = $tvdbId ? ['tvdb' => $tvdbId] : [];
+            $this->metadataProvider->enrichSeason($tvMeta, $seasonMeta, $ids);
         } else {
-            $this->tvMaze->enrichSeasonMetadata($tvMeta, $seasonMeta, false);
+            $ids = $tvdbId ? ['tvdb' => $tvdbId] : [];
+            $this->metadataProvider->enrichSeason($tvMeta, $seasonMeta, $ids, false);
         }
+
+        if ((!$seasonMeta->getImage() || !$seasonMeta->getOverview()) && $tvMeta->getTmdbId()) {
+            $this->tmdbProvider->enrichSeason($tvMeta, $seasonMeta, ['tmdb' => $tvMeta->getTmdbId()], false);
+        }
+
         $cache['season-meta:'.$tvMeta->getMediaId().':'.$seasonNumber] = $seasonMeta;
 
         return $seasonMeta;
@@ -383,9 +554,10 @@ class TvTimeCsvImporter
             $season->setMediaMetadata($seasonMeta);
             $season->setRelatedTv($tv);
             $season->setUser($user);
-            $season->setStatus(WatchStatus::IN_PROGRESS);
+            $season->setStatus(WatchStatus::PLANNING);
 
             $this->em->persist($season);
+            $tv->getSeasons()->add($season);
         }
         $cache['season-media:'.$seasonMeta->getMediaId().':'.$seasonMeta->getSeasonNumber()] = $season;
 
@@ -393,9 +565,9 @@ class TvTimeCsvImporter
     }
 
     /**
-     * Create the full episode list for a season (from TVMaze) and mark the
-     * watched episodes. Falls back to creating only the watched episode when
-     * TVMaze metadata is unavailable.
+     * Create the full episode list for a season (from the resolved provider) and
+     * mark the watched episodes. Falls back to creating only the watched episode
+     * when no external metadata provider matched the show.
      */
     private function ensureSeasonEpisodes(
         MediaMetadata $tvMeta,
@@ -405,17 +577,18 @@ class TvTimeCsvImporter
         TV $tv,
         User $user,
         ?int $episodeNumber,
-        ?string $createdAt,
+        ?\DateTimeInterface $createdAt,
         array &$stats,
         array &$cache,
+        ?\DateTimeInterface $updatedAt = null,
     ): void {
         $buildKey = $tvMeta->getMediaId().':'.$seasonNumber;
 
         if (isset($this->builtSeasons[$buildKey])) {
             // Season already built. Mark this specific newly-watched episode.
             if (null !== $episodeNumber) {
-                $this->markEpisodeWatched($tvMeta, $seasonNumber, $episodeNumber, $season, $createdAt);
-                $this->applyStatus($season, $tv);
+                $this->markEpisodeWatched($tvMeta, $series, $seasonNumber, $episodeNumber, $season, $createdAt, $updatedAt);
+                $this->applyStatus($season, $tv, $createdAt ?? $updatedAt);
             }
 
             return;
@@ -424,20 +597,20 @@ class TvTimeCsvImporter
         $showId = $tvMeta->getExternalId();
 
         if (!$showId) {
-            // No TVMaze match → create only the explicitly watched episodes we know about
+            // No external provider match → create only the explicitly watched episodes we know about
             $this->builtSeasons[$buildKey] = true;
             foreach ($this->watched["{$series}|{$seasonNumber}"] ?? [] as $epNum => $createdAt) {
-                $this->createEpisode($tvMeta, $series, $seasonNumber, (int) $epNum, $season, $user, $createdAt, $stats, $cache);
+                $this->createEpisode($tvMeta, $series, $seasonNumber, (int) $epNum, $season, $user, $createdAt, $stats, $cache, $updatedAt);
             }
 
-            $this->applyStatus($season, $tv);
+            $this->applyStatus($season, $tv, $createdAt ?? $updatedAt);
 
             return;
         }
 
         $this->builtSeasons[$buildKey] = true;
 
-        $all = $this->tvMaze->getAllEpisodes($showId);
+        $all = $this->metadataProvider->getSeasonEpisodes($showId, $seasonNumber);
         foreach ($all as $ep) {
             if ((int) ($ep['season'] ?? 0) !== $seasonNumber) {
                 continue;
@@ -448,18 +621,20 @@ class TvTimeCsvImporter
             }
 
             $createdAt = $this->watched["{$series}|{$seasonNumber}"][$epNum] ?? null;
-            $this->createEpisode($tvMeta, $series, $seasonNumber, $epNum, $season, $user, $createdAt, $stats, $cache);
+            $this->createEpisode($tvMeta, $series, $seasonNumber, $epNum, $season, $user, $createdAt, $stats, $cache, $updatedAt);
         }
 
-        $this->applyStatus($season, $tv);
+        $this->applyStatus($season, $tv, $createdAt ?? $updatedAt);
     }
 
     private function markEpisodeWatched(
         MediaMetadata $tvMeta,
+        string $series,
         int $seasonNumber,
         int $episodeNumber,
         Season $season,
-        ?string $createdAt,
+        ?\DateTimeInterface $createdAt,
+        ?\DateTimeInterface $updatedAt = null,
     ): void {
         $epMeta = $this->em->getRepository(MediaMetadata::class)->findOneBy([
             'mediaId' => $tvMeta->getMediaId(),
@@ -481,18 +656,42 @@ class TvTimeCsvImporter
             return;
         }
 
-        if ($createdAt && null === $episode->getEndDate()) {
-            try {
-                $episode->setEndDate(new \DateTime($createdAt));
-            } catch (\Throwable) {
+        $isWatched = null !== $createdAt
+            || \array_key_exists($episodeNumber, $this->watched["{$series}|{$seasonNumber}"] ?? []);
+
+        if ($isWatched) {
+            $watchedDate = $this->watched["{$series}|{$seasonNumber}"][$episodeNumber] ?? $createdAt;
+
+            if (null !== $watchedDate) {
+                $episode->setEndDate($this->toMutableUtc($watchedDate));
+            } elseif (null === $episode->getEndDate()) {
+                $episode->setEndDate(
+                    $this->toMutableUtc(new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
+                );
+            }
+
+            $episode->setStatus(WatchStatus::COMPLETED);
+
+            $finalUpdatedAt = $updatedAt ?? $watchedDate ?? new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+            $episode->setUpdatedAt(\DateTimeImmutable::createFromInterface($finalUpdatedAt));
+
+            if (null !== $watchedDate) {
+                $episode->setCreatedAt($watchedDate);
             }
         }
     }
 
-    private function applyStatus(Season $season, TV $tv): void
+    private function applyStatus(Season $season, TV $tv, ?\DateTimeInterface $timestamp = null): void
     {
-        $season->setStatus($this->computeSeasonStatus($season));
-        $tv->setStatus($this->computeTvStatus($tv));
+        // Use the canonical lifecycle managers so imported progress/status
+        // match exactly what the rest of the app computes (isWatched-based).
+        // updateSeasonAndTv recomputes the season and propagates to the TV.
+        $this->seasonLifecycle->updateSeasonAndTv($season);
+
+        if ($timestamp instanceof \DateTimeInterface) {
+            $season->setUpdatedAt(\DateTimeImmutable::createFromInterface($timestamp));
+            $tv->setUpdatedAt(\DateTimeImmutable::createFromInterface($timestamp));
+        }
     }
 
     private function createEpisode(
@@ -502,9 +701,10 @@ class TvTimeCsvImporter
         int $episodeNumber,
         Season $season,
         User $user,
-        ?string $createdAt,
+        ?\DateTimeInterface $createdAt,
         array &$stats,
         array &$cache,
+        ?\DateTimeInterface $updatedAt = null,
     ): void {
         $epMetaKey = 'ep-meta:'.$tvMeta->getMediaId().':'.$seasonNumber.':'.$episodeNumber;
         $epMeta = $cache[$epMetaKey]
@@ -525,7 +725,11 @@ class TvTimeCsvImporter
                 ->setEpisodeNumber($episodeNumber);
 
             $this->em->persist($epMeta);
-            $this->tvMaze->enrichEpisodeMetadata($tvMeta, $epMeta);
+            $this->metadataProvider->enrichEpisode($tvMeta, $epMeta);
+
+            if (!$epMeta->getImage() && $tvMeta->getTmdbId()) {
+                $this->tmdbProvider->enrichEpisode($tvMeta, $epMeta, ['tmdb' => $tvMeta->getTmdbId()], false);
+            }
         }
         $cache[$epMetaKey] = $epMeta;
 
@@ -543,79 +747,34 @@ class TvTimeCsvImporter
                 ->setUser($user);
 
             $this->em->persist($episode);
+            $season->getEpisodes()->add($episode);
             ++$stats['episodes'];
         }
         $cache[$epKey] = $episode;
 
-        if ($createdAt && null === $episode->getEndDate()) {
-            try {
-                $episode->setEndDate(new \DateTime($createdAt));
-            } catch (\Throwable) {
-            }
-        }
-    }
+        // An episode is considered watched if it carries an explicit watch
+        // timestamp, or if it was recorded as watched via a resume point
+        // (stored in the watched set with a null timestamp).
+        $isWatched = null !== $createdAt
+            || \array_key_exists($episodeNumber, $this->watched["{$series}|{$seasonNumber}"] ?? []);
 
-    private function computeSeasonStatus(Season $season): WatchStatus
-    {
-        $episodes = $season->getEpisodes();
-        $total = $episodes->count();
-        if (0 === $total) {
-            return WatchStatus::PLANNING;
-        }
-
-        $watched = $episodes->filter(static fn (Episode $e) => null !== $e->getEndDate());
-        $watchedCount = $watched->count();
-
-        $lastWatched = $watched->last();
-        $season->setProgress($watchedCount);
-
-        if (0 === $watchedCount) {
-            return WatchStatus::PLANNING;
-        }
-        if ($watchedCount < $total) {
-            if ($lastWatched && $lastWatched->getEndDate() < new \DateTime('-45 days')) {
-                return WatchStatus::PAUSED;
+        if ($isWatched) {
+            if (null !== $createdAt) {
+                $episode->setEndDate($this->toMutableUtc($createdAt));
+            } elseif (null === $episode->getEndDate()) {
+                $episode->setEndDate(
+                    $this->toMutableUtc(new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
+                );
             }
 
-            return WatchStatus::IN_PROGRESS;
+            $episode->setStatus(WatchStatus::COMPLETED);
+
+            $finalUpdatedAt = $updatedAt ?? $createdAt ?? new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+            $episode->setUpdatedAt(\DateTimeImmutable::createFromInterface($finalUpdatedAt));
         }
 
-        return WatchStatus::COMPLETED;
-    }
-
-    private function computeTvStatus(TV $tv): WatchStatus
-    {
-        $total = 0;
-        $watched = 0;
-        $lastWatchedDate = null;
-
-        foreach ($tv->getSeasons() as $season) {
-            $episodes = $season->getEpisodes();
-            $total += $episodes->count();
-            foreach ($episodes as $ep) {
-                if (null !== $ep->getEndDate()) {
-                    ++$watched;
-                    if (null === $lastWatchedDate || $ep->getEndDate() > $lastWatchedDate) {
-                        $lastWatchedDate = $ep->getEndDate();
-                    }
-                }
-            }
+        if ($isWatched && null !== $createdAt) {
+            $episode->setCreatedAt($createdAt);
         }
-
-        if (0 === $total) {
-            return WatchStatus::PLANNING;
-        }
-        if (0 === $watched) {
-            return WatchStatus::PLANNING;
-        }
-        if ($watched < $total) {
-            if ($lastWatchedDate && $lastWatchedDate < new \DateTime('-45 days')) {
-                return WatchStatus::PAUSED;
-            }
-
-            return WatchStatus::IN_PROGRESS;
-        }
-
-        return WatchStatus::COMPLETED;
     }
 }

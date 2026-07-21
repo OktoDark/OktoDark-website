@@ -17,9 +17,9 @@ abstract class AbstractTvProvider implements TvImportProviderInterface
     {
         return [
             'tmdb' => $ids['tmdb'] ?? null,
+            'tvdb' => $ids['tvdb'] ?? null,
             'tvmaze' => $ids['tvmaze'] ?? null,
             'trakt' => $ids['trakt'] ?? null,
-            'imdb' => $ids['imdb'] ?? null,
         ];
     }
 }

@@ -25,7 +25,6 @@ class MovieDuplicateResolver
     /**
      * Resolve duplicates across providers:
      * - TMDB
-     * - IMDb
      * - TVTime alpha key
      * - Fallback: metadata mediaId
      */
@@ -41,15 +40,7 @@ class MovieDuplicateResolver
             }
         }
 
-        // 2. IMDb match
-        if (!empty($ids['imdb'])) {
-            $existing = $repo->findByMediaIdAndUser(mb_strtolower((string) $ids['imdb']), $user);
-            if ($existing) {
-                return $existing;
-            }
-        }
-
-        // 3. TVTime alpha key match
+        // 2. TVTime alpha key match
         if (!empty($ids['alpha'])) {
             $existing = $repo->findByMediaIdAndUser(mb_strtolower((string) $ids['alpha']), $user);
             if ($existing) {
@@ -57,7 +48,7 @@ class MovieDuplicateResolver
             }
         }
 
-        // 4. Fallback: metadata mediaId
+        // 3. Fallback: metadata mediaId
         return $repo->findByMediaIdAndUser(mb_strtolower($meta->getMediaId()), $user);
     }
 }

@@ -11,15 +11,17 @@
 
 namespace App\Service\Import\Tv;
 
+use App\Domain\EpisodeLifecycleManager;
+use App\Domain\SeasonLifecycleManager;
+use App\Entity\Episode;
 use App\Entity\TV;
 use App\Enum\MediaType;
 use App\Enum\Source;
 use App\Service\Import\Metadata\MetadataHydrator;
 use App\Service\Import\Metadata\MetadataLookupService;
 use App\Service\Import\Metadata\MetadataMergeService;
+use App\Service\Import\Tv\Provider\TvMetadataProviderChain;
 use App\Service\Import\Tv\Provider\TvProviderRegistry;
-use App\Service\TmdbService;
-use App\Service\TvMazeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -29,16 +31,18 @@ class TvImportService
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private TmdbService $tmdb,
-        private TvMazeService $maze,
         private MetadataLookupService $lookup,
         private MetadataMergeService $merge,
         private MetadataHydrator $hydrator,
         private TvHierarchyBuilder $hierarchy,
         private LoggerInterface $log,
         private TvProviderRegistry $registry,
+        private TvMetadataProviderChain $metadataChain,
         private ManagerRegistry $doctrine,
         private TvTimeCsvImporter $tvTimeCsv,
+        private EpisodeLifecycleManager $episodeLifecycle,
+        private SeasonLifecycleManager $seasonLifecycle,
+        private TvDuplicateMergeService $duplicateMerge,
     ) {
     }
 
@@ -69,42 +73,27 @@ class TvImportService
             'ids' => $ids,
         ]);
 
-        /**
-         * ⭐ TMDB‑first identity
-         * Ensures:
-         * - metadata reuse
-         * - no duplicates
-         * - consistent linking.
+        /*
+         * ⭐ Multi-source discovery (TMDB → TVDB → TVMaze)
+         * Resolves every available source by known id or title search, scores
+         * them and picks the best one. This is the heart of the importer.
          */
         $meta = $this->lookup->findOrCreateMetadata(
             mediaType: MediaType::TV,
-            ids: $ids,                // TMDB ID first, fallback to TVMaze, fallback to provider
+            ids: $ids,
             title: $title,
             year: $parsed['year'] ?? null,
             source: Source::TRAKT,
         );
 
-        /**
-         * ⭐ Fetch TMDB full show (authoritative).
-         */
-        $tmdbFull = null;
-        if (!empty($ids['tmdb'])) {
-            $tmdbFull = $this->tmdb->fetchFullShow((int) $ids['tmdb']);
-        }
-
-        /**
-         * ⭐ Fetch TVMaze full show (fallback).
-         */
-        $mazeFull = null;
-        if (!empty($ids['tvmaze'])) {
-            $mazeFull = $this->fetchMazeFull((int) $ids['tvmaze']);
-        }
+        $discovery = $this->lookup->discoverTvSources($title, $parsed['year'] ?? null, $ids);
 
         /*
-         * ⭐ Merge TMDB + TVMaze metadata
-         * TMDB always wins if available.
+         * ⭐ Merge metadata per source-priority strategy
+         * TMDB first (identity, images, cast), TVDB second (episodes, air dates),
+         * TVMaze last (status, schedule); missing fields filled from later sources.
          */
-        $this->merge->mergeTvMetadata($meta, $tmdbFull, $mazeFull);
+        $this->merge->mergeTvMetadataFromDiscovery($meta, $discovery);
 
         /**
          * ⭐ Duplicate detection (correct)
@@ -116,7 +105,12 @@ class TvImportService
         ]);
 
         if ($existing) {
-            $this->log->warning('tv.duplicate', [
+            $this->applyWatchHistory($existing, $parsed);
+            $this->applyRatings($existing, $parsed);
+
+            $this->em->flush();
+
+            $this->log->warning('tv.duplicate.merged', [
                 'title' => $title,
                 'meta' => $meta->getMediaId(),
             ]);
@@ -130,13 +124,24 @@ class TvImportService
         $tv = new TV();
         $tv->setMediaMetadata($meta);
         $tv->setUser($parsed['user']);
+        $tv->setStatus(WatchStatus::PLANNING);
         $this->em->persist($tv);
 
         /*
          * ⭐ Build hierarchy (seasons + episodes)
-         * TvHierarchyBuilder now uses lookup + merge + hydrator internally.
+         * Uses TMDB as the authoritative source, TVMaze/TVDB as episode fallbacks,
+         * with TMDB artwork always preferred.
          */
-        $this->hierarchy->build($tv, $meta, $tmdbFull, $mazeFull, $parsed['user']);
+        $this->hierarchy->build($tv, $meta, $discovery, $parsed['user']);
+
+        /*
+         * ⭐ Provider-chain enrichment (fallback layer)
+         * The primary discovery/merge flow above is authoritative. If any
+         * show/season/episode metadata is still missing (overview, image, …)
+         * the TvMetadataProviderChain is used as a secondary source so we never
+         * ship blank fields when another provider can fill them.
+         */
+        $this->enrichViaProviderChain($tv, $meta, $ids);
 
         /*
          * ⭐ Watch history + ratings (provider-specific)
@@ -254,6 +259,16 @@ class TvImportService
             }
         }
 
+        $emit(['type' => 'log', 'level' => 'info', 'message' => 'Merging duplicate shows…']);
+
+        $merged = $this->duplicateMerge->merge(false);
+
+        $emit([
+            'type' => 'log',
+            'level' => $merged > 0 ? 'warning' : 'info',
+            'message' => "Duplicate merge: {$merged} shows merged.",
+        ]);
+
         $emit([
             'type' => 'done',
             'imported' => $imported,
@@ -275,7 +290,7 @@ class TvImportService
      * Detects a raw TVTime export (DynamoDB-style schema, e.g. tracking-prod-records-v2.csv).
      *
      * These files expose columns such as series_name / gsi / key and must be imported
-     * via the yamtrack:migrate-tvtime-csv command. The generic web importer cannot map
+     * via the tracker:migrate-tvtime-csv command. The generic web importer cannot map
      * them and would otherwise create "Unknown" placeholder rows.
      */
     private function isRawTvTimeExport(array $record): bool
@@ -388,28 +403,172 @@ class TvImportService
         return $rows;
     }
 
-    private function fetchMazeFull(int $mazeId): ?array
+    /**
+     * Secondary enrichment pass using the TvMetadataProviderChain.
+     *
+     * Primary TMDB/TVDB/TVMaze data is considered authoritative; this pass only
+     * backfills empty overview/image fields on the show, its seasons and its
+     * episodes. The chain resolves the best available provider (TMDB -> TVDB
+      * -> TVMaze) using the external ids carried on the metadata and the parsed ids.
+     */
+    private function enrichViaProviderChain(TV $tv, MediaMetadata $showMeta, array $ids): void
     {
-        try {
-            return [
-                'show' => $this->maze->getShow($mazeId),
-                'seasons' => $this->maze->getSeasons($mazeId),
-                'episodes' => $this->maze->getEpisodes($mazeId),
-            ];
-        } catch (\Throwable) {
-            return null;
+        if (!$this->metadataChain->isConfigured()) {
+            return;
+        }
+
+        $chainIds = [
+            'tmdb' => $showMeta->getTmdbId(),
+            'tvdb' => $showMeta->getExternalId(),
+            'tvmaze' => $ids['tvmaze'] ?? null,
+        ];
+
+        if ('' === ($chainIds['tmdb'] ?? '')) {
+            unset($chainIds['tmdb']);
+        }
+        if ('' === ($chainIds['tvdb'] ?? '')) {
+            unset($chainIds['tvdb']);
+        }
+
+        if (null === $showMeta->getImage() || null === $showMeta->getOverview()) {
+            $this->metadataChain->enrichShow($showMeta, $chainIds, false);
+        }
+
+        foreach ($tv->getSeasons() as $season) {
+            $seasonMeta = $season->getMediaMetadata();
+            if (!$seasonMeta) {
+                continue;
+            }
+
+            if (null === $seasonMeta->getImage() || null === $seasonMeta->getOverview()) {
+                $this->metadataChain->enrichSeason($showMeta, $seasonMeta, $chainIds, false);
+            }
+
+            foreach ($season->getEpisodes() as $episode) {
+                $epMeta = $episode->getMediaMetadata();
+                if (!$epMeta) {
+                    continue;
+                }
+
+                if (null === $epMeta->getImage() || null === $epMeta->getOverview()) {
+                    $this->metadataChain->enrichEpisode($showMeta, $epMeta, $chainIds, false);
+                }
+            }
         }
     }
 
+    /**
+     * Apply provider-supplied watch history to the imported TV entity.
+     *
+     * Provider parse() may carry:
+     *  - 'season' + 'episode'  → mark that specific episode as watched
+     *  - 'status' ('completed' / 'finished') → mark the entire show watched
+     *  - 'lastWatchedAt'       → stamp progress/end dates
+     *
+     * Uses the same EpisodeLifecycleManager path as the UI so progress and
+     * status on seasons/TV stay consistent with normal tracking.
+     */
     private function applyWatchHistory(TV $tv, array $parsed): void
     {
-        // Provider-specific watch history (Trakt, TVTime, Simkl)
-        // You can plug in your logic here.
+        $seasonNumber = $parsed['season'] ?? null;
+        $episodeNumber = $parsed['episode'] ?? null;
+        $status = mb_strtolower((string) ($parsed['status'] ?? ''));
+        $lastWatchedAt = $parsed['lastWatchedAt'] ?? null;
+
+        $watchedDates = $lastWatchedAt instanceof \DateTimeInterface
+            ? \DateTimeImmutable::createFromInterface($lastWatchedAt)
+            : new \DateTimeImmutable();
+
+        if (null !== $seasonNumber && null !== $episodeNumber) {
+            $episode = $this->findEpisode($tv, (int) $seasonNumber, (int) $episodeNumber);
+
+            if ($episode) {
+                $episode->setStartDate($episode->getStartDate() ?? $watchedDates);
+                $episode->setEndDate($watchedDates);
+                $episode->setStatus(\App\Enum\WatchStatus::COMPLETED);
+                $episode->setUpdatedAt(new \DateTimeImmutable());
+
+                $season = $episode->getRelatedSeason();
+                if ($season) {
+                    $this->episodeLifecycle->markEpisodeWatched($episode);
+                }
+
+                $this->log->debug('tv.import.watch_history.episode', [
+                    'title' => $tv->getMediaMetadata()?->getTitle(),
+                    'season' => $seasonNumber,
+                    'episode' => $episodeNumber,
+                ]);
+            }
+
+            return;
+        }
+
+        // No specific episode: honour an explicit "completed" status by marking
+        // every known episode watched so the show reflects the provider state.
+        if (\in_array($status, ['completed', 'finished'], true)) {
+            foreach ($tv->getSeasons() as $season) {
+                foreach ($season->getEpisodes() as $episode) {
+                    if (!$episode->isWatched()) {
+                        $episode->setStartDate($episode->getStartDate() ?? $watchedDates);
+                        $episode->setEndDate($watchedDates);
+                        $episode->setStatus(\App\Enum\WatchStatus::COMPLETED);
+                        $episode->setUpdatedAt(new \DateTimeImmutable());
+                    }
+                }
+
+                $this->seasonLifecycle->updateSeasonAndTv($season);
+            }
+
+            $this->log->debug('tv.import.watch_history.completed', [
+                'title' => $tv->getMediaMetadata()?->getTitle(),
+            ]);
+        }
     }
 
+    /**
+     * Apply provider-supplied rating to the TV entity.
+     *
+     * The provider 'rating' (0–10 scale) is stored on the TV-level score field
+     * (AbstractMedia::score), matching how the rest of the app records user scores.
+     */
     private function applyRatings(TV $tv, array $parsed): void
     {
-        // Provider-specific ratings
-        // You can plug in your logic here.
+        $rating = $parsed['rating'] ?? null;
+
+        if (null === $rating) {
+            return;
+        }
+
+        $rating = (float) $rating;
+        if ($rating <= 0) {
+            return;
+        }
+
+        $tv->setScore((string) $rating);
+
+        $this->log->debug('tv.import.rating', [
+            'title' => $tv->getMediaMetadata()?->getTitle(),
+            'rating' => $rating,
+        ]);
+    }
+
+    /**
+     * Locate a specific episode by season/episode number within the imported TV.
+     */
+    private function findEpisode(TV $tv, int $seasonNumber, int $episodeNumber): ?Episode
+    {
+        foreach ($tv->getSeasons() as $season) {
+            if ($seasonNumber !== $season->getSeasonNumber()) {
+                continue;
+            }
+
+            foreach ($season->getEpisodes() as $episode) {
+                if ($episodeNumber === $episode->getEpisodeNumber()) {
+                    return $episode;
+                }
+            }
+        }
+
+        return null;
     }
 }

@@ -13,6 +13,12 @@
                 <p>Manage database integrity, cleanup legacy data, and rebuild metadata.</p>
             </div>
 
+            <div class="alert alert-secondary small mb-4">
+                <strong>Suggested order:</strong> <em>Validate Integrity</em> (read-only preview) →
+                <em>Cleanup / Remove Duplicates / Purge Orphans</em> (destructive) →
+                <em>Recompute TV Progress</em> → <em>Rebuild Metadata</em>.
+            </div>
+
             <section class="py-3">
 
                 <div class="row g-4 mb-4">
@@ -20,7 +26,11 @@
                         <div class="admin-card">
                             <h5 class="mb-3">Cleanup Legacy Data</h5>
                             <p class="text-muted small mb-3">
-                                Removes corrupted movie-season and movie-TV entries created before the schema fix.
+                                <strong>What:</strong> Deletes <code>tracking_season</code> and <code>tracking_tv</code> rows whose
+                                <code>tracking_item</code> is <code>media_type = 'movie'</code> — corruption left over from before the
+                                schema fix where movies were wrongly stored as TV/season entries.<br>
+                                <strong>When:</strong> Only if movie titles are leaking into TV/Season lists. Safe and narrowly targeted
+                                (no effect on real TV/anime data).
                             </p>
                             <form method="post" action="{{ path('admin_import_cleanup') }}" onsubmit="return handlePost(this, 'cleanupResult');">
                                 <input type="hidden" name="_token" value="{{ csrf_token('admin_import_cleanup') }}">
@@ -34,12 +44,18 @@
                         <div class="admin-card">
                             <h5 class="mb-3">Remove Duplicates</h5>
                             <p class="text-muted small mb-3">
-                                Deletes duplicate MediaMetadata, Movies, TV entries, Seasons, and Episodes.
+                                <strong>What:</strong> Hard-deletes exact duplicate rows in <code>tracking_item</code>,
+                                <code>tracking_movie</code>, <code>tracking_tv</code>, <code>tracking_season</code> and
+                                <code>tracking_episode</code> (keeps the lowest <code>id</code> per group).<br>
+                                <strong>When:</strong> After imports/merges if the same title shows twice.
+                                <span class="text-danger">Destructive</span> — click <em>Preview</em> first to see the exact per-table row counts.
                             </p>
-                            <form method="post" action="{{ path('admin_import_remove_duplicates') }}" onsubmit="return handlePost(this, 'removeDuplicatesResult');">
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-2" onclick="return previewImpact('{{ path('admin_import_remove_duplicates') }}', 'removeDuplicatesPreview', '{{ csrf_token('admin_import_remove_duplicates') }}');">Preview</button>
+                            <form method="post" action="{{ path('admin_import_remove_duplicates') }}" onsubmit="return handlePost(this, 'removeDuplicatesResult');" class="d-inline">
                                 <input type="hidden" name="_token" value="{{ csrf_token('admin_import_remove_duplicates') }}">
                                 <button type="submit" class="btn btn-outline-danger">Remove Duplicates</button>
                             </form>
+                            <div id="removeDuplicatesPreview" class="mt-3 small"></div>
                             <div id="removeDuplicatesResult" class="mt-3"></div>
                         </div>
                     </div>
@@ -50,7 +66,10 @@
                         <div class="admin-card">
                             <h5 class="mb-3">Rebuild Metadata (TMDB)</h5>
                             <p class="text-muted small mb-3">
-                                Re-fetches and updates image, overview, genres, runtime, and externalId for all metadata.
+                                <strong>What:</strong> Re-fetches each <strong>movie/TV</strong> metadata row from TMDB and refreshes its
+                                title, image, overview, genres, runtime, country and release dates.<br>
+                                <strong>When:</strong> When posters/overviews are stale or blank for TMDB-sourced movie/TV rows.
+                                Anime/manga and non-TMDB rows are skipped (no TMDB data for them).
                             </p>
                             <form method="post" action="{{ path('admin_import_rebuild_metadata') }}" onsubmit="return handlePost(this, 'rebuildMetadataResult');">
                                 <input type="hidden" name="_token" value="{{ csrf_token('admin_import_rebuild_metadata') }}">
@@ -64,12 +83,17 @@
                         <div class="admin-card">
                             <h5 class="mb-3">Purge Orphaned Entities</h5>
                             <p class="text-muted small mb-3">
-                                Deletes Episodes, Seasons, TV, Movies, and MediaMetadata records that are no longer linked.
+                                <strong>What:</strong> Deletes rows whose parents no longer exist — episodes without a season,
+                                seasons without a TV, TV/movies without metadata, and metadata with no linked entity.<br>
+                                <strong>When:</strong> After removals/merges leave dangling rows.
+                                <span class="text-danger">Destructive</span> — click <em>Preview</em> first to see the exact per-table row counts.
                             </p>
-                            <form method="post" action="{{ path('admin_import_purge_orphans') }}" onsubmit="return handlePost(this, 'purgeOrphansResult');">
+                            <button type="button" class="btn btn-sm btn-outline-secondary me-2" onclick="return previewImpact('{{ path('admin_import_purge_orphans') }}', 'purgeOrphansPreview', '{{ csrf_token('admin_import_purge_orphans') }}');">Preview</button>
+                            <form method="post" action="{{ path('admin_import_purge_orphans') }}" onsubmit="return handlePost(this, 'purgeOrphansResult');" class="d-inline">
                                 <input type="hidden" name="_token" value="{{ csrf_token('admin_import_purge_orphans') }}">
                                 <button type="submit" class="btn btn-outline-warning">Purge Orphans</button>
                             </form>
+                            <div id="purgeOrphansPreview" class="mt-3 small"></div>
                             <div id="purgeOrphansResult" class="mt-3"></div>
                         </div>
                     </div>
@@ -80,8 +104,10 @@
                         <div class="admin-card">
                             <h5 class="mb-3">Recompute TV Progress</h5>
                             <p class="text-muted small mb-3">
-                                Recalculates <code>progress</code> and <code>status</code> for all TV shows from their watched episodes.
-                                Use this if Continue Watching shows incorrect percentages or missing entries.
+                                <strong>What:</strong> Recomputes <code>progress %</code>, <code>status</code> (Planning / In progress /
+                                Completed) and <code>progressed_at</code> for every TV show from its watched episodes.<br>
+                                <strong>When:</strong> Continue Watching shows wrong percentages, wrong status, or missing entries.
+                                Safe — recalculated across all shows.
                             </p>
                             <form method="post" action="{{ path('admin_import_recompute_tv_progress') }}" onsubmit="return handlePost(this, 'recomputeTvProgressResult');">
                                 <input type="hidden" name="_token" value="{{ csrf_token('admin_import_recompute_tv_progress') }}">
@@ -95,7 +121,10 @@
                         <div class="admin-card">
                             <h5 class="mb-3">Validate Database Integrity</h5>
                             <p class="text-muted small mb-3">
-                                Scans for duplicates, orphans, missing metadata, and corrupted relationships without modifying data.
+                                <strong>What:</strong> Read-only scan that reports duplicates, orphaned rows, missing
+                                <code>external_id</code> values and movie→season corruption.<br>
+                                <strong>When:</strong> <strong>Always run this first</strong> before any destructive command above to see exactly
+                                what would be changed. Never modifies data.
                             </p>
                             <form method="get" action="{{ path('admin_import_validate_integrity') }}" onsubmit="return handleGet(this, 'validateIntegrityResult');">
                                 <button type="submit" class="btn btn-outline-success">Validate Integrity</button>
@@ -110,8 +139,8 @@
                         <div class="admin-card">
                             <h5 class="mb-3">Backfill Missing Metadata (TMDB)</h5>
                             <p class="text-muted small mb-3">
-                                Resolves missing <code>external_id</code> values by title-searching TMDB.
-                                Runs in the background; output streams below. Defaults to a safe <strong>dry-run</strong> —
+                                Resolves missing <code>external_id</code> values: TMDB title-search for movies/TV, AniList for
+                                anime/manga. Runs in the background; output streams below. Defaults to a safe <strong>dry-run</strong> —
                                 tick “Apply” to persist matches.
                             </p>
                             <form method="post" action="{{ path('admin_import_backfill_metadata') }}" onsubmit="return startBackfill(this);">
@@ -184,7 +213,7 @@
                                     <code>external_id</code>. Copy the line below into your server crontab
                                     (<code>crontab -e</code>); it runs hourly, in apply mode, with a safe rate limit:
                                 </p>
-<pre class="bg-dark text-light p-2 rounded small mb-0" style="white-space: pre-wrap;">0 * * * * {{ projectDir }}/bin/console yamtrack:backfill-metadata --apply --limit=500 --delay-ms=150 >> {{ projectDir }}/var/log/backfill_cron.log 2>&1</pre>
+<pre class="bg-dark text-light p-2 rounded small mb-0" style="white-space: pre-wrap;">0 * * * * {{ projectDir }}/bin/console tracker:backfill-metadata --apply --limit=500 --delay-ms=150 >> {{ projectDir }}/var/log/backfill_cron.log 2>&1</pre>
                             </div>
                         </div>
                     </div>
@@ -231,6 +260,38 @@
             })
             .catch(err => {
                 resultDiv.innerHTML = '<div class="alert alert-danger">Error: ' + err + '</div>';
+            });
+
+            return false;
+        }
+
+        function previewImpact(url, resultId, token) {
+            const resultDiv = document.getElementById(resultId);
+            resultDiv.innerHTML = '<span class="text-info">Counting rows…</span>';
+
+            const fd = new FormData();
+            fd.append('_token', token);
+
+            fetch(url + '?dry-run=1', {
+                method: 'POST',
+                headers: { 'Accept': 'application/json' },
+                body: fd,
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.status === 'dry_run' && data.counts) {
+                    const rows = Object.entries(data.counts)
+                        .map(([k, v]) => '<li>' + k + ': <strong>' + v + '</strong></li>')
+                        .join('');
+                    resultDiv.innerHTML = '<span class="text-warning">Would affect ' + (data.total || 0) + ' rows:</span>'
+                        + '<ul class="mb-0 ps-3">' + rows + '</ul>';
+                } else {
+                    resultDiv.innerHTML = '<span class="text-warning">Preview unavailable.</span>';
+                }
+                refreshLogs();
+            })
+            .catch(err => {
+                resultDiv.innerHTML = '<span class="text-danger">Error: ' + err + '</span>';
             });
 
             return false;

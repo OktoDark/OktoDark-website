@@ -19,6 +19,7 @@ use App\Enum\MediaType;
 use App\Service\Import\Metadata\MetadataHydrator;
 use App\Service\Import\Metadata\MetadataLookupService;
 use App\Service\Import\Metadata\MetadataMergeService;
+use App\Service\Import\Metadata\Structure\ShowFull;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
@@ -38,32 +39,56 @@ class TvHierarchyBuilder
         return $this->registry->getManager();
     }
 
-    public function build(TV $tv, MediaMetadata $tvMeta, ?array $tmdbFull, ?array $mazeFull, $user): void
+    /**
+     * Build the season/episode hierarchy from the multi-source discovery result.
+     *
+     * Episode source selection (roadmap Phase 4):
+     *  - TVDB if available (best episode structure / numbering)
+     *  - Else TMDB
+     *  - Else TVMaze
+     * Seasons/episodes are created from the best source, missing fields are
+     * filled from TMDB/TVMaze, and images always come from TMDB.
+     *
+     * @param array{tmdb:?ShowFull, tvdb:?ShowFull, tvmaze:?ShowFull, best:string} $discovery
+     */
+    public function build(TV $tv, MediaMetadata $tvMeta, array $discovery, $user): void
     {
+        $tmdb = $discovery['tmdb'] ?? null;
+        $tvdb = $discovery['tvdb'] ?? null;
+        $maze = $discovery['tvmaze'] ?? null;
+
+        // Raw TMDB-shaped arrays consumed by merge/hydrator.
+        $tmdbFull = $tmdb?->raw();
+        $mazeFull = $maze?->raw();
+
+        // Best source provides the canonical season set.
+        $best = $discovery['best'] ?? 'tmdb';
+        $bestShow = $discovery[$best] ?? $tmdb ?? $tvdb ?? $maze;
+
         $seasonMap = [];
 
         /*
-         * ⭐ TMDB seasons first (authoritative)
+         * ⭐ Seasons from best source
          */
-        if ($tmdbFull && isset($tmdbFull['seasons'])) {
-            foreach ($tmdbFull['seasons'] as $seasonNumber => $seasonData) {
+        if ($bestShow) {
+            foreach ($bestShow->seasons as $seasonNumber => $season) {
+                $seasonData = $tmdbFull['seasons'][$seasonNumber] ?? null;
                 $seasonMeta = $this->lookup->findOrCreateMetadata(
                     mediaType: MediaType::TV,
                     ids: ['tmdb' => $seasonData['season']['id'] ?? null],
-                    title: $seasonData['season']['name'] ?? "{$tvMeta->getTitle()} S{$seasonNumber}",
+                    title: $season->title ?? "{$tvMeta->getTitle()} S{$seasonNumber}",
                     year: null,
                     source: $tvMeta->getSource(),
                     seasonNumber: $seasonNumber,
                     episodeNumber: null,
                 );
 
-                $hydrated = $this->hydrator->hydrateTmdbSeason($seasonData['season']);
+                $hydrated = $this->hydrator->hydrateTmdbSeason($seasonData['season'] ?? []);
                 $this->merge->mergeSeasonMetadata($seasonMeta, $hydrated, null);
 
-                $seasonEntity = $this->findOrCreateSeasonEntity($seasonMeta, $tv, $user);
-                $seasonMap[$seasonNumber] = $seasonEntity;
+                $seasonMap[$seasonNumber] = $this->findOrCreateSeasonEntity($seasonMeta, $tv, $user);
 
-                $this->log->debug('tv.season.created_or_reused.tmdb', [
+                $this->log->debug('tv.season.created_or_reused', [
                     'season' => $seasonNumber,
                     'meta' => $seasonMeta->getMediaId(),
                 ]);
@@ -71,98 +96,39 @@ class TvHierarchyBuilder
         }
 
         /*
-         * ⭐ TVMaze seasons fallback
+         * ⭐ Episodes — TVDB first, then TMDB, then TVMaze
          */
-        if ($mazeFull && isset($mazeFull['seasons'])) {
-            foreach ($mazeFull['seasons'] as $mazeSeason) {
-                $seasonNumber = (int) ($mazeSeason['number'] ?? 0);
-                if ($seasonNumber <= 0 || isset($seasonMap[$seasonNumber])) {
-                    continue;
-                }
+        $episodeSource = $tvdb ?? $tmdb ?? $maze;
+        if ($episodeSource) {
+            foreach ($episodeSource->seasons as $seasonNumber => $season) {
+                foreach ($season->episodes as $ep) {
+                    $episodeNumber = $ep->episodeNumber;
+                    if (null === $episodeNumber || $episodeNumber <= 0) {
+                        continue;
+                    }
 
-                $seasonMeta = $this->lookup->findOrCreateMetadata(
-                    mediaType: MediaType::TV,
-                    ids: ['tvmaze' => $mazeSeason['id'] ?? null],
-                    title: $mazeSeason['name'] ?? "{$tvMeta->getTitle()} S{$seasonNumber}",
-                    year: null,
-                    source: $tvMeta->getSource(),
-                    seasonNumber: $seasonNumber,
-                    episodeNumber: null,
-                );
-
-                $this->merge->mergeSeasonMetadata($seasonMeta, null, $mazeSeason);
-
-                $seasonEntity = $this->findOrCreateSeasonEntity($seasonMeta, $tv, $user);
-                $seasonMap[$seasonNumber] = $seasonEntity;
-
-                $this->log->debug('tv.season.created_or_reused.maze', [
-                    'season' => $seasonNumber,
-                    'meta' => $seasonMeta->getMediaId(),
-                ]);
-            }
-        }
-
-        /*
-         * ⭐ TMDB episodes (authoritative)
-         */
-        if ($tmdbFull && isset($tmdbFull['seasons'])) {
-            foreach ($tmdbFull['seasons'] as $seasonNumber => $seasonData) {
-                foreach ($seasonData['episodes'] as $epData) {
-                    $episodeNumber = (int) $epData['episode_number'];
-
+                    $epData = ($tmdbFull['seasons'][$seasonNumber]['episodes'] ?? [])[$episodeNumber - 1] ?? null;
                     $epMeta = $this->lookup->findOrCreateMetadata(
                         mediaType: MediaType::EPISODE,
-                        ids: ['tmdb' => $epData['id']],
-                        title: $epData['name'] ?? "{$tvMeta->getTitle()} S{$seasonNumber}E{$episodeNumber}",
+                        ids: ['tmdb' => $epData['id'] ?? null],
+                        title: $ep->title ?? "{$tvMeta->getTitle()} S{$seasonNumber}E{$episodeNumber}",
                         year: null,
                         source: $tvMeta->getSource(),
                         seasonNumber: $seasonNumber,
                         episodeNumber: $episodeNumber,
                     );
 
-                    $hydrated = $this->hydrator->hydrateTmdbEpisode($epData);
+                    $hydrated = $this->hydrator->hydrateTmdbEpisode($epData ?? []);
                     $this->merge->mergeEpisodeMetadata($epMeta, $hydrated, null);
 
-                    $this->findOrCreateEpisodeEntity($epMeta, $seasonMap[$seasonNumber], $tv, $tvMeta, $user);
+                    $seasonEntity = $seasonMap[$seasonNumber] ?? null;
+                    $this->findOrCreateEpisodeEntity($epMeta, $seasonEntity, $tv, $tvMeta, $user);
 
-                    $this->log->debug('tv.episode.created_or_reused.tmdb', [
+                    $this->log->debug('tv.episode.created_or_reused', [
                         'season' => $seasonNumber,
                         'episode' => $episodeNumber,
                     ]);
                 }
-            }
-        }
-
-        /*
-         * ⭐ TVMaze episodes fallback
-         */
-        if ($mazeFull && isset($mazeFull['episodes'])) {
-            foreach ($mazeFull['episodes'] as $mazeEp) {
-                $seasonNumber = (int) ($mazeEp['season'] ?? 0);
-                $episodeNumber = (int) ($mazeEp['number'] ?? 0);
-
-                if ($seasonNumber <= 0 || $episodeNumber <= 0) {
-                    continue;
-                }
-
-                $epMeta = $this->lookup->findOrCreateMetadata(
-                    mediaType: MediaType::EPISODE,
-                    ids: ['tvmaze' => $mazeEp['id'] ?? null],
-                    title: $mazeEp['name'] ?? "{$tvMeta->getTitle()} S{$seasonNumber}E{$episodeNumber}",
-                    year: null,
-                    source: $tvMeta->getSource(),
-                    seasonNumber: $seasonNumber,
-                    episodeNumber: $episodeNumber,
-                );
-
-                $this->merge->mergeEpisodeMetadata($epMeta, null, $mazeEp);
-
-                $this->findOrCreateEpisodeEntity($epMeta, $seasonMap[$seasonNumber] ?? null, $tv, $tvMeta, $user);
-
-                $this->log->debug('tv.episode.created_or_reused.maze', [
-                    'season' => $seasonNumber,
-                    'episode' => $episodeNumber,
-                ]);
             }
         }
     }

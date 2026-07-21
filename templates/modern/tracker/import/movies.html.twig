@@ -1,5 +1,9 @@
 {% extends '@theme/base.html.twig' %}
 
+{% set source = source ?? null %}
+{% set sourceHints = sourceHints ?? {} %}
+{% set currentSource = sourceHints[source] ?? null %}
+
 {% block title %}Import Movies{% endblock %}
 {% block head %}{{ parent() }}{% endblock %}
 {% block body_id %}tracker{% endblock %}
@@ -7,8 +11,20 @@
 {% block main %}
     <section class="section section-page-title bg-default text-center py-4">
         <div class="container">
-            <h2 class="display-6 fw-bold">Import Movies</h2>
-            <p class="lead text-muted mt-2">Upload movie exports and manage your database</p>
+            <h2 class="display-6 fw-bold">
+                {% if currentSource %}
+                    Import Movies – {{ currentSource.title }}
+                {% else %}
+                    Import Movies
+                {% endif %}
+            </h2>
+            <p class="lead text-muted mt-2">
+                {% if currentSource %}
+                    {{ currentSource.description }}
+                {% else %}
+                    Upload movie exports and manage your database
+                {% endif %}
+            </p>
         </div>
     </section>
 
@@ -26,20 +42,53 @@
                             <form id="importForm" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label class="form-label">Upload File</label>
-                                    <input type="file" name="files[]" class="form-control" multiple>
+                                    <input type="file" name="files[]" class="form-control" multiple
+                                           {% if currentSource %}accept="{{ currentSource.accept }}"{% endif %}>
                                     <small class="text-muted">
-                                        Supports: TVTime CSV, Trakt JSON, Letterboxd CSV, Simkl JSON, Custom CSV
+                                        {% if currentSource %}
+                                            Accepted formats: {{ currentSource.accept }}
+                                        {% else %}
+                                            Supports: TVTime CSV, Trakt JSON, Letterboxd CSV, Simkl JSON, Custom CSV
+                                        {% endif %}
                                     </small>
                                 </div>
+
+                                {% if currentSource %}
+                                    <div class="alert alert-info small mb-3">
+                                        <strong>{{ currentSource.title }} format:</strong>
+                                        {% if source == 'tvtime' %}
+                                            Upload your TV Time export CSV (tracking-prod-records*.csv).
+                                            This will import watched movies and watch dates.
+                                        {% elseif source == 'trakt' %}
+                                            Upload your Trakt export (JSON or CSV). Make sure it includes movie IDs and watch history.
+                                        {% elseif source == 'letterboxd' %}
+                                            Upload your Letterboxd export CSV with film ratings and watch dates.
+                                        {% elseif source == 'simkl' %}
+                                            Upload your Simkl export JSON file with movie watch history.
+                                        {% elseif source == 'generic' %}
+                                            Upload a CSV or JSON file with at least: title, year, watched_at columns.
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
 
                                 <div id="dropZone"
                                      class="border border-dashed rounded-3 p-4 text-center bg-dark bg-opacity-25 mb-3">
                                     <p class="mb-1 fw-semibold">Drag & drop files here</p>
-                                    <p class="text-muted mb-0 small">Supported: movie exports, CSV lists</p>
+                                    <p class="text-muted mb-0 small">
+                                        {% if currentSource %}
+                                            Supported: {{ currentSource.title }} exports
+                                        {% else %}
+                                            Supported: movie exports, CSV lists
+                                        {% endif %}
+                                    </p>
                                 </div>
 
                                 <button class="btn btn-primary" type="submit">
-                                    Import Movies
+                                    {% if currentSource %}
+                                        Import Movies ({{ currentSource.title }})
+                                    {% else %}
+                                        Import Movies
+                                    {% endif %}
                                 </button>
                             </form>
 
@@ -96,8 +145,17 @@
                 const logsBox = document.getElementById('logsBox');
                 const dropZone = document.getElementById('dropZone');
                 const refreshLogsButton = document.getElementById('refreshLogsButton');
+                const submitButton = importForm.querySelector('button[type="submit"]');
 
                 let pollingInterval = null;
+                let importCompleted = false;
+
+                function setImporting(isImporting) {
+                    submitButton.disabled = isImporting;
+                    submitButton.classList.toggle('btn-primary', !isImporting);
+                    submitButton.classList.toggle('btn-secondary', isImporting);
+                    submitButton.textContent = isImporting ? 'Importing…' : '{% if currentSource %}Import Movies ({{ currentSource.title }}){% else %}Import Movies{% endif %}';
+                }
 
                 function isArray(value) {
                     return Array.isArray(value);
@@ -138,6 +196,90 @@
                     input.files = e.dataTransfer.files;
                 });
 
+                function handleImportEvent(ev) {
+                    if (ev.type === 'file') {
+                        logsBox.textContent += 'Importing file: ' + ev.name + '\n';
+                    } else if (ev.type === 'log') {
+                        const prefix = '[' + (ev.level || 'info') + '] ';
+                        logsBox.textContent += prefix + ev.message + '\n';
+                        logsBox.scrollTop = logsBox.scrollHeight;
+                    } else if (ev.type === 'progress') {
+                        const pct = ev.total ? Math.round((ev.done / ev.total) * 100) : 100;
+                        importProgress.style.width = pct + '%';
+                        importProgress.setAttribute('aria-valuenow', String(pct));
+                        statusImported.textContent = ev.imported ?? 0;
+                        statusErrors.textContent = ev.errors ?? 0;
+                    } else if (ev.type === 'done') {
+                        importCompleted = true;
+                        statusImported.textContent = ev.imported ?? 0;
+                        statusErrors.textContent = ev.errors ?? 0;
+                        importResult.innerHTML =
+                            '<div class="alert alert-success">Import completed. Imported ' +
+                            (ev.imported ?? 0) + ', errors ' + (ev.errors ?? 0) + '.</div>';
+                        importProgress.style.width = '100%';
+                        importProgress.setAttribute('aria-valuenow', '100');
+                        submitButton.disabled = false;
+                        submitButton.classList.remove('btn-secondary');
+                        submitButton.classList.add('btn-success');
+                        submitButton.textContent = 'Import Finished';
+                    } else if (ev.type === 'error') {
+                        importResult.innerHTML = '<div class="alert alert-danger">' + ev.message + '</div>';
+                    }
+                }
+
+                function readImportStream(reader, onDone) {
+                    const decoder = new TextDecoder();
+                    let buffer = '';
+                    let finished = false;
+
+                    function finish() {
+                        if (finished) {
+                            return;
+                        }
+                        finished = true;
+                        onDone(importCompleted);
+                    }
+
+                    function pump() {
+                        return reader.read().then(function (chunk) {
+                            if (chunk.done) {
+                                finish();
+                                return;
+                            }
+
+                            buffer += decoder.decode(chunk.value, { stream: true });
+                            let idx;
+                            while ((idx = buffer.indexOf('\n\n')) >= 0) {
+                                const frame = buffer.slice(0, idx);
+                                buffer = buffer.slice(idx + 2);
+
+                                frame.split('\n').forEach(function (line) {
+                                    if (line.startsWith('data: ')) {
+                                        try {
+                                            const ev = JSON.parse(line.slice(6));
+
+                                            if ('done' === ev.type) {
+                                                importCompleted = true;
+                                                finish();
+                                                try { reader.cancel(); } catch (e) { /* ignore */ }
+                                                return;
+                                            }
+
+                                            handleImportEvent(ev);
+                                        } catch (e) { /* ignore malformed frame */ }
+                                    }
+                                });
+                            }
+
+                            return pump();
+                        }).catch(function () {
+                            finish();
+                        });
+                    }
+
+                    return pump();
+                }
+
                 importForm.addEventListener('submit', function (e) {
                     e.preventDefault();
 
@@ -155,43 +297,48 @@
                     }
 
                     importResult.innerHTML = '';
-                    importProgress.style.width = '10%';
-                    importProgress.setAttribute('aria-valuenow', '10');
+                    importProgress.style.width = '0%';
+                    importProgress.setAttribute('aria-valuenow', '0');
+                    statusImported.textContent = '0';
+                    statusErrors.textContent = '0';
+                    logsBox.textContent = 'Starting import…\n';
 
                     if (pollingInterval) clearInterval(pollingInterval);
-                    pollingInterval = setInterval(refreshLogs, 2000);
 
-                    fetch('{{ path("app_import_movies") }}', {
+                    setImporting(true);
+
+                    fetch('{% if currentSource %}{{ path("app_import_movies_source_upload", { source: source }) }}{% else %}{{ path("app_import_movies_upload") }}{% endif %}', {
                         method: 'POST',
                         body: formData
                     })
-                        .then(r => r.json())
-                        .then(data => {
-                            if (data.error) {
-                                importResult.innerHTML = '<div class="alert alert-danger">' + data.error + '</div>';
-                                importProgress.style.width = '0%';
-                                importProgress.setAttribute('aria-valuenow', '0');
-                                clearInterval(pollingInterval);
-                                return;
+                        .then(r => {
+                            if (!r.ok) {
+                                return r.json().then(err => { throw new Error(err.error || 'HTTP ' + r.status); });
                             }
-
-                            statusImported.textContent = data.imported ?? 0;
-                            statusErrors.textContent = data.errors ?? 0;
-
-                            importResult.innerHTML =
-                                '<div class="alert alert-success">Import completed.</div>';
-
-                            importProgress.style.width = '100%';
-                            importProgress.setAttribute('aria-valuenow', '100');
-
-                            setTimeout(() => clearInterval(pollingInterval), 5000);
-                            refreshLogs();
+                            return readImportStream(r.body.getReader(), function (completed) {
+                                if (completed) {
+                                    importProgress.style.width = '100%';
+                                    importProgress.setAttribute('aria-valuenow', '100');
+                                    setImporting(false);
+                                    submitButton.classList.remove('btn-secondary');
+                                    submitButton.classList.add('btn-success');
+                                    submitButton.textContent = 'Import Finished';
+                                } else {
+                                    importResult.innerHTML = '<div class="alert alert-danger">Import interrupted: the server connection was lost before the import finished. The process may still be running in the background. Do not start a new import until you confirm the previous one is complete.</div>';
+                                    importProgress.style.width = '0%';
+                                    importProgress.setAttribute('aria-valuenow', '0');
+                                    setImporting(false);
+                                    submitButton.classList.remove('btn-secondary');
+                                    submitButton.classList.add('btn-outline-danger');
+                                    submitButton.textContent = 'Import Interrupted';
+                                }
+                            });
                         })
                         .catch(err => {
-                            importResult.innerHTML = '<div class="alert alert-danger">Import failed: ' + err + '</div>';
+                            importResult.innerHTML = '<div class="alert alert-danger">Import failed: ' + err.message + '</div>';
                             importProgress.style.width = '0%';
                             importProgress.setAttribute('aria-valuenow', '0');
-                            clearInterval(pollingInterval);
+                            setImporting(false);
                         });
                 });
             });
