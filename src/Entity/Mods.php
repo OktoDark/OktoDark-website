@@ -11,7 +11,6 @@
 
 namespace App\Entity;
 
-use App\Entity\BugTracker;
 use App\Repository\ModsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

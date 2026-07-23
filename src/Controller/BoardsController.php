@@ -568,7 +568,7 @@ class BoardsController extends AbstractController
 
         $isPublic = $request->query->get('isPublic');
         if (null !== $isPublic) {
-            $filters['isPublic'] = filter_var($isPublic, FILTER_VALIDATE_BOOLEAN);
+            $filters['isPublic'] = filter_var($isPublic, \FILTER_VALIDATE_BOOLEAN);
         }
 
         $boards = $this->boardRepository->findFiltered($filters);

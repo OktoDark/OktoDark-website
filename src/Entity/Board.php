@@ -102,7 +102,7 @@ class Board
     {
         $this->title = $title;
         if (empty($this->slug)) {
-            $this->slug = mb_strtolower(trim(preg_replace('/[^A-Za-z0-9]+/', '-', $title), '-'));
+            $this->slug = mb_strtolower(mb_trim(preg_replace('/[^A-Za-z0-9]+/', '-', $title), '-'));
         }
 
         return $this;
