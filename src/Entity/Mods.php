@@ -11,6 +11,7 @@
 
 namespace App\Entity;
 
+use App\Entity\BugTracker;
 use App\Repository\ModsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -85,6 +86,9 @@ class Mods
     #[ORM\OneToMany(targetEntity: Bug::class, mappedBy: 'mod')]
     private Collection $bugs;
 
+    #[ORM\OneToMany(targetEntity: BugTracker::class, mappedBy: 'mod')]
+    private Collection $bugTrackers;
+
     #[ORM\OneToMany(mappedBy: 'mod', targetEntity: ModRating::class, orphanRemoval: true)]
     private Collection $ratings;
 
@@ -97,6 +101,7 @@ class Mods
         $this->createdAt = new \DateTimeImmutable();
         $this->boards = new ArrayCollection();
         $this->bugs = new ArrayCollection();
+        $this->bugTrackers = new ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->categories = new ArrayCollection();
     }
@@ -316,6 +321,32 @@ class Mods
         if ($this->boards->removeElement($board)) {
             if ($board->getMod() === $this) {
                 $board->setMod(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBugTrackers(): Collection
+    {
+        return $this->bugTrackers;
+    }
+
+    public function addBugTracker(BugTracker $bugTracker): self
+    {
+        if (!$this->bugTrackers->contains($bugTracker)) {
+            $this->bugTrackers->add($bugTracker);
+            $bugTracker->setMod($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBugTracker(BugTracker $bugTracker): self
+    {
+        if ($this->bugTrackers->removeElement($bugTracker)) {
+            if ($bugTracker->getMod() === $this) {
+                $bugTracker->setMod(null);
             }
         }
 

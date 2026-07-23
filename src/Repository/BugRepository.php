@@ -193,12 +193,6 @@ class BugRepository extends ServiceEntityRepository
             }
         }
 
-        // If neither ourGame nor mod is explicitly set, ensure both are NULL for general bugs
-        if (!isset($filters['ourGame']) && !isset($filters['mod'])) {
-            $qb->andWhere('b.ourGame IS NULL')
-                ->andWhere('b.mod IS NULL');
-        }
-
         if (isset($filters['board']) && $filters['board'] instanceof Board) {
             // Add a condition that the bug's kanbanCard's board must match the filter board.
             // This implicitly filters out bugs without a kanbanCard when a board filter is active.

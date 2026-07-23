@@ -149,7 +149,7 @@
                                     </td>
                                     <td>
                                         {% if our_game.bugLink %}
-                                            <a href="{{ path('kanban_board', {'shortNameSlug': our_game.shortNameSlug, 'id': our_game.bugLink.id}) }}" target="_blank">
+                                            <a href="{{ path('kanban_board_project', {shortNameSlug: our_game.shortNameSlug, 'slug': our_game.bugLink.slug}) }}" target="_blank">
                                                 <i class="fas fa-bug me-1"></i> {# {{ our_game.bugLink.title }} #}
                                             </a>
                                         {% else %}

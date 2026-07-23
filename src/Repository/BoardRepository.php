@@ -147,6 +147,15 @@ class BoardRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findBySlug(string $slug): ?Board
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     /**
      * Find boards associated with a specific Mods entity.
      *
@@ -199,26 +208,14 @@ class BoardRepository extends ServiceEntityRepository
             }
         }
 
-        // Ensure that if one is set, the other is null, or both are null for general boards
-        if (isset($filters['ourGame']) && isset($filters['mod'])) {
-            // This case implies a conflict or an attempt to filter by both, which isn't supported
-            // For now, we'll let the first condition (ourGame) take precedence if both are set.
-            // A more robust solution might involve throwing an exception or defining clear precedence.
-        } elseif (isset($filters['ourGame']) && null === $filters['ourGame']) {
-            // If ourGame is explicitly null, ensure mod is also null unless mod is explicitly set
-            if (!isset($filters['mod'])) {
-                $qb->andWhere('b.mod IS NULL');
-            }
-        } elseif (isset($filters['mod']) && null === $filters['mod']) {
-            // If mod is explicitly null, ensure ourGame is also null unless ourGame is explicitly set
-            if (!isset($filters['ourGame'])) {
-                $qb->andWhere('b.ourGame IS NULL');
-            }
-        }
-
         if (isset($filters['isPublic'])) {
             $qb->andWhere('b.isPublic = :isPublic')
                 ->setParameter('isPublic', (bool) $filters['isPublic']);
+        }
+
+        if (isset($filters['search']) && '' !== $filters['search']) {
+            $qb->andWhere('b.title LIKE :search OR b.description LIKE :search')
+                ->setParameter('search', '%'.$filters['search'].'%');
         }
 
         if (isset($filters['owner']) && $filters['owner'] instanceof User) {
@@ -228,8 +225,8 @@ class BoardRepository extends ServiceEntityRepository
 
         if (isset($filters['member']) && $filters['member'] instanceof User) {
             $qb->leftJoin('b.members', 'm')
-                ->andWhere('m = :member')
-                ->setParameter('member', $filters['member']);
+                ->andWhere('b.owner = :user OR m = :user')
+                ->setParameter('user', $filters['member']);
         }
 
         return $qb->getQuery()->getResult();

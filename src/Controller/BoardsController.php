@@ -56,23 +56,38 @@ class BoardsController extends AbstractController
      */
     #[Route('/workspace/boards', name: 'kanban_index', methods: ['GET'])]
     #[Permission('kanban.view', group: 'Kanban', label: 'View Kanban')]
-    public function index(
-        #[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null,
-    ): Response {
+    public function index(Request $request, #[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null): Response
+    {
         /** @var User $user */
         $user = $this->getUser();
 
+        $search = $request->query->get('search', '');
+        $status = $request->query->get('status', 'all');
+
         $filters = ['member' => $user];
-        // For the general /workspace/boards route, we only want boards not linked to any game
-        // The game-specific route is now handled by viewBoard
-        $filters['ourGame'] = null;
+
+        if ($game) {
+            $filters['ourGame'] = $game;
+        }
+
+        if ('public' === $status) {
+            $filters['isPublic'] = true;
+        } elseif ('private' === $status) {
+            $filters['isPublic'] = false;
+        }
+
+        if ($search) {
+            $filters['search'] = $search;
+        }
 
         $boards = $this->boardRepository->findFiltered($filters);
 
         return $this->render('@theme/kanban/board-list.html.twig', [
             'createBoardForm' => $this->createForm(BoardFormType::class)->createView(),
             'boards' => $boards,
-            'game' => null,
+            'game' => $game,
+            'search' => $search,
+            'status' => $status,
         ]);
     }
 
@@ -85,8 +100,8 @@ class BoardsController extends AbstractController
      * granted via the "board_view" voter, then the board is reloaded with full
      * column, card and bug details to avoid lazy-loading issues.
      */
-    #[Route('/workspace/boards/{id}', name: 'kanban_board', requirements: ['id' => '\d+'], methods: ['GET'])]
-    #[Route('/workspace/{shortNameSlug}/boards/{id?}', name: 'kanban_board_project', requirements: ['shortNameSlug' => '[a-zA-Z0-9_-]+', 'id' => '\d+'], methods: ['GET'])]
+    #[Route('/workspace/boards/{slug}', name: 'kanban_board', requirements: ['slug' => '[a-zA-Z0-9_-]+'], methods: ['GET'])]
+    #[Route('/workspace/{shortNameSlug}/boards/{slug?}', name: 'kanban_board_project', requirements: ['shortNameSlug' => '[a-zA-Z0-9_-]+', 'slug' => '[a-zA-Z0-9_-]+'], methods: ['GET'])]
     #[Permission('kanban.view.board')]
     public function viewBoard(
         #[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null,
@@ -537,7 +552,6 @@ class BoardsController extends AbstractController
 
         $filters = ['member' => $user];
         $gameSlug = $request->query->get('gameSlug');
-        $ourGame = null;
 
         if ($gameSlug) {
             $ourGame = $this->ourGamesRepository->findOneBy(['shortNameSlug' => $gameSlug]);
@@ -545,8 +559,16 @@ class BoardsController extends AbstractController
                 return new JsonResponse(['success' => false, 'message' => 'Project not found'], Response::HTTP_NOT_FOUND);
             }
             $filters['ourGame'] = $ourGame;
-        } else {
-            $filters['ourGame'] = null; // Only show boards not linked to any game
+        }
+
+        $search = $request->query->get('search');
+        if ($search) {
+            $filters['search'] = $search;
+        }
+
+        $isPublic = $request->query->get('isPublic');
+        if (null !== $isPublic) {
+            $filters['isPublic'] = filter_var($isPublic, FILTER_VALIDATE_BOOLEAN);
         }
 
         $boards = $this->boardRepository->findFiltered($filters);

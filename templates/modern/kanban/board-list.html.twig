@@ -1,136 +1,142 @@
 {% extends "@theme/base.html.twig" %}
 
-{% block title %}{{'kanban.title'|trans({}, 'kanban')}}{% endblock %}
+{% block title %}
+	{{'kanban.title'|trans({}, 'kanban')}}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body_id 'boards' %}
 
 {% block main %}
-    {% form_theme createBoardForm 'bootstrap_5_layout.html.twig' %} {# Explicitly set form theme #}
-    <div class="boards-container container py-4" {% if game %}data-game-slug="{{ game.shortNameSlug }}"{% endif %}>
-        <div class="boards-header d-flex justify-content-between align-items-center mb-4"> {# Used flex utilities #}
-            <h4 class="mb-0">{% if game %}{{'kanban.board_list.heading_for_game'|trans({'%game_name%': game.name}, 'kanban')}}{% else %}{{'kanban.board_list.heading_all'|trans({}, 'kanban')}}{% endif %}</h4>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createBoardModal">
-                <i class="bi bi-plus-circle me-2"></i>{{'kanban.board_list.create_button'|trans({}, 'kanban')}} {# Added Bootstrap Icon #}
-            </button>
+    <section class="section section-page-title bg-default text-center py-5">
+        <div class="container">
+            <h1 class="display-5 fw-bold">{{'kanban.board_list.heading_all'|trans({}, 'kanban')}}</h1>
         </div>
+    </section>
 
-        <div id="boardsList" class="row"> {# Already a Bootstrap row #}
-            <!-- Boards loaded dynamically -->
-        </div>
-    </div>
+    <section class="py-5 bg-light">
+        <div class="container py-4">
+		<h4 class="fw-bold mb-4">{{'kanban.board_list.heading_all'|trans({}, 'kanban')}}</h4>
 
-    <!-- Create Board Modal -->
-    <div class="modal fade" id="createBoardModal" tabindex="-1" aria-labelledby="createBoardModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createBoardModalLabel">{{'kanban.create_board_modal.title'|trans({}, 'kanban')}}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{'kanban.create_board_modal.close_button_aria'|trans({}, 'kanban')}}"></button>
-                </div>
-                <div class="modal-body">
-                    {{ form_start(createBoardForm, {'attr': {'id': 'createBoardForm'}}) }}
-                    <div class="mb-3">
-                        {{ form_label(createBoardForm.title) }}
-                        {{ form_widget(createBoardForm.title) }}
-                        {{ form_errors(createBoardForm.title) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_label(createBoardForm.description) }}
-                        {{ form_widget(createBoardForm.description) }}
-                        {{ form_errors(createBoardForm.description) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_label(createBoardForm.backgroundColor) }}
-                        {{ form_widget(createBoardForm.backgroundColor) }}
-                        {{ form_errors(createBoardForm.backgroundColor) }}
-                    </div>
-                    <div class="form-check mb-3">
-                        {{ form_widget(createBoardForm.isPublic, {'attr': {'class': 'form-check-input'}}) }}
-                        {{ form_label(createBoardForm.isPublic, null, {'label_attr': {'class': 'form-check-label'}}) }}
-                        {{ form_errors(createBoardForm.isPublic) }}
-                    </div>
-                    {# Conditionally render ourGame field as hidden or select #}
-                    {% if game %}
-                        <input type="hidden" name="{{ createBoardForm.ourGame.vars.full_name }}" value="{{ game.id }}">
-                    {% else %}
-                        {{ form_row(createBoardForm.ourGame) }}
-                    {% endif %}
-                    <button type="submit" class="btn btn-primary mt-3">{{'kanban.create_board_modal.form.submit_button'|trans({}, 'kanban')}}</button>
-                    {{ form_end(createBoardForm, {'render_rest': false}) }}
-                </div>
-            </div>
-        </div>
-    </div>
+		<form method="get" action="{{ path('kanban_index') }}" class="row g-3 mb-4">
+			<div class="col-md-5">
+				<input type="text" name="search" value="{{ search }}" class="form-control" placeholder="Search by name or description...">
+			</div>
+			<div class="col-md-3">
+				<select name="status" class="form-select">
+					<option value="all" {{ status == 'all' ? 'selected' : '' }}>All</option>
+					<option value="public" {{ status == 'public' ? 'selected' : '' }}>Public</option>
+					<option value="private" {{ status == 'private' ? 'selected' : '' }}>Private</option>
+				</select>
+			</div>
+			<div class="col-md-2">
+				<button type="submit" class="btn btn-primary w-100">
+					<i class="fas fa-filter me-1"></i>Filter</button>
+			</div>
+			<div class="col-md-2">
+				<a href="{{ path('kanban_index') }}" class="btn btn-outline-secondary w-100">Reset</a>
+			</div>
+		</form>
 
+		<div class="row g-4">
+			{% if boards is defined and boards|length > 0 %}
+				{% for board in boards %}
+					{% set projectLabel %}
+					{% if board.ourGame %}
+						<span class="badge bg-info text-dark me-1">
+							<i class="bi bi-diagram-3 me-1"></i>
+							{{ board.ourGame.shortNameSlug }}</span>
+					{% else %}
+						<span class="badge bg-secondary me-1">
+							<i class="bi bi-globe me-1"></i>Global</span>
+					{% endif %}
+					{% endset %}
+					{% set statusBadge %}
+					{% if board.isPublic %}
+						<span class="badge bg-success">Public</span>
+					{% else %}
+						<span class="badge bg-secondary">Private</span>
+					{% endif %}
+					{% endset %}
+					{% set description %}
+					{% if board.description %}
+						<p class="card-text text-muted small text-truncate mb-2" title="{{ board.description }}">{{ board.description }}</p>
+					{% else %}
+						<p class="card-text text-muted small mb-2">No description</p>
+					{% endif %}
+					{% endset %}
+					{% set ownerLine %}
+					{% if board.owner %}
+						<div class="d-flex align-items-center text-muted small mb-1">
+							<i class="bi bi-person me-2"></i>
+							<span>{{ board.owner.username }}</span>
+						</div>
+					{% endif %}
+					{% endset %}
+					{% set memberCount = board.members|length %}
+					{% set maintainerLine %}
+					{% if memberCount > 0 %}
+						<div class="d-flex align-items-center text-muted small mb-2">
+							<i class="bi bi-people me-2"></i>
+							<span>{{ memberCount }}
+								maintainers</span>
+						</div>
+					{% else %}
+						<div class="d-flex align-items-center text-muted small mb-2">
+							<i class="bi bi-people me-2"></i>
+							<span>No maintainers</span>
+						</div>
+					{% endif %}
+					{% endset %}
+
+					<div class="col-md-6 col-lg-4">
+						<div class="card shadow-sm border-0 h-100">
+							<div class="card-body d-flex flex-column">
+								<div class="d-flex justify-content-between align-items-start mb-2">
+									<h5 class="card-title mb-0 text-truncate">{{ board.title }}</h5>
+									{{ statusBadge|raw }}
+								</div>
+								<div class="mb-2">{{ projectLabel|raw }}</div>
+								{{ description|raw }}
+								{{ ownerLine|raw }}
+								{{ maintainerLine|raw }}
+								<div class="mt-auto pt-2 text-end">
+									{% if board.ourGame %}
+										<a href="{{ path('kanban_board_project', {'shortNameSlug': board.ourGame.shortNameSlug, 'slug': board.slug}) }}" class="btn btn-primary">
+											<i class="fas fa-eye me-1"></i>View Board</a>
+									{% else %}
+										<a href="{{ path('kanban_board', {'slug': board.slug}) }}" class="btn btn-primary">
+											<i class="fas fa-eye me-1"></i>View Board</a>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			{% else %}
+				<div class="col-12 text-center py-5 text-muted">
+					{% if search or status != 'all' %}
+						<p class="mb-0">No boards match your filters.</p>
+					{% else %}
+						<p class="mb-0">No boards yet. Start by creating a new board.</p>
+					{% endif %}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</section>
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script src="{{ settings.siteCDN }}/kanban/js/api-client.js"></script>
-    <script src="{{ settings.siteCDN }}/kanban/js/board-manager.js"></script>
-    <script>
-        var boardsContainer = document.querySelector('.boards-container');
-        var gameSlug = boardsContainer.dataset.gameSlug || ''; // Get gameSlug from data attribute. It will be an empty string if game is null.
-
-        // Initialize ApiClient with the correct base URL
-        var apiClient = new ApiClient('{{ path('kanban_api_base') }}');
-
-        // Initialize BoardManager with locale and gameSlug
-        var boardManager = new BoardManager(apiClient, '{{ app.request.locale }}', gameSlug);
-
-        document.addEventListener('DOMContentLoaded', function() {
-            boardManager.loadBoards().then(function(boards) {
-                boardManager.renderBoardsList(document.getElementById('boardsList'));
-            });
-
-            var createBoardForm = document.getElementById('createBoardForm');
-            if (createBoardForm) {
-                createBoardForm.addEventListener('submit', function(event) {
-                    event.preventDefault();
-
-                    var formData = new FormData(createBoardForm);
-                    var data = {};
-                    for (var pair of formData.entries()) {
-                        data[pair[0]] = pair[1];
-                    }
-
-                    boardManager.createBoard(data)
-                        .then(function(newBoard) {
-                            console.log('Board created:', newBoard);
-                            // Close modal using Bootstrap 5 API
-                            var createBoardModal = bootstrap.Modal.getInstance(document.getElementById('createBoardModal'));
-                            if (createBoardModal) {
-                                createBoardModal.hide();
-                            }
-                            // Reload boards list
-                            boardManager.loadBoards().then(function() {
-                                boardManager.renderBoardsList(document.getElementById('boardsList'));
-                            });
-                            // Optionally, show a success message
-                            alert('{{'kanban.create_board_modal.success_message'|trans({}, 'kanban')}}');
-                            createBoardForm.reset(); // Clear the form
-                        })
-                        .catch(function(error) {
-                            console.error('Error creating board:', error);
-                            var errorMessage = '{{'kanban.create_board_modal.error_message_prefix'|trans({}, 'kanban')}}' + (error.message || '{{'kanban.create_board_modal.error_unknown'|trans({}, 'kanban')}}');
-
-                            // Check if the error object contains detailed validation errors
-                            if (error.errors) {
-                                errorMessage += '\n\n{{'kanban.create_board_modal.error_details_prefix'|trans({}, 'kanban')}}';
-                                for (var field in error.errors) {
-                                    if (error.errors.hasOwnProperty(field)) {
-                                        errorMessage += '\n- ' + field + ': ' + error.errors[field].join(', '); // Field names are not translated here
-                                    }
-                                }
-                            }
-                            alert(errorMessage);
-                            // You might want to display validation errors more gracefully here, e.g., next to fields
-                        });
-                });
-            }
-        });
-    </script>
+	{{ parent() }}
+	<script src="{{ settings.siteCDN }}/kanban/js/api-client.js"></script>
+	<script src="{{ settings.siteCDN }}/kanban/js/board-manager.js"></script>
 {% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('build/kanban/boards.css') }}">
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('build/kanban/boards.css') }}">
 {% endblock %}

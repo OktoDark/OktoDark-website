@@ -178,6 +178,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\OneToMany(targetEntity: Bug::class, mappedBy: 'assignee')]
     private Collection $assignedBugs;
 
+    #[ORM\OneToMany(targetEntity: BugTracker::class, mappedBy: 'owner')]
+    private Collection $ownedBugTrackers;
+
+    #[ORM\ManyToMany(targetEntity: BugTracker::class, mappedBy: 'trackers')]
+    private Collection $trackedBugTrackers;
+
     #[ORM\OneToMany(targetEntity: ActivityLog::class, mappedBy: 'user')]
     private Collection $activityLogs;
 
@@ -206,6 +212,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->cardComments = new ArrayCollection();
         $this->reportedBugs = new ArrayCollection();
         $this->assignedBugs = new ArrayCollection();
+        $this->ownedBugTrackers = new ArrayCollection();
+        $this->trackedBugTrackers = new ArrayCollection();
         $this->activityLogs = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->roleEntities = new ArrayCollection();

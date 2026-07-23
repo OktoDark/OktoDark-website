@@ -12,11 +12,13 @@
 namespace App\Controller;
 
 use App\Entity\Bug;
+use App\Entity\BugTracker;
 use App\Entity\OurGames;
 use App\Entity\User;
 use App\Form\BugFormType;
 use App\Repository\BoardRepository;
 use App\Repository\BugRepository;
+use App\Repository\BugTrackerRepository;
 use App\Repository\OurGamesRepository;
 use App\Repository\UserRepository;
 use App\Security\Attribute\Permission;
@@ -43,8 +45,65 @@ class BugTrackerController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly BugRepository $bugRepository,
         private readonly BoardRepository $boardRepository,
+        private readonly BugTrackerRepository $bugTrackerRepository,
         private readonly OurGamesRepository $ourGamesRepository,
     ) {
+    }
+
+    #[Route('/workspace/bugs/{slug}', name: 'kanban_bugs_tracker', requirements: ['slug' => '[a-zA-Z0-9_-]+'])]
+    #[Permission('kanban.bugs.view')]
+    public function bugTrackerBySlug(#[MapEntity(mapping: ['slug' => 'slug'])] BugTracker $bugTracker): Response
+    {
+        $game = $bugTracker->getOurGame();
+
+        $users = $this->userRepository->findAll();
+        $teamData = [];
+        foreach ($users as $user) {
+            $teamData[] = [
+                'id' => $user->getId(),
+                'username' => $user->getUsername(),
+            ];
+        }
+
+        $filters = [];
+        $board = null;
+
+        if ($game) {
+            $filters['ourGame'] = $game;
+            $board = $game->getBugLink();
+        }
+
+        $bugs = $this->bugRepository->findFiltered($filters);
+
+        $newBug = new Bug();
+        if ($game) {
+            $newBug->setOurGame($game);
+        }
+        $bugForm = $this->createForm(BugFormType::class, $newBug);
+
+        $authResult = $this->checkAuthentication();
+        if ($authResult instanceof JsonResponse) {
+            return $authResult;
+        }
+        /** @var User $user */
+        $user = $authResult;
+
+        $boardFilters = ['member' => $user];
+        if ($game) {
+            $boardFilters['ourGame'] = $game;
+        }
+        $availableBoards = $this->boardRepository->findFiltered($boardFilters);
+
+        return $this->render('@theme/kanban/bug-tracker.html.twig', [
+            'pageTitle' => $game ? 'Bug Tracker for '.$game->getName() : 'Bug Tracker: '.$bugTracker->getName(),
+            'team' => $teamData,
+            'bugForm' => $bugForm->createView(),
+            'bugs' => $bugs,
+            'game' => $game,
+            'board' => $board,
+            'availableBoards' => $availableBoards,
+            'bugTracker' => $bugTracker,
+        ]);
     }
 
     /**
@@ -58,8 +117,36 @@ class BugTrackerController extends AbstractController
     #[Route('/workspace/bugs', name: 'kanban_bugs')]
     #[Route('/workspace/{shortNameSlug}/bugs', name: 'kanban_bugs_project', requirements: ['shortNameSlug' => '[a-zA-Z0-9_-]+'])]
     #[Permission('kanban.bugs.view')]
-    public function bugTracker(#[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null): Response
+    public function bugTracker(Request $request, #[MapEntity(mapping: ['shortNameSlug' => 'shortNameSlug'])] ?OurGames $game = null): Response
     {
+        $search = '';
+        $status = 'all';
+
+        if (!$game) {
+            $search = $request->query->get('search', '');
+            $status = $request->query->get('status', 'all');
+
+            $activeOnly = match ($status) {
+                'active' => true,
+                'inactive' => false,
+                default => null,
+            };
+
+            $qb = $this->bugTrackerRepository->createListQueryBuilder(
+                $search ?: null,
+                $activeOnly
+            );
+            $bugTrackers = $qb->getQuery()->getResult();
+
+            return $this->render('@theme/kanban/bug-tracker-list.html.twig', [
+                'pageTitle' => 'Bug Trackers',
+                'game' => null,
+                'bugTrackers' => $bugTrackers,
+                'search' => $search,
+                'status' => $status,
+            ]);
+        }
+
         $users = $this->userRepository->findAll();
         $teamData = [];
         foreach ($users as $user) {
@@ -77,8 +164,6 @@ class BugTrackerController extends AbstractController
             // If the game has a default bug board, we might want to pre-select it or use it for filtering
             // For now, we'll just pass it to the template if it exists
             $board = $game->getBugLink();
-        } else {
-            $filters['ourGame'] = null;
         }
 
         $bugs = $this->bugRepository->findFiltered($filters);
@@ -101,8 +186,6 @@ class BugTrackerController extends AbstractController
         $boardFilters = ['member' => $user];
         if ($game) {
             $boardFilters['ourGame'] = $game;
-        } else {
-            $boardFilters['ourGame'] = null;
         }
         $availableBoards = $this->boardRepository->findFiltered($boardFilters);
 
@@ -138,6 +221,33 @@ class BugTrackerController extends AbstractController
             'bug' => $bug,
             'pageTitle' => 'Bug #'.$bug->getId().': '.$bug->getTitle(),
             'game' => $game, // Pass game to Twig
+        ]);
+    }
+
+    #[Route('/kanban/api/bug-trackers', name: 'kanban_api_bug_trackers_list', methods: ['GET'])]
+    #[Permission('kanban.bugs.view.api.list')]
+    public function apiListBugTrackers(Request $request): JsonResponse
+    {
+        $qb = $this->bugTrackerRepository->createListQueryBuilder();
+
+        $trackers = $qb->getQuery()->getResult();
+
+        return new JsonResponse([
+            'bugTrackers' => array_map(static function (BugTracker $tracker) {
+                return [
+                    'id' => $tracker->getId(),
+                    'name' => $tracker->getName(),
+                    'slug' => $tracker->getSlug(),
+                    'isActive' => $tracker->isActive(),
+                    'description' => $tracker->getDescription(),
+                    'owner' => $tracker->getOwner()?->getUsername(),
+                    'maintainers' => array_map(static function (User $user) {
+                        return $user->getUsername();
+                    }, $tracker->getTrackers()->toArray()),
+                    'ourGameSlug' => $tracker->getOurGame()?->getShortNameSlug(),
+                    'ourGameName' => $tracker->getOurGame()?->getName(),
+                ];
+            }, $trackers),
         ]);
     }
 
@@ -361,8 +471,6 @@ class BugTrackerController extends AbstractController
                 return new JsonResponse(['success' => false, 'message' => 'Project not found'], Response::HTTP_NOT_FOUND);
             }
             $filters['ourGame'] = $ourGame;
-        } else {
-            $filters['ourGame'] = null; // Only show bugs not linked to any game
         }
 
         if ($status) {

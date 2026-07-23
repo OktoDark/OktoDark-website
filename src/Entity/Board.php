@@ -32,6 +32,9 @@ class Board
     #[Assert\Length(min: 1, max: 255)]
     private ?string $title = null;
 
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
+    private ?string $slug = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
@@ -98,6 +101,9 @@ class Board
     public function setTitle(string $title): self
     {
         $this->title = $title;
+        if (empty($this->slug)) {
+            $this->slug = mb_strtolower(trim(preg_replace('/[^A-Za-z0-9]+/', '-', $title), '-'));
+        }
 
         return $this;
     }
@@ -310,6 +316,18 @@ class Board
     public function setMod(?Mods $mod): self
     {
         $this->mod = $mod;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

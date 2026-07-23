@@ -77,6 +77,9 @@ class OurGames
     #[ORM\OneToMany(targetEntity: Bug::class, mappedBy: 'ourGame')]
     private Collection $bugs;
 
+    #[ORM\OneToMany(targetEntity: BugTracker::class, mappedBy: 'ourGame')]
+    private Collection $bugTrackers;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
@@ -108,6 +111,7 @@ class OurGames
     {
         $this->boards = new ArrayCollection();
         $this->bugs = new ArrayCollection();
+        $this->bugTrackers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -321,6 +325,36 @@ class OurGames
             // set the owning side to null (unless already changed)
             if ($bug->getOurGame() === $this) {
                 $bug->setOurGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BugTracker>
+     */
+    public function getBugTrackers(): Collection
+    {
+        return $this->bugTrackers;
+    }
+
+    public function addBugTracker(BugTracker $bugTracker): self
+    {
+        if (!$this->bugTrackers->contains($bugTracker)) {
+            $this->bugTrackers->add($bugTracker);
+            $bugTracker->setOurGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBugTracker(BugTracker $bugTracker): self
+    {
+        if ($this->bugTrackers->removeElement($bugTracker)) {
+            // set the owning side to null (unless already changed)
+            if ($bugTracker->getOurGame() === $this) {
+                $bugTracker->setOurGame(null);
             }
         }
 

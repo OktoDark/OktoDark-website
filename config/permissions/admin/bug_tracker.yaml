@@ -1,0 +1,110 @@
+manual_permissions:
+    - name: admin.bug_tracker.view
+      label: View Bug Trackers
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.index
+      label: View Bug Tracker List
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.create
+      label: Create Bug Tracker
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.edit
+      label: Edit Bug Tracker
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.delete
+      label: Delete Bug Tracker
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.toggle
+      label: Toggle Bug Tracker Status
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.api_list
+      label: View Bug Trackers API
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.api_available
+      label: View Available Trackers API
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.api_current_trackers
+      label: View Current Trackers API
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.api_add_tracker
+      label: Add Tracker API
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.api_remove_tracker
+      label: Remove Tracker API
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.members.view
+      label: View Current Members API
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.members.high_rank
+      label: View Available Members API
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.members.add
+      label: Add Member API
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+    - name: admin.bug_tracker.members.remove
+      label: Remove Member API
+      group: Bug Trackers
+      area: admin_bug_tracker
+
+roles:
+    ROLE_ADMIN:
+        - admin.bug_tracker.view
+        - admin.bug_tracker.index
+        - admin.bug_tracker.create
+        - admin.bug_tracker.edit
+        - admin.bug_tracker.delete
+        - admin.bug_tracker.toggle
+        - admin.bug_tracker.api_list
+        - admin.bug_tracker.api_available
+        - admin.bug_tracker.api_current_trackers
+        - admin.bug_tracker.api_add_tracker
+        - admin.bug_tracker.api_remove_tracker
+        - admin.bug_tracker.members.view
+        - admin.bug_tracker.members.high_rank
+        - admin.bug_tracker.members.add
+        - admin.bug_tracker.members.remove
+
+    ROLE_SUPER_ADMIN:
+        - admin.bug_tracker.view
+        - admin.bug_tracker.index
+        - admin.bug_tracker.create
+        - admin.bug_tracker.edit
+        - admin.bug_tracker.delete
+        - admin.bug_tracker.toggle
+        - admin.bug_tracker.api_list
+        - admin.bug_tracker.api_available
+        - admin.bug_tracker.api_current_trackers
+        - admin.bug_tracker.api_add_tracker
+        - admin.bug_tracker.api_remove_tracker
+        - admin.bug_tracker.members.view
+        - admin.bug_tracker.members.high_rank
+        - admin.bug_tracker.members.add
+        - admin.bug_tracker.members.remove

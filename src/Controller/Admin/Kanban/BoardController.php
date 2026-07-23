@@ -9,13 +9,14 @@
  * For the full copyright and license information, please view the LICENSE.
  */
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Kanban;
 
 use App\Entity\Board;
 use App\Entity\BoardColumn;
 use App\Entity\User;
 use App\Form\BoardFormType;
 use App\Repository\BoardRepository;
+use App\Repository\ModsRepository;
 use App\Repository\OurGamesRepository;
 use App\Repository\UserRepository;
 use App\Security\Attribute\Permission;
@@ -31,8 +32,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route('/admin/kanban', name: 'admin_kanban_')]
-class KanbanController extends AbstractController
+#[Route('/admin/kanban/board', name: 'admin_kanban_')]
+#[Permission('admin.board.index', group: 'Boards', label: 'Manage boards')]
+class BoardController extends AbstractController
 {
     /**
      * Initialize controller dependencies for boards, users, games and persistence.
@@ -43,6 +45,7 @@ class KanbanController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly ValidatorInterface $validator,
         private readonly OurGamesRepository $ourGamesRepository,
+        private readonly ModsRepository $modsRepository,
     ) {
     }
 
@@ -50,17 +53,34 @@ class KanbanController extends AbstractController
      * Render the Kanban board list with a board creation form and available games.
      */
     #[Route('/', name: 'index')]
-    #[Permission('admin.kanban.index')]
-    public function index(): Response
+    #[Permission('admin.board.index')]
+    public function index(Request $request): Response
     {
-        $boards = $this->boardRepository->findAll();
+        $search = $request->query->get('search');
+        $status = $request->query->get('status', 'all');
+
+        $filters = [];
+        if ($search) {
+            $filters['search'] = $search;
+        }
+        if ('public' === $status) {
+            $filters['isPublic'] = true;
+        } elseif ('private' === $status) {
+            $filters['isPublic'] = false;
+        }
+
+        $boards = $this->boardRepository->findFiltered($filters);
         $createForm = $this->createForm(BoardFormType::class, new Board());
         $ourGames = $this->ourGamesRepository->findAll();
+        $mods = $this->modsRepository->findAll();
 
-        return $this->render('@theme/admin/kanban/index.html.twig', [
+        return $this->render('@theme/admin/kanban/boards/index.html.twig', [
             'boards' => $boards,
             'createForm' => $createForm->createView(),
             'ourGames' => $ourGames,
+            'mods' => $mods,
+            'search' => $search,
+            'status' => $status,
         ]);
     }
 
@@ -71,7 +91,7 @@ class KanbanController extends AbstractController
      * surfaces ORM/DBAL errors as flash messages and redirects to the board list.
      */
     #[Route('/create', name: 'create')]
-    #[Permission('admin.kanban.create')]
+    #[Permission('admin.board.create')]
     public function create(Request $request): Response
     {
         $board = new Board();
@@ -122,7 +142,7 @@ class KanbanController extends AbstractController
             } catch (\Exception $e) {
                 $this->addFlash('error', $this->getDatabaseErrorMessage($e, 'Failed to create board.'));
             }
-        } else {
+        } elseif ($form->isSubmitted()) {
             $errors = $this->getFormErrors($form);
             $errorMessage = 'Failed to create board: ';
             $hasErrors = false;
@@ -159,7 +179,7 @@ class KanbanController extends AbstractController
      * messages; on validation failure it reports structured form errors.
      */
     #[Route('/edit/{id}', name: 'edit', requirements: ['id' => '\d+'])]
-    #[Permission('admin.kanban.edit')]
+    #[Permission('admin.board.edit')]
     public function edit(Request $request, Board $board): Response
     {
         $form = $this->createForm(BoardFormType::class, $board);
@@ -172,7 +192,7 @@ class KanbanController extends AbstractController
             } catch (\Exception $e) {
                 $this->addFlash('error', $this->getDatabaseErrorMessage($e, 'Failed to update board.'));
             }
-        } else {
+        } elseif ($form->isSubmitted()) {
             // Enhanced error reporting for the 'edit' method
             $errors = $this->getFormErrors($form);
             $errorMessage = 'Failed to update board: ';
@@ -208,7 +228,7 @@ class KanbanController extends AbstractController
      * Delete a board after CSRF token validation and redirect to the list.
      */
     #[Route('/delete/{id}', name: 'delete', requirements: ['id' => '\d+'], methods: ['POST'])]
-    #[Permission('admin.kanban.delete')]
+    #[Permission('admin.board.delete')]
     public function delete(Request $request, Board $board): Response
     {
         if ($this->isCsrfTokenValid('delete'.$board->getId(), $request->request->get('_token'))) {
@@ -233,6 +253,7 @@ class KanbanController extends AbstractController
      * of the configured high-rank roles (ROLE_ADMIN, ROLE_DEVELOPER).
      */
     #[Route('/api/boards/{id}/members/high-rank-available', name: 'api_board_members_high_rank_available', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Permission('admin.board.members.high_rank')]
     public function getHighRankAvailableMembersApi(int $id): JsonResponse
     {
         try {
@@ -250,18 +271,13 @@ class KanbanController extends AbstractController
             $existingMemberIds = array_unique($existingMemberIds);
 
             $qb = $this->userRepository->createQueryBuilder('u')
+                ->innerJoin('u.roleEntities', 'r')
                 ->where('u.id NOT IN (:existingMemberIds)')
                 ->setParameter('existingMemberIds', $existingMemberIds ?: [0]);
 
-            // Dynamically add OR conditions for each high-rank role
-            $orConditions = [];
-            foreach ($highRankRoles as $index => $role) {
-                $orConditions[] = 'u.roles LIKE :role'.$index;
-                $qb->setParameter('role'.$index, '%"'.$role.'"%');
-            }
-            if (!empty($orConditions)) {
-                $qb->andWhere(implode(' OR ', $orConditions));
-            }
+            $qb->andWhere('r.name IN (:highRankRoles)')
+                ->setParameter('highRankRoles', $highRankRoles)
+                ->groupBy('u.id');
 
             $availableUsers = $qb->orderBy('u.username', 'ASC')
                 ->getQuery()
@@ -283,6 +299,7 @@ class KanbanController extends AbstractController
      * Return the owner followed by the other members of a board as JSON.
      */
     #[Route('/api/boards/{id}/members/current', name: 'api_board_members_current', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Permission('admin.board.members.view')]
     public function getCurrentBoardMembersApi(int $id): JsonResponse
     {
         try {
@@ -326,6 +343,7 @@ class KanbanController extends AbstractController
      * Add a user as a member of a board, rejecting duplicates and invalid users.
      */
     #[Route('/api/boards/{id}/members', name: 'api_board_members_add', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[Permission('admin.board.members.add')]
     public function addBoardMemberApi(Request $request, int $id): JsonResponse
     {
         $board = $this->boardRepository->find($id);
@@ -371,6 +389,7 @@ class KanbanController extends AbstractController
      * Remove a member from a board, refusing to remove the owner.
      */
     #[Route('/api/boards/{boardId}/members/{userId}', name: 'api_board_members_remove', requirements: ['boardId' => '\d+', 'userId' => '\d+'], methods: ['DELETE'])]
+    #[Permission('admin.board.members.remove')]
     public function removeBoardMemberApi(int $boardId, int $userId): JsonResponse
     {
         $board = $this->boardRepository->find($boardId);
@@ -411,7 +430,8 @@ class KanbanController extends AbstractController
         // Get all errors, including those not mapped to a specific field
         foreach ($form->getErrors(true) as $error) { // Removed the second 'true' to get all errors
             /** @var FormError $error */
-            $propertyPath = $error->getCause() ? $error->getCause()->getPropertyPath() : null;
+            $cause = $error->getCause();
+            $propertyPath = $cause && method_exists($cause, 'getPropertyPath') ? $cause->getPropertyPath() : null;
             $message = $error->getMessage();
 
             // If there's a property path, it's a field-specific error

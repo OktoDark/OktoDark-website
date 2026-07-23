@@ -1,0 +1,61 @@
+manual_permissions:
+    - name: admin.board.index
+      label: View boards
+      group: Admin
+      area: admin_board
+
+    - name: admin.board.create
+      label: Create boards
+      group: Admin
+      area: admin_board
+
+    - name: admin.board.edit
+      label: Edit boards
+      group: Admin
+      area: admin_board
+
+    - name: admin.board.delete
+      label: Delete boards
+      group: Admin
+      area: admin_board
+
+    - name: admin.board.members.view
+      label: View board members
+      group: Admin
+      area: admin_board
+
+    - name: admin.board.members.add
+      label: Add board members
+      group: Admin
+      area: admin_board
+
+    - name: admin.board.members.remove
+      label: Remove board members
+      group: Admin
+      area: admin_board
+
+    - name: admin.board.members.high_rank
+      label: View available high-rank members
+      group: Admin
+      area: admin_board
+
+roles:
+    ROLE_ADMIN:
+        - admin.board.index
+        - admin.board.create
+        - admin.board.edit
+        - admin.board.delete
+        - admin.board.members.view
+        - admin.board.members.add
+        - admin.board.members.remove
+        - admin.board.members.high_rank
+
+    ROLE_SUPER_ADMIN:
+        - admin.board.index
+        - admin.board.create
+        - admin.board.edit
+        - admin.board.delete
+        - admin.board.members.view
+        - admin.board.members.add
+        - admin.board.members.remove
+        - admin.board.members.high_rank

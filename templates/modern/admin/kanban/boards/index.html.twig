@@ -1,0 +1,552 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Kanban Boards - Admin
+{% endblock %}
+{% block body_id 'admin' %}
+
+{% block main %}
+	{% embed '@theme/admin/partials/_nav.html.twig' %}
+		{% block admin_content %}
+			<div class="section-title">
+				<h2>Kanban Boards</h2>
+				<p>Manage all Kanban boards across the platform.</p>
+			</div>
+
+			<section
+				class="py-3">
+				{# Flash Messages #}
+				{% for message in app.flashes('success') %}
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						{{ message }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				{% endfor %}
+				{% for message in app.flashes('error') %}
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						{{ message }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				{% endfor %}
+
+				<div class="row mb-3">
+					<div class="col-md-5">
+						<form method="get" action="{{ path('admin_kanban_index') }}" class="d-flex">
+							<input type="text" name="search" value="{{ search }}" class="form-control me-2" placeholder="Search boards...">
+							<button type="submit" class="btn btn-outline-secondary">Search</button>
+						</form>
+					</div>
+					<div class="col-md-3">
+						<form method="get" action="{{ path('admin_kanban_index') }}" class="d-flex">
+							<select name="status" class="form-select me-2" onchange="this.form.submit()">
+								<option value="all" {{ 'all' == status ? 'selected' : '' }}>All</option>
+								<option value="public" {{ 'public' == status ? 'selected' : '' }}>Public</option>
+								<option value="private" {{ 'private' == status ? 'selected' : '' }}>Private</option>
+							</select>
+							{% if search %}
+								<input type="hidden" name="search" value="{{ search }}">
+							{% endif %}
+						</form>
+					</div>
+					<div class="col-md-4 text-end">
+						<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createBoardModal">
+							<i class="fas fa-plus me-2"></i>
+							{{ 'admin.kanban.create_board'|trans({}, 'admin') }}
+						</button>
+					</div>
+				</div>
+
+				<div class="admin-card">
+					<h5 class="mb-4">All Boards</h5>
+					<div class="table-responsive">
+						<table class="admin-table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Title</th>
+									<th>Description</th>
+									<th>Owner</th>
+									<th>Public</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for board in boards %}
+									<tr data-board-id="{{ board.id }}" data-board-title="{{ board.title }}" data-board-description="{{ board.description }}" data-board-background-color="{{ board.backgroundColor }}" data-board-is-public="{{ board.isPublic ? '1' : '0' }}" data-board-our-game-id="{{ board.ourGame ? board.ourGame.id : '' }}" data-board-mod-id="{{ board.mod ? board.mod.id : '' }}">
+										<td>{{ board.id }}</td>
+										<td>{{ board.title }}</td>
+										<td>{{ board.description|length > 50 ? board.description|slice(0, 50) ~ '...' : board.description }}</td>
+										<td>{{ board.owner.username }}</td>
+										<td>
+											{% if board.isPublic %}
+												<span class="badge bg-success">Yes</span>
+											{% else %}
+												<span class="badge bg-danger">No</span>
+											{% endif %}
+										</td>
+										<td>
+											{% if board.ourGame %}
+												<a href="{{ path('kanban_board_project', {shortNameSlug: board.ourGame.shortNameSlug, slug: board.slug}) }}" class="btn btn-sm btn-outline-info me-1" title="{{ 'admin.kanban.view_public_board'|trans({}, 'admin') }}">
+													<i class="fas fa-eye"></i>
+												</a>
+											{% else %}
+												<a href="{{ path('kanban_board', {slug: board.slug}) }}" class="btn btn-sm btn-outline-info me-1" title="{{ 'admin.kanban.view_public_board'|trans({}, 'admin') }}">
+													<i class="fas fa-eye"></i>
+												</a>
+											{% endif %}
+											<button type="button" class="btn btn-sm btn-outline-primary me-1 edit-board-btn" data-bs-toggle="modal" data-bs-target="#editBoardModal" title="{{ 'admin.kanban.edit_board'|trans({}, 'admin') }}">
+												<i class="fas fa-pencil-alt"></i>
+											</button>
+											<button type="button" class="btn btn-sm btn-outline-secondary me-1 manage-members-btn" data-bs-toggle="modal" data-bs-target="#manageMembersModal" data-board-id="{{ board.id }}" title="Manage Members">
+												<i class="fas fa-users"></i>
+											</button>
+											<form method="post" action="{{ path('admin_kanban_delete', {id: board.id}) }}" onsubmit="return confirm('{{ 'admin.common.delete_confirm'|trans({'%entity%': 'board'}, 'admin') }}');" class="d-inline">
+												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ board.id) }}">
+												<button type="submit" class="btn btn-sm btn-outline-danger" title="{{ 'admin.kanban.delete_board'|trans({}, 'admin') }}">
+													<i class="fas fa-trash"></i>
+												</button>
+											</form>
+										</td>
+									</tr>
+								{% else %}
+									<tr>
+										<td colspan="6" class="text-center text-muted py-4">No Kanban boards found.</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+
+
+			<div class="modal fade" id="createBoardModal" tabindex="-1" aria-labelledby="createBoardModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg modal-dialog-centered">
+					<div class="modal-content border-0 shadow-lg">
+						{{ form_start(createForm, {'attr': {'id': 'createBoardForm', 'action': path('admin_kanban_create'), 'method': 'post'}, 'name': null}) }}
+						<div class="modal-header text-white border-0 rounded-top">
+							<h5 class="modal-title fw-semibold" id="createBoardModalLabel">
+								<i class="bi bi-kanban me-2"></i>
+								{{ 'admin.kanban.create_board'|trans({}, 'admin') }}
+							</h5>
+							<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body bg-light p-4">
+							<div class="card border-0 shadow-sm mb-3">
+								<div class="card-body">
+									<h6 class="fw-semibold text-uppercase text-muted mb-3 small ls-1">General Information</h6>
+									{{ form_row(createForm.title) }}
+									{{ form_row(createForm.description) }}
+								</div>
+							</div>
+							<div class="card border-0 shadow-sm mb-3">
+								<div class="card-body">
+									<h6 class="fw-semibold text-uppercase text-muted mb-3 small ls-1">Appearance</h6>
+									<div class="row g-3">
+										<div class="col-md-6">
+											{{ form_row(createForm.backgroundColor) }}
+										</div>
+										<div class="col-md-6 d-flex align-items-center">
+											{{ form_row(createForm.isPublic) }}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card border-0 shadow-sm">
+								<div class="card-body">
+									<h6 class="fw-semibold text-uppercase text-muted mb-3 small ls-1">Assignment</h6>
+									<div class="row g-3">
+										<div class="col-md-6">
+											{{ form_row(createForm.ourGame) }}
+										</div>
+										<div class="col-md-6">
+											{{ form_row(createForm.mod) }}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer bg-white border-0">
+							<button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">{{ 'admin.common.cancel'|trans({}, 'admin') }}</button>
+							<button type="submit" class="btn btn-primary px-4 shadow-sm">
+								<i class="bi bi-plus-circle me-1"></i>
+								{{ 'admin.kanban.create_board'|trans({}, 'admin') }}
+							</button>
+						</div>
+						{{ form_end(createForm, {'render_rest': false}) }}
+					</div>
+				</div>
+			</div>
+
+			{# Edit Board Modal #}
+			<div class="modal fade" id="editBoardModal" tabindex="-1" aria-labelledby="editBoardModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg modal-dialog-centered">
+					<div class="modal-content border-0 shadow-lg">
+						<form id="editBoardForm" method="post">
+							<div class="modal-header bg-dark text-white border-0 rounded-top">
+								<h5 class="modal-title fw-semibold" id="editBoardModalLabel">
+									<i class="bi bi-pencil-square me-2"></i>
+									{{ 'admin.kanban.edit_board'|trans({}, 'admin') }}
+								</h5>
+								<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body bg-light p-4">
+								<input type="hidden" name="board_form[_token]" value="{{ csrf_token('board_form') }}">
+
+								<div class="card border-0 shadow-sm mb-3">
+									<div class="card-body">
+										<h6 class="fw-semibold text-uppercase text-muted mb-3 small ls-1">General Information</h6>
+										<div class="mb-3">
+											<label for="board_form_title" class="form-label fw-semibold">
+												<i class="bi bi-type me-1 text-primary"></i>Title
+											</label>
+											<input type="text" id="board_form_title" name="board_form[title]" class="form-control" required>
+										</div>
+										<div class="mb-0">
+											<label for="board_form_description" class="form-label fw-semibold">
+												<i class="bi bi-text-paragraph me-1 text-primary"></i>Description
+											</label>
+											<textarea id="board_form_description" name="board_form[description]" class="form-control" rows="3"></textarea>
+										</div>
+									</div>
+								</div>
+
+								<div class="card border-0 shadow-sm mb-3">
+									<div class="card-body">
+										<h6 class="fw-semibold text-uppercase text-muted mb-3 small ls-1">Appearance</h6>
+										<div class="row g-3">
+											<div class="col-md-6">
+												<label for="board_form_backgroundColor" class="form-label fw-semibold">
+													<i class="bi bi-palette me-1 text-primary"></i>Background Color
+												</label>
+												<input type="color" id="board_form_backgroundColor" name="board_form[backgroundColor]" class="form-control form-control-color w-100">
+											</div>
+											<div class="col-md-6 d-flex align-items-center">
+												<div class="form-check form-switch fs-5">
+													<input class="form-check-input" type="checkbox" id="board_form_isPublic" name="board_form[isPublic]">
+													<label class="form-check-label fw-semibold" for="board_form_isPublic">
+														<i class="bi bi-globe me-1 text-primary"></i>Is Public
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="card border-0 shadow-sm">
+									<div class="card-body">
+										<h6 class="fw-semibold text-uppercase text-muted mb-3 small ls-1">Assignment</h6>
+										<div class="row g-3">
+											<div class="col-md-6">
+												<label for="board_form_ourGame" class="form-label fw-semibold">
+													<i class="bi bi-diagram-3 me-1 text-primary"></i>Game (optional)
+												</label>
+												<select id="board_form_ourGame" name="board_form[ourGame]" class="form-select">
+													<option value="">Select a game (optional)</option>
+													{% for game in ourGames %}
+														<option value="{{ game.id }}">{{ game.name }}</option>
+													{% endfor %}
+												</select>
+											</div>
+											<div class="col-md-6">
+												<label for="board_form_mod" class="form-label fw-semibold">
+													<i class="bi bi-box me-1 text-primary"></i>Mod (optional)
+												</label>
+												<select id="board_form_mod" name="board_form[mod]" class="form-select">
+													<option value="">Select a mod (optional)</option>
+													{% for mod in mods %}
+														<option value="{{ mod.id }}">{{ mod.name }}</option>
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer bg-white border-0">
+								<button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">{{ 'admin.common.cancel'|trans({}, 'admin') }}</button>
+								<button type="submit" class="btn btn-primary px-4 shadow-sm">
+									<i class="bi bi-check-lg me-1"></i>
+									{{ 'admin.common.save'|trans({}, 'admin') }}
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			{# Manage Members Modal #}
+			<div class="modal fade" id="manageMembersModal" tabindex="-1" aria-labelledby="manageMembersModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="manageMembersModalLabel">Manage Members for Board:
+								<span id="membersBoardTitle"></span>
+							</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<input type="hidden" id="currentManageBoardId">
+
+							<div class="mb-3">
+								<h6>Current Members:</h6>
+								<ul
+									id="currentMembersList" class="list-group">{# Current members will be loaded here #}
+								</ul>
+							</div>
+
+							<div class="mb-3">
+								<h6>Add Member:</h6>
+								<select id="availableMembersSelect" class="form-select">
+									<option value="">Select a high-rank user...</option>
+								</select>
+								<button type="button" id="addMemberBtn" class="btn btn-primary mt-2">Add Member</button>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'admin.common.close'|trans({}, 'admin') }}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<script>
+				document.addEventListener('DOMContentLoaded', function () { // Helper to find the closest ancestor with a given class
+function closest(el, selector) {
+while (el && el.nodeType === 1) {
+if (el.tagName.toLowerCase() === selector.toLowerCase()) {
+return el;
+}
+el = el.parentNode;
+}
+return null;
+}
+
+// Base URL for API calls
+var apiBaseUrl = '{{ path('admin_kanban_index') }}';
+// Ensure apiBaseUrl does not end with a slash
+apiBaseUrl = apiBaseUrl.replace(/\/+$/, '');
+// More robust way to remove trailing slashes
+
+// Helper for API calls (XHR based)
+function apiRequest(method, endpoint, data) {
+data = data || null; // Handle default parameter
+return new Promise(function (resolve, reject) { // Ensure endpoint starts with a slash if it's not empty
+var formattedEndpoint = endpoint.charAt(0) === '/' ? endpoint : '/' + endpoint;
+var url = apiBaseUrl + '/api/boards' + formattedEndpoint;
+
+var xhr = new XMLHttpRequest();
+xhr.open(method, url, true);
+xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.setRequestHeader('Accept', 'application/json');
+
+xhr.onload = function () {
+if (xhr.status >= 200 && xhr.status < 300) {
+try {
+var parsed = JSON.parse(xhr.responseText);
+if (parsed && typeof parsed === 'object') {
+resolve(parsed);
+} else {
+reject(new Error('Invalid API response format.'));
+}
+} catch (e) {
+reject(new Error('API request failed: invalid JSON response (status ' + xhr.status + ').'));
+}
+} else {
+try {
+var errorResponse = JSON.parse(xhr.responseText);
+reject(new Error(errorResponse.message || 'API request failed with status ' + xhr.status));
+} catch (e) {
+reject(new Error('API request failed with status ' + xhr.status + ': ' + xhr.statusText));
+}
+}
+};
+xhr.onerror = function () {
+reject(new Error('Network error during API request.'));
+};
+
+if (data) {
+xhr.send(JSON.stringify(data));
+} else {
+xhr.send();
+}
+});
+}
+
+// Handle Create Board Modal form reset
+var createBoardModalElement = document.getElementById('createBoardModal');
+createBoardModalElement.addEventListener('hidden.bs.modal', function () {
+var form = createBoardModalElement.querySelector('form');
+form.reset();
+// ES5 equivalent forEach
+Array.prototype.forEach.call(form.querySelectorAll('.is-invalid'), function (el) {
+el.classList.remove('is-invalid');
+});
+Array.prototype.forEach.call(form.querySelectorAll('.invalid-feedback'), function (el) {
+el.parentNode.removeChild(el); // ES5 equivalent of .remove()
+});
+});
+
+// Handle Edit Board Modal population
+var editBoardModalElement = document.getElementById('editBoardModal');
+editBoardModalElement.addEventListener('show.bs.modal', function (event) {
+var button = event.relatedTarget;
+var tr = closest(button, 'tr');
+if (! tr) {
+return;
+}
+var boardId = tr.dataset.boardId;
+var boardTitle = tr.dataset.boardTitle;
+var boardDescription = tr.dataset.boardDescription;
+var boardBackgroundColor = tr.dataset.boardBackgroundColor;
+var boardIsPublic = tr.dataset.boardIsPublic === '1';
+var boardOurGameId = tr.dataset.boardOurGameId;
+var boardModId = tr.dataset.boardModId;
+
+var modalTitle = editBoardModalElement.querySelector('.modal-title');
+var form = editBoardModalElement.querySelector('#editBoardForm');
+var titleInput = form.querySelector('[name="board_form[title]"]');
+var descriptionInput = form.querySelector('[name="board_form[description]"]');
+var backgroundColorInput = form.querySelector('[name="board_form[backgroundColor]"]');
+var isPublicInput = form.querySelector('[name="board_form[isPublic]"]');
+var ourGameSelect = form.querySelector('[name="board_form[ourGame]"]'); // Get the manually created select
+var boardModSelect = form.querySelector('[name="board_form[mod]"]'); // Get the manually created mod select
+
+modalTitle.textContent = 'Edit Kanban Board: ' + boardTitle;
+form.action = "{{ path('admin_kanban_edit', {id: 0}) }}".replace('0', boardId);
+titleInput.value = boardTitle;
+descriptionInput.value = boardDescription;
+backgroundColorInput.value = boardBackgroundColor;
+isPublicInput.checked = boardIsPublic;
+
+// Set the selected game in the manually created select
+if (ourGameSelect) {
+ourGameSelect.value = boardOurGameId;
+}
+
+// Set the selected mod in the manually created select
+if (boardModSelect) {
+boardModSelect.value = boardModId;
+}
+});
+
+// Handle Manage Members Modal
+var manageMembersModalElement = document.getElementById('manageMembersModal');
+var currentMembersList = document.getElementById('currentMembersList');
+var availableMembersSelect = document.getElementById('availableMembersSelect');
+var addMemberBtn = document.getElementById('addMemberBtn');
+var membersBoardTitle = document.getElementById('membersBoardTitle');
+var currentBoardId = null;
+
+manageMembersModalElement.addEventListener('show.bs.modal', function (event) {
+var button = event.relatedTarget;
+currentBoardId = button.dataset.boardId;
+var tr = closest(button, 'tr');
+if (! tr) {
+return;
+}
+var boardTitle = tr.dataset.boardTitle;
+membersBoardTitle.textContent = boardTitle;
+document.getElementById('currentManageBoardId').value = currentBoardId;
+
+loadCurrentMembers(currentBoardId);
+loadAvailableMembers(currentBoardId);
+});
+
+function loadCurrentMembers(boardId) {
+currentMembersList.innerHTML = '<li class="list-group-item">Loading current members...</li>';
+apiRequest('GET', boardId + '/members/current').then(function (response) {
+currentMembersList.innerHTML = '';
+if (response && response.success && Array.isArray(response.members) && response.members.length > 0) { // ES5 forEach equivalent
+Array.prototype.forEach.call(response.members, function (member) {
+var li = document.createElement('li');
+li.className = 'list-group-item d-flex justify-content-between align-items-center';
+li.textContent = member.username + (member.isOwner ? ' (Owner)' : '');
+if (! member.isOwner) {
+var removeBtn = document.createElement('button');
+removeBtn.className = 'btn btn-danger btn-sm';
+removeBtn.textContent = 'Remove';
+removeBtn.onclick = function () {
+if (confirm('Are you sure you want to remove ' + member.username + '?')) {
+removeBoardMember(boardId, member.id);
+}
+};
+li.appendChild(removeBtn);
+}
+currentMembersList.appendChild(li);
+});
+} else {
+currentMembersList.innerHTML = '<li class="list-group-item">No members yet.</li>';
+}
+}).catch(function (error) {
+console.error('Error loading current members:', error);
+currentMembersList.innerHTML = '<li class="list-group-item text-danger">Error loading current members.</li>';
+});
+}
+
+function loadAvailableMembers(boardId) {
+availableMembersSelect.innerHTML = '<option value="">Loading...</option>';
+apiRequest('GET', boardId + '/members/high-rank-available').then(function (response) {
+availableMembersSelect.innerHTML = '<option value="">Select a high-rank user...</option>';
+if (response && response.success && Array.isArray(response.members) && response.members.length > 0) { // ES5 forEach equivalent
+Array.prototype.forEach.call(response.members, function (member) {
+var option = document.createElement('option');
+option.value = member.id;
+option.textContent = member.username;
+availableMembersSelect.appendChild(option);
+});
+} else {
+availableMembersSelect.innerHTML = '<option value="">No more high-rank users available</option>';
+}
+}).catch(function (error) {
+console.error('Error loading available members:', error);
+availableMembersSelect.innerHTML = '<option value="">Error loading users</option>';
+});
+}
+
+addMemberBtn.addEventListener('click', function () {
+var userId = availableMembersSelect.value;
+if (! userId) {
+alert('Please select a user to add.');
+return;
+}
+apiRequest('POST', currentBoardId + '/members', {userId: parseInt(userId)}).then(function (response) {
+if (response.success) {
+alert(response.message);
+loadCurrentMembers(currentBoardId);
+loadAvailableMembers(currentBoardId);
+} else {
+alert('Failed to add member: ' + (
+response.message || 'Unknown error'
+));
+}
+}).catch(function (error) {
+console.error('Error adding member:', error);
+alert('Failed to add member: ' + (
+error.message || 'Unknown error'
+));
+});
+});
+
+function removeBoardMember(boardId, userId) {
+apiRequest('DELETE', boardId + '/members/' + userId).then(function (response) {
+if (response.success) {
+alert(response.message);
+loadCurrentMembers(boardId);
+loadAvailableMembers(boardId);
+} else {
+alert('Failed to remove member: ' + (
+response.message || 'Unknown error'
+));
+}
+}).catch(function (error) {
+console.error('Error removing member:', error);
+alert('Failed to remove member: ' + (
+error.message || 'Unknown error'
+));
+});
+}
+});
+			</script>
+		{% endblock %}
+	{% endembed %}
+{% endblock %}

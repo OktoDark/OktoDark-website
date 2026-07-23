@@ -1,0 +1,523 @@
+{% extends '@theme/base.html.twig' %}
+
+{% block title %}Bug Trackers - Admin
+{% endblock %}
+{% block body_id 'admin' %}
+
+{% block main %}
+	{% embed '@theme/admin/partials/_nav.html.twig' %}
+		{% block admin_content %}
+			<div class="section-title">
+				<h2>Bug Trackers</h2>
+				<p>Manage bug tracker pages, project bindings, and assigned trackers.</p>
+			</div>
+
+			<section class="py-3">
+				{% for message in app.flashes('success') %}
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						{{ message }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				{% endfor %}
+				{% for message in app.flashes('error') %}
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						{{ message }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				{% endfor %}
+
+				<div class="row mb-3">
+					<div class="col-md-4">
+						<form method="get" action="{{ path('admin_bug_tracker_index') }}" class="d-flex">
+							<input type="text" name="search" value="{{ search }}" class="form-control me-2" placeholder="Search bug trackers...">
+							<button type="submit" class="btn btn-outline-secondary">Search</button>
+						</form>
+					</div>
+					<div class="col-md-3">
+						<form method="get" action="{{ path('admin_bug_tracker_index') }}" class="d-flex">
+							<select name="active" class="form-select me-2" onchange="this.form.submit()">
+								<option value="">All Status</option>
+								<option value="1" {{ '1' == activeFilter ? 'selected' : '' }}>Active</option>
+								<option value="0" {{ '0' == activeFilter ? 'selected' : '' }}>Inactive</option>
+							</select>
+							{% if search %}
+								<input type="hidden" name="search" value="{{ search }}">
+							{% endif %}
+						</form>
+					</div>
+					<div class="col-md-5 text-end">
+						<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createBugTrackerModal">
+							<i class="fas fa-plus me-2"></i>Create Bug Tracker
+						</button>
+					</div>
+				</div>
+
+				<div class="admin-card">
+					<h5 class="mb-4">All Bug Trackers</h5>
+					<div class="table-responsive">
+						<table class="admin-table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Name</th>
+									<th>Slug</th>
+									<th>Project</th>
+									<th>Mod</th>
+									<th>Owner</th>
+									<th>Status</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for tracker in bugTrackers %}
+									<tr data-tracker-id="{{ tracker.id }}" data-tracker-name="{{ tracker.name }}" data-tracker-slug="{{ tracker.slug }}" data-tracker-description="{{ tracker.description }}" data-tracker-is-active="{{ tracker.isActive ? '1' : '0' }}" data-tracker-our-game-id="{{ tracker.ourGame ? tracker.ourGame.id : '' }}" data-tracker-mod-id="{{ tracker.mod ? tracker.mod.id : '' }}">
+										<td>{{ tracker.id }}</td>
+										<td>{{ tracker.name }}</td>
+										<td>{{ tracker.slug }}</td>
+										<td>{{ tracker.ourGame ? tracker.ourGame.name : '-' }}</td>
+										<td>{{ tracker.mod ? tracker.mod.name : '-' }}</td>
+										<td>{{ tracker.owner.username }}</td>
+										<td>
+											{% if tracker.isActive %}
+												<span class="badge bg-success">Active</span>
+											{% else %}
+												<span class="badge bg-danger">Inactive</span>
+											{% endif %}
+										</td>
+										<td>
+											<a href="{{ path('kanban_bugs_tracker', {slug: tracker.slug}) }}" class="btn btn-sm btn-outline-info me-1" title="View Bug Tracker" target="_blank">
+												<i class="fas fa-eye"></i>
+											</a>
+											{% if tracker.isActive %}
+												<form method="post" action="{{ path('admin_bug_tracker_toggle', {id: tracker.id}) }}" class="d-inline">
+													<input type="hidden" name="_token" value="{{ csrf_token('toggle_bug_tracker' ~ tracker.id) }}">
+													<button type="submit" class="btn btn-sm btn-outline-warning me-1" title="Deactivate">
+														<i class="fas fa-pause"></i>
+													</button>
+												</form>
+											{% else %}
+												<form method="post" action="{{ path('admin_bug_tracker_toggle', {id: tracker.id}) }}" class="d-inline">
+													<input type="hidden" name="_token" value="{{ csrf_token('toggle_bug_tracker' ~ tracker.id) }}">
+													<button type="submit" class="btn btn-sm btn-outline-success me-1" title="Activate">
+														<i class="fas fa-play"></i>
+													</button>
+												</form>
+											{% endif %}
+											<button type="button" class="btn btn-sm btn-outline-primary me-1 edit-tracker-btn" data-bs-toggle="modal" data-bs-target="#editBugTrackerModal" title="Edit">
+												<i class="fas fa-pencil-alt"></i>
+											</button>
+											<button type="button" class="btn btn-sm btn-outline-secondary me-1 manage-members-btn" data-bs-toggle="modal" data-bs-target="#manageMembersModal" data-tracker-id="{{ tracker.id }}" data-tracker-name="{{ tracker.name }}" title="Manage Members">
+												<i class="fas fa-users"></i>
+											</button>
+											<form method="post" action="{{ path('admin_bug_tracker_delete', {id: tracker.id}) }}" onsubmit="return confirm('Are you sure you want to delete this bug tracker?');" class="d-inline">
+												<input type="hidden" name="_token" value="{{ csrf_token('delete_bug_tracker' ~ tracker.id) }}">
+												<button type="submit" class="btn btn-sm btn-outline-danger" title="Delete">
+													<i class="fas fa-trash"></i>
+												</button>
+											</form>
+										</td>
+									</tr>
+								{% else %}
+									<tr>
+										<td colspan="8" class="text-center text-muted py-4">No bug trackers found.</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+
+			{# Create Bug Tracker Modal #}
+			<div class="modal fade" id="createBugTrackerModal" tabindex="-1" aria-labelledby="createBugTrackerModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg modal-dialog-centered">
+					<div class="modal-content border-0 shadow-lg">
+						{{ form_start(createForm, {'attr': {'id': 'createBugTrackerForm', 'action': path('admin_bug_tracker_create'), 'method': 'post'}, 'name': null}) }}
+						<div class="modal-header text-white border-0 rounded-top">
+							<h5 class="modal-title fw-semibold" id="createBugTrackerModalLabel">
+								<i class="bi bi-bug me-2"></i>Create Bug Tracker
+							</h5>
+							<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body bg-light p-4">
+							<div class="card border-0 shadow-sm mb-3">
+								<div class="card-body">
+									<h6 class="fw-semibold text-uppercase text-muted mb-3 small ls-1">General Information</h6>
+									{{ form_row(createForm.name) }}
+									{{ form_row(createForm.slug) }}
+									{{ form_row(createForm.description) }}
+									<div class="form-check form-switch mb-0">
+										{{ form_row(createForm.isActive) }}
+									</div>
+								</div>
+							</div>
+							<div class="card border-0 shadow-sm">
+								<div class="card-body">
+									<h6 class="fw-semibold text-uppercase text-muted mb-3 small ls-1">Assignment</h6>
+									<div class="row g-3">
+										<div class="col-md-6">
+											{{ form_row(createForm.ourGame) }}
+										</div>
+										<div class="col-md-6">
+											{{ form_row(createForm.mod) }}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer bg-white border-0">
+							<button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+							<button type="submit" class="btn btn-primary px-4 shadow-sm">
+								<i class="bi bi-plus-circle me-1"></i>Create
+							</button>
+						</div>
+						{{ form_end(createForm) }}
+					</div>
+				</div>
+			</div>
+
+			{# Edit Bug Tracker Modal #}
+			<div class="modal fade" id="editBugTrackerModal" tabindex="-1" aria-labelledby="editBugTrackerModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg modal-dialog-centered">
+					<div class="modal-content border-0 shadow-lg">
+						<form id="editBugTrackerForm" method="post">
+							<div class="modal-header bg-dark text-white border-0 rounded-top">
+								<h5 class="modal-title fw-semibold" id="editBugTrackerModalLabel">
+									<i class="bi bi-pencil-square me-2"></i>Edit Bug Tracker
+								</h5>
+								<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body bg-light p-4">
+								<input type="hidden" name="bug_tracker[_token]" value="{{ csrf_token('bug_tracker') }}">
+
+								<div class="card border-0 shadow-sm mb-3">
+									<div class="card-body">
+										<h6 class="fw-semibold text-uppercase text-muted mb-3 small ls-1">General Information</h6>
+										<div class="mb-3">
+											<label for="edit_tracker_name" class="form-label fw-semibold">
+												<i class="bi bi-type me-1 text-primary"></i>Name
+											</label>
+											<input type="text" id="edit_tracker_name" name="bug_tracker[name]" class="form-control" required>
+										</div>
+										<div class="mb-3">
+											<label for="edit_tracker_slug" class="form-label fw-semibold">
+												<i class="bi bi-link-45deg me-1 text-primary"></i>Slug
+											</label>
+											<input type="text" id="edit_tracker_slug" name="bug_tracker[slug]" class="form-control" required>
+										</div>
+										<div class="mb-0">
+											<label for="edit_tracker_description" class="form-label fw-semibold">
+												<i class="bi bi-text-paragraph me-1 text-primary"></i>Description
+											</label>
+											<textarea id="edit_tracker_description" name="bug_tracker[description]" class="form-control" rows="3"></textarea>
+										</div>
+									</div>
+								</div>
+
+								<div class="card border-0 shadow-sm mb-3">
+									<div class="card-body">
+										<h6 class="fw-semibold text-uppercase text-muted mb-3 small ls-1">Status</h6>
+										<div class="form-check form-switch">
+											<input class="form-check-input" type="checkbox" id="edit_tracker_is_active" name="bug_tracker[isActive]">
+											<label class="form-check-label fw-semibold" for="edit_tracker_is_active">
+												<i class="bi bi-toggle-on me-1 text-primary"></i>Active
+											</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="card border-0 shadow-sm">
+									<div class="card-body">
+										<h6 class="fw-semibold text-uppercase text-muted mb-3 small ls-1">Assignment</h6>
+										<div class="row g-3">
+											<div class="col-md-6">
+												<label for="edit_tracker_our_game" class="form-label fw-semibold">
+													<i class="bi bi-diagram-3 me-1 text-primary"></i>Project (optional)
+												</label>
+												<select id="edit_tracker_our_game" name="bug_tracker[ourGame]" class="form-select">
+													<option value="">Select a project (optional)</option>
+													{% for game in ourGames %}
+														<option value="{{ game.id }}">{{ game.name }}</option>
+													{% endfor %}
+												</select>
+											</div>
+											<div class="col-md-6">
+												<label for="edit_tracker_mod" class="form-label fw-semibold">
+													<i class="bi bi-box me-1 text-primary"></i>Mod (optional)
+												</label>
+												<select id="edit_tracker_mod" name="bug_tracker[mod]" class="form-select">
+													<option value="">Select a mod (optional)</option>
+													{% for mod in mods %}
+														<option value="{{ mod.id }}">{{ mod.name }}</option>
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer bg-white border-0">
+								<button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+								<button type="submit" class="btn btn-primary px-4 shadow-sm">
+									<i class="bi bi-check-lg me-1"></i>Save
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			{# Manage Members Modal #}
+			<div class="modal fade" id="manageMembersModal" tabindex="-1" aria-labelledby="manageMembersModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="manageMembersModalLabel">Manage Members for Tracker:
+								<span id="membersTrackerName"></span>
+							</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<input type="hidden" id="currentManageTrackerId">
+
+							<div class="mb-3">
+								<h6>Current Members:</h6>
+								<ul id="currentMembersList" class="list-group">
+									<li class="list-group-item">Loading current members...</li>
+								</ul>
+							</div>
+
+							<div class="mb-3">
+								<h6>Add Member:</h6>
+								<select id="availableMembersSelect" class="form-select">
+									<option value="">Select a high-rank user...</option>
+								</select>
+								<button type="button" id="addMemberBtn" class="btn btn-primary mt-2">Add Member</button>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<script>
+				document.addEventListener('DOMContentLoaded', function () {
+function closest(el, selector) {
+while (el && el.nodeType === 1) {
+if (el.tagName.toLowerCase() === selector.toLowerCase()) {
+return el;
+}
+el = el.parentNode;
+}
+return null;
+}
+
+var apiBaseUrl = '{{ path('admin_bug_tracker_index') }}';
+apiBaseUrl = apiBaseUrl.replace(/\/+$/, '');
+
+function apiRequest(method, endpoint, data) {
+data = data || null;
+return new Promise(function (resolve, reject) {
+var formattedEndpoint = endpoint.charAt(0) === '/' ? endpoint : '/' + endpoint;
+var url = apiBaseUrl + '/api/trackers' + formattedEndpoint;
+
+var xhr = new XMLHttpRequest();
+xhr.open(method, url, true);
+xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.setRequestHeader('Accept', 'application/json');
+
+xhr.onload = function () {
+if (xhr.status >= 200 && xhr.status < 300) {
+try {
+resolve(JSON.parse(xhr.responseText));
+} catch (e) {
+resolve({success: true, message: 'Request successful, but no JSON response.', responseText: xhr.responseText});
+}
+} else {
+try {
+var errorResponse = JSON.parse(xhr.responseText);
+reject(new Error(errorResponse.message || 'API request failed with status ' + xhr.status));
+} catch (e) {
+reject(new Error('API request failed with status ' + xhr.status + ': ' + xhr.statusText));
+}
+}
+};
+xhr.onerror = function () {
+reject(new Error('Network error during API request.'));
+};
+
+if (data) {
+xhr.send(JSON.stringify(data));
+} else {
+xhr.send();
+}
+});
+}
+
+var createBugTrackerModalElement = document.getElementById('createBugTrackerModal');
+createBugTrackerModalElement.addEventListener('hidden.bs.modal', function () {
+var form = createBugTrackerModalElement.querySelector('form');
+form.reset();
+Array.prototype.forEach.call(form.querySelectorAll('.is-invalid'), function (el) {
+el.classList.remove('is-invalid');
+});
+Array.prototype.forEach.call(form.querySelectorAll('.invalid-feedback'), function (el) {
+el.parentNode.removeChild(el);
+});
+});
+
+var editBugTrackerModalElement = document.getElementById('editBugTrackerModal');
+editBugTrackerModalElement.addEventListener('show.bs.modal', function (event) {
+var button = event.relatedTarget;
+var tr = closest(button, 'tr');
+var trackerId = tr.dataset.trackerId;
+var trackerName = tr.dataset.trackerName;
+var trackerSlug = tr.dataset.trackerSlug;
+var trackerDescription = tr.dataset.trackerDescription;
+var trackerIsActive = tr.dataset.trackerIsActive === '1';
+var trackerOurGameId = tr.dataset.trackerOurGameId;
+var trackerModId = tr.dataset.trackerModId;
+
+var modalTitle = editBugTrackerModalElement.querySelector('.modal-title');
+var form = editBugTrackerModalElement.querySelector('#editBugTrackerForm');
+var nameInput = form.querySelector('#edit_tracker_name');
+var slugInput = form.querySelector('#edit_tracker_slug');
+var descriptionInput = form.querySelector('#edit_tracker_description');
+var isActiveInput = form.querySelector('#edit_tracker_is_active');
+var ourGameSelect = form.querySelector('#edit_tracker_our_game');
+var modSelect = form.querySelector('#edit_tracker_mod');
+
+modalTitle.textContent = 'Edit Bug Tracker: ' + trackerName;
+form.action = apiBaseUrl + '/edit/' + trackerId;
+nameInput.value = trackerName;
+slugInput.value = trackerSlug;
+descriptionInput.value = trackerDescription;
+isActiveInput.checked = trackerIsActive;
+
+if (ourGameSelect) {
+ourGameSelect.value = trackerOurGameId;
+}
+
+if (modSelect) {
+modSelect.value = trackerModId;
+}
+});
+
+var manageMembersModalElement = document.getElementById('manageMembersModal');
+var currentMembersList = document.getElementById('currentMembersList');
+var availableMembersSelect = document.getElementById('availableMembersSelect');
+var addMemberBtn = document.getElementById('addMemberBtn');
+var membersTrackerName = document.getElementById('membersTrackerName');
+var currentTrackerId = null;
+
+manageMembersModalElement.addEventListener('show.bs.modal', function (event) {
+var button = event.relatedTarget;
+currentTrackerId = button.dataset.trackerId;
+var trackerName = button.dataset.trackerName;
+membersTrackerName.textContent = trackerName;
+document.getElementById('currentManageTrackerId').value = currentTrackerId;
+
+loadCurrentMembers(currentTrackerId);
+loadAvailableMembers(currentTrackerId);
+});
+
+function loadCurrentMembers(trackerId) {
+currentMembersList.innerHTML = '<li class="list-group-item">Loading current members...</li>';
+apiRequest('GET', trackerId + '/members/current').then(function (response) {
+currentMembersList.innerHTML = '';
+if (response.success && Array.isArray(response.members) && response.members.length > 0) {
+Array.prototype.forEach.call(response.members, function (member) {
+var li = document.createElement('li');
+li.className = 'list-group-item d-flex justify-content-between align-items-center';
+li.textContent = member.username + (member.isOwner ? ' (Owner)' : '');
+if (! member.isOwner) {
+var removeBtn = document.createElement('button');
+removeBtn.className = 'btn btn-danger btn-sm';
+removeBtn.textContent = 'Remove';
+removeBtn.onclick = function () {
+if (confirm('Are you sure you want to remove ' + member.username + '?')) {
+removeMember(trackerId, member.id);
+}
+};
+li.appendChild(removeBtn);
+}
+currentMembersList.appendChild(li);
+});
+} else {
+currentMembersList.innerHTML = '<li class="list-group-item">No members yet.</li>';
+}
+}).catch(function (error) {
+console.error('Error loading current members:', error);
+currentMembersList.innerHTML = '<li class="list-group-item text-danger">Error loading current members.</li>';
+});
+}
+
+function loadAvailableMembers(trackerId) {
+availableMembersSelect.innerHTML = '<option value="">Loading...</option>';
+apiRequest('GET', trackerId + '/members/high-rank-available').then(function (response) {
+availableMembersSelect.innerHTML = '<option value="">Select a high-rank user...</option>';
+if (response.success && Array.isArray(response.members) && response.members.length > 0) {
+Array.prototype.forEach.call(response.members, function (member) {
+var option = document.createElement('option');
+option.value = member.id;
+option.textContent = member.username;
+availableMembersSelect.appendChild(option);
+});
+} else {
+availableMembersSelect.innerHTML = '<option value="">No more high-rank users available</option>';
+}
+}).catch(function (error) {
+console.error('Error loading available members:', error);
+availableMembersSelect.innerHTML = '<option value="">Error loading users</option>';
+});
+}
+
+addMemberBtn.addEventListener('click', function () {
+var userId = availableMembersSelect.value;
+if (! userId) {
+alert('Please select a user to add.');
+return;
+}
+apiRequest('POST', currentTrackerId + '/members', {userId: parseInt(userId)}).then(function (response) {
+if (response.success) {
+alert(response.message);
+loadCurrentMembers(currentTrackerId);
+loadAvailableMembers(currentTrackerId);
+} else {
+alert('Failed to add member: ' + (
+response.message || 'Unknown error'
+));
+}
+}).catch(function (error) {
+console.error('Error adding member:', error);
+alert('Failed to add member: ' + (
+error.message || 'Unknown error'
+));
+});
+});
+
+function removeMember(trackerId, userId) {
+apiRequest('DELETE', trackerId + '/members/' + userId).then(function (response) {
+if (response.success) {
+alert(response.message);
+loadCurrentMembers(trackerId);
+loadAvailableMembers(trackerId);
+} else {
+alert('Failed to remove member: ' + (
+response.message || 'Unknown error'
+));
+}
+}).catch(function (error) {
+console.error('Error removing member:', error);
+alert('Failed to remove member: ' + (
+error.message || 'Unknown error'
+));
+});
+}
+});
+			</script>
+		{% endblock %}
+	{% endembed %}
+{% endblock %}
